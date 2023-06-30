@@ -27,8 +27,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { AppComponent } from '@app/app.component';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 
@@ -102,7 +102,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 
@@ -132,7 +132,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   getColSize(): string {
-    switch (this.appComponent.getTextZoomClass()) {
+    switch (this.accessibilityService.getTextZoomClass()) {
       case 'text-zoom-x-large':
         return '40';
       default:

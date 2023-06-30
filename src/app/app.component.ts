@@ -34,6 +34,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 declare let window: any;
 
@@ -81,6 +82,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     private store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
+    protected accessibilityService: AccessibilityService,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
@@ -112,7 +114,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.configureStatusBar();
       this.configureLocale();
       if (this.platform.is('cordova')) {
-        this.configureAccessibility();
+        this.accessibilityService.configureAccessibility();
         this.configurePlatformSubscriptions();
       }
       await this.disableMenuSwipe();
@@ -173,34 +175,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   onAppResumed = (): void => {
     this.store$.dispatch(AppResumed());
     window.MobileAccessibility.usePreferredTextZoom(true);
-    window.MobileAccessibility.getTextZoom(this.getTextZoomCallback);
+    window.MobileAccessibility.getTextZoom(this.accessibilityService.getTextZoomCallback);
   };
 
   onAppSuspended = (): void => {
     this.store$.dispatch(AppSuspended());
   };
-
-  configureAccessibility = (): void => {
-    window.MobileAccessibility.updateTextZoom();
-    window.MobileAccessibility.getTextZoom(this.getTextZoomCallback);
-  };
-
-  getTextZoomCallback = (zoomLevel: number): void => {
-    // Default iOS zoom levels are: 88%, 94%, 100%, 106%, 119%, 131%, 144% - 106% is default / normal zoom for ipad
-    this.textZoom = zoomLevel;
-    window.MobileAccessibility.usePreferredTextZoom(false);
-  };
-
-  public getTextZoom(zoom: number): string {
-    if (!zoom) return 'regular';
-    if (zoom >= 131) return 'x-large';
-    if (zoom >= 106) return 'large';
-    return 'regular';
-  }
-
-  public getTextZoomClass(): string {
-    return `text-zoom-${this.getTextZoom(this.textZoom)}`;
-  }
 
   configureStatusBar = async (): Promise<void> => {
     if (Capacitor.isPluginAvailable('StatusBar')) {

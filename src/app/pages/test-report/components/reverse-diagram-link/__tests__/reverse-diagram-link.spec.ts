@@ -2,13 +2,12 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import { StoreModel } from '@shared/models/store.model';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppModule } from '@app/app.module';
-import { AppComponent } from '@app/app.component';
 import { OverlayEventDetail } from '@ionic/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
@@ -21,7 +20,7 @@ describe('ReverseDiagramLinkComponent', () => {
   let component: ReverseDiagramLinkComponent;
   let modalController: ModalController;
   let store$: Store<StoreModel>;
-  let appComponent: AppComponent;
+  let accessibilityService: AccessibilityService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -80,7 +79,7 @@ describe('ReverseDiagramLinkComponent', () => {
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        AccessibilityService,
       ],
     });
 
@@ -88,7 +87,7 @@ describe('ReverseDiagramLinkComponent', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
-    appComponent = TestBed.inject(AppComponent);
+    accessibilityService = TestBed.inject(AccessibilityService);
 
     spyOn(store$, 'dispatch');
     spyOn(modalController, 'create').and.returnValue(Promise.resolve({
@@ -96,7 +95,7 @@ describe('ReverseDiagramLinkComponent', () => {
       dismiss: () => Promise.resolve(true),
       onDidDismiss: () => Promise.resolve({} as OverlayEventDetail),
     } as HTMLIonModalElement));
-    spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
+    spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
   }));
 
   describe('Class', () => {

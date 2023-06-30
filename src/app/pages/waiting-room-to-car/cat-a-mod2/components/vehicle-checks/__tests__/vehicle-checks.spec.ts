@@ -3,9 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
-import { AppComponent } from '@app/app.component';
 import { Store } from '@ngrx/store';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
@@ -13,6 +11,7 @@ import {
   VehicleChecksCatAMod2Modal,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { OverlayEventDetail } from '@ionic/core';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { VehicleChecksCatAMod2Component } from '../vehicle-checks';
 
 class MockStore { }
@@ -21,7 +20,7 @@ describe('VehicleChecksCatAMod2Component', () => {
   let fixture: ComponentFixture<VehicleChecksCatAMod2Component>;
   let component: VehicleChecksCatAMod2Component;
   let modalController: ModalController;
-  let appComponent: AppComponent;
+  let accessibilityService: AccessibilityService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -34,7 +33,7 @@ describe('VehicleChecksCatAMod2Component', () => {
       imports: [IonicModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        AccessibilityService,
         { provide: Store, useClass: MockStore },
       ],
     });
@@ -43,9 +42,9 @@ describe('VehicleChecksCatAMod2Component', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     modalController = TestBed.inject(ModalController);
-    appComponent = TestBed.inject(AppComponent);
+    accessibilityService = TestBed.inject(AccessibilityService);
 
-    spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
+    spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
     spyOn(modalController, 'create').and.returnValue(Promise.resolve({
       present: async () => {},
       onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,

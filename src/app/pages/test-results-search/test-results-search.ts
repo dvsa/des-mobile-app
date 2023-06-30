@@ -21,12 +21,12 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { SaveLog } from '@store/logs/logs.actions';
-import { AppComponent } from '@app/app.component';
 import { ErrorPage } from '@pages/error-page/error';
 import { orderBy } from 'lodash';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {
   TestResultSearchViewDidEnter, PerformApplicationReferenceSearch, PerformDriverNumberSearch, PerformLDTMSearch,
 } from './test-results-search.actions';
@@ -68,7 +68,7 @@ export class TestResultsSearchPage extends BasePageComponent {
     private appConfig: AppConfigProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -221,7 +221,7 @@ export class TestResultsSearchPage extends BasePageComponent {
     const modal = await this.modalController.create({
       component: ErrorPage,
       componentProps: { errorType: ErrorTypes.SEARCH, displayAsModal: true },
-      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();
   };

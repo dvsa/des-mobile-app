@@ -104,7 +104,6 @@ describe('AppComponent', () => {
     beforeEach(() => {
       spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
       spyOn(store$, 'dispatch');
-      spyOn(component, 'configureAccessibility');
       spyOn(component, 'configurePlatformSubscriptions');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
@@ -164,28 +163,6 @@ describe('AppComponent', () => {
       component.initialisePersistentStorage().catch((err) => {
         expect(err).toEqual('Failed to create container');
       });
-    });
-  });
-
-  describe('getTextZoom', () => {
-    it('should return regular when not zoom', () => {
-      expect(component.getTextZoom(null)).toEqual('regular');
-    });
-    it('should return regular when zoom is less than 106', () => {
-      expect(component.getTextZoom(100)).toEqual('regular');
-    });
-    it('should return x-large when zoom is 131 or above', () => {
-      expect(component.getTextZoom(132)).toEqual('x-large');
-    });
-    it('should return large when zoom is 106 or above', () => {
-      expect(component.getTextZoom(107)).toEqual('large');
-    });
-  });
-
-  describe('getTextZoomClass', () => {
-    it('should concatenate the value from getTextZoom to a text-zoom string', () => {
-      spyOn(component, 'getTextZoom').and.returnValue('regular');
-      expect(component.getTextZoomClass()).toEqual('text-zoom-regular');
     });
   });
 

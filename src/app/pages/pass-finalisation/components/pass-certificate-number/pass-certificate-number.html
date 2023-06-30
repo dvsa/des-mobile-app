@@ -9,7 +9,7 @@
       <ion-col>
         <ion-input
           (ionChange)="passCertificateNumberChanged($event.target.value)"
-          [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+          [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
           [class.ng-invalid]="invalid"
           aria-labelledby="pass-certificate-label"
           class="ion-input-styling increase-width"

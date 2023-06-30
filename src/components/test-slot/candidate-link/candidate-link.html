@@ -3,7 +3,7 @@
     <h3 id="name-{{applicationId}}"
         class="candidate-name"
         [ngClass]="{
-      'extra-large-mode': (app.getTextZoomClass() === 'text-zoom-x-large'),
+      'extra-large-mode': (accessibilityService.getTextZoomClass() === 'text-zoom-x-large'),
       'candidate-name-portrait': isPortrait,
       'candidate-name-landscape': !isPortrait,
       'team-journal': isTeamJournal,

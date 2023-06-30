@@ -36,10 +36,10 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { DeviceProvider } from '@providers/device/device';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { AppComponent } from '@app/app.component';
 import { LoadingProvider } from '@providers/loader/loader';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -84,7 +84,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     router: Router,
     private store$: Store<StoreModel>,
     public dateTimeProvider: DateTimeProvider,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private deviceProvider: DeviceProvider,
@@ -232,7 +232,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
 
     this.modalController.create({
       component: ErrorPage,

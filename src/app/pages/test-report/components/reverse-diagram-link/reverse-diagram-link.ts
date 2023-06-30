@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { AppComponent } from '@app/app.component';
 import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
@@ -18,7 +18,7 @@ export class ReverseDiagramLinkComponent {
 
   constructor(
     public modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
     private store$: Store<StoreModel>,
   ) {}
 
@@ -28,7 +28,7 @@ export class ReverseDiagramLinkComponent {
     const reverseDiagramModal = await this.modalController.create({
       component: ReverseDiagramPage,
       componentProps: { onClose: async () => this.modalController.dismiss() },
-      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await reverseDiagramModal.present();
     const didDismiss = await reverseDiagramModal.onDidDismiss();
