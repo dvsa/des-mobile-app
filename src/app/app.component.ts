@@ -36,8 +36,6 @@ import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
-declare let window: any;
-
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
   unSubmittedTestSlotsCount$: Observable<number>;
@@ -174,8 +172,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   onAppResumed = (): void => {
     this.store$.dispatch(AppResumed());
-    window.MobileAccessibility.usePreferredTextZoom(true);
-    window.MobileAccessibility.getTextZoom(this.accessibilityService.getTextZoomCallback);
+    this.accessibilityService.afterAppResume();
   };
 
   onAppSuspended = (): void => {

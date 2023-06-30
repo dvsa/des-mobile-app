@@ -12,6 +12,7 @@ import {
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { OverlayEventDetail } from '@ionic/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.provider.mock';
 import { VehicleChecksCatAMod2Component } from '../vehicle-checks';
 
 class MockStore { }
@@ -33,7 +34,7 @@ describe('VehicleChecksCatAMod2Component', () => {
       imports: [IonicModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
-        AccessibilityService,
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         { provide: Store, useClass: MockStore },
       ],
     });
