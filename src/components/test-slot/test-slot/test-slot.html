@@ -87,7 +87,7 @@
 
             <additional-candidate-details
               *ngIf="showAdditionalCandidateDetails() && !isTeamJournal && slot.booking.candidate"
-              [attempts]="slot.booking?.candidate?.previousADITests"
+              [attempts]="slot.booking?.candidate?.previousADITests ? slot.booking?.candidate?.previousADITests+1 : 1"
               [prn]="slot.booking?.candidate?.prn">
             </additional-candidate-details>
 
