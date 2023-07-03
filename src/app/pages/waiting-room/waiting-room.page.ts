@@ -48,7 +48,6 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
 
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
-import { AppComponent } from '@app/app.component';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import {
@@ -68,6 +67,7 @@ import { ErrorPage } from '@pages/error-page/error';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -115,7 +115,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private insomnia: Insomnia,
     private translate: TranslateService,
     private modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) {
     super(platform, authenticationProvider, router, store$, false);
     this.formGroup = new UntypedFormGroup({});
@@ -341,7 +341,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   async showCandidateDataMissingError(): Promise<void> {
     const errorModal: HTMLIonModalElement = await this.modalController.create({
       component: ErrorPage,
-      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
       componentProps: {
         errorType: ErrorTypes.JOURNAL_DATA_MISSING,
         displayAsModal: true,

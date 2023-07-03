@@ -13,6 +13,7 @@ import {
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
 import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'candidate-section',
@@ -25,6 +26,7 @@ export class CandidateSectionComponent {
     public modalController: ModalController,
     public store$: Store<StoreModel>,
     public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 
@@ -63,7 +65,7 @@ export class CandidateSectionComponent {
       showBackdrop: true,
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
-        textZoom: this.appComponent.getTextZoomClass(),
+        textZoom: this.accessibilityService.getTextZoomClass(),
       },
     });
     await this.vrnModal.present();

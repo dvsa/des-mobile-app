@@ -2,7 +2,7 @@ import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'transfer',
@@ -34,7 +34,7 @@ export class TransferComponent implements OnChanges {
   staffNumberChange = new EventEmitter<number>();
 
   constructor(
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 

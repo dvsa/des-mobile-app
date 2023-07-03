@@ -27,10 +27,10 @@ import { JournalForceCheckModal } from '@pages/journal/components/journal-force-
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
-import { AppComponent } from '@app/app.component';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'test-outcome',
@@ -99,7 +99,7 @@ export class TestOutcomeComponent implements OnInit {
     private router: Router,
     private routeByCat: RouteByCategoryProvider,
     private modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
     private categoryWhitelistProvider: CategoryWhitelistProvider,
   ) {
   }
@@ -276,7 +276,7 @@ export class TestOutcomeComponent implements OnInit {
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: !this.showTestActionButton,
-        textZoomClass: `mes-modal-alert ${this.app.getTextZoomClass()}`,
+        textZoomClass: `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`,
       },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });

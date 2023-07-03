@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
-import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constants';
 
 @Component({
@@ -41,7 +41,7 @@ export class PassCertificateNumberComponent implements OnChanges {
 
   constructor(
     private passCertficateValidationProvider: PassCertificateValidationProvider,
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 

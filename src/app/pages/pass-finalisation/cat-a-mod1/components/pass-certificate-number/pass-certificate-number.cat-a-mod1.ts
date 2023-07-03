@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
-import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
 
 @Component({
@@ -37,7 +37,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   readonly passCertificateAMOD1Validator = getPassCertificateAMOD1Validator();
 
   constructor(
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 

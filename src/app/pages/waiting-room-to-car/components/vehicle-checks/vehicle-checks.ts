@@ -6,7 +6,6 @@ import { ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AppComponent } from '@app/app.component';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import {
   CatCVehicleChecks,
@@ -27,6 +26,7 @@ import {
   VehicleChecksCatHomeTestModal,
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
@@ -72,7 +72,7 @@ export class VehicleChecksComponent implements OnChanges {
 
   constructor(
     private modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) {
   }
 
@@ -92,7 +92,7 @@ export class VehicleChecksComponent implements OnChanges {
     const modal = await this.modalController.create({
       component: this.getVehicleCheckModal(),
       componentProps: { category: this.category },
-      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();
     const didDismiss = await modal.onDidDismiss();

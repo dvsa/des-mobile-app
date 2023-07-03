@@ -1,4 +1,4 @@
-<ion-app [ngClass]="[getTextZoomClass()]">
+<ion-app [ngClass]="[accessibilityService.getTextZoomClass()]">
   <ion-menu side="start" content-id="main-content" (ionDidOpen)="openSideMenu()" (ionDidClose)="closeSideMenu()">
     <ion-header>
       <ion-toolbar mode="ios" class="toolbar-divider">

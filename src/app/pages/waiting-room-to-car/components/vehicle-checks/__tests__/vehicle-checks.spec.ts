@@ -4,9 +4,7 @@ import {
   IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
-import { AppComponent } from '@app/app.component';
 import { Store, StoreModule } from '@ngrx/store';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
@@ -26,6 +24,8 @@ import {
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.provider.mock';
 import { VehicleChecksCatADIPart2Modal }
   from '../../../cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksComponent } from '../vehicle-checks';
@@ -35,7 +35,7 @@ describe('VehicleChecksComponent', () => {
   let component: VehicleChecksComponent;
   let modalController: ModalController;
   let store$: Store<StoreModel>;
-  let appComponent: AppComponent;
+  let accessibilityService: AccessibilityService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -52,7 +52,7 @@ describe('VehicleChecksComponent', () => {
         }),
       ],
       providers: [
-        { provide: AppComponent, useClass: MockAppComponent },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useClass: NavParamsMock },
         Store,
@@ -64,9 +64,9 @@ describe('VehicleChecksComponent', () => {
     component.formGroup = new UntypedFormGroup({});
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
-    appComponent = TestBed.inject(AppComponent);
+    accessibilityService = TestBed.inject(AccessibilityService);
 
-    spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
+    spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
     spyOn(modalController, 'create').and.returnValue(Promise.resolve({
       present: async () => {},
       onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,

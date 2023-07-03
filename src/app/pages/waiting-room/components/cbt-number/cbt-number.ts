@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
-import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'cbt-number',
@@ -26,7 +26,7 @@ export class CBTNumberComponent implements OnChanges {
   readonly dl196cbtCertNumberValidator = getDL196CBTCertificateNumberValidator();
 
   constructor(
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 

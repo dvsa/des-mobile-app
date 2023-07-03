@@ -8,10 +8,10 @@ import * as moment from 'moment';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { InputChangeEventDetail } from '@ionic/angular';
-import { AppComponent } from '@app/app.component';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { InputInputEventDetail } from '@ionic/core';
 import { TestCentre } from '@dvsa/mes-journal-schema';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'advanced-search',
@@ -105,7 +105,7 @@ export class AdvancedSearchComponent {
     .format('DD/MM/YYYY');
 
   constructor(
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 

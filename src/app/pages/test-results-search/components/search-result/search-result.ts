@@ -3,9 +3,9 @@ import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { DateTime } from '@shared/helpers/date-time';
 import { Name } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
-import { AppComponent } from '@app/app.component';
 import * as moment from 'moment';
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'search-result',
@@ -19,7 +19,7 @@ export class SearchResultComponent {
 
   constructor(
     public modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) { }
 
   getDate(): string {
@@ -42,7 +42,7 @@ export class SearchResultComponent {
         applicationReference: this.searchResult.applicationReference,
         testCategory: this.searchResult.category,
       },
-      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();
   }

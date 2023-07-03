@@ -25,8 +25,8 @@ import {
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash';
-import { AppComponent } from '@app/app.component';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,
@@ -61,7 +61,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     protected router: Router,
     private store$: Store<StoreModel>,
     private modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -158,7 +158,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
 
     const errorModal = await this.modalController.create({
       component: ERROR_PAGE,

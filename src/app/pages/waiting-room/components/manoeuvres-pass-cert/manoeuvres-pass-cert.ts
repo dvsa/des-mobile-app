@@ -4,7 +4,7 @@ import {
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
-import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'manoeuvres-pass-cert',
@@ -27,7 +27,7 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
 
   constructor(
     private passCertValidationProvider: PassCertificateValidationProvider,
-    public appComponent: AppComponent,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 
