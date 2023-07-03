@@ -1,32 +1,19 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
-import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 describe('AccessibilityService', () => {
   jasmine.getEnv().allowRespy(true);
   let accessibilityService: AccessibilityService;
-  let store$: Store;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        StoreModule.forRoot({}),
-        TranslateModule.forRoot(),
-        PipesModule,
-      ],
       providers: [
         AccessibilityService,
       ],
     });
 
     accessibilityService = TestBed.inject(AccessibilityService);
-    store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
   }));
 
   describe('getTextZoom', () => {
