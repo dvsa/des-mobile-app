@@ -1,0 +1,26 @@
+.bold-font {
+  font-weight: bold;
+}
+
+.tick-icon {
+  width: 45px;
+  height: 45px;
+  padding: 3px;
+  color: var(--mes-white);
+  border-radius: 25px;
+  background-color: var(--gds-green);
+}
+
+.close-icon {
+  width: 45px;
+  height: 45px;
+  padding: 3px;
+  color: var(--mes-white);
+  border-radius: 25px;
+  background-color: var(--gds-red);
+}
+
+.circle-icon {
+  width: 65px;
+  height: 60px;
+}

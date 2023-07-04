@@ -1,0 +1,60 @@
+<div id="mot-details-successful" *ngIf="callWasSuccessful()">
+  <ion-row>
+    <ion-col size="34">
+    </ion-col>
+    <ion-col size="50">
+      <ion-row>
+        <ion-col size="35">
+          <ion-text class="bold-font">
+            MOT Status
+          </ion-text>
+        </ion-col>
+        <ion-col>
+          <ion-text>
+            {{ isValidMOT() ? data?.status : 'Expired ' + data?.testExpiryDate}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="35">
+          <ion-text class="bold-font">
+            Make/Model
+          </ion-text>
+        </ion-col>
+        <ion-col size="50">
+          <ion-text>
+            {{data?.make}} {{data?.model}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col size="10">
+      <ion-icon *ngIf="isValidMOT()" class="tick-icon" name="checkmark-sharp"></ion-icon>
+      <ion-icon *ngIf="!isValidMOT()" class="close-icon" name="close-outline"></ion-icon>
+    </ion-col>
+  </ion-row>
+</div>
+<div id="mot-details-unsuccessful" *ngIf="!callWasSuccessful()">
+  <ion-row>
+    <ion-col size="34">
+    </ion-col>
+    <ion-col size="49">
+      <ion-text *ngIf="status == '204' || data?.status == 'No details'">
+        No MOT details found.<br>
+        Please continue with the test.
+      </ion-text>
+      <ion-text *ngIf="status == '404'">
+        Service is not available.<br>
+        Please continue with the test.
+      </ion-text>
+      <ion-text *ngIf="networkState.getNetworkState() !== ConnectionStatus.ONLINE">
+        No connection.<br>
+        Please continue with the test.
+      </ion-text>
+    </ion-col>
+    <ion-col size="5">
+      <ion-icon class="circle-icon" name="alert-circle"></ion-icon>
+    </ion-col>
+  </ion-row>
+</div>
+

@@ -6,6 +6,8 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-card/mot-card.component';
+import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-failed-modal/mot-failed-modal.component';
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
@@ -35,6 +37,8 @@ import { VehicleChecksQuestionComponent } from './vehicle-checks-question/vehicl
     TestCategoryComponent,
     VehicleChecksComponent,
     VehicleChecksQuestionComponent,
+    MotCardComponent,
+    MotFailedModal,
   ],
   imports: [
     CommonModule,
