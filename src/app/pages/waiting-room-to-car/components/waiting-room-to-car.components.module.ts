@@ -6,6 +6,8 @@ import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-card/mot-card.component';
+import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-failed-modal/mot-failed-modal.component';
 import { AccompanimentCardComponent } from './accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from './accompaniment/accompaniment';
 import { CandidateDeclarationSignedComponent } from './candidate-declaration/candidate-declaration';
@@ -35,6 +37,8 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     TestCategoryComponent,
     VehicleChecksComponent,
     VehicleChecksQuestionComponent,
+    MotCardComponent,
+    MotFailedModal,
   ],
   imports: [
     CommonModule,

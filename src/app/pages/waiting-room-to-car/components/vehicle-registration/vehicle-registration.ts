@@ -5,12 +5,20 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import {
+  MotDataWithStatus,
+  VehicleDetailsApiService,
+} from '@providers/vehicle-details-api/vehicle-details-api.service';
+import { ModalController } from '@ionic/angular';
+import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-failed-modal/mot-failed-modal.component';
 import { isEmpty } from 'lodash-es';
 
 @Component({
   selector: 'vehicle-registration',
+  styleUrls: ['vehicle-registration.scss'],
   templateUrl: './vehicle-registration.html',
 })
+
 export class VehicleRegistrationComponent implements OnChanges {
   @Input()
   vehicleRegistration: string;
@@ -26,11 +34,56 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   formControl: UntypedFormControl;
 
+  motData: MotDataWithStatus = null;
+
+  modalData: string = null;
+
+  hasCalledMOT: boolean = false;
+
+  showSearchSpinner: boolean = false;
+
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
+
+  constructor(
+    private motApiService: VehicleDetailsApiService,
+    public modalController: ModalController,
+  ) {
+  }
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
+
+  getMOT(value: string) {
+    this.hasCalledMOT = false;
+    this.showSearchSpinner = true;
+    this.motApiService.getVehicleByIdentifier(value).subscribe(async (val) => {
+      this.motData = val;
+      // If the MOT is invalid, open the reconfirm modal
+      if (this.motData?.data?.status === 'Not valid') {
+        await this.loadModal();
+        if (this.modalData !== this.motData.data.registration) {
+          // Call the MOT service again if the new registration is different.
+          this.vehicleRegistration = this.modalData;
+          this.getMOT(this.modalData);
+          return;
+        }
+      }
+      this.hasCalledMOT = true;
+      this.showSearchSpinner = false;
+    });
+  }
+
+  loadModal = async (): Promise<void> => {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: MotFailedModal,
+      cssClass: 'mes-modal-alert',
+      backdropDismiss: false,
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss<string>();
+    this.modalData = data;
+  };
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -54,6 +107,7 @@ export class VehicleRegistrationComponent implements OnChanges {
         this.formControl.setErrors({ invalidValue: event.target.value });
       }
     }
+    this.vehicleRegistration = event.target.value?.toUpperCase();
     this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
 
