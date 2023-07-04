@@ -8,7 +8,10 @@ import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'r
 import { GetMotStatus, GetMotStatusFailure } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
+import {
+  MotDataWithStatus,
+  VehicleDetailsApiService,
+} from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -61,7 +64,7 @@ export class WaitingRoomToCarEffects {
       // filter any requests that are nulls or empty strings from hitting service
       filter((regNumber) => !!regNumber),
       switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
-      map((vehicleDetails) => MotStatusChanged(vehicleDetails?.status || MotStatus.NO_DETAILS)),
+      map((vehicleDetails: MotDataWithStatus) => MotStatusChanged(vehicleDetails?.data?.status || MotStatus.NO_DETAILS)),
       catchError((err) => {
         this.store$.dispatch(
           SaveLog({

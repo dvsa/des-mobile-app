@@ -42,6 +42,14 @@
           id="post-eyesight-form-content"
         >
           <ion-col class="ion-no-padding">
+
+            <vehicle-registration
+              (vehicleRegistrationBlur)="getMOTStatus()"
+              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async">
+            </vehicle-registration>
+
             <tell-me-question-card
               (tellMeQuestionChange)="tellMeQuestionChanged($event)"
               (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
