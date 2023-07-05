@@ -42,6 +42,7 @@
 <ion-row class="ion-padding-bottom mes-row-separator" *ngIf="hasCalledMOT">
   <mot-card
     class="full-width"
+    [formGroup]="formGroup"
     [data]="motData?.data"
     [status]="motData?.status"
   ></mot-card>

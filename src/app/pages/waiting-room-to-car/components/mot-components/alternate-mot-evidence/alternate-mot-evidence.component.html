@@ -1,0 +1,43 @@
+<ion-row class="mes-validated-row" id="alternate-evidence-test-card" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="alternate-evidence-test-title"> Alternate MOT evidence provided?</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="alternateEvidenceCtrl"
+               name="alternateEvidenceCtrl"
+               id="alternate-evidence-pass"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="alternateEvidenceTestResultChanged($event.target.value)"
+               value="P">
+        <label for="alternate-evidence-pass" class="radio-label" id="alternate-evidence-pass-label">Yes</label>
+      </ion-col>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="alternateEvidenceCtrl"
+               name="alternateEvidenceCtrl"
+               id="alternate-evidence-fail"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="alternateEvidenceTestResultChanged($event.target.value)"
+               value="F">
+        <label for="alternate-evidence-fail" class="radio-label" id="alternate-evidence-fail-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-alternate-evidence-validation-text">
+        Confirm if alternative evidence was provided
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
+<alternate-evidence-description
+  *ngIf="formControl.value == 'P'"
+  (evidenceDescriptionTestResultChange)="descriptionUpdated($event)"
+  [formGroup]="formGroup">
+</alternate-evidence-description>

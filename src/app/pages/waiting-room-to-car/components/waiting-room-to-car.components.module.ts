@@ -6,8 +6,14 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
-import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-card/mot-card.component';
-import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-failed-modal/mot-failed-modal.component';
+import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
+import { MotFailedModal } from './mot-components/mot-failed-modal/mot-failed-modal.component';
+import {
+  AlternateMotEvidenceComponent,
+} from './mot-components/alternate-mot-evidence/alternate-mot-evidence.component';
+import {
+  AlternateEvidenceDescriptionComponent,
+} from './mot-components/alternate-evidence-description/alternate-evidence-description.component';
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
@@ -39,6 +45,8 @@ import { VehicleChecksQuestionComponent } from './vehicle-checks-question/vehicl
     VehicleChecksQuestionComponent,
     MotCardComponent,
     MotFailedModal,
+    AlternateMotEvidenceComponent,
+    AlternateEvidenceDescriptionComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +71,11 @@ import { VehicleChecksQuestionComponent } from './vehicle-checks-question/vehicl
     TestCategoryComponent,
     VehicleChecksComponent,
     VehicleChecksQuestionComponent,
+    MotCardComponent,
+    MotFailedModal,
+    AlternateMotEvidenceComponent,
+    AlternateEvidenceDescriptionComponent,
   ],
 })
-export class WaitingRoomToCarComponentsModule { }
+export class WaitingRoomToCarComponentsModule {
+}
