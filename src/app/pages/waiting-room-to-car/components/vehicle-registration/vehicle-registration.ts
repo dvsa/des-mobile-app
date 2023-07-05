@@ -10,7 +10,9 @@ import {
   VehicleDetailsApiService,
 } from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { ModalController } from '@ionic/angular';
-import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-failed-modal/mot-failed-modal.component';
+import {
+  MotFailedModal,
+} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import { isEmpty } from 'lodash-es';
 
 @Component({
@@ -42,6 +44,8 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   showSearchSpinner: boolean = false;
 
+  modalRepeatCount: number = 2;
+
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
@@ -60,7 +64,8 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.motApiService.getVehicleByIdentifier(value).subscribe(async (val) => {
       this.motData = val;
       // If the MOT is invalid, open the reconfirm modal
-      if (this.motData?.data?.status === 'Not valid') {
+      if (this.motData?.data?.status === 'Not valid' && this.modalRepeatCount !== 0) {
+        this.modalRepeatCount -= 1;
         await this.loadModal();
         if (this.modalData !== this.motData.data.registration) {
           // Call the MOT service again if the new registration is different.
@@ -71,6 +76,7 @@ export class VehicleRegistrationComponent implements OnChanges {
       }
       this.hasCalledMOT = true;
       this.showSearchSpinner = false;
+      this.modalRepeatCount = 2;
     });
   }
 

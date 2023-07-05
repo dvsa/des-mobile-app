@@ -33,6 +33,14 @@
       <ion-icon *ngIf="!isValidMOT()" class="close-icon" name="close-outline"></ion-icon>
     </ion-col>
   </ion-row>
+  <alternate-mot-evidence
+    *ngIf="!isValidMOT()"
+    (alternateEvidenceTestResultChange)="evidenceRadioSelected($event)"
+    (alternativeEvidenceUpdate)="descriptionUpdated($event)"
+    [alternateEvidencePassRadioChecked]="alternateEvidenceRadioCheck == true"
+    [alternateEvidenceFailRadioChecked]="alternateEvidenceRadioCheck == false"
+    [formGroup]="formGroup"
+  ></alternate-mot-evidence>
 </div>
 <div id="mot-details-unsuccessful" *ngIf="!callWasSuccessful()">
   <ion-row>

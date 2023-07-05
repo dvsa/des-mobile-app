@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MotFailedModal } from './mot-failed-modal.component';
+import { MotCardComponent } from '../mot-card.component';
 
-describe('MotFailedModal', () => {
-  let component: MotFailedModal;
-  let fixture: ComponentFixture<MotFailedModal>;
+describe('MotCardComponent', () => {
+  let component: MotCardComponent;
+  let fixture: ComponentFixture<MotCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MotFailedModal],
+      declarations: [MotCardComponent],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MotFailedModal);
+    fixture = TestBed.createComponent(MotCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
