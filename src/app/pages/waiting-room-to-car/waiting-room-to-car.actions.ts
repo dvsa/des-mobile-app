@@ -28,4 +28,25 @@ export const WaitingRoomToCarBikeCategoryChanged = createAction(
 
 export const GetMotStatus = createAction('[WaitingRoomToCarPage] Get MOT status');
 
+export const ConfirmVRNPopupTriggered = createAction(
+  '[WaitingRoomToCarPage] Triggered Confirmed VRN Popup',
+);
+
+export const DifferentVRNEntered = createAction(
+  '[WaitingRoomToCarPage] Entered Different VRN on Fail Modal',
+);
+
+export const NoMOTDetails = createAction(
+  '[WaitingRoomToCarPage] No MOT details',
+);
+export const MOTServiceUnavailable = createAction(
+  '[WaitingRoomToCarPage] Unable to connect to MOT service',
+);
+export const MOTOffline = createAction(
+  '[WaitingRoomToCarPage] MOT Offline',
+);
+export const GetMOTButtonPressed = createAction(
+  '[WaitingRoomToCarPage] Get MOT button pressed',
+);
+
 export const GetMotStatusFailure = createAction('[WaitingRoomToCarPage] Get MOT status failure');

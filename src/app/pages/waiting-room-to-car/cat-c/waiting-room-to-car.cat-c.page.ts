@@ -40,6 +40,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { MotEvidenceChanged, MotEvidenceProvidedToggled } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -179,4 +180,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);
+  protected readonly MotEvidenceChanged = MotEvidenceChanged;
+  protected readonly MotEvidenceProvidedToggled = MotEvidenceProvidedToggled;
 }

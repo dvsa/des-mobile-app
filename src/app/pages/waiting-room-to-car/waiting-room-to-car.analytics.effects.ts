@@ -7,6 +7,7 @@ import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 import {
+  ConfirmVRNPopupTriggered, DifferentVRNEntered, GetMOTButtonPressed, MOTOffline, MOTServiceUnavailable, NoMOTDetails,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarError,
@@ -59,7 +60,11 @@ import {
   DualControlsToggledYes,
   MotStatusChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getMotEvidence,
+  getMotEvidenceProvided,
+  getMotStatus,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -481,4 +486,252 @@ export class WaitingRoomToCarAnalyticsEffects {
       })
     )
   );
+
+  motEvidenceProvided$ = createEffect(() => this.actions$.pipe(
+    ofType(MotEvidenceProvidedToggled),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getVehicleDetails),
+            select(getMotEvidenceProvided),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests, evidenceProvided]:
+      [ReturnType<typeof MotEvidenceProvidedToggled>, TestsModel, boolean, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.MOT_EVIDENCE_PROVIDED, tests),
+        `mot evidence provided: ${evidenceProvided}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  motEvidence$ = createEffect(() => this.actions$.pipe(
+    ofType(MotEvidenceChanged),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getVehicleDetails),
+            select(getMotEvidence),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests, evidence]:
+      [ReturnType<typeof MotEvidenceChanged>, TestsModel, string, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.MOT_EVIDENCE, tests),
+        `mot evidence: ${evidence}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarVConfirmVRNModal$ = createEffect(() => this.actions$.pipe(
+    ofType(ConfirmVRNPopupTriggered),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof ConfirmVRNPopupTriggered>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CONFIRM_VRN_MODAL_TRIGGERED, tests),
+        'Confirm VRN selection modal triggered',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  differentVRNOnFailModal$ = createEffect(() => this.actions$.pipe(
+    ofType(DifferentVRNEntered),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof DifferentVRNEntered>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CONFIRM_VRN_MODAL_TRIGGERED, tests),
+        'Entered Different VRN on Fail Modal',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+  noMOTDetails$ = createEffect(() => this.actions$.pipe(
+    ofType(NoMOTDetails),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof NoMOTDetails>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.NO_MOT_DETAILS_FOUND, tests),
+        'No MOT details found',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+  noMOTService$ = createEffect(() => this.actions$.pipe(
+    ofType(MOTServiceUnavailable),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof MOTServiceUnavailable>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.NO_MOT_SERVICE_AVAILABLE, tests),
+        'No MOT service available',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+  motOffline$ = createEffect(() => this.actions$.pipe(
+    ofType(MOTOffline),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof MOTOffline>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.MOT_OFFLINE, tests),
+        'No MOT service available',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+  motButtonPressed$ = createEffect(() => this.actions$.pipe(
+    ofType(GetMOTButtonPressed),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof GetMOTButtonPressed>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.MOT_BUTTON_PRESSED, tests),
+        'Get MOT button pressed',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
 }

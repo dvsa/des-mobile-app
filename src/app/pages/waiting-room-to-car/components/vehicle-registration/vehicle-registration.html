@@ -1,4 +1,4 @@
-<ion-row [class.mes-row-separator]="!hasCalledMOT" class="mes-validated-row" id="registration-card" [formGroup]="formGroup">
+<ion-row [class.mes-row-separator]="!(hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE)" class="mes-validated-row" id="registration-card" [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="vehicle-registration-number-title">Vehicle registration number</label>
@@ -23,7 +23,7 @@
         ></ion-input>
       </ion-col>
       <ion-col size="35">
-        <ion-button [disabled]="!(formControl.valid)" class="mes-grey-button" (click)="getMOT(vehicleRegistration)">
+        <ion-button [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE" class="mes-grey-button" (click)="getMOT(vehicleRegistration)">
           <ion-text class="mot-button-text">Check MOT</ion-text>
         </ion-button>
       </ion-col>
@@ -39,9 +39,11 @@
     </ion-row>
   </ion-col>
 </ion-row>
-<ion-row class="ion-padding-bottom mes-row-separator" *ngIf="hasCalledMOT">
+<ion-row class="ion-padding-bottom mes-row-separator" *ngIf="hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE">
   <mot-card
     class="full-width"
+    (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
+    (alternativeEvidenceDescriptionUpdate)="alternativeEvidenceDescriptionUpdate.emit($event)"
     [formGroup]="formGroup"
     [data]="motData?.data"
     [status]="motData?.status"
