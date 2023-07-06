@@ -16,6 +16,14 @@ export const vehicleDetailsReducer = createReducer(
     ...state,
     motStatus,
   })),
+  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
+    ...state,
+    motEvidence,
+  })),
+  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided,
+  })),
   on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): VehicleDetails => ({
     ...state,
     gearboxCategory,

@@ -32,6 +32,14 @@ export const vehicleDetailsCatADIPart3Reducer = createReducer(
     ...state,
     gearboxCategory: null,
   })),
+  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
+    ...state,
+    motEvidence,
+  })),
+  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided,
+  })),
 );
 
 export const getVehicleDetails = createFeatureSelector<VehicleDetails>('vehicleDetails');

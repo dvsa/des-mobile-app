@@ -37,6 +37,8 @@
             </transmission>
 
             <vehicle-registration
+              (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
+              (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"

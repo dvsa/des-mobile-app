@@ -12,6 +12,16 @@ export const MotStatusChanged = createAction(
   (motStatus: string) => ({ motStatus }),
 );
 
+export const MotEvidenceChanged = createAction(
+  '[Vehicle Details] Mot evidence changed',
+  (motEvidence: string) => ({ motEvidence }),
+);
+
+export const MotEvidenceProvidedToggled = createAction(
+  '[Vehicle Details] Mot evidence provided toggled',
+  (motEvidenceProvided: boolean) => ({ motEvidenceProvided }),
+);
+
 export const SchoolCarToggled = createAction(
   '[Vehicle Details] School car toggled',
 );

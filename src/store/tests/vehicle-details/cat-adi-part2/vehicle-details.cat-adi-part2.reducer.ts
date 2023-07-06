@@ -1,5 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
 export const initialState: CatADI2UniqueTypes.VehicleDetails = {
@@ -33,6 +34,14 @@ export const vehicleDetailsCatADIPart2Reducer = createReducer(
   on(vehicleDetailsActions.ClearGearboxCategory, (state): CatADI2UniqueTypes.VehicleDetails => ({
     ...state,
     gearboxCategory: null,
+  })),
+  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
+    ...state,
+    motEvidence,
+  })),
+  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided,
   })),
 );
 

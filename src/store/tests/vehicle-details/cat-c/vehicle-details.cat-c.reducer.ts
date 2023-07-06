@@ -1,5 +1,6 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
 const initialState: CatCUniqueTypes.VehicleDetails = {
@@ -37,6 +38,14 @@ export const vehicleDetailsCatCReducer = createReducer(
     ...state,
     vehicleLength,
     vehicleWidth,
+  })),
+  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
+    ...state,
+    motEvidence,
+  })),
+  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided,
   })),
 );
 

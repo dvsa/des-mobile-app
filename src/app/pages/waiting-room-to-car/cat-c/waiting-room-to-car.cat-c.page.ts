@@ -40,6 +40,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { MotEvidenceChanged, MotEvidenceProvidedToggled } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -198,4 +199,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);
+  protected readonly MotEvidenceChanged = MotEvidenceChanged;
+  protected readonly MotEvidenceProvidedToggled = MotEvidenceProvidedToggled;
 }

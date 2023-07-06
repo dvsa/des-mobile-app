@@ -26,13 +26,11 @@ export class AlternateMotEvidenceComponent implements OnInit {
   formGroup: UntypedFormGroup;
 
   @Output()
-  alternateEvidenceTestResultChange = new EventEmitter<boolean>();
+  alternateEvidenceChange = new EventEmitter<boolean>();
   @Output()
-  alternativeEvidenceUpdate = new EventEmitter<string>();
+  alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
 
   ngOnInit() {
-    console.log(this.formGroup);
-    console.log(this.formControl);
     this.setupControl();
   }
 
@@ -41,7 +39,6 @@ export class AlternateMotEvidenceComponent implements OnInit {
       this.formControl = null;
       this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl('alternateEvidenceCtrl', this.formControl);
-      console.log(this.formControl);
     }
     if (this.alternateEvidencePassRadioChecked || this.alternateEvidenceFailRadioChecked) {
       this.formControl.patchValue(this.alternateEvidencePassRadioChecked
@@ -53,8 +50,7 @@ export class AlternateMotEvidenceComponent implements OnInit {
     this.setupControl();
     if (this.formControl.valid) {
       this.formControl.patchValue(result);
-      console.log(this.formControl.value);
-      this.alternateEvidenceTestResultChange.emit(result === AlternateEvidenceTestResult.Pass);
+      this.alternateEvidenceChange.emit(result === AlternateEvidenceTestResult.Pass);
     }
   }
 
@@ -63,6 +59,6 @@ export class AlternateMotEvidenceComponent implements OnInit {
   }
 
   descriptionUpdated(event: string) {
-    this.alternativeEvidenceUpdate.emit(event);
+    this.alternativeEvidenceDescriptionUpdate.emit(event);
   }
 }
