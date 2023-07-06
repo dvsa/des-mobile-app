@@ -1,7 +1,8 @@
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 import * as manoeuvreVehicleDetailsActions from './vehicle-details.cat-manoeuvre.actions';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 
 const initialState: CatCMUniqueTypes.VehicleDetails = {
   registrationNumber: '',
@@ -32,7 +33,15 @@ export const vehicleDetailsCatManoeuvreReducer = createReducer(
       vehicleHeight,
       numberOfSeats,
     })
-  )
+  ),
+  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
+    ...state,
+    motEvidence,
+  })),
+  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided,
+  })),
 );
 
 export const getVehicleDetails = createFeatureSelector<CatCMUniqueTypes.VehicleDetails>('vehicleDetails');

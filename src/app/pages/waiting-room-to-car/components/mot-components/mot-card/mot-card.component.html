@@ -35,8 +35,8 @@
   </ion-row>
   <alternate-mot-evidence
     *ngIf="!isValidMOT()"
-    (alternateEvidenceTestResultChange)="evidenceRadioSelected($event)"
-    (alternativeEvidenceUpdate)="descriptionUpdated($event)"
+    (alternateEvidenceChange)="evidenceRadioSelected($event)"
+    (alternativeEvidenceDescriptionUpdate)="descriptionUpdated($event)"
     [alternateEvidencePassRadioChecked]="alternateEvidenceRadioCheck == true"
     [alternateEvidenceFailRadioChecked]="alternateEvidenceRadioCheck == false"
     [formGroup]="formGroup"
@@ -47,15 +47,15 @@
     <ion-col size="34">
     </ion-col>
     <ion-col size="49">
-      <ion-text *ngIf="status == '204' || data?.status == 'No details'">
+      <ion-text *ngIf="NoDetails()">
         No MOT details found.<br>
         Please continue with the test.
       </ion-text>
-      <ion-text *ngIf="status == '404'">
+      <ion-text *ngIf="is404()">
         Service is not available.<br>
         Please continue with the test.
       </ion-text>
-      <ion-text *ngIf="networkState.getNetworkState() !== ConnectionStatus.ONLINE">
+      <ion-text *ngIf="isOffline()">
         No connection.<br>
         Please continue with the test.
       </ion-text>

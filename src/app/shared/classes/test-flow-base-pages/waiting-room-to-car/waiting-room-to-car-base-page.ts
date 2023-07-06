@@ -7,18 +7,13 @@ import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-sc
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Inject, Injector } from '@angular/core';
+import { JournalDataUnion } from '@shared/unions/journal-union';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { JournalDataUnion } from '@shared/unions/journal-union';
 import {
   InstructorAccompanimentToggled,
   InterpreterAccompanimentToggled,
@@ -67,11 +62,18 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
+  MotEvidenceChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getGearboxCategory,
+  getMotEvidence,
+  getMotEvidenceProvided,
+  getRegistrationNumber,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
+import {isAnyOf} from '@shared/helpers/simplifiers';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -87,6 +89,8 @@ export interface CommonWaitingRoomToCarPageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
+  motEvidenceProvided$: Observable<boolean>;
+  motEvidenceDescription$: Observable<string>;
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
@@ -147,6 +151,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
       otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
+      motEvidenceProvided$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotEvidenceProvided),
+      ),
+      motEvidenceDescription$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotEvidence),
+      ),
     };
   }
 
@@ -208,6 +220,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   getMOTStatus(): void {
     // Temporarily disable the call to the MOT endpoint as it's not being used.
     // this.store$.dispatch(GetMotStatus());
+  }
+  getMOTEvidenceProvided(evidenceToggle: boolean): void {
+    this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
+  }
+  getMOTEvidenceChanged(evidence: string): void {
+    this.store$.dispatch(MotEvidenceChanged(evidence));
   }
 
   schoolCarToggled(): void {

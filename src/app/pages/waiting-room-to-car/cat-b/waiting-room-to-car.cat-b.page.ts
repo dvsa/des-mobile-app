@@ -4,25 +4,11 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
-import { getInstructorRegistrationNumber } from '@store/tests/instructor-details/instructor-details.selector';
-import {
-  getTellMeQuestion,
-  getVehicleChecks,
-  isTellMeQuestionSelected,
-  tellMeQuestionOutcome,
-} from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   QuestionOutcomes,
   TellMeQuestionCorrect,
@@ -32,6 +18,20 @@ import {
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import {
+  getTellMeQuestion,
+  getVehicleChecks,
+  isTellMeQuestionSelected,
+  tellMeQuestionOutcome,
+} from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
+import { getInstructorRegistrationNumber } from '@store/tests/instructor-details/instructor-details.selector';
+import { QuestionProvider } from '@providers/question/question';
+import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { MotEvidenceChanged, MotEvidenceProvidedToggled } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -125,4 +125,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     }
     this.store$.dispatch(TellMeQuestionDrivingFault());
   }
+
+    protected readonly MotEvidenceChanged = MotEvidenceChanged;
+    protected readonly MotEvidenceProvidedToggled = MotEvidenceProvidedToggled;
 }
