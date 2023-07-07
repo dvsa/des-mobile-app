@@ -23,11 +23,15 @@ describe('vehicleDetailsCatADIPart2Reducer', () => {
     expect(result.gearboxCategory).toEqual('Manual');
   });
   it('should toggle schoolCar when the SchoolCarToggled action is received', () => {
-    const result = vehicleDetailsCatADIPart2Reducer(initialState, SchoolCarToggled());
+    const result: CatADI2UniqueTypes.VehicleDetails = vehicleDetailsCatADIPart2Reducer(
+      initialState, SchoolCarToggled(),
+    );
     expect(result.schoolCar).toEqual(true);
   });
   it('should toggle dualControls when the DualControlsToggled action is received', () => {
-    const result = vehicleDetailsCatADIPart2Reducer(initialState, DualControlsToggled());
+    const result: CatADI2UniqueTypes.VehicleDetails = vehicleDetailsCatADIPart2Reducer(
+      initialState, DualControlsToggled(),
+    );
     expect(result.dualControls).toEqual(true);
   });
   it('should clear the gearbox category when the SignatureDataChanged action is received', () => {

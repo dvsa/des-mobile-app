@@ -38,7 +38,11 @@ export class AlternateMotEvidenceComponent implements OnInit {
     if (!this.formControl) {
       this.formControl = null;
       this.formControl = new UntypedFormControl('', [Validators.required]);
-      this.formGroup.addControl('alternateEvidenceCtrl', this.formControl);
+      if (this.formGroup.contains('alternateEvidenceCtrl')) {
+        this.formGroup.setControl('alternateEvidenceCtrl', this.formControl);
+      } else {
+        this.formGroup.addControl('alternateEvidenceCtrl', this.formControl);
+      }
     }
     if (this.alternateEvidencePassRadioChecked || this.alternateEvidenceFailRadioChecked) {
       this.formControl.patchValue(this.alternateEvidencePassRadioChecked
