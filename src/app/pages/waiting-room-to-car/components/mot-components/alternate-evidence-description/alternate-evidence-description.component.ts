@@ -23,9 +23,13 @@ export class AlternateEvidenceDescriptionComponent {
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl('', [Validators.required]);
-      this.formGroup.addControl('evidenceDescriptionCtrl', this.formControl);
+      if (this.formGroup.contains('evidenceDescriptionCtrl')) {
+        this.formControl.patchValue(this.formGroup.controls['evidenceDescriptionCtrl'].value);
+        this.formGroup.setControl('evidenceDescriptionCtrl', this.formControl);
+      } else {
+        this.formGroup.addControl('evidenceDescriptionCtrl', this.formControl);
+      }
     }
-    this.formControl.patchValue(this.evidenceDescription);
   }
 
   get invalid(): boolean {

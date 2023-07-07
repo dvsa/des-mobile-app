@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AlternateMotEvidenceComponent } from '../alternate-mot-evidence.component';
 
 describe('AlternateMotEvidenceComponent', () => {
@@ -16,9 +17,18 @@ describe('AlternateMotEvidenceComponent', () => {
     fixture = TestBed.createComponent(AlternateMotEvidenceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.formGroup = new UntypedFormGroup({});
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('setupControl', () => {
+    it('should setup the alternateEvidenceCtrl '
+      + 'form control if it does not already exist', () => {
+      component.formGroup = new UntypedFormGroup({
+        alternateEvidenceCtrl: new UntypedFormControl(),
+      });
+      component.formControl = new UntypedFormControl();
+      component.setupControl();
+      expect(component.formGroup.contains('alternateEvidenceCtrl')).toBeTruthy();
+    });
   });
 });
