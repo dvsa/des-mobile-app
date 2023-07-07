@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
+import { AppModule } from '@app/app.module';
+import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
   mockBlankRegistrationNumber,
@@ -12,13 +15,16 @@ import {
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
   let component: VehicleRegistrationComponent;
+  let store$: Store<StoreModel>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleRegistrationComponent],
+      providers: [Store],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
+    store$ = TestBed.inject(Store);
     fixture = TestBed.createComponent(VehicleRegistrationComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
@@ -26,15 +32,37 @@ describe('VehicleRegistrationComponent', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it(
-      'should have vehicleRegistration form control be added to ' + 'form if there is no form control already there',
-      () => {
-        component.formControl = null;
-        component.ngOnChanges();
+    it('should have vehicleRegistration form control be added to '
+      + 'form if there is no form control already there', () => {
+      component.formControl = null;
+      component.ngOnChanges();
 
         expect(component.formGroup.controls.vehicleRegistration).toBeTruthy();
       }
     );
+  });
+
+  describe('getMOT', () => {
+    it('should remove evidenceDescriptionCtrl and alternateEvidenceCtrl from the form', () => {
+      component.formGroup.addControl('alternateEvidenceCtrl', component.formControl);
+      component.formGroup.addControl('evidenceDescriptionCtrl', component.formControl);
+      spyOn(component.motApiService, 'getVehicleByIdentifier').and.returnValue(of({
+        status: '200',
+        data: {
+          registration: 'reg',
+          make: 'make',
+          model: 'model',
+          colour: 'colour',
+          status: 'status',
+          testExpiryDate: '1/1/1',
+          testDueDate: '2/2/2',
+          testDate: '3/3/3',
+        },
+      }));
+      component.getMOT('11');
+
+      expect(component.formGroup.controls).not.toContain(['alternateEvidenceCtrl', 'evidenceDescriptionCtrl']);
+    });
   });
 
   describe('invalid', () => {

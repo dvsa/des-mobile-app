@@ -63,7 +63,7 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   constructor(
     private store$: Store<StoreModel>,
-    private motApiService: VehicleDetailsApiService,
+    public motApiService: VehicleDetailsApiService,
     public modalController: ModalController,
     private networkState: NetworkStateProvider,
   ) {
@@ -74,6 +74,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   getMOT(value: string) {
+    this.formGroup.removeControl('evidenceDescriptionCtrl');
+    this.formGroup.removeControl('alternateEvidenceCtrl');
     this.store$.dispatch(GetMOTButtonPressed());
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
