@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+// import { StoreModel } from '@shared/models/store.model';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
   mockBlankRegistrationNumber,
@@ -17,7 +17,7 @@ import {
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
   let component: VehicleRegistrationComponent;
-  let store$: Store<StoreModel>;
+  // let store$: Store<StoreModel>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -34,7 +34,7 @@ describe('VehicleRegistrationComponent', () => {
       ],
     });
 
-    store$ = TestBed.inject(Store);
+    // store$ = TestBed.inject(Store);
     fixture = TestBed.createComponent(VehicleRegistrationComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

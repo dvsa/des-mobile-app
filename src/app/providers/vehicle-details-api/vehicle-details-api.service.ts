@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 export interface MotDataWithStatus {
   status: string,
@@ -42,7 +43,7 @@ export class VehicleDetailsApiService {
       this.urlProvider.getTaxMotUrl(), { observe: 'response', headers, params },
     ).pipe(
       tap((response: HttpResponse<VehicleDetails>) => {
-        if (response.status === 200) {
+        if (response.status === HttpStatusCodes.OK) {
           this.vehicleIdentifier = response.body.registration;
           this.vehicleDetailsResponse = response.body;
         }

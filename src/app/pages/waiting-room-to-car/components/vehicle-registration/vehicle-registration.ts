@@ -129,6 +129,9 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   vehicleRegistrationChanged(event: any): void {
+    this.formGroup.removeControl('evidenceDescriptionCtrl');
+    this.formGroup.removeControl('alternateEvidenceCtrl');
+    this.hasCalledMOT = false;
     if (
       typeof event.target.value === 'string'
       && !this.registrationNumberValidator.pattern.test(event.target.value)
