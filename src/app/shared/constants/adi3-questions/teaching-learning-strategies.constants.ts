@@ -6,5 +6,5 @@ export const teachingLearningStrategies = {
   q5: 'Was the pupil given appropriate and timely feedback during the session?',
   q6: 'Were the pupils queries followed up and answered?',
   q7: 'Did the trainer maintain an appropriate non-discriminatory manner throughout the session?',
-  q8: 'At then end of the session - was the pupil encouraged to reflect on their own performance?',
+  q8: 'At the end of the session - was the pupil encouraged to reflect on their own performance?',
 };
