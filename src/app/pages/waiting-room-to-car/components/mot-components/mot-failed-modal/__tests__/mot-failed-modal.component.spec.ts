@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
+import { UntypedFormControl } from '@angular/forms';
 import { MotFailedModal } from '../mot-failed-modal.component';
 
 describe('MotFailedModal', () => {
@@ -18,7 +19,24 @@ describe('MotFailedModal', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('onConfirm', () => {
+    it('should call dismiss with an uppercase version of the data inputted into the modal', () => {
+      spyOn(component.modalCtrl, 'dismiss');
+      component.formControl = new UntypedFormControl('string');
+      component.onConfirm();
+      expect(component.modalCtrl.dismiss).toHaveBeenCalledWith('STRING');
+    });
+  });
+  describe('vehicleRegistrationChanged', () => {
+    it('should set vehicleRegistration to an uppercase version of the data inputted into the modal', () => {
+      component.vehicleRegistration = '';
+      component.vehicleRegistrationChanged({ target: { value: 'string' } });
+      expect(component.vehicleRegistration).toEqual('STRING');
+    });
+    it('should remove all non alphanumeric characters from the passed parameter', () => {
+      component.vehicleRegistration = '';
+      component.vehicleRegistrationChanged({ target: { value: '!s!t!r!i!n!g!' } });
+      expect(component.vehicleRegistration).toEqual('STRING');
+    });
   });
 });

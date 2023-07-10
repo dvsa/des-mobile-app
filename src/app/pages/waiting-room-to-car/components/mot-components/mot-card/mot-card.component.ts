@@ -4,13 +4,9 @@ import {
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { UntypedFormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import {
-  MOTOffline,
-  MOTServiceUnavailable,
-  NoMOTDetails,
-} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+// import { Store } from '@ngrx/store';
+// import { StoreModel } from '@shared/models/store.model';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 @Component({
   selector: 'mot-card',
@@ -41,8 +37,8 @@ export class MotCardComponent {
   alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
 
   constructor(
-    private networkState: NetworkStateProvider,
-    private store$: Store<StoreModel>,
+    public networkState: NetworkStateProvider,
+    // private store$: Store<StoreModel>,
   ) {
   }
 
@@ -53,17 +49,17 @@ export class MotCardComponent {
   }
 
   NoDetails(): boolean {
-    const value = (this.status === '204' || this.data?.status === 'No details');
+    const value = (+this.status === HttpStatusCodes.NO_CONTENT || this.data?.status === 'No details');
     if (value) {
-      this.store$.dispatch(NoMOTDetails());
+      // this.store$.dispatch(NoMOTDetails());
     }
     return value;
   }
 
   is404(): boolean {
-    const value = (this.status === '404');
+    const value = (+this.status === HttpStatusCodes.NOT_FOUND);
     if (value) {
-      this.store$.dispatch(MOTServiceUnavailable());
+      // this.store$.dispatch(MOTServiceUnavailable());
     }
     return value;
   }
@@ -71,7 +67,7 @@ export class MotCardComponent {
   isOffline(): boolean {
     const value = (this.networkState.getNetworkState() !== ConnectionStatus.ONLINE);
     if (value) {
-      this.store$.dispatch(MOTOffline());
+      // this.store$.dispatch(MOTOffline());
     }
     return value;
   }
