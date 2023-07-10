@@ -68,7 +68,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     private store$: Store<StoreModel>,
     public motApiService: VehicleDetailsApiService,
     public modalController: ModalController,
-    private networkState: NetworkStateProvider,
+    protected networkState: NetworkStateProvider,
   ) {
   }
 
