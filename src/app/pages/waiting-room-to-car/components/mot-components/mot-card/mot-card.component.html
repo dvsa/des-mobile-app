@@ -1,4 +1,4 @@
-<div id="mot-details-successful" *ngIf="callWasSuccessful()">
+<div class="black-text" id="mot-details-successful" *ngIf="callWasSuccessful()">
   <ion-row>
     <ion-col size="34">
     </ion-col>
@@ -42,12 +42,12 @@
     [formGroup]="formGroup"
   ></alternate-mot-evidence>
 </div>
-<div id="mot-details-unsuccessful" *ngIf="!callWasSuccessful()">
+<div class="black-text" id="mot-details-unsuccessful" *ngIf="!callWasSuccessful()">
   <ion-row>
     <ion-col size="34">
     </ion-col>
     <ion-col size="49">
-      <ion-text *ngIf="NoDetails()">
+      <ion-text *ngIf="noDetails()">
         No MOT details found.<br>
         Please continue with the test.
       </ion-text>

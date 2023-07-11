@@ -4,9 +4,8 @@ import {
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { UntypedFormGroup } from '@angular/forms';
-// import { Store } from '@ngrx/store';
-// import { StoreModel } from '@shared/models/store.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 
 @Component({
   selector: 'mot-card',
@@ -38,41 +37,29 @@ export class MotCardComponent {
 
   constructor(
     public networkState: NetworkStateProvider,
-    // private store$: Store<StoreModel>,
   ) {
   }
 
   callWasSuccessful() {
-    return (this.status === '200' || this.status === 'Already Saved')
-      && this?.data?.status !== 'No details'
+    return (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved')
+      && this?.data?.status !== MotStatusCodes.NO_DETAILS
       && this.networkState.getNetworkState() === ConnectionStatus.ONLINE;
   }
 
-  NoDetails(): boolean {
-    const value = (+this.status === HttpStatusCodes.NO_CONTENT || this.data?.status === 'No details');
-    if (value) {
-      // this.store$.dispatch(NoMOTDetails());
-    }
-    return value;
+  noDetails(): boolean {
+    return (+this.status === HttpStatusCodes.NO_CONTENT
+      || this.data?.status === MotStatusCodes.NO_DETAILS);
   }
 
   is404(): boolean {
-    const value = (+this.status === HttpStatusCodes.NOT_FOUND);
-    if (value) {
-      // this.store$.dispatch(MOTServiceUnavailable());
-    }
-    return value;
+    return (+this.status === HttpStatusCodes.NOT_FOUND);
   }
 
   isOffline(): boolean {
-    const value = (this.networkState.getNetworkState() !== ConnectionStatus.ONLINE);
-    if (value) {
-      // this.store$.dispatch(MOTOffline());
-    }
-    return value;
+    return (this.networkState.getNetworkState() !== ConnectionStatus.ONLINE);
   }
   isValidMOT() {
-    return this.data.status === 'Valid';
+    return this.data.status === MotStatusCodes.VALID;
   }
 
   evidenceRadioSelected(event: boolean) {
