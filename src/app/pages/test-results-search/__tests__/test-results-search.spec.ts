@@ -19,8 +19,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MockComponent } from 'ng-mocks';
 import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
 import { SearchResultComponent } from '@pages/test-results-search/components/search-result/search-result';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TestResultSearchViewDidEnter } from '@pages/test-results-search/test-results-search.actions';
+import { TestCentre } from '@dvsa/mes-journal-schema';
 import { TestResultsSearchPage } from '../test-results-search';
 import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
 
@@ -66,6 +67,15 @@ describe('TestResultsSearchPage', () => {
   }));
 
   describe('DOM', () => {
+    describe('ionViewWillEnter', () => {
+      it('should setup subscription if merged is present', () => {
+        component.merged$ = new Observable<TestCentre[]>();
+        component.ionViewWillEnter();
+
+        expect(component.subscription)
+          .toBeDefined();
+      });
+    });
     describe('advanced search', () => {
       describe('when the user is an LDTM', () => {
         beforeEach(() => {

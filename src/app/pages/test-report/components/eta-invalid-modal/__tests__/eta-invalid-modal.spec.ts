@@ -4,6 +4,7 @@ import { ModalControllerMock } from '@mocks/index.mock';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { EtaInvalidModal } from '../eta-invalid-modal';
 
 describe('EtaInvalidModal', () => {
@@ -27,7 +28,6 @@ describe('EtaInvalidModal', () => {
 
     fixture = TestBed.createComponent(EtaInvalidModal);
     component = fixture.componentInstance;
-    component.onCancel = () => Promise.resolve();
   }));
 
   describe('DOM', () => {
@@ -41,4 +41,12 @@ describe('EtaInvalidModal', () => {
       expect(component.onCancel).toHaveBeenCalled();
     });
   });
+  describe('onCancel', () => {
+    it('should invoke the correct event when modalController is dismissed - cancel', async () => {
+      spyOn(component['modalCtrl'], 'dismiss');
+      await component.onCancel();
+      expect(component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+
 });

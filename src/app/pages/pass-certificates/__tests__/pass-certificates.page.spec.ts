@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
+import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-certificates.actions';
 import { PassCertificatesPage } from '../pass-certificates.page';
 
 describe('PassCertificatesPage', () => {
@@ -26,5 +27,13 @@ describe('PassCertificatesPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(store$).toBeTruthy();
+  });
+
+  describe('ionViewDidEnter', () => {
+    it('should dispatch the store with PassCertificatedViewDidEnter', () => {
+      spyOn(component.store$, 'dispatch');
+      component.ionViewDidEnter();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(PassCertificatedViewDidEnter());
+    });
   });
 });

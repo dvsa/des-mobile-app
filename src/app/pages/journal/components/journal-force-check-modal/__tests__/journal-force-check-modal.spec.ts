@@ -4,6 +4,10 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal.constants';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
+import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants';
+import { OverlayEventDetail } from '@ionic/core';
 import { JournalForceCheckModal } from '../journal-force-check-modal';
 
 describe('JournalForceCheckModal', () => {
@@ -41,6 +45,32 @@ describe('JournalForceCheckModal', () => {
       spyOn(modalController, 'dismiss');
       await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+
+  describe('openCandidateDetailsModal', () => {
+    it('should create a modal with the correct parameters', async () => {
+      spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+        present: async () => {},
+        onWillDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
+      } as HTMLIonModalElement));
+
+      component.slot = { examinerVisiting: true } as TestSlot;
+      component.textZoomClass = 'string';
+      component.isTeamJournal = true;
+      component.slotChanged = false;
+
+      await component.openCandidateDetailsModal();
+      expect(modalController.create).toHaveBeenCalledWith({
+        component: CandidateDetailsPage,
+        id: CANDIDATE_DETAILS_PAGE,
+        cssClass: 'modal-fullscreen string',
+        componentProps: {
+          slot: { examinerVisiting: true },
+          slotChanged: false,
+          isTeamJournal: true,
+        },
+      });
     });
   });
 
