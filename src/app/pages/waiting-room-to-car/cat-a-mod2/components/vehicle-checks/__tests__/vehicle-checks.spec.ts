@@ -58,7 +58,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: VehicleChecksCatAMod2Modal,
-          componentProps: { zoom: component['app'].getTextZoomClass() },
+          componentProps: { zoom: component['accessibilityService'].getTextZoomClass() },
           cssClass: 'modal-fullscreen regular',
         });
       });

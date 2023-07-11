@@ -80,7 +80,7 @@ describe('VehicleChecksComponent', () => {
         await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: VehicleChecksCatCModal,
-          componentProps: { category: TestCategory.C1E, zoom: component['app'].getTextZoomClass() },
+          componentProps: { category: TestCategory.C1E, zoom: component['accessibilityService'].getTextZoomClass() },
           cssClass: 'modal-fullscreen regular',
         });
       });
