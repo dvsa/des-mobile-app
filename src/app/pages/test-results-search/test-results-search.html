@@ -53,7 +53,7 @@
                                     (ionBlur)="setFocus(null)"
                                     [value]="candidateInfo"
                                     [ngClass]="{'input-focus': focusedElement === 'field'}"
-                                    (ionChange)="candidateInfoChanged($event.target.value)">
+                                    (ionInput)="candidateInfoChanged($event.target.value)">
                             </ion-input>
                             <ion-input
                                     *ngIf="searchBy === 'appReference'"
@@ -68,7 +68,7 @@
                                     (ionBlur)="setFocus(null)"
                                     [value]="candidateInfo"
                                     [ngClass]="{'input-focus': focusedElement === 'field'}"
-                                    (ionChange)="candidateInfoChanged($event.target.value)">
+                                    (ionInput)="candidateInfoChanged($event.target.value)">
                             </ion-input>
                         </ion-col>
                     </ion-row>
