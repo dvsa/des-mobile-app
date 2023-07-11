@@ -66,11 +66,15 @@ export class VehicleRegistrationComponent implements OnChanges {
     return !this.formControl.valid && this.formControl.dirty;
   }
 
-  getMOT(value: string) {
+  clearData() {
     this.formGroup.removeControl('evidenceDescriptionCtrl');
     this.formGroup.removeControl('alternateEvidenceCtrl');
     this.alternateEvidenceChange.emit(undefined);
     this.alternativeEvidenceDescriptionUpdate.emit(undefined);
+  }
+
+  getMOT(value: string) {
+    this.clearData();
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
     this.motApiService.getVehicleByIdentifier(value).subscribe(async (val) => {
@@ -118,8 +122,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   vehicleRegistrationChanged(event: any): void {
-    this.formGroup.removeControl('evidenceDescriptionCtrl');
-    this.formGroup.removeControl('alternateEvidenceCtrl');
+    this.clearData();
     this.hasCalledMOT = false;
     if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
