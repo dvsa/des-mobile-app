@@ -14,13 +14,7 @@ import {
   MotFailedModal,
 } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
-import {
-  ConfirmVRNPopupTriggered,
-  DifferentVRNEntered,
-  GetMOTButtonPressed,
-} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
 
 @Component({
@@ -62,7 +56,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
-    private store$: Store<StoreModel>,
     public motApiService: VehicleDetailsApiService,
     public modalController: ModalController,
     protected networkState: NetworkStateProvider,
@@ -76,19 +69,18 @@ export class VehicleRegistrationComponent implements OnChanges {
   getMOT(value: string) {
     this.formGroup.removeControl('evidenceDescriptionCtrl');
     this.formGroup.removeControl('alternateEvidenceCtrl');
-    this.store$.dispatch(GetMOTButtonPressed());
+    this.alternateEvidenceChange.emit(undefined);
+    this.alternativeEvidenceDescriptionUpdate.emit(undefined);
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
     this.motApiService.getVehicleByIdentifier(value).subscribe(async (val) => {
       this.motData = val;
       // If the MOT is invalid, open the reconfirm modal
-      if (this.motData?.data?.status === 'Not valid' && this.modalRepeatCount !== 0) {
+      if (this.motData?.data?.status === MotStatusCodes.NOT_VALID && this.modalRepeatCount !== 0) {
         this.modalRepeatCount -= 1;
-        this.store$.dispatch(ConfirmVRNPopupTriggered());
         await this.loadModal();
         if (this.modalData !== this.motData.data.registration) {
           // Call the MOT service again if the new registration is different.
-          this.store$.dispatch(DifferentVRNEntered());
           this.vehicleRegistration = this.modalData;
           this.getMOT(this.modalData);
           return;
