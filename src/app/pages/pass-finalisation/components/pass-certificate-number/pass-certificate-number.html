@@ -8,7 +8,7 @@
     <ion-row [formGroup]="form">
       <ion-col>
         <ion-input
-          (ionChange)="passCertificateNumberChanged($event.target.value)"
+          (ionInput)="passCertificateNumberChanged($event.target.value)"
           [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
           [class.ng-invalid]="invalid"
           aria-labelledby="pass-certificate-label"
