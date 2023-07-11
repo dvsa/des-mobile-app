@@ -39,7 +39,7 @@ export class SearchResultComponent {
     const modal = await this.modalController.create({
       component: ViewTestResultPage,
       componentProps: {
-        zoom: this.app.getTextZoomClass(),
+        zoom: this.accessibilityService.getTextZoomClass(),
         applicationReference: this.searchResult.applicationReference,
         testCategory: this.searchResult.category,
       },

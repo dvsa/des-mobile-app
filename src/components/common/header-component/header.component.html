@@ -1,7 +1,7 @@
 <ion-text
   [id]="id"
   [class]="['header'+headerNum,
-zoom ? zoom : appComponent.getTextZoomClass(),
+zoom ? zoom : accessibilityService.getTextZoomClass(),
 inheritWeight ? 'inherit-weight' : null,
 inheritFontSize ? 'inherit-font-size' : null,
 inheritColour ? 'prioritise-inherit-color' : null,

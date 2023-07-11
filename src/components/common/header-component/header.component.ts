@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'header-component',
@@ -31,6 +32,7 @@ export class HeaderComponent {
 
   constructor(
     public appComponent: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) {
 
   }
