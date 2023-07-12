@@ -31,10 +31,8 @@ export class ValidCertificateComponent implements OnChanges {
     }
   }
 
-  validCertificateChanged(validCertificate:string): void {
-    if (this.formControl.valid) {
-      this.validCertificateChange.emit(validCertificate === 'valid-certificate-yes');
-    }
+  validCertificateChanged(validCertificate: string): void {
+    this.validCertificateChange.emit(validCertificate === 'valid-certificate-yes');
   }
 
   get invalid(): boolean {
