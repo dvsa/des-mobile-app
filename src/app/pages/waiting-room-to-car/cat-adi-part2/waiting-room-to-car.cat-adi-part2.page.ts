@@ -20,7 +20,8 @@ import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/wait
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
 import {
-  getOrditTrained, getTrainerRegistrationNumber,
+  getOrditTrained,
+  getTrainerRegistrationNumber,
   getTrainingRecords,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
@@ -31,6 +32,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatAdi2WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -60,8 +62,9 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.form = new UntypedFormGroup({});
   }
 
@@ -100,7 +103,8 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -113,15 +117,17 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 

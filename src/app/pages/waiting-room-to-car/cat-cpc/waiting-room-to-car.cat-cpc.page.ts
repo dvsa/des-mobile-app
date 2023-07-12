@@ -41,6 +41,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -74,8 +75,9 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.form = new UntypedFormGroup({});
   }
 
@@ -132,11 +134,13 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
 
     this.subscription = merge(
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -149,11 +153,12 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   vehicleConfiguration(configuration: Configuration): void {

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
-  CommonWaitingRoomToCarPageState, WaitingRoomToCarBasePageComponent,
+  CommonWaitingRoomToCarPageState,
+  WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
@@ -18,7 +19,8 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
-  getCandidateDeclarationSignedStatus, getInsuranceDeclarationStatus,
+  getCandidateDeclarationSignedStatus,
+  getInsuranceDeclarationStatus,
   getResidencyDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import {
@@ -34,6 +36,7 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatHomeWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -69,8 +72,9 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.form = new UntypedFormGroup({});
   }
 
@@ -111,7 +115,8 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -124,15 +129,17 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 

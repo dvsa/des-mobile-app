@@ -11,11 +11,15 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  CommonWaitingRoomToCarPageState, WaitingRoomToCarBasePageComponent,
+  CommonWaitingRoomToCarPageState,
+  WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import {
-  QuestionOutcomes, TellMeQuestionCorrect, TellMeQuestionDrivingFault, TellMeQuestionSelected,
+  QuestionOutcomes,
+  TellMeQuestionCorrect,
+  TellMeQuestionDrivingFault,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -23,7 +27,8 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   getTellMeQuestion,
-  getVehicleChecks, isTellMeQuestionSelected,
+  getVehicleChecks,
+  isTellMeQuestionSelected,
   tellMeQuestionOutcome,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
@@ -32,6 +37,7 @@ import { QuestionProvider } from '@providers/question/question';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -61,8 +67,9 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }
@@ -100,7 +107,8 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -113,15 +121,17 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 

@@ -1,0 +1,28 @@
+<ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator" id="alt-mot-evidence-details-row"
+         *ngIf="alternativeMotEvidenceProvided">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-start" size="32">
+    <label id="alt-mot-evidence-details-label">Alternative evidence details</label>
+  </ion-col>
+
+  <ion-col class="ion-align-self-center ion-padding-start" size="58">
+    <ion-row>
+      <ion-col class="textarea-input">
+        <textarea
+          id="alt-mot-evidence-details-text"
+          class="mes-data input-styling-background"
+          name="alternativeMotEvidenceDetails"
+          formControlName="alternativeMotEvidenceDetails"
+          [maxLength]="900"
+          [value]="alternativeMotEvidenceDetails"
+          (change)="alternativeMotEvidenceDetailsChanged($event.target.value)">
+      </textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" id="alt-mot-evidence-validation-text" [class.ng-invalid]="invalid">
+        Please provide evidence details
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

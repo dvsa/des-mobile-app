@@ -1,0 +1,44 @@
+<ion-row class="mes-validated-row" id="alt-mot-evidence-row" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="alt-mot-evidence-label">Alternative MOT evidence provided?</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center" size="48">
+        <input
+          type="radio"
+          id="alt-mot-evidence-yes"
+          class="gds-radio-button"
+          name="alternativeMotEvidence"
+          formControlName="alternativeMotEvidence"
+          [value]="true"
+          (change)="alternativeMotEvidenceChanged($event.target.id)">
+        <label
+          for="alt-mot-evidence-yes"
+          class="radio-label"
+          id="alt-mot-evidence-yes-label">Yes</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <input
+          type="radio"
+          id="alt-mot-evidence-no"
+          class="gds-radio-button"
+          name="alternativeMotEvidence"
+          formControlName="alternativeMotEvidence"
+          [value]="false"
+          (change)="alternativeMotEvidenceChanged($event.target.id)">
+        <label
+          for="alt-mot-evidence-no"
+          class="radio-label"
+          id="alt-mot-evidence-no-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" id="alt-mot-evidence-validation-text" [class.ng-invalid]="invalid">
+        Select if there was alternative evidence provided
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

@@ -1,10 +1,18 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { uniq } from 'lodash';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
 const initialState: CatBUniqueTypes.VehicleDetails = {
   registrationNumber: '',
+  motStatus: null,
+  motEvidence: null,
+  motEvidenceProvided: null,
+  make: null,
+  model: null,
+  testExpiryDate: null,
+  previouslySearchedRegNumbers: [],
 };
 
 export const vehicleDetailsReducer = createReducer(
@@ -15,11 +23,45 @@ export const vehicleDetailsReducer = createReducer(
     ...state,
     registrationNumber,
   })),
-  on(vehicleDetailsActions.MotStatusChanged, (state, {
-    motStatus,
+  on(vehicleDetailsActions.MotDataChanged, (state, {
+    status,
+    make,
+    model,
+    testExpiryDate,
   }): CatBUniqueTypes.VehicleDetails => ({
     ...state,
-    motStatus,
+    motStatus: status,
+    make,
+    model,
+    testExpiryDate,
+  })),
+  on(vehicleDetailsActions.ClearMotData, (state): CatBUniqueTypes.VehicleDetails => ({
+    ...state,
+    motStatus: null,
+    make: null,
+    model: null,
+    testExpiryDate: null,
+    motEvidence: null,
+    motEvidenceProvided: null,
+  })),
+  on(vehicleDetailsActions.PreviouslySearchedRegChanged, (state, { reg }) => ({
+    ...state,
+    previouslySearchedRegNumbers: uniq([
+      ...(state?.previouslySearchedRegNumbers || []),
+      reg,
+    ]),
+  })),
+  on(vehicleDetailsActions.AlternativeMotEvidenceDetailsChanged, (state, {
+    evidence,
+  }): CatBUniqueTypes.VehicleDetails => ({
+    ...state,
+    motEvidence: evidence,
+  })),
+  on(vehicleDetailsActions.AlternativeMotEvidenceProvidedChanged, (
+    state, { evidenceProvided },
+  ): CatBUniqueTypes.VehicleDetails => ({
+    ...state,
+    motEvidenceProvided: evidenceProvided,
   })),
   on(vehicleDetailsActions.SchoolCarToggled, (state): CatBUniqueTypes.VehicleDetails => ({
     ...state,

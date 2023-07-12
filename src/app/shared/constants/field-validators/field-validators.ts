@@ -2,6 +2,7 @@ export type FieldValidators = {
   pattern: RegExp;
   maxLength: string;
   maxByteLength?: number;
+  rawPatternNoFlags?: string;
 };
 
 // Used for when you want to check value does not have a leading zero
@@ -19,6 +20,7 @@ export const getRegistrationNumberValidator = (): FieldValidators => {
   return {
     pattern: /^[A-Z0-9]{1,7}$/gi,
     maxLength: '7',
+    rawPatternNoFlags: '^[A-Z0-9]{1,7}$',
   };
 };
 

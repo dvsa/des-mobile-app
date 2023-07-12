@@ -1,4 +1,4 @@
-export interface VehicleDetails {
+export interface MotDetails {
   registration: string;
   make: string;
   model: string;

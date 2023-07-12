@@ -27,6 +27,7 @@ import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -46,15 +47,16 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
   form: UntypedFormGroup;
 
   constructor(
+    private faultCountProvider: FaultCountProvider,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
-    public faultCountProvider: FaultCountProvider,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.form = new UntypedFormGroup({});
   }
 
@@ -86,7 +88,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -99,15 +102,17 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 }

@@ -1,0 +1,32 @@
+<span *ngIf="motError; else noError;">
+  <ion-row class="validation-message-row ion-align-items-center">
+    <ion-col>
+      <div>{{motError.msg}}</div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="validation-message-row ion-align-items-center">
+    <ion-col>
+      <div>{{motError.action}}</div>
+    </ion-col>
+  </ion-row>
+</span>
+
+<ng-template #noError>
+  <ion-row *ngIf="status" class="validation-message-row ion-align-items-center">
+    <ion-col size="38">
+      <h5>MOT Status</h5>
+    </ion-col>
+    <ion-col class="ion-align-self-center">
+      <div>{{status === 'Valid' ? status : ('Expired ' + testExpiryDate)}}</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="status" class="validation-message-row ion-align-items-center">
+    <ion-col size="38">
+      <h5>Make/Model</h5>
+    </ion-col>
+    <ion-col class="ion-align-self-center">
+      <div>{{make}} {{model}}</div>
+    </ion-col>
+  </ion-row>
+</ng-template>

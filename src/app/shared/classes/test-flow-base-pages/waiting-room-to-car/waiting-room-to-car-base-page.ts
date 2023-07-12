@@ -1,8 +1,8 @@
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -16,7 +16,16 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getAlternativeMotEvidenceDetails,
+  getAlternativeMotEvidenceProvided,
+  getGearboxCategory,
+  getMake,
+  getModel,
+  getMotStatus,
+  getRegistrationNumber,
+  getTestExpiryDate,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
@@ -27,6 +36,8 @@ import {
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
+  AlternativeMotEvidenceDetailsChanged,
+  AlternativeMotEvidenceProvidedChanged,
   DualControlsToggled,
   GearboxCategoryChanged,
   SchoolBikeToggled,
@@ -66,7 +77,8 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import {
-  OrditTrainedChanged, TrainerRegistrationNumberChanged,
+  OrditTrainedChanged,
+  TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
 import {
@@ -74,6 +86,11 @@ import {
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 import { Inject } from '@angular/core';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { motError$, MotErrorDisplay, MotStatus } from '@providers/vehicle-details-api/vehicle-details-api.service';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -89,9 +106,22 @@ export interface CommonWaitingRoomToCarPageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
+  showCheckMot$: Observable<boolean>;
+  isCheckingMot$: Observable<boolean>;
+  motError$: Observable<MotErrorDisplay>;
+  checkInvalidMotCount$: Observable<number>;
+  motStatus$: Observable<string>;
+  testExpiryDate$: Observable<string>;
+  make$: Observable<string>;
+  model$: Observable<string>;
+  showAlternativeMotEvidenceProvided$: Observable<boolean>;
+  alternativeMotEvidenceProvided$: Observable<boolean>;
+  alternativeMotEvidenceDetails$: Observable<string>;
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
+export const isCheckingMot$ = new BehaviorSubject(false);
+export const checkInvalidMotCount$ = new BehaviorSubject(0);
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
 
@@ -99,6 +129,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
+  hasRequestedMOT: boolean = false;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -116,6 +147,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     protected routeByCategoryProvider: RouteByCategoryProvider,
     public alertController: AlertController,
     @Inject(false) public loginRequired: boolean = false,
+    private appConfig: AppConfigProvider,
   ) {
     super(platform, authenticationProvider, router, store$, loginRequired);
   }
@@ -181,6 +213,44 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
         select(getAccompaniment),
         select(getInterpreterAccompaniment),
       ),
+      motStatus$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotStatus),
+      ),
+      make$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMake),
+      ),
+      model$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getModel),
+      ),
+      testExpiryDate$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getTestExpiryDate),
+      ),
+      showAlternativeMotEvidenceProvided$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotStatus),
+        map((status) => status === MotStatus.NOT_VALID),
+      ),
+      alternativeMotEvidenceProvided$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getAlternativeMotEvidenceProvided),
+      ),
+      alternativeMotEvidenceDetails$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getAlternativeMotEvidenceDetails),
+      ),
+      isCheckingMot$,
+      motError$,
+      checkInvalidMotCount$,
+      showCheckMot$: currentTest$.pipe(
+        select(getRekeyIndicator),
+        select(isRekey),
+        withLatestFrom(this.appConfig.getAppConfig()?.role),
+        map(([rekeyTest, role]) => !(rekeyTest || role === ExaminerRole.DLG)),
+      ),
     };
   }
 
@@ -239,7 +309,16 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
   }
 
+  alternativeMotEvidenceChanged(alternativeEvidence: boolean) {
+    this.store$.dispatch(AlternativeMotEvidenceProvidedChanged(alternativeEvidence));
+  }
+
+  alternativeMotEvidenceDetailsChanged(details: string) {
+    this.store$.dispatch(AlternativeMotEvidenceDetailsChanged(details));
+  }
+
   getMOTStatus(): void {
+    this.hasRequestedMOT = true;
     this.store$.dispatch(GetMotStatus());
   }
 
@@ -282,7 +361,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   generateDelegatedQuestionResults(number: number, outcome: CompetencyOutcome): QuestionResult[] {
-    return Array(number).fill(null).map(() => ({ outcome, code: 'DEL' }));
+    return Array(number)
+      .fill(null)
+      .map(() => ({
+        outcome,
+        code: 'DEL',
+      }));
   }
 
   closeVehicleChecksModal(): void {

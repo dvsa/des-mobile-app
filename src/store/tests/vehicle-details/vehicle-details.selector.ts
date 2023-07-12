@@ -21,3 +21,12 @@ export const showVrnButton = (category: TestCategory): boolean => isAnyOf(catego
   TestCategory.CCPC, TestCategory.DCPC,
   TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
 ]);
+
+export const getMake = (vehicleDetails: VehicleDetails) => vehicleDetails.make;
+export const getAlternativeMotEvidenceProvided = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidenceProvided;
+export const getAlternativeMotEvidenceDetails = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidence;
+export const getModel = (vehicleDetails: VehicleDetails) => vehicleDetails.model;
+export const getTestExpiryDate = (vehicleDetails: VehicleDetails) => vehicleDetails.testExpiryDate;
+export const getPreviouslySearchedRegNumbers = (
+  vehicleDetails: VehicleDetails,
+) => vehicleDetails.previouslySearchedRegNumbers;

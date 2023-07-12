@@ -14,25 +14,31 @@ import { Router } from '@angular/router';
 import { UntypedFormGroup } from '@angular/forms';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
-  DropExtraVehicleChecks, DropExtraVehicleChecksDelegated, SetFullLicenceHeld,
+  DropExtraVehicleChecks,
+  DropExtraVehicleChecksDelegated,
+  SetFullLicenceHeld,
   VehicleChecksCompletedToggled,
   VehicleChecksDrivingFaultsNumberChanged,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
-  getCandidateDeclarationSignedStatus, getInsuranceDeclarationStatus,
+  getCandidateDeclarationSignedStatus,
+  getInsuranceDeclarationStatus,
   getResidencyDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import {
-  getFullLicenceHeld, getVehicleChecksCatC, getVehicleChecksCompleted, hasFullLicenceHeldBeenSelected,
+  getFullLicenceHeld,
+  getVehicleChecksCatC,
+  getVehicleChecksCompleted,
+  hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -40,6 +46,7 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -75,8 +82,9 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.form = new UntypedFormGroup({});
   }
 
@@ -149,12 +157,16 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   }
 
   setupSubscription(): void {
-    const { delegatedTest$, fullLicenceHeld$ } = this.pageState;
+    const {
+      delegatedTest$,
+      fullLicenceHeld$,
+    } = this.pageState;
 
     this.subscription = merge(
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       fullLicenceHeld$.pipe(map((result) => this.fullLicenceHeld = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   vehicleChecksCompletedOutcomeChanged(toggled: boolean): void {
@@ -173,7 +185,8 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   };
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E])) {
@@ -189,11 +202,12 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);

@@ -14,7 +14,8 @@ export class SearchProvider {
     private http: HttpClient,
     private urlProvider: UrlProvider,
     private appConfig: AppConfigProvider,
-  ) { }
+  ) {
+  }
 
   driverNumberSearch(driverNumber: string): Observable<SearchResultTestSchema[]> {
     return this.http.get<SearchResultTestSchema[]>(
@@ -24,7 +25,8 @@ export class SearchProvider {
           driverNumber,
         },
       },
-    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+    )
+      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
   applicationReferenceSearch(applicationReference: string): Observable<SearchResultTestSchema[]> {
@@ -35,7 +37,8 @@ export class SearchProvider {
           applicationReference,
         },
       },
-    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+    )
+      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
   advancedSearch(advancedSearchParams: AdvancedSearchParams): Observable<SearchResultTestSchema[]> {
@@ -54,14 +57,17 @@ export class SearchProvider {
           passCertificateNumber: encodeURIComponent(advancedSearchParams.passCertificateNumber),
         },
       },
-    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+    )
+      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
   getTestResult(applicationReference: string, staffNumber: string): Observable<HttpResponse<SearchResultTestSchema[]>> {
     return this.http.get<SearchResultTestSchema[]>(
-      this.urlProvider.getTestResultServiceUrl().concat(`/${applicationReference}/${staffNumber}`),
+      this.urlProvider.getTestResultServiceUrl()
+        .concat(`/${applicationReference}/${staffNumber}`),
       { observe: 'response' },
-    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+    )
+      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
   getRegeneratedEmails(applicationReference: string): Observable<string> {

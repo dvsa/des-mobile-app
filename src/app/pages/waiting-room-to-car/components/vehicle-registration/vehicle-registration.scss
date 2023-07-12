@@ -1,0 +1,16 @@
+:host {
+  .valid-icon {
+    font-size: 60px;
+    color: var(--gds-dark-green);
+  }
+
+  .invalid-icon {
+    font-size: 60px;
+    color: var(--gds-red);
+  }
+
+  .warning-icon {
+    font-size: 60px;
+    color: var(--gds-black);
+  }
+}

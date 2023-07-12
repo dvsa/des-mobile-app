@@ -1,0 +1,39 @@
+<ion-card id="mot-invalid-card" class="modal-alert" [formGroup]="formGroup">
+  <modal-alert-title id="model-title">Confirm VRN</modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col>
+      <p class="modal-text">
+        The vehicle registration entered does not have a valid MOT.
+        <br />
+        <br />
+        Please check and re-enter to confirm.
+      </p>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input
+        type="text"
+        id="registration"
+        formControlName="vehicleRegistrationConfirmVrn"
+        class="ion-input-styling input-field"
+        [class.increase-height]="textZoom === 'text-zoom-x-large'"
+        [class.ng-invalid]="invalid"
+        (ionInput)="onChange($event?.detail?.value)"
+        maxlength="7">
+      </ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button
+        id="confirm-button"
+        class="confirm-button"
+        fill="clear"
+        [disabled]="!formControl?.value"
+        (click)="clickConfirm()">
+        <h3>Confirm</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

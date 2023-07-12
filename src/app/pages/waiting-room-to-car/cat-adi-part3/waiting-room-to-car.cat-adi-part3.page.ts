@@ -19,7 +19,8 @@ import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/wait
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
 import {
-  getOrditTrained, getTrainerRegistrationNumber,
+  getOrditTrained,
+  getTrainerRegistrationNumber,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
@@ -36,6 +37,7 @@ import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompanim
 import { getTrainerAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.selector';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatAdi3WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -65,8 +67,9 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
+    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
     this.form = new UntypedFormGroup({});
   }
 
@@ -104,18 +107,20 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   dualControlsOutcomeToggled(dualControls: boolean): void {
