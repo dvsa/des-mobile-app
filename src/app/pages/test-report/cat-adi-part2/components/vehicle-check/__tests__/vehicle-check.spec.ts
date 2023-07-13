@@ -127,7 +127,6 @@ describe('VehicleCheckComponent', () => {
         component.isRemoveFaultMode = true;
         spyOn(component, 'hasDangerousFault').and.returnValue(true);
         component.isDangerousMode = true;
-        component.canButtonRipple();
         expect(component.canButtonRipple()).toEqual(true);
       });
       it('should return true if hasSeriousFault and isSeriousMode are true '
@@ -136,7 +135,6 @@ describe('VehicleCheckComponent', () => {
         spyOn(component, 'hasDangerousFault').and.returnValue(false);
         spyOn(component, 'hasSeriousFault').and.returnValue(true);
         component.isSeriousMode = true;
-        component.canButtonRipple();
         expect(component.canButtonRipple()).toEqual(true);
       });
       it('should return true if hasShowMeDrivingFault is true, '
@@ -147,7 +145,6 @@ describe('VehicleCheckComponent', () => {
         spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
         component.isDangerousMode = false;
         component.isSeriousMode = false;
-        component.canButtonRipple();
         expect(component.canButtonRipple()).toEqual(true);
       });
       it('should return false if no other condition is met '
@@ -158,7 +155,6 @@ describe('VehicleCheckComponent', () => {
         spyOn(component, 'hasShowMeDrivingFault').and.returnValue(false);
         component.isDangerousMode = false;
         component.isSeriousMode = false;
-        component.canButtonRipple();
         expect(component.canButtonRipple()).toEqual(false);
       });
       it('should return false if isRemoveFaultMode is false '
@@ -167,7 +163,6 @@ describe('VehicleCheckComponent', () => {
         spyOn(component, 'hasDangerousFault').and.returnValue(true);
         spyOn(component, 'hasSeriousFault').and.returnValue(true);
         spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
-        component.canButtonRipple();
         expect(component.canButtonRipple()).toEqual(false);
       });
       it('should return true if isRemoveFaultMode is false '
@@ -176,7 +171,6 @@ describe('VehicleCheckComponent', () => {
         spyOn(component, 'hasDangerousFault').and.returnValue(false);
         spyOn(component, 'hasSeriousFault').and.returnValue(false);
         spyOn(component, 'hasShowMeDrivingFault').and.returnValue(false);
-        component.canButtonRipple();
         expect(component.canButtonRipple()).toEqual(true);
       });
     });
