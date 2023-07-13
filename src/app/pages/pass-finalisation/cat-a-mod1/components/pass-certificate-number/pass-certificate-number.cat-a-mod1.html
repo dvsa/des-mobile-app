@@ -7,7 +7,7 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row [formGroup]="form">
       <ion-col>
-        <ion-input (ionChange)="passCertificateNumberChanged($event.target.value)"
+        <ion-input (ionInput)="passCertificateNumberChanged($event.target.value)"
                    [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
                    [class.ng-invalid]="invalid"
                    [maxlength]="passCertificateAMOD1Validator.maxLength"
