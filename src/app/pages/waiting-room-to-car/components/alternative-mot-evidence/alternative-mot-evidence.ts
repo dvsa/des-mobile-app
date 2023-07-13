@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 enum AltEvidenceProvided {
@@ -31,10 +29,7 @@ export class AlternativeMotEvidence {
       this.formGroup.addControl(AlternativeMotEvidence.fieldName, this.formControl);
     }
 
-    this.formControl.updateValueAndValidity({
-      onlySelf: true,
-      emitEvent: false,
-    });
+    this.formControl.updateValueAndValidity();
 
     if (this.alternativeMotEvidence !== undefined) {
       this.formControl.patchValue(this.alternativeMotEvidence, {
