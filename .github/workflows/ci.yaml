@@ -15,13 +15,15 @@ env:
 jobs:
   setup:
     runs-on: mito-2
+    outputs:
+      node-version: ${{ steps.nvm.outputs.NVMRC }}
     steps:
       - name: 📨 Checkout
         uses: actions/checkout@v3
 
       - name: 🔍 Read .nvmrc
         id: nvm
-        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_ENV
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
 
       - name: 🔧 Create .npmrc
         run: |
@@ -37,10 +39,10 @@ jobs:
     runs-on: mito-2
     needs: [ setup ]
     steps:
-      - name: ⚙️ Setup Node.js ${{ env.NVMRC }}
+      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NVMRC }}
+          node-version: ${{ needs.setup.outputs.node-version }}
 
       - name: ➕ Install dependencies
         run: npm ci
@@ -52,10 +54,10 @@ jobs:
     runs-on: mito-2
     needs: [ setup ]
     steps:
-      - name: ⚙️ Setup Node.js ${{ env.NVMRC }}
+      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NVMRC }}
+          node-version: ${{ needs.setup.outputs.node-version }}
 
       - name: ➕ Install dependencies
         run: npm ci
@@ -67,10 +69,10 @@ jobs:
     runs-on: mito-2
     needs: [ setup ]
     steps:
-      - name: ⚙️ Setup Node.js ${{ env.NVMRC }}
+      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NVMRC }}
+          node-version: ${{ needs.setup.outputs.node-version }}
 
       - name: ➕ Install dependencies
         run: npm ci
@@ -82,10 +84,10 @@ jobs:
     runs-on: mito-2
     needs: [ setup ]
     steps:
-      - name: ⚙️ Setup Node.js ${{ env.NVMRC }}
+      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NVMRC }}
+          node-version: ${{ needs.setup.outputs.node-version }}
 
       - name: ➕ Install dependencies
         run: npm ci
