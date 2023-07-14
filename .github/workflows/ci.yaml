@@ -13,36 +13,58 @@ env:
   DES_ACCESS_TOKEN: ${{ secrets.DES_ACCESS_TOKEN }}
 
 jobs:
-  run-ci:
+  setup:
     runs-on: mito-2
-
     steps:
-      - uses: actions/checkout@v3
+      - name: 📨 Checkout
+        uses: actions/checkout@v3
 
-      - name: Read .nvmrc
+      - name: 🔍 Read .nvmrc
         id: nvm
         run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_ENV
 
-      - name: Setup Node.js ${{ env.NVMRC }}
+      - name: ⚙️ Setup Node.js ${{ env.NVMRC }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NVMRC }}
 
-      - name: Create .npmrc
+      - name: 🔧 Create .npmrc
         run: |
           echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
           echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Create ionic.config.json
+      - name: 🔧 Create ionic.config.json
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
-      - name: Build project
-        run: npm run build:ci
+      - name: ➕ Install dependencies
+        run: npm ci
 
-      - name: Run unit tests
+  audit:
+    runs-on: mito-2
+    needs: [ setup ]
+    steps:
+      - name: ⚒️ Audit dependencies
+        run: npm audit
+
+  build:
+    runs-on: mito-2
+    needs: [ setup ]
+    steps:
+      - name: ⚒️ Build project
+        run: npm run build
+
+  lint:
+    runs-on: mito-2
+    needs: [ setup ]
+    steps:
+      - name: 📝 Lint codebase
+        run: npm run lint
+
+  test:
+    runs-on: mito-2
+    needs: [ setup ]
+    steps:
+      - name: 🧪️ Execute unit tests
         run: npm run test
