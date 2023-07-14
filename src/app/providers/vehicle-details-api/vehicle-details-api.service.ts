@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse,
+} from '@angular/common/http';
 import { catchError, map, timeout } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject, Observable, of, throwError,
+} from 'rxjs';
 import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { MotDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
@@ -89,17 +93,20 @@ export class VehicleDetailsApiService {
     const params = new HttpParams().set('identifier', registration);
 
     return this.http.get<MotDetails>(
-      this.urlProvider.getTaxMotUrl(), {
+      this.urlProvider.getTaxMotUrl(),
+      {
         headers,
         params,
         observe: 'response',
       },
     )
       .pipe(
-        map(({
-               body,
-               status,
-             }: HttpResponse<MotDetails>) => {
+        map((
+          {
+            body,
+            status,
+          }: HttpResponse<MotDetails>,
+        ) => {
           // regard 204 as an error as it is returned as an empty object, therefore we have no data to present
           if (status === HttpStatusCodes.NO_CONTENT) {
             this.handle204(registration);

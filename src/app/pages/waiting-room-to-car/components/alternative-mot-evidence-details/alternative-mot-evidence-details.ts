@@ -35,9 +35,11 @@ export class AlternativeMotEvidenceDetails {
     }
 
     // remove `Validators.required` if not displayed
-    this.formControl.setValidators(this.alternativeMotEvidenceProvided
-      ? Validators.compose([Validators.required])
-      : null);
+    this.formControl.setValidators(
+      this.alternativeMotEvidenceProvided
+        ? Validators.compose([Validators.required])
+        : null,
+    );
 
     this.formControl.updateValueAndValidity();
     this.formControl.patchValue(this.alternativeMotEvidenceDetails, AlternativeMotEvidenceDetails.maxCallStackHandler);

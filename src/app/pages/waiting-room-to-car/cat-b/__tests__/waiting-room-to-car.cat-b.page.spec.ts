@@ -3,7 +3,7 @@ import {
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -11,7 +11,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -65,8 +65,15 @@ import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/wait
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestsModel } from '@store/tests/tests.model';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
-
 import { AppModule } from '@app/app.module';
+import {
+  AlternativeMotEvidence,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence/alternative-mot-evidence';
+import {
+  AlternativeMotEvidenceDetails,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence-details/alternative-mot-evidence-details';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { WaitingRoomToCarCatBPage } from '../waiting-room-to-car.cat-b.page';
 
 describe('WaitingRoomToCarCatBPage', () => {
@@ -86,13 +93,22 @@ describe('WaitingRoomToCarCatBPage', () => {
           instructorDetails: { registrationNumber: 237489 },
           testData: {
             vehicleChecks: {
-              tellMeQuestion: { code: 'T1', description: 'desc', outcome: CompetencyOutcome.P },
+              tellMeQuestion: {
+                code: 'T1',
+                description: 'desc',
+                outcome: CompetencyOutcome.P,
+              },
             },
             eyesightTest: {},
             seriousFaults: {},
           },
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
           },
         } as TestResultSchemasUnion,
       },
@@ -118,16 +134,34 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
         MockComponent(PracticeModeBanner),
+        MockComponent(AlternativeMotEvidence),
+        MockComponent(AlternativeMotEvidenceDetails),
       ],
       imports: [
         AppModule,
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useClass: RouterMock },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -146,7 +180,8 @@ describe('WaitingRoomToCarCatBPage', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class', () => {
@@ -154,21 +189,24 @@ describe('WaitingRoomToCarCatBPage', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
+          .toHaveBeenCalled();
       });
     });
     describe('ionViewDidEnter', () => {
       it('should call through to the base page ionViewDidEnter', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewDidEnter');
         component.ionViewDidEnter();
-        expect(WaitingRoomToCarBasePageComponent.prototype.ionViewDidEnter).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.ionViewDidEnter)
+          .toHaveBeenCalled();
       });
     });
     describe('ionViewWillLeave', () => {
       it('should call through to the base page ionViewWillLeave', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewWillLeave');
         component.ionViewWillLeave();
-        expect(WaitingRoomToCarBasePageComponent.prototype.ionViewWillLeave).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.ionViewWillLeave)
+          .toHaveBeenCalled();
       });
     });
     describe('onSubmit', () => {
@@ -182,9 +220,10 @@ describe('WaitingRoomToCarCatBPage', () => {
         component.testCategory = TestCategory.B;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B, { replaceUrl: true },
-        );
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B, { replaceUrl: true },
+          );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new UntypedFormGroup({
@@ -207,7 +246,8 @@ describe('WaitingRoomToCarCatBPage', () => {
     describe('eyesightFailCancelled', () => {
       it('should dispatch the action EyesightTestReset', () => {
         component.eyesightFailCancelled();
-        expect(store$.dispatch).toHaveBeenCalledWith(EyesightTestReset());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(EyesightTestReset());
       });
     });
     describe('tellMeQuestionChanged', () => {
@@ -218,19 +258,22 @@ describe('WaitingRoomToCarCatBPage', () => {
           shortName: 'name',
         };
         component.tellMeQuestionChanged(question);
-        expect(store$.dispatch).toHaveBeenCalledWith(TellMeQuestionSelected(question));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(TellMeQuestionSelected(question));
       });
     });
     describe('tellMeQuestionOutcomeChanged', () => {
       it('should dispatch TellMeQuestionCorrect when outcome is a pass', () => {
         const outcome: QuestionOutcomes = QuestionOutcomes.Pass;
         component.tellMeQuestionOutcomeChanged(outcome);
-        expect(store$.dispatch).toHaveBeenCalledWith(TellMeQuestionCorrect());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(TellMeQuestionCorrect());
       });
       it('should dispatch TellMeQuestionDrivingFault when outcome is not a pass', () => {
         const outcome: QuestionOutcomes = QuestionOutcomes.DrivingFault;
         component.tellMeQuestionOutcomeChanged(outcome);
-        expect(store$.dispatch).toHaveBeenCalledWith(TellMeQuestionDrivingFault());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(TellMeQuestionDrivingFault());
       });
     });
   });
@@ -244,8 +287,11 @@ describe('WaitingRoomToCarCatBPage', () => {
         fixture.detectChanges();
         const eyesightFailureConfirmation = fixture.debugElement.query(By.css('eyesight-failure-confirmation'));
         const formAfterEyesight = fixture.debugElement.query(By.css('#post-eyesight-form-content'));
-        expect(eyesightFailureConfirmation).not.toBeNull();
-        expect(formAfterEyesight.nativeElement.hidden).toEqual(true);
+        expect(eyesightFailureConfirmation)
+          .not
+          .toBeNull();
+        expect(formAfterEyesight.nativeElement.hidden)
+          .toEqual(true);
       });
       // eslint-disable-next-line max-len
       it('should show the rest of the form and not render eyesight failure confirmation when page state indicates pass is selected', () => {
@@ -254,12 +300,15 @@ describe('WaitingRoomToCarCatBPage', () => {
         fixture.detectChanges();
         const eyesightFailureConfirmation = fixture.debugElement.query(By.css('eyesight-failure-confirmation'));
         const formAfterEyesight = fixture.debugElement.query(By.css('#post-eyesight-form-content'));
-        expect(eyesightFailureConfirmation).toBeNull();
-        expect(formAfterEyesight.nativeElement.hidden).toEqual(false);
+        expect(eyesightFailureConfirmation)
+          .toBeNull();
+        expect(formAfterEyesight.nativeElement.hidden)
+          .toEqual(false);
       });
       it('should dispatch an EyesightResultReset action when the when the method is called', () => {
         component.eyesightFailCancelled();
-        expect(store$.dispatch).toHaveBeenCalledWith(EyesightTestReset());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(EyesightTestReset());
       });
     });
   });

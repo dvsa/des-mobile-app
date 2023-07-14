@@ -8,7 +8,7 @@ import {
 import { of } from 'rxjs';
 
 import { StoreModel } from '@shared/models/store.model';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { getTests } from '@store/tests/tests.reducer';
@@ -59,11 +59,7 @@ export class WaitingRoomToCarEffects {
         ),
       )),
     // above filter means we will not call through to candidate service when any of the above conditions fail.
-    filter(([, , isPracticeTest]) => (
-      this.platform.is('cordova')
-      && !isPracticeTest
-      && this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
-    )),
+    filter(([, , isPracticeTest]) => this.platform.is('cordova') && !isPracticeTest),
     // once we are happy user is online and not in a practice test, then we sanitise the input by removing whitespace
     map(([, regNumber]) => regNumber?.replace(/\s/g, '')
       .toUpperCase()),

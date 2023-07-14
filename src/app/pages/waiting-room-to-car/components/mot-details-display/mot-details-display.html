@@ -1,32 +1,50 @@
 <span *ngIf="motError; else noError;">
-  <ion-row class="validation-message-row ion-align-items-center">
-    <ion-col>
-      <div class="black-text">{{motError.msg}}</div>
+  <ion-row>
+    <ion-col size="75">
+      <ion-row class="validation-message-row ion-align-items-center">
+        <ion-col>
+          <div class="black-text">{{motError.msg}}</div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="validation-message-row ion-align-items-center">
+        <ion-col>
+          <div class="black-text">{{motError.action}}</div>
+        </ion-col>
+      </ion-row>
     </ion-col>
-  </ion-row>
-  <ion-row class="validation-message-row ion-align-items-center">
-    <ion-col>
-      <div class="black-text">{{motError.action}}</div>
+    <ion-col size="15">
+      <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
     </ion-col>
   </ion-row>
 </span>
 
 <ng-template #noError>
-  <ion-row *ngIf="status" class="validation-message-row ion-align-items-center">
-    <ion-col size="42">
-      <h5>MOT Status</h5>
-    </ion-col>
-    <ion-col class="ion-align-self-center">
-      <div class="black-text">{{status === 'Valid' ? status : ('Expired ' + testExpiryDate)}}</div>
-    </ion-col>
-  </ion-row>
+  <ion-row *ngIf="status">
+    <ion-col size="75">
+      <ion-row class="validation-message-row ion-align-items-center">
+        <ion-col size="38">
+          <h5>MOT Status</h5>
+        </ion-col>
+        <ion-col size="52" class="ion-align-self-center">
+          <div class="black-text">{{status === 'Valid' ? status : ('Expired ' + testExpiryDate)}}</div>
+        </ion-col>
+      </ion-row>
 
-  <ion-row *ngIf="status" class="validation-message-row ion-align-items-center">
-    <ion-col size="42">
-      <h5>Make/Model</h5>
+      <ion-row class="validation-message-row ion-align-items-center">
+        <ion-col size="38">
+          <h5>Make/Model</h5>
+        </ion-col>
+        <ion-col size="52" class="ion-align-self-center">
+          <div class="black-text">{{make}} {{model}}</div>
+        </ion-col>
+      </ion-row>
     </ion-col>
-    <ion-col class="ion-align-self-center">
-      <div class="black-text">{{make}} {{model}}</div>
+    <ion-col size="15">
+      <span [ngSwitch]="status">
+        <ion-icon *ngSwitchCase="'Valid'" class="valid-icon" name="checkmark-circle"></ion-icon>
+        <ion-icon *ngSwitchCase="'Not valid'" class="invalid-icon" name="close-circle"></ion-icon>
+        <ion-icon *ngSwitchDefault class="warning-icon" ios="alert-circle"></ion-icon>
+      </span>
     </ion-col>
   </ion-row>
 </ng-template>

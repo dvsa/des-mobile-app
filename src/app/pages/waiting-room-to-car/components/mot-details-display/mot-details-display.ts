@@ -4,6 +4,7 @@ import { MotErrorDisplay } from '@providers/vehicle-details-api/vehicle-details-
 @Component({
   selector: 'mot-details-display',
   templateUrl: 'mot-details-display.html',
+  styleUrls: ['mot-details-display.scss'],
 })
 export class MotDetailsDisplay {
   @Input()
