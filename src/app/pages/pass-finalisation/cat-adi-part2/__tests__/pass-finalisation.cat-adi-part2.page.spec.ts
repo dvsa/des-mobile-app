@@ -31,7 +31,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
@@ -100,6 +103,12 @@ describe('PassFinalisationCatADI2Page', () => {
           .not
           .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
       }));
+    });
+    describe('ionViewWillEnter', () => {
+      it('should dispatch with PassFinalisationViewDidEnter', () => {
+        component.ionViewWillEnter();
+        expect(component.store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+      });
     });
   });
 

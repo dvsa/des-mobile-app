@@ -73,4 +73,35 @@ describe('QuestionFooterComponent', () => {
     });
   });
 
+  describe('goToSummary', () => {
+    it('should emit testSummaryRequested with true if isDelegated is false', () => {
+      spyOn(component.testSummaryRequested, 'emit');
+      component.isDelegated = false;
+      component.goToSummary();
+      expect(component.testSummaryRequested.emit).toHaveBeenCalledWith(true);
+    });
+    it('should not emit testSummaryRequested with true '
+      + 'if isDelegated is true and isFormValid is false', () => {
+      spyOn(component.testSummaryRequested, 'emit');
+      spyOn(component, 'isFormValid').and.returnValue(Promise.resolve(false));
+      component.isDelegated = true;
+      component.goToSummary();
+      expect(component.testSummaryRequested.emit).not.toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('createToast', () => {
+    it('should call toastController.create with the correct params', async () => {
+      spyOn(component.toastController, 'create');
+      await component['createToast']('string');
+      expect(component.toastController.create).toHaveBeenCalledWith({
+        message: 'string',
+        position: 'top',
+        cssClass: 'mes-toast-message-error',
+        duration: 5000,
+        buttons: [{ text: 'X', role: 'cancel' }],
+      });
+    });
+  });
+
 });

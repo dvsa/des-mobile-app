@@ -31,5 +31,13 @@ describe('VehicleChecksDataRowComponent', () => {
         expect(component.shouldShowFault('S')).toEqual(false);
       });
     });
+    describe('isEmptyVehicleChecks', () => {
+      it('should return true if every entry in the array has no outcome', () => {
+        expect(component.isEmptyVehicleChecks([{}, {}])).toEqual(true);
+      });
+      it('should return false if not every entry in the array has no outcome', () => {
+        expect(component.isEmptyVehicleChecks([{ outcome: 'D' }, {}])).toEqual(false);
+      });
+    });
   });
 });
