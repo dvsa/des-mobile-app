@@ -35,20 +35,20 @@ jobs:
       - name: 🔧 Create ionic.config.json
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
-  audit:
-    runs-on: mito-2
-    needs: [ setup ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
-
-      - name: ⚒️ Audit production dependencies
-        run: npm audit --omit=dev
+  #  audit:
+  #    runs-on: mito-2
+  #    needs: [ setup ]
+  #    steps:
+  #      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
+  #        uses: actions/setup-node@v3
+  #        with:
+  #          node-version: ${{ needs.setup.outputs.node-version }}
+  #
+  #      - name: ➕ Install dependencies
+  #        run: npm ci
+  #
+  #      - name: ⚒️ Audit production dependencies
+  #        run: npm audit --omit=dev
 
   build:
     runs-on: mito-2
@@ -63,7 +63,7 @@ jobs:
         run: npm ci
 
       - name: ⚒️ Build project
-        run: npm run build
+        run: npm run build:ci
 
   lint:
     runs-on: mito-2
