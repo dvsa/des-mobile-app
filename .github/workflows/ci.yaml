@@ -12,6 +12,10 @@ env:
   DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
   DES_ACCESS_TOKEN: ${{ secrets.DES_ACCESS_TOKEN }}
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   setup:
     runs-on: mito-2
