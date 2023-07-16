@@ -1,7 +1,7 @@
 import { createAction } from '@ngrx/store';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
-import { MotDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { MotDetails } from '@providers/mot-details/mot-details.model';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',

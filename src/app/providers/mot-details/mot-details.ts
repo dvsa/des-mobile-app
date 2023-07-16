@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, map, timeout } from 'rxjs/operators';
-import {
-  BehaviorSubject, Observable, of, throwError,
-} from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { MotDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { MotDetails } from '@providers/mot-details/mot-details.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import {
@@ -51,9 +47,8 @@ export const motError$ = new BehaviorSubject<MotErrorDisplay>(null);
 @Injectable({
   providedIn: 'root',
 })
-// @TODO: Rename to MotDetailsProvider
-export class VehicleDetailsApiService {
-  private vehicleDetailsResponse: MotDetails = null;
+export class MotDetailsProvider {
+  private motDetailsResponse: MotDetails = null;
   private requestError: MotDetailsErr = null;
 
   constructor(
@@ -64,10 +59,9 @@ export class VehicleDetailsApiService {
   ) {
   }
 
-  // @TODO: Rename to getMotDetailsByIdentifier
   public getVehicleByIdentifier(registration: string): Observable<MotDetails> {
     // used as internal cache to check for existing data/error
-    if (this.vehicleDetailsResponse?.registration?.toUpperCase() === registration?.toUpperCase()) {
+    if (this.motDetailsResponse?.registration?.toUpperCase() === registration?.toUpperCase()) {
 
       // if the last search for a VRM returned a non-happy path result, then we re-use that error instead of re-querying
       if (this.requestError) {
@@ -75,14 +69,13 @@ export class VehicleDetailsApiService {
         return throwError(() => new Error(this.requestError));
       }
       // increment or reset search count based on MOT status
-      this.setMotSearchCountWhenInvalid(this.vehicleDetailsResponse.status);
+      this.setMotSearchCountWhenInvalid(this.motDetailsResponse.status);
       // return the populated payload
-      return of(this.vehicleDetailsResponse);
+      return of(this.motDetailsResponse);
     }
 
     // intercept call to EP when offline
     if (this.networkStateProvider.getNetworkState() !== ConnectionStatus.ONLINE) {
-
       // don't store this.requestError = MotDetailsErr.OFFLINE
       // we want the user to be able to retry if connection established mid-flow
       motError$.next(ERROR_MSGS[MotDetailsErr.OFFLINE]);
@@ -130,8 +123,8 @@ export class VehicleDetailsApiService {
       );
   }
 
-  public clearVehicleData(): void {
-    this.vehicleDetailsResponse = null;
+  public clearMotData(): void {
+    this.motDetailsResponse = null;
     this.requestError = null;
     motError$.next(null);
     motError$.complete();
@@ -141,7 +134,7 @@ export class VehicleDetailsApiService {
     this.requestError = null;
     this.setMotError();
     // store `vehicleDetailsResponse` with the response from the EP.
-    this.vehicleDetailsResponse = { ...body };
+    this.motDetailsResponse = { ...body };
     return body;
   }
 
@@ -149,8 +142,8 @@ export class VehicleDetailsApiService {
     this.requestError = MotDetailsErr.NOT_FOUND;
     this.setMotError();
     // store registration as vehicleIdentifier to not re-query for same ref when no data was found
-    this.vehicleDetailsResponse = {
-      ...this.vehicleDetailsResponse,
+    this.motDetailsResponse = {
+      ...this.motDetailsResponse,
       registration,
     } as MotDetails;
     // throw error so subscribers are aware

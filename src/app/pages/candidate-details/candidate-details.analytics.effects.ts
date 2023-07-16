@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {
-  concatMap, filter, switchMap, withLatestFrom,
-} from 'rxjs/operators';
+import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
   AnalyticsDimensionIndices,

@@ -2,15 +2,13 @@ import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import {
-  catchError, concatMap, delay, filter, finalize, map, switchMap, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, concatMap, delay, filter, finalize, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { StoreModel } from '@shared/models/store.model';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
+import { MotDetailsProvider } from '@providers/mot-details/mot-details';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -34,7 +32,7 @@ export class WaitingRoomToCarEffects {
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
-    private vehicleDetailsApiProvider: VehicleDetailsApiService,
+    private motDetailsProvider: MotDetailsProvider,
     private networkStateProvider: NetworkStateProvider,
     private logHelper: LogHelper,
     private platform: Platform,
@@ -68,7 +66,7 @@ export class WaitingRoomToCarEffects {
     tap(() => isCheckingMot$.next(true)),
     tap((regNumber) => this.store$.dispatch(PreviouslySearchedRegChanged(regNumber))),
     delay(250), //  Add quarter of a second delay so isChecking$ can flip from true to false
-    switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)
+    switchMap((regNumber) => this.motDetailsProvider.getVehicleByIdentifier(regNumber)
       .pipe(
         map((motDetails) => MotDataChanged(motDetails)),
         catchError((err: HttpErrorResponse | Error) => {

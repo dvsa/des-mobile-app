@@ -84,9 +84,9 @@ module.exports = function(config) {
         ],
       },
     },
-    browserNoActivityTimeout: 120000,
-    browserSocketTimeout: 60000,
-    browserDisconnectTimeout: 200000,
+    browserNoActivityTimeout: 1200000,
+    browserSocketTimeout: 600000,
+    browserDisconnectTimeout: 2000000,
     captureTimeout: 240000,
   });
 };

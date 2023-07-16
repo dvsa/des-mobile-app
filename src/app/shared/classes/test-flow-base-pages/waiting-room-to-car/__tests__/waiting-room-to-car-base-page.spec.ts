@@ -16,11 +16,14 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import {
+  GetMotStatus,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
+  AlternativeMotEvidenceDetailsChanged,
+  AlternativeMotEvidenceProvidedChanged,
   DualControlsToggled,
   GearboxCategoryChanged,
   SchoolBikeToggled,
@@ -380,6 +383,27 @@ describe('WaitingRoomToCarBasePageComponent', () => {
       basePageComponent.instructorRegistrationChanged(123);
       expect(store$.dispatch)
         .toHaveBeenCalledWith(InstructorRegistrationNumberChanged(123));
+    });
+  });
+  describe('alternativeMotEvidenceChanged', () => {
+    it('should dispatch the action AlternativeMotEvidenceProvidedChanged', () => {
+      basePageComponent.alternativeMotEvidenceChanged(true);
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(AlternativeMotEvidenceProvidedChanged(true));
+    });
+  });
+  describe('alternativeMotEvidenceDetailsChanged', () => {
+    it('should dispatch the action AlternativeMotEvidenceDetailsChanged', () => {
+      basePageComponent.alternativeMotEvidenceDetailsChanged('details');
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(AlternativeMotEvidenceDetailsChanged('details'));
+    });
+  });
+  describe('getMOTStatus', () => {
+    it('should dispatch the action GetMotStatus', () => {
+      basePageComponent.getMOTStatus();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(GetMotStatus());
     });
   });
   describe('eyesightTestResultChanged', () => {

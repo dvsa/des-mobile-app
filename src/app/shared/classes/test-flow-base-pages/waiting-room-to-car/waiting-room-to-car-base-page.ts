@@ -1,7 +1,5 @@
 import { select, Store } from '@ngrx/store';
-import {
-  BehaviorSubject, Observable, Subject, Subscription,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map, withLatestFrom } from 'rxjs/operators';
@@ -92,7 +90,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { motError$, MotErrorDisplay, MotStatus } from '@providers/vehicle-details-api/vehicle-details-api.service';
+import { motError$, MotErrorDisplay, MotStatus } from '@providers/mot-details/mot-details';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;

@@ -1,9 +1,10 @@
 import { isEmpty } from 'lodash';
-import { Application } from '@dvsa/mes-journal-schema';
+import { Application, Candidate, TestSlot } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { Details } from '@pages/candidate-details/candidate-details.page.model';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { SlotComponent } from '@components/test-slot/slot/slot';
 
 export const getTime = (slot: any): string => slot.slotDetail.start;
 
@@ -11,18 +12,20 @@ export const isCandidateCommentsEmpty = (slot: any): boolean => {
   return isEmpty(slot.booking.previousCancellation);
 };
 
-export const getCandidateId = (slot: any): string => slot.booking.candidate.candidateId;
-export const isCandidateSpecialNeeds = (slot: any): boolean => !isEmpty(slot.booking.application.specialNeeds);
-export const isCandidateCheckNeeded = (slot: any): boolean => slot.booking.application.entitlementCheck;
+export const getCandidateId = (slot: TestSlot): string => slot.booking.candidate.candidateId?.toString();
+export const isCandidateSpecialNeeds = (slot: TestSlot): boolean => !isEmpty(slot.booking.application.specialNeeds);
+export const isCandidateCheckNeeded = (slot: TestSlot): boolean => slot.booking.application.entitlementCheck;
 export const getEntitlementCheckText = (): string => 'Entitlement check is required. Call deployment';
-export const getSlotChanged = (slot: any): boolean => slot.hasSlotChanged;
-export const getFitMarker = (slot: any): boolean => slot.booking.application.fitMarker;
-export const getFitCaseNumber = (slot: any): string => slot.booking.application.fitCaseNumber;
-export const isCategoryEntitlementChecked = (slot: any): boolean => slot.booking.application.categoryEntitlementCheck;
-export const getCategoryEntitlementCheckText = (slot: any):string =>
+export const getSlotChanged = (slot: SlotComponent): boolean => slot.hasSlotChanged;
+export const getFitMarker = (slot: TestSlot): boolean => slot.booking.application.fitMarker;
+export const getFitCaseNumber = (slot: TestSlot): string => slot.booking.application.fitCaseNumber;
+export const isCategoryEntitlementChecked = (
+  slot: TestSlot,
+): boolean => slot.booking.application.categoryEntitlementCheck;
+export const getCategoryEntitlementCheckText = (slot: TestSlot): string =>
   `Check DVLA email confirming entitlement for Cat ${slot.booking.application.testCategory} test.`;
 
-export const getPhoneNumber = (candidate: any): string => {
+export const getPhoneNumber = (candidate: Candidate): string => {
   if (!isEmpty(candidate.mobileTelephone)) return candidate.mobileTelephone;
   if (!isEmpty(candidate.primaryTelephone)) return candidate.primaryTelephone;
   if (!isEmpty(candidate.secondaryTelephone)) return candidate.secondaryTelephone;

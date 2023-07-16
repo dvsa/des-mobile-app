@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output, SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { isEmpty } from 'lodash';
 import {
@@ -10,7 +8,7 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 import { ModalController } from '@ionic/angular';
 import { MotInvalidModal } from '@pages/waiting-room-to-car/components/mot-invalid-modal/mot-invalid-modal';
-import { MotErrorDisplay, MotStatus } from '@providers/vehicle-details-api/vehicle-details-api.service';
+import { MotErrorDisplay, MotStatus } from '@providers/mot-details/mot-details';
 
 @Component({
   selector: 'vehicle-registration',

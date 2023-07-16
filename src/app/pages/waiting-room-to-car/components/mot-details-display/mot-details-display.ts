@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MotErrorDisplay } from '@providers/vehicle-details-api/vehicle-details-api.service';
+import { MotErrorDisplay } from '@providers/mot-details/mot-details';
 
 @Component({
   selector: 'mot-details-display',
