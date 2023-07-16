@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse,
+} from '@angular/common/http';
 import { catchError, map, timeout } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject, Observable, of, throwError,
+} from 'rxjs';
 import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { MotDetails } from '@providers/mot-details/mot-details.model';

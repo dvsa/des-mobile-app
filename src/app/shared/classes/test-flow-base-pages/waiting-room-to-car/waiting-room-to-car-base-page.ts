@@ -1,5 +1,7 @@
 import { select, Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject, Observable, Subject, Subscription,
+} from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map, withLatestFrom } from 'rxjs/operators';

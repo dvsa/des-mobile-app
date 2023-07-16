@@ -2,7 +2,9 @@ import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { catchError, concatMap, delay, filter, finalize, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError, concatMap, delay, filter, finalize, map, switchMap, tap, withLatestFrom,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { StoreModel } from '@shared/models/store.model';

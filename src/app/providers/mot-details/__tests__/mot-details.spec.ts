@@ -6,7 +6,9 @@ import { UrlProvider } from '@providers/url/url';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { ERROR_MSGS, MotDetailsErr, MotDetailsProvider, motError$ } from '@providers/mot-details/mot-details';
+import {
+  ERROR_MSGS, MotDetailsErr, MotDetailsProvider, motError$,
+} from '@providers/mot-details/mot-details';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
