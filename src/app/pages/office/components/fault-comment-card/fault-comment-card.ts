@@ -47,7 +47,7 @@ export class FaultCommentCardComponent {
   idPrefix: string = 'fault-card-header';
 
   ngOnChanges() {
-    this.faultComments.forEach((value) => {
+    this.faultComments?.forEach((value) => {
       const control = new UntypedFormControl(null);
       this.formGroup.addControl(
         `faultComment-${value.source}-${this.faultType}-${value.competencyIdentifier}`, control,
