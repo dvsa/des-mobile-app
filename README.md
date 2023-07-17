@@ -1,5 +1,7 @@
 # DES-MOBILE-APPLICATION
 
+[![CI](https://github.com/dvsa/des-mobile-app/actions/workflows/ci.yaml/badge.svg)](https://github.com/dvsa/des-mobile-app/actions/workflows/ci.yaml)
+
 DVSA Driving Examiner Application
 
 ### Pre-requisites
