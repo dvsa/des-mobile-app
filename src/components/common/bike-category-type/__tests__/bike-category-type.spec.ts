@@ -117,5 +117,13 @@ describe('BikeCategoryTypeComponent', () => {
       expect(component.categoryCodeChange.emit)
         .toHaveBeenCalledWith('B');
     });
+
+    it('should not emit categoryCodeChange with the category no passed in', () => {
+      spyOn(component.categoryCodeChange, 'emit');
+      component.categoryCodeChanged(undefined);
+
+      expect(component.categoryCodeChange.emit)
+        .not.toHaveBeenCalled();
+    });
   });
 });

@@ -47,8 +47,7 @@
   labelPlacement="stacked"
   okText="Confirm">
   <ion-select-option *ngFor="let category of bikeCategoryDetails;"
-                     [value]="category.categoryCode"
-                     class="category-option">
+                     [value]="category.categoryCode">
     {{category.displayId}}
   </ion-select-option>
 </ion-select>
