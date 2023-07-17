@@ -69,6 +69,7 @@ import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.module';
 
+import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -169,6 +170,7 @@ if (enableRehydrationPlugin) {
       useClass: SentryIonicErrorHandler,
     },
     AppVersion,
+    MobileAccessibility,
     AppConfigProvider,
     AuthenticationProvider,
     AppInfoProvider,
