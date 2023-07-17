@@ -1,6 +1,10 @@
 # For more information, see:
 # https://github.com/actions/labeler
 
+# Add 'gh-actions' label when any files inside `.github/workflows` change
+actions:
+  - .github/**/*.yaml
+
 # Add 'analytics' label to any change to .analytics.effects.ts (or spec) files
 analytics:
   - src/**/*.analytics.effects.ts
