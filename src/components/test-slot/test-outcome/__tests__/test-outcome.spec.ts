@@ -26,6 +26,8 @@ import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
 import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
@@ -85,8 +87,7 @@ describe('TestOutcomeComponent', () => {
               1234: {
                 category: 'B',
                 activityCode: ActivityCodes.BAD_LIGHT,
-                journalData: {
-                },
+                journalData: {},
                 rekey: false,
               },
             },
@@ -101,6 +102,10 @@ describe('TestOutcomeComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
+        },
         CategoryWhitelistProvider,
       ],
     });

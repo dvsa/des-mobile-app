@@ -25,7 +25,7 @@ import {
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.provider.mock';
+import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
 import { VehicleChecksCatADIPart2Modal }
   from '../../../cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksComponent } from '../vehicle-checks';

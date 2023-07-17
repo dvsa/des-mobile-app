@@ -44,6 +44,8 @@ import { LoadingOptions } from '@ionic/core';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -127,6 +129,10 @@ describe('JournalPage', () => {
         {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
+        },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
         },
       ],
     });

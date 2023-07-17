@@ -1,6 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 
 describe('AccessibilityService', () => {
   jasmine.getEnv().allowRespy(true);
@@ -10,6 +11,7 @@ describe('AccessibilityService', () => {
     TestBed.configureTestingModule({
       providers: [
         AccessibilityService,
+        MobileAccessibility,
       ],
     });
 
