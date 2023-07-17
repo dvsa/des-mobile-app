@@ -4,7 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { ManoeuvresPassCertificateComponent } from '../manoeuvres-pass-cert';
 
 describe('ManoeuvresPassCertificateComponent', () => {
@@ -21,8 +22,8 @@ describe('ManoeuvresPassCertificateComponent', () => {
       ],
       providers: [
         PassCertificateValidationProvider,
-        MobileAccessibility,
         { provide: AppComponent, useClass: MockAppComponent },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
       ],
     });
 

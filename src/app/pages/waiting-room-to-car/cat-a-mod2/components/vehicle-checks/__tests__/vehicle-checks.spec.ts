@@ -12,7 +12,7 @@ import {
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { OverlayEventDetail } from '@ionic/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { VehicleChecksCatAMod2Component } from '../vehicle-checks';
 
 class MockStore { }

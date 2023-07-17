@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { PassCertificateNumberComponent } from '../pass-certificate-number';
 
 describe('PassCertificateNumberComponent', () => {

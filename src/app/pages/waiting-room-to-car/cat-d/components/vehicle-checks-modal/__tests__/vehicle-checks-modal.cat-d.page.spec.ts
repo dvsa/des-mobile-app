@@ -39,7 +39,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { TestsModel } from '@store/tests/tests.model';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-d.actions';
 import { VehicleChecksCatDModal } from '../vehicle-checks-modal.cat-d.page';
 import { FullLicenceHeldComponent } from '../../../../components/full-licence-held-toggle/full-licence-held-toggle';

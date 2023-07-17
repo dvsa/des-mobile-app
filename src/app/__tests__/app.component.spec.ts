@@ -34,7 +34,7 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { Subscription } from 'rxjs';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.service.mock';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
