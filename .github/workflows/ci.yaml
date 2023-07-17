@@ -1,6 +1,41 @@
 name: CI
 
+run-name: "${{ github.event_name == 'pull_request' && 'CI' || 'Build' }} - ${{ inputs.branch || github.head_ref }}  🚀"
+
 on:
+  workflow_dispatch:
+    inputs:
+      audit:
+        description: Select whether an audit should be run to highlight vulnerabilities in packages
+        required: true
+        default: true
+        type: boolean
+      audit-level:
+        description: Select the minimum level at which the check should bail out if detected
+        required: false
+        type: choice
+        default: high
+        options:
+          - critical
+          - high
+          - moderate
+          - low
+      branch:
+        description: Select which branch to build
+        required: true
+        type: string
+      config:
+        description: Configuration to choose from when building
+        type: choice
+        default: ci
+        options:
+          - ci
+          - test
+      release-build:
+        description: Select if building for a full release
+        type: boolean
+        default: false
+
   pull_request:
     branches:
       - develop
@@ -11,6 +46,11 @@ env:
   DES_IONIC_CONFIG_JSON: ${{ secrets.DES_IONIC_CONFIG_JSON }}
   DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
   DES_ACCESS_TOKEN: ${{ secrets.DES_ACCESS_TOKEN }}
+  AUDIT: ${{ inputs.audit || 'true' }}
+  AUDIT_LEVEL: ${{ inputs.audit-level || 'high' }}
+  CONFIG: ${{ inputs.config || 'ci' }}
+  RELEASE_BUILD: ${{ inputs.release-build == 'true' && env.CONFIG == 'ci' && 'true' || 'false' }}
+  BRANCH: ${{ inputs.branch || github.head_ref }}
 
 concurrency:
   group: ${{ github.ref }}
@@ -20,14 +60,21 @@ jobs:
   setup:
     runs-on: mito-2
     outputs:
+      app-version: ${{ steps.version.outputs.VERSION }}
       node-version: ${{ steps.nvm.outputs.NVMRC }}
     steps:
       - name: 📨 Checkout
         uses: actions/checkout@v3
+        with:
+          ref: ${{ env.BRANCH }}
 
       - name: 🔍 Read .nvmrc
         id: nvm
         run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: 🔍 Read config.xml version
+        id: version
+        run: echo "VERSION=$(xmllint -xpath 'string(//*[local-name()="widget"]/@version)' config.xml)" >> $GITHUB_OUTPUT
 
       - name: 🔧 Create .npmrc
         run: |
@@ -52,7 +99,8 @@ jobs:
         run: npm ci
 
       - name: 🕵️‍♀️ Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        if: ${{ env.AUDIT == 'true' }}
+        run: npm audit --omit=dev --audit-level=${{ env.AUDIT_LEVEL }}
 
   build:
     runs-on: mito-2
@@ -66,10 +114,52 @@ jobs:
       - name: ➕ Install dependencies
         run: npm ci
 
-      - name: ⚒️ Build project
-        run: npm run build:ci
+      - name: ⚒️ Build project version ${{ needs.setup.outputs.app-version }}
+        run: npm run build:${{ env.CONFIG }}
+
+      - name: ◽️▪ Compress e2e-app folder
+        if: ${{ env.RELEASE_BUILD != 'true' && env.CONFIG == 'test' }}
+        run: |
+          zip -r e2e-app/App.app.zip e2e-app/App.app
+          echo "ARTEFACT_PATH=e2e-app" >> "$GITHUB_ENV"
+          echo "ARTEFACT_NAME=App.app.zip" >> "$GITHUB_ENV"
+
+      - name: ☁️ Deploy Sentry
+        if: ${{ env.RELEASE_BUILD == 'true' }}
+        env:
+          DES_SENTRY_CONF: ${{ secrets.DES_SENTRY_CONF }}
+        run: |
+          echo "$DES_SENTRY_CONF" >> .sentryclirc
+          bash buildScripts/sentry-deploy.sh
+
+      - name: 🚀 Build Artefact with Fastlane
+        if: ${{ env.RELEASE_BUILD == 'true' }}
+        env:
+          First_Name: Mona
+        run: |
+          fastlane ios build
+          node buildScripts/rename-artifact.js
+          echo "ARTEFACT_PATH=build" >> "$GITHUB_ENV"
+          echo "ARTEFACT_NAME=$(find build -type f  -print -quit | sed 's@.*/@@')" >> "$GITHUB_ENV"
+
+      - name: ⚙️ Configure AWS Credentials
+        if: ${{ env.RELEASE_BUILD == 'true' || env.CONFIG == 'test' }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.DES_AWS_ROLE }}
+          aws-region: eu-west-1
+
+      - name: ⬆️ Upload & Publish Artefact
+        if: ${{ env.RELEASE_BUILD == 'true' || env.CONFIG == 'test' }}
+        env:
+          S3_ARTEFACT_ROOT: ${{ secrets.S3_ARTEFACT_ROOT }}
+        run: |
+          echo "S3_FOLDER=${{ env.CONFIG == 'test' && 'develop' || 'release' }}" >> $GITHUB_ENV
+          aws s3 cp ${{ env.ARTEFACT_NAME }} s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }}
+          aws s3 presign s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }} --expires-in 604800
 
   lint:
+    if: ${{ env.RELEASE_BUILD != 'true' }} # Don't run when a release build
     runs-on: mito-2
     needs: [ setup, build ]
     steps:
@@ -85,6 +175,7 @@ jobs:
         run: npm run lint
 
   test:
+    if: ${{ env.RELEASE_BUILD != 'true'  }} # Don't run when a release build
     runs-on: mito-2
     needs: [ setup, build ]
     steps:
