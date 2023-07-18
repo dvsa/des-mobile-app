@@ -39,6 +39,9 @@ import {
 } from '@components/test-slot/additional-candidate-details/additional-candidate-details';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 
 describe('TestSlotComponent', () => {
   let fixture: ComponentFixture<TestSlotComponent>;
@@ -144,6 +147,10 @@ describe('TestSlotComponent', () => {
         {
           provide: SlotProvider,
           useClass: SlotProvider,
+        },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
         },
         CategoryWhitelistProvider,
       ],

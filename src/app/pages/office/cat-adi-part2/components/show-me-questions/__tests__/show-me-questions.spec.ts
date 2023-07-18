@@ -6,6 +6,8 @@ import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { UntypedFormGroup, Validators } from '@angular/forms';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { ShowMeQuestionsCatADI2Component } from '../show-me-questions';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
@@ -26,6 +28,12 @@ describe('ShowMeQuestionsCatADI2Component', () => {
       imports: [
         IonicModule,
         AppModule,
+      ],
+      providers: [
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
+        },
       ],
     });
 

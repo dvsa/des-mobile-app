@@ -1,11 +1,14 @@
 export class AccessibilityServiceMock {
   textZoom: number = 100;
 
-  configureAccessibility = (): void => {};
+  configureAccessibility = (): void => {
+  };
 
-  afterAppResume = (): void => {};
+  afterAppResume = (): void => {
+  };
 
-  getTextZoomCallback = (): void => {};
+  getTextZoomCallback = (): void => {
+  };
 
   public getTextZoom(): string {
     return 'regular';

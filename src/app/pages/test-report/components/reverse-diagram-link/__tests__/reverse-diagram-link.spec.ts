@@ -7,8 +7,8 @@ import { OverlayEventDetail } from '@ionic/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
-import { AccessibilityServiceMock } from '@app/__mocks__/accessibility.provider.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,

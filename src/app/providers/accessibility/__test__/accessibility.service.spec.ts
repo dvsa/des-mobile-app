@@ -1,19 +1,23 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 
 describe('AccessibilityService', () => {
   jasmine.getEnv().allowRespy(true);
   let accessibilityService: AccessibilityService;
+  let mobileAccessibility: MobileAccessibility;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         AccessibilityService,
+        MobileAccessibility,
       ],
     });
 
     accessibilityService = TestBed.inject(AccessibilityService);
+    mobileAccessibility = TestBed.inject(MobileAccessibility);
   }));
 
   describe('getTextZoom', () => {
@@ -35,6 +39,45 @@ describe('AccessibilityService', () => {
     it('should concatenate the value from getTextZoom to a text-zoom string', () => {
       spyOn(accessibilityService, 'getTextZoom').and.returnValue('regular');
       expect(accessibilityService.getTextZoomClass()).toEqual('text-zoom-regular');
+    });
+  });
+
+  describe('configureAccessibility', () => {
+    it('should call updateTextZoom and call getTextZoomCallback with the value of getTextZoom', async () => {
+      spyOn(mobileAccessibility, 'updateTextZoom');
+      spyOn(mobileAccessibility, 'getTextZoom').and.returnValue(Promise.resolve(1));
+      spyOn(accessibilityService, 'getTextZoomCallback');
+
+      await accessibilityService.configureAccessibility();
+
+      expect(mobileAccessibility.updateTextZoom).toHaveBeenCalled();
+      expect(accessibilityService.getTextZoomCallback).toHaveBeenCalledWith(1);
+    });
+  });
+  describe('afterAppResume', () => {
+    it('should call usePreferredTextZoom with true and'
+      + ' call getTextZoomCallback with the value of getTextZoom', async () => {
+      spyOn(mobileAccessibility, 'usePreferredTextZoom');
+      spyOn(mobileAccessibility, 'getTextZoom').and.returnValue(Promise.resolve(1));
+      spyOn(accessibilityService, 'getTextZoomCallback');
+
+      await accessibilityService.afterAppResume();
+
+      expect(mobileAccessibility.usePreferredTextZoom).toHaveBeenCalledWith(true);
+      expect(accessibilityService.getTextZoomCallback).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('getTextZoomCallback', () => {
+    it('should call usePreferredTextZoom with false', () => {
+      spyOn(mobileAccessibility, 'usePreferredTextZoom');
+      accessibilityService.getTextZoomCallback(1);
+      expect(mobileAccessibility.usePreferredTextZoom).toHaveBeenCalledWith(false);
+    });
+    it('should set textZoom to the passed parameter', () => {
+      spyOn(mobileAccessibility, 'usePreferredTextZoom');
+      accessibilityService.getTextZoomCallback(1);
+      expect(accessibilityService.textZoom).toEqual(1);
     });
   });
 
