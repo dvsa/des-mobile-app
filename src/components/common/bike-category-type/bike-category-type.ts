@@ -77,9 +77,11 @@ export class BikeCategoryTypeComponent implements OnChanges {
         const element = options[index];
         const category = this.bikeCategoryDetails[index].categoryCode;
         const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
-        const invertFilter : string = window.matchMedia(
-          '(prefers-color-scheme: dark)',
-        ).matches ? 'filter: invert(100%);' : null;
+        // const invertFilter : string = window.matchMedia(
+        //   '(prefers-color-scheme: dark)',
+        // ).matches ? 'filter: invert(100%);' : null;
+        // Variable to force light mode, replace with above line if dark mode is fully integrated
+        const invertFilter : string = null;
 
         element.innerHTML = `
             <span style=" width: 50px; display: inline-block;">${element.innerHTML}</span>`
