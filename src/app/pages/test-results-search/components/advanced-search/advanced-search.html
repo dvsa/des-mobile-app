@@ -89,7 +89,7 @@
       <ion-item slot="header">
         <label>Additional Filters</label>
       </ion-item>
-      <div class="ion-padding" slot="content">
+      <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
         <ion-row>
           <ion-col class="ion-align-self-center" size="26">
             <label>Activity code</label>
