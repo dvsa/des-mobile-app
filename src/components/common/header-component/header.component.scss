@@ -6,6 +6,12 @@ ion-text {
   display: block;
 }
 
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .header1 {
   @extend .heavy-font-family;
 

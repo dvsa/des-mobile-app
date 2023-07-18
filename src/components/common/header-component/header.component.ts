@@ -30,6 +30,9 @@ export class HeaderComponent {
   @Input()
   inheritFontSize?: boolean = false;
 
+  @Input()
+  allowTruncate?: boolean = false;
+
   constructor(
     public appComponent: AppComponent,
     private accessibilityService: AccessibilityService,

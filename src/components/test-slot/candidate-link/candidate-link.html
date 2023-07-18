@@ -3,6 +3,7 @@
   <header-component
     class="candidate-name"
     [id]="'name-'+applicationId"
+    [allowTruncate]=true
     [ngClass]="{
       'extra-large-mode': (accessibilityService.getTextZoomClass() === 'text-zoom-x-large'),
       'candidate-name-portrait': isPortrait,
