@@ -30,6 +30,8 @@ import { HeaderComponent } from '@components/common/header-component/header.comp
 import { provideMockStore } from '@ngrx/store/testing';
 import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
+import { OverlayEventDetail } from '@ionic/core';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { JournalForceCheckModal } from '../journal-force-check-modal';
 
 describe('JournalForceCheckModal', () => {
