@@ -8,6 +8,7 @@ import { DateTimeInputComponent } from '@components/common/datetime-input/date-t
 import {
   SearchablePicklistComponentWrapper,
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { forEach } from 'lodash';
 import { AdvancedSearchComponent } from '../advanced-search';
 
 describe('AdvancedSearchComponent', () => {
@@ -99,6 +100,23 @@ describe('AdvancedSearchComponent', () => {
     it('should set selectedActivity to the params passed in', () => {
       component.activitySelectChange({ activityCode: 'activityCode', description: 'description' });
       expect(component.selectedActivity).toEqual({ activityCode: 'activityCode', description: 'description' });
+    });
+  });
+
+  describe('blurElement', () => {
+    forEach(['ION-ROW', 'ION-COL', 'DIV', 'HR', 'LABEL'], (val) => {
+      it(`should run blur on the active Element if the tagName is ${val}`, () => {
+        document.getElementById('advanced-search-pass-certificate-input').focus();
+        spyOn(document.activeElement as HTMLElement, 'blur');
+        component.blurElement({ tagName: val } as HTMLElement);
+        expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
+      });
+    });
+    it('should not run blur on the active Element not in the accepted list', () => {
+      document.getElementById('advanced-search-pass-certificate-input').focus();
+      spyOn(document.activeElement as HTMLElement, 'blur');
+      component.blurElement({ tagName: 'string' } as HTMLElement);
+      expect((document.activeElement as HTMLElement).blur).not.toHaveBeenCalled();
     });
   });
 
