@@ -37,7 +37,6 @@ import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompanim
 import { getTrainerAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.selector';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatAdi3WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -67,9 +66,8 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

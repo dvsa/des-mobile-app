@@ -59,8 +59,6 @@ import {
   InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
@@ -69,7 +67,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
   let routeByCat: RouteByCategoryProvider;
-  let appConf: AppConfigProvider;
   let alertCon: AlertController;
 
   let basePageComponent: WaitingRoomToCarBasePageComponent;
@@ -135,10 +132,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
           provide: AlertController,
           useClass: AlertControllerMock,
         },
-        {
-          provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
-        },
         provideMockStore({ initialState }),
       ],
     });
@@ -148,7 +141,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
     routeByCat = TestBed.inject(RouteByCategoryProvider);
-    appConf = TestBed.inject(AppConfigProvider);
     alertCon = TestBed.inject(AlertController);
 
     spyOn(store$, 'dispatch');
@@ -161,14 +153,13 @@ describe('WaitingRoomToCarBasePageComponent', () => {
         sto$: Store<StoreModel>,
         routeByCategory: RouteByCategoryProvider,
         alertController: AlertController,
-        appConfig: AppConfigProvider,
       ) {
-        super(plat, auth, rout, sto$, routeByCategory, alertController, false, appConfig);
+        super(plat, auth, rout, sto$, routeByCategory, alertController, false);
       }
     }
 
     basePageComponent = new BasePageClass(
-      platform, authenticationProvider, router, store$, routeByCat, alertCon, appConf,
+      platform, authenticationProvider, router, store$, routeByCat, alertCon,
     );
   }));
 

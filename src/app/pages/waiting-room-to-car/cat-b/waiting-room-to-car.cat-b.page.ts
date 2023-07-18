@@ -37,7 +37,6 @@ import { QuestionProvider } from '@providers/question/question';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -67,9 +66,8 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }

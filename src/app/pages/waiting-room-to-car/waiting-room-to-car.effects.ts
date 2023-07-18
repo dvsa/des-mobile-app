@@ -59,7 +59,7 @@ export class WaitingRoomToCarEffects {
         ),
       )),
     // above filter means we will not call through to candidate service when any of the above conditions fail.
-    filter(([, , isPracticeTest]) => this.platform.is('cordova') && !isPracticeTest),
+    filter(([, , isPracticeTest]) => !isPracticeTest),
     // once we are happy user is online and not in a practice test, then we sanitise the input by removing whitespace
     map(([, regNumber]) => regNumber?.replace(/\s/g, '')
       .toUpperCase()),
@@ -82,7 +82,7 @@ export class WaitingRoomToCarEffects {
           this.store$.dispatch(SaveLog({
             payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving MOT status', msg),
           }));
-          return of(GetMotStatusFailure());
+          return of(GetMotStatusFailure(err));
         }),
         finalize(() => isCheckingMot$.next(false)),
       )),

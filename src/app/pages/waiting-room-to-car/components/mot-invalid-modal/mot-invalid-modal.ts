@@ -6,6 +6,9 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { ModalController } from '@ionic/angular';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
+import { MotInvalidModalOpened, MotVRNConfirmed } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 
 @Component({
   selector: 'mot-invalid-modal',
@@ -26,10 +29,12 @@ export class MotInvalidModal implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private store$: Store<StoreModel>,
   ) {
   }
 
   ngOnInit() {
+    this.store$.dispatch(MotInvalidModalOpened());
     this.formGroup = new UntypedFormGroup({});
     this.formControl = new UntypedFormControl(null, [
       Validators.required,
@@ -54,6 +59,7 @@ export class MotInvalidModal implements OnInit {
 
   async clickConfirm() {
     if (this.formControl.valid) {
+      this.store$.dispatch(MotVRNConfirmed());
       await this.modalController.dismiss(this.formControl.value);
     }
   }

@@ -41,7 +41,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -75,9 +74,8 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

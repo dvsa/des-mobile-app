@@ -12,7 +12,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { StoreModel } from '@shared/models/store.model';
 import { JournalDataUnion } from '@shared/unions/journal-union';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData, isPracticeMode } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -88,11 +88,11 @@ import {
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 import { Inject } from '@angular/core';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { motError$, MotErrorDisplay, MotStatus } from '@providers/mot-details/mot-details';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -149,7 +149,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     protected routeByCategoryProvider: RouteByCategoryProvider,
     public alertController: AlertController,
     @Inject(false) public loginRequired: boolean = false,
-    private appConfig: AppConfigProvider,
   ) {
     super(platform, authenticationProvider, router, store$, loginRequired);
   }
@@ -250,8 +249,22 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       showCheckMot$: currentTest$.pipe(
         select(getRekeyIndicator),
         select(isRekey),
-        withLatestFrom(this.appConfig.getAppConfig()?.role),
-        map(([rekeyTest, role]) => !(rekeyTest || role === ExaminerRole.DLG)),
+        withLatestFrom(
+          currentTest$.pipe(
+            select(getDelegatedTestIndicator),
+            select(isDelegatedTest),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+        // return false when in practice mode, a rekey or a delegated examiner
+        map(([
+          rekeyTest,
+          delegatedTest,
+          practiceMode,
+        ]) => !(practiceMode || rekeyTest || delegatedTest)),
       ),
     };
   }

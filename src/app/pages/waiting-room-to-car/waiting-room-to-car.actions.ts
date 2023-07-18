@@ -1,4 +1,5 @@
 import { createAction } from '@ngrx/store';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const WaitingRoomToCarViewBikeCategoryModal = createAction(
   '[WaitingRoomToCarPage] Waiting Room To Car View Bike Category Modal',
@@ -25,13 +26,25 @@ export const WaitingRoomToCarBikeCategorySelected = createAction(
 
 export const WaitingRoomToCarBikeCategoryChanged = createAction(
   '[WaitingRoomToCarPage] Waiting Room To Car Bike Category Changed',
-  (initialBikeCategory: string, selectedBikeCategory: string) => ({ initialBikeCategory, selectedBikeCategory }),
+  (initialBikeCategory: string, selectedBikeCategory: string) => ({
+    initialBikeCategory,
+    selectedBikeCategory,
+  }),
 );
 
 export const GetMotStatus = createAction(
   '[WaitingRoomToCarPage] Get MOT status',
 );
 
+export const MotInvalidModalOpened = createAction(
+  '[WaitingRoomToCarPage] MOT invalid modal opened',
+);
+
+export const MotVRNConfirmed = createAction(
+  '[WaitingRoomToCarPage] MOT vrn confirmed via modal',
+);
+
 export const GetMotStatusFailure = createAction(
   '[WaitingRoomToCarPage] Get MOT status failure',
+  (err: HttpErrorResponse | Error) => ({ err }),
 );

@@ -48,7 +48,6 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { getSafetyQuestionsCatD } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatDWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -86,9 +85,8 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

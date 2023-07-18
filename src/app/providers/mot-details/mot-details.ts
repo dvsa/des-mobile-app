@@ -83,7 +83,7 @@ export class MotDetailsProvider {
       // don't store this.requestError = MotDetailsErr.OFFLINE
       // we want the user to be able to retry if connection established mid-flow
       motError$.next(ERROR_MSGS[MotDetailsErr.OFFLINE]);
-      throw new Error(MotDetailsErr.OFFLINE);
+      return throwError(() => new Error(MotDetailsErr.OFFLINE));
     }
 
     const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
@@ -106,7 +106,7 @@ export class MotDetailsProvider {
         ) => {
           // regard 204 as an error as it is returned as an empty object, therefore we have no data to present
           if (status === HttpStatusCodes.NO_CONTENT) {
-            this.handle204(registration);
+            throw this.handle204(registration);
           }
           // increment or reset search count based on MOT status
           this.setMotSearchCountWhenInvalid(body.status);
@@ -131,7 +131,6 @@ export class MotDetailsProvider {
     this.motDetailsResponse = null;
     this.requestError = null;
     motError$.next(null);
-    motError$.complete();
   }
 
   private handle200(body: MotDetails): MotDetails {
@@ -142,7 +141,7 @@ export class MotDetailsProvider {
     return body;
   }
 
-  private handle204(registration: string): void {
+  private handle204(registration: string): Error {
     this.requestError = MotDetailsErr.NOT_FOUND;
     this.setMotError();
     // store registration as vehicleIdentifier to not re-query for same ref when no data was found
@@ -151,7 +150,7 @@ export class MotDetailsProvider {
       registration,
     } as MotDetails;
     // throw error so subscribers are aware
-    throw new Error(this.requestError);
+    return new Error(this.requestError);
   }
 
   private setMotError(): void {

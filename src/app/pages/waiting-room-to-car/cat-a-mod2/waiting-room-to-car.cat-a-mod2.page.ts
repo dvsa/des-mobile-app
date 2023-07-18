@@ -27,7 +27,6 @@ import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -54,9 +53,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

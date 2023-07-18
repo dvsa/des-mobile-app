@@ -22,7 +22,6 @@ import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-deta
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatMod1WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -49,9 +48,8 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

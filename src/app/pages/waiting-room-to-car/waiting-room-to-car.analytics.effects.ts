@@ -16,6 +16,10 @@ import {
   AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import {
+  GetMotStatus,
+  GetMotStatusFailure,
+  MotInvalidModalOpened,
+  MotVRNConfirmed,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarError,
@@ -40,6 +44,8 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
+  AlternativeMotEvidenceDetailsChanged,
+  AlternativeMotEvidenceProvidedChanged,
   DualControlsToggledNo,
   DualControlsToggledYes,
   MotStatusChanged,
@@ -63,9 +69,14 @@ import {
   getOrditTrained,
   getTrainerRegistrationNumber,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
-import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getAlternativeMotEvidenceDetails,
+  getAlternativeMotEvidenceProvided,
+  getMotStatus,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Router } from '@angular/router';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ERROR_MSGS } from '@providers/mot-details/mot-details';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -511,6 +522,36 @@ export class WaitingRoomToCarAnalyticsEffects {
     }),
   ));
 
+  motButtonPressed$ = createEffect(() => this.actions$.pipe(
+    ofType(GetMotStatus),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof GetMotStatus>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        'MOT Button pressed',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
   motStatusChanged$ = createEffect(() => this.actions$.pipe(
     ofType(MotStatusChanged),
     concatMap((action) => of(action)
@@ -542,6 +583,172 @@ export class WaitingRoomToCarAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
         formatAnalyticsText(AnalyticsEvents.MOT_STATUS_CHANGED, tests),
         `mot status: ${motStatus}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  motResponseError$ = createEffect(() => this.actions$.pipe(
+    ofType(GetMotStatusFailure),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [{ err }, tests]:
+      [ReturnType<typeof GetMotStatusFailure>, TestsModel, boolean],
+    ) => {
+      const errorMessage = ERROR_MSGS[err.message]?.msg || err.message;
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.MOT_STATUS_CHANGED, tests),
+        `MOT Status: ${errorMessage}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  motInvalidModalPresented$ = createEffect(() => this.actions$.pipe(
+    ofType(MotInvalidModalOpened),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof MotInvalidModalOpened>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        'VRN Validation Pop up triggered',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  motInvalidConfirmSelected$ = createEffect(() => this.actions$.pipe(
+    ofType(MotVRNConfirmed),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof MotVRNConfirmed>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        'VRN Validation confirmed',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  alternativeMotEvidenceProvidedChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(AlternativeMotEvidenceProvidedChanged),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getVehicleDetails),
+            select(getAlternativeMotEvidenceProvided),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests, altMotEvidenceProvided]:
+      [ReturnType<typeof AlternativeMotEvidenceProvidedChanged>, TestsModel, boolean, boolean],
+    ) => {
+      const msg = 'Alternative MOT evidence provided';
+      const label = altMotEvidenceProvided ? msg : `No ${msg}`;
+
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        label,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  alternativeMotEvidenceDetailsChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(AlternativeMotEvidenceDetailsChanged),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getVehicleDetails),
+            select(getAlternativeMotEvidenceDetails),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests, altMotEvidenceDetails]:
+      [ReturnType<typeof AlternativeMotEvidenceDetailsChanged>, TestsModel, string, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        altMotEvidenceDetails || 'None',
       );
       return of(AnalyticRecorded());
     }),

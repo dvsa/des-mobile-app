@@ -36,7 +36,6 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatHomeWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -72,9 +71,8 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

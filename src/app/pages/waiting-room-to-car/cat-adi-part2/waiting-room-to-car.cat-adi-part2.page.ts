@@ -32,7 +32,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatAdi2WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -62,9 +61,8 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

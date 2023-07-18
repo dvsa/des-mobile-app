@@ -46,7 +46,6 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -82,9 +81,8 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

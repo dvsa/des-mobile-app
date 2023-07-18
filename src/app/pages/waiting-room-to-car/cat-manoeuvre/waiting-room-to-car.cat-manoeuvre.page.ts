@@ -28,7 +28,6 @@ import {
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface CatManoeuvreWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -59,9 +58,8 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     authenticationProvider: AuthenticationProvider,
     router: Router,
     alertController: AlertController,
-    appConfig: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false, appConfig);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController, false);
     this.form = new UntypedFormGroup({});
   }
 

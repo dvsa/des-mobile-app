@@ -11,6 +11,7 @@ import {
 import { ModalController } from '@ionic/angular';
 import { MotInvalidModal } from '@pages/waiting-room-to-car/components/mot-invalid-modal/mot-invalid-modal';
 import { MotErrorDisplay, MotStatus } from '@providers/mot-details/mot-details';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'vehicle-registration',
@@ -64,6 +65,7 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   constructor(
     private modalCtrl: ModalController,
+    private accessibilityService: AccessibilityService,
   ) {
   }
 
@@ -116,6 +118,9 @@ export class VehicleRegistrationComponent implements OnChanges {
       backdropDismiss: false,
       showBackdrop: true,
       cssClass: 'mes-modal-alert text-zoom-regular',
+      componentProps: {
+        textZoom: this.accessibilityService.getTextZoomClass(),
+      },
     });
 
     await modal.present();
