@@ -43,6 +43,10 @@
     }
   }
 
+  &:disabled + label:before {
+    border: $checkbox-border solid darkgray;
+  }
+
   &.ng-dirty {
     &.ng-invalid + label:before {
       // Accommodate for the extra border
