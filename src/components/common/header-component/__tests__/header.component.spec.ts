@@ -23,6 +23,8 @@ import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DeviceProvider } from '@providers/device/device';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { HeaderComponent } from '../header.component';
 
 describe('HeaderComponent', () => {
@@ -45,6 +47,7 @@ describe('HeaderComponent', () => {
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         provideMockStore({}),
       ],
     }).compileComponents();
