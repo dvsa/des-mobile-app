@@ -44,7 +44,11 @@
   }
 
   &:disabled + label:before {
-    border: $checkbox-border solid darkgray;
+    border: $checkbox-border solid var(--mes-checkbox-disabled-border);
+    //Commented out to force light mode, comment back in if dark mode is fully integrated
+    //@media (prefers-color-scheme: dark) {
+    //  background: var(--mes-theme-main-variant2);
+    //}
   }
 
   &.ng-dirty {
