@@ -141,7 +141,7 @@ jobs:
       #          bash buildScripts/sentry-deploy.sh
 
       - name: 🚀 Build Artefact with Fastlane
-        if: ${{ env.RELEASE_BUILD == 'true' }}
+        if: ${{ env.RELEASE_BUILD == 'false' }}
         run: |
           fastlane ios build
           node buildScripts/rename-artifact.js
