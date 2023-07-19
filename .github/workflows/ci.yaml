@@ -164,7 +164,7 @@ jobs:
   #          aws s3 presign s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }} --expires-in 604800
 
   lint:
-    if: ${{ env.RELEASE_BUILD != 'true' }} # Don't run when a release build
+    #    if: ${{ env.RELEASE_BUILD != 'true' }} # Don't run when a release build
     runs-on: mito-2
     needs: [ setup, build ]
     steps:
@@ -180,7 +180,7 @@ jobs:
         run: npm run lint
 
   test:
-    if: ${{ env.RELEASE_BUILD != 'true'  }} # Don't run when a release build
+    #    if: ${{ env.RELEASE_BUILD != 'true'  }} # Don't run when a release build
     runs-on: mito-2
     needs: [ setup, build ]
     steps:
