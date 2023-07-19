@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 export const whiteList: TestCategory[] = [
   TestCategory.ADI2,
   TestCategory.ADI3,
-  TestCategory.SC,
+  // TestCategory.SC,
   TestCategory.B,
   TestCategory.C,
   TestCategory.C1,
