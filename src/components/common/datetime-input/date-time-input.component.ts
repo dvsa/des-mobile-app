@@ -40,6 +40,9 @@ export class DateTimeInputComponent {
   showClearButton?: boolean;
 
   @Input()
+  leftAlign?: boolean;
+
+  @Input()
   disabled?: boolean = false;
 
   @Input()
