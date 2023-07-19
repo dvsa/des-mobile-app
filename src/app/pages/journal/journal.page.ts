@@ -189,6 +189,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
+    this.pageState.completedTests$.subscribe((data) => {
+      console.log('Journal Page | journal state - Completed tests:', data);
+    });
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();

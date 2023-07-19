@@ -129,6 +129,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         select(isRekey),
       ),
     };
+    this.componentState.testStatus$.subscribe((data) => {
+      console.log(`Test Slot | testStatus for Slot [${slotId}]:`, data);
+    });
   }
 
   getColSize(): string {
