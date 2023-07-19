@@ -49,9 +49,9 @@ env:
   AUDIT: ${{ inputs.audit || 'true' }}
   AUDIT_LEVEL: ${{ inputs.audit-level || 'high' }}
   CONFIG: ${{ inputs.config || 'ci' }}
-  RELEASE_BUILD: ${{ inputs.release-build == 'true' && env.CONFIG == 'ci' && 'true' || 'false' }}
+  RELEASE_BUILD: ${{ inputs.release-build == 'true' && inputs.config || 'ci' == 'ci' && 'true' || 'false' }}
   BRANCH: ${{ inputs.branch || github.head_ref }}
-  ARTEFACT_PATH: ${{ env.CONFIG == 'ci' && 'e2e-app' || 'build' }}
+  ARTEFACT_PATH: ${{ inputs.config || 'ci' == 'ci' && 'e2e-app' || 'build' }}
   ARTEFACT_NAME: App.app.zip
 
 concurrency:
