@@ -1,26 +1,26 @@
 @if (address) {
   <div id="address">
     @if (address.addressLine1) {
-      <div [class.mes-black]="blackText" class="mes-data" id="addressLine1">{{address.addressLine1}}</div>
+      <div class="mes-data" id="addressLine1">{{address.addressLine1}}</div>
     }
     @if (address.addressLine2) {
-      <div [class.mes-black]="blackText" class="mes-data" id="addressLine2">{{address.addressLine2}}</div>
+      <div class="mes-data" id="addressLine2">{{address.addressLine2}}</div>
     }
     @if (address.addressLine3) {
-      <div [class.mes-black]="blackText" class="mes-data" id="addressLine3">{{address.addressLine3}}</div>
+      <div class="mes-data" id="addressLine3">{{address.addressLine3}}</div>
     }
     @if (address.addressLine4) {
-      <div [class.mes-black]="blackText" class="mes-data" id="addressLine4">{{address.addressLine4}}</div>
+      <div class="mes-data" id="addressLine4">{{address.addressLine4}}</div>
     }
     @if (address.addressLine5) {
-      <div [class.mes-black]="blackText" class="mes-data" id="addressLine5">{{address.addressLine5}}</div>
+      <div class="mes-data" id="addressLine5">{{address.addressLine5}}</div>
     }
     @if (address.postcode) {
-      <div [class.mes-black]="blackText" class="mes-data" id="postcode">{{address.postcode}}</div>
+      <div class="mes-data" id="postcode">{{address.postcode}}</div>
     }
   </div>
 } @else {
   <div id="no-address">
-    <div [class.mes-black]="blackText" class="mes-data" id="no-address-text">Address unknown</div>
+    <div class="mes-data" id="no-address-text">Address unknown</div>
   </div>
 }
