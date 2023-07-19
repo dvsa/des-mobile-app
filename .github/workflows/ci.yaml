@@ -51,6 +51,8 @@ env:
   CONFIG: ${{ inputs.config || 'ci' }}
   RELEASE_BUILD: ${{ inputs.release-build == 'true' && env.CONFIG == 'ci' && 'true' || 'false' }}
   BRANCH: ${{ inputs.branch || github.head_ref }}
+  ARTEFACT_PATH: ${{ env.CONFIG == 'ci' && 'e2e-app' || 'build' }}
+  ARTEFACT_NAME: App.app.zip
 
 concurrency:
   group: ${{ github.ref }}
@@ -86,6 +88,15 @@ jobs:
       - name: 🔧 Create ionic.config.json
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
+      - name: 🔧 Confirm values
+        run: |
+          echo "BRANCH = ${{ env.BRANCH }}"
+          echo "AUDIT = ${{ env.AUDIT }}"
+          echo "AUDIT_LEVEL = ${{ env.AUDIT_LEVEL }}"
+          echo "CONFIG = ${{ env.CONFIG }}"
+          echo "RELEASE_BUILD = ${{ env.RELEASE_BUILD }}"
+          echo "ARTEFACT_NAME = ${{ env.ARTEFACT_NAME }}"
+          echo "ARTEFACT_NAME = ${{ env.ARTEFACT_NAME }}"
   audit:
     runs-on: mito-2
     needs: [ setup ]
@@ -119,44 +130,38 @@ jobs:
 
       - name: ◽️▪ Compress e2e-app folder
         if: ${{ env.RELEASE_BUILD != 'true' && env.CONFIG == 'test' }}
-        run: |
-          zip -r e2e-app/App.app.zip e2e-app/App.app
-          echo "ARTEFACT_PATH=e2e-app" >> "$GITHUB_ENV"
-          echo "ARTEFACT_NAME=App.app.zip" >> "$GITHUB_ENV"
+        run: zip -r e2e-app/App.app.zip e2e-app/App.app
 
-      - name: ☁️ Deploy Sentry
-        if: ${{ env.RELEASE_BUILD == 'true' }}
-        env:
-          DES_SENTRY_CONF: ${{ secrets.DES_SENTRY_CONF }}
-        run: |
-          echo "$DES_SENTRY_CONF" >> .sentryclirc
-          bash buildScripts/sentry-deploy.sh
+      #      - name: ☁️ Deploy Sentry
+      #        if: ${{ env.RELEASE_BUILD == 'true' }}
+      #        env:
+      #          DES_SENTRY_CONF: ${{ secrets.DES_SENTRY_CONF }}
+      #        run: |
+      #          echo "$DES_SENTRY_CONF" >> .sentryclirc
+      #          bash buildScripts/sentry-deploy.sh
 
       - name: 🚀 Build Artefact with Fastlane
         if: ${{ env.RELEASE_BUILD == 'true' }}
-        env:
-          First_Name: Mona
         run: |
           fastlane ios build
           node buildScripts/rename-artifact.js
-          echo "ARTEFACT_PATH=build" >> "$GITHUB_ENV"
-          echo "ARTEFACT_NAME=$(find build -type f  -print -quit | sed 's@.*/@@')" >> "$GITHUB_ENV"
+          echo "ARTEFACT_NAME=$(find build -type f  -print -quit | sed 's@.*/@@')" >> $GITHUB_ENV
 
-      - name: ⚙️ Configure AWS Credentials
-        if: ${{ env.RELEASE_BUILD == 'true' || env.CONFIG == 'test' }}
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.DES_AWS_ROLE }}
-          aws-region: eu-west-1
+  #      - name: ⚙️ Configure AWS Credentials
+  #        if: ${{ env.RELEASE_BUILD == 'true' || env.CONFIG == 'test' }}
+  #        uses: aws-actions/configure-aws-credentials@v2
+  #        with:
+  #          role-to-assume: ${{ secrets.DES_AWS_ROLE }}
+  #          aws-region: eu-west-1
 
-      - name: ⬆️ Upload & Publish Artefact
-        if: ${{ env.RELEASE_BUILD == 'true' || env.CONFIG == 'test' }}
-        env:
-          S3_ARTEFACT_ROOT: ${{ secrets.S3_ARTEFACT_ROOT }}
-        run: |
-          echo "S3_FOLDER=${{ env.CONFIG == 'test' && 'develop' || 'release' }}" >> $GITHUB_ENV
-          aws s3 cp ${{ env.ARTEFACT_NAME }} s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }}
-          aws s3 presign s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }} --expires-in 604800
+  #      - name: ⬆️ Upload & Publish Artefact
+  #        if: ${{ env.RELEASE_BUILD == 'true' || env.CONFIG == 'test' }}
+  #        env:
+  #          S3_ARTEFACT_ROOT: ${{ secrets.S3_ARTEFACT_ROOT }}
+  #        run: |
+  #          echo "S3_FOLDER=${{ env.CONFIG == 'test' && 'develop' || 'release' }}" >> $GITHUB_ENV
+  #          aws s3 cp ${{ env.ARTEFACT_NAME }} s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }}
+  #          aws s3 presign s3://${{ env.S3_ARTEFACT_ROOT }}/mobile-app/${{ env.S3_FOLDER }}/${{ env.ARTEFACT_NAME }} --expires-in 604800
 
   lint:
     if: ${{ env.RELEASE_BUILD != 'true' }} # Don't run when a release build
