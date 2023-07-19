@@ -1,21 +1,21 @@
 PODS:
-  - Capacitor (5.0.5):
+  - Capacitor (5.2.1):
     - CapacitorCordova
-  - CapacitorCordova (5.0.5)
+  - CapacitorCordova (5.2.1)
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
-  - CapacitorSplashScreen (5.0.4):
+  - CapacitorSplashScreen (5.0.6):
     - Capacitor
-  - CapacitorStatusBar (5.0.4):
+  - CapacitorStatusBar (5.0.6):
     - Capacitor
   - CapawesomeCapacitorManagedConfigurations (5.0.0):
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (5.0.0):
     - Capacitor
-  - CordovaPlugins (5.0.5):
+  - CordovaPlugins (5.2.1):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (5.0.5):
+  - CordovaPluginsStatic (5.2.1):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (0.0.10):
@@ -74,16 +74,16 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: b1248915663add1bd6567e2b67c1c1fa3abcf5e8
-  CapacitorCordova: f8c06b897c74ee8f7701fe10e6443b40822bc83a
+  Capacitor: 36510199454641113344c2e5ef43bf3f54b5af79
+  CapacitorCordova: d173eeb1635e62aa95a20874a5d5cbbf0aa1e0df
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
-  CapacitorSplashScreen: 93a389d4f7673c08214ae25bb6f21d867d5305c5
-  CapacitorStatusBar: 190e0321b8734f4244d0c81baa183a00d5806ddf
+  CapacitorSplashScreen: 5fa2ab5e46cf5cc530cf16a51c80c7a986579ccd
+  CapacitorStatusBar: 565c0a1ebd79bb40d797606a8992b4a105885309
   CapawesomeCapacitorManagedConfigurations: 87db7aa30986c411b7a285d273b780acaca9b91a
   CapawesomeCapacitorScreenOrientation: 5b7cfb76348775e4b824bf460e5c52212b94c8d1
-  CordovaPlugins: 351b056fdd964263cce5ddda3cf6da19c5bddf4e
+  CordovaPlugins: 1cf77b1c66dbac710f5d2ab4df78e49fa00761e8
   CordovaPluginsResources: 1b3992e05cb6336d2850cd77dd5e3054f2f76f96
-  CordovaPluginsStatic: 257b68176bf1c7f11c81001104aa6e708ccc6aa2
+  CordovaPluginsStatic: bf5846e45a5c689197a268b74abab387c33ab283
   DvsaCapacitorPluginAsam: 9c9f03afdc71818a37ca5b8a03c0ba35d70dfaf6
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: bc644307e2eb6a4c9c55cf117a80b895bb2a25a7
