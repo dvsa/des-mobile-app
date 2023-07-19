@@ -3,7 +3,7 @@
     <ion-col class="ion-align-self-center" size="21">
       <label id="advanced-search-staff-id-label">Staff number</label>
     </ion-col>
-    <ion-col size="47">
+    <ion-col size="48">
       <ion-input
         *ngIf="!importStaffNumber"
         (ionBlur)="setFocus(null)"
@@ -32,7 +32,7 @@
         (outputChanged)="selectTestCentre($event)"
         [dataList]="testCentres"
         [isAdvancedSearch]="true"
-        [customWidth]="348"
+        [customWidth]="358"
         [differentDisplay]="true"
         [displayKey]="'centreName'"
         [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
@@ -52,6 +52,7 @@
     <ion-col size="22">
       <datetime-input
         (onDataPicked)="changeDate($event)"
+        [leftAlign]="true"
         [control]="'start-date'"
         [disabled]="false"
         [displayType]="displayType.Date"
@@ -63,13 +64,14 @@
         [showClearButton]="false"
       ></datetime-input>
     </ion-col>
-    <ion-col class="ion-align-self-center" size="4">
+    <ion-col class="ion-align-self-center" size="5">
       <label class="to-label" id="to-label">to</label>
     </ion-col>
     <ion-col size="22">
       <datetime-input class="input-styling-background"
                       (onDataPicked)="changeDate($event)"
                       [control]="'end-date'"
+                      [leftAlign]="true"
                       [disabled]="false"
                       [displayType]="displayType.Date"
                       [initialValue]="today"
