@@ -32,6 +32,7 @@ import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.c
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
   GetMotStatus,
+  VRNBlurred,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -335,6 +336,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   getMOTStatus(): void {
     this.hasRequestedMOT = true;
     this.store$.dispatch(GetMotStatus());
+  }
+
+  onVrnBlur(): void {
+    this.store$.dispatch(VRNBlurred());
   }
 
   schoolCarToggled(): void {

@@ -48,7 +48,8 @@
             </tell-me-question-card>
 
             <vehicle-registration
-              (vehicleRegistrationBlur)="getMOTStatus()"
+              (checkMotClick)="getMOTStatus()"
+              (vehicleRegistrationBlur)="onVrnBlur()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
               [hasRequestedMOT]="hasRequestedMOT"

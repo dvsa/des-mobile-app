@@ -19,7 +19,9 @@ import {
   GetMotStatus,
   GetMotStatusFailure,
   MotInvalidModalOpened,
+  MotVRNAmendedPopup,
   MotVRNConfirmed,
+  VRNBlurred,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarError,
@@ -674,6 +676,66 @@ export class WaitingRoomToCarAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
         formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
         'VRN Validation confirmed',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  motVrnAmendedSelected$ = createEffect(() => this.actions$.pipe(
+    ofType(MotVRNAmendedPopup),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof MotVRNAmendedPopup>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        'VRN Amended on pop up',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnBlur$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNBlurred),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof VRNBlurred>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.CHECK_MOT_STATUS, tests),
+        'VRN entered WRTC',
       );
       return of(AnalyticRecorded());
     }),

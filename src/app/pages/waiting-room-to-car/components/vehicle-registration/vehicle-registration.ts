@@ -56,8 +56,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   vehicleRegistrationChange = new EventEmitter<string>();
 
   @Output()
-    // @TODO: Rename to checkMotClicked
-  vehicleRegistrationBlur = new EventEmitter<string>();
+  vehicleRegistrationBlur = new EventEmitter<void>();
+
+  @Output()
+  checkMotClick = new EventEmitter<void>();
 
   formControl: UntypedFormControl;
 
@@ -105,8 +107,12 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
 
-  checkMotClicked = (vehicleRegistration: string): void => {
-    this.vehicleRegistrationBlur.emit(vehicleRegistration);
+  checkMotClicked = (): void => {
+    this.checkMotClick.emit();
+  };
+
+  onVehicleRegBlur = (): void => {
+    this.vehicleRegistrationBlur.emit();
   };
 
   createMotInvalidModal = async () => {
@@ -120,15 +126,16 @@ export class VehicleRegistrationComponent implements OnChanges {
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
         textZoom: this.accessibilityService.getTextZoomClass(),
+        currentVrn: this.vehicleRegistration,
       },
     });
 
     await modal.present();
-    const { data } = await modal.onDidDismiss();
+    const { data } = await modal.onDidDismiss<string>();
 
     if (data) {
       this.vehicleRegistrationChange.emit(data);
-      this.vehicleRegistrationBlur.emit(data);
+      this.checkMotClick.emit();
     }
   };
 

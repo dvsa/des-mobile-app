@@ -49,7 +49,9 @@ import {
   GetMotStatus,
   GetMotStatusFailure,
   MotInvalidModalOpened,
+  MotVRNAmendedPopup,
   MotVRNConfirmed,
+  VRNBlurred,
   WaitingRoomToCarViewBikeCategoryModal,
 } from '../waiting-room-to-car.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -488,6 +490,48 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.CHECK_MOT_STATUS}`,
             'VRN Validation Pop up triggered',
+          );
+      });
+    });
+  });
+  describe('vrnBlur$', () => {
+    it('should record an analytic when vrnBlur$ fires', () => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateTestCategory(TestCategory.ADI3));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(VRNBlurred());
+      // ASSERT
+      effects.vrnBlur$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
+            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.CHECK_MOT_STATUS}`,
+            'VRN entered WRTC',
+          );
+      });
+    });
+  });
+  describe('motVrnAmendedSelected$', () => {
+    it('should record an analytic when motVrnAmendedSelected$ fires', () => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateTestCategory(TestCategory.ADI3));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(MotVRNAmendedPopup());
+      // ASSERT
+      effects.motVrnAmendedSelected$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
+            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.CHECK_MOT_STATUS}`,
+            'VRN Amended on pop up',
           );
       });
     });

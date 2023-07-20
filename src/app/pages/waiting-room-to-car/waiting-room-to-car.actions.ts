@@ -36,12 +36,20 @@ export const GetMotStatus = createAction(
   '[WaitingRoomToCarPage] Get MOT status',
 );
 
+export const VRNBlurred = createAction(
+  '[WaitingRoomToCarPage] Vrn field blur',
+);
+
 export const MotInvalidModalOpened = createAction(
   '[WaitingRoomToCarPage] MOT invalid modal opened',
 );
 
 export const MotVRNConfirmed = createAction(
   '[WaitingRoomToCarPage] MOT vrn confirmed via modal',
+);
+
+export const MotVRNAmendedPopup = createAction(
+  '[WaitingRoomToCarPage] MOT vrn amended via modal',
 );
 
 export const GetMotStatusFailure = createAction(

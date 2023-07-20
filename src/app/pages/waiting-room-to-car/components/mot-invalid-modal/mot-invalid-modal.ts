@@ -8,7 +8,11 @@ import {
 import { ModalController } from '@ionic/angular';
 import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
-import { MotInvalidModalOpened, MotVRNConfirmed } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import {
+  MotInvalidModalOpened,
+  MotVRNAmendedPopup,
+  MotVRNConfirmed,
+} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 
 @Component({
   selector: 'mot-invalid-modal',
@@ -26,6 +30,9 @@ export class MotInvalidModal implements OnInit {
 
   @Input()
   textZoom: string;
+
+  @Input()
+  currentVrn: string;
 
   constructor(
     private modalController: ModalController,
@@ -59,7 +66,13 @@ export class MotInvalidModal implements OnInit {
 
   async clickConfirm() {
     if (this.formControl.valid) {
+      // check if VRN is in state is same as the value you have typed in the input
+      if (this.currentVrn?.toUpperCase() !== this.formControl.value?.toUpperCase()) {
+        this.store$.dispatch(MotVRNAmendedPopup());
+      }
+      // add analytic for closing down the input
       this.store$.dispatch(MotVRNConfirmed());
+
       await this.modalController.dismiss(this.formControl.value);
     }
   }

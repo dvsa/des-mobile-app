@@ -49,7 +49,7 @@
             </vehicle-checks-vocational>
 
             <vehicle-registration
-              (vehicleRegistrationBlur)="getMOTStatus()"
+              (checkMotClick)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
               [vehicleRegistration]="pageState.registrationNumber$ | async">

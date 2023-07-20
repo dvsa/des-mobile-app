@@ -48,10 +48,11 @@
             <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
                      id="post-eyesight-form-content">
               <ion-col class="ion-no-padding">
-                <vehicle-registration (vehicleRegistrationBlur)="getMOTStatus()"
-                                      (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                                      [formGroup]="form"
-                                      [vehicleRegistration]="pageState.registrationNumber$ | async">
+                <vehicle-registration
+                  (checkMotClick)="getMOTStatus()"
+                  (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+                  [formGroup]="form"
+                  [vehicleRegistration]="pageState.registrationNumber$ | async">
                 </vehicle-registration>
 
                 <vehicle-checks-cat-a-mod2
