@@ -8,7 +8,6 @@ import { DateTimeInputComponent } from '@components/common/datetime-input/date-t
 import {
   SearchablePicklistComponentWrapper,
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { forEach } from 'lodash';
 import { AdvancedSearchComponent } from '../advanced-search';
 
 describe('AdvancedSearchComponent', () => {
@@ -104,18 +103,16 @@ describe('AdvancedSearchComponent', () => {
   });
 
   describe('blurElement', () => {
-    forEach(['ION-ROW', 'ION-COL', 'DIV', 'HR', 'LABEL'], (val) => {
-      it(`should run blur on the active Element if the tagName is ${val}`, () => {
-        document.getElementById('advanced-search-pass-certificate-input').focus();
-        spyOn(document.activeElement as HTMLElement, 'blur');
-        component.blurElement({ tagName: val } as HTMLElement);
-        expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
-      });
-    });
-    it('should not run blur on the active Element not in the accepted list', () => {
+    it('should run blur on the active Element if the id does not contain input', () => {
       document.getElementById('advanced-search-pass-certificate-input').focus();
       spyOn(document.activeElement as HTMLElement, 'blur');
-      component.blurElement({ tagName: 'string' } as HTMLElement);
+      component.blurElement({ id: 'string' } as HTMLElement);
+      expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
+    });
+    it('should run blur on the active Element if the id contains input', () => {
+      document.getElementById('advanced-search-pass-certificate-input').focus();
+      spyOn(document.activeElement as HTMLElement, 'blur');
+      component.blurElement({ id: 'input' } as HTMLElement);
       expect((document.activeElement as HTMLElement).blur).not.toHaveBeenCalled();
     });
   });

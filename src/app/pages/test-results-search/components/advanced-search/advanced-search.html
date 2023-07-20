@@ -99,6 +99,7 @@
               (ionChange)="activitySelectChange($event.target.value)"
               [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
               aria-label="Activity code"
+              id="activity-code-input"
               class="input-styling-background black-text"
               labelPlacement="stacked"
               placeholder="All">
@@ -121,6 +122,7 @@
             <ion-select (ionChange)="categorySelectChange($event.target.value)"
                         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
                         aria-label="Test category"
+                        id="test-category-input"
                         class="input-styling-background black-text"
                         labelPlacement="stacked"
                         placeholder="All">
@@ -166,12 +168,12 @@
           </ion-col>
           <ion-col size="10">
             <input type="checkbox"
-                   id="rekey-toggle"
+                   id="rekey-toggle-input"
                    class="gds-checkbox"
                    (change)="toggleRekeySearch()"
                    [checked]="rekeySearch"
                    [disabled]="!importStaffNumber && !staffNumber">
-            <label [for]="'rekey-toggle'"></label>
+            <label [for]="'rekey-toggle-input'"></label>
           </ion-col>
         </ion-row>
       </div>

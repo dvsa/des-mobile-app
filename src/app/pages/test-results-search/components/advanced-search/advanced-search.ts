@@ -12,7 +12,6 @@ import { DisplayType } from '@components/common/datetime-input/date-time-input.c
 import { InputInputEventDetail } from '@ionic/core';
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 
 @Component({
   selector: 'advanced-search',
@@ -111,7 +110,7 @@ export class AdvancedSearchComponent {
   }
 
   blurElement(event: EventTarget) {
-    if (isAnyOf((event as HTMLElement).tagName, ['ION-ROW', 'ION-COL', 'DIV', 'HR', 'LABEL'])) {
+    if (!((event as HTMLElement).id.includes('input'))) {
       (document.activeElement as HTMLElement).blur();
     }
   }
