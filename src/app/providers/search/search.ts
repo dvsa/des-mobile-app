@@ -46,17 +46,6 @@ export class SearchProvider {
       this.urlProvider.getTestResultServiceUrl(),
       {
         params: searchParams,
-        // params: JSON.parse(JSON.stringify({
-        //   startDate: advancedSearchParams.startDate,
-        //   endDate: advancedSearchParams.endDate,
-        //   staffNumber: advancedSearchParams.staffNumber,
-        //   dtcCode: advancedSearchParams.costCode,
-        //   excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
-        //   category: encodeURIComponent(advancedSearchParams.category),
-        //   activityCode: advancedSearchParams.activityCode,
-        //   rekey: advancedSearchParams.rekey,
-        //   passCertificateNumber: encodeURIComponent(advancedSearchParams.passCertificateNumber),
-        // })),
       },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }

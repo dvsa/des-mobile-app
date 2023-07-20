@@ -82,14 +82,6 @@ export const journalReducer = createReducer(
       return slot;
     });
 
-    console.log('Journal Reducer |  state in reducer:', {
-      ...state,
-      slots: {
-        ...state.slots,
-        [state.selectedDate]: slots,
-      },
-    });
-
     return {
       ...state,
       slots: {

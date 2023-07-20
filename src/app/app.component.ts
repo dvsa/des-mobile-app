@@ -35,7 +35,6 @@ import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-t
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import * as journalActions from '@store/journal/journal.actions';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -116,7 +115,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         this.configurePlatformSubscriptions();
       }
       await this.disableMenuSwipe();
-      alert('hello');
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),

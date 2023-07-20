@@ -162,6 +162,8 @@ export class DashboardPage extends BasePageComponent {
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
     return true;
   }
 

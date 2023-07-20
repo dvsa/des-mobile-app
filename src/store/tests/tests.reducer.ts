@@ -100,9 +100,6 @@ export function testsReducer(
 ): TestsModel {
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);
-  console.log('==================================================');
-  console.log('Tests Reducer | action.type param in testsReducer for getTests selector:', action.type);
-  console.log('==================================================');
   switch (action.type) {
     case testsActions.UnloadTests.type:
       return initialState;

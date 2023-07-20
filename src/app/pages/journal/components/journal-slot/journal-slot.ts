@@ -27,8 +27,6 @@ export class JournalSlotComponent {
   constructor(
     private slotSelector: SlotSelectorProvider,
   ) {
-    console.log('Journal-slot | slots on journal-slots component:', this.slots);
-    console.log('Journal-slot | completed Tests on journal-slots component:', this.completedTests);
   }
 
   derivedTestStatus = (

@@ -213,7 +213,6 @@ export class JournalEffects {
     )),
     filter(([action, , hasStarted, completedTests]:
     [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
-      console.log('Completed Tests:', completedTests);
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
         return false;
@@ -236,14 +235,8 @@ export class JournalEffects {
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
-        tap((data) => { console.log('Search Results at top level:', data); }),
         map((searchResults: SearchResultTestSchema[]) => searchResults),
-        tap((searchResults) => {
-          this.completedTestPersistenceProvider.persistCompletedTests(searchResults);
-          console.log('searchResults Tap:', searchResults);
-        }),
         map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
-        tap((data) => { console.log('LoadCompletedTestsSuccess:', data); }),
         catchError((err) => of(LoadCompletedTestsFailure(err))),
       );
     }),
