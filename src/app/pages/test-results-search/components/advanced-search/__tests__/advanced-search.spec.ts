@@ -102,6 +102,21 @@ describe('AdvancedSearchComponent', () => {
     });
   });
 
+  describe('blurElement', () => {
+    it('should run blur on the active Element if the id does not contain input', () => {
+      document.getElementById('advanced-search-pass-certificate-input').focus();
+      spyOn(document.activeElement as HTMLElement, 'blur');
+      component.blurElement({ id: 'string' } as HTMLElement);
+      expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
+    });
+    it('should run blur on the active Element if the id contains input', () => {
+      document.getElementById('advanced-search-pass-certificate-input').focus();
+      spyOn(document.activeElement as HTMLElement, 'blur');
+      component.blurElement({ id: 'input' } as HTMLElement);
+      expect((document.activeElement as HTMLElement).blur).not.toHaveBeenCalled();
+    });
+  });
+
   describe('categorySelectChange', () => {
     it('should set selectedCategory to the params passed in', () => {
       component.categorySelectChange('test');

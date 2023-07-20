@@ -109,6 +109,12 @@ export class AdvancedSearchComponent {
   ) {
   }
 
+  blurElement(event: EventTarget) {
+    if (!((event as HTMLElement).id.includes('input'))) {
+      (document.activeElement as HTMLElement).blur();
+    }
+  }
+
   onInputChange(event: InputChangeEventDetail | InputInputEventDetail, field: string): void {
     if (typeof event.value !== 'string') return;
 
