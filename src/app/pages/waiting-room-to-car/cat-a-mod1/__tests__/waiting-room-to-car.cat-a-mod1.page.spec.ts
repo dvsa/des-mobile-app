@@ -2,7 +2,7 @@ import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -31,7 +31,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -45,6 +45,12 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
+import {
+  AlternativeMotEvidence,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence/alternative-mot-evidence';
+import {
+  AlternativeMotEvidenceDetails,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence-details/alternative-mot-evidence-details';
 import { WaitingRoomToCarCatAMod1Page } from '../waiting-room-to-car.cat-a-mod1.page';
 
 describe('WaitingRoomToCarCatAMod1Page', () => {
@@ -67,7 +73,12 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
             seriousFaults: {},
           },
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
           },
         } as TestResultCatAM1Schema,
       },
@@ -87,19 +98,42 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
         MockComponent(AccompanimentComponent),
         MockComponent(WarningBannerComponent),
         MockComponent(TransmissionComponent),
+        MockComponent(AlternativeMotEvidence),
+        MockComponent(AlternativeMotEvidenceDetails),
       ],
       imports: [
         AppModule,
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useClass: RouterMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: QuestionProvider, useClass: QuestionProviderMock },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -118,7 +152,8 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class', () => {
@@ -126,7 +161,8 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
+          .toHaveBeenCalled();
       });
     });
     describe('onSubmit', () => {
@@ -140,9 +176,10 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
         component.testCategory = TestCategory.EUAM1;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.EUAM1, { replaceUrl: true },
-        );
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.EUAM1, { replaceUrl: true },
+          );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new UntypedFormGroup({
@@ -153,8 +190,10 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
           .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));

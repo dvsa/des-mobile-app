@@ -2,7 +2,7 @@ import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -41,7 +41,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -62,6 +62,12 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { Subscription } from 'rxjs';
+import {
+  AlternativeMotEvidence,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence/alternative-mot-evidence';
+import {
+  AlternativeMotEvidenceDetails,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence-details/alternative-mot-evidence-details';
 import { WaitingRoomToCarCatDPage } from '../waiting-room-to-car.cat-d.page';
 
 describe('WaitingRoomToCarCatDPage', () => {
@@ -117,6 +123,8 @@ describe('WaitingRoomToCarCatDPage', () => {
         MockComponent(VehicleChecksToggleComponent),
         MockComponent(CandidateDeclarationSignedComponent),
         MockComponent(FullLicenceHeldComponent),
+        MockComponent(AlternativeMotEvidence),
+        MockComponent(AlternativeMotEvidenceDetails),
       ],
       imports: [
         AppModule,
@@ -262,7 +270,7 @@ describe('WaitingRoomToCarCatDPage', () => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
       });
       it('should dispatch DropExtraVehicleChecksDelegated if'
-                + 'fullLicenceHeld, category is valid and isDelegated is true', () => {
+        + 'fullLicenceHeld, category is valid and isDelegated is true', () => {
         spyOn(component.store$, 'dispatch');
         component.testCategory = TestCategory.DE;
         component.isDelegated = true;
@@ -272,7 +280,7 @@ describe('WaitingRoomToCarCatDPage', () => {
           .toHaveBeenCalledWith(DropExtraVehicleChecksDelegated());
       });
       it('should dispatch DropExtraVehicleChecks if'
-                + 'fullLicenceHeld, category is valid and isDelegated is false', () => {
+        + 'fullLicenceHeld, category is valid and isDelegated is false', () => {
         spyOn(component.store$, 'dispatch');
         component.testCategory = TestCategory.DE;
         component.isDelegated = false;

@@ -25,7 +25,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -57,6 +57,12 @@ import {
   TraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
 import { TrainerAccompanimentToggled } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.actions';
+import {
+  AlternativeMotEvidence,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence/alternative-mot-evidence';
+import {
+  AlternativeMotEvidenceDetails,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence-details/alternative-mot-evidence-details';
 import { WaitingRoomToCarCatADIPart3Page } from '../waiting-room-to-car.cat-adi-part3.page';
 import {
   TrainerRegistrationNumberCatAdiPart2Component,
@@ -109,6 +115,8 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
         MockComponent(PDILogbookComponent),
         MockComponent(TraineeLicenceComponent),
         MockComponent(DualControlsComponent),
+        MockComponent(AlternativeMotEvidence),
+        MockComponent(AlternativeMotEvidenceDetails),
       ],
       imports: [
         AppModule,

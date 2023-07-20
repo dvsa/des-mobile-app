@@ -2,7 +2,7 @@ import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -21,9 +21,7 @@ import {
   AccompanimentCardComponent,
 } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import {
-  VehicleChecksComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
+import { VehicleChecksComponent } from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import {
   VehicleChecksToggleComponent,
@@ -43,7 +41,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -57,6 +55,12 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import {
+  AlternativeMotEvidence,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence/alternative-mot-evidence';
+import {
+  AlternativeMotEvidenceDetails,
+} from '@pages/waiting-room-to-car/components/alternative-mot-evidence-details/alternative-mot-evidence-details';
 import { WaitingRoomToCarCatHomeTestPage } from '../waiting-room-to-car.cat-home-test.page';
 
 describe('WaitingRoomToCarCatHomeTestPage', () => {
@@ -111,6 +115,8 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         MockComponent(VehicleChecksToggleComponent),
         MockComponent(CandidateDeclarationSignedComponent),
         MockComponent(FullLicenceHeldComponent),
+        MockComponent(AlternativeMotEvidence),
+        MockComponent(AlternativeMotEvidenceDetails),
       ],
       imports: [
         AppModule,
@@ -162,7 +168,8 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class', () => {

@@ -50,10 +50,35 @@
               <ion-col class="ion-no-padding">
                 <vehicle-registration
                   (checkMotClick)="getMOTStatus()"
+                  (vehicleRegistrationBlur)="onVrnBlur()"
                   (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
                   [formGroup]="form"
-                  [vehicleRegistration]="pageState.registrationNumber$ | async">
+                  [hasRequestedMOT]="hasRequestedMOT"
+                  [vehicleRegistration]="pageState.registrationNumber$ | async"
+                  [showCheckMot]="pageState.showCheckMot$ | async"
+                  [motError]="pageState.motError$ | async"
+                  [checkInvalidMotCount]="pageState.checkInvalidMotCount$ | async"
+                  [isChecking]="pageState.isCheckingMot$ | async"
+                  [motStatus]="pageState.motStatus$ | async"
+                  [make]="pageState.make$ | async"
+                  [model]="pageState.model$ | async"
+                  [testExpiryDate]="pageState.testExpiryDate$ | async">
                 </vehicle-registration>
+
+                <alternative-mot-evidence-provided
+                  *ngIf="pageState.showAlternativeMotEvidenceProvided$ | async"
+                  [formGroup]="form"
+                  [alternativeMotEvidence]="pageState.alternativeMotEvidenceProvided$ | async"
+                  (alternativeMotEvidenceChange)="alternativeMotEvidenceChanged($event)"
+                ></alternative-mot-evidence-provided>
+
+                <alternative-mot-evidence-details
+                  *ngIf="pageState.showAlternativeMotEvidenceProvided$ | async"
+                  [formGroup]="form"
+                  [alternativeMotEvidenceDetails]="pageState.alternativeMotEvidenceDetails$ | async"
+                  [alternativeMotEvidenceProvided]="pageState.alternativeMotEvidenceProvided$ | async"
+                  (alternativeMotEvidenceDetailsChange)="alternativeMotEvidenceDetailsChanged($event)"
+                ></alternative-mot-evidence-details>
 
                 <vehicle-checks-cat-a-mod2
                   (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
