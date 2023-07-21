@@ -236,6 +236,7 @@ export class JournalEffects {
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
         map((searchResults: SearchResultTestSchema[]) => searchResults),
+        tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
         map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
         catchError((err) => of(LoadCompletedTestsFailure(err))),
       );

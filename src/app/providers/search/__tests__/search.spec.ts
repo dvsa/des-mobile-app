@@ -85,6 +85,18 @@ describe('SearchProvider', () => {
     });
   });
   describe('advancedSearch', () => {
+    it('should call the search endpoint with the correct values for all parameters', () => {
+      const params: AdvancedSearchParams = {
+        startDate: '12-12-12',
+        endDate: '12-12-12',
+        staffNumber: '12345',
+        costCode: 'abc',
+        excludeAutoSavedTests: 'true',
+        activityCode: '1',
+        rekey: true,
+        category: 'A',
+        passCertificateNumber: 'A1',
+      };
     it('should call getTestResultServiceUrl and check request is a GET', () => {
       searchProvider
         .advancedSearch(mockParams)
@@ -96,7 +108,7 @@ describe('SearchProvider', () => {
 
       const req = httpMock.expectOne(
         // eslint-disable-next-line max-len
-        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true&category=A&activityCode=1&rekey=true&passCertificateNumber=A1',
+        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&costCode=abc&excludeAutoSavedTests=true&activityCode=1&rekey=true&category=A&passCertificateNumber=A1',
       );
 
       expect(req.request.method)

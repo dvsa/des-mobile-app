@@ -39,8 +39,6 @@ export class SearchProvider {
   }
 
   advancedSearch(advancedSearchParams: AdvancedSearchParams): Observable<SearchResultTestSchema[]> {
-    console.log('Matt:', JSON.parse(JSON.stringify(advancedSearchParams)));
-    console.log('PassCertNo:', advancedSearchParams.passCertificateNumber);
     const searchParams = JSON.parse(JSON.stringify(advancedSearchParams));
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl(),
