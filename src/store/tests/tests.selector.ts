@@ -122,6 +122,7 @@ export const isPracticeMode = (
 
 export const isDelegatedTest = (tests: TestsModel): boolean => {
   const test = getCurrentTest(tests);
+  if (!test) return false;
 
   if (test.category === TestCategory.BE
     || test.category === TestCategory.C
