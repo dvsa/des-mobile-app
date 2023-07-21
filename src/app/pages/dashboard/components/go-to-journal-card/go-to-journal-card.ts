@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { JOURNAL_PAGE } from '../../../page-names.constants';
 
@@ -9,10 +9,11 @@ import { JOURNAL_PAGE } from '../../../page-names.constants';
 })
 
 export class GoToJournalCardComponent {
-
+  @Output()
+  navigateClicked = new EventEmitter<string>();
   constructor(private router: Router) { }
 
   navigateToJournal = () => {
-    this.router.navigate([JOURNAL_PAGE]);
+    this.navigateClicked.emit(JOURNAL_PAGE);
   };
 }

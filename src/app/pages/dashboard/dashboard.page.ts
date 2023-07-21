@@ -163,7 +163,6 @@ export class DashboardPage extends BasePageComponent {
       .format('dddd Do MMMM YYYY');
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
 
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
     return true;
   }
 
@@ -173,6 +172,13 @@ export class DashboardPage extends BasePageComponent {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  async navigate(pageName: string) {
+    if (pageName === 'JournalPage') {
+      this.store$.dispatch(journalActions.LoadCompletedTests(true));
+    }
+    await this.router.navigate([pageName]);
   }
 
   showTestReportPracticeMode = (): boolean =>
