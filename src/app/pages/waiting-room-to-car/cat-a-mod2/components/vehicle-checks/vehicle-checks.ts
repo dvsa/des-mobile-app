@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+} from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
@@ -75,10 +77,10 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl({
-          value: 'Select questions',
-          disabled: false,
-        },
-        [this.validateVehicleChecks.bind(this)]);
+        value: 'Select questions',
+        disabled: false,
+      },
+      [this.validateVehicleChecks.bind(this)]);
       this.formGroup.addControl('safetyAndBalanceSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');
