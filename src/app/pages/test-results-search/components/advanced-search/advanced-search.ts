@@ -134,11 +134,22 @@ export class AdvancedSearchComponent {
   }
 
   activitySelectChange(event: { activityCode: string; description: string; }) {
-    this.selectedActivity = event;
+    if (event) {
+      this.selectedActivity = event;
+    } else {
+      this.selectedActivity = {
+        activityCode: '',
+        description: 'All',
+      };
+    }
   }
 
   categorySelectChange(event: string) {
-    this.selectedCategory = event;
+    if (event) {
+      this.selectedCategory = event;
+    } else {
+      this.selectedCategory = 'All';
+    }
   }
 
   setFocus(focus: string): void {

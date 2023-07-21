@@ -27,11 +27,12 @@ import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
   safetyAndBalanceQuestionsScore$: Observable<SafetyQuestionsScore>;
-  safetyAndBalanceQuestions$: Observable<any>;
+  safetyAndBalanceQuestions$: Observable<SafetyAndBalanceQuestions>;
 }
 
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2WaitingRoomToCarPageState;
@@ -86,7 +87,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -99,15 +101,17 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 }
