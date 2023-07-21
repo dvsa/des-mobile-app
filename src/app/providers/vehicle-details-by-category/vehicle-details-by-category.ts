@@ -41,7 +41,7 @@ import {
   getVehicleLength as getVehicleLengthManoeuvre,
   getVehicleWidth as getVehicleWidthManoeuvre,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 
 export interface CategorySpecificVehicleDetails {
   vehicleDetails: any;

@@ -1,9 +1,17 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/ADI3';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { uniq } from 'lodash';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
 const initialState: VehicleDetails = {
   registrationNumber: '',
+  motStatus: null,
+  motEvidence: null,
+  motEvidenceProvided: null,
+  make: null,
+  model: null,
+  testExpiryDate: null,
+  previouslySearchedRegNumbers: [],
 };
 
 export const vehicleDetailsCatADIPart3Reducer = createReducer(
@@ -12,9 +20,45 @@ export const vehicleDetailsCatADIPart3Reducer = createReducer(
     ...state,
     registrationNumber,
   })),
-  on(vehicleDetailsActions.MotStatusChanged, (state, { motStatus }): VehicleDetails => ({
+  on(vehicleDetailsActions.MotDataChanged, (state, {
+    status,
+    make,
+    model,
+    testExpiryDate,
+  }): VehicleDetails => ({
     ...state,
-    motStatus,
+    motStatus: status,
+    make,
+    model,
+    testExpiryDate,
+  })),
+  on(vehicleDetailsActions.ClearMotData, (state): VehicleDetails => ({
+    ...state,
+    motStatus: null,
+    make: null,
+    model: null,
+    testExpiryDate: null,
+    motEvidence: null,
+    motEvidenceProvided: null,
+  })),
+  on(vehicleDetailsActions.PreviouslySearchedRegChanged, (state, { reg }) => ({
+    ...state,
+    previouslySearchedRegNumbers: uniq([
+      ...(state?.previouslySearchedRegNumbers || []),
+      reg,
+    ]),
+  })),
+  on(vehicleDetailsActions.AlternativeMotEvidenceDetailsChanged, (state, {
+    evidence,
+  }): VehicleDetails => ({
+    ...state,
+    motEvidence: evidence,
+  })),
+  on(vehicleDetailsActions.AlternativeMotEvidenceProvidedChanged, (
+    state, { evidenceProvided },
+  ): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided: evidenceProvided,
   })),
   on(vehicleDetailsActions.DualControlsToggledYes, (state): VehicleDetails => ({
     ...state,

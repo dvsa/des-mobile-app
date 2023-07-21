@@ -21,7 +21,7 @@ import {
   MotDataChanged,
   PreviouslySearchedRegChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import {
   isCheckingMot$,

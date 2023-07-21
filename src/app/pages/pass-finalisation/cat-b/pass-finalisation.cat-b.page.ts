@@ -1,16 +1,16 @@
 import {
-  Component, ViewChild, ElementRef, OnInit,
+  Component, ElementRef, OnInit, ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, merge } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { merge, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { PersistTests } from '@store/tests/tests.actions';
 import {
@@ -18,8 +18,10 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { CommonPassFinalisationPageState, PassFinalisationPageComponent }
-  from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import {
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
@@ -52,7 +54,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   candidateDriverNumber: string;
   subscription: Subscription;
   niMessage: string = 'This candidate holds a Northern Irish licence and must retain it. Do not collect '
-      + 'it from the candidate.';
+    + 'it from the candidate.';
+
   constructor(
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
@@ -90,7 +93,11 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         }),
       ),
     };
-    const { transmission$, candidateDriverNumber$, testOutcome$ } = this.pageState;
+    const {
+      transmission$,
+      candidateDriverNumber$,
+      testOutcome$,
+    } = this.pageState;
 
     this.merged$ = merge(
       transmission$.pipe(map((value) => this.transmission = value)),
@@ -118,7 +125,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   async onSubmit() {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.isNorthernIreland(this.candidateDriverNumber)) {
       this.store$.dispatch(ProvisionalLicenseNotReceived());
     }
@@ -128,15 +136,16 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
-          return;
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+            return;
+          }
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
         }
-        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+      });
   }
 
   isNorthernIreland(driverNumber: string): boolean {

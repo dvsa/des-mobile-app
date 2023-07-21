@@ -1,6 +1,6 @@
 import { Action, combineReducers } from '@ngrx/store';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
-import { vehicleDetailsReducer } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { vehicleDetailsReducer } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { testDataCatFReducer } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';

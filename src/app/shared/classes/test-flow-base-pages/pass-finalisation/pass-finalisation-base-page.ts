@@ -35,7 +35,7 @@ import {
   getPassCertificateNumber,
   isProvisionalLicenseProvided,
 } from '@store/tests/pass-completion/pass-completion.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';

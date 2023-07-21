@@ -12,7 +12,7 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map } from 'rxjs/operators';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -88,7 +88,8 @@ export class VRNCaptureModal implements OnInit {
 
   inputChange(input: any) {
     if (typeof input === 'string') {
-      input = input.toUpperCase().replace(nonAlphaNumericValues, '');
+      input = input.toUpperCase()
+        .replace(nonAlphaNumericValues, '');
       this.vehicleRegistrationNumber = input;
       this.vehicleRegistrationFormControl.patchValue(input, {
         emitEvent: false,

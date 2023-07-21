@@ -29,7 +29,7 @@ import {
   AlternativeMotEvidenceProvidedChanged,
   DualControlsToggledNo,
   DualControlsToggledYes,
-  MotStatusChanged,
+  MotDataChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   PDILogbook,
@@ -43,6 +43,7 @@ import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
+import { MotDetails } from '@providers/mot-details/mot-details.model';
 import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 import {
@@ -557,17 +558,17 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       });
     });
   });
-  describe('motStatusChanged', () => {
-    it('should record an analytic when motStatusChanged$ fires', () => {
+  describe('motDataChanged$', () => {
+    it('should record an analytic when motDataChanged$ fires', () => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateTestCategory(TestCategory.ADI3));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(MotStatusChanged('Valid'));
+      store$.dispatch(MotDataChanged({ status: 'Valid' } as MotDetails));
       // ACT
-      actions$.next(MotStatusChanged('Valid'));
+      actions$.next(MotDataChanged({ status: 'Valid' } as MotDetails));
       // ASSERT
-      effects.motStatusChanged$.subscribe((result) => {
+      effects.motDataChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logEvent)

@@ -1,4 +1,4 @@
-import { VehicleDetails } from '@dvsa/mes-test-schema/categories/AM2';
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { uniq } from 'lodash';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
@@ -14,11 +14,9 @@ const initialState: VehicleDetails = {
   previouslySearchedRegNumbers: [],
 };
 
-export const vehicleDetailsCatAMod2Reducer = createReducer(
+export const vehicleDetailsReducer = createReducer(
   initialState,
-  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, {
-    registrationNumber,
-  }): VehicleDetails => ({
+  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, { registrationNumber }): VehicleDetails => ({
     ...state,
     registrationNumber,
   })),
@@ -62,19 +60,13 @@ export const vehicleDetailsCatAMod2Reducer = createReducer(
     ...state,
     motEvidenceProvided: evidenceProvided,
   })),
-  on(vehicleDetailsActions.GearboxCategoryChanged, (state, {
-    gearboxCategory,
-  }): VehicleDetails => ({
+  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): VehicleDetails => ({
     ...state,
     gearboxCategory,
   })),
   on(vehicleDetailsActions.ClearGearboxCategory, (state): VehicleDetails => ({
     ...state,
     gearboxCategory: null,
-  })),
-  on(vehicleDetailsActions.SchoolBikeToggled, (state): VehicleDetails => ({
-    ...state,
-    schoolBike: !state.schoolBike,
   })),
 );
 

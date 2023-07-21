@@ -7,9 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  Avoidance, Circuit, EmergencyStop,
-} from '@dvsa/mes-test-schema/categories/AM1';
+import { Avoidance, Circuit, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 
 import {
   CommonOfficePageState,
@@ -43,7 +41,7 @@ import { startsWith } from 'lodash';
 import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { DeviceProvider } from '@providers/device/device';
 

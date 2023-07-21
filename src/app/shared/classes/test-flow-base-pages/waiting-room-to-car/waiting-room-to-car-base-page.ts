@@ -12,7 +12,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { StoreModel } from '@shared/models/store.model';
 import { JournalDataUnion } from '@shared/unions/journal-union';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getCurrentTest, getJournalData, isPracticeMode } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -120,6 +120,11 @@ export interface CommonWaitingRoomToCarPageState {
   showAlternativeMotEvidenceProvided$: Observable<boolean>;
   alternativeMotEvidenceProvided$: Observable<boolean>;
   alternativeMotEvidenceDetails$: Observable<string>;
+}
+
+enum PracticeModeFeature {
+  TCJ = 'Test centre journal',
+  CHECK_MOT = 'Check MOT',
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
@@ -255,17 +260,9 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
             select(getDelegatedTestIndicator),
             select(isDelegatedTest),
           ),
-          this.store$.pipe(
-            select(getTests),
-            select(isPracticeMode),
-          ),
         ),
-        // return false when in practice mode, a rekey or a delegated examiner
-        map(([
-          rekeyTest,
-          delegatedTest,
-          practiceMode,
-        ]) => !(practiceMode || rekeyTest || delegatedTest)),
+        // return false when a rekey or a delegated test
+        map(([rekeyTest, delegatedTest]) => !(rekeyTest || delegatedTest)),
       ),
     };
   }
@@ -333,7 +330,11 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(AlternativeMotEvidenceDetailsChanged(details));
   }
 
-  getMOTStatus(): void {
+  async getMOTStatus(): Promise<void> {
+    if (this.isEndToEndPracticeMode) {
+      await this.practiceModeAlert(PracticeModeFeature.CHECK_MOT);
+      return;
+    }
     this.hasRequestedMOT = true;
     this.store$.dispatch(GetMotStatus());
   }
@@ -369,7 +370,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   async onViewTestCentreJournal(): Promise<void> {
     if (this.isEndToEndPracticeMode) {
-      await this.practiceModeTestCentreAlert();
+      await this.practiceModeAlert(PracticeModeFeature.TCJ);
       return;
     }
     await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
@@ -405,10 +406,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
   }
 
-  async practiceModeTestCentreAlert() {
+  async practiceModeAlert(feature: PracticeModeFeature) {
     const alert = await this.alertController.create({
       header: 'Unavailable',
-      message: 'Test centre journal is currently unavailable in practice mode',
+      message: `${feature} is currently unavailable in practice mode`,
       buttons: ['Ok'],
     });
 

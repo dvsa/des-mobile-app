@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions, createEffect, ofType,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap } from 'rxjs/operators';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import {
@@ -17,7 +15,10 @@ import {
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import {
-  Examiner, CategoryCode, ConductedLanguage, TestSlotAttributes,
+  CategoryCode,
+  ConductedLanguage,
+  Examiner,
+  TestSlotAttributes,
 } from '@dvsa/mes-test-schema/categories/common';
 import { PopulateExaminer } from '@store/tests/journal-data/common/examiner/examiner.actions';
 import {
@@ -29,9 +30,7 @@ import {
   SetFullLicenceHeld as SetFullLicenceHeldCatC,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { Action } from '@ngrx/store';
-import {
-  GearboxCategoryChanged,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
   SetFullLicenceHeld as SetFullLicenceHeldCatD,
@@ -47,7 +46,8 @@ import { fakeJournalTestSlots } from './__mocks__/fake-journal.mock';
 export class FakeJournalEffects {
   constructor(
     private actions$: Actions,
-  ) { }
+  ) {
+  }
 
   startE2EPracticeTestEffect$ = createEffect(() => this.actions$.pipe(
     ofType(fakeJournalActions.StartE2EPracticeTest),
@@ -66,7 +66,10 @@ export class FakeJournalEffects {
         PopulateApplicationReference(slot.booking.application as Application),
         createPopulateCandidateDetailsAction(action.category, slot.booking as Booking),
         PopulateTestSlotAttributes(testSlotAttributes),
-        PopulateTestCentre({ centreId: slot.testCentre.centreId, costCode: slot.testCentre.costCode }),
+        PopulateTestCentre({
+          centreId: slot.testCentre.centreId,
+          costCode: slot.testCentre.costCode,
+        }),
         testStatusActions.SetTestStatusBooked(slot.slotDetail.slotId),
         PopulateConductedLanguage(conductedLanguage),
       ];

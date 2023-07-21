@@ -4,7 +4,7 @@ import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/p
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
 import { testDataCatHReducer } from '@store/tests/test-data/cat-home/test-data.cat-h.reducer';
-import { vehicleDetailsReducer } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { vehicleDetailsReducer } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';

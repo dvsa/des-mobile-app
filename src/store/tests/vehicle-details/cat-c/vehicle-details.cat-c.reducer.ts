@@ -1,9 +1,17 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { uniq } from 'lodash';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
 const initialState: CatCUniqueTypes.VehicleDetails = {
   registrationNumber: '',
+  motStatus: null,
+  motEvidence: null,
+  motEvidenceProvided: null,
+  make: null,
+  model: null,
+  testExpiryDate: null,
+  previouslySearchedRegNumbers: [],
 };
 
 export const vehicleDetailsCatCReducer = createReducer(
@@ -14,11 +22,45 @@ export const vehicleDetailsCatCReducer = createReducer(
     ...state,
     registrationNumber,
   })),
-  on(vehicleDetailsActions.MotStatusChanged, (state, {
-    motStatus,
+  on(vehicleDetailsActions.MotDataChanged, (state, {
+    status,
+    make,
+    model,
+    testExpiryDate,
   }): CatCUniqueTypes.VehicleDetails => ({
     ...state,
-    motStatus,
+    motStatus: status,
+    make,
+    model,
+    testExpiryDate,
+  })),
+  on(vehicleDetailsActions.ClearMotData, (state): CatCUniqueTypes.VehicleDetails => ({
+    ...state,
+    motStatus: null,
+    make: null,
+    model: null,
+    testExpiryDate: null,
+    motEvidence: null,
+    motEvidenceProvided: null,
+  })),
+  on(vehicleDetailsActions.PreviouslySearchedRegChanged, (state, { reg }) => ({
+    ...state,
+    previouslySearchedRegNumbers: uniq([
+      ...(state?.previouslySearchedRegNumbers || []),
+      reg,
+    ]),
+  })),
+  on(vehicleDetailsActions.AlternativeMotEvidenceDetailsChanged, (state, {
+    evidence,
+  }): CatCUniqueTypes.VehicleDetails => ({
+    ...state,
+    motEvidence: evidence,
+  })),
+  on(vehicleDetailsActions.AlternativeMotEvidenceProvidedChanged, (
+    state, { evidenceProvided },
+  ): CatCUniqueTypes.VehicleDetails => ({
+    ...state,
+    motEvidenceProvided: evidenceProvided,
   })),
   on(vehicleDetailsActions.GearboxCategoryChanged, (state, {
     gearboxCategory,

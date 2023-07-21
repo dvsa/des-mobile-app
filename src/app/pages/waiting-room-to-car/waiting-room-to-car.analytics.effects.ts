@@ -50,7 +50,7 @@ import {
   AlternativeMotEvidenceProvidedChanged,
   DualControlsToggledNo,
   DualControlsToggledYes,
-  MotStatusChanged,
+  MotDataChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
@@ -554,8 +554,8 @@ export class WaitingRoomToCarAnalyticsEffects {
     }),
   ));
 
-  motStatusChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(MotStatusChanged),
+  motDataChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(MotDataChanged),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -579,7 +579,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, motStatus]:
-      [ReturnType<typeof MotStatusChanged>, TestsModel, string, boolean],
+      [ReturnType<typeof MotDataChanged>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),

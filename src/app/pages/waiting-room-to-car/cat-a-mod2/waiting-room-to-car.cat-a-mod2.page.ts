@@ -13,7 +13,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-home-test/vehicle-details.reducer';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
