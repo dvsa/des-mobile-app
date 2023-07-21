@@ -262,7 +262,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       await loading.present();
       return;
     }
-    await this.loadingController.dismiss();
+
+    if (await this.loadingController.getTop()) {
+      await this.loadingController.dismiss();
+    }
   }
 
 }
