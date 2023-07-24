@@ -9,7 +9,7 @@ process.env.CHROME_BIN = puppeteer.executablePath();
 const DEFAULT_PROCESSES_TO_SHARD = 2;
 const JASMINE_DEFAULT_TIMEOUT = 15000;
 
-let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
+let executors = os ? Math.round(os.cpus().length * 0.9) : DEFAULT_PROCESSES_TO_SHARD;
 
 if (os) {
   console.log('Total number of CPU\'s available:', os.cpus().length);
@@ -19,7 +19,7 @@ if (os) {
   }
 }
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
@@ -33,8 +33,8 @@ module.exports = function(config) {
       require('karma-spec-reporter'),
     ],
     webpack: webpackTestConfig,
-    webpackMiddleware: { stats: 'errors-only' },
-    webpackServer: { noInfo: true },
+    webpackMiddleware: {stats: 'errors-only'},
+    webpackServer: {noInfo: true},
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
@@ -50,12 +50,12 @@ module.exports = function(config) {
         .join(__dirname, './coverage/ngv'),
       subdir: '.',
       instrumenterOptions: {
-        istanbul: { noCompact: true },
+        istanbul: {noCompact: true},
       },
       reporters: [
-        { type: 'html' },
-        { type: 'lcovonly' },
-        { type: 'text-summary' },
+        {type: 'html'},
+        {type: 'lcovonly'},
+        {type: 'text-summary'},
       ],
     },
     reporters: ['kjhtml', 'spec'],
