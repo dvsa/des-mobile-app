@@ -23,7 +23,7 @@ import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { LoadJournalSilent } from '@store/journal/journal.actions';
+import { LoadCompletedTests, LoadJournalSilent } from '@store/journal/journal.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import {
   CompletedTestPersistenceProviderMock,
@@ -455,6 +455,16 @@ describe('DashboardPage', () => {
           .not
           .toBeNull();
       });
+    });
+
+    describe('navigate', () => {
+      it('should navigate to journal page and dispatch LoadCompetedTests action when pageName is JournalPage',
+        async () => {
+          spyOn(store$, 'dispatch');
+          await component.navigate('JournalPage');
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['JournalPage']);
+          expect(store$.dispatch).toHaveBeenCalledWith(LoadCompletedTests(true));
+        });
     });
   });
 });
