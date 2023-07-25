@@ -1,5 +1,6 @@
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details';
 
 describe('AdditionalCandidateDetailsComponent', () => {
@@ -19,6 +20,18 @@ describe('AdditionalCandidateDetailsComponent', () => {
   describe('Class', () => {
     it('should create', () => {
       expect(component).toBeDefined();
+    });
+  });
+  describe('isCompleted', () => {
+    [TestStatus.Completed, TestStatus.Submitted].forEach((val) => {
+      it(`should return true if testStatus is ${val}`, () => {
+        component.testStatus = val;
+        expect(component.isCompleted()).toBeTruthy();
+      });
+    });
+    it('should return false if testStatus is not in the array of values', () => {
+      component.testStatus = TestStatus.Booked;
+      expect(component.isCompleted()).toBeFalsy();
     });
   });
 });
