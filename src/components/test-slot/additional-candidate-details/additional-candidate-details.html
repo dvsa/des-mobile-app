@@ -15,8 +15,8 @@
     <dd class="additional-candidate-details__value">
       {{ prn }}
     </dd>
-    <dt class="additional-candidate-details__key">Attempt number:</dt>
-    <dd class="additional-candidate-details__value">
+    <dt *ngIf="!isCompleted()" class="additional-candidate-details__key">Attempt number:</dt>
+    <dd *ngIf="!isCompleted()" class="additional-candidate-details__value">
       {{ attempts }}
     </dd>
   </dl>
