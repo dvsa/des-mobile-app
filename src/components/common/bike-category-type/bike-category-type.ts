@@ -100,6 +100,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
   }
 
   categoryCodeChanged(category: CategoryCode): void {
+    if (!category) return;
     this.categoryConfirmed = true;
     this.ngOnChanges();
     this.categoryCodeChange.emit(category);
