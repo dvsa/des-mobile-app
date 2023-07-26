@@ -6,6 +6,7 @@ import { LocalEnvironmentFile } from './models/environment.model';
 export const environment: LocalEnvironmentFile = {
   // this is required by main.ts so that Ionic knows when to enable production mode
   ...devEnvironment,
+  liveAppVersion: '4.8.0.0',
   isRemote: false,
   enableDevTools: true,
   enableRehydrationPlugin: true,

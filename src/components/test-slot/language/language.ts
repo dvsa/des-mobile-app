@@ -6,10 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['language.scss'],
 })
 export class LanguageComponent {
-
   @Input()
   welshLanguage: boolean;
-  @Input()
-  applicationId: string;
 
+  @Input()
+  applicationId: string | number;
 }

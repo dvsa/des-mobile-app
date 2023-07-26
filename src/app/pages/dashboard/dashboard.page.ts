@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -82,6 +82,7 @@ export class DashboardPage extends BasePageComponent {
       notificationCount$: combineLatest(
         [
           unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+          of(1), // Show when app version update available
         ],
       )
         .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */

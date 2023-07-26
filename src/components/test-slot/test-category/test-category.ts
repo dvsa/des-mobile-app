@@ -8,7 +8,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 })
 export class TestCategoryComponent {
   @Input()
-  category: TestCategory;
+  category: TestCategory | string;
 
   @Input()
   applicationId: number;
