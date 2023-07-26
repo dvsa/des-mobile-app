@@ -1,7 +1,8 @@
 import { ExaminerRole, TestPermissionPeriod } from '@dvsa/mes-config-schema/remote-config';
 
 export type AppConfig = {
-  configUrl: string
+  liveAppVersion: string;
+  configUrl: string;
   sentry?: {
     dsn: string;
     environment: string;

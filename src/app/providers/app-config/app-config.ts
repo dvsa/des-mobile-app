@@ -275,6 +275,7 @@ export class AppConfigProvider {
 
   private mapRemoteConfig = (data: LocalEnvironmentFile | RemoteConfig): void => {
     this.appConfig = merge({}, this.appConfig, <AppConfig>{
+      liveAppVersion: data.liveAppVersion,
       googleAnalyticsId: data.googleAnalyticsId,
       approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
       timeTravelDate: data.timeTravelDate,

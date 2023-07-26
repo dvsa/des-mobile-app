@@ -65,7 +65,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       hideWhenRole: [ExaminerRole.DLG],
     },
   ];
-  textZoom: number = 100;
 
   pageState: AppComponentPageState;
 
