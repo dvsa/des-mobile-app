@@ -5,8 +5,7 @@ import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { environment } from '@environments/environment';
 import { NativeBiometricMock } from '@mocks/@capacitor/biometrics';
 import { LoadingProvider } from '@providers/loader/loader';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -30,10 +29,9 @@ xdescribe('DeviceAuthenticationProvider', () => {
           useClass: AppConfigProviderMock,
         },
         {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
+          provide: LoadingProvider,
+          useClass: LoaderProviderMock,
         },
-        LoadingProvider,
       ],
     });
 

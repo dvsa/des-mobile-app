@@ -32,7 +32,7 @@ export class TerminateTestModal {
    */
   terminationWrapper(): Promise<void> {
     if (this.shouldAuthenticate) {
-      return this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode)
+      return this.deviceAuthenticationProvider.triggerLockScreen()
         .then(() => {
           this.onTerminate();
         })
