@@ -78,6 +78,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
     if (!this.isIos()) {
       await this.appConfigProvider.initialiseAppConfig();
+      this.store$.dispatch(LoadConfigSuccess());
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
       this.store$.dispatch(GetTestCentresRefData());
       await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });

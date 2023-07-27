@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AlertController, IonicModule, Platform } from '@ionic/angular';
-import { AlertControllerMock, PlatformMock } from '@mocks/index.mock';
+import {
+  AlertController, IonicModule, ModalController, Platform,
+} from '@ionic/angular';
+import { AlertControllerMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -28,9 +30,13 @@ import {
 } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
+import {
+  selectEmployeeId,
+  selectEmployeeName,
+  selectUpdateAvailablePresented,
+  selectVersionNumber,
+} from '@store/app-info/app-info.selectors';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { selectRole } from '@store/app-config/app-config.selectors';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
@@ -40,6 +46,9 @@ import { By } from '@angular/platform-browser';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { HasSeenUpdateAvailablePopup, LoadAppVersionSuccess } from '@store/app-info/app-info.actions';
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { selectLiveAppVersion, selectRole } from '@store/app-config/app-config.selectors';
 import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
@@ -53,6 +62,7 @@ describe('DashboardPage', () => {
   let deviceProvider: DeviceProvider;
   let store$: MockStore;
   let insomnia: Insomnia;
+  let modalController: ModalController;
   let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
 
   const initialState = {
@@ -60,6 +70,7 @@ describe('DashboardPage', () => {
       versionNumber: '4.0',
       employeeName: 'Some One',
       employeeId: '1234567',
+      updateAvailablePresented: true,
     },
     appConfig: { role: ExaminerRole.DE },
     journal: { slots: {} },
@@ -137,6 +148,10 @@ describe('DashboardPage', () => {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
         },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -148,8 +163,10 @@ describe('DashboardPage', () => {
     store$ = TestBed.inject(MockStore);
     deviceProvider = TestBed.inject(DeviceProvider);
     insomnia = TestBed.inject(Insomnia);
+    modalController = TestBed.inject(ModalController);
     completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     spyOn(store$, 'dispatch');
+    store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
   }));
 
   it('should create', () => {
@@ -160,19 +177,22 @@ describe('DashboardPage', () => {
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
-        const spy = spyOn(store$, 'select')
+        spyOn(store$, 'select')
           .and
-          .returnValue(of());
+          .returnValue(of({}));
         component.ngOnInit();
-        expect(spy)
-          .toHaveBeenCalledTimes(4);
-        expect(spy.calls.allArgs())
-          .toEqual([
-            [selectVersionNumber],
-            [selectEmployeeName],
-            [selectEmployeeId],
-            [selectRole],
-          ]);
+        expect(store$.select)
+          .toHaveBeenCalledWith(selectVersionNumber);
+        expect(store$.select)
+          .toHaveBeenCalledWith(selectEmployeeName);
+        expect(store$.select)
+          .toHaveBeenCalledWith(selectEmployeeId);
+        expect(store$.select)
+          .toHaveBeenCalledWith(selectRole);
+        expect(store$.select)
+          .toHaveBeenCalledWith(selectLiveAppVersion);
+        expect(store$.select)
+          .toHaveBeenCalledWith(selectUpdateAvailablePresented);
       });
     });
     describe('ionViewWillEnter', () => {
@@ -302,6 +322,29 @@ describe('DashboardPage', () => {
           .toHaveBeenCalledWith(PracticeTestReportCard());
       });
     });
+    describe('ionViewDidLeave', () => {
+      it('should dispatch a clear action and unsubscribe from page subs', () => {
+        component.subscription = new Subscription();
+
+        spyOn(component.subscription, 'unsubscribe');
+
+        component.ionViewDidLeave();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(RekeySearchClearState());
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
+      });
+    });
+    describe('showUpdateAvailableModal', () => {
+      it('should create and dismiss the modal, then dispatch HasSeenUpdateAvailablePopup', async () => {
+        spyOn(modalController, 'dismiss')
+          .and
+          .returnValue(Promise.resolve(true));
+        await component.showUpdateAvailableModal();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(HasSeenUpdateAvailablePopup(true));
+      });
+    });
   });
   describe('DOM', () => {
     describe('test report practice mode', () => {
@@ -379,8 +422,7 @@ describe('DashboardPage', () => {
           .toBeNull();
       });
     });
-    // @TODO MES-6603 enable when delegate is migrated into des4
-    xdescribe('delegatedExaminerRekey', () => {
+    describe('delegatedExaminerRekey', () => {
       it('should show the delegated examiner rekey card when showDelegatedExaminerRekey returns true', () => {
         spyOn(component, 'showDelegatedExaminerRekey')
           .and

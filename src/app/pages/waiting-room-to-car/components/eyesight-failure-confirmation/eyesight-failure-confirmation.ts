@@ -15,7 +15,8 @@ export class EyesightFailureConfirmationComponent {
   constructor(
     public router: Router,
     private store$: Store<StoreModel>,
-  ) { }
+  ) {
+  }
 
   @Input()
   cancelFn: Function;
@@ -27,8 +28,8 @@ export class EyesightFailureConfirmationComponent {
     this.cancelFn();
   }
 
-  onContinue(): void {
-    this.router.navigate([this.nextPageOnFail]);
+  async onContinue(): Promise<void> {
+    await this.router.navigate([this.nextPageOnFail]);
     this.store$.dispatch(SetActivityCode(ActivityCodes.FAIL_EYESIGHT));
   }
 }

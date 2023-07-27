@@ -1,20 +1,19 @@
 import { select, Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import {
-  ModalController,
-  NavController,
-  Platform,
-  ToastController,
+  ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { StoreModel } from '@shared/models/store.model';
 import {
-  getCurrentTest,
   getActivityCode,
+  getCurrentTest,
+  getJournalData,
   getTestOutcome,
   getTestOutcomeText,
-  isPassed, isTestOutcomeSet, getJournalData,
+  isPassed,
+  isTestOutcomeSet,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -23,7 +22,8 @@ import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/acti
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import {
   CompleteTest,
-  OfficeValidationError, OfficeViewDidEnter,
+  OfficeValidationError,
+  OfficeViewDidEnter,
   SavingWriteUpForLater,
   TestStartDateChanged,
 } from '@pages/office/office.actions';
@@ -36,10 +36,12 @@ import {
 import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
-import { getTestSlotAttributes }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import {
-  getTestDate, getTestStartDateTime,
+  getTestSlotAttributes,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
+import {
+  getTestDate,
+  getTestStartDateTime,
   getTestTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -60,10 +62,15 @@ import {
 } from '@dvsa/mes-test-schema/categories/common';
 import {
   AdditionalInformationChanged,
-  CandidateDescriptionChanged, D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
+  CandidateDescriptionChanged,
+  D255No,
+  D255Yes,
+  DebriefUnWitnessed,
+  DebriefWitnessed,
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
-  RouteNumberChanged, TrueLikenessToPhotoChanged,
+  RouteNumberChanged,
+  TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
@@ -71,9 +78,14 @@ import { FinishTestModal } from '@pages/office/components/finish-test-modal/fini
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import {
   getAdditionalInformation,
-  getCandidateDescription, getD255, getIdentification,
+  getCandidateDescription,
+  getD255,
+  getIdentification,
   getIndependentDriving,
-  getRouteNumber, getTrueLikenessToPhoto, getWeatherConditions, isDebriefWitnessed,
+  getRouteNumber,
+  getTrueLikenessToPhoto,
+  getWeatherConditions,
+  isDebriefWitnessed,
 } from '@store/tests/test-summary/test-summary.selector';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -114,14 +126,18 @@ import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.
 import { getPassCertificateNumber } from '@store/tests/pass-completion/pass-completion.selector';
 import { TestOutcome } from '@store/tests/tests.constants';
 import {
-  InstructorAccompanimentToggled, InterpreterAccompanimentToggled, OtherAccompanimentToggled,
+  InstructorAccompanimentToggled,
+  InterpreterAccompanimentToggled,
+  OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
 import {
-  getInstructorAccompaniment, getInterpreterAccompaniment, getOtherAccompaniment,
+  getInstructorAccompaniment,
+  getInterpreterAccompaniment,
+  getOtherAccompaniment,
   getSupervisorAccompaniment,
 } from '@store/tests/accompaniment/accompaniment.selector';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
@@ -519,7 +535,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
     this.subscription = merge(
       startDateTime$.pipe(map((value) => this.startDateTime = value)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   ionViewDidLeave(): void {
@@ -698,7 +715,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   async defer() {
     if (this.hasNavigatedFromUnsubmitted) {
       await this.navController.navigateBack(UNUPLOADED_TESTS_PAGE);
-    } else await this.popToRoot();
+    } else {
+      await this.popToRoot();
+    }
     this.store$.dispatch(SavingWriteUpForLater());
     this.store$.dispatch(PersistTests());
   }

@@ -1,7 +1,7 @@
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { StoreModel } from '@shared/models/store.model';
 import { CAT_B } from '@pages/page-names.constants';
@@ -32,7 +32,10 @@ describe('EyesightFailureConfirmationComponent', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Router, useClass: RouterMock },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
         Store,
       ],
     });
@@ -50,22 +53,25 @@ describe('EyesightFailureConfirmationComponent', () => {
       component.cancelFn = cancelSpy;
       const cancelButton = fixture.debugElement.query(By.css('#cancel-eyesight-failure'));
       cancelButton.triggerEventHandler('click', null);
-      expect(cancelSpy).toHaveBeenCalled();
+      expect(cancelSpy)
+        .toHaveBeenCalled();
     });
     it('should navigate to debrief when continue is pressed', () => {
       spyOn(router, 'navigate');
       const confirmButton = fixture.debugElement.query(By.css('#confirm-eyesight-failure'));
       component.nextPageOnFail = CAT_B.DEBRIEF_PAGE;
       confirmButton.triggerEventHandler('click', null);
-      expect(router.navigate).toHaveBeenCalledWith([CAT_B.DEBRIEF_PAGE]);
+      expect(router.navigate)
+        .toHaveBeenCalledWith([CAT_B.DEBRIEF_PAGE]);
     });
   });
 
   describe('Class', () => {
     describe('onContinue', () => {
-      it('should dispatch an action to set the activity code to an eyesight failure', () => {
-        component.onContinue();
-        expect(store$.dispatch).toHaveBeenCalledWith(SetActivityCode('3'));
+      it('should dispatch an action to set the activity code to an eyesight failure', async () => {
+        await component.onContinue();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SetActivityCode('3'));
       });
     });
   });

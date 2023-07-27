@@ -1,0 +1,40 @@
+<ion-card class="modal-alert">
+  <modal-alert-title id="model-title">New version available</modal-alert-title>
+  <ion-row>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col class="ion-no-padding" size="66">
+      <div class="modal-alert-message">
+        <div id="model-text" class="mes-data">A new version ({{appVersion}}) of DES is available.</div>
+        <br>
+        <div class="mes-data">Please update using the company portal.</div>
+        <br>
+        <div class="mes-data">If you do not update, there is a risk DES could update itself during a test.</div>
+      </div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-row>
+        <ion-col>
+          <ion-button
+            (click)="clickRemindMeLater()"
+            id="remind-me-later-button"
+            fill="clear"
+            class="confirm-submit-cancel-button">
+            Remind me later
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button
+            (click)="clickOK()"
+            id="ok-button"
+            fill="clear"
+            class="confirm-submit-continue-button">
+            OK
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-card>
