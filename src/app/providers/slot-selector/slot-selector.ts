@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { forOwn, has, isEmpty, isNil, isObject } from 'lodash';
+import {
+  forOwn, has, isEmpty, isNil, isObject,
+} from 'lodash';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
