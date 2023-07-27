@@ -6,9 +6,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import {
-  combineLatest, merge, Observable, Subscription,
-} from 'rxjs';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular';
@@ -65,6 +63,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       hideWhenRole: [ExaminerRole.DLG],
     },
   ];
+  textZoom: number = 100;
 
   pageState: AppComponentPageState;
 
@@ -236,9 +235,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   navPage = async ({
-    title,
-    descriptor,
-  }: { title: string; descriptor: string; }): Promise<void> => {
+                     title,
+                     descriptor,
+                   }: { title: string; descriptor: string; }): Promise<void> => {
     await this.router.navigate([title]);
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(descriptor));
