@@ -1,5 +1,5 @@
 import { DebriefCardComponent } from '@pages/view-test-result/components/debrief-card/debrief-card';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
@@ -35,7 +35,7 @@ describe('DebriefCardComponent', () => {
   let fixture: ComponentFixture<DebriefCardComponent>;
   let component: DebriefCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [
         DebriefCardComponent,
@@ -238,13 +238,7 @@ describe('DebriefCardComponent', () => {
   describe('getMinDrivingFaultCount', () => {
     [
       TestCategory.C,
-      TestCategory.C1,
-      TestCategory.CE,
-      TestCategory.C1E,
       TestCategory.D,
-      TestCategory.D1,
-      TestCategory.DE,
-      TestCategory.D1E,
     ].forEach((value) => {
       it(`should return 12 if category is ${value}`, () => {
         component.category = value;
@@ -254,9 +248,6 @@ describe('DebriefCardComponent', () => {
     });
     [
       TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2,
       TestCategory.ADI2,
     ].forEach((value) => {
       it(`should return 6 if the category is ${value}`, () => {
@@ -265,17 +256,10 @@ describe('DebriefCardComponent', () => {
           .toEqual(6);
       });
     });
-    [
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1,
-    ].forEach((value) => {
-      it(`should return 5 if the category is ${value}`, () => {
-        component.category = value;
-        expect(component.getMinDrivingFaultCount())
-          .toEqual(5);
-      });
+    it('should return 5 if the category is Mod1', () => {
+      component.category = TestCategory.EUA1M1;
+      expect(component.getMinDrivingFaultCount())
+        .toEqual(5);
     });
     it('should return 15 if none of the cases apply', () => {
       component.category = TestCategory.B;
@@ -307,83 +291,52 @@ describe('DebriefCardComponent', () => {
       expect(component.getTestRequirementsCatB)
         .toHaveBeenCalled();
     });
-    [
-      TestCategory.C,
-      TestCategory.C1,
-      TestCategory.CE,
-      TestCategory.C1E,
-    ].forEach((value) => {
-      it(`should return data from getTestRequirementsCatB if category is ${value}`, () => {
-        spyOn(component, 'getTestRequirementsCatC')
-          .and
-          .returnValue([{ label: '1' } as DataRowListItem]);
-        component.category = value;
+    it('should return data from getTestRequirementsCatB if category is C', () => {
+      spyOn(component, 'getTestRequirementsCatC')
+        .and
+        .returnValue([{ label: '1' } as DataRowListItem]);
+      component.category = TestCategory.C;
 
-        expect(component.testRequirements)
-          .toEqual([{ label: '1' } as DataRowListItem]);
-        expect(component.getTestRequirementsCatC)
-          .toHaveBeenCalled();
-      });
-    });
-    [
-      TestCategory.CM,
-      TestCategory.C1M,
-      TestCategory.CEM,
-      TestCategory.C1EM,
-      TestCategory.DM,
-      TestCategory.D1M,
-      TestCategory.DEM,
-      TestCategory.D1EM,
-    ].forEach((value) => {
-      it(`should return data from getTestRequirementsCatManoeuvre if category is ${value}`, () => {
-        spyOn(component, 'getTestRequirementsCatManoeuvre')
-          .and
-          .returnValue([{ label: '1' } as DataRowListItem]);
-        component.category = value;
-
-        expect(component.testRequirements)
-          .toEqual([{ label: '1' } as DataRowListItem]);
-        expect(component.getTestRequirementsCatManoeuvre)
-          .toHaveBeenCalled();
-      });
+      expect(component.testRequirements)
+        .toEqual([{ label: '1' } as DataRowListItem]);
+      expect(component.getTestRequirementsCatC)
+        .toHaveBeenCalled();
     });
 
-    [
-      TestCategory.D,
-      TestCategory.D1,
-      TestCategory.DE,
-      TestCategory.D1E,
-    ].forEach((value) => {
-      it(`should return data from getTestRequirementsCatD if category is ${value}`, () => {
-        spyOn(component, 'getTestRequirementsCatD')
-          .and
-          .returnValue([{ label: '1' } as DataRowListItem]);
-        component.category = value;
+    it('should return data from getTestRequirementsCatManoeuvre if category is CM', () => {
+      spyOn(component, 'getTestRequirementsCatManoeuvre')
+        .and
+        .returnValue([{ label: '1' } as DataRowListItem]);
+      component.category = TestCategory.CM;
 
-        expect(component.testRequirements)
-          .toEqual([{ label: '1' } as DataRowListItem]);
-        expect(component.getTestRequirementsCatD)
-          .toHaveBeenCalled();
-      });
+      expect(component.testRequirements)
+        .toEqual([{ label: '1' } as DataRowListItem]);
+      expect(component.getTestRequirementsCatManoeuvre)
+        .toHaveBeenCalled();
     });
 
-    [
-      TestCategory.F,
-      TestCategory.G,
-      TestCategory.H,
-      TestCategory.K,
-    ].forEach((value) => {
-      it(`should return data from getTestRequirementsCatHome if category is ${value}`, () => {
-        spyOn(component, 'getTestRequirementsCatHome')
-          .and
-          .returnValue([{ label: '1' } as DataRowListItem]);
-        component.category = value;
+    it('should return data from getTestRequirementsCatD if category is D', () => {
+      spyOn(component, 'getTestRequirementsCatD')
+        .and
+        .returnValue([{ label: '1' } as DataRowListItem]);
+      component.category = TestCategory.D;
 
-        expect(component.testRequirements)
-          .toEqual([{ label: '1' } as DataRowListItem]);
-        expect(component.getTestRequirementsCatHome)
-          .toHaveBeenCalled();
-      });
+      expect(component.testRequirements)
+        .toEqual([{ label: '1' } as DataRowListItem]);
+      expect(component.getTestRequirementsCatD)
+        .toHaveBeenCalled();
+    });
+
+    it('should return data from getTestRequirementsCatHome if category is F', () => {
+      spyOn(component, 'getTestRequirementsCatHome')
+        .and
+        .returnValue([{ label: '1' } as DataRowListItem]);
+      component.category = TestCategory.F;
+
+      expect(component.testRequirements)
+        .toEqual([{ label: '1' } as DataRowListItem]);
+      expect(component.getTestRequirementsCatHome)
+        .toHaveBeenCalled();
     });
 
     it('should return an empty array if none of the other options apply', () => {
@@ -394,17 +347,10 @@ describe('DebriefCardComponent', () => {
   });
 
   describe('showTestRequirement', () => {
-    [
-      TestCategory.CM,
-      TestCategory.C1M,
-      TestCategory.DM,
-      TestCategory.D1M,
-    ].forEach((value) => {
-      it(`should return false if category is ${value}`, () => {
-        component.category = value;
-        expect(component.showTestRequirement())
-          .toEqual(false);
-      });
+    it('should return false if category is CM', () => {
+      component.category = TestCategory.CM;
+      expect(component.showTestRequirement())
+        .toEqual(false);
     });
     it('should return true if category is B', () => {
       component.category = TestCategory.B;

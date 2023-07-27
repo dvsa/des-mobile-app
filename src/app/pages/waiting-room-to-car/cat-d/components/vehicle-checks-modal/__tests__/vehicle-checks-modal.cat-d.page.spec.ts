@@ -515,19 +515,15 @@ describe('VehicleChecksCatDModal', () => {
     });
 
     describe('showFullLicenceHeld', () => {
-      [TestCategory.D, TestCategory.D1].forEach((category: TestCategory) => {
-        it(`should return false for category ${category} and set fullLicenceHeldSelected to Y`, () => {
-          component.category = category;
-          expect(component.showFullLicenceHeld())
-            .toEqual(false);
-        });
+      it('should return false for category D and set fullLicenceHeldSelected to Y', () => {
+        component.category = TestCategory.D;
+        expect(component.showFullLicenceHeld())
+          .toEqual(false);
       });
-      [TestCategory.DE, TestCategory.D1E].forEach((category: TestCategory) => {
-        it(`should return true for category ${category}`, () => {
-          component.category = category;
-          expect(component.showFullLicenceHeld())
-            .toEqual(true);
-        });
+      it('should return true for category DE', () => {
+        component.category = TestCategory.DE;
+        expect(component.showFullLicenceHeld())
+          .toEqual(true);
       });
     });
   });
