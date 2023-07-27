@@ -12,6 +12,7 @@ export interface IAnalyticsProvider {
   logException(message: string, fatal: boolean): void;
 
   setUserId(userId: string): void;
+
   initialiseAnalytics(): Promise<any>;
 }
 
@@ -77,6 +78,7 @@ export enum AnalyticsEventCategories {
   FAKE_JOURNAL = 'practice mode journal',
   NAVIGATION = 'navigation',
   UN_UPLOADED_TESTS = 'Incomplete Tests',
+  APP_UPDATE_BADGE = 'app update badge',
 }
 
 export enum AnalyticsEvents {

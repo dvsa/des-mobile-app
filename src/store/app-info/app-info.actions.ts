@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 
 export const LoadAppVersion = createAction(
   '[AppComponent] Load App Version',
@@ -53,4 +54,17 @@ export const AppResumed = createAction(
 
 export const RestartApp = createAction(
   '[AppInfoEffects] Restart App',
+);
+
+export const UpdateAvailablePopup = createAction(
+  '[AppInfoEffects] Update available presented',
+);
+
+export const UpdateAvailableBadgeClicked = createAction(
+  '[AppInfoEffects] Update available badge clicked',
+);
+
+export const UpdateAvailableOptionClicked = createAction(
+  '[AppInfoEffects] Update available presented',
+  (selected: UpdateAvailable) => ({ selected }),
 );

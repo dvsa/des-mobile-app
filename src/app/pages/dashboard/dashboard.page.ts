@@ -40,8 +40,16 @@ import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
-import { UpdateAvailableModal } from '@pages/dashboard/components/update-available-modal/update-available-modal';
-import { HasSeenUpdateAvailablePopup } from '@store/app-info/app-info.actions';
+import {
+  UpdateAvailable,
+  UpdateAvailableModal,
+} from '@pages/dashboard/components/update-available-modal/update-available-modal';
+import {
+  HasSeenUpdateAvailablePopup,
+  UpdateAvailableBadgeClicked,
+  UpdateAvailableOptionClicked,
+  UpdateAvailablePopup,
+} from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -182,7 +190,11 @@ export class DashboardPage extends BasePageComponent {
     this.store$.dispatch(PracticeTestReportCard());
   };
 
-  async showUpdateAvailableModal(): Promise<void> {
+  async showUpdateAvailableModal(manualClick: boolean = false): Promise<void> {
+    if (manualClick) {
+      this.store$.dispatch(UpdateAvailableBadgeClicked());
+    }
+
     const modal = await this.modalController.create({
       component: UpdateAvailableModal,
       componentProps: { appVersion: this.liveAppVersion },
@@ -190,8 +202,13 @@ export class DashboardPage extends BasePageComponent {
       backdropDismiss: false,
       showBackdrop: true,
     });
+
+    this.store$.dispatch(UpdateAvailablePopup());
+
     await modal.present();
-    await modal.onDidDismiss();
+    const { data } = await modal.onDidDismiss<UpdateAvailable>();
+
+    this.store$.dispatch(UpdateAvailableOptionClicked(data));
     this.store$.dispatch(HasSeenUpdateAvailablePopup(true));
   }
 }
