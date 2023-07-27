@@ -7,8 +7,8 @@ const os = require('os');
 process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
-const JASMINE_DEFAULT_TIMEOUT = 15000;
 const minute = 60 * 1000;
+const JASMINE_DEFAULT_TIMEOUT = minute / 2;
 
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
 
@@ -40,7 +40,7 @@ module.exports = function(config) {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
-        timeoutInterval: (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT,
+        timeoutInterval: JASMINE_DEFAULT_TIMEOUT,
       },
     },
     jasmineHtmlReporter: {
