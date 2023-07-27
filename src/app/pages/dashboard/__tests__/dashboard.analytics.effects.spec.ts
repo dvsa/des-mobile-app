@@ -12,8 +12,14 @@ import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-confi
 import { Store, StoreModule } from '@ngrx/store';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
-import * as dashboardActions from '../dashboard.actions';
+import {
+  UpdateAvailableBadgeClicked,
+  UpdateAvailableOptionClicked,
+  UpdateAvailablePopup,
+} from '@store/app-info/app-info.actions';
+import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
+import * as dashboardActions from '../dashboard.actions';
 
 describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
@@ -120,6 +126,53 @@ describe('DashboardAnalyticsEffects', () => {
             AnalyticsEventCategories.DASHBOARD,
             AnalyticsEvents.SIDE_MENU,
             'opt1 Selected',
+          );
+        done();
+      });
+    });
+  });
+  describe('updateAvailablePopup$', () => {
+    it('should log an event', (done) => {
+      actions$.next(UpdateAvailablePopup());
+      effects.updateAvailablePopup$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.APP_UPDATE_BADGE,
+            'Modal',
+            'New version modal displayed',
+          );
+        done();
+      });
+    });
+  });
+  describe('updateAvailableOptionClicked$', () => {
+    it('should log an event', (done) => {
+      actions$.next(UpdateAvailableOptionClicked(UpdateAvailable.OK));
+      effects.updateAvailableOptionClicked$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.APP_UPDATE_BADGE,
+            'Modal',
+            'Ok button selected',
+          );
+        done();
+      });
+    });
+  });
+  describe('updateAvailableBadgeClicked$', () => {
+    it('should log an event', (done) => {
+      actions$.next(UpdateAvailableBadgeClicked());
+      effects.updateAvailableBadgeClicked$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.APP_UPDATE_BADGE,
+            'New version badge selected',
           );
         done();
       });

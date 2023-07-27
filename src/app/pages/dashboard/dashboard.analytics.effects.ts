@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import {
-  concatMap, filter, switchMap, withLatestFrom,
+  concatMap, filter, mergeMap, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -13,6 +13,11 @@ import { getTests } from '@store/tests/tests.reducer';
 import { isPracticeMode } from '@store/tests/tests.selector';
 import { StoreModel } from '@shared/models/store.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import {
+  UpdateAvailableBadgeClicked,
+  UpdateAvailableOptionClicked,
+  UpdateAvailablePopup,
+} from '@store/app-info/app-info.actions';
 import {
   DashboardViewDidEnter,
   PracticeTestReportCard,
@@ -142,6 +147,77 @@ export class DashboardAnalyticsEffects {
         AnalyticsEventCategories.DASHBOARD,
         AnalyticsEvents.SIDE_MENU,
         `${item} Selected`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  updateAvailablePopup$ = createEffect(() => this.actions$.pipe(
+    ofType(UpdateAvailablePopup),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    mergeMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.APP_UPDATE_BADGE,
+        'Modal',
+        'New version modal displayed',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  updateAvailableOptionClicked$ = createEffect(() => this.actions$.pipe(
+    ofType(UpdateAvailableOptionClicked),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    mergeMap(([{ selected }]: [ReturnType<typeof UpdateAvailableOptionClicked>, boolean]) => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.APP_UPDATE_BADGE,
+        'Modal',
+        `${selected} button selected`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  updateAvailableBadgeClicked$ = createEffect(() => this.actions$.pipe(
+    ofType(UpdateAvailableBadgeClicked),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
+        ),
+      )),
+    filter(([, practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    mergeMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.APP_UPDATE_BADGE,
+        'New version badge selected',
       );
       return of(AnalyticRecorded());
     }),
