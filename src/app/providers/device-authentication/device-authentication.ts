@@ -3,7 +3,6 @@ import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { NativeBiometric } from 'capacitor-native-biometric';
 import { Platform } from '@ionic/angular';
-import { DeviceProvider } from '@providers/device/device';
 import { LoadingProvider } from '@providers/loader/loader';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
@@ -19,14 +18,13 @@ export class DeviceAuthenticationProvider {
   constructor(
     private platform: Platform,
     public appConfig: AppConfigProvider,
-    private deviceProvider: DeviceProvider,
     private loadingProvider: LoadingProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
   ) {
   }
 
-  triggerLockScreen = async (isPracticeMode: boolean = false): Promise<void> => {
+  triggerLockScreen = async (): Promise<void> => {
     try {
       await this.platform.ready();
 
@@ -34,7 +32,10 @@ export class DeviceAuthenticationProvider {
         return;
       }
 
-      return await this.performBiometricVerification(isPracticeMode);
+      return await NativeBiometric.verifyIdentity({
+        reason: 'Please authenticate',
+        useFallback: true, // fallback to passcode if biometric authentication unavailable
+      });
     } catch (err) {
       this.logEvent(err);
       throw new Error(err);
@@ -47,23 +48,6 @@ export class DeviceAuthenticationProvider {
       || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG
       || (environment as unknown as TestersEnvironmentFile)?.isTest
     );
-  };
-
-  private performBiometricVerification = async (isPracticeMode: boolean = false): Promise<void> => {
-    try {
-      await this.deviceProvider.disableSingleAppMode();
-
-      await NativeBiometric.verifyIdentity({
-        reason: 'Please authenticate',
-        useFallback: true, // fallback to passcode if biometric authentication unavailable
-      });
-    } finally {
-      if (!isPracticeMode) {
-        await this.loadingProvider.handleUILoading(true);
-        await this.deviceProvider.enableSingleAppMode();
-        await this.loadingProvider.handleUILoading(false);
-      }
-    }
   };
 
   public logEvent = (err: any) => {

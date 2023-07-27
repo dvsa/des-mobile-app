@@ -38,7 +38,9 @@ import {
   CommunicationSubmitInfo,
   CommunicationSubmitInfoError,
   CommunicationValidationError,
-  CommunicationViewDidEnter, NewEmailSelected, PostalSelected,
+  CommunicationViewDidEnter,
+  NewEmailSelected,
+  PostalSelected,
 } from '@pages/communication/communication.actions';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -237,7 +239,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
 
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
+      await this.deviceAuthenticationProvider.triggerLockScreen();
       this.store$.dispatch(CommunicationSubmitInfo());
       await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.testCategory);
     } catch (err) {
@@ -364,7 +366,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   async canDeActivate(): Promise<boolean> {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
+      await this.deviceAuthenticationProvider.triggerLockScreen();
       return true;
     } catch {
       return false;
