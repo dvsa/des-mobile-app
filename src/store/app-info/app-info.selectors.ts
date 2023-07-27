@@ -23,3 +23,8 @@ export const selectDateConfigLoaded = createSelector(
   selectAppInfo,
   (appInfo: AppInfoStateModel): string => appInfo.dateConfigLoaded,
 );
+
+export const selectUpdateAvailablePresented = createSelector(
+  selectAppInfo,
+  (appInfo: AppInfoStateModel): boolean => appInfo.updateAvailablePresented,
+);

@@ -12,7 +12,12 @@
     <ion-title id="page-title">My dashboard</ion-title>
     <ion-buttons slot="end">
       <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
-      <ion-badge color="danger">Version 4.8.1.0 available</ion-badge>
+      <ion-badge
+        *ngIf="pageState.showUpdatesAvailable$ | async"
+        color="danger"
+        (click)="showUpdateAvailableModal()">
+        Version {{pageState.liveAppVersion$ | async}} available
+      </ion-badge>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

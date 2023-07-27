@@ -1,15 +1,11 @@
 import {
-  waitForAsync,
-  TestBed, fakeAsync, tick,
+  fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import {
-  ModalController,
-  NavController,
-  Platform,
-  ToastController,
+  ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { ModalControllerMock, RouterMock, PlatformMock } from '@mocks/index.mock';
+import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -25,20 +21,27 @@ import { WeatherConditionProvider } from '@providers/weather-conditions/weather-
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import {
-  Identification, IndependentDriving, WeatherConditions,
-} from '@dvsa/mes-test-schema/categories/common';
+import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import {
   AdditionalInformationChanged,
-  CandidateDescriptionChanged, D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
+  CandidateDescriptionChanged,
+  D255No,
+  D255Yes,
+  DebriefUnWitnessed,
+  DebriefWitnessed,
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
-  RouteNumberChanged, TrueLikenessToPhotoChanged,
+  RouteNumberChanged,
+  TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import {
-  CompleteTest, OfficeValidationError, OfficeViewDidEnter, SavingWriteUpForLater, TestStartDateChanged,
+  CompleteTest,
+  OfficeValidationError,
+  OfficeViewDidEnter,
+  SavingWriteUpForLater,
+  TestStartDateChanged,
 } from '@pages/office/office.actions';
 import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
@@ -49,7 +52,10 @@ import {
   ProvisionalLicenseReceived,
 } from '@store/tests/pass-completion/pass-completion.actions';
 import {
-  DualControlsToggled, GearboxCategoryChanged, SchoolBikeToggled, SchoolCarToggled,
+  DualControlsToggled,
+  GearboxCategoryChanged,
+  SchoolBikeToggled,
+  SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import {
@@ -58,7 +64,8 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import {
   InstructorAccompanimentToggled,
-  InterpreterAccompanimentToggled, OtherAccompanimentToggled,
+  InterpreterAccompanimentToggled,
+  OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
@@ -73,9 +80,7 @@ import {
 } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
-import {
-  SupervisorAccompanimentToggledCPC,
-} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
+import { SupervisorAccompanimentToggledCPC } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
@@ -130,17 +135,44 @@ describe('OfficeBasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Router, useClass: RouterMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
         provideMockStore({ initialState }),
-        { provide: NavController, useClass: NavControllerMock },
-        { provide: ToastController, useClass: ToastControllerMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
+        {
+          provide: ToastController,
+          useClass: ToastControllerMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: OutcomeBehaviourMapProvider,
+          useClass: OutcomeBehaviourMapProviderMock,
+        },
         WeatherConditionProvider,
-        { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
+        {
+          provide: FaultSummaryProvider,
+          useClass: FaultSummaryProvider,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
       ],
     });
 
@@ -194,48 +226,60 @@ describe('OfficeBasePageComponent', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.activityCode$
         .pipe(take(1))
-        .subscribe((res: ActivityCodeModel) => expect(res.activityCode).toEqual('1'));
+        .subscribe((res: ActivityCodeModel) => expect(res.activityCode)
+          .toEqual('1'));
       basePageComponent.commonPageState.routeNumber$
         .pipe(take(1))
-        .subscribe((res: number) => expect(res).toEqual(3));
+        .subscribe((res: number) => expect(res)
+          .toEqual(3));
       basePageComponent.commonPageState.independentDriving$
         .pipe(take(1))
-        .subscribe((res: string) => expect(res).toEqual('Sat nav'));
+        .subscribe((res: string) => expect(res)
+          .toEqual('Sat nav'));
       basePageComponent.commonPageState.candidateDescription$
         .pipe(take(1))
-        .subscribe((res: string) => expect(res).toEqual('description'));
+        .subscribe((res: string) => expect(res)
+          .toEqual('description'));
       basePageComponent.commonPageState.identification$
         .pipe(take(1))
-        .subscribe((res: Identification) => expect(res).toEqual('Licence'));
+        .subscribe((res: Identification) => expect(res)
+          .toEqual('Licence'));
       basePageComponent.commonPageState.displayDrivingFault$
         .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+        .subscribe((res: boolean) => expect(!!res)
+          .toEqual(false));
       basePageComponent.commonPageState.displayDangerousFault$
         .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+        .subscribe((res: boolean) => expect(!!res)
+          .toEqual(false));
       basePageComponent.commonPageState.displaySeriousFault$
         .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+        .subscribe((res: boolean) => expect(!!res)
+          .toEqual(false));
       basePageComponent.commonPageState.displayEta$
         .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+        .subscribe((res: boolean) => expect(!!res)
+          .toEqual(false));
       basePageComponent.commonPageState.displayEco$
         .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+        .subscribe((res: boolean) => expect(!!res)
+          .toEqual(false));
     });
   });
 
   describe('ionViewDidEnter', () => {
     it('should dispatch OfficeViewDidEnter', () => {
       basePageComponent.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(OfficeViewDidEnter());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(OfficeViewDidEnter());
     });
   });
 
   describe('setIsValidStartDateTime', () => {
     it('should set isValidStartDateTime', () => {
       basePageComponent.setIsValidStartDateTime(true);
-      expect(basePageComponent.isValidStartDateTime).toEqual(true);
+      expect(basePageComponent.isValidStartDateTime)
+        .toEqual(true);
     });
   });
 
@@ -243,7 +287,8 @@ describe('OfficeBasePageComponent', () => {
     it('should dispatch a weather conditions changed action with the weather condition values', () => {
       const conditions: WeatherConditions[] = ['Showers'];
       basePageComponent.weatherConditionsChanged(conditions);
-      expect(store$.dispatch).toHaveBeenCalledWith(WeatherConditionsChanged(conditions));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(WeatherConditionsChanged(conditions));
     });
   });
 
@@ -255,7 +300,8 @@ describe('OfficeBasePageComponent', () => {
     it('should dispatch a SetActivityCode action with the activity code', () => {
       basePageComponent.form.controls = { showMeQuestion: null };
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
-      expect(store$.dispatch).toHaveBeenCalledWith(SetActivityCode(activityCodeModelList[0].activityCode));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SetActivityCode(activityCodeModelList[0].activityCode));
     });
     it('should setValue of showMeQuestion to {}', () => {
       basePageComponent.form.controls = {
@@ -265,7 +311,8 @@ describe('OfficeBasePageComponent', () => {
         } as AbstractControl,
       };
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
-      expect(basePageComponent.form.controls['showMeQuestion'].setValue).toHaveBeenCalledWith({});
+      expect(basePageComponent.form.controls['showMeQuestion'].setValue)
+        .toHaveBeenCalledWith({});
     });
     it('should not setValue of showMeQuestion when value is not N/A', () => {
       basePageComponent.form.controls = {
@@ -275,7 +322,9 @@ describe('OfficeBasePageComponent', () => {
         } as AbstractControl,
       };
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
-      expect(basePageComponent.form.controls['showMeQuestion'].setValue).not.toHaveBeenCalled();
+      expect(basePageComponent.form.controls['showMeQuestion'].setValue)
+        .not
+        .toHaveBeenCalled();
     });
   });
 
@@ -286,14 +335,19 @@ describe('OfficeBasePageComponent', () => {
     });
     it('should successfully end the test', async () => {
       await basePageComponent.completeTest();
-      expect(store$.dispatch).toHaveBeenCalledWith(CompleteTest());
-      expect(basePageComponent.popToRoot).toHaveBeenCalled();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(CompleteTest());
+      expect(basePageComponent.popToRoot)
+        .toHaveBeenCalled();
     });
     it('should not dispatch complete test if in practice mode', async () => {
       basePageComponent.isEndToEndPracticeMode = true;
       await basePageComponent.completeTest();
-      expect(store$.dispatch).not.toHaveBeenCalledWith(CompleteTest());
-      expect(basePageComponent.popToRoot).toHaveBeenCalled();
+      expect(store$.dispatch)
+        .not
+        .toHaveBeenCalledWith(CompleteTest());
+      expect(basePageComponent.popToRoot)
+        .toHaveBeenCalled();
     });
   });
 
@@ -304,30 +358,40 @@ describe('OfficeBasePageComponent', () => {
     it('should not call navigateBack when in practice mode', async () => {
       basePageComponent.isEndToEndPracticeMode = true;
       await basePageComponent.popToRoot();
-      expect(basePageComponent.navController.navigateBack).not.toHaveBeenCalled();
+      expect(basePageComponent.navController.navigateBack)
+        .not
+        .toHaveBeenCalled();
     });
     it('should call the navigateBack method whilst not in practice mode', async () => {
       basePageComponent.isEndToEndPracticeMode = false;
       await basePageComponent.popToRoot();
-      expect(basePageComponent.navController.navigateBack).toHaveBeenCalled();
+      expect(basePageComponent.navController.navigateBack)
+        .toHaveBeenCalled();
     });
   });
 
   describe('defer', () => {
     it('should call navigate back and dispatch two actions when hasNavigatedFromUnsubmitted is true;', async () => {
+      basePageComponent.hasNavigatedFromUnsubmitted = true;
       spyOn(navController, 'navigateBack');
       await basePageComponent.defer();
-      expect(basePageComponent.navController.navigateBack).toHaveBeenCalledWith(UNUPLOADED_TESTS_PAGE);
-      expect(store$.dispatch).toHaveBeenCalledWith(SavingWriteUpForLater());
-      expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+      expect(basePageComponent.navController.navigateBack)
+        .toHaveBeenCalledWith(UNUPLOADED_TESTS_PAGE);
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SavingWriteUpForLater());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(PersistTests());
     });
     it('should call popToRoot and dispatch two actions when hasNavigatedFromUnsubmitted is false', async () => {
       basePageComponent.hasNavigatedFromUnsubmitted = false;
       spyOn(basePageComponent, 'popToRoot');
       await basePageComponent.defer();
-      expect(basePageComponent.popToRoot).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(SavingWriteUpForLater());
-      expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+      expect(basePageComponent.popToRoot)
+        .toHaveBeenCalled();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SavingWriteUpForLater());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(PersistTests());
     });
   });
 
@@ -338,7 +402,8 @@ describe('OfficeBasePageComponent', () => {
         startDateTime$: of('2022-01-01T12:00:00'),
       };
       basePageComponent.setupSubscriptions();
-      expect(basePageComponent.startDateTime).toEqual('2022-01-01T12:00:00');
+      expect(basePageComponent.startDateTime)
+        .toEqual('2022-01-01T12:00:00');
     });
   });
 
@@ -347,7 +412,8 @@ describe('OfficeBasePageComponent', () => {
       basePageComponent.subscription = new Subscription();
       spyOn(basePageComponent.subscription, 'unsubscribe');
       basePageComponent.ionViewDidLeave();
-      expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
+      expect(basePageComponent.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 
@@ -356,14 +422,21 @@ describe('OfficeBasePageComponent', () => {
       spyOn(basePageComponent, 'showFinishTestModal');
     });
     it('should call through to showFinishTestModal when form is valid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(true));
+      spyOn(basePageComponent, 'isFormValid')
+        .and
+        .returnValue(Promise.resolve(true));
       await basePageComponent.onSubmit();
-      expect(basePageComponent.showFinishTestModal).toHaveBeenCalled();
+      expect(basePageComponent.showFinishTestModal)
+        .toHaveBeenCalled();
     });
     it('should not call through to showFinishTestModal when form is invalid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(false));
+      spyOn(basePageComponent, 'isFormValid')
+        .and
+        .returnValue(Promise.resolve(false));
       await basePageComponent.onSubmit();
-      expect(basePageComponent.showFinishTestModal).not.toHaveBeenCalled();
+      expect(basePageComponent.showFinishTestModal)
+        .not
+        .toHaveBeenCalled();
     });
   });
 
@@ -372,14 +445,21 @@ describe('OfficeBasePageComponent', () => {
       spyOn(router, 'navigate');
     });
     it('should call through to router.navigate when form is valid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(true));
+      spyOn(basePageComponent, 'isFormValid')
+        .and
+        .returnValue(Promise.resolve(true));
       await basePageComponent.goToReasonForRekey();
-      expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.REKEY_REASON_PAGE]);
+      expect(router.navigate)
+        .toHaveBeenCalledWith([TestFlowPageNames.REKEY_REASON_PAGE]);
     });
     it('should not call through to router.navigate when form is invalid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(false));
+      spyOn(basePageComponent, 'isFormValid')
+        .and
+        .returnValue(Promise.resolve(false));
       await basePageComponent.goToReasonForRekey();
-      expect(router.navigate).not.toHaveBeenCalled();
+      expect(router.navigate)
+        .not
+        .toHaveBeenCalled();
     });
   });
 
@@ -388,7 +468,8 @@ describe('OfficeBasePageComponent', () => {
       const info: string = 'Nothing more to say.';
       basePageComponent.additionalInformationChanged(info);
 
-      expect(store$.dispatch).toHaveBeenCalledWith(AdditionalInformationChanged(info));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(AdditionalInformationChanged(info));
     });
   });
 
@@ -397,7 +478,8 @@ describe('OfficeBasePageComponent', () => {
       const desc: string = 'Tall but deceptively short.';
       basePageComponent.candidateDescriptionChanged(desc);
 
-      expect(store$.dispatch).toHaveBeenCalledWith(CandidateDescriptionChanged(desc));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(CandidateDescriptionChanged(desc));
     });
   });
 
@@ -405,8 +487,10 @@ describe('OfficeBasePageComponent', () => {
     it('should ', () => {
       basePageComponent.startDateTime = '2022-01-01T12:00:00';
       basePageComponent.dateOfTestChanged('2022-01-02');
-      expect(store$.dispatch).toHaveBeenCalledWith(TestStartDateChanged('2022-01-01T12:00:00', '2022-01-02T12:00:00'));
-      expect(store$.dispatch).toHaveBeenCalledWith(SetStartDate('2022-01-02T12:00:00'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(TestStartDateChanged('2022-01-01T12:00:00', '2022-01-02T12:00:00'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SetStartDate('2022-01-02T12:00:00'));
     });
   });
   describe('routeNumberChanged', () => {
@@ -414,7 +498,8 @@ describe('OfficeBasePageComponent', () => {
       const route: number = 17;
       basePageComponent.routeNumberChanged(route);
 
-      expect(store$.dispatch).toHaveBeenCalledWith(RouteNumberChanged(route));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(RouteNumberChanged(route));
     });
   });
   describe('independentDrivingChanged', () => {
@@ -422,122 +507,159 @@ describe('OfficeBasePageComponent', () => {
       const drivingAid: IndependentDriving = 'Diagram';
       basePageComponent.independentDrivingChanged(drivingAid);
 
-      expect(store$.dispatch).toHaveBeenCalledWith(IndependentDrivingTypeChanged(drivingAid));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(IndependentDrivingTypeChanged(drivingAid));
     });
   });
   describe('trueLikenessToPhotoChanged', () => {
     it('should dispatch TrueLikenessToPhotoChanged with true', () => {
       basePageComponent.trueLikenessToPhotoChanged(true);
-      expect(store$.dispatch).toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
     });
   });
   describe('provisionalLicenseReceived', () => {
     it('should dispatch ProvisionalLicenseReceived', () => {
       basePageComponent.provisionalLicenseReceived();
-      expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseReceived());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(ProvisionalLicenseReceived());
     });
   });
   describe('provisionalLicenseNotReceived', () => {
     it('should dispatch ProvisionalLicenseNotReceived', () => {
       basePageComponent.provisionalLicenseNotReceived();
-      expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
     });
   });
   describe('transmissionChanged', () => {
     it('should dispatch GearboxCategoryChanged with Manual', () => {
       basePageComponent.transmissionChanged('Manual');
-      expect(store$.dispatch).toHaveBeenCalledWith(GearboxCategoryChanged('Manual'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(GearboxCategoryChanged('Manual'));
     });
   });
   describe('healthDeclarationChanged', () => {
     it('should dispatch HealthDeclarationAccepted with false', () => {
       basePageComponent.healthDeclarationChanged(false);
-      expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationAccepted(false));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(HealthDeclarationAccepted(false));
     });
   });
   describe('d255Changed', () => {
     [
-      { outcome: true, action: D255Yes },
-      { outcome: false, action: D255No },
-    ].forEach(({ action, outcome }) => {
+      {
+        outcome: true,
+        action: D255Yes,
+      },
+      {
+        outcome: false,
+        action: D255No,
+      },
+    ].forEach(({
+      action,
+      outcome,
+    }) => {
       it(`should dispatch D255${outcome ? 'Yes' : 'No'}`, () => {
         basePageComponent.d255Changed(outcome);
-        expect(store$.dispatch).toHaveBeenCalledWith(action());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(action());
       });
     });
   });
   describe('isWelshChanged', () => {
     it('should dispatch CandidateChoseToProceedWithTestInWelsh with Cymraeg', () => {
       basePageComponent.isWelshChanged(true);
-      expect(store$.dispatch).toHaveBeenCalledWith(CandidateChoseToProceedWithTestInWelsh('Cymraeg'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(CandidateChoseToProceedWithTestInWelsh('Cymraeg'));
     });
     it('should dispatch CandidateChoseToProceedWithTestInEnglish with English', () => {
       basePageComponent.isWelshChanged(false);
-      expect(store$.dispatch).toHaveBeenCalledWith(CandidateChoseToProceedWithTestInEnglish('English'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(CandidateChoseToProceedWithTestInEnglish('English'));
     });
   });
   describe('instructorAccompanimentToggled', () => {
     it('should dispatch InstructorAccompanimentToggled', () => {
       basePageComponent.instructorAccompanimentToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(InstructorAccompanimentToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(InstructorAccompanimentToggled());
     });
   });
   describe('supervisorAccompanimentToggled', () => {
     it('should dispatch SupervisorAccompanimentToggled', () => {
       basePageComponent.supervisorAccompanimentToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(SupervisorAccompanimentToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SupervisorAccompanimentToggled());
     });
   });
   describe('interpreterAccompanimentToggled', () => {
     it('should dispatch InterpreterAccompanimentToggled', () => {
       basePageComponent.interpreterAccompanimentToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(InterpreterAccompanimentToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(InterpreterAccompanimentToggled());
     });
   });
   describe('supervisorAccompanimentToggledCPC', () => {
     it('should dispatch the action SupervisorAccompanimentToggledCPC', () => {
       basePageComponent.supervisorAccompanimentToggledCPC();
-      expect(store$.dispatch).toHaveBeenCalledWith(SupervisorAccompanimentToggledCPC());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SupervisorAccompanimentToggledCPC());
     });
   });
   describe('schoolBikeToggled', () => {
     it('should dispatch SchoolBikeToggled', () => {
       basePageComponent.schoolBikeToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(SchoolBikeToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SchoolBikeToggled());
     });
   });
   describe('otherAccompanimentToggled', () => {
     it('should dispatch OtherAccompanimentToggled', () => {
       basePageComponent.otherAccompanimentToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(OtherAccompanimentToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(OtherAccompanimentToggled());
     });
   });
   describe('dualControlsToggled', () => {
     it('should dispatch DualControlsToggled', () => {
       basePageComponent.dualControlsToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(DualControlsToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(DualControlsToggled());
     });
   });
   describe('schoolCarToggled', () => {
     it('should dispatch SchoolCarToggled', () => {
       basePageComponent.schoolCarToggled();
-      expect(store$.dispatch).toHaveBeenCalledWith(SchoolCarToggled());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SchoolCarToggled());
     });
   });
   describe('circuitChanged', () => {
     it('should dispatch CircuitTypeChanged with Left', () => {
       basePageComponent.circuitChanged('Left');
-      expect(store$.dispatch).toHaveBeenCalledWith(CircuitTypeChanged('Left'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(CircuitTypeChanged('Left'));
     });
   });
   describe('debriefWitnessedChanged', () => {
     [
-      { witnessed: true, action: DebriefWitnessed },
-      { witnessed: false, action: DebriefUnWitnessed },
-    ].forEach(({ action, witnessed }) => {
+      {
+        witnessed: true,
+        action: DebriefWitnessed,
+      },
+      {
+        witnessed: false,
+        action: DebriefUnWitnessed,
+      },
+    ].forEach(({
+      action,
+      witnessed,
+    }) => {
       it(`should dispatch action with ${witnessed}`, () => {
         basePageComponent.debriefWitnessedChanged(witnessed);
-        expect(store$.dispatch).toHaveBeenCalledWith(action());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(action());
       });
     });
   });
@@ -545,24 +667,28 @@ describe('OfficeBasePageComponent', () => {
     it('should dispatch an Identification change action with the new value', () => {
       const idType: Identification = 'Passport';
       basePageComponent.identificationChanged(idType);
-      expect(store$.dispatch).toHaveBeenCalledWith(IdentificationUsedChanged(idType));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(IdentificationUsedChanged(idType));
     });
   });
   describe('showFinishTestModal', async () => {
     it('should create a modal', async () => {
-      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      spyOn(basePageComponent.modalController, 'create')
+        .and
+        .callThrough();
       await basePageComponent.showFinishTestModal();
-      expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
-        id: 'FinishTestModal',
-        component: FinishTestModal,
-        cssClass: 'mes-modal-alert text-zoom-regular',
-        backdropDismiss: false,
-        showBackdrop: true,
-        componentProps: {
-          completeTest: basePageComponent.completeTest,
-          destroyTestSubs: basePageComponent.destroyTestSubs,
-        },
-      });
+      expect(basePageComponent.modalController.create)
+        .toHaveBeenCalledWith({
+          id: 'FinishTestModal',
+          component: FinishTestModal,
+          cssClass: 'mes-modal-alert text-zoom-regular',
+          backdropDismiss: false,
+          showBackdrop: true,
+          componentProps: {
+            completeTest: basePageComponent.completeTest,
+            destroyTestSubs: basePageComponent.destroyTestSubs,
+          },
+        });
     });
   });
   describe('destroyTestSubs', () => {
@@ -574,15 +700,19 @@ describe('OfficeBasePageComponent', () => {
 
       basePageComponent.destroyTestSubs();
 
-      expect(wrtcDestroy$.next).toHaveBeenCalled();
-      expect(wrtcDestroy$.complete).toHaveBeenCalled();
-      expect(trDestroy$.next).toHaveBeenCalled();
-      expect(trDestroy$.complete).toHaveBeenCalled();
+      expect(wrtcDestroy$.next)
+        .toHaveBeenCalled();
+      expect(wrtcDestroy$.complete)
+        .toHaveBeenCalled();
+      expect(trDestroy$.next)
+        .toHaveBeenCalled();
+      expect(trDestroy$.complete)
+        .toHaveBeenCalled();
     });
   });
   describe('completeTestDelegated', () => {
     it('should dispatch store and then navigate to '
-            + 'rekey upload after the modal is dismissed', async () => {
+      + 'rekey upload after the modal is dismissed', async () => {
       await basePageComponent.showFinishTestModal();
 
       spyOn(store$, 'dispatch');
@@ -591,19 +721,24 @@ describe('OfficeBasePageComponent', () => {
 
       await basePageComponent.completeTestDelegated();
 
-      expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
-      expect(store$.dispatch).toHaveBeenCalledWith(SendCurrentTest());
-      expect(basePageComponent.finishTestModal.dismiss).toHaveBeenCalled();
-      expect(basePageComponent.router.navigate).toHaveBeenCalledWith(
-        [DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE],
-        { replaceUrl: true },
-      );
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SetRekeyDate());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SendCurrentTest());
+      expect(basePageComponent.finishTestModal.dismiss)
+        .toHaveBeenCalled();
+      expect(basePageComponent.router.navigate)
+        .toHaveBeenCalledWith(
+          [DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE],
+          { replaceUrl: true },
+        );
     });
   });
   describe('isFormValid', () => {
     it('should return true if form is valid', async () => {
       await basePageComponent.isFormValid();
-      expect(basePageComponent.form.valid).toEqual(true);
+      expect(basePageComponent.form.valid)
+        .toEqual(true);
     });
 
     it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
@@ -615,10 +750,16 @@ describe('OfficeBasePageComponent', () => {
 
       basePageComponent.isFormValid();
       tick();
-      expect(store$.dispatch).toHaveBeenCalledWith(OfficeValidationError('requiredControl1 is blank'));
-      expect(store$.dispatch).toHaveBeenCalledWith(OfficeValidationError('requiredControl2 is blank'));
-      expect(store$.dispatch).not.toHaveBeenCalledWith(OfficeValidationError('notRequiredControl is blank'));
-      expect(basePageComponent.toast).not.toBeUndefined();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(OfficeValidationError('requiredControl1 is blank'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(OfficeValidationError('requiredControl2 is blank'));
+      expect(store$.dispatch)
+        .not
+        .toHaveBeenCalledWith(OfficeValidationError('notRequiredControl is blank'));
+      expect(basePageComponent.toast)
+        .not
+        .toBeUndefined();
     }));
   });
 

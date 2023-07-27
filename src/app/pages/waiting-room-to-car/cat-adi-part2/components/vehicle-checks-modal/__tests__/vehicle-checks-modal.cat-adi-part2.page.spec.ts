@@ -1,19 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, NavController, ModalController,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavControllerMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
-import {
-  QuestionOutcome,
-  QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  TellMeQuestionSelected,
   TellMeQuestionOutcomeChanged,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import {
@@ -142,6 +137,10 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     });
 
     describe('ngOnInit', () => {
+      afterEach(() => {
+        // clean up subs
+        component.subscription.unsubscribe();
+      });
       it('should define subscription', () => {
         component.ngOnInit();
         expect(component.subscription)

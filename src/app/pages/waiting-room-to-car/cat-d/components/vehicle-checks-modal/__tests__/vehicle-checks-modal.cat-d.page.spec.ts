@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
@@ -230,6 +228,10 @@ describe('VehicleChecksCatDModal', () => {
     });
 
     describe('ngOnInit', () => {
+      afterEach(() => {
+        // clean up subs
+        component.subscription.unsubscribe();
+      });
       it('should merge the correct data into the subscription', () => {
         component.ngOnInit();
         expect(component.subscription)
@@ -351,14 +353,14 @@ describe('VehicleChecksCatDModal', () => {
     describe('setNumberOfShowMeTellMeQuestions', () => {
       [TestCategory.D, TestCategory.D1].forEach((category) => {
         it('should set showMeQuestionsNumberArray to '
-                    + 'an Array of NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER', () => {
+          + 'an Array of NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           expect(component.showMeQuestionsNumberArray)
             .toEqual(Array(NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER));
         });
         it('should set tellMeQuestionsNumberArray to '
-                    + 'an Array of NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER', () => {
+          + 'an Array of NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           expect(component.tellMeQuestionsNumberArray)
@@ -368,7 +370,7 @@ describe('VehicleChecksCatDModal', () => {
 
       [TestCategory.DE, TestCategory.D1E].forEach((category) => {
         it('should set showMeQuestionsNumberArray to '
-                    + 'an Array of getNumberOfShowMeQuestions(fullLicenceHeld)', () => {
+          + 'an Array of getNumberOfShowMeQuestions(fullLicenceHeld)', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           spyOn(component, 'getNumberOfShowMeQuestions');
@@ -378,7 +380,7 @@ describe('VehicleChecksCatDModal', () => {
             ));
         });
         it('should set tellMeQuestionsNumberArray to '
-                    + 'an Array of getNumberOfTellMeQuestions(fullLicenceHeld)', () => {
+          + 'an Array of getNumberOfTellMeQuestions(fullLicenceHeld)', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           spyOn(component, 'getNumberOfTellMeQuestions');
@@ -389,7 +391,7 @@ describe('VehicleChecksCatDModal', () => {
         });
       });
       it('should not change the values of showMeQuestionsNumberArray and '
-                + 'tellMeQuestionsNumberArray if the switch statement returns default', () => {
+        + 'tellMeQuestionsNumberArray if the switch statement returns default', () => {
         component.showMeQuestionsNumberArray = [1, 2, 3];
         component.tellMeQuestionsNumberArray = [1, 2, 3];
         component.category = TestCategory.ADI2;

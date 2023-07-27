@@ -8,7 +8,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   VehicleChecksCatHomeTestModal,
@@ -126,7 +126,8 @@ describe('VehicleChecksCatHomeTestModal', () => {
   }));
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class',
@@ -141,6 +142,10 @@ describe('VehicleChecksCatHomeTestModal', () => {
       });
 
       describe('ngOnInit', () => {
+        afterEach(() => {
+          // clean up subs
+          component.subscription.unsubscribe();
+        });
         it('should merge the correct data into the subscription', () => {
           component.ngOnInit();
           expect(component.subscription)

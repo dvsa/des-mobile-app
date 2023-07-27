@@ -95,6 +95,7 @@
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "capacitor-native-biometric": "^4.2.2",
+    "compare-versions": "^6.0.0",
     "cordova-ios": "7.0.0",
     "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-google-analytics": "^1.9.3",

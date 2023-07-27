@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  switchMap, concatMap, map, catchError, withLatestFrom, filter,
+  catchError, concatMap, filter, map, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
@@ -15,6 +15,7 @@ import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { StoreModel } from '@shared/models/store.model';
 import {
   AppResumed,
+  HasSeenUpdateAvailablePopup,
   LoadAppVersion,
   LoadAppVersionFailure,
   LoadAppVersionSuccess,
@@ -36,35 +37,51 @@ export class AppInfoEffects {
     private appInfoProvider: AppInfoProvider,
     private dateTimeProvider: DateTimeProvider,
     private authenticationProvider: AuthenticationProvider,
-  ) {}
+  ) {
+  }
 
   loadAppInfo$ = createEffect(() => this.actions$.pipe(
     ofType(LoadAppVersion),
     switchMap(() => this.appInfoProvider.getVersionNumber()
       .pipe(
         map((versionNumber: string) => LoadAppVersionSuccess({ versionNumber })),
-        catchError((err: HttpErrorResponse) => {
-          return of(LoadAppVersionFailure(err));
-        }),
+        catchError((err: HttpErrorResponse) => of(LoadAppVersionFailure(err))),
       )),
   ));
 
   loadConfigSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(LoadConfigSuccess),
-    switchMap(() => {
-      console.log('Config loaded successfully');
-      return of(SetDateConfigLoaded({ refreshDate: this.dateTimeProvider.now().format('YYYY-MM-DD') }));
-    }),
+    switchMap(() => of(SetDateConfigLoaded({
+      refreshDate: this.dateTimeProvider.now()
+        .format('YYYY-MM-DD'),
+    }))),
+  ));
+
+  dateConfigLoaded$ = createEffect(() => this.actions$.pipe(
+    ofType(SetDateConfigLoaded),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.select(selectDateConfigLoaded),
+        ),
+      )),
+    filter((
+      [, dateConfigLoaded],
+    ) => dateConfigLoaded !== this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')),
+    map(() => HasSeenUpdateAvailablePopup(false)),
   ));
 
   appResumedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(AppResumed),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.select(selectDateConfigLoaded),
-      ),
-    )),
-    filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('YYYY-MM-DD')),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.select(selectDateConfigLoaded),
+        ),
+      )),
+    filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')),
     switchMap(() => {
       console.log('App resumed after being suspended. Config was not loaded today... app will refresh');
       this.router.navigate([LOGIN_PAGE]);

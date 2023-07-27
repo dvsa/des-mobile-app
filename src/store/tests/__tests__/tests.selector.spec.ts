@@ -4,23 +4,24 @@ import { JournalModel } from '@store/journal/journal.model';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { DateTime } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { testReportPracticeSlotId, end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { TestsModel } from '../tests.model';
 import { TestStatus } from '../test-status/test-status.model';
 import {
-  getCurrentTest,
-  getTestStatus,
-  isPassed,
-  getTestOutcomeText,
   getActivityCode,
-  isTestReportPracticeTest,
-  isEndToEndPracticeTest,
   getActivityCodeBySlotId,
+  getCurrentTest,
   getIncompleteTests,
   getOldestIncompleteTest,
+  getPassCertificateBySlotId,
+  getTestOutcomeText,
+  getTestStatus,
+  hasStartedTests,
   isDelegatedTest,
-  hasStartedTests, getPassCertificateBySlotId,
+  isEndToEndPracticeTest,
+  isPassed,
+  isTestReportPracticeTest,
 } from '../tests.selector';
 import { LogsModel } from '../../logs/logs.model';
 import { TestOutcome } from '../tests.constants';
@@ -66,10 +67,17 @@ describe('testsSelector', () => {
         lastRefreshed: new Date(),
         slots: {},
         selectedDate: 'dummy',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [],
       };
-      const appInfo: AppInfoStateModel = { versionNumber: '0.0.0', employeeId: '1234567', employeeName: 'Fake Name' };
+      const appInfo = {
+        versionNumber: '0.0.0',
+        employeeId: '1234567',
+        employeeName: 'Fake Name',
+      } as AppInfoStateModel;
       const logs: LogsModel = [];
       const state = {
         journal,
@@ -85,7 +93,8 @@ describe('testsSelector', () => {
 
       const result = getCurrentTest(state.tests);
 
-      expect(result).toBe(currentTest);
+      expect(result)
+        .toBe(currentTest);
     });
   });
 
@@ -99,7 +108,8 @@ describe('testsSelector', () => {
 
       const result = getTestStatus(testState, 12345);
 
-      expect(result).toBe(TestStatus.Decided);
+      expect(result)
+        .toBe(TestStatus.Decided);
     });
 
     it('should default to booked if the test with the given slot ID does not have a status yet', () => {
@@ -111,7 +121,8 @@ describe('testsSelector', () => {
 
       const result = getTestStatus(testState, 12345);
 
-      expect(result).toBe(TestStatus.Booked);
+      expect(result)
+        .toBe(TestStatus.Booked);
     });
   });
 
@@ -122,7 +133,10 @@ describe('testsSelector', () => {
       category: 'x' as CategoryCode,
       journalData: {
         examiner: { staffNumber: '12345' },
-        testCentre: { centreId: 1, costCode: '12345' },
+        testCentre: {
+          centreId: 1,
+          costCode: '12345',
+        },
         testSlotAttributes: {
           slotId: 12345,
           vehicleTypeCode: 'C',
@@ -146,18 +160,22 @@ describe('testsSelector', () => {
     };
     it('should retrieve a passed result for a pass activity code', () => {
       const result = getTestOutcomeText(testState as TestResultCommonSchema);
-      expect(result).toBe(TestOutcome.Passed);
+      expect(result)
+        .toBe(TestOutcome.Passed);
     });
     it('should retrieve an unsuccessful result for a fail activity code', () => {
       testState.activityCode = ActivityCodes.FAIL;
       const result = getTestOutcomeText(testState);
-      expect(result).toBe(TestOutcome.Failed);
+      expect(result)
+        .toBe(TestOutcome.Failed);
     });
     it('should retrieve a terminated result for terminated activity code', () => {
       testState.activityCode = ActivityCodes.CANDIDATE_NOT_HAPPY_WITH_AUTHORISED_OCCUPANT;
       const result = getTestOutcomeText(testState);
-      expect(result).toBe(TestOutcome.Terminated);
-      expect(result).toBe('Terminated');
+      expect(result)
+        .toBe(TestOutcome.Terminated);
+      expect(result)
+        .toBe('Terminated');
     });
   });
 
@@ -168,7 +186,10 @@ describe('testsSelector', () => {
       category: 'x' as CategoryCode,
       journalData: {
         examiner: { staffNumber: '12345' },
-        testCentre: { centreId: 1, costCode: '12345' },
+        testCentre: {
+          centreId: 1,
+          costCode: '12345',
+        },
         testSlotAttributes: {
           slotId: 12345,
           vehicleTypeCode: 'C',
@@ -192,17 +213,20 @@ describe('testsSelector', () => {
     };
     it('should return true for a passed activity code', () => {
       const result = isPassed(testState);
-      expect(result).toEqual(true);
+      expect(result)
+        .toEqual(true);
     });
     it('should return false for a failed activity code', () => {
       testState.activityCode = ActivityCodes.FAIL;
       const result = isPassed(testState);
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
     it('should return false for a terminated activity code', () => {
       testState.activityCode = ActivityCodes.MECHANICAL_FAILURE;
       const result = isPassed(testState);
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
   });
 
@@ -214,7 +238,10 @@ describe('testsSelector', () => {
       category: 'x' as CategoryCode,
       journalData: {
         examiner: { staffNumber: '12345' },
-        testCentre: { centreId: 1, costCode: '12345' },
+        testCentre: {
+          centreId: 1,
+          costCode: '12345',
+        },
         testSlotAttributes: {
           slotId: 12345,
           vehicleTypeCode: 'C',
@@ -238,8 +265,10 @@ describe('testsSelector', () => {
     };
     it('should return the DVSA_RADIO_FAILURE ActivityCode', () => {
       const activityCode = getActivityCode(testState);
-      expect(activityCode.activityCode).toEqual(ActivityCodes.DVSA_RADIO_FAILURE);
-      expect(activityCode.description).toEqual(ActivityCodeDescription.DVSA_RADIO_FAILURE);
+      expect(activityCode.activityCode)
+        .toEqual(ActivityCodes.DVSA_RADIO_FAILURE);
+      expect(activityCode.description)
+        .toEqual(ActivityCodeDescription.DVSA_RADIO_FAILURE);
     });
   });
 
@@ -252,19 +281,22 @@ describe('testsSelector', () => {
 
     it('should return false when no tests started', () => {
       const result = isTestReportPracticeTest(testState);
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
 
     it('should return false when slot id is numeric', () => {
       testState.currentTest.slotId = '1';
       const result = isTestReportPracticeTest(testState);
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
 
     it('should return true when slot id starts with practice', () => {
       testState.currentTest.slotId = testReportPracticeSlotId;
       const result = isTestReportPracticeTest(testState);
-      expect(result).toEqual(true);
+      expect(result)
+        .toEqual(true);
     });
   });
 
@@ -277,19 +309,22 @@ describe('testsSelector', () => {
 
     it('should return false when no tests started', () => {
       const result = isEndToEndPracticeTest(testState);
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
 
     it('should return false when slot id is numeric', () => {
       testState.currentTest.slotId = '1';
       const result = isEndToEndPracticeTest(testState);
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
 
     it('should return true when slot id starts with practice', () => {
       testState.currentTest.slotId = end2endPracticeSlotId;
       const result = isEndToEndPracticeTest(testState);
-      expect(result).toEqual(true);
+      expect(result)
+        .toEqual(true);
     });
   });
 
@@ -313,7 +348,8 @@ describe('testsSelector', () => {
         testStatus: {},
       };
       const result = getActivityCodeBySlotId(testState, 1234);
-      expect(result).toEqual(ActivityCodes.ACCIDENT);
+      expect(result)
+        .toEqual(ActivityCodes.ACCIDENT);
     });
     it('should return undefined if no activity code yet', () => {
       const testState: TestsModel = {
@@ -324,7 +360,8 @@ describe('testsSelector', () => {
         testStatus: {},
       };
       const result = getActivityCodeBySlotId(testState, 1234);
-      expect(result).toBeNull();
+      expect(result)
+        .toBeNull();
     });
   });
 
@@ -351,7 +388,8 @@ describe('testsSelector', () => {
         testStatus: {},
       };
       const result = getPassCertificateBySlotId(testState, 1234);
-      expect(result).toEqual('C123456X');
+      expect(result)
+        .toEqual('C123456X');
     });
     it('should return undefined if no pass certificate number yet', () => {
       const testState: TestsModel = {
@@ -362,7 +400,8 @@ describe('testsSelector', () => {
         testStatus: {},
       };
       const result = getPassCertificateBySlotId(testState, 1234);
-      expect(result).toBeNull();
+      expect(result)
+        .toBeNull();
     });
   });
 
@@ -518,21 +557,25 @@ describe('testsSelector', () => {
     describe('getIncompleteTests', () => {
       it('should return the unsubmitted tests', () => {
         const result = getIncompleteTests(testState);
-        expect(result.length).toEqual(3);
+        expect(result.length)
+          .toEqual(3);
       });
       it('should return no unsubmitted tests', () => {
         const result = getIncompleteTests(initialState);
-        expect(result.length).toEqual(0);
+        expect(result.length)
+          .toEqual(0);
       });
     });
     describe('getOldestIncompleteTest', () => {
       it('should return the oldest unsubmitted test', () => {
         const result = getOldestIncompleteTest(testState);
-        expect(result.journalData.testSlotAttributes.slotId).toEqual(2008);
+        expect(result.journalData.testSlotAttributes.slotId)
+          .toEqual(2008);
       });
       it('should return null for the oldest unsubmitted test', () => {
         const result = getOldestIncompleteTest(initialState);
-        expect(result).toBeUndefined();
+        expect(result)
+          .toBeUndefined();
       });
     });
   });
@@ -590,7 +633,8 @@ describe('testsSelector', () => {
         },
       };
       const result = isDelegatedTest(localTestsState);
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
 
     it('should return false when test has valid category but delegatedTest flag is not set', () => {
@@ -606,7 +650,8 @@ describe('testsSelector', () => {
         },
       };
       const result = isDelegatedTest(localTestsState);
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
 
     it('should return false when test has valid category but delegatedTest flag is set to false', () => {
@@ -622,7 +667,8 @@ describe('testsSelector', () => {
         },
       };
       const result = isDelegatedTest(localTestsState);
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
 
     it('should return true when test has valid common category and delegatedTest flag is set to true', () => {
@@ -638,7 +684,8 @@ describe('testsSelector', () => {
         },
       };
       const result = isDelegatedTest(localTestsState);
-      expect(result).toBe(true);
+      expect(result)
+        .toBe(true);
     });
 
     it('should return true when test has valid CPC category and delegatedTest flag is set to true', () => {
@@ -654,7 +701,8 @@ describe('testsSelector', () => {
         },
       };
       const result = isDelegatedTest(localTestsState);
-      expect(result).toBe(true);
+      expect(result)
+        .toBe(true);
     });
   });
   describe('hasStartedTests', () => {
@@ -669,7 +717,8 @@ describe('testsSelector', () => {
 
       const data = hasStartedTests(testsModel);
 
-      expect(data).toEqual(true);
+      expect(data)
+        .toEqual(true);
     });
   });
 });

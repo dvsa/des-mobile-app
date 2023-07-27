@@ -8,6 +8,7 @@ process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
 const JASMINE_DEFAULT_TIMEOUT = 15000;
+const minute = 60 * 1000;
 
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
 
@@ -84,9 +85,9 @@ module.exports = function(config) {
         ],
       },
     },
-    browserNoActivityTimeout: 120000,
-    browserSocketTimeout: 60000,
-    browserDisconnectTimeout: 200000,
-    captureTimeout: 240000,
+    browserSocketTimeout: minute,
+    browserNoActivityTimeout: (5 * minute),
+    browserDisconnectTimeout: (5 * minute),
+    captureTimeout: (5 * minute),
   });
 };
