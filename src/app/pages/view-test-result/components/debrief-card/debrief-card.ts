@@ -18,11 +18,9 @@ import {
 } from '../data-row-with-list/data-list-with-row.model';
 
 @Component({
-
   selector: 'debrief-card',
   templateUrl: 'debrief-card.html',
   styleUrls: ['debrief-card.scss'],
-
 })
 export class DebriefCardComponent implements OnInit {
 
@@ -493,13 +491,13 @@ export class DebriefCardComponent implements OnInit {
 
   isValidEmergencyStopOrAvoidance(): boolean {
     return this.isMod1()
-            && (this.data['emergencyStop']?.firstAttempt || this.data['emergencyStop']?.secondAttempt
-                || this.data['avoidance']?.firstAttempt || this.data['avoidance']?.secondAttempt);
+      && (this.data['emergencyStop']?.firstAttempt || this.data['emergencyStop']?.secondAttempt
+        || this.data['avoidance']?.firstAttempt || this.data['avoidance']?.secondAttempt);
   }
 
   ETASeparator(): boolean {
     return (this.isMod2()
-            || this.isValidEmergencyStopOrAvoidance()
-            || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
+      || this.isValidEmergencyStopOrAvoidance()
+      || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
   }
 }
