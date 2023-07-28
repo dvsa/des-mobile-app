@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController, NavParams } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
 import * as journalActions from '@store/journal/journal.actions';
@@ -14,7 +14,17 @@ import {
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Router } from '@angular/router';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { getTests } from '@store/tests/tests.reducer';
+import { getTestStatus } from '@store/tests/tests.selector';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { getJournalState } from '@store/journal/journal.reducer';
+import {
+  getCompletedTestOutcome,
+  getCompletedTests,
+} from '@store/journal/journal.selector';
+import { ActivityCode } from '@dvsa/mes-search-schema';
+import { map } from 'rxjs/operators';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -27,6 +37,8 @@ interface CandidateDetailsPageState {
   categoryEntitlementCheckText: string;
   fitMarker: boolean;
   fitCaseNumber: string;
+  testStatus$: Observable<TestStatus>;
+  completedTestOutcome$: Observable<ActivityCode>;
 }
 
 @Component({
@@ -93,6 +105,15 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
       categoryEntitlementCheckText: getCategoryEntitlementCheckText(this.slot),
       fitMarker: getFitMarker(this.slot),
       fitCaseNumber: getFitCaseNumber(this.slot),
+      testStatus$: this.store$.pipe(
+        select(getTests),
+        select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId)),
+      ),
+      completedTestOutcome$: this.store$.pipe(
+        select(getJournalState),
+        select(getCompletedTests),
+        map((completedTests) => getCompletedTestOutcome(completedTests, this.pageState.details.applicationRef)),
+      ),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
@@ -149,5 +170,10 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  isCompleted(testStatus: TestStatus, completedTestOutcome: ActivityCode): boolean {
+    if (completedTestOutcome) return true;
+    return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
   }
 }
