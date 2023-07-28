@@ -38,7 +38,7 @@ import { DataStoreProvider } from '../data-store/data-store';
  *  If this fails then it will use the Environment configuration
  *  provided by the environment file at ../../environment/environment which is required for the app to build
  *
- *  In the Login page for an IOS device the App Config initialiseAppConfig() is ran
+ *  In the Login page for an IOS device the App Config initialiseAppConfig() is run
  *  followed by loadRemoteConfig() which makes an api call to the configuration microservice
  *  and then calls mapRemoteConfig()
  *
@@ -163,7 +163,7 @@ export class AppConfigProvider {
     return data?.value;
   };
 
-  public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
+  public loadRemoteConfig = (): Promise<void> => this.getRemoteData()
     .then((data) => {
       const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
       if (result?.errors?.length > 0) {
@@ -275,6 +275,7 @@ export class AppConfigProvider {
 
   private mapRemoteConfig = (data: LocalEnvironmentFile | RemoteConfig): void => {
     this.appConfig = merge({}, this.appConfig, <AppConfig>{
+      liveAppVersion: data.liveAppVersion,
       googleAnalyticsId: data.googleAnalyticsId,
       approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
       timeTravelDate: data.timeTravelDate,

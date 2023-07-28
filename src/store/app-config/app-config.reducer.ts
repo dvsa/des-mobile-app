@@ -6,6 +6,7 @@ import { LoadAppConfig } from './app-config.actions';
 export const appConfigFeatureKey = 'appConfig';
 
 export const initialState: AppConfig = {
+  liveAppVersion: null,
   configUrl: null,
   googleAnalyticsId: null,
   daysToCacheLogs: null,

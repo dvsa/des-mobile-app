@@ -1,5 +1,6 @@
-import { createReducer, createFeatureSelector, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import {
+  HasSeenUpdateAvailablePopup,
   LoadAppVersionFailure,
   LoadAppVersionSuccess,
   LoadEmployeeId,
@@ -15,6 +16,7 @@ export const initialState: AppInfoStateModel = {
   versionNumber: 'VERSION_NOT_LOADED',
   employeeId: null,
   employeeName: 'Unknown Name',
+  updateAvailablePresented: null,
 };
 
 export const appInfoReducer = createReducer(
@@ -38,6 +40,10 @@ export const appInfoReducer = createReducer(
   on(SetDateConfigLoaded, (state: AppInfoStateModel, { refreshDate }) => ({
     ...state,
     dateConfigLoaded: refreshDate,
+  })),
+  on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
+    ...state,
+    updateAvailablePresented: hasSeen,
   })),
 );
 

@@ -9,6 +9,7 @@ export class ExaminerNameComponent {
 
   @Input()
   examinerName: string;
+
   @Input()
-  id: string;
+  id: number;
 }

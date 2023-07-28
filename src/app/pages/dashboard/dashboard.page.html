@@ -2,16 +2,24 @@
   <ion-toolbar mode="ios">
     <ion-buttons id="burger-menu" slot="start">
       <ion-menu-button id="dashboard-menu-button"></ion-menu-button>
-      <ion-badge *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
-                 color="danger"
-                 id="dashboard-notification-count-badge">
+      <ion-badge
+        *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
+        color="danger"
+        id="dashboard-notification-count-badge">
         {{notificationCount}}
       </ion-badge>
     </ion-buttons>
+    <ion-title id="page-title">My dashboard</ion-title>
     <ion-buttons slot="end">
       <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+      &nbsp;
+      <ion-badge
+        *ngIf="pageState.showUpdatesAvailable$ | async"
+        color="danger"
+        (click)="showUpdateAvailableModal()">
+        Version {{pageState.liveAppVersion$ | async}} available
+      </ion-badge>
     </ion-buttons>
-    <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
