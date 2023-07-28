@@ -31,7 +31,7 @@ import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-man
 import { QuestionProvider } from '@providers/question/question';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 
-xdescribe('DebriefCardComponent', () => {
+describe('DebriefCardComponent', () => {
   let fixture: ComponentFixture<DebriefCardComponent>;
   let component: DebriefCardComponent;
 
