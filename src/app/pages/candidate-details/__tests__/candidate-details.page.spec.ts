@@ -29,6 +29,7 @@ import {
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { JournalModel } from '@store/journal/journal.model';
 import { StoreModel } from '@shared/models/store.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
@@ -236,6 +237,21 @@ describe('CandidateDetailsPage', () => {
 
     it('should return null if url is null', () => {
       expect(component.formatUrl(null)).toEqual(null);
+    });
+  });
+
+  describe('isCompleted', () => {
+    it('should return true if completedTestOutcome pupulated', () => {
+      expect(component.isCompleted(TestStatus.Booked, '2')).toEqual(true);
+    });
+
+    it('should return true if testStatus is Completed or Submitted', () => {
+      expect(component.isCompleted(TestStatus.Completed, null)).toEqual(true);
+      expect(component.isCompleted(TestStatus.Submitted, null)).toEqual(true);
+    });
+
+    it('should return false if both completedTestOutcome and testStatus are false', () => {
+      expect(component.isCompleted(TestStatus.Booked, null)).toEqual(false);
     });
   });
 

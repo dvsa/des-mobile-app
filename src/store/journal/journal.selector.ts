@@ -1,5 +1,5 @@
 import { flatten, isNil } from 'lodash';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
@@ -84,6 +84,12 @@ export const getPermittedSlotIdsBeforeToday = (
 
 export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {
   return journalModel.completedTests;
+};
+
+export const getCompletedTestOutcome = (completedTests: SearchResultTestSchema[], appRef: string): ActivityCode => {
+  return completedTests
+    .find((test) => test.applicationReference === parseInt(appRef, 10))
+    ?.activityCode;
 };
 
 export const getCompletedPassCerts = (journalModel: JournalModel): string[] => {
