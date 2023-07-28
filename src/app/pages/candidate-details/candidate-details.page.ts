@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController, NavParams } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
 import * as journalActions from '@store/journal/journal.actions';
@@ -14,7 +14,10 @@ import {
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Router } from '@angular/router';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { getTests } from '@store/tests/tests.reducer';
+import { getTestStatus } from '@store/tests/tests.selector';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -27,6 +30,7 @@ interface CandidateDetailsPageState {
   categoryEntitlementCheckText: string;
   fitMarker: boolean;
   fitCaseNumber: string;
+  testStatus$: Observable<TestStatus>;
 }
 
 @Component({
@@ -93,6 +97,10 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
       categoryEntitlementCheckText: getCategoryEntitlementCheckText(this.slot),
       fitMarker: getFitMarker(this.slot),
       fitCaseNumber: getFitCaseNumber(this.slot),
+      testStatus$: this.store$.pipe(
+        select(getTests),
+        select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId)),
+      ),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
@@ -149,5 +157,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  isCompleted(testStatus: TestStatus): boolean {
+    return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
   }
 }
