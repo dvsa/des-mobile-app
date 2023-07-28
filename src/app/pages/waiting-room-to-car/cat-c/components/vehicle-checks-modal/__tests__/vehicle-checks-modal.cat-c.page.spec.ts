@@ -1,7 +1,5 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams,
-} from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
@@ -13,8 +11,8 @@ import {
   SetFullLicenceHeld,
   ShowMeQuestionOutcomeChanged,
   ShowMeQuestionSelected,
-  TellMeQuestionSelected,
   TellMeQuestionOutcomeChanged,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -179,8 +177,14 @@ describe('VehicleChecksCatCModal', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -197,26 +201,34 @@ describe('VehicleChecksCatCModal', () => {
     [TestCategory.CE, TestCategory.C1E].forEach((category: TestCategory) => {
       it(`should return false for category ${category} and set fullLicenceHeldSelected to Y`, () => {
         component.category = category;
-        expect(component.showFullLicenceHeld()).toEqual(true);
+        expect(component.showFullLicenceHeld())
+          .toEqual(true);
       });
     });
     [TestCategory.CE, TestCategory.C1E].forEach((category: TestCategory) => {
       it(`should return true for category ${category}`, () => {
         component.category = category;
-        expect(component.showFullLicenceHeld()).toEqual(true);
+        expect(component.showFullLicenceHeld())
+          .toEqual(true);
       });
     });
   });
 
   describe('Class', () => {
     it('should compile', () => {
-      expect(component).toBeDefined();
+      expect(component)
+        .toBeDefined();
     });
 
     describe('ngOnInit', () => {
+      afterEach(() => {
+        // clean up subs
+        component.subscription.unsubscribe();
+      });
       it('should merge the correct data into the subscription', () => {
         component.ngOnInit();
-        expect(component.subscription).toBeDefined();
+        expect(component.subscription)
+          .toBeDefined();
       });
       it('should resolve state variables', () => {
         component.ngOnInit();
@@ -288,14 +300,14 @@ describe('VehicleChecksCatCModal', () => {
     describe('setNumberOfShowMeTellMeQuestions', () => {
       [TestCategory.C, TestCategory.C1].forEach((category) => {
         it('should set showMeQuestionsNumberArray to '
-                    + 'an Array of NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER', () => {
+          + 'an Array of NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           expect(component.showMeQuestionsNumberArray)
             .toEqual(Array(NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER));
         });
         it('should set tellMeQuestionsNumberArray to '
-                    + 'an Array of NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER', () => {
+          + 'an Array of NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           expect(component.tellMeQuestionsNumberArray)
@@ -305,7 +317,7 @@ describe('VehicleChecksCatCModal', () => {
 
       [TestCategory.CE, TestCategory.C1E].forEach((category) => {
         it('should set showMeQuestionsNumberArray to '
-                    + 'an Array of getNumberOfShowMeQuestions(fullLicenceHeld)', () => {
+          + 'an Array of getNumberOfShowMeQuestions(fullLicenceHeld)', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           spyOn(component, 'getNumberOfShowMeQuestions');
@@ -315,7 +327,7 @@ describe('VehicleChecksCatCModal', () => {
             ));
         });
         it('should set tellMeQuestionsNumberArray to '
-                    + 'an Array of getNumberOfTellMeQuestions(fullLicenceHeld)', () => {
+          + 'an Array of getNumberOfTellMeQuestions(fullLicenceHeld)', () => {
           component.category = category;
           component.setNumberOfShowMeTellMeQuestions(true);
           spyOn(component, 'getNumberOfTellMeQuestions');
@@ -326,7 +338,7 @@ describe('VehicleChecksCatCModal', () => {
         });
       });
       it('should not change the values of showMeQuestionsNumberArray and '
-                + 'tellMeQuestionsNumberArray if the switch statement returns default', () => {
+        + 'tellMeQuestionsNumberArray if the switch statement returns default', () => {
         component.showMeQuestionsNumberArray = [1, 2, 3];
         component.tellMeQuestionsNumberArray = [1, 2, 3];
         component.category = TestCategory.ADI2;

@@ -70,7 +70,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       descriptor: 'Missing/Spoiled Pass Certificates',
     },
   ];
-  textZoom: number = 100;
 
   pageState: AppComponentPageState;
 
@@ -112,7 +111,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.configureStatusBar();
       this.configureLocale();
       if (this.platform.is('cordova')) {
-        this.accessibilityService.configureAccessibility();
+        await this.accessibilityService.configureAccessibility();
         this.configurePlatformSubscriptions();
       }
       await this.disableMenuSwipe();
@@ -170,9 +169,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.platformSubscription = merged$.subscribe();
   }
 
-  onAppResumed = (): void => {
+  onAppResumed = async (): Promise<void> => {
     this.store$.dispatch(AppResumed());
-    this.accessibilityService.afterAppResume();
+    await this.accessibilityService.afterAppResume();
   };
 
   onAppSuspended = (): void => {

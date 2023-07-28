@@ -128,20 +128,62 @@ describe('ViewTestResultPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: getCandidateName, useClass: getCandidateNameMock },
-        { provide: getTestOutcomeText, useClass: getTestOutcomeTextMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Router, useClass: RouterMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: SearchProvider, useClass: SearchProviderMock },
-        { provide: CompressionProvider, useClass: CompressionProviderMock },
-        { provide: LogHelper, useClass: LogHelperMock },
-        { provide: LoadingProvider, useClass: LoadingProvider }, // stub
-        { provide: FaultCountProvider, useClass: FaultCountProvider }, // stub
-        { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },
-        { provide: ChangeDetectorRef, useClass: ChangeDetectorRef }, // stub
-        { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: getCandidateName,
+          useClass: getCandidateNameMock,
+        },
+        {
+          provide: getTestOutcomeText,
+          useClass: getTestOutcomeTextMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: SearchProvider,
+          useClass: SearchProviderMock,
+        },
+        {
+          provide: CompressionProvider,
+          useClass: CompressionProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: LoadingProvider,
+          useClass: LoadingProvider,
+        }, // stub
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        }, // stub
+        {
+          provide: FaultSummaryProvider,
+          useClass: FaultSummaryProviderMock,
+        },
+        {
+          provide: ChangeDetectorRef,
+          useClass: ChangeDetectorRef,
+        }, // stub
+        {
+          provide: ADI3AssessmentProvider,
+          useClass: ADI3AssessmentProvider,
+        },
       ],
     });
 
@@ -156,27 +198,29 @@ describe('ViewTestResultPage', () => {
   }));
 
   it('should ', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
   describe('getDrivingFaultSumCount', () => {
     it('should call faultCountProvider with the correct parameters', () => {
       component.testCategory = TestCategory.B;
       spyOn(component.faultCountProvider, 'getDrivingFaultSumCount');
       component.getDrivingFaultSumCount();
-      expect(component.faultCountProvider.getDrivingFaultSumCount).toHaveBeenCalledWith(TestCategory.B, {
-        dangerousFaults: {
-          controlsAccelerator: true,
-          controlsClutch: true,
-        },
-        drivingFaults: {
-          controlsAccelerator: 1,
-          controlsClutch: 14,
-          controlsGears: 5,
-        },
-        seriousFaults: {
-          controlsGears: true,
-        },
-      });
+      expect(component.faultCountProvider.getDrivingFaultSumCount)
+        .toHaveBeenCalledWith(TestCategory.B, {
+          dangerousFaults: {
+            controlsAccelerator: true,
+            controlsClutch: true,
+          },
+          drivingFaults: {
+            controlsAccelerator: 1,
+            controlsClutch: 14,
+            controlsGears: 5,
+          },
+          seriousFaults: {
+            controlsGears: true,
+          },
+        });
     });
   });
 
@@ -186,20 +230,21 @@ describe('ViewTestResultPage', () => {
       component.testCategory = TestCategory.B;
 
       component.getDangerousFaults();
-      expect(faultSummaryProvider.getDangerousFaultsList).toHaveBeenCalledWith({
-        dangerousFaults: {
-          controlsAccelerator: true,
-          controlsClutch: true,
-        },
-        drivingFaults: {
-          controlsAccelerator: 1,
-          controlsClutch: 14,
-          controlsGears: 5,
-        },
-        seriousFaults: {
-          controlsGears: true,
-        },
-      }, TestCategory.B);
+      expect(faultSummaryProvider.getDangerousFaultsList)
+        .toHaveBeenCalledWith({
+          dangerousFaults: {
+            controlsAccelerator: true,
+            controlsClutch: true,
+          },
+          drivingFaults: {
+            controlsAccelerator: 1,
+            controlsClutch: 14,
+            controlsGears: 5,
+          },
+          seriousFaults: {
+            controlsGears: true,
+          },
+        }, TestCategory.B);
     });
   });
   describe('getSeriousFaults', () => {
@@ -208,20 +253,21 @@ describe('ViewTestResultPage', () => {
       component.testCategory = TestCategory.B;
 
       component.getSeriousFaults();
-      expect(faultSummaryProvider.getSeriousFaultsList).toHaveBeenCalledWith({
-        dangerousFaults: {
-          controlsAccelerator: true,
-          controlsClutch: true,
-        },
-        drivingFaults: {
-          controlsAccelerator: 1,
-          controlsClutch: 14,
-          controlsGears: 5,
-        },
-        seriousFaults: {
-          controlsGears: true,
-        },
-      }, TestCategory.B);
+      expect(faultSummaryProvider.getSeriousFaultsList)
+        .toHaveBeenCalledWith({
+          dangerousFaults: {
+            controlsAccelerator: true,
+            controlsClutch: true,
+          },
+          drivingFaults: {
+            controlsAccelerator: 1,
+            controlsClutch: 14,
+            controlsGears: 5,
+          },
+          seriousFaults: {
+            controlsGears: true,
+          },
+        }, TestCategory.B);
     });
   });
 
@@ -231,27 +277,29 @@ describe('ViewTestResultPage', () => {
       component.testCategory = TestCategory.B;
 
       component.getDrivingFaults();
-      expect(faultSummaryProvider.getDrivingFaultsList).toHaveBeenCalledWith({
-        dangerousFaults: {
-          controlsAccelerator: true,
-          controlsClutch: true,
-        },
-        drivingFaults: {
-          controlsAccelerator: 1,
-          controlsClutch: 14,
-          controlsGears: 5,
-        },
-        seriousFaults: {
-          controlsGears: true,
-        },
-      }, TestCategory.B);
+      expect(faultSummaryProvider.getDrivingFaultsList)
+        .toHaveBeenCalledWith({
+          dangerousFaults: {
+            controlsAccelerator: true,
+            controlsClutch: true,
+          },
+          drivingFaults: {
+            controlsAccelerator: 1,
+            controlsClutch: 14,
+            controlsGears: 5,
+          },
+          seriousFaults: {
+            controlsGears: true,
+          },
+        }, TestCategory.B);
     });
   });
 
   describe('getReason', () => {
     it('should return reasonForNoAdviceGiven', () => {
       component.testResult.testData = { review: { reasonForNoAdviceGiven: 'testData' } };
-      expect(component.getReason()).toEqual('testData');
+      expect(component.getReason())
+        .toEqual('testData');
     });
   });
 
@@ -259,23 +307,36 @@ describe('ViewTestResultPage', () => {
     it('should return registrationNumber if test result is present', () => {
       component.testResult = { instructorDetails: { registrationNumber: 1 } } as TestResultSchemasUnion;
       const { registrationNumber } = component.getInstructorData();
-      expect(registrationNumber).toEqual(Object(1));
+      expect(registrationNumber)
+        .toEqual(Object(1));
     });
     it('should return null if test result is not present', () => {
       component.testResult = null;
-      expect(component.getInstructorData()).toEqual(null);
+      expect(component.getInstructorData())
+        .toEqual(null);
     });
   });
   describe('getReviewData', () => {
     it('should return review if test result is present', () => {
-      component.testResult.testData = { review: { feedback: 'testData', seekFurtherDevelopment: true } };
-      const { feedback, seekFurtherDevelopment } = component.getReviewData();
-      expect(feedback).toEqual(Object('testData'));
-      expect(seekFurtherDevelopment).toEqual(Object(true));
+      component.testResult.testData = {
+        review: {
+          feedback: 'testData',
+          seekFurtherDevelopment: true,
+        },
+      };
+      const {
+        feedback,
+        seekFurtherDevelopment,
+      } = component.getReviewData();
+      expect(feedback)
+        .toEqual(Object('testData'));
+      expect(seekFurtherDevelopment)
+        .toEqual(Object(true));
     });
     it('should return null if test result is not present', () => {
       component.testResult = null;
-      expect(component.getReviewData()).toEqual(null);
+      expect(component.getReviewData())
+        .toEqual(null);
     });
   });
   describe('getTrainerData', () => {
@@ -298,15 +359,21 @@ describe('ViewTestResultPage', () => {
         trainerRegistrationNumber,
       } = component.getTrainerData() as CatADI3TrainerDetails & CatADI2UniqueTypes.TrainerDetails;
 
-      expect(pdiLogbook).toEqual(Object(true));
-      expect(traineeLicence).toEqual(Object(true));
-      expect(orditTrainedCandidate).toEqual(Object(true));
-      expect(trainingRecords).toEqual(Object(true));
-      expect(trainerRegistrationNumber).toEqual(Object(1));
+      expect(pdiLogbook)
+        .toEqual(Object(true));
+      expect(traineeLicence)
+        .toEqual(Object(true));
+      expect(orditTrainedCandidate)
+        .toEqual(Object(true));
+      expect(trainingRecords)
+        .toEqual(Object(true));
+      expect(trainerRegistrationNumber)
+        .toEqual(Object(1));
     });
     it('should return null if test result is not present', () => {
       component.testResult = null;
-      expect(component.getTrainerData()).toEqual(null);
+      expect(component.getTrainerData())
+        .toEqual(null);
     });
   });
 
@@ -331,13 +398,17 @@ describe('ViewTestResultPage', () => {
         testCentreName,
       } = component.getExaminerDetails() as ExaminerDetailsModel;
 
-      expect(staffNumber).toEqual(Object('testData'));
-      expect(costCode).toEqual(Object('testData1'));
-      expect(testCentreName).toEqual(Object('testData2'));
+      expect(staffNumber)
+        .toEqual(Object('testData'));
+      expect(costCode)
+        .toEqual(Object('testData1'));
+      expect(testCentreName)
+        .toEqual(Object('testData2'));
     });
     it('should return null if test result is not present', () => {
       component.testResult = null;
-      expect(component.getExaminerDetails()).toEqual(null);
+      expect(component.getExaminerDetails())
+        .toEqual(null);
     });
   });
 
@@ -355,12 +426,14 @@ describe('ViewTestResultPage', () => {
 
       category.forEach((cat) => {
         component.testCategory = cat;
-        expect(component.showDebriefCommonCard()).toEqual(true);
+        expect(component.showDebriefCommonCard())
+          .toEqual(true);
       });
     });
     it('should return false if the TestCategory is not on the approved list', () => {
       component.testCategory = TestCategory.CCPC;
-      expect(component.showDebriefCommonCard()).toEqual(false);
+      expect(component.showDebriefCommonCard())
+        .toEqual(false);
     });
   });
 
@@ -377,12 +450,14 @@ describe('ViewTestResultPage', () => {
 
       category.forEach((cat) => {
         component.testCategory = cat;
-        expect(component.showVehicleDetailsCommonCard()).toEqual(true);
+        expect(component.showVehicleDetailsCommonCard())
+          .toEqual(true);
       });
     });
     it('should return false if the TestCategory is not on the approved list', () => {
       component.testCategory = TestCategory.A;
-      expect(component.showVehicleDetailsCommonCard()).toEqual(false);
+      expect(component.showVehicleDetailsCommonCard())
+        .toEqual(false);
     });
   });
 
@@ -390,7 +465,8 @@ describe('ViewTestResultPage', () => {
     it('should dismiss modalCtrl', async () => {
       spyOn(component.modalCtrl, 'dismiss');
       await component.onClose();
-      expect(component.modalCtrl.dismiss).toHaveBeenCalled();
+      expect(component.modalCtrl.dismiss)
+        .toHaveBeenCalled();
     });
   });
 
@@ -398,55 +474,66 @@ describe('ViewTestResultPage', () => {
     it('should dispatch the ViewTestResultViewDidEnter action', () => {
       spyOn(store$, 'dispatch');
       component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(ViewTestResultViewDidEnter(component.applicationReference));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(ViewTestResultViewDidEnter(component.applicationReference));
     });
   });
 
   describe('isCategoryB', () => {
     it('should return true if the testCategory is B', () => {
       component.testCategory = TestCategory.B;
-      expect(component.isCategoryB()).toEqual(true);
+      expect(component.isCategoryB())
+        .toEqual(true);
     });
     it('should return false if the testCategory is not B', () => {
       component.testCategory = TestCategory.C;
-      expect(component.isCategoryB()).toEqual(false);
+      expect(component.isCategoryB())
+        .toEqual(false);
     });
   });
   describe('isCategoryADI3', () => {
     it('should return true if the testCategory is ADI3', () => {
       component.testCategory = TestCategory.ADI3;
-      expect(component.isCategoryADI3()).toEqual(true);
+      expect(component.isCategoryADI3())
+        .toEqual(true);
     });
     it('should return false if the testCategory is not ADI3', () => {
       component.testCategory = TestCategory.C;
-      expect(component.isCategoryADI3()).toEqual(false);
+      expect(component.isCategoryADI3())
+        .toEqual(false);
     });
   });
   describe('showCPCDebriefCommonCard', () => {
     it('should return true if the testCategory is CCPC or DCPC', () => {
       component.testCategory = TestCategory.CCPC;
-      expect(component.showCPCDebriefCommonCard()).toEqual(true);
+      expect(component.showCPCDebriefCommonCard())
+        .toEqual(true);
       component.testCategory = TestCategory.DCPC;
-      expect(component.showCPCDebriefCommonCard()).toEqual(true);
+      expect(component.showCPCDebriefCommonCard())
+        .toEqual(true);
     });
     it('should return false if the testCategory is not CCPC or DCPC', () => {
       component.testCategory = TestCategory.C;
-      expect(component.showCPCDebriefCommonCard()).toEqual(false);
+      expect(component.showCPCDebriefCommonCard())
+        .toEqual(false);
     });
   });
 
   describe('didTestTerminate', () => {
     it('should return true if the activityCode is not set to a fail value or the pass value', () => {
       component.testResult.activityCode = '41';
-      expect(component.didTestTerminate()).toEqual(true);
+      expect(component.didTestTerminate())
+        .toEqual(true);
     });
     it('should return true if the activityCode is set to a fail value', () => {
       component.testResult.activityCode = '2';
-      expect(component.didTestTerminate()).toEqual(false);
+      expect(component.didTestTerminate())
+        .toEqual(false);
     });
     it('should return false if the activityCode is set to the pass value', () => {
       component.testResult.activityCode = '1';
-      expect(component.didTestTerminate()).toEqual(false);
+      expect(component.didTestTerminate())
+        .toEqual(false);
     });
   });
 
@@ -470,47 +557,76 @@ describe('ViewTestResultPage', () => {
   describe('getVehicleDetails', () => {
     it('should return null if there is no test result and the category is B', () => {
       component.testResult = null;
-      spyOn(component, 'isCategoryB').and.returnValue(true);
-      expect(component.getVehicleDetails()).toEqual(null);
+      spyOn(component, 'isCategoryB')
+        .and
+        .returnValue(true);
+      expect(component.getVehicleDetails())
+        .toEqual(null);
     });
     it('should return null if there a no test result and the category is not B', () => {
       component.testResult = { activityCode: '1' } as TestResultSchemasUnion;
-      spyOn(component, 'isCategoryB').and.returnValue(false);
-      expect(component.getVehicleDetails()).toEqual(null);
+      spyOn(component, 'isCategoryB')
+        .and
+        .returnValue(false);
+      expect(component.getVehicleDetails())
+        .toEqual(null);
     });
     it('should return Dual controls if dualControls is true and the category is B', () => {
       component.testResult = { vehicleDetails: { dualControls: true } } as TestResultSchemasUnion;
-      spyOn(component, 'isCategoryB').and.returnValue(true);
-      expect(component.getVehicleDetails()).toEqual(['Dual controls']);
+      spyOn(component, 'isCategoryB')
+        .and
+        .returnValue(true);
+      expect(component.getVehicleDetails())
+        .toEqual(['Dual controls']);
     });
     it('should return School car if schoolCar is true and the category is B', () => {
       component.testResult = { vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion;
-      spyOn(component, 'isCategoryB').and.returnValue(true);
-      expect(component.getVehicleDetails()).toEqual(['School car']);
+      spyOn(component, 'isCategoryB')
+        .and
+        .returnValue(true);
+      expect(component.getVehicleDetails())
+        .toEqual(['School car']);
     });
   });
 
   describe('getCandidateDetails', () => {
     it('should return null if there is no test result', () => {
       component.testResult = null;
-      expect(component.getCandidateDetails()).toEqual(null);
+      expect(component.getCandidateDetails())
+        .toEqual(null);
     });
     it('should return an object with PRN and amount of attempts if the data is in testResult', () => {
-      component.testResult = { journalData: { candidate: { prn: 1, previousADITests: 2 } } } as TestResultSchemasUnion;
-      expect(component.getCandidateDetails()).toEqual({ prn: 1, attemptNumber: 2 });
+      component.testResult = {
+        journalData: {
+          candidate: {
+            prn: 1,
+            previousADITests: 2,
+          },
+        },
+      } as TestResultSchemasUnion;
+      expect(component.getCandidateDetails())
+        .toEqual({
+          prn: 1,
+          attemptNumber: 2,
+        });
     });
   });
 
   describe('getHeaderDetails', () => {
     it('should return null if there is no test result', () => {
       component.testResult = null;
-      expect(component.getHeaderDetails()).toEqual(null);
+      expect(component.getHeaderDetails())
+        .toEqual(null);
     });
     it('should return an object with correct data if the data is in testResult', () => {
       component.testResult = {
         journalData: {
           candidate: {
-            candidateName: { title: 'Mr', firstName: 'Firstname', lastName: 'Lastname' },
+            candidateName: {
+              title: 'Mr',
+              firstName: 'Firstname',
+              lastName: 'Lastname',
+            },
             driverNumber: '1',
           },
         },
@@ -518,20 +634,22 @@ describe('ViewTestResultPage', () => {
         testData: { review: { grade: 'A' } },
       } as TestResultSchemasUnion;
 
-      expect(component.getHeaderDetails()).toEqual({
-        candidateName: 'Mr Firstname Lastname',
-        candidateDriverNumber: '1',
-        activityCode: '1',
-        testOutcome: TestOutcome.Passed,
-        grade: 'A',
-      });
+      expect(component.getHeaderDetails())
+        .toEqual({
+          candidateName: 'Mr Firstname Lastname',
+          candidateDriverNumber: '1',
+          activityCode: '1',
+          testOutcome: TestOutcome.Passed,
+          grade: 'A',
+        });
     });
   });
 
   describe('getTestDetails', () => {
     it('should return null if there is no test result', () => {
       component.testResult = null;
-      expect(component.getTestDetails()).toEqual(null);
+      expect(component.getTestDetails())
+        .toEqual(null);
     });
     it('should return an object with correct data if the data is in testResult', () => {
       component.testResult = {
@@ -556,86 +674,113 @@ describe('ViewTestResultPage', () => {
         },
       } as TestResultSchemasUnion;
 
-      expect(component.getTestDetails()).toEqual({
-        date: 'Friday 25th December 2020',
-        time: '08:10',
-        applicationReference: '1023',
-        category: TestCategory.B,
-        specialNeeds: ['test'],
-        entitlementCheck: true,
-        slotType: 'testSlot',
-        previousCancellations: ['Act of nature'],
-        fullLicenceHeld: true,
-      });
+      expect(component.getTestDetails())
+        .toEqual({
+          date: 'Friday 25th December 2020',
+          time: '08:10',
+          applicationReference: '1023',
+          category: TestCategory.B,
+          specialNeeds: ['test'],
+          entitlementCheck: true,
+          slotType: 'testSlot',
+          previousCancellations: ['Act of nature'],
+          fullLicenceHeld: true,
+        });
     });
   });
 
   describe('handleLoadingUI', () => {
-    it('should set isLoading to the value passed in', () => {
-
+    it('should set isLoading to the value passed in', async () => {
       component.isLoading = null;
-      component.handleLoadingUI(false);
-      spyOn(loadingProvider, 'handleUILoading').and.callThrough();
-      expect(component.isLoading).toEqual(false);
+      await component.handleLoadingUI(false);
+      spyOn(loadingProvider, 'handleUILoading')
+        .and
+        .callThrough();
+      expect(component.isLoading)
+        .toEqual(false);
     });
   });
 
   describe('ngOnInit', () => {
     it('should set subscription to the correct values', async () => {
       component.testResult = null;
-      spyOn(component, 'handleLoadingUI').and.callThrough();
-      spyOn(compressionProvider, 'extract').and.returnValue({
-        testData: { startTime: '1' },
-      } as TestResultSchemasUnion);
+      spyOn(component, 'handleLoadingUI')
+        .and
+        .callThrough();
+      spyOn(compressionProvider, 'extract')
+        .and
+        .returnValue({
+          testData: { startTime: '1' },
+        } as TestResultSchemasUnion);
 
       await component.ngOnInit();
 
-      expect(component.testResult).toEqual({
-        testData: { startTime: '1' },
-      } as TestResultSchemasUnion);
+      expect(component.testResult)
+        .toEqual({
+          testData: { startTime: '1' },
+        } as TestResultSchemasUnion);
     });
     it('should set reEnterEmailSubscription to the correct values', async () => {
       component.reEnterEmail = null;
-      spyOn(component, 'handleLoadingUI').and.callThrough();
-      spyOn(compressionProvider, 'extract').and.returnValue({
-        appRef: 1,
-      });
+      spyOn(component, 'handleLoadingUI')
+        .and
+        .callThrough();
+      spyOn(compressionProvider, 'extract')
+        .and
+        .returnValue({
+          appRef: 1,
+        });
 
       await component.ngOnInit();
 
-      expect(component.reEnterEmail).toEqual({
-        appRef: 1,
-      } as RegeneratedEmails);
+      expect(component.reEnterEmail)
+        .toEqual({
+          appRef: 1,
+        } as RegeneratedEmails);
     });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
-      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(component, 'handleLoadingUI')
+        .and
+        .callThrough();
       spyOn(component['store$'], 'dispatch');
-      spyOn(compressionProvider, 'extract').and.throwError('test');
+      spyOn(compressionProvider, 'extract')
+        .and
+        .throwError('test');
 
       await component.ngOnInit();
 
-      expect(component['store$'].dispatch).toHaveBeenCalledWith(SaveLog({
-        payload: component['logHelper'].createLog(
-          LogType.ERROR,
-          `Getting test result for app ref (${component.applicationReference})`,
-          'test',
-        ),
-      }));
+      expect(component['store$'].dispatch)
+        .toHaveBeenCalledWith(SaveLog({
+          payload: component['logHelper'].createLog(
+            LogType.ERROR,
+            `Getting test result for app ref (${component.applicationReference})`,
+            'test',
+          ),
+        }));
     });
   });
 
   describe('totalScore', () => {
     it('should return null if category is not ADI3', () => {
-      spyOn(component, 'isCategoryADI3').and.returnValue(false);
-      expect(component.totalScore).toEqual(null);
+      spyOn(component, 'isCategoryADI3')
+        .and
+        .returnValue(false);
+      expect(component.totalScore)
+        .toEqual(null);
     });
     it('should call getTotalAssessmentScore if category is ADI3', () => {
-      spyOn(component, 'isCategoryADI3').and.returnValue(true);
-      spyOn(component.adi3AssessmentProvider, 'getTotalAssessmentScore').and.returnValue(10);
+      spyOn(component, 'isCategoryADI3')
+        .and
+        .returnValue(true);
+      spyOn(component.adi3AssessmentProvider, 'getTotalAssessmentScore')
+        .and
+        .returnValue(10);
       component.testResult.testData = { startTime: '1' };
-      expect(component.totalScore).toEqual(10);
-      expect(component.adi3AssessmentProvider.getTotalAssessmentScore).toHaveBeenCalledWith({ startTime: '1' });
+      expect(component.totalScore)
+        .toEqual(10);
+      expect(component.adi3AssessmentProvider.getTotalAssessmentScore)
+        .toHaveBeenCalledWith({ startTime: '1' });
     });
   });
 });

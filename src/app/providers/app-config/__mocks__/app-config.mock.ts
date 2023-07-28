@@ -20,6 +20,7 @@ export class AppConfigProviderMock {
 
   public getAppConfig(): AppConfig {
     return {
+      liveAppVersion: localEnvironmentMock.liveAppVersion,
       configUrl: localEnvironmentMock.configUrl,
       googleAnalyticsId: localEnvironmentMock.googleAnalyticsId,
       daysToCacheLogs: localEnvironmentMock.daysToCacheLogs,

@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 
 export const LoadAppVersion = createAction(
   '[AppComponent] Load App Version',
@@ -28,6 +29,7 @@ export const LoadEmployeeNameSuccess = createAction(
   props<{ employeeName: string }>(),
 );
 
+// @TODO: Rename to `LoadRemoteConfigSuccess` at later date
 export const LoadConfigSuccess = createAction(
   '[AppInfoEffects] Load Config Success',
 );
@@ -35,6 +37,11 @@ export const LoadConfigSuccess = createAction(
 export const SetDateConfigLoaded = createAction(
   '[AppInfoEffects] Set Date Config Loaded',
   props<{ refreshDate: string }>(),
+);
+
+export const HasSeenUpdateAvailablePopup = createAction(
+  '[AppInfoEffects] Update available popup',
+  (hasSeen: boolean = false) => ({ hasSeen }),
 );
 
 export const AppSuspended = createAction(
@@ -47,4 +54,17 @@ export const AppResumed = createAction(
 
 export const RestartApp = createAction(
   '[AppInfoEffects] Restart App',
+);
+
+export const UpdateAvailablePopup = createAction(
+  '[AppInfoEffects] Update available presented',
+);
+
+export const UpdateAvailableBadgeClicked = createAction(
+  '[AppInfoEffects] Update available badge clicked',
+);
+
+export const UpdateAvailableOptionClicked = createAction(
+  '[AppInfoEffects] Update available presented',
+  (selected: UpdateAvailable) => ({ selected }),
 );
