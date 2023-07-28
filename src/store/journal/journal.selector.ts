@@ -89,7 +89,7 @@ export const getCompletedTests = (journalModel: JournalModel): SearchResultTestS
 export const getCompletedTestOutcome = (completedTests: SearchResultTestSchema[], appRef: string): ActivityCode => {
   return completedTests
     .find((test) => test.applicationReference === parseInt(appRef, 10))
-    .activityCode;
+    ?.activityCode;
 };
 
 export const getCompletedPassCerts = (journalModel: JournalModel): string[] => {
