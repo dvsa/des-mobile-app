@@ -54,28 +54,6 @@
     margin: 0 14px 0;
   }
 
-  .version-number {
-    color: var(--mes-secondary-header);
-  }
-
-  .last-sync {
-    color: var(--mes-secondary-header);
-    margin-top: -4px;
-  }
-
-  #unauthenticated-mode-indicator {
-    text-align: center;
-    padding: 16px 0;
-    background: var(--gds-red);
-
-    #unauth-text {
-      color: var(--mes-white);
-      font-size: 20px;
-      font-weight: normal;
-      letter-spacing: 0.34px;
-    }
-  }
-
   .toolbar-ios ion-title {
     height: 100% !important;
   }
@@ -86,12 +64,6 @@
 
   #burger-menu {
     color: var(--gds-white);
-  }
-
-  hr {
-    background-color: var(--gds-grey-2);
-    height: 2px;
-    margin: 0 14px 0;
   }
 
   .version-number {
