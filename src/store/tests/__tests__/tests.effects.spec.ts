@@ -133,7 +133,7 @@ describe('TestsEffects', () => {
   });
 
   describe('persistTestsEffect', () => {
-    it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', () => {
+    it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       testPersistenceProviderMock.persistTests.and.returnValue(Promise.resolve());
@@ -143,6 +143,7 @@ describe('TestsEffects', () => {
       effects.persistTestsEffect$.subscribe(() => {
         expect(testPersistenceProviderMock.persistTests)
           .toHaveBeenCalled();
+        done();
       });
     });
   });

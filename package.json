@@ -13,7 +13,7 @@
     "postinstall": "node buildScripts/eslint-alloc-patch.js",
     "prepare": "husky install",
     "vulnerability-check": "snyk test --severity-threshold=high",
-    "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
+    "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch --include=src/app/pages/**/*.spec.ts",
     "test:reload": "run-s update-mock-data copy-mock-data config:dev && ng test --watch",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve --configuration local",

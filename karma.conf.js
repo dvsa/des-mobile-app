@@ -70,7 +70,7 @@ module.exports = function(config) {
     browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: true,
     parallelOptions: {
-      executors,
+      executors: 1,
     },
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
