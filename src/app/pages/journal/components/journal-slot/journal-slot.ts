@@ -29,6 +29,10 @@ export class JournalSlotComponent {
   ) {
   }
 
+  ionViewDidEnter() {
+    console.log('completedTests on journal entry:', this.completedTests);
+  }
+
   derivedTestStatus = (
     slotData: TestSlot,
     completedTests: SearchResultTestSchema[],

@@ -40,6 +40,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
@@ -175,8 +176,9 @@ export class DashboardPage extends BasePageComponent {
   }
 
   async navigate(pageName: string) {
-    if (pageName === 'JournalPage') {
+    if (pageName === JOURNAL_PAGE) {
       this.store$.dispatch(journalActions.LoadCompletedTests(true));
+      console.log('JOURNAL ACTION DISPATCH!!!!!');
     }
     await this.router.navigate([pageName]);
   }

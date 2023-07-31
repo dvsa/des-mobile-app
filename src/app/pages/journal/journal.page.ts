@@ -195,6 +195,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       await this.insomnia.allowSleepAgain();
       await this.deviceProvider.disableSingleAppMode();
     }
+    this.pageState.completedTests$.subscribe((data) => {
+      console.log('Completed Tests:', data);
+    });
   }
 
   async loadJournalManually() {
