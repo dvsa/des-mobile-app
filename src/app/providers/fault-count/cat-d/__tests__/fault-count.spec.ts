@@ -1,8 +1,8 @@
 import { FaultCountDHelper } from '../fault-count.cat-d';
 import { vehicleChecksFiveFaults, vehicleChecksTwoFaults } from '../../__mocks__/cat-D-test-data-state-object.mock';
 
-xdescribe('FaultCountDHelper', () => {
-  xdescribe('getVehicleChecksFaultCountCatD', () => {
+describe('FaultCountDHelper', () => {
+  describe('getVehicleChecksFaultCountCatD', () => {
     it('5 driving faults result in 1 serious and 4 driving faults', () => {
       expect((FaultCountDHelper as any)
         .getVehicleChecksFaultCountCatD(vehicleChecksFiveFaults).drivingFaults)
@@ -21,7 +21,7 @@ xdescribe('FaultCountDHelper', () => {
     });
   });
 
-  xdescribe('getVehicleChecksFaultCountCatD1', () => {
+  describe('getVehicleChecksFaultCountCatD1', () => {
     it('5 driving faults result in 1 serious and 4 driving faults', () => {
       expect((FaultCountDHelper as any)
         .getVehicleChecksFaultCountCatD1(vehicleChecksFiveFaults).drivingFaults)
@@ -40,7 +40,7 @@ xdescribe('FaultCountDHelper', () => {
     });
   });
 
-  xdescribe('getVehicleChecksFaultCountCatDE', () => {
+  describe('getVehicleChecksFaultCountCatDE', () => {
     it('2 driving faults result in 1 driving faults and 1 serious', () => {
       expect((FaultCountDHelper as any)
         .getVehicleChecksFaultCountCatDE(vehicleChecksTwoFaults).drivingFaults)
@@ -51,7 +51,7 @@ xdescribe('FaultCountDHelper', () => {
     });
   });
 
-  xdescribe('getVehicleChecksFaultCountCatD1E', () => {
+  describe('getVehicleChecksFaultCountCatD1E', () => {
     it('2 driving faults result in 1 driving faults and 1 serious', () => {
       expect((FaultCountDHelper as any)
         .getVehicleChecksFaultCountCatD1E(vehicleChecksTwoFaults).drivingFaults)

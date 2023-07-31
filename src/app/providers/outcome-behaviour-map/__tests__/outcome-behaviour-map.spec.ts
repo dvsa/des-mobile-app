@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { OutcomeBehaviourMapProvider } from '../outcome-behaviour-map';
 import { OutcomeBehaviourMapping } from '../outcome-behaviour-map.model';
 
-xdescribe('OutcomeBehaviourMapProvider', () => {
+describe('OutcomeBehaviourMapProvider', () => {
   let outcomeBehaviourMapProvider: OutcomeBehaviourMapProvider;
 
   const simpleBehaviourMap: OutcomeBehaviourMapping = {
@@ -74,7 +74,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
     outcomeBehaviourMapProvider.setBehaviourMap(simpleBehaviourMap);
   });
 
-  xdescribe('getVisibilityType', () => {
+  describe('getVisibilityType', () => {
     it('should return Y for an outcome and field that has display Y', () => {
       const result = outcomeBehaviourMapProvider.getVisibilityType('1', 'routeNumber');
       expect(result)
@@ -102,7 +102,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
     });
   });
 
-  xdescribe('isVisible', () => {
+  describe('isVisible', () => {
     it('should return true for an outcome and field that has display Y', () => {
       const result = outcomeBehaviourMapProvider.isVisible('1', 'routeNumber', 'x');
       expect(result)
@@ -136,7 +136,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
     });
   });
 
-  xdescribe('hasDefault', () => {
+  describe('hasDefault', () => {
     it('should return false if defaultValue field is not present', () => {
       const result = outcomeBehaviourMapProvider.hasDefault('1', 'independentDriving');
       expect(result)
@@ -162,7 +162,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
 
   });
 
-  xdescribe('getDefault', () => {
+  describe('getDefault', () => {
     it('should return null if defaultValue field is not present', () => {
       const result = outcomeBehaviourMapProvider.getDefault('1', 'independentDriving');
       expect(result)
@@ -188,7 +188,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
 
   });
 
-  xdescribe('showNotApplicable', () => {
+  describe('showNotApplicable', () => {
     it('should return false if showNotApplicable is false', () => {
       const result = outcomeBehaviourMapProvider.showNotApplicable('1', 'independentDriving');
       expect(result)

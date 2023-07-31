@@ -4,7 +4,7 @@ import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { catAM2TestDataStateObject } from './cat-AM2-test-data.mock';
 import { FaultSummaryCatAM2Helper } from '../fault-summary.cat-a-mod2';
 
-xdescribe('FaultSummaryCatAM2Helper', () => {
+describe('FaultSummaryCatAM2Helper', () => {
 
   const expectedEyesightTestFault = [
     {
@@ -26,7 +26,7 @@ xdescribe('FaultSummaryCatAM2Helper', () => {
     },
   ];
 
-  xdescribe('getEyesightTestSeriousFault', () => {
+  describe('getEyesightTestSeriousFault', () => {
     it('should return a serious fault if eyesight test failed', () => {
       catAM2TestDataStateObject.eyesightTest.complete = true;
       catAM2TestDataStateObject.eyesightTest.seriousFault = true;
@@ -47,7 +47,7 @@ xdescribe('FaultSummaryCatAM2Helper', () => {
     });
   });
 
-  xdescribe('getSafetyAndBalanceFaults', () => {
+  describe('getSafetyAndBalanceFaults', () => {
     xit('should return a single driving fault if any safety / balance questions are incorrect', () => {
 
       expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(

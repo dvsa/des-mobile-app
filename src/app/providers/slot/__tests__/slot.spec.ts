@@ -15,7 +15,7 @@ import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
 
 const journalSlotsMissingDays = require('../__mocks__/journal-slots-missing-days-mock.json');
 
-xdescribe('SlotProvider', () => {
+describe('SlotProvider', () => {
   let slotProvider;
   let appConfigProvider;
   let store$: Store<StoreModel>;
@@ -103,7 +103,7 @@ xdescribe('SlotProvider', () => {
     spyOn(store$, 'dispatch');
   });
 
-  xdescribe('detectSlotChanges', () => {
+  describe('detectSlotChanges', () => {
     const oldSlots = {
       '2019-01-21': [
         {
@@ -254,7 +254,7 @@ xdescribe('SlotProvider', () => {
       personalCommitments: [],
     };
 
-    xdescribe('when there are no slots in the new journal', () => {
+    describe('when there are no slots in the new journal', () => {
       it('should return a blank array', () => {
         const result = slotProvider.detectSlotChanges({}, {});
         expect(result.length)
@@ -262,7 +262,7 @@ xdescribe('SlotProvider', () => {
       });
     });
 
-    xdescribe('when the new slots match the old slots exactly', () => {
+    describe('when the new slots match the old slots exactly', () => {
       it('should produce the new slot items indicating there was no change', () => {
         const tempOldSlots = cloneDeep(oldSlots);
         const tempNewJournal = cloneDeep(newJournal);
@@ -278,7 +278,7 @@ xdescribe('SlotProvider', () => {
       });
     });
 
-    xdescribe('when one of the new slots differ from the old slots', () => {
+    describe('when one of the new slots differ from the old slots', () => {
       it('should produce the new slot items indicating there was a change', () => {
         const tempOldSlots = cloneDeep(oldSlots);
         const tempNewJournal = cloneDeep(newJournal);
@@ -295,7 +295,7 @@ xdescribe('SlotProvider', () => {
       });
     });
 
-    xdescribe('when several of the slots differ from the old slots', () => {
+    describe('when several of the slots differ from the old slots', () => {
       it('should produce new slot items indicating which slots changed', () => {
         const tempOldSlots = cloneDeep(oldSlots);
         const tempNewJournal = cloneDeep(newJournal);
@@ -313,7 +313,7 @@ xdescribe('SlotProvider', () => {
       });
     });
 
-    xdescribe('when the journal payload contains nonTestActivities', () => {
+    describe('when the journal payload contains nonTestActivities', () => {
       it('should mix them into the TestSlots such that they appear in date order', () => {
         const result = slotProvider.detectSlotChanges(oldSlots, newJournal);
         expect(result[1].slotData.activityCode)
@@ -322,7 +322,7 @@ xdescribe('SlotProvider', () => {
     });
   });
 
-  xdescribe('getSlotDate', () => {
+  describe('getSlotDate', () => {
     it('should return the correct date YYYY-MM-DD', () => {
       const slot = {
         slotData: {
@@ -339,7 +339,7 @@ xdescribe('SlotProvider', () => {
     });
   });
 
-  xdescribe('extendWithEmptyDays', () => {
+  describe('extendWithEmptyDays', () => {
     it('should have all days of the week', () => {
       const slotsWithEmptyDays = slotProvider.extendWithEmptyDays(journalSlotsMissingDays);
 
@@ -350,7 +350,7 @@ xdescribe('SlotProvider', () => {
     });
   });
 
-  xdescribe('canStartTest', () => {
+  describe('canStartTest', () => {
     let getAppConfigSpy;
     beforeEach(() => {
       getAppConfigSpy = jasmine.createSpy('getAppConfig');
@@ -512,7 +512,7 @@ xdescribe('SlotProvider', () => {
     });
   });
 
-  xdescribe('dateDiffInDays', () => {
+  describe('dateDiffInDays', () => {
     it('should return 0 days as the date is the same as the periodDate', () => {
       const date: Date = new Date('2019-01-10');
       const periodDate: Date = new Date('2019-01-10');

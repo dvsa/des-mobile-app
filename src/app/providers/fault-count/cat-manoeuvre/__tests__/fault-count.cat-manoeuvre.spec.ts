@@ -2,8 +2,8 @@ import { FaultCountManoeuvreTestHelper } from '@providers/fault-count/cat-manoeu
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { catManoeuvreTestDataStateObject } from '@providers/fault-count/__mocks__/cat-man-test-data-state-object.mock';
 
-xdescribe('FaultCountManoeuvreTestHelper', () => {
-  xdescribe('getManoeuvreCountIfAny', () => {
+describe('FaultCountManoeuvreTestHelper', () => {
+  describe('getManoeuvreCountIfAny', () => {
     const manouevreTests = [
       {
         category: 'CM',
@@ -22,7 +22,7 @@ xdescribe('FaultCountManoeuvreTestHelper', () => {
       });
     });
   });
-  xdescribe('getSeriousFaultSumCountManoeuvreTest', () => {
+  describe('getSeriousFaultSumCountManoeuvreTest', () => {
     const seriousFaultTests = [
       {
         category: 'CM',
@@ -39,7 +39,7 @@ xdescribe('FaultCountManoeuvreTestHelper', () => {
     });
 
   });
-  xdescribe('getDangerousFaultSumCountManoeuvreTest', () => {
+  describe('getDangerousFaultSumCountManoeuvreTest', () => {
     const dangerousFaultTests = [
       {
         category: 'CM',

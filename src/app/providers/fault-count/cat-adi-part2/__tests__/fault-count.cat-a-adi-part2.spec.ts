@@ -10,8 +10,8 @@ import {
   catADI2TestDataStateObjectTellMeFaults,
 } from '../../__mocks__/cat-ADI2-test-data-state-object.mock';
 
-xdescribe('FaultCountADIPart2Helper', () => {
-  xdescribe('getDrivingFaultSumCountCatADIPart2', () => {
+describe('FaultCountADIPart2Helper', () => {
+  describe('getDrivingFaultSumCountCatADIPart2', () => {
     it('Should return 0 when no driving faults exist', () => {
       const temp = FaultCountADIPart2Helper
         .getDrivingFaultSumCountCatADIPart2(catADI2TestDataStateObjectNoDrivingFaults);
@@ -40,7 +40,7 @@ xdescribe('FaultCountADIPart2Helper', () => {
         .toEqual(1);
     });
 
-    xdescribe('getSeriousFaultSumCountCatADIPart2', () => {
+    describe('getSeriousFaultSumCountCatADIPart2', () => {
       it('Should return 0 when no serious faults exist', () => {
         const temp = FaultCountADIPart2Helper
           .getSeriousFaultSumCountCatADIPart2(catADI2TestDataStateObjectNoDrivingFaults);
@@ -56,7 +56,7 @@ xdescribe('FaultCountADIPart2Helper', () => {
       });
     });
 
-    xdescribe('getDangerousFaultSumCountCatADIPart2', () => {
+    describe('getDangerousFaultSumCountCatADIPart2', () => {
       it('Should return 0 when no dangerous faults exist', () => {
         const temp = FaultCountADIPart2Helper
           .getDangerousFaultSumCountCatADIPart2(catADI2TestDataStateObjectNoDrivingFaults);
@@ -72,7 +72,7 @@ xdescribe('FaultCountADIPart2Helper', () => {
       });
     });
 
-    xdescribe('getVehicleChecksFaultCountCatADIPart2', () => {
+    describe('getVehicleChecksFaultCountCatADIPart2', () => {
       it('Should return 0 driving faults, 0 serious faults when no vehicleCheck faults exist', () => {
 
         const expectedValue = {
@@ -102,7 +102,7 @@ xdescribe('FaultCountADIPart2Helper', () => {
       });
     });
 
-    xdescribe('getVehicleChecksByOutcomeFaultCountCatADIPart2', () => {
+    describe('getVehicleChecksByOutcomeFaultCountCatADIPart2', () => {
       it('Should return 0 when no driving faults exist', () => {
         const temp = FaultCountADIPart2Helper.getVehicleChecksByOutcomeFaultCountCatADIPart2(
           catADI2TestDataStateObjectNoDrivingFaults.vehicleChecks,
@@ -122,7 +122,7 @@ xdescribe('FaultCountADIPart2Helper', () => {
       });
     });
 
-    xdescribe('getShowMeFaultCount', () => {
+    describe('getShowMeFaultCount', () => {
       it('Should return 0 driving faults, 0 serious faults when no vehicleCheck faults exist', () => {
 
         const expectedValue = {
@@ -152,7 +152,7 @@ xdescribe('FaultCountADIPart2Helper', () => {
       });
     });
 
-    xdescribe('getTellMeFaultCount', () => {
+    describe('getTellMeFaultCount', () => {
       it('Should return 0 driving faults, 0 serious faults when no vehicleCheck faults exist', () => {
 
         const expectedValue = {

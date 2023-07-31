@@ -1,13 +1,12 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { gunzipSync } from 'zlib';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { HttpClient } from '@angular/common/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { LogHelper } from '../../logs/logs-helper';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -15,10 +14,16 @@ import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 import { TestSubmissionProvider, TestToSubmit } from '../test-submission';
 
-xdescribe('TestSubmissionProvider', () => {
+describe('TestSubmissionProvider', () => {
   let testSubmissionProvider: TestSubmissionProvider;
   let urlProvider: UrlProvider;
-  let httpClient: HttpClient;
+  let httpMock: HttpTestingController;
+  const mockTestToSubmit = {
+    index: 0,
+    slotId: '',
+    payload: {},
+    status: TestStatus.Completed,
+  } as TestToSubmit;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -49,7 +54,7 @@ xdescribe('TestSubmissionProvider', () => {
     });
 
     testSubmissionProvider = TestBed.inject(TestSubmissionProvider);
-    httpClient = TestBed.inject(HttpClient);
+    httpMock = TestBed.inject(HttpTestingController);
     urlProvider = TestBed.inject(UrlProvider);
     spyOn(testSubmissionProvider, 'compressData')
       .and
@@ -60,28 +65,27 @@ xdescribe('TestSubmissionProvider', () => {
     spyOn(testSubmissionProvider, 'submitTest')
       .and
       .callThrough();
-    spyOn(httpClient, 'post')
-      .and
-      .returnValue(of());
   }));
 
-  xdescribe('submitTests', () => {
+  afterAll(() => {
+    httpMock.verify();
+  });
+
+  describe('submitTests', () => {
     it('should attempt to submit a test', () => {
-      testSubmissionProvider.submitTests([{
-        index: 0,
-        slotId: '',
-        payload: {},
-        status: TestStatus.Completed,
-      }] as TestToSubmit[])
+      testSubmissionProvider
+        .submitTests([mockTestToSubmit] as TestToSubmit[])
+        .pipe(take(1))
         .subscribe();
 
-      expect(httpClient.post)
-        .toHaveBeenCalledWith(
-          'https://www.example.com/api/v1/test-result',
-          // Compressed and base64 encoded string of and empty object
-          'H4sIAAAAAAAAA6uuBQBDv6ajAgAAAA==',
-          { observe: 'response' as any },
-        );
+      const req = httpMock.expectOne('https://www.example.com/api/v1/test-result');
+
+      expect(req.request.body)
+        .toBe('H4sIAAAAAAAAA6uuBQBDv6ajAgAAAA==');
+      expect(req.request.method)
+        .toBe('POST');
+      req.flush({});
+
       expect(urlProvider.getTestResultServiceUrl)
         .toHaveBeenCalled();
       expect(testSubmissionProvider.compressData)
@@ -92,7 +96,7 @@ xdescribe('TestSubmissionProvider', () => {
         .toHaveBeenCalledTimes(1);
     });
   });
-  xdescribe('compressData', () => {
+  describe('compressData', () => {
     it('should successfully compress the provided data', () => {
 
       // ARRANGE
@@ -115,7 +119,7 @@ xdescribe('TestSubmissionProvider', () => {
         .toEqual(mockData);
     });
   });
-  xdescribe('removeNullFieldsDeep', () => {
+  describe('removeNullFieldsDeep', () => {
     it('should successfully remove null props from the provided data', () => {
       // ARRANGE
       const mockData: Partial<CatBUniqueTypes.TestResult> = {
@@ -146,7 +150,7 @@ xdescribe('TestSubmissionProvider', () => {
         .toEqual(expected);
     });
   });
-  xdescribe('isPartialSubmission', () => {
+  describe('isPartialSubmission', () => {
     it('should be a partial submission when the test status is WRITE_UP and test is not a rekey', () => {
       const result = testSubmissionProvider.isPartialSubmission({
         index: 0,
@@ -237,7 +241,7 @@ xdescribe('TestSubmissionProvider', () => {
     });
   });
 
-  xdescribe('buildUrl', () => {
+  describe('buildUrl', () => {
     it('build url should set partial query string as true if not a rekey and test status is write up', () => {
       const result = testSubmissionProvider.buildUrl({
         index: 0,
@@ -308,7 +312,7 @@ xdescribe('TestSubmissionProvider', () => {
     });
   });
 
-  xdescribe('removePassCompletionWhenTestIsNotPass', () => {
+  describe('removePassCompletionWhenTestIsNotPass', () => {
     it('should not remove the pass completion key if the activity code is a Pass', () => {
       const result: Partial<TestResultSchemasUnion> = testSubmissionProvider.removePassCompletionWhenTestIsNotPass({
         activityCode: '1',

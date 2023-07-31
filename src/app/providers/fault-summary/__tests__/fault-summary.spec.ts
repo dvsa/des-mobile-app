@@ -13,7 +13,7 @@ import { showMe0DFTellMe1DF, showMe1DFTellMe1DF, showMe2DFTellMe2DF, showMe2DFTe
 import { FaultSummaryProvider } from '../fault-summary';
 import { FaultSummaryCatAM1Helper } from '../cat-a-mod1/fault-summary.cat-a-mod1';
 
-xdescribe('FaultSummaryProvider', () => {
+describe('FaultSummaryProvider', () => {
   const categoryC = [
     {
       category: TestCategory.C,
@@ -180,8 +180,8 @@ xdescribe('FaultSummaryProvider', () => {
       .callThrough();
   });
 
-  xdescribe('getDrivingFaultsList', () => {
-    xdescribe('Category B', () => {
+  describe('getDrivingFaultsList', () => {
+    describe('Category B', () => {
       it('should return an empty array if there are no driving faults', () => {
         const result = faultSummaryProvider.getDrivingFaultsList({}, TestCategory.B);
         expect(result.length)
@@ -375,8 +375,8 @@ xdescribe('FaultSummaryProvider', () => {
     });
   });
 
-  xdescribe('getSeriousFaultsList', () => {
-    xdescribe('Category B', () => {
+  describe('getSeriousFaultsList', () => {
+    describe('Category B', () => {
       it('should return an empty array if there are no serious faults', () => {
         const result = faultSummaryProvider.getSeriousFaultsList({}, TestCategory.B);
         expect(result.length)
@@ -560,8 +560,8 @@ xdescribe('FaultSummaryProvider', () => {
     });
   });
 
-  xdescribe('getDangerousFaultsList', () => {
-    xdescribe('Category B', () => {
+  describe('getDangerousFaultsList', () => {
+    describe('Category B', () => {
       it('should return an empty array if there are no serious faults', () => {
         const result = faultSummaryProvider.getDangerousFaultsList({}, TestCategory.B);
         expect(result.length)

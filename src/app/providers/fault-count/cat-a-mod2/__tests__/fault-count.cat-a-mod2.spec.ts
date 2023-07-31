@@ -7,8 +7,8 @@ import {
   safetyAndBalanceMock3FaultsSafetyAndBalance,
 } from '../../__mocks__/cat-AM2-test-data-state-object.mock';
 
-xdescribe('FaultCountAM2Helper', () => {
-  xdescribe('getSafetyAndBalanceFaultCountCatAM2', () => {
+describe('FaultCountAM2Helper', () => {
+  describe('getSafetyAndBalanceFaultCountCatAM2', () => {
     it('0 driving faults', () => {
       const output = { drivingFaults: 0 };
       const temp = FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(safetyAndBalanceMock0Faults);
@@ -38,21 +38,21 @@ xdescribe('FaultCountAM2Helper', () => {
       .toEqual(output);
   });
 
-  xdescribe('getDangerousFaultSumCountCatAM2', () => {
+  describe('getDangerousFaultSumCountCatAM2', () => {
     it('should return the dangerous faults count for cat AM2', () => {
       expect(FaultCountAM2Helper.getDangerousFaultSumCountCatAM2(catAM2TestDataStateObject))
         .toBe(1);
     });
   });
 
-  xdescribe('getSeriousFaultSumCountCatAM2', () => {
+  describe('getSeriousFaultSumCountCatAM2', () => {
     it('should return the serious faults count for cat AM2', () => {
       expect(FaultCountAM2Helper.getSeriousFaultSumCountCatAM2(catAM2TestDataStateObject))
         .toBe(1);
     });
   });
 
-  xdescribe('getRidingFaultSumCountCatAM2', () => {
+  describe('getRidingFaultSumCountCatAM2', () => {
     it('should return the driving fault for cat AM2 count correctly', () => {
       expect(FaultCountAM2Helper.getRidingFaultSumCountCatAM2(catAM2TestDataStateObject))
         .toBe(2);

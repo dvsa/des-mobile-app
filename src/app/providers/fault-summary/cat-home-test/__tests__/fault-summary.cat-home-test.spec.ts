@@ -16,8 +16,8 @@ import {
   catKTestDataVCStateObject,
 } from '../../../fault-count/__mocks__/cat-K-test-data-state-object.mock';
 
-xdescribe('FaultSummaryCatHomeTestHelper', () => {
-  xdescribe('getDrivingFaultsCatHomeTest (No VehicleChecks)', () => {
+describe('FaultSummaryCatHomeTestHelper', () => {
+  describe('getDrivingFaultsCatHomeTest (No VehicleChecks)', () => {
     it('should return 4 driving fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getDrivingFaultsCatHomeTest(catFTestDataStateObject);
       let faultCount = 0;
@@ -91,7 +91,7 @@ xdescribe('FaultSummaryCatHomeTestHelper', () => {
 
   });
 
-  xdescribe('getDrivingFaultsCatHomeTest (Including VehicleChecks)', () => {
+  describe('getDrivingFaultsCatHomeTest (Including VehicleChecks)', () => {
     it('should return 3 driving fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getDrivingFaultsCatHomeTest(catFTestDataVCStateObject);
       let faultCount = 0;
@@ -172,7 +172,7 @@ xdescribe('FaultSummaryCatHomeTestHelper', () => {
     });
   });
 
-  xdescribe('getSeriousFaultsCatHomeTest (No VehicleChecks)', () => {
+  describe('getSeriousFaultsCatHomeTest (No VehicleChecks)', () => {
     it('should return 2 serious fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getSeriousFaultsCatHomeTest(catFTestDataStateObject);
       let faultCount = 0;
@@ -247,7 +247,7 @@ xdescribe('FaultSummaryCatHomeTestHelper', () => {
 
   });
 
-  xdescribe('getSeriousFaultsCatHomeTest (Including VehicleChecks)', () => {
+  describe('getSeriousFaultsCatHomeTest (Including VehicleChecks)', () => {
     it('should return 2 serious fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getSeriousFaultsCatHomeTest(catFTestDataVCStateObject);
       let faultCount = 0;
@@ -316,7 +316,7 @@ xdescribe('FaultSummaryCatHomeTestHelper', () => {
     });
   });
 
-  xdescribe('getDangerousFaultsCatHomeTest (No VehicleChecks)', () => {
+  describe('getDangerousFaultsCatHomeTest (No VehicleChecks)', () => {
     it('should return 2 dangerous fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getDangerousFaultsCatHomeTest(catFTestDataStateObject);
       let faultCount = 0;
@@ -388,7 +388,7 @@ xdescribe('FaultSummaryCatHomeTestHelper', () => {
     });
   });
 
-  xdescribe('getDangerousFaultsCatHomeTest (Including VehicleChecks)', () => {
+  describe('getDangerousFaultsCatHomeTest (Including VehicleChecks)', () => {
     it('should return 2 dangerous fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getDangerousFaultsCatHomeTest(catFTestDataVCStateObject);
       let faultCount = 0;

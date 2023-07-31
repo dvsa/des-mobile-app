@@ -4,14 +4,14 @@ import { getManoeuvres as getManoeuvresD } from '@store/tests/test-data/cat-d/te
 import { getManoeuvres as getManoeuvresHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 import { ManoeuvresByCategoryProvider } from '../manoeuvres-by-category';
 
-xdescribe('ManoeuvresByCategoryProvider', () => {
+describe('ManoeuvresByCategoryProvider', () => {
   let provider: ManoeuvresByCategoryProvider;
 
   beforeEach(() => {
     provider = new ManoeuvresByCategoryProvider();
   });
 
-  xdescribe('getManoeuvresByCategoryCode', () => {
+  describe('getManoeuvresByCategoryCode', () => {
 
     const categories = {
       C: [
@@ -34,7 +34,7 @@ xdescribe('ManoeuvresByCategoryProvider', () => {
       ],
     };
 
-    xdescribe('CAT C', () => {
+    describe('CAT C', () => {
       categories.C.forEach((cat) => {
         it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
           expect(() => {
@@ -48,7 +48,7 @@ xdescribe('ManoeuvresByCategoryProvider', () => {
       });
     });
 
-    xdescribe('CAT D', () => {
+    describe('CAT D', () => {
       categories.D.forEach((cat) => {
         it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
           expect(() => {
@@ -62,7 +62,7 @@ xdescribe('ManoeuvresByCategoryProvider', () => {
       });
     });
 
-    xdescribe('CAT F,G,H,K', () => {
+    describe('CAT F,G,H,K', () => {
       categories.Home.forEach((cat) => {
         it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
           expect(() => {

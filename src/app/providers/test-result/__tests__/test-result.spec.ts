@@ -8,7 +8,7 @@ import { TestResultProvider } from '../test-result';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import * as mocks from '../__mocks__/test-result-data.mock';
 
-xdescribe('TestResultCalculatorProvider', () => {
+describe('TestResultCalculatorProvider', () => {
   const fifteenCategories: TestCategory[] = [
     TestCategory.B,
     TestCategory.F,
@@ -52,7 +52,7 @@ xdescribe('TestResultCalculatorProvider', () => {
     faultCountProvider = TestBed.inject(FaultCountProvider);
   }));
 
-  xdescribe('calculateTestResult', () => {
+  describe('calculateTestResult', () => {
     [TestCategory.CM,
       TestCategory.C1M,
       TestCategory.CEM,
@@ -133,7 +133,7 @@ xdescribe('TestResultCalculatorProvider', () => {
     });
   });
 
-  xdescribe('calculateCatManoeuvreTestResult', () => {
+  describe('calculateCatManoeuvreTestResult', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount')
         .and
@@ -181,7 +181,7 @@ xdescribe('TestResultCalculatorProvider', () => {
     });
   });
 
-  xdescribe('calculateCatEUAM1AndSubCategoryTestResult', () => {
+  describe('calculateCatEUAM1AndSubCategoryTestResult', () => {
     it('should return FAIL_PUBLIC_SAFETY if getSpeedRequirementNotMet returns true', () => {
       testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
         emergencyStop: { outcome: CompetencyOutcome.S },
@@ -270,7 +270,7 @@ xdescribe('TestResultCalculatorProvider', () => {
         );
     });
   });
-  xdescribe('calculateCatEUAM2AndSubCategoryTestResult', () => {
+  describe('calculateCatEUAM2AndSubCategoryTestResult', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount')
         .and
@@ -341,7 +341,7 @@ xdescribe('TestResultCalculatorProvider', () => {
     });
   });
 
-  xdescribe('calculateTestResultADI3', () => {
+  describe('calculateTestResultADI3', () => {
     it('should return FAIL if riskManagement is less than 8', () => {
       testResultProvider['calculateTestResultADI3'](
         {
@@ -411,7 +411,7 @@ xdescribe('TestResultCalculatorProvider', () => {
     });
   });
 
-  xdescribe('calculateCatCPCTestResult', () => {
+  describe('calculateCatCPCTestResult', () => {
     it('should return FAIL if scores.some returns less than 0', () => {
 
       testResultProvider['calculateCatCPCTestResult'](
@@ -558,7 +558,7 @@ xdescribe('TestResultCalculatorProvider', () => {
     });
   });
 
-  xdescribe('ADI2', () => {
+  describe('ADI2', () => {
     adiCategories.forEach((cat) => {
       it(`should return a Fail when there are 7 driving faults for a Cat ${cat} test`, (done) => {
         testResultProvider.calculateTestResult(cat, mocks.adi2SevenDrivingFaultsMock)

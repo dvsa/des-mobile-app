@@ -36,8 +36,7 @@ import {
 } from '../__mocks__/cat-ADI2-test-data-state-object.mock';
 import { FaultCountADIPart2Helper } from '../cat-adi-part2/fault-count.cat-adi-part2';
 
-xdescribe('FaultCountProvider', () => {
-
+describe('FaultCountProvider', () => {
   let faultCountProvider: FaultCountProvider;
 
   beforeEach(() => {
@@ -194,8 +193,8 @@ xdescribe('FaultCountProvider', () => {
       .callThrough();
   });
 
-  xdescribe('getDrivingFaultSumCount', () => {
-    xdescribe('CAT ADI2', () => {
+  describe('getDrivingFaultSumCount', () => {
+    describe('CAT ADI2', () => {
       it('shoud call the category ADI2 specific method for getting the riding fault sum count', () => {
         faultCountProvider.getDrivingFaultSumCount(TestCategory.ADI2, catADI2TestDataStateObjectNoDrivingFaults);
         expect((FaultCountADIPart2Helper as any).getDrivingFaultSumCountCatADIPart2)
@@ -203,7 +202,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT A', () => {
+    describe('CAT A', () => {
       it('shoud call the category AM1 specific method for getting the riding fault sum count', () => {
         faultCountProvider.getDrivingFaultSumCount(TestCategory.EUAM1, catAM1TestDataStateObject);
         expect((FaultCountAM1Helper as any).getRidingFaultSumCountCatAM1)
@@ -216,7 +215,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT B', () => {
+    describe('CAT B', () => {
       it('should call the category B specific method for getting the driving fault sum count', () => {
         faultCountProvider.getDrivingFaultSumCount(TestCategory.B, catBTestDataStateObject);
         expect((FaultCountBHelper as any).getDrivingFaultSumCountCatB)
@@ -229,7 +228,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT C', () => {
+    describe('CAT C', () => {
       it('should call the category C specific method for getting the driving fault sum count', () => {
         faultCountProvider.getDrivingFaultSumCount(TestCategory.C, catCTestDataStateObject);
         expect((FaultCountCHelper as any).getDrivingFaultSumCountCatC)
@@ -252,7 +251,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT D', () => {
+    describe('CAT D', () => {
       it('should call the category D specific method for getting the driving fault sum count', () => {
         faultCountProvider.getDrivingFaultSumCount(TestCategory.D, catDTestDataStateObject);
         expect((FaultCountDHelper as any).getDrivingFaultSumCountCatD)
@@ -296,7 +295,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getSeriousFaultSumCount', () => {
+  describe('getSeriousFaultSumCount', () => {
 
     it('shoud call the Manoeuvre specific method for getting the serious fault sum count', () => {
       [
@@ -327,7 +326,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT ADI2', () => {
+    describe('CAT ADI2', () => {
       it('shoud call the category ADI2 specific method for getting the riding fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.ADI2, catADI2TestDataStateObjectNoDrivingFaults);
         expect((FaultCountADIPart2Helper as any).getSeriousFaultSumCountCatADIPart2)
@@ -335,7 +334,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT A', () => {
+    describe('CAT A', () => {
       it('should call the category AM1 specific method for getting the serious fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.EUAM1, catAM1TestDataStateObject);
         expect((FaultCountAM1Helper as any).getSeriousFaultSumCountCatAM1)
@@ -348,7 +347,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT B', () => {
+    describe('CAT B', () => {
       it('should call the category B specific method for getting the serious fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.B, catBTestDataStateObject);
         expect((FaultCountBHelper as any).getSeriousFaultSumCountCatB)
@@ -361,7 +360,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT C', () => {
+    describe('CAT C', () => {
       it('should call the category C specific method for getting the serious fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.C, catCTestDataStateObject);
         expect((FaultCountCHelper as any).getSeriousFaultSumCountCatC)
@@ -384,7 +383,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT D', () => {
+    describe('CAT D', () => {
       it('should call the category D specific method for getting the serious fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.D, catDTestDataStateObject);
         expect((FaultCountDHelper as any).getSeriousFaultSumCountCatD)
@@ -408,7 +407,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getDangerousFaultSumCount', () => {
+  describe('getDangerousFaultSumCount', () => {
 
     it('shoud call the Manoeuvre specific method for getting the dangerous fault sum count', () => {
       [
@@ -439,7 +438,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT ADI2', () => {
+    describe('CAT ADI2', () => {
       it('shoud call the category ADI2 specific method for getting the riding fault sum count', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.ADI2, catADI2TestDataStateObjectNoDrivingFaults);
         expect((FaultCountADIPart2Helper as any).getDangerousFaultSumCountCatADIPart2)
@@ -447,7 +446,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT A', () => {
+    describe('CAT A', () => {
       it('should call the category AM1 specific method for getting the dangerous fault sum count', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.EUAM1, catAM1TestDataStateObject);
         expect((FaultCountAM1Helper as any).getDangerousFaultSumCountCatAM1)
@@ -460,7 +459,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT B', () => {
+    describe('CAT B', () => {
       it('should call the category B specific method for getting the dangerous fault sum count', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.B, catBTestDataStateObject);
         expect((FaultCountBHelper as any).getDangerousFaultSumCountCatB)
@@ -473,7 +472,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT C', () => {
+    describe('CAT C', () => {
       it('should call the category C specific method for getting the dangerous fault sum count', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.C, catCTestDataStateObject);
         expect((FaultCountCHelper as any).getDangerousFaultSumCountCatC)
@@ -496,7 +495,7 @@ xdescribe('FaultCountProvider', () => {
       });
     });
 
-    xdescribe('CAT D', () => {
+    describe('CAT D', () => {
       it('should call the category D specific method for getting the dangerous fault sum count', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.D, catDTestDataStateObject);
         expect((FaultCountDHelper as any).getDangerousFaultSumCountCatD)
@@ -520,84 +519,84 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatB', () => {
+  describe('getDrivingFaultSumCountCatB', () => {
     it('should return the driving fault for cat B count correctly', () => {
       expect((FaultCountBHelper as any).getDrivingFaultSumCountCatB(catBTestDataStateObject))
         .toBe(4);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatBE', () => {
+  describe('getDrivingFaultSumCountCatBE', () => {
     it('should return the driving fault for cat BE count correctly', () => {
       expect((FaultCountBEHelper as any).getDrivingFaultSumCountCatBE(catBETestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatC', () => {
+  describe('getDrivingFaultSumCountCatC', () => {
     it('should return the driving fault for cat C count correctly', () => {
       expect((FaultCountCHelper as any).getDrivingFaultSumCountCatC(catCTestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatC1', () => {
+  describe('getDrivingFaultSumCountCatC1', () => {
     it('should return the driving fault for cat C1 count correctly', () => {
       expect((FaultCountCHelper as any).getDrivingFaultSumCountCatC1(catC1TestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatCE', () => {
+  describe('getDrivingFaultSumCountCatCE', () => {
     it('should return the driving fault for cat CE count correctly', () => {
       expect((FaultCountCHelper as any).getDrivingFaultSumCountCatCE(catCETestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatC1E', () => {
+  describe('getDrivingFaultSumCountCatC1E', () => {
     it('should return the driving fault for cat C1E count correctly', () => {
       expect((FaultCountCHelper as any).getDrivingFaultSumCountCatC1E(catC1ETestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getRidingFaultSumCountCatAM1', () => {
+  describe('getRidingFaultSumCountCatAM1', () => {
     it('should return the driving fault for cat AM1 count correctly', () => {
       expect((FaultCountAM1Helper as any).getRidingFaultSumCountCatAM1(catAM1TestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatD', () => {
+  describe('getDrivingFaultSumCountCatD', () => {
     it('should return the driving fault for cat D count correctly', () => {
       expect((FaultCountDHelper as any).getDrivingFaultSumCountCatD(catDTestDataStateObject))
         .toBe(6);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatD1', () => {
+  describe('getDrivingFaultSumCountCatD1', () => {
     it('should return the driving fault for cat D1 count correctly', () => {
       expect((FaultCountDHelper as any).getDrivingFaultSumCountCatD1(catD1TestDataStateObject))
         .toBe(6);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatDE', () => {
+  describe('getDrivingFaultSumCountCatDE', () => {
     it('should return the driving fault for cat DE count correctly', () => {
       expect((FaultCountDHelper as any).getDrivingFaultSumCountCatDE(catDETestDataStateObject))
         .toBe(6);
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatD1E', () => {
+  describe('getDrivingFaultSumCountCatD1E', () => {
     it('should return the driving fault for cat D1E count correctly', () => {
       expect((FaultCountDHelper as any).getDrivingFaultSumCountCatD1E(catD1ETestDataStateObject))
         .toBe(6);
     });
   });
 
-  xdescribe('getSeriousFaultSumCountCatB', () => {
+  describe('getSeriousFaultSumCountCatB', () => {
     it('should return the serious faults count', () => {
       expect((FaultCountBHelper as any).getSeriousFaultSumCountCatB(catBTestDataStateObject))
         .toBe(1);
@@ -633,7 +632,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getDangerousFaultSumCountCatB', () => {
+  describe('getDangerousFaultSumCountCatB', () => {
     it('should return the dangerous faults count', () => {
       expect((FaultCountBHelper as any).getDangerousFaultSumCountCatB(catBTestDataStateObject))
         .toBe(1);
@@ -665,7 +664,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getSeriousFaultSumCountCatBE', () => {
+  describe('getSeriousFaultSumCountCatBE', () => {
     it('should return the serious faults count', () => {
       expect((FaultCountBEHelper as any).getSeriousFaultSumCountCatBE(catBETestDataStateObject))
         .toBe(1);
@@ -695,7 +694,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getDangerousFaultSumCountCatBE', () => {
+  describe('getDangerousFaultSumCountCatBE', () => {
     it('should return the dangerous faults count', () => {
       expect((FaultCountBEHelper as any).getDangerousFaultSumCountCatBE(catBETestDataStateObject))
         .toBe(1);
@@ -721,21 +720,21 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getDangerousFaultSumCountCatAM1', () => {
+  describe('getDangerousFaultSumCountCatAM1', () => {
     it('should return the dangerous faults count', () => {
       expect((FaultCountAM1Helper as any).getDangerousFaultSumCountCatAM1(catAM1TestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getSeriousFaultSumCountCatAM1', () => {
+  describe('getSeriousFaultSumCountCatAM1', () => {
     it('should return the serious faults count', () => {
       expect((FaultCountAM1Helper as any).getSeriousFaultSumCountCatAM1(catAM1TestDataStateObject))
         .toBe(5);
     });
   });
 
-  xdescribe('getTellMeFaultCount', () => {
+  describe('getTellMeFaultCount', () => {
     it('should return the tellMeQuestions faults count', () => {
 
       const expected = {
@@ -752,7 +751,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getShowMeFaultCount', () => {
+  describe('getShowMeFaultCount', () => {
     it('should return the ShowMeQuestions faults count', () => {
 
       const expected = {
@@ -769,7 +768,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getManoeuvreFaultCount', () => {
+  describe('getManoeuvreFaultCount', () => {
     it('should call sumManoeuvreFaults if the test category includes them', () => {
       [
         TestCategory.B,
@@ -800,7 +799,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getSafetyQuestionsFaultCount', () => {
+  describe('getSafetyQuestionsFaultCount', () => {
     it('should call getSafetyQuestionsFaultCount if the test category is Cat D', () => {
       [
         TestCategory.D1,
@@ -815,7 +814,7 @@ xdescribe('FaultCountProvider', () => {
     });
   });
 
-  xdescribe('getVehicleChecksFaultCount', () => {
+  describe('getVehicleChecksFaultCount', () => {
     it('should call getVehicleChecksFaultCountCatBE if the test category is Cat BE', () => {
       faultCountProvider.getVehicleChecksFaultCount(TestCategory.BE, null);
       expect(FaultCountBEHelper.getVehicleChecksFaultCountCatBE)

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '../outcome-behaviour-map';
 
-xdescribe('OutcomeBehaviourMapProvider', () => {
+describe('OutcomeBehaviourMapProvider', () => {
   let outcomeBehaviourMapProvider: OutcomeBehaviourMapProvider;
 
   beforeEach(() => {
@@ -17,8 +17,8 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
     outcomeBehaviourMapProvider.setBehaviourMap(behaviourMap);
   });
 
-  xdescribe('CAT B unique outcome testing', () => {
-    xdescribe('outcome 1', () => {
+  describe('CAT B unique outcome testing', () => {
+    describe('outcome 1', () => {
       it('should return visibility Y for all fields but eta,faultComment and eco', () => {
         const route = outcomeBehaviourMapProvider.getVisibilityType('1', 'routeNumber');
         const independent = outcomeBehaviourMapProvider.getVisibilityType('1', 'independentDriving');
@@ -68,8 +68,8 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
     });
   });
 
-  xdescribe('outcome testing', () => {
-    xdescribe('outcome 3', () => {
+  describe('outcome testing', () => {
+    describe('outcome 3', () => {
       it('should return visibility Y for candidate, debrief, identification, weather, d255 and additionalInfo', () => {
         const candidate = outcomeBehaviourMapProvider.getVisibilityType('3', 'candidateDescription');
         const debrief = outcomeBehaviourMapProvider.getVisibilityType('3', 'debriefWitnessed');
@@ -127,7 +127,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
           .toBe('Yes');
       });
     });
-    xdescribe('outcome 4', () => {
+    describe('outcome 4', () => {
       it('should return visibility Y for all fields but eta,faultComment and eco', () => {
         const route = outcomeBehaviourMapProvider.getVisibilityType('4', 'routeNumber');
         const independent = outcomeBehaviourMapProvider.getVisibilityType('4', 'independentDriving');
@@ -184,7 +184,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
           .toEqual(true);
       });
     });
-    xdescribe('outcome 11', () => {
+    describe('outcome 11', () => {
       it('should return visibility Y for all fields but eta,faultComment and eco', () => {
         const route = outcomeBehaviourMapProvider.getVisibilityType('11', 'routeNumber');
         const independent = outcomeBehaviourMapProvider.getVisibilityType('11', 'independentDriving');
@@ -241,7 +241,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
           .toEqual(true);
       });
     });
-    xdescribe('outcome 20', () => {
+    describe('outcome 20', () => {
       it('should return visibility Y for candidateDescription and additionalInformation', () => {
         const candidate = outcomeBehaviourMapProvider.getVisibilityType('20', 'candidateDescription');
         const additional = outcomeBehaviourMapProvider.getVisibilityType('20', 'additionalInformation');
@@ -290,7 +290,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 21', () => {
+    describe('outcome 21', () => {
       // tslint:disable-next-line:max-line-length
       it('should return visibility Y for candidateDescription,additionalInformation,identification, weather and d255',
         () => {
@@ -344,7 +344,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 22', () => {
+    describe('outcome 22', () => {
 
       it('should return showNotApplicable true for independent driving and showMeQuestion', () => {
         const independent = outcomeBehaviourMapProvider.showNotApplicable('22', 'independentDriving');
@@ -406,7 +406,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 23', () => {
+    describe('outcome 23', () => {
 
       it('should return showNotApplicable true for independent driving', () => {
         const independent = outcomeBehaviourMapProvider.showNotApplicable('23', 'independentDriving');
@@ -462,7 +462,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 33', () => {
+    describe('outcome 33', () => {
 
       it('should return visibility A for tellMeQuestion', () => {
         const tellMe = outcomeBehaviourMapProvider.getVisibilityType('33', 'tellMeQuestion');
@@ -516,7 +516,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 40', () => {
+    describe('outcome 40', () => {
 
       it('should return visibility Y for route,candidate,debrief,identification,weather,d255 and additional', () => {
         const route = outcomeBehaviourMapProvider.getVisibilityType('40', 'routeNumber');
@@ -567,7 +567,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 51', () => {
+    describe('outcome 51', () => {
 
       it('should return visibility Y for additional information', () => {
         const additional = outcomeBehaviourMapProvider.getVisibilityType('51', 'additionalInformation');
@@ -618,7 +618,7 @@ xdescribe('OutcomeBehaviourMapProvider', () => {
       });
     });
 
-    xdescribe('outcome 69', () => {
+    describe('outcome 69', () => {
 
       it('should return visibility Y for candidate,debrief,identification and additionalInformation', () => {
         const candidate = outcomeBehaviourMapProvider.getVisibilityType('69', 'candidateDescription');

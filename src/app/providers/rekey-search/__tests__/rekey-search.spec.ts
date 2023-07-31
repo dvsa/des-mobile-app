@@ -6,7 +6,7 @@ import { RekeySearchProvider } from '../rekey-search';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 
-xdescribe('RekeySearchProvider', () => {
+describe('RekeySearchProvider', () => {
   let rekeySearchProvider: RekeySearchProvider;
   let urlProvider: UrlProvider;
   let httpMock: HttpTestingController;
@@ -38,16 +38,14 @@ xdescribe('RekeySearchProvider', () => {
   describe('getBooking', () => {
     it('should call getRekeySearchUrl and check request is a GET', () => {
       rekeySearchProvider
-        .getBooking({} as RekeySearchParams)
+        .getBooking({ applicationReference: '123456' } as RekeySearchParams)
         .pipe(take(1))
         .subscribe((response) => {
           expect(response)
             .toEqual({});
         });
 
-      const req = httpMock.expectOne(
-        (request) => request.url === 'https://www.example.com/api/v1/journals/654321/search?appRef=123456',
-      );
+      const req = httpMock.expectOne('https://www.example.com/api/v1/journals/654321/search?appRef=123456');
 
       expect(req.request.method)
         .toBe('GET');

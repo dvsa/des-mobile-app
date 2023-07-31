@@ -10,8 +10,8 @@ import { catGTestDataStateObject, catGTestDataVCStateObject } from '../../__mock
 import { catHTestDataStateObject, catHTestDataVCStateObject } from '../../__mocks__/cat-H-test-data-state-object.mock';
 import { catKTestDataStateObject, catKTestDataVCStateObject } from '../../__mocks__/cat-K-test-data-state-object.mock';
 
-xdescribe('FaultCountHomeTestHelper', () => {
-  xdescribe('getManoeuvreCountIfAny', () => {
+describe('FaultCountHomeTestHelper', () => {
+  describe('getManoeuvreCountIfAny', () => {
     const manouevreTests = [
       {
         category: 'F',
@@ -66,7 +66,7 @@ xdescribe('FaultCountHomeTestHelper', () => {
     });
 
   });
-  xdescribe('getDrivingFaultSumCountCatHomeTest (No VehicleChecks)', () => {
+  describe('getDrivingFaultSumCountCatHomeTest (No VehicleChecks)', () => {
     const drivingFaultTests = [
       {
         category: 'F',
@@ -98,7 +98,7 @@ xdescribe('FaultCountHomeTestHelper', () => {
     });
   });
 
-  xdescribe('getDrivingFaultSumCountCatHomeTest (Including VehicleChecks)', () => {
+  describe('getDrivingFaultSumCountCatHomeTest (Including VehicleChecks)', () => {
     const drivingFaultTests = [
       {
         category: 'F',
@@ -131,7 +131,7 @@ xdescribe('FaultCountHomeTestHelper', () => {
 
   });
 
-  xdescribe('getSeriousFaultSumCountCatHomeTest', () => {
+  describe('getSeriousFaultSumCountCatHomeTest', () => {
     const seriousFaultTests = [
       {
         category: 'F',
@@ -163,7 +163,7 @@ xdescribe('FaultCountHomeTestHelper', () => {
     });
 
   });
-  xdescribe('getDangerousFaultSumCountCatHomeTest', () => {
+  describe('getDangerousFaultSumCountCatHomeTest', () => {
     const dangerousFaultTests = [
       {
         category: 'F',
@@ -195,7 +195,7 @@ xdescribe('FaultCountHomeTestHelper', () => {
     });
   });
 
-  xdescribe('getVehicleChecksFaultCountCatHomeTest', () => {
+  describe('getVehicleChecksFaultCountCatHomeTest', () => {
     it('2 driving faults result in 1 driving fault', () => {
       expect((FaultCountHomeTestHelper as any)
         .getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).drivingFaults)

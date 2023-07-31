@@ -1,14 +1,14 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestDataByCategoryProvider } from '../test-data-by-category';
 
-xdescribe('TestDataByCategoryProvider', () => {
+describe('TestDataByCategoryProvider', () => {
   let provider: TestDataByCategoryProvider;
 
   beforeEach(() => {
     provider = new TestDataByCategoryProvider();
   });
 
-  xdescribe('getTestDataByCategoryCode()', () => {
+  describe('getTestDataByCategoryCode()', () => {
     const categories = [
       { category: TestCategory.B },
       { category: TestCategory.C },

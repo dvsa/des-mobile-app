@@ -4,9 +4,8 @@ import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { FaultSummaryCatAM1Helper } from '../fault-summary.cat-a-mod1';
 import { catAM1TestDataStateObject } from './cat-AM1-test-data.mock';
 
-xdescribe('FaultSummaryCatAM1Helper', () => {
-
-  xdescribe('createEmergencyStopFaultSummary', () => {
+describe('FaultSummaryCatAM1Helper', () => {
+  describe('createEmergencyStopFaultSummary', () => {
     it('should return a fault summary for emergency stop', () => {
       const resultSummary = FaultSummaryCatAM1Helper.getSpeedCheckEmergencyStop({ outcome: CompetencyOutcome.S })[0];
       expect(resultSummary.competencyIdentifier)
@@ -23,7 +22,7 @@ xdescribe('FaultSummaryCatAM1Helper', () => {
     });
   });
 
-  xdescribe('matchCompetenciesIncludingComments', () => {
+  describe('matchCompetenciesIncludingComments', () => {
     it('should match competencies with its corresponding comments', () => {
       const { singleFaultCompetencies } = catAM1TestDataStateObject;
       const expected = {

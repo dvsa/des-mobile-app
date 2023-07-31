@@ -8,7 +8,7 @@ import { FaultCountProvider } from '../../fault-count/fault-count';
 import { TestReportValidatorProvider } from '../test-report-validator';
 import { SpeedCheckState } from '../test-report-validator.constants';
 
-xdescribe('TestReportValidator', () => {
+describe('TestReportValidator', () => {
   const categories = [
     {
       category: TestCategory.EUAM2,
@@ -142,7 +142,7 @@ xdescribe('TestReportValidator', () => {
     testReportValidatorProvider = TestBed.inject(TestReportValidatorProvider);
   }));
 
-  xdescribe('isTestReportValid', () => {
+  describe('isTestReportValid', () => {
     categories.forEach((cat) => {
       it(`should return true if the test report is valid for a Cat ${cat.category} test`, () => {
         const result = testReportValidatorProvider.isTestReportValid(cat.validTest, cat.category);
@@ -157,7 +157,7 @@ xdescribe('TestReportValidator', () => {
     });
 
   });
-  xdescribe('getMissingLegalRequirements', () => {
+  describe('getMissingLegalRequirements', () => {
     const emptyLegal = 'should return an empty array if the legal requirements are met for a Cat';
     const missingLegal = 'should return any missing legal requirements for a Cat';
 
@@ -186,7 +186,7 @@ xdescribe('TestReportValidator', () => {
       });
     });
   });
-  xdescribe('isETAValid', () => {
+  describe('isETAValid', () => {
     it('should return true if there is no ETA fault', () => {
       const result = testReportValidatorProvider.isETAValid({}, TestCategory.B);
       expect(result)
@@ -219,7 +219,7 @@ xdescribe('TestReportValidator', () => {
     });
   });
 
-  xdescribe('validateSpeedChecksCatAMod1', () => {
+  describe('validateSpeedChecksCatAMod1', () => {
     it('should return EMERGENCY_STOP_MISSING when speed not met is true & speed is not recorded', () => {
       const testData = {
         emergencyStop: {
