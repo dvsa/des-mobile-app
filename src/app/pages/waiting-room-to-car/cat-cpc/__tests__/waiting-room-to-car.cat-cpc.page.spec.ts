@@ -1,4 +1,6 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
+} from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
@@ -23,7 +25,9 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { provideMockStore } from '@ngrx/store/testing';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
+} from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { Question, Question5, TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';

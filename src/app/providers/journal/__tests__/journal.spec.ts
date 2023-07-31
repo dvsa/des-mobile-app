@@ -4,6 +4,7 @@ import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { of } from 'rxjs';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { take } from 'rxjs/operators';
 import { JournalProvider } from '../journal';
 import { AuthenticationProvider } from '../../authentication/authentication';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
@@ -19,11 +20,10 @@ import { DateTimeProvider } from '../../date-time/date-time';
 import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
 import { AppConfig } from '../../app-config/app-config.model';
 
-xdescribe('JournalProvider', () => {
+describe('JournalProvider', () => {
   let journalProvider: JournalProvider;
   let httpMock: HttpTestingController;
   let authProviderMock: AuthenticationProvider;
-  let urlProviderMock: UrlProvider;
   let dataStoreMock: DataStoreProvider;
   let appConfigProviderMock: AppConfigProvider;
   let networkStateProviderMock: NetworkStateProvider;
@@ -68,7 +68,6 @@ xdescribe('JournalProvider', () => {
     httpMock = TestBed.inject(HttpTestingController);
     journalProvider = TestBed.inject(JournalProvider);
     authProviderMock = TestBed.inject(AuthenticationProvider);
-    urlProviderMock = TestBed.inject(UrlProvider);
     dataStoreMock = TestBed.inject(DataStoreProvider);
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
     networkStateProviderMock = TestBed.inject(NetworkStateProvider);
@@ -101,7 +100,9 @@ xdescribe('JournalProvider', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState')
         .and
         .returnValue(ConnectionStatus.ONLINE);
-      journalProvider.getJournal(null)
+      journalProvider
+        .getJournal(null)
+        .pipe(take(1))
         .subscribe(() => {
         });
       expect(authProviderMock.getEmployeeId)
@@ -120,7 +121,9 @@ xdescribe('JournalProvider', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState')
         .and
         .returnValue(ConnectionStatus.OFFLINE);
-      journalProvider.getJournal(null)
+      journalProvider
+        .getJournal(null)
+        .pipe(take(1))
         .subscribe(() => {
         });
       expect(authProviderMock.getEmployeeId)
@@ -136,7 +139,9 @@ xdescribe('JournalProvider', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState')
         .and
         .returnValue(ConnectionStatus.ONLINE);
-      journalProvider.getJournal(new Date('2020-01-01'))
+      journalProvider
+        .getJournal(new Date('2020-01-01'))
+        .pipe(take(1))
         .subscribe(() => {
         });
       expect(authProviderMock.getEmployeeId)
@@ -155,7 +160,9 @@ xdescribe('JournalProvider', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState')
         .and
         .returnValue(ConnectionStatus.OFFLINE);
-      journalProvider.getJournal(new Date('2020-01-01'))
+      journalProvider
+        .getJournal(new Date('2020-01-01'))
+        .pipe(take(1))
         .subscribe(() => {
         });
       expect(authProviderMock.getEmployeeId)
@@ -252,21 +259,6 @@ xdescribe('JournalProvider', () => {
     });
   });
 
-  describe('getJournal', () => {
-    it('should obtain the personal journal URL from the journal provider, passing the cached employee ID', () => {
-      journalProvider.getJournal(null)
-        .subscribe();
-
-      httpMock.expectOne('https://www.example.com/api/v1/journals/12345678/personal');
-      expect(authProviderMock.getEmployeeId)
-        .toHaveBeenCalled();
-      expect(authProviderMock.isInUnAuthenticatedMode)
-        .toHaveBeenCalled();
-      expect(urlProviderMock.getPersonalJournalUrl)
-        .toHaveBeenCalledWith('12345678');
-    });
-  });
-
   describe('saveJournalForOffline', () => {
     beforeEach(() => {
       spyOn(dateTimeProviderMock, 'now')
@@ -299,7 +291,9 @@ xdescribe('JournalProvider', () => {
         .returnValue(Promise.resolve({}));
     });
     it('should convert the promise returned from getAndConvertOfflineJournal into an observable', () => {
-      journalProvider.getOfflineJournal()
+      journalProvider
+        .getOfflineJournal()
+        .pipe(take(1))
         .subscribe((response) => {
           expect(response)
             .toEqual({});

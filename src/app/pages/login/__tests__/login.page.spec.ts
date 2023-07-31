@@ -1,5 +1,9 @@
-import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
-import { AlertController, IonicModule, LoadingController, MenuController, Platform } from '@ionic/angular';
+import {
+  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
+} from '@angular/core/testing';
+import {
+  AlertController, IonicModule, LoadingController, MenuController, Platform,
+} from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -21,7 +25,9 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { AlertControllerMock, LoadingControllerMock, MenuControllerMock, PlatformMock } from '@mocks/index.mock';
+import {
+  AlertControllerMock, LoadingControllerMock, MenuControllerMock, PlatformMock,
+} from '@mocks/index.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';

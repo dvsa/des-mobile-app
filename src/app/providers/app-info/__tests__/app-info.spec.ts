@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { AppVersionMock } from '@mocks/ionic-mocks/app-version.mock';
-import { AppInfoProvider } from '../app-info';
 import { take } from 'rxjs/operators';
+import { AppInfoProvider } from '../app-info';
 
 const APP_VERSION_NUMBER = '1.1.9';
 

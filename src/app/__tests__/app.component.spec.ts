@@ -1,10 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
+} from '@angular/core/testing';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { AlertControllerMock, MenuControllerMock, PlatformMock, SecureStorageMock } from '@mocks/index.mock';
+import {
+  AlertControllerMock, MenuControllerMock, PlatformMock, SecureStorageMock,
+} from '@mocks/index.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -227,9 +231,9 @@ describe('AppComponent', () => {
         .toHaveBeenCalledWith({} as SecureStorageObject);
     }));
     it('should resolve to error message', () => {
-      // eslint-disable-next-line prefer-promise-reject-errors
       spyOn(secureStorage, 'create')
         .and
+        // eslint-disable-next-line prefer-promise-reject-errors
         .returnValue(Promise.reject('Failed to create container'));
       spyOn(component, 'isIos')
         .and

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard } from '@dvsa/mes-driver-schema';
+import {
+  DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard,
+} from '@dvsa/mes-driver-schema';
 import { DriverLicenceDetails } from '@providers/candidate-licence/candidate-licence';
 import { Observable } from 'rxjs';
 

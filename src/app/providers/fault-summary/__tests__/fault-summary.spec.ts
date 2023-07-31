@@ -9,7 +9,9 @@ import { FaultCountProvider } from '../../fault-count/fault-count';
 import { FaultSummaryCatCHelper } from '../cat-c/fault-summary.cat-c';
 import { FaultSummaryCatBHelper } from '../cat-b/fault-summary.cat-b';
 import { FaultSummaryCatDHelper } from '../cat-d/fault-summary.cat-d';
-import { showMe0DFTellMe1DF, showMe1DFTellMe1DF, showMe2DFTellMe2DF, showMe2DFTellMe3DF } from './fault-summary.mock';
+import {
+  showMe0DFTellMe1DF, showMe1DFTellMe1DF, showMe2DFTellMe2DF, showMe2DFTellMe3DF,
+} from './fault-summary.mock';
 import { FaultSummaryProvider } from '../fault-summary';
 import { FaultSummaryCatAM1Helper } from '../cat-a-mod1/fault-summary.cat-a-mod1';
 
