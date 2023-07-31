@@ -8,6 +8,7 @@ import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-confi
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { VehicleDetailsApiService } from './vehicle-details-api.service';
 
+// @TODO: Enable spec when full MOT feature introduced
 xdescribe('VehicleDetailsApiService', () => {
   let vehicleDetailsService: VehicleDetailsApiService;
   let urlProvider: UrlProvider;
@@ -37,7 +38,7 @@ xdescribe('VehicleDetailsApiService', () => {
     spyOn(urlProvider, 'getTaxMotUrl');
   });
 
-  xdescribe('getVehicleByIdentifier', () => {
+  describe('getVehicleByIdentifier', () => {
     it('should return an Observable of vehicleDetailsResponse if it is defined and'
       + ' vehicleRegistration is vehicleIdentifier', () => {
       vehicleDetailsService.vehicleIdentifier = 'ABC123';
@@ -56,7 +57,7 @@ xdescribe('VehicleDetailsApiService', () => {
         .toHaveBeenCalled();
     });
   });
-  xdescribe('clearVehicleData', () => {
+  describe('clearVehicleData', () => {
     it('should set vehicleIdentifier to null and vehicleDetailsResponse to undefined', () => {
       vehicleDetailsService.clearVehicleData();
       expect(vehicleDetailsService.vehicleIdentifier)

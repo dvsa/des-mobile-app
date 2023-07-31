@@ -9,7 +9,7 @@ import { TestPersistenceProvider } from '../test-persistence';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
-xdescribe('TestPersistenceProvider', () => {
+describe('TestPersistenceProvider', () => {
   let testPersistenceProvider: TestPersistenceProvider;
   let dataStoreProvider;
   let testState: TestsModel;
@@ -114,7 +114,7 @@ xdescribe('TestPersistenceProvider', () => {
     dataStoreProvider = TestBed.inject(DataStoreProvider);
   }));
 
-  xdescribe('persistTests', () => {
+  describe('persistTests', () => {
     it('should take the tests state slice and pass it to the data store provider stringified', async () => {
       await testPersistenceProvider.persistTests(testState);
 
@@ -127,7 +127,7 @@ xdescribe('TestPersistenceProvider', () => {
     });
   });
 
-  xdescribe('loadPersistedTests', () => {
+  describe('loadPersistedTests', () => {
     it('should return the test JSON from the data store parsed into a TestsModel', async () => {
       dataStoreProvider.getItem.and.returnValue(JSON.stringify(testState));
 
@@ -157,7 +157,7 @@ xdescribe('TestPersistenceProvider', () => {
         .toBeNull();
     });
   });
-  xdescribe('clearPersistedTests', () => {
+  describe('clearPersistedTests', () => {
     it('should remove item on the data stores test key', async () => {
       await testPersistenceProvider.clearPersistedTests();
 
@@ -165,7 +165,7 @@ xdescribe('TestPersistenceProvider', () => {
         .toHaveBeenCalledWith('TESTS');
     });
   });
-  xdescribe('clearCachedTests', () => {
+  describe('clearCachedTests', () => {
     it('should return null if there is no data in the store', () => {
       expect(testPersistenceProvider.clearCachedTests(null))
         .toEqual(null);
@@ -183,14 +183,14 @@ xdescribe('TestPersistenceProvider', () => {
         });
     });
   });
-  xdescribe('getTestsToDelete', () => {
+  describe('getTestsToDelete', () => {
     it('should return the correct tests to delete', () => {
       const result = testPersistenceProvider.getTestsToDelete(testState);
       expect(result)
         .toEqual(['12345678']);
     });
   });
-  xdescribe('deleteTestsFromTestObject', () => {
+  describe('deleteTestsFromTestObject', () => {
     it('should delete the correct tests from the started tests object', () => {
       const keysToDelete = ['12345678'];
       const result = testPersistenceProvider.deleteTestsFromTestObject(testState.startedTests, keysToDelete);
@@ -205,7 +205,7 @@ xdescribe('TestPersistenceProvider', () => {
         .toEqual({ 23456789: TestStatus.Booked });
     });
   });
-  xdescribe('shouldResetCurrentTest', () => {
+  describe('shouldResetCurrentTest', () => {
     it('should return true if the current test is in the keys to delete', () => {
       const testsToDelete = ['1', '2', '3'];
       expect(testPersistenceProvider.shouldResetCurrentTest('2', testsToDelete))

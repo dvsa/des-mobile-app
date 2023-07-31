@@ -41,14 +41,14 @@ import {
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { VehicleDetailsByCategoryProvider } from '../vehicle-details-by-category';
 
-xdescribe('VehicleDetailsByCategoryProvider', () => {
+describe('VehicleDetailsByCategoryProvider', () => {
   let provider: VehicleDetailsByCategoryProvider;
 
   beforeEach(() => {
     provider = new VehicleDetailsByCategoryProvider();
   });
 
-  xdescribe('getVehicleDetailsByCategoryCode', () => {
+  describe('getVehicleDetailsByCategoryCode', () => {
 
     it('should return Cat C vehicle details for a C category code', () => {
       expect(() => {

@@ -4,7 +4,7 @@ import { UrlProvider } from '../url';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
-xdescribe('UrlProvider', () => {
+describe('UrlProvider', () => {
   let urlProvider: UrlProvider;
 
   beforeEach(waitForAsync(() => {
@@ -21,7 +21,7 @@ xdescribe('UrlProvider', () => {
     urlProvider = TestBed.inject(UrlProvider);
   }));
 
-  xdescribe('getPersonalJournalUrl', () => {
+  describe('getPersonalJournalUrl', () => {
     it('should format the URL template from the AppConfigProvider with the provided staffNumber', () => {
       const url = urlProvider.getPersonalJournalUrl('12345678');
       expect(url)
@@ -39,7 +39,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getLogsServiceApiKey', () => {
+  describe('getLogsServiceApiKey', () => {
     it('should get logsPostApiKey', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -48,7 +48,7 @@ xdescribe('UrlProvider', () => {
         .toBe('key');
     });
   });
-  xdescribe('getTaxMotApiKey', () => {
+  describe('getTaxMotApiKey', () => {
     it('should get taxMotApiKey', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -57,7 +57,7 @@ xdescribe('UrlProvider', () => {
         .toBe('key');
     });
   });
-  xdescribe('getTaxMotUrl', () => {
+  describe('getTaxMotUrl', () => {
     it('should get taxMotUrl', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -66,7 +66,7 @@ xdescribe('UrlProvider', () => {
         .toBe('url');
     });
   });
-  xdescribe('getTestCentreJournalUrl', () => {
+  describe('getTestCentreJournalUrl', () => {
     it('should get teamJournalUrl', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -75,7 +75,7 @@ xdescribe('UrlProvider', () => {
         .toBe('url');
     });
   });
-  xdescribe('getCandidateStandardDataUrl', () => {
+  describe('getCandidateStandardDataUrl', () => {
     it('should get standardUrl', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -85,7 +85,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getLogsServiceUrl', () => {
+  describe('getLogsServiceUrl', () => {
     it('should return the correct url', () => {
       const url = urlProvider.getLogsServiceUrl();
       expect(url)
@@ -93,7 +93,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getTestResultServiceUrl', () => {
+  describe('getTestResultServiceUrl', () => {
     it('should return the correct url', () => {
       const url = urlProvider.getTestResultServiceUrl();
       expect(url)
@@ -101,7 +101,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getRefDataTestCentreUrl', () => {
+  describe('getRefDataTestCentreUrl', () => {
     it('should return appConfigProvider testCentreUrl', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -113,7 +113,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getDelegatedExaminerSearchBookingUrl', () => {
+  describe('getDelegatedExaminerSearchBookingUrl', () => {
     it('should replace {applicationReference} with passed variable', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -134,7 +134,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getRekeyFindUserUrl', () => {
+  describe('getRekeyFindUserUrl', () => {
     it('should replace {staffNumber} with passed variable', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -155,7 +155,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getCandidateSignatureUrl', () => {
+  describe('getCandidateSignatureUrl', () => {
     it('should replace {drivingLicenceNumber} with passed variable', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -167,7 +167,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getCandidatePhotoUrl', () => {
+  describe('getCandidatePhotoUrl', () => {
     it('should replace {drivingLicenceNumber} with passed variable', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig')
         .and
@@ -179,7 +179,7 @@ xdescribe('UrlProvider', () => {
     });
   });
 
-  xdescribe('getRekeySearchlUrl', () => {
+  describe('getRekeySearchlUrl', () => {
     it('should format the URL template from the AppConfigProvider with the provided staffNumber', () => {
       const url = urlProvider.getRekeySearchUrl('12345678');
       expect(url)

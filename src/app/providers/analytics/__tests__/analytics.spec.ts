@@ -50,7 +50,7 @@ xdescribe('AnalyticsProvider', () => {
       .returnValue(true);
   });
 
-  xdescribe('setUserId', () => {
+  describe('setUserId', () => {
     it('should start tracker with id, and then call setUserId with encrypted staff number', () => {
       spyOn(analyticsProvider, 'addCustomDimension');
       analyticsProvider.setUserId('123');
