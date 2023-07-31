@@ -3,7 +3,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { VehicleDetailsUnion } from '@shared/unions/test-schema-unions';
 import { ReversingDistancesProvider } from '../reversing-distances';
 
-xdescribe('ReversingDistancesProvider', () => {
+describe('ReversingDistancesProvider', () => {
   let reversingDistancesProvider: ReversingDistancesProvider;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ xdescribe('ReversingDistancesProvider', () => {
     reversingDistancesProvider = TestBed.inject(ReversingDistancesProvider);
   });
 
-  xdescribe('getDistanceLength', () => {
+  describe('getDistanceLength', () => {
     const vehicleDetails: VehicleDetailsUnion = {
       vehicleLength: 15,
       vehicleWidth: 2,
@@ -37,7 +37,7 @@ xdescribe('ReversingDistancesProvider', () => {
     };
 
     // CAT C
-    xdescribe('Category CM', () => {
+    describe('Category CM', () => {
       it('should return a start value 3 and a half times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.CM);
         expect(result.startDistance)
@@ -69,7 +69,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category C+EM', () => {
+    describe('Category C+EM', () => {
       it('should return a start value 4 times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.CEM);
         expect(result.startDistance)
@@ -121,7 +121,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category C1M', () => {
+    describe('Category C1M', () => {
       it('should return a start value 3 and a half times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.C1M);
         expect(result.startDistance)
@@ -153,7 +153,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category C1+EM', () => {
+    describe('Category C1+EM', () => {
       it('should return a start value 4 times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.C1EM);
         expect(result.startDistance)
@@ -206,7 +206,7 @@ xdescribe('ReversingDistancesProvider', () => {
     });
 
     // CAT D
-    xdescribe('Category DM', () => {
+    describe('Category DM', () => {
       it('should return a start value 3 and a half times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.DM);
         expect(result.startDistance)
@@ -238,7 +238,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category D+EM', () => {
+    describe('Category D+EM', () => {
       it('should return a start value 4 times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.DEM);
         expect(result.startDistance)
@@ -290,7 +290,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category D1M', () => {
+    describe('Category D1M', () => {
       it('should return a start value 3 and a half times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.D1M);
         expect(result.startDistance)
@@ -322,7 +322,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category D1+EM', () => {
+    describe('Category D1+EM', () => {
       it('should return a start value 4 times the vehicle length', () => {
         const result = reversingDistancesProvider.getDistanceLength(vehicleDetails, TestCategory.D1EM);
         expect(result.startDistance)
@@ -375,14 +375,14 @@ xdescribe('ReversingDistancesProvider', () => {
     });
   });
 
-  xdescribe('getDistanceWidth', () => {
+  describe('getDistanceWidth', () => {
     const vehicleDetails: VehicleDetailsUnion = {
       vehicleLength: 15,
       vehicleWidth: 2,
     };
 
     // CAT C
-    xdescribe('Category CM', () => {
+    describe('Category CM', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.CM);
         expect(result)
@@ -390,7 +390,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category C+EM', () => {
+    describe('Category C+EM', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.CEM);
         expect(result)
@@ -398,7 +398,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category C1M', () => {
+    describe('Category C1M', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.C1M);
         expect(result)
@@ -406,7 +406,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category C1+EM', () => {
+    describe('Category C1+EM', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.C1EM);
         expect(result)
@@ -415,7 +415,7 @@ xdescribe('ReversingDistancesProvider', () => {
     });
 
     // CAT D
-    xdescribe('Category DM', () => {
+    describe('Category DM', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.DM);
         expect(result)
@@ -423,7 +423,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category D+EM', () => {
+    describe('Category D+EM', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.DEM);
         expect(result)
@@ -431,7 +431,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category D1M', () => {
+    describe('Category D1M', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.D1M);
         expect(result)
@@ -439,7 +439,7 @@ xdescribe('ReversingDistancesProvider', () => {
       });
     });
 
-    xdescribe('Category D1+EM', () => {
+    describe('Category D1+EM', () => {
       it('should return a value 1 and a half times the vehicle width', () => {
         const result = reversingDistancesProvider.getDistanceWidth(vehicleDetails, TestCategory.D1EM);
         expect(result)

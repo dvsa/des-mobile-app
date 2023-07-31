@@ -76,7 +76,11 @@ xdescribe('JournalProvider', () => {
     cacheDays = appConfigProviderMock.getAppConfig().journal.daysToCacheJournalData;
   });
 
-  xdescribe('getJournal', () => {
+  afterAll(() => {
+    httpMock.verify();
+  });
+
+  describe('getJournal', () => {
     beforeEach(() => {
       spyOn(authProviderMock, 'getEmployeeId')
         .and
@@ -165,7 +169,7 @@ xdescribe('JournalProvider', () => {
     });
   });
 
-  xdescribe('isCacheTooOld', () => {
+  describe('isCacheTooOld', () => {
     it('should return true if date is greater than cacheDays days ago', () => {
       const today = new DateTime();
       const tooOld = new DateTime().add(-(cacheDays + 1), Duration.DAY);
@@ -181,7 +185,7 @@ xdescribe('JournalProvider', () => {
     });
   });
 
-  xdescribe('getAndConvertOfflineJournal', () => {
+  describe('getAndConvertOfflineJournal', () => {
     it('should return data without emptying cache if data is not too old', async () => {
       const exampleSchedule: ExaminerWorkSchedule = {
         examiner: { staffNumber: '1234' },
@@ -248,7 +252,7 @@ xdescribe('JournalProvider', () => {
     });
   });
 
-  xdescribe('getJournal', () => {
+  describe('getJournal', () => {
     it('should obtain the personal journal URL from the journal provider, passing the cached employee ID', () => {
       journalProvider.getJournal(null)
         .subscribe();
@@ -263,7 +267,7 @@ xdescribe('JournalProvider', () => {
     });
   });
 
-  xdescribe('saveJournalForOffline', () => {
+  describe('saveJournalForOffline', () => {
     beforeEach(() => {
       spyOn(dateTimeProviderMock, 'now')
         .and
@@ -288,7 +292,7 @@ xdescribe('JournalProvider', () => {
     });
   });
 
-  xdescribe('getOfflineJournal', () => {
+  describe('getOfflineJournal', () => {
     beforeEach(() => {
       spyOn(journalProvider, 'getAndConvertOfflineJournal')
         .and

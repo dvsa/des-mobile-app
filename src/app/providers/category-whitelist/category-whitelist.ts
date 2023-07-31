@@ -42,13 +42,7 @@ export const whiteList: TestCategory[] = [
 @Injectable()
 export class CategoryWhitelistProvider {
 
-  /**
-   * Function to check if the passed in Category exists in the category whitelist
-   * @param category
-   */
   isWhiteListed(category: TestCategory): boolean {
-    return whiteList.some((cat) => {
-      return cat === category;
-    });
+    return whiteList.some((cat) => cat === category);
   }
 }

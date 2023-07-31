@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProvider } from '@providers/search/search';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
+  RekeySearchActions,
   SearchBookedTest,
+  SearchBookedTestFailure,
   SearchBookedTestSuccess,
-  SearchBookedTestFailure, RekeySearchActions,
 } from './rekey-search.actions';
 import { RekeySearchErrorMessages } from './rekey-search-error-model';
 
@@ -31,11 +32,9 @@ export class RekeySearchEffects {
     switchMap((action) => {
       return this.testSearchProvider.getTestResult(action.appRef, action.staffNumber)
         .pipe(
-          switchMap((): Observable<RekeySearchActions> => {
-            return of(SearchBookedTestFailure({
-              message: RekeySearchErrorMessages.BookingAlreadyCompleted,
-            }));
-          }),
+          switchMap((): Observable<RekeySearchActions> => of(
+            SearchBookedTestFailure({ message: RekeySearchErrorMessages.BookingAlreadyCompleted }),
+          )),
           catchError((err: HttpErrorResponse): Observable<RekeySearchActions> => {
             if (err.status === HttpStatusCodes.BAD_REQUEST) {
               const rekeySearchParams = {
@@ -45,10 +44,8 @@ export class RekeySearchEffects {
               return this.rekeySearchProvider.getBooking(rekeySearchParams)
                 .pipe(
                   map((response) => this.compressionProvider.extract<TestSlot>(response.toString())),
-                  map((testSlot: any) => SearchBookedTestSuccess(testSlot, action.staffNumber)),
-                  catchError((error: any) => {
-                    return of(SearchBookedTestFailure(error));
-                  }),
+                  map((testSlot) => SearchBookedTestSuccess(testSlot, action.staffNumber)),
+                  catchError((error) => of(SearchBookedTestFailure(error))),
                 );
             }
             return of(SearchBookedTestFailure(err));

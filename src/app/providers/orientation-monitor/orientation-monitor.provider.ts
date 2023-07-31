@@ -16,6 +16,7 @@ export class OrientationMonitorProvider {
   public async tearDownListener() {
     await ScreenOrientation.removeAllListeners();
   }
+
   public async monitorOrientation(): Promise<void> {
     // Detect `orientation` upon entry
     const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();

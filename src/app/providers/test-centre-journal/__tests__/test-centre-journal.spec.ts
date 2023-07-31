@@ -38,6 +38,10 @@ xdescribe('TestCentreJournalProvider', () => {
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
   }));
 
+  afterAll(() => {
+    httpMock.verify();
+  });
+
   xdescribe('getTestCentreJournal', () => {
     beforeEach(() => {
       spyOn(appConfigProviderMock, 'getAppConfig')

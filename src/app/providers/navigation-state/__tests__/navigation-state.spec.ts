@@ -1,22 +1,27 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { DELEGATED_REKEY_SEARCH_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
-import { Router } from '@angular/router';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
-xdescribe('navigation-state', () => {
+describe('NavigationStateProvider', () => {
   let navProvider: NavigationStateProvider;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         NavigationStateProvider,
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
       ],
     });
 
     navProvider = TestBed.inject(NavigationStateProvider);
   });
 
-  xdescribe('isRekeySearch', () => {
+  describe('isRekeySearch', () => {
     it('should return true if the url contains REKEY_SEARCH_PAGE', () => {
       navProvider['router'] = { url: REKEY_SEARCH_PAGE } as Router;
       expect(navProvider.isRekeySearch())
@@ -28,7 +33,7 @@ xdescribe('navigation-state', () => {
         .toEqual(false);
     });
   });
-  xdescribe('isDelegatedExaminerRekeySearch', () => {
+  describe('isDelegatedExaminerRekeySearch', () => {
     it('should return true if the url contains DELEGATED_REKEY_SEARCH_PAGE', () => {
       navProvider['router'] = { url: DELEGATED_REKEY_SEARCH_PAGE } as Router;
       expect(navProvider.isDelegatedExaminerRekeySearch())

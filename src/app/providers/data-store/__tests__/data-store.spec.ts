@@ -9,9 +9,12 @@ import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
 
-xdescribe('DataStoreProvider', () => {
+describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
+  let store$: Store<StoreModel>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,9 +33,11 @@ xdescribe('DataStoreProvider', () => {
     });
 
     provider = TestBed.inject(DataStoreProvider);
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
   });
 
-  xdescribe('setSecureContainer', () => {
+  describe('setSecureContainer', () => {
     it('should set secureContainer', () => {
       provider.secureContainer = {} as SecureStorageObject;
       provider.setSecureContainer(null);
@@ -41,7 +46,7 @@ xdescribe('DataStoreProvider', () => {
     });
   });
 
-  xdescribe('getSecureContainer', () => {
+  describe('getSecureContainer', () => {
     it('should return secureContainer', () => {
       provider.secureContainer = {} as SecureStorageObject;
       expect(provider.getSecureContainer())
@@ -49,7 +54,7 @@ xdescribe('DataStoreProvider', () => {
     });
   });
 
-  xdescribe('getKeys', () => {
+  describe('getKeys', () => {
     it('should return an empty string if secureContainer is null', async () => {
       provider.secureContainer = null;
       expect(await provider.getKeys())
@@ -66,7 +71,7 @@ xdescribe('DataStoreProvider', () => {
     });
   });
 
-  xdescribe('getItem', () => {
+  describe('getItem', () => {
     it('should return an empty string if secureContainer is null', async () => {
       provider.secureContainer = null;
       expect(await provider.getItem(null))
@@ -83,7 +88,7 @@ xdescribe('DataStoreProvider', () => {
     });
   });
 
-  xdescribe('setItem', () => {
+  describe('setItem', () => {
     it('should return an empty string if secureContainer is null', async () => {
       provider.secureContainer = null;
       expect(await provider.setItem(null, null))
@@ -104,7 +109,6 @@ xdescribe('DataStoreProvider', () => {
           return Promise.resolve('testData');
         },
       } as SecureStorageObject;
-      // eslint-disable-next-line prefer-promise-reject-errors
       spyOn(provider.secureContainer, 'set')
         .and
         .returnValue(Promise.reject('error'));
@@ -113,7 +117,7 @@ xdescribe('DataStoreProvider', () => {
         .toEqual('error');
     });
   });
-  xdescribe('removeItem', () => {
+  describe('removeItem', () => {
     it('should return an empty string if secureContainer is null', async () => {
       provider.secureContainer = null;
       expect(await provider.removeItem(null))
@@ -134,15 +138,13 @@ xdescribe('DataStoreProvider', () => {
           return Promise.resolve('testData');
         },
       } as SecureStorageObject;
-      // eslint-disable-next-line prefer-promise-reject-errors
       spyOn(provider.secureContainer, 'remove')
         .and
         .returnValue(Promise.reject('error'));
-      spyOn(provider['store$'], 'dispatch');
 
       await provider.removeItem('key');
 
-      expect(provider['store$'].dispatch)
+      expect(store$.dispatch)
         .toHaveBeenCalledWith(SaveLog({
           payload: {
             message: 'error',

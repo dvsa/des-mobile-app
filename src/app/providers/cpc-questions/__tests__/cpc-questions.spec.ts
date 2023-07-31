@@ -7,7 +7,7 @@ import { Combination, QuestionNumber } from '@shared/constants/cpc-questions/cpc
 import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
 import { CPCQuestionProvider } from '../cpc-questions';
 
-xdescribe('CPC Question Provider', () => {
+describe('CPCQuestionProvider', () => {
   let cpcQuestionProvider: CPCQuestionProvider;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ xdescribe('CPC Question Provider', () => {
     cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
   });
 
-  xdescribe('getQuestionsBank', () => {
+  describe('getQuestionsBank', () => {
     it('should return 4 questions for given lgv combination code', () => {
       const questions = cpcQuestionProvider.getQuestionsBank('LGV1');
       expect(questions.length)
@@ -33,7 +33,7 @@ xdescribe('CPC Question Provider', () => {
     });
   });
 
-  xdescribe('getQuestion5ByVehicleType', () => {
+  describe('getQuestion5ByVehicleType', () => {
     it('should return the question 5 for the LGV', () => {
       const questionFive = cpcQuestionProvider.getQuestion5ByVehicleType('LGV1');
       expect(questionFive)
@@ -46,7 +46,7 @@ xdescribe('CPC Question Provider', () => {
     });
   });
 
-  xdescribe('getCombinations', () => {
+  describe('getCombinations', () => {
     it('should return a list of only LGV codes for CCPC', () => {
       const combinations = cpcQuestionProvider.getCombinations(TestCategory.CCPC);
       const allCodesLGV = combinations
@@ -69,7 +69,7 @@ xdescribe('CPC Question Provider', () => {
     });
   });
 
-  xdescribe('getQuestionScore', () => {
+  describe('getQuestionScore', () => {
     beforeEach(() => {
       spyOn(cpcQuestionProvider, 'roundToNearestFive')
         .and
@@ -96,7 +96,7 @@ xdescribe('CPC Question Provider', () => {
     });
   });
 
-  xdescribe('getTotalQuestionScore', () => {
+  describe('getTotalQuestionScore', () => {
     it('should sum the score value in each', () => {
       const testData: TestData = {
         combination: 'LGV1',

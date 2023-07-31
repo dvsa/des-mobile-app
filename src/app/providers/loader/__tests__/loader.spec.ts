@@ -3,7 +3,7 @@ import { LoadingController } from '@ionic/angular';
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { LoadingProvider } from '../loader';
 
-xdescribe('LoadingProvider', () => {
+describe('LoadingProvider', () => {
   let service: LoadingProvider;
   let loadingCtrl: LoadingController;
 
@@ -36,7 +36,7 @@ xdescribe('LoadingProvider', () => {
       .toBeTruthy();
   });
 
-  xdescribe('handleUILoading', () => {
+  describe('handleUILoading', () => {
     it('should call the create method when isLoading is true', async () => {
       await service.handleUILoading(true);
       expect(loadingCtrl.create)

@@ -6,7 +6,7 @@ import { getPageNameByCategoryAndKey, PageNameKeys } from '@pages/page-names.con
 @Injectable()
 export class RouteByCategoryProvider {
   constructor(
-    public router: Router,
+    private router: Router,
   ) {
   }
 

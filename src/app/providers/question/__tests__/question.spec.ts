@@ -22,7 +22,7 @@ import balanceQuestionsCatAMod2Constants from '@shared/constants/balance-questio
 import safetyQuestionsCatAMod2Constants from '@shared/constants/safety-questions.cat-a-mod2.constants';
 import { QuestionProvider } from '../question';
 
-xdescribe('question provider', () => {
+describe('QuestionProvider', () => {
   let questionProvider: QuestionProvider;
 
   beforeEach(() => {
@@ -35,7 +35,7 @@ xdescribe('question provider', () => {
     questionProvider = TestBed.inject(QuestionProvider);
   });
 
-  xdescribe('getTellMeQuestions', () => {
+  describe('getTellMeQuestions', () => {
     it('should return the correct questions for a category B test', () => {
       expect(questionProvider.getTellMeQuestions(TestCategory.B))
         .toEqual(tellMeQuestionsCatBConstants);
@@ -81,7 +81,7 @@ xdescribe('question provider', () => {
     });
   });
 
-  xdescribe('getShowMeQuestions', () => {
+  describe('getShowMeQuestions', () => {
     it('should return the correct questions for a category B test', () => {
       expect(questionProvider.getShowMeQuestions(TestCategory.B))
         .toEqual(showMeQuestionsCatBConstants);
@@ -129,7 +129,7 @@ xdescribe('question provider', () => {
     });
   });
 
-  xdescribe('getSafetyQuestions', () => {
+  describe('getSafetyQuestions', () => {
     it('should return the correct questions for a category Mod2 test', () => {
       [
         TestCategory.EUA1M2,
@@ -147,7 +147,7 @@ xdescribe('question provider', () => {
     });
   });
 
-  xdescribe('getBalanceQuestions', () => {
+  describe('getBalanceQuestions', () => {
     it('should return the correct questions for a category Mod2 test', () => {
       [
         TestCategory.EUA1M2,
@@ -165,7 +165,7 @@ xdescribe('question provider', () => {
     });
   });
 
-  xdescribe('getVocationalSafetyQuestions', () => {
+  describe('getVocationalSafetyQuestions', () => {
     it('should return the correct questions for a category D test', () => {
       [
         TestCategory.D1,

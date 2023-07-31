@@ -1,17 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { LogType } from '@shared/models/log.model';
+import { Log, LogType } from '@shared/models/log.model';
+import { take } from 'rxjs/operators';
 import { UrlProvider } from '../../url/url';
 import { LOGS_SERVICE_URL, UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { LogsProvider } from '../logs';
 import { AuthenticationProvider } from '../../authentication/authentication';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
 
-xdescribe('LogsProvider', () => {
+describe('LogsProvider', () => {
   let logsProvider: LogsProvider;
   let httpMock: HttpTestingController;
-  let urlProviderMock: UrlProvider;
+  const log = {
+    type: LogType.DEBUG,
+    message: 'Successfully logged multiple',
+    timestamp: new Date().getTime(),
+    drivingExaminerId: '1234567',
+  } as Log;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,22 +45,31 @@ xdescribe('LogsProvider', () => {
 
     httpMock = TestBed.inject(HttpTestingController);
     logsProvider = TestBed.inject(LogsProvider);
-    urlProviderMock = TestBed.inject(UrlProvider);
   });
 
-  xdescribe('sendLogs', () => {
-    it('should successfully send the logs', () => {
-      logsProvider.sendLogs([{
-        type: LogType.DEBUG,
-        message: 'Successfully logged multiple',
-        timestamp: new Date().getTime(),
-        drivingExaminerId: '1234567',
-      }])
-        .subscribe();
+  afterAll(() => {
+    httpMock.verify();
+  });
 
-      httpMock.expectOne(LOGS_SERVICE_URL);
-      expect(urlProviderMock.getLogsServiceUrl)
-        .toHaveBeenCalled();
+  describe('sendLogs', () => {
+    it('should call getLogsServiceUrl and check request is a POST with payload', () => {
+      logsProvider
+        .sendLogs([log])
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response)
+            .toEqual({});
+        });
+
+      const req = httpMock.expectOne(
+        (request) => request.url === LOGS_SERVICE_URL,
+      );
+
+      expect(req.request.body)
+        .toEqual([log]);
+      expect(req.request.method)
+        .toBe('POST');
+      req.flush({});
     });
   });
 });

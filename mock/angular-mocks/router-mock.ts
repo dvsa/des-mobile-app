@@ -5,7 +5,11 @@ export class RouterMock {
     .and
     .returnValue(Promise.resolve(true));
 
-  getCurrentNavigation = () => jasmine.createSpy('getCurrentNavigation')
+  navigateByUrl = jasmine.createSpy('navigateByUrl')
+    .and
+    .returnValue(Promise.resolve(true));
+
+  getCurrentNavigation = jasmine.createSpy('getCurrentNavigation')
     .and
     .returnValue({ extras: { state: { hasNavigatedFromUnsubmitted: true } } });
 }

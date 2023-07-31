@@ -1,18 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
 import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '../logs-helper';
 
-xdescribe('LogHelper', () => {
+describe('LogHelper', () => {
   let logHelper: LogHelper;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({
           appInfo: () => ({
             versionNumber: '5',
@@ -32,7 +30,7 @@ xdescribe('LogHelper', () => {
     logHelper = TestBed.inject(LogHelper);
   });
 
-  xdescribe('createLog', () => {
+  describe('createLog', () => {
     it('creates log successfully', (done) => {
       const log = logHelper.createLog(LogType.ERROR, 'description', 'error');
       expect(log.message)

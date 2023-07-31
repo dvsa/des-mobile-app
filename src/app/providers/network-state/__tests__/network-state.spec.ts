@@ -4,6 +4,7 @@ import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { BehaviorSubject, of } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { take } from 'rxjs/operators';
 
 class NetworkMock {
   get type() {
@@ -14,10 +15,11 @@ class NetworkMock {
   onDisconnect = () => of(null);
 }
 
-xdescribe('NetworkStateProvider', () => {
+describe('NetworkStateProvider', () => {
   let networkStateProvider: NetworkStateProvider;
   let network: Network;
   let platform: Platform;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -35,22 +37,24 @@ xdescribe('NetworkStateProvider', () => {
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     network = TestBed.inject(Network);
     platform = TestBed.inject(Platform);
+
     spyOn(platform, 'ready')
       .and
       .returnValue(Promise.resolve(''));
     spyOn(networkStateProvider.isOffline$, 'next');
   });
-  xdescribe('onNetworkChange', () => {
+  describe('onNetworkChange', () => {
     it('should return networkStatus as an Observable', () => {
       networkStateProvider['networkStatus$'] = new BehaviorSubject<ConnectionStatus>(ConnectionStatus.ONLINE);
       networkStateProvider.onNetworkChange()
+        .pipe(take(1))
         .subscribe((val) => {
           expect(val)
             .toEqual(ConnectionStatus.ONLINE);
         });
     });
   });
-  xdescribe('initialiseNetworkState', () => {
+  describe('initialiseNetworkState', () => {
     it('should set status to ONLINE and call isOffline with false if type is not none', fakeAsync(() => {
       spyOnProperty(network, 'type', 'get')
         .and
@@ -70,7 +74,7 @@ xdescribe('NetworkStateProvider', () => {
         .toHaveBeenCalledWith(true);
     }));
   });
-  xdescribe('initialiseNetworkEvents', () => {
+  describe('initialiseNetworkEvents', () => {
     it('should run onDisconnect and update updateNetworkStatus', () => {
       spyOn(network, 'onDisconnect')
         .and
@@ -94,7 +98,7 @@ xdescribe('NetworkStateProvider', () => {
         .toHaveBeenCalledWith(ConnectionStatus.ONLINE);
     });
   });
-  xdescribe('getNetworkState', () => {
+  describe('getNetworkState', () => {
     it('should return ONLINE if network status is null and the platform is cordova', () => {
       networkStateProvider['networkStatus$'] = null;
       spyOn(platform, 'is')
@@ -123,7 +127,7 @@ xdescribe('NetworkStateProvider', () => {
         .toEqual(ConnectionStatus.OFFLINE);
     });
   });
-  xdescribe('updateNetworkStatus', () => {
+  describe('updateNetworkStatus', () => {
     it('should call next for networkStatus with passed variable', () => {
       spyOn(networkStateProvider['networkStatus$'], 'next');
       networkStateProvider.updateNetworkStatus(ConnectionStatus.OFFLINE);
