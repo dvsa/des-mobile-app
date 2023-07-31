@@ -14,12 +14,6 @@ describe('SlotSelectorProvider', () => {
     slotSelector = TestBed.inject(SlotSelectorProvider);
   });
 
-  describe('SlotSelectorProvider', () => {
-    it('should compile', () => {
-      expect(slotSelector)
-        .toBeDefined();
-    });
-  });
   describe('hasSlotBeenTested', () => {
     it('should return null if completedTest is empty', () => {
       expect(slotSelector.hasSlotBeenTested(null, null))

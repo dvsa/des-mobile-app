@@ -78,16 +78,17 @@ describe('AppInfoEffects', () => {
   });
 
   describe('loadAppInfo$', () => {
-    it('should call through to `LoadAppVersionSuccess`', () => {
+    it('should call through to `LoadAppVersionSuccess`', (done) => {
       // ACT
       actions$.next(LoadAppVersion());
       // ASSERT
       effects.loadAppInfo$.subscribe((result) => {
         expect(result.type)
           .toEqual(LoadAppVersionSuccess.type);
+        done();
       });
     });
-    it('should detect error thrown from `getVersionNumber` and call to `LoadAppVersionFailure`', () => {
+    it('should detect error thrown from `getVersionNumber` and call to `LoadAppVersionFailure`', (done) => {
       spyOn(appInfoProvider, 'getVersionNumber')
         .and
         .callFake(() => throwError(() => new Error('version error')));
@@ -97,22 +98,24 @@ describe('AppInfoEffects', () => {
       effects.loadAppInfo$.subscribe((result) => {
         expect(result.type)
           .toEqual(LoadAppVersionFailure.type);
+        done();
       });
     });
   });
   describe('loadConfigSuccessEffect$', () => {
-    it('should call through to `SetDateConfigLoaded`', () => {
+    it('should call through to `SetDateConfigLoaded`', (done) => {
       // ACT
       actions$.next(LoadConfigSuccess());
       // ASSERT
       effects.loadConfigSuccessEffect$.subscribe((result: ReturnType<typeof SetDateConfigLoaded>) => {
         expect(result.type)
           .toEqual(SetDateConfigLoaded.type);
+        done();
       });
     });
   });
   describe('dateConfigLoaded$', () => {
-    it('should call through to `RestartApp` when dates are the same and navigate', () => {
+    it('should call through to `RestartApp` when dates are the same and navigate', (done) => {
       // ASSERT
       store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-02' }));
       // ACT
@@ -121,6 +124,7 @@ describe('AppInfoEffects', () => {
       effects.dateConfigLoaded$.subscribe((result: ReturnType<typeof HasSeenUpdateAvailablePopup>) => {
         expect(result.type)
           .toEqual(HasSeenUpdateAvailablePopup.type);
+        done();
       });
     });
     it('should call through to `RestartApp` when dates are the same and navigate', () => {
@@ -148,7 +152,7 @@ describe('AppInfoEffects', () => {
           .toHaveBeenCalledWith([LOGIN_PAGE]);
       });
     });
-    it('should call through to `RestartApp` when dates differ then navigate to LOGIN_PAGE', () => {
+    it('should call through to `RestartApp` when dates differ then navigate to LOGIN_PAGE', (done) => {
       // ASSERT
       store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-02' }));
       // ACT
@@ -159,11 +163,12 @@ describe('AppInfoEffects', () => {
           .toEqual(RestartApp.type);
         expect(router.navigate)
           .toHaveBeenCalledWith([LOGIN_PAGE]);
+        done();
       });
     });
   });
   describe('loadEmployeeName$', () => {
-    it('should call through to `LoadEmployeeNameSuccess`', () => {
+    it('should call through to `LoadEmployeeNameSuccess`', (done) => {
       // ACT
       actions$.next(LoadEmployeeName());
       // ASSERT
@@ -172,6 +177,7 @@ describe('AppInfoEffects', () => {
           .toEqual(LoadEmployeeNameSuccess.type);
         expect(result.employeeName)
           .toEqual('joe blogs');
+        done();
       });
     });
   });

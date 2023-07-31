@@ -7,7 +7,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import {
-  AlertControllerMock, PlatformMock, MenuControllerMock, SecureStorageMock,
+  AlertControllerMock, MenuControllerMock, PlatformMock, SecureStorageMock,
 } from '@mocks/index.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
@@ -38,7 +38,6 @@ import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/acc
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
-  jasmine.getEnv().allowRespy(true);
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
@@ -64,21 +63,66 @@ describe('AppComponent', () => {
         PipesModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: MenuController, useClass: MenuControllerMock },
-        { provide: AlertController, useClass: AlertControllerMock },
-        { provide: SecureStorage, useClass: SecureStorageMock },
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: TranslateService, useValue: translateServiceMock },
-        { provide: AppInfoProvider, useClass: AppInfoProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        { provide: SlotProvider, useClass: SlotProvider },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: routerSpy,
+        },
+        {
+          provide: MenuController,
+          useClass: MenuControllerMock,
+        },
+        {
+          provide: AlertController,
+          useClass: AlertControllerMock,
+        },
+        {
+          provide: SecureStorage,
+          useClass: SecureStorageMock,
+        },
+        {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: TranslateService,
+          useValue: translateServiceMock,
+        },
+        {
+          provide: AppInfoProvider,
+          useClass: AppInfoProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: SlotProvider,
+          useClass: SlotProvider,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
+        },
       ],
     });
 
@@ -100,32 +144,50 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(app)
+      .toBeTruthy();
   });
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
+      spyOn(platform, 'ready')
+        .and
+        .returnValue(Promise.resolve(''));
       spyOn(store$, 'dispatch');
       spyOn(component, 'configurePlatformSubscriptions');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
-      spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
-      spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
-      spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
-      spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
+      spyOn(component, 'initialisePersistentStorage')
+        .and
+        .returnValue(Promise.resolve());
+      spyOn(component, 'configureStatusBar')
+        .and
+        .returnValue(Promise.resolve());
+      spyOn(component, 'disableMenuSwipe')
+        .and
+        .returnValue(Promise.resolve());
+      spyOn(appConfigProvider, 'initialiseAppConfig')
+        .and
+        .returnValue(Promise.resolve());
       spyOn(deviceProvider, 'disableSingleAppMode');
     });
     it('should run app initialisation code', fakeAsync(() => {
       component.ngOnInit();
       flushMicrotasks();
-      expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
-      expect(component.initialiseAuthentication).toHaveBeenCalled();
-      expect(component.initialisePersistentStorage).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(component.configureStatusBar).toHaveBeenCalled();
-      expect(component.disableMenuSwipe).toHaveBeenCalled();
-      expect(component.configureLocale).toHaveBeenCalled();
+      expect(appConfigProvider.initialiseAppConfig)
+        .toHaveBeenCalled();
+      expect(component.initialiseAuthentication)
+        .toHaveBeenCalled();
+      expect(component.initialisePersistentStorage)
+        .toHaveBeenCalled();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(LoadAppVersion());
+      expect(component.configureStatusBar)
+        .toHaveBeenCalled();
+      expect(component.disableMenuSwipe)
+        .toHaveBeenCalled();
+      expect(component.configureLocale)
+        .toHaveBeenCalled();
     }));
   });
 
@@ -134,8 +196,10 @@ describe('AppComponent', () => {
       spyOn(authenticationProvider, 'initialiseAuthentication');
       spyOn(authenticationProvider, 'determineAuthenticationMode');
       component.initialiseAuthentication();
-      expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
-      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
+      expect(authenticationProvider.initialiseAuthentication)
+        .toHaveBeenCalled();
+      expect(authenticationProvider.determineAuthenticationMode)
+        .toHaveBeenCalled();
     });
   });
 
@@ -143,7 +207,8 @@ describe('AppComponent', () => {
     it('should call through to initialiseNetworkState', () => {
       spyOn(networkStateProvider, 'initialiseNetworkState');
       component.initialiseNetworkState();
-      expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
+      expect(networkStateProvider.initialiseNetworkState)
+        .toHaveBeenCalled();
     });
   });
 
@@ -152,29 +217,44 @@ describe('AppComponent', () => {
       spyOn(dataStore, 'setSecureContainer');
     });
     it('should call setSecureContainer when in ios', fakeAsync(() => {
-      spyOn(secureStorage, 'create').and.returnValue(Promise.resolve({} as SecureStorageObject));
-      spyOn(component, 'isIos').and.returnValue(true);
+      spyOn(secureStorage, 'create')
+        .and
+        .returnValue(Promise.resolve({} as SecureStorageObject));
+      spyOn(component, 'isIos')
+        .and
+        .returnValue(true);
       component.initialisePersistentStorage();
       flushMicrotasks();
-      expect(secureStorage.create).toHaveBeenCalledWith('DES');
-      expect(dataStore.setSecureContainer).toHaveBeenCalledWith({} as SecureStorageObject);
+      expect(secureStorage.create)
+        .toHaveBeenCalledWith('DES');
+      expect(dataStore.setSecureContainer)
+        .toHaveBeenCalledWith({} as SecureStorageObject);
     }));
     it('should resolve to error message', () => {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      spyOn(secureStorage, 'create').and.returnValue(Promise.reject('Failed to create container'));
-      spyOn(component, 'isIos').and.returnValue(true);
-      component.initialisePersistentStorage().catch((err) => {
-        expect(err).toEqual('Failed to create container');
-      });
+      spyOn(secureStorage, 'create')
+        .and
+        // eslint-disable-next-line prefer-promise-reject-errors
+        .returnValue(Promise.reject('Failed to create container'));
+      spyOn(component, 'isIos')
+        .and
+        .returnValue(true);
+      component.initialisePersistentStorage()
+        .catch((err) => {
+          expect(err)
+            .toEqual('Failed to create container');
+        });
     });
   });
 
   describe('configureStatusBar', () => {
     it('should set status bar styles when plugin is available', async () => {
       spyOn(StatusBar, 'setStyle');
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
+      spyOn(Capacitor, 'isPluginAvailable')
+        .and
+        .returnValue(true);
       await component.configureStatusBar();
-      expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
+      expect(StatusBar.setStyle)
+        .toHaveBeenCalledWith({ style: Style.Dark });
     });
   });
 
@@ -182,7 +262,8 @@ describe('AppComponent', () => {
     it('should call swipeGesture with false to disable side menu swipe', async () => {
       spyOn(menuController, 'swipeGesture');
       await component.disableMenuSwipe();
-      expect(menuController.swipeGesture).toHaveBeenCalledWith(false);
+      expect(menuController.swipeGesture)
+        .toHaveBeenCalledWith(false);
     });
   });
 
@@ -190,7 +271,8 @@ describe('AppComponent', () => {
     it('should call through to openLogoutModal', async () => {
       spyOn(component, 'openLogoutModal');
       await component.onLogoutClick();
-      expect(component.openLogoutModal).toHaveBeenCalled();
+      expect(component.openLogoutModal)
+        .toHaveBeenCalled();
     });
   });
 
@@ -198,28 +280,32 @@ describe('AppComponent', () => {
     it('should configure the locale to be English by default', () => {
       spyOn(translate, 'setDefaultLang');
       component.configureLocale();
-      expect(translate.setDefaultLang).toHaveBeenCalledWith('en');
+      expect(translate.setDefaultLang)
+        .toHaveBeenCalledWith('en');
     });
   });
 
   describe('closeSideMenu', () => {
     it('should dispatch SideMenuClosed', () => {
       component.closeSideMenu();
-      expect(store$.dispatch).toHaveBeenCalledWith(SideMenuClosed());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SideMenuClosed());
     });
   });
 
   describe('openSideMenu', () => {
     it('should dispatch SideMenuOpened', () => {
       component.openSideMenu();
-      expect(store$.dispatch).toHaveBeenCalledWith(SideMenuOpened());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SideMenuOpened());
     });
   });
 
   describe('onAppSuspended', () => {
     it('should dispatch AppSuspended', () => {
       component.onAppSuspended();
-      expect(store$.dispatch).toHaveBeenCalledWith(AppSuspended());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(AppSuspended());
     });
   });
 
@@ -228,24 +314,37 @@ describe('AppComponent', () => {
       component['platformSubscription'] = new Subscription();
       spyOn(component['platformSubscription'], 'unsubscribe');
       component.ionViewWillUnload();
-      expect(component['platformSubscription'].unsubscribe).toHaveBeenCalled();
+      expect(component['platformSubscription'].unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 
   describe('navPage', () => {
     it('should call router.navigate with parameter passed', async () => {
       spyOn(component['router'], 'navigate');
-      await component.navPage({ title: 'test', descriptor: 'test2' });
-      expect(component['router'].navigate).toHaveBeenCalledWith(['test']);
+      await component.navPage({
+        title: 'test',
+        descriptor: 'test2',
+      });
+      expect(component['router'].navigate)
+        .toHaveBeenCalledWith(['test']);
     });
     it('should call menuController.close', async () => {
       spyOn(menuController, 'close');
-      await component.navPage({ title: 'test', descriptor: 'test2' });
-      expect(menuController.close).toHaveBeenCalled();
+      await component.navPage({
+        title: 'test',
+        descriptor: 'test2',
+      });
+      expect(menuController.close)
+        .toHaveBeenCalled();
     });
     it('should call store$.dispatch with SideMenuItemSelected', async () => {
-      await component.navPage({ title: 'test', descriptor: 'test2' });
-      expect(store$.dispatch).toHaveBeenCalledWith(SideMenuItemSelected('test2'));
+      await component.navPage({
+        title: 'test',
+        descriptor: 'test2',
+      });
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SideMenuItemSelected('test2'));
     });
   });
 

@@ -19,8 +19,14 @@ describe('TestPersistenceProvider', () => {
     TestBed.configureTestingModule({
       providers: [
         TestPersistenceProvider,
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
       ],
       imports: [
         StoreModule.forRoot({
@@ -112,9 +118,12 @@ describe('TestPersistenceProvider', () => {
     it('should take the tests state slice and pass it to the data store provider stringified', async () => {
       await testPersistenceProvider.persistTests(testState);
 
-      expect(dataStoreProvider.setItem).toHaveBeenCalledTimes(1);
-      expect(dataStoreProvider.setItem.calls.first().args[0]).toBe('TESTS');
-      expect(JSON.parse(dataStoreProvider.setItem.calls.first().args[1])).toEqual(testState);
+      expect(dataStoreProvider.setItem)
+        .toHaveBeenCalledTimes(1);
+      expect(dataStoreProvider.setItem.calls.first().args[0])
+        .toBe('TESTS');
+      expect(JSON.parse(dataStoreProvider.setItem.calls.first().args[1]))
+        .toEqual(testState);
     });
   });
 
@@ -124,76 +133,88 @@ describe('TestPersistenceProvider', () => {
 
       const result = await testPersistenceProvider.loadPersistedTests();
 
-      expect(dataStoreProvider.getItem).toHaveBeenCalledWith('TESTS');
-      expect(result).toEqual({
-        currentTest: { slotId: '23456789' },
-        startedTests: {
-          23456789: testState.startedTests[23456789],
-        },
-        testStatus: {
-          23456789: testState.testStatus[23456789],
-        },
-      });
+      expect(dataStoreProvider.getItem)
+        .toHaveBeenCalledWith('TESTS');
+      expect(result)
+        .toEqual({
+          currentTest: { slotId: '23456789' },
+          startedTests: {
+            23456789: testState.startedTests[23456789],
+          },
+          testStatus: {
+            23456789: testState.testStatus[23456789],
+          },
+        });
     });
     it('should return null if the data store provider throws', async () => {
       dataStoreProvider.getItem.and.throwError('test error');
 
       const result = await testPersistenceProvider.loadPersistedTests();
 
-      expect(dataStoreProvider.getItem).toHaveBeenCalledWith('TESTS');
-      expect(result).toBeNull();
+      expect(dataStoreProvider.getItem)
+        .toHaveBeenCalledWith('TESTS');
+      expect(result)
+        .toBeNull();
     });
   });
   describe('clearPersistedTests', () => {
     it('should remove item on the data stores test key', async () => {
       await testPersistenceProvider.clearPersistedTests();
 
-      expect(dataStoreProvider.removeItem).toHaveBeenCalledWith('TESTS');
+      expect(dataStoreProvider.removeItem)
+        .toHaveBeenCalledWith('TESTS');
     });
   });
   describe('clearCachedTests', () => {
     it('should return null if there is no data in the store', () => {
-      expect(testPersistenceProvider.clearCachedTests(null)).toEqual(null);
+      expect(testPersistenceProvider.clearCachedTests(null))
+        .toEqual(null);
     });
     it('should remove all tests that are over 14 days old', () => {
-      expect(testPersistenceProvider.clearCachedTests(testState)).toEqual({
-        currentTest: { slotId: '23456789' },
-        startedTests: {
-          23456789: testState.startedTests[23456789],
-        },
-        testStatus: {
-          23456789: testState.testStatus[23456789],
-        },
-      });
+      expect(testPersistenceProvider.clearCachedTests(testState))
+        .toEqual({
+          currentTest: { slotId: '23456789' },
+          startedTests: {
+            23456789: testState.startedTests[23456789],
+          },
+          testStatus: {
+            23456789: testState.testStatus[23456789],
+          },
+        });
     });
   });
   describe('getTestsToDelete', () => {
     it('should return the correct tests to delete', () => {
       const result = testPersistenceProvider.getTestsToDelete(testState);
-      expect(result).toEqual(['12345678']);
+      expect(result)
+        .toEqual(['12345678']);
     });
   });
   describe('deleteTestsFromTestObject', () => {
     it('should delete the correct tests from the started tests object', () => {
       const keysToDelete = ['12345678'];
       const result = testPersistenceProvider.deleteTestsFromTestObject(testState.startedTests, keysToDelete);
-      expect(result).toEqual({ 23456789: testState.startedTests[23456789] });
+      expect(result)
+        .toEqual({ 23456789: testState.startedTests[23456789] });
     });
 
     it('should delete the correct tests from the test status object', () => {
       const keysToDelete = ['12345678'];
       const result = testPersistenceProvider.deleteTestsFromTestObject(testState.testStatus, keysToDelete);
-      expect(result).toEqual({ 23456789: TestStatus.Booked });
+      expect(result)
+        .toEqual({ 23456789: TestStatus.Booked });
     });
   });
   describe('shouldResetCurrentTest', () => {
     it('should return true if the current test is in the keys to delete', () => {
       const testsToDelete = ['1', '2', '3'];
-      expect(testPersistenceProvider.shouldResetCurrentTest('2', testsToDelete)).toEqual(true);
+      expect(testPersistenceProvider.shouldResetCurrentTest('2', testsToDelete))
+        .toEqual(true);
     });
     it('should return false if the current test is not in the keys to delete', () => {
       const testsToDelete = ['1', '2', '3'];
-      expect(testPersistenceProvider.shouldResetCurrentTest('4', testsToDelete)).toEqual(false);
+      expect(testPersistenceProvider.shouldResetCurrentTest('4', testsToDelete))
+        .toEqual(false);
     });
   });
 });

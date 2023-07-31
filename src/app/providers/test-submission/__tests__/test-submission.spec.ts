@@ -1,13 +1,12 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { gunzipSync } from 'zlib';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { HttpClient } from '@angular/common/http';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { LogHelper } from '../../logs/logs-helper';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -18,7 +17,13 @@ import { TestSubmissionProvider, TestToSubmit } from '../test-submission';
 describe('TestSubmissionProvider', () => {
   let testSubmissionProvider: TestSubmissionProvider;
   let urlProvider: UrlProvider;
-  let httpClient: HttpClient;
+  let httpMock: HttpTestingController;
+  const mockTestToSubmit = {
+    index: 0,
+    slotId: '',
+    payload: {},
+    status: TestStatus.Completed,
+  } as TestToSubmit;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -32,41 +37,63 @@ describe('TestSubmissionProvider', () => {
       ],
       providers: [
         TestSubmissionProvider,
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: UrlProvider, useClass: UrlProviderMock },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: UrlProvider,
+          useClass: UrlProviderMock,
+        },
         Store,
-        { provide: LogHelper, useClass: LogHelperMock },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
       ],
     });
 
     testSubmissionProvider = TestBed.inject(TestSubmissionProvider);
-    httpClient = TestBed.inject(HttpClient);
+    httpMock = TestBed.inject(HttpTestingController);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(testSubmissionProvider, 'compressData').and.callThrough();
-    spyOn(testSubmissionProvider, 'removeNullFieldsDeep').and.callThrough();
-    spyOn(testSubmissionProvider, 'submitTest').and.callThrough();
-    spyOn(httpClient, 'post').and.returnValue(of());
+    spyOn(testSubmissionProvider, 'compressData')
+      .and
+      .callThrough();
+    spyOn(testSubmissionProvider, 'removeNullFieldsDeep')
+      .and
+      .callThrough();
+    spyOn(testSubmissionProvider, 'submitTest')
+      .and
+      .callThrough();
   }));
+
+  afterAll(() => {
+    httpMock.verify();
+  });
 
   describe('submitTests', () => {
     it('should attempt to submit a test', () => {
-      testSubmissionProvider.submitTests([{
-        index: 0,
-        slotId: '',
-        payload: {},
-        status: TestStatus.Completed,
-      }] as TestToSubmit[]).subscribe();
+      testSubmissionProvider
+        .submitTests([mockTestToSubmit] as TestToSubmit[])
+        .pipe(take(1))
+        .subscribe();
 
-      expect(httpClient.post).toHaveBeenCalledWith(
-        'https://www.example.com/api/v1/test-result',
-        // Compressed and base64 encoded string of and empty object
-        'H4sIAAAAAAAAA6uuBQBDv6ajAgAAAA==',
-        { observe: 'response' as any },
-      );
-      expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
-      expect(testSubmissionProvider.compressData).toHaveBeenCalled();
-      expect(testSubmissionProvider.removeNullFieldsDeep).toHaveBeenCalled();
-      expect(testSubmissionProvider.submitTest).toHaveBeenCalledTimes(1);
+      const req = httpMock.expectOne('https://www.example.com/api/v1/test-result');
+
+      expect(req.request.body)
+        .toBe('H4sIAAAAAAAAA6uuBQBDv6ajAgAAAA==');
+      expect(req.request.method)
+        .toBe('POST');
+      req.flush({});
+
+      expect(urlProvider.getTestResultServiceUrl)
+        .toHaveBeenCalled();
+      expect(testSubmissionProvider.compressData)
+        .toHaveBeenCalled();
+      expect(testSubmissionProvider.removeNullFieldsDeep)
+        .toHaveBeenCalled();
+      expect(testSubmissionProvider.submitTest)
+        .toHaveBeenCalledTimes(1);
     });
   });
   describe('compressData', () => {
@@ -85,9 +112,11 @@ describe('TestSubmissionProvider', () => {
       const result = testSubmissionProvider.compressData(mockData);
       // ASSERT
       const gzippedBytes = Buffer.from(result, 'base64');
-      const unzippedJson = gunzipSync(gzippedBytes).toString();
+      const unzippedJson = gunzipSync(gzippedBytes)
+        .toString();
       const json = JSON.parse(unzippedJson);
-      expect(json).toEqual(mockData);
+      expect(json)
+        .toEqual(mockData);
     });
   });
   describe('removeNullFieldsDeep', () => {
@@ -117,7 +146,8 @@ describe('TestSubmissionProvider', () => {
       // ACT
       const result = testSubmissionProvider.removeNullFieldsDeep(mockData as CatBUniqueTypes.TestResult);
       // ASSERT
-      expect(result).toEqual(expected);
+      expect(result)
+        .toEqual(expected);
     });
   });
   describe('isPartialSubmission', () => {
@@ -140,7 +170,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual(true);
+      expect(result)
+        .toEqual(true);
     });
     it('should not be a partial submission when the test status is WRITE_UP and test is a rekey', () => {
       const result = testSubmissionProvider.isPartialSubmission({
@@ -161,7 +192,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
     it('should not be a partial submission when the test status is not WRITE_UP and test is not a rekey', () => {
       const result = testSubmissionProvider.isPartialSubmission({
@@ -182,7 +214,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
     it('should not be a partial submission when the test status is not WRITE_UP and test is a rekey', () => {
       const result = testSubmissionProvider.isPartialSubmission({
@@ -203,7 +236,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual(false);
+      expect(result)
+        .toEqual(false);
     });
   });
 
@@ -227,7 +261,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual('https://www.example.com/api/v1/test-result?partial=true');
+      expect(result)
+        .toEqual('https://www.example.com/api/v1/test-result?partial=true');
     });
 
     it('url should not set partial query string as if its a rekey', () => {
@@ -249,7 +284,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual('https://www.example.com/api/v1/test-result');
+      expect(result)
+        .toEqual('https://www.example.com/api/v1/test-result');
     });
 
     it('should not have partial query string if its not rekey and test status is not writeup', () => {
@@ -271,7 +307,8 @@ describe('TestSubmissionProvider', () => {
       });
 
       // ASSERT
-      expect(result).toEqual('https://www.example.com/api/v1/test-result');
+      expect(result)
+        .toEqual('https://www.example.com/api/v1/test-result');
     });
   });
 
@@ -289,17 +326,18 @@ describe('TestSubmissionProvider', () => {
         },
       });
 
-      expect(result).toEqual({
-        activityCode: '1',
-        category: 'B',
-        accompaniment: {
-          ADI: true,
-        },
-        passCompletion: {
-          passCertificateNumber: 'A123456X',
-          provisionalLicenceProvided: true,
-        },
-      });
+      expect(result)
+        .toEqual({
+          activityCode: '1',
+          category: 'B',
+          accompaniment: {
+            ADI: true,
+          },
+          passCompletion: {
+            passCertificateNumber: 'A123456X',
+            provisionalLicenceProvided: true,
+          },
+        });
     });
     it('should remove the pass completion key if the activity code is not a pass', () => {
       const result: Partial<TestResultSchemasUnion> = testSubmissionProvider.removePassCompletionWhenTestIsNotPass({
@@ -314,13 +352,14 @@ describe('TestSubmissionProvider', () => {
         },
       });
 
-      expect(result).toEqual({
-        activityCode: '3',
-        category: 'B',
-        accompaniment: {
-          ADI: true,
-        },
-      });
+      expect(result)
+        .toEqual({
+          activityCode: '3',
+          category: 'B',
+          accompaniment: {
+            ADI: true,
+          },
+        });
     });
   });
 

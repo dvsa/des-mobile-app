@@ -8,20 +8,15 @@ describe('CategoryWhitelistProvider', () => {
     provider = new CategoryWhitelistProvider();
   });
 
-  describe('Should be correctly configured', () => {
-    it('should be created successfully', () => {
-      expect(provider).toBeTruthy();
-    });
-  });
-
   describe('isWhiteListed', () => {
     it('shout return true if category whitelisted', () => {
-      expect(provider.isWhiteListed(TestCategory.B)).toEqual(true);
+      expect(provider.isWhiteListed(TestCategory.B))
+        .toEqual(true);
     });
 
     it('shout return false if category blacklisted', () => {
-      expect(provider.isWhiteListed(TestCategory.A)).toEqual(false);
+      expect(provider.isWhiteListed(TestCategory.A))
+        .toEqual(false);
     });
   });
-
 });

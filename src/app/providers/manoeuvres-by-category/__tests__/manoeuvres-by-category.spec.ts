@@ -1,13 +1,7 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  getManoeuvres as getManoeuvresC,
-} from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
-import {
-  getManoeuvres as getManoeuvresD,
-} from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
-import {
-  getManoeuvres as getManoeuvresHomeTest,
-} from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import { getManoeuvres as getManoeuvresC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
+import { getManoeuvres as getManoeuvresD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
+import { getManoeuvres as getManoeuvresHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 import { ManoeuvresByCategoryProvider } from '../manoeuvres-by-category';
 
 describe('ManoeuvresByCategoryProvider', () => {
@@ -45,8 +39,11 @@ describe('ManoeuvresByCategoryProvider', () => {
         it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
           expect(() => {
             const manoeuvreData = provider.getManoeuvresByCategoryCode(cat.category);
-            expect(manoeuvreData).toEqual(getManoeuvresC);
-          }).not.toThrowError('Error getting test category manoeuvres');
+            expect(manoeuvreData)
+              .toEqual(getManoeuvresC);
+          })
+            .not
+            .toThrowError('Error getting test category manoeuvres');
         });
       });
     });
@@ -56,8 +53,11 @@ describe('ManoeuvresByCategoryProvider', () => {
         it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
           expect(() => {
             const manoeuvreData = provider.getManoeuvresByCategoryCode(cat.category);
-            expect(manoeuvreData).toEqual(getManoeuvresD);
-          }).not.toThrowError('Error getting test category manoeuvres');
+            expect(manoeuvreData)
+              .toEqual(getManoeuvresD);
+          })
+            .not
+            .toThrowError('Error getting test category manoeuvres');
         });
       });
     });
@@ -67,8 +67,11 @@ describe('ManoeuvresByCategoryProvider', () => {
         it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
           expect(() => {
             const manoeuvreData = provider.getManoeuvresByCategoryCode(cat.category);
-            expect(manoeuvreData).toEqual(getManoeuvresHomeTest);
-          }).not.toThrowError('Error getting test category manoeuvres');
+            expect(manoeuvreData)
+              .toEqual(getManoeuvresHomeTest);
+          })
+            .not
+            .toThrowError('Error getting test category manoeuvres');
         });
       });
     });
@@ -76,13 +79,15 @@ describe('ManoeuvresByCategoryProvider', () => {
     it('should throw an error when there is no matching test category', () => {
       expect(() => {
         provider.getManoeuvresByCategoryCode('z' as TestCategory);
-      }).toThrowError('Error getting test category manoeuvres');
+      })
+        .toThrowError('Error getting test category manoeuvres');
     });
 
     it('should throw an error when test category is undefined', () => {
       expect(() => {
         provider.getManoeuvresByCategoryCode(undefined);
-      }).toThrowError('Error getting test category manoeuvres');
+      })
+        .toThrowError('Error getting test category manoeuvres');
     });
   });
 });

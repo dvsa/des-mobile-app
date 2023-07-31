@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,7 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, NavParams, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import {
   JournalEarlyStartModalMock,
 } from '@pages/journal/components/journal-early-start-modal/__mocks__/journal-early-start-modal.mock';
@@ -20,7 +20,6 @@ describe('ConfirmSubmitModal', () => {
   const navMock: NavParamsMock = new NavParamsMock();
 
   beforeEach(waitForAsync(() => {
-    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [
         ConfirmSubmitModal,
@@ -33,17 +32,27 @@ describe('ConfirmSubmitModal', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useFactory: () => navMock },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: NavParams,
+          useFactory: () => navMock,
+        },
         provideMockStore({}),
       ],
     });
 
     const mockValue = mockFile.mockSlotDetail();
-    spyOn(navMock, 'get').and.returnValue(mockValue);
+    spyOn(navMock, 'get')
+      .and
+      .returnValue(mockValue);
     modalFixture = TestBed.createComponent(ConfirmSubmitModal);
     modalComponent = modalFixture.componentInstance;
-    spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+    spyOn(modalComponent.modalController, 'dismiss')
+      .and
+      .returnValue(Promise.resolve(true));
   }));
 
   describe('DOM', () => {
@@ -53,18 +62,22 @@ describe('ConfirmSubmitModal', () => {
       button.triggerEventHandler('click', null);
       modalFixture.detectChanges();
       await modalComponent.onBack();
-      expect(modalComponent.modalController.dismiss).toHaveBeenCalled();
+      expect(modalComponent.modalController.dismiss)
+        .toHaveBeenCalled();
     });
 
     it('should call onCompleteTest when the Submit button is clicked', () => {
       modalComponent.onTestDetailsConfirm = async () => {
       };
       modalFixture.detectChanges();
-      spyOn(modalComponent, 'onCompleteTest').and.callThrough();
+      spyOn(modalComponent, 'onCompleteTest')
+        .and
+        .callThrough();
       const button = modalFixture.debugElement.query(By.css('#continue-button'));
       button.triggerEventHandler('click', null);
       modalFixture.detectChanges();
-      expect(modalComponent.onCompleteTest).toHaveBeenCalled();
+      expect(modalComponent.onCompleteTest)
+        .toHaveBeenCalled();
     });
   });
 });

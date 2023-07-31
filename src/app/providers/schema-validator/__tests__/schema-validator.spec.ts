@@ -7,7 +7,6 @@ describe('SchemaValidatorProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         SchemaValidatorProvider,
       ],

@@ -33,7 +33,8 @@ describe('FaultSummaryCatAM2Helper', () => {
 
       expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(
         catAM2TestDataStateObject.eyesightTest,
-      )).toEqual(expectedEyesightTestFault);
+      ))
+        .toEqual(expectedEyesightTestFault);
     });
     it('should return an empty array if eyesight test passed', () => {
       catAM2TestDataStateObject.eyesightTest.complete = true;
@@ -41,7 +42,8 @@ describe('FaultSummaryCatAM2Helper', () => {
 
       expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(
         catAM2TestDataStateObject.eyesightTest,
-      )).toEqual([]);
+      ))
+        .toEqual([]);
     });
   });
 
@@ -50,7 +52,8 @@ describe('FaultSummaryCatAM2Helper', () => {
 
       expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(
         catAM2TestDataStateObject.safetyAndBalanceQuestions,
-      )).toEqual(expectedSafetyAndBalanceQuestionsFault);
+      ))
+        .toEqual(expectedSafetyAndBalanceQuestionsFault);
     });
     it('should return an empty array if all safety / balance questions are correct', () => {
       catAM2TestDataStateObject.safetyAndBalanceQuestions.safetyQuestions[0].outcome = CompetencyOutcome.P;
@@ -59,7 +62,8 @@ describe('FaultSummaryCatAM2Helper', () => {
 
       expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(
         catAM2TestDataStateObject.safetyAndBalanceQuestions,
-      )).toEqual([]);
+      ))
+        .toEqual([]);
     });
   });
 });

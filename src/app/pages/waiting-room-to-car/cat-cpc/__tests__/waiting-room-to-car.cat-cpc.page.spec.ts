@@ -2,7 +2,7 @@ import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -26,7 +26,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -49,7 +49,7 @@ import { PopulateVehicleConfiguration } from '@store/tests/vehicle-details/vehic
 import { PopulateCombination } from '@store/tests/test-data/cat-cpc/combination/combination.action';
 import { PopulateQuestions } from '@store/tests/test-data/cat-cpc/questions/questions.action';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
-import { CpcQuestionsMock } from '@providers/cpc-questions/_mocks_/cpc-questions.mock';
+import { CpcQuestionsMock } from '@providers/cpc-questions/__mocks__/cpc-questions.mock';
 import { Subscription } from 'rxjs';
 import { WaitingRoomToCarCatCPCPage } from '../waiting-room-to-car.cat-cpc.page';
 
@@ -72,7 +72,12 @@ describe('WaitingRoomToCarCatCPCPage', () => {
           category: TestCategory.CCPC,
           testData: {},
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
           },
         } as TestResultCatCPCSchema,
       },
@@ -99,12 +104,30 @@ describe('WaitingRoomToCarCatCPCPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useClass: RouterMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: CPCQuestionProvider, useClass: CpcQuestionsMock },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: CPCQuestionProvider,
+          useClass: CpcQuestionsMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -124,7 +147,8 @@ describe('WaitingRoomToCarCatCPCPage', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class', () => {
@@ -132,25 +156,35 @@ describe('WaitingRoomToCarCatCPCPage', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
+          .toHaveBeenCalled();
       });
     });
     describe('combinationSelected', () => {
       it('should receive a combination selection and emit actions for questions to populate state', () => {
         const questions: Question[] = new CpcQuestionsMock().getQuestionsBank();
-        spyOn(cpcQuestionProvider, 'getQuestionsBank').and.returnValue(questions);
-        spyOn(cpcQuestionProvider, 'getQuestion5ByVehicleType').and.returnValue({} as Question5);
+        spyOn(cpcQuestionProvider, 'getQuestionsBank')
+          .and
+          .returnValue(questions);
+        spyOn(cpcQuestionProvider, 'getQuestion5ByVehicleType')
+          .and
+          .returnValue({} as Question5);
         component.combinationSelected('LGV1');
-        expect(cpcQuestionProvider.getQuestionsBank).toHaveBeenCalledWith('LGV1');
-        expect(cpcQuestionProvider.getQuestion5ByVehicleType).toHaveBeenCalledWith('LGV1');
-        expect(store$.dispatch).toHaveBeenCalledWith(PopulateCombination('LGV1'));
-        expect(store$.dispatch).toHaveBeenCalledWith(PopulateQuestions([...questions, {}] as Question[]));
+        expect(cpcQuestionProvider.getQuestionsBank)
+          .toHaveBeenCalledWith('LGV1');
+        expect(cpcQuestionProvider.getQuestion5ByVehicleType)
+          .toHaveBeenCalledWith('LGV1');
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PopulateCombination('LGV1'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PopulateQuestions([...questions, {}] as Question[]));
       });
     });
     describe('vehicleConfiguration', () => {
       it('should dispatch the PopulateVehicleConfiguration action', () => {
         component.vehicleConfiguration('Articulated');
-        expect(store$.dispatch).toHaveBeenCalledWith(PopulateVehicleConfiguration('Articulated'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PopulateVehicleConfiguration('Articulated'));
       });
     });
     describe('ionViewDidLeave', () => {
@@ -158,7 +192,8 @@ describe('WaitingRoomToCarCatCPCPage', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
       });
     });
     describe('onSubmit', () => {
@@ -172,9 +207,10 @@ describe('WaitingRoomToCarCatCPCPage', () => {
         component.testCategory = TestCategory.CCPC;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.CCPC, { replaceUrl: true },
-        );
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.CCPC, { replaceUrl: true },
+          );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new UntypedFormGroup({
@@ -185,8 +221,10 @@ describe('WaitingRoomToCarCatCPCPage', () => {
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
           .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));

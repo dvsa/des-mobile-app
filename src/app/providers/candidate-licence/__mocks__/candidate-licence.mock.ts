@@ -10,7 +10,8 @@ export class CandidateLicenceProviderMock {
   private requestError: string;
   private driverLicenceResponse: DriverLicenceDetails;
 
-  clearDriverData(): void {}
+  clearDriverData(): void {
+  }
 
   getCandidateData(): Observable<DriverLicenceSchema> {
     return undefined;
@@ -29,3 +30,7 @@ export class CandidateLicenceProviderMock {
   }
 
 }
+
+export const mockDriverPhoto = { photograph: { image: 'some pic img' } } as DriverPhotograph;
+export const mockDriverSignature = { signature: { image: 'some sig img' } } as DriverSignature;
+export const mockDriverStandard = { driver: {} } as DriverStandard;

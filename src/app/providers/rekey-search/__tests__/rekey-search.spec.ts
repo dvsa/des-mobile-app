@@ -1,10 +1,10 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { take } from 'rxjs/operators';
+import { RekeySearchParams } from '@providers/rekey-search/rekey-search.model';
 import { RekeySearchProvider } from '../rekey-search';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
-import { AppConfigProvider } from '../../app-config/app-config';
-import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
 describe('RekeySearchProvider', () => {
   let rekeySearchProvider: RekeySearchProvider;
@@ -18,8 +18,10 @@ describe('RekeySearchProvider', () => {
       ],
       providers: [
         RekeySearchProvider,
-        { provide: UrlProvider, useClass: UrlProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        {
+          provide: UrlProvider,
+          useClass: UrlProviderMock,
+        },
       ],
     });
 
@@ -29,16 +31,25 @@ describe('RekeySearchProvider', () => {
     spyOn(urlProvider, 'getRekeySearchUrl');
   });
 
-  describe('getTest', () => {
-    it('should call the rekey search endpoint with the provided staff number and app ref', () => {
-      const rekeySearchParams = {
-        applicationReference: '123456',
-        staffNumber: '654321',
-      };
+  afterAll(() => {
+    httpMock.verify();
+  });
 
-      rekeySearchProvider.getBooking(rekeySearchParams).subscribe();
-      httpMock.expectOne('https://www.example.com/api/v1/journals/654321/search?appRef=123456');
-      expect(urlProvider.getRekeySearchUrl).toHaveBeenCalledWith('654321');
+  describe('getBooking', () => {
+    it('should call getRekeySearchUrl and check request is a GET', () => {
+      rekeySearchProvider
+        .getBooking({ applicationReference: '123456' } as RekeySearchParams)
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response)
+            .toEqual({});
+        });
+
+      const req = httpMock.expectOne('https://www.example.com/api/v1/journals/654321/search?appRef=123456');
+
+      expect(req.request.method)
+        .toBe('GET');
+      req.flush({});
     });
   });
 

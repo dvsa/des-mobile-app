@@ -1,9 +1,11 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { Platform } from '@ionic/angular';
 import { IsDebugMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { AppConfigProvider } from '../app-config';
 import { environmentResponseMock } from '../__mocks__/environment-response.mock';
 import { remoteEnvironmentMock } from '../__mocks__/environment.mock';
@@ -28,20 +30,47 @@ describe('AppConfigProvider', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
+          tests: testsReducer,
+          appConfig: appConfigReducer,
           appInfo: () => ({
             versionNumber: '5',
           }),
         }),
       ],
       providers: [
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: SchemaValidatorProvider, useClass: SchemaValidatorProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProvider, environmentFile: remoteEnvironmentMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AppInfoProvider, useClass: AppInfoProviderMock },
-        { provide: LogHelper, useClass: LogHelperMock },
-        { provide: IsDebug, useClass: IsDebugMock },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
+        {
+          provide: SchemaValidatorProvider,
+          useClass: SchemaValidatorProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProvider,
+          environmentFile: remoteEnvironmentMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AppInfoProvider,
+          useClass: AppInfoProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: IsDebug,
+          useClass: IsDebugMock,
+        },
       ],
     });
 
@@ -49,7 +78,9 @@ describe('AppConfigProvider', () => {
     httpMock = TestBed.inject(HttpTestingController);
     platform = TestBed.inject(Platform);
     appConfig.isDebugMode = true;
-    spyOn(appConfig, 'getDebugMode').and.returnValue(Promise.resolve());
+    spyOn(appConfig, 'getDebugMode')
+      .and
+      .returnValue(Promise.resolve());
   });
 
   afterEach(() => {
@@ -58,22 +89,28 @@ describe('AppConfigProvider', () => {
 
   describe('initialiseAppConfig', () => {
     it('should run loadMangedConfig() when platform is Ios', fakeAsync(() => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
+      platform.is = jasmine.createSpy('platform.is')
+        .and
+        .returnValue(true);
       appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
 
       appConfig.initialiseAppConfig();
       tick();
 
-      expect(appConfig.loadManagedConfig).toHaveBeenCalled();
+      expect(appConfig.loadManagedConfig)
+        .toHaveBeenCalled();
     }));
     it('should not run loadMangedConfig() when platform is not ios', fakeAsync(() => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
+      platform.is = jasmine.createSpy('platform.is')
+        .and
+        .returnValue(false);
       appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
 
       appConfig.initialiseAppConfig();
       tick();
 
-      expect(appConfig.loadManagedConfig).toHaveBeenCalledTimes(0);
+      expect(appConfig.loadManagedConfig)
+        .toHaveBeenCalledTimes(0);
     }));
   });
 
@@ -85,7 +122,8 @@ describe('AppConfigProvider', () => {
       tick();
 
       const request = httpMock.expectOne(`${remoteEnvironmentMock.configUrl}?app_version=4.0.0.0`);
-      expect(request.request.method).toBe('GET');
+      expect(request.request.method)
+        .toBe('GET');
       request.flush(environmentResponseMock);
     }));
   });

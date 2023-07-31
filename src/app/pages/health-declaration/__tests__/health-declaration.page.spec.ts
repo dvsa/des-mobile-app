@@ -1,20 +1,11 @@
 import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick, waitForAsync, flush,
+  ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import {
-  NavParams,
-  Platform,
-  AlertController,
-  NavController,
+  AlertController, NavController, NavParams, Platform,
 } from '@ionic/angular';
 import {
-  NavParamsMock,
-  PlatformMock,
-  AlertControllerMock,
-  NavControllerMock,
+  AlertControllerMock, NavControllerMock, NavParamsMock, PlatformMock,
 } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
@@ -26,17 +17,15 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  HealthDeclarationViewDidEnter,
   HealthDeclarationValidationError,
+  HealthDeclarationViewDidEnter,
 } from '@pages/health-declaration/health-declaration.actions';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import {
   DeviceAuthenticationProviderMock,
 } from '@providers/device-authentication/__mocks__/device-authentication.mock';
-import * as PostTestDeclarationsActions
-  from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import * as PassCompletionActions
-  from '@store/tests/pass-completion/pass-completion.actions';
+import * as PostTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import * as PassCompletionActions from '@store/tests/pass-completion/pass-completion.actions';
 import { of, Subscription } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
@@ -50,7 +39,7 @@ import {
   ReceiptDeclarationComponent,
 } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
 import {
-  Validators, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule,
+  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -74,7 +63,6 @@ describe('HealthDeclarationPage', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -110,21 +98,47 @@ describe('HealthDeclarationPage', () => {
         TranslateModule,
       ],
       providers: [
-        { provide: NavController, useClass: NavControllerMock },
-        { provide: AlertController, useClass: AlertControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },
-        { provide: Router, useValue: routerSpy },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
+        {
+          provide: AlertController,
+          useClass: AlertControllerMock,
+        },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: DeviceAuthenticationProvider,
+          useClass: DeviceAuthenticationProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: routerSpy,
+        },
       ],
     });
 
     fixture = TestBed.createComponent(HealthDeclarationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch').and.callThrough();
+    spyOn(store$, 'dispatch')
+      .and
+      .callThrough();
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     component.subscription = new Subscription();
@@ -134,19 +148,22 @@ describe('HealthDeclarationPage', () => {
     describe('ionViewDidEnter', () => {
       it('should dispatch HealthDeclarationViewDidEnter', () => {
         component.ionViewDidEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
       });
 
       describe('healthDeclarationChanged', () => {
         it('should dispatch a ToggleHealthDeclaration action', () => {
           component.healthDeclarationChanged();
-          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleHealthDeclaration());
+          expect(store$.dispatch)
+            .toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleHealthDeclaration());
         });
       });
       describe('receiptDeclarationChanged', () => {
         it('should dispatch a ToggleReceiptDeclaration action', () => {
           component.receiptDeclarationChanged();
-          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleReceiptDeclaration());
+          expect(store$.dispatch)
+            .toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleReceiptDeclaration());
         });
       });
 
@@ -157,7 +174,8 @@ describe('HealthDeclarationPage', () => {
             .returnValue(Promise.resolve(true));
           component.licenseProvided = true;
           await component.persistAndNavigate(true);
-          expect(store$.dispatch).toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
+          expect(store$.dispatch)
+            .toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
         });
       });
     });
@@ -173,8 +191,10 @@ describe('HealthDeclarationPage', () => {
         component.healthDeclarationAccepted = true;
         component.onSubmit();
         fixture.detectChanges();
-        expect(formGroup.valid).toEqual(true);
-        expect(component.persistAndNavigate).toHaveBeenCalled();
+        expect(formGroup.valid)
+          .toEqual(true);
+        expect(component.persistAndNavigate)
+          .toHaveBeenCalled();
         flush();
       }));
 
@@ -188,8 +208,10 @@ describe('HealthDeclarationPage', () => {
         component.formGroup.controls['signature'].patchValue('heuhrheru');
         component.onSubmit();
         fixture.detectChanges();
-        expect(formGroup.valid).toEqual(true);
-        expect(component.showConfirmHealthDeclarationModal).toHaveBeenCalled();
+        expect(formGroup.valid)
+          .toEqual(true);
+        expect(component.showConfirmHealthDeclarationModal)
+          .toHaveBeenCalled();
         flush();
       }));
 
@@ -228,7 +250,8 @@ describe('HealthDeclarationPage', () => {
       it('should render the page in English by default', () => {
         fixture.detectChanges();
         const declarationIntent = fixture.debugElement.query(By.css('h4')).nativeElement;
-        expect(declarationIntent.innerHTML).toBe('I declare that:');
+        expect(declarationIntent.innerHTML)
+          .toBe('I declare that:');
       });
       it('should render the page in Welsh for a Welsh test', (done) => {
         configureI18N(Language.CYMRAEG, translate);

@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -45,7 +45,6 @@ describe('TestCenterJournalPage', () => {
   } as StoreModel;
 
   beforeEach(waitForAsync(() => {
-    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage],
       imports: [
@@ -55,18 +54,39 @@ describe('TestCenterJournalPage', () => {
         TestCentreJournalComponentsModule,
         RouterTestingModule.withRoutes(
           [
-            { path: '', component: TestCentreJournalPage },
+            {
+              path: '',
+              component: TestCentreJournalPage,
+            },
           ],
         ),
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: LogHelper, useClass: LogHelperMock },
-        { provide: TestCentreJournalProvider, useClass: TestCentreJournalMock },
-        { provide: LoadingController, useClass: LoadingControllerMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: TestCentreJournalProvider,
+          useClass: TestCentreJournalMock,
+        },
+        {
+          provide: LoadingController,
+          useClass: LoadingControllerMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -82,20 +102,25 @@ describe('TestCenterJournalPage', () => {
     spyOn(store$, 'dispatch');
   }));
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
   describe('ngOnInit', () => {
     it('should set the isOffline$ property to a local isOffline', () => {
-      spyOnProperty(networkStateProvider.isOffline$, 'value', 'get').and.returnValue(true);
+      spyOnProperty(networkStateProvider.isOffline$, 'value', 'get')
+        .and
+        .returnValue(true);
       component.ngOnInit();
-      expect(component.isOffline).toEqual(true);
+      expect(component.isOffline)
+        .toEqual(true);
     });
   });
   describe('ionViewDidEnter', () => {
     it('should dispatch the view did enter action', () => {
       spyOn(store$, 'dispatch');
       component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalViewDidEnter());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(TestCentreJournalViewDidEnter());
     });
   });
   describe('ionViewWillEnter', () => {
@@ -103,8 +128,10 @@ describe('TestCenterJournalPage', () => {
       spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
       spyOn(component, 'getTestCentreData');
       component.ionViewWillEnter();
-      expect(BasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
-      expect(component.getTestCentreData).toHaveBeenCalled();
+      expect(BasePageComponent.prototype.ionViewWillEnter)
+        .toHaveBeenCalled();
+      expect(component.getTestCentreData)
+        .toHaveBeenCalled();
     });
   });
   describe('ngOnDestroy', () => {
@@ -113,16 +140,20 @@ describe('TestCenterJournalPage', () => {
       spyOn(component['destroy$'], 'complete');
       spyOn(component.subscription, 'unsubscribe');
       component.ngOnDestroy();
-      expect(component['destroy$'].next).toHaveBeenCalled();
-      expect(component['destroy$'].complete).toHaveBeenCalled();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component['destroy$'].next)
+        .toHaveBeenCalled();
+      expect(component['destroy$'].complete)
+        .toHaveBeenCalled();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
   describe('ionViewWillLeave', () => {
     it('should call tearDownListener', () => {
       spyOn(component.orientationMonitorProvider, 'tearDownListener');
       component.ionViewWillLeave();
-      expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
+      expect(component.orientationMonitorProvider.tearDownListener)
+        .toHaveBeenCalled();
     });
   });
   describe('getTestCentreData', () => {
@@ -131,40 +162,64 @@ describe('TestCenterJournalPage', () => {
       spyOn<any>(component, 'setOfflineError');
       spyOn<any>(component, 'mapError');
       spyOn(logHelper, 'createLog');
-      spyOn(loadingController, 'create').and.callThrough();
+      spyOn(loadingController, 'create')
+        .and
+        .callThrough();
       component.isOffline = false;
     });
     it('should set an offline error and not call getTestCentreJournal if in offline state', async () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal');
       component.isOffline = true;
       await component.getTestCentreData();
-      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData(false));
-      expect(testCentreJournalProvider.getTestCentreJournal).not.toHaveBeenCalled();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(TestCentreJournalGetData(false));
+      expect(testCentreJournalProvider.getTestCentreJournal)
+        .not
+        .toHaveBeenCalled();
     });
     it('should call getTestCentreJournal when online', async () => {
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValue(of({}));
+      spyOn(testCentreJournalProvider, 'getTestCentreJournal')
+        .and
+        .returnValue(of({}));
       await component.getTestCentreData();
-      expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
-      expect(component.hasSearched).toEqual(true);
-      expect(component.testCentreResults).toEqual({} as TestCentreDetailResponse);
-      expect(component.showSearchSpinner).toEqual(false);
-      expect(component.didError).toEqual(false);
+      expect(testCentreJournalProvider.getTestCentreJournal)
+        .toHaveBeenCalled();
+      expect(component.hasSearched)
+        .toEqual(true);
+      expect(component.testCentreResults)
+        .toEqual({} as TestCentreDetailResponse);
+      expect(component.showSearchSpinner)
+        .toEqual(false);
+      expect(component.didError)
+        .toEqual(false);
     });
     it('should dispatch failure log and call map error when error is recognised', async () => {
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.callFake(() => {
-        return throwError({ statusCode: 400, message: 'Some error', error: ErrorTypes.TEST_CENTRE_JOURNAL_ERROR });
-      });
+      spyOn(testCentreJournalProvider, 'getTestCentreJournal')
+        .and
+        .callFake(() => {
+          return throwError({
+            statusCode: 400,
+            message: 'Some error',
+            error: ErrorTypes.TEST_CENTRE_JOURNAL_ERROR,
+          });
+        });
       await component.getTestCentreData();
-      expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
-      expect(logHelper.createLog).toHaveBeenCalledWith(
-        LogType.ERROR,
-        'Getting test centre journal',
-        'Some error',
-      );
-      expect(component.didError).toEqual(true);
-      expect(component.testCentreResults).toEqual(null);
-      expect(component.showSearchSpinner).toEqual(false);
-      expect(component['mapError']).toHaveBeenCalled();
+      expect(testCentreJournalProvider.getTestCentreJournal)
+        .toHaveBeenCalled();
+      expect(logHelper.createLog)
+        .toHaveBeenCalledWith(
+          LogType.ERROR,
+          'Getting test centre journal',
+          'Some error',
+        );
+      expect(component.didError)
+        .toEqual(true);
+      expect(component.testCentreResults)
+        .toEqual(null);
+      expect(component.showSearchSpinner)
+        .toEqual(false);
+      expect(component['mapError'])
+        .toHaveBeenCalled();
     });
   });
   describe('get testCentreNames', () => {
@@ -176,13 +231,15 @@ describe('TestCenterJournalPage', () => {
           { name: 'Centre C' },
         ] as TestCentre[],
       } as TestCentreDetailResponse;
-      expect(component.testCentreNames).toEqual('Centre A, Centre B, Centre C');
+      expect(component.testCentreNames)
+        .toEqual('Centre A, Centre B, Centre C');
     });
   });
   describe('tabChanged', () => {
     it('should dispatch the TestCentreJournalTabChanged action', () => {
       component.tabChanged('tab1');
-      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalTabChanged('tab1'));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(TestCentreJournalTabChanged('tab1'));
     });
   });
 });

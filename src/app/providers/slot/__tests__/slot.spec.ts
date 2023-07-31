@@ -85,8 +85,14 @@ describe('SlotProvider', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
         SlotProvider,
       ],
     });
@@ -251,7 +257,8 @@ describe('SlotProvider', () => {
     describe('when there are no slots in the new journal', () => {
       it('should return a blank array', () => {
         const result = slotProvider.detectSlotChanges({}, {});
-        expect(result.length).toBe(0);
+        expect(result.length)
+          .toBe(0);
       });
     });
 
@@ -260,10 +267,14 @@ describe('SlotProvider', () => {
         const tempOldSlots = cloneDeep(oldSlots);
         const tempNewJournal = cloneDeep(newJournal);
         const result = slotProvider.detectSlotChanges(tempOldSlots, tempNewJournal);
-        expect(result.length).toBe(3);
-        expect(result[0].hasSlotChanged).toBe(false);
-        expect(result[1].hasSlotChanged).toBe(false);
-        expect(result[2].hasSlotChanged).toBe(false);
+        expect(result.length)
+          .toBe(3);
+        expect(result[0].hasSlotChanged)
+          .toBe(false);
+        expect(result[1].hasSlotChanged)
+          .toBe(false);
+        expect(result[2].hasSlotChanged)
+          .toBe(false);
       });
     });
 
@@ -273,10 +284,14 @@ describe('SlotProvider', () => {
         const tempNewJournal = cloneDeep(newJournal);
         tempNewJournal.testSlots[0].booking.candidate.driverNumber = 'NEWDRIVERNUMBER';
         const result = slotProvider.detectSlotChanges(tempOldSlots, tempNewJournal);
-        expect(result.length).toBe(3);
-        expect(result[0].hasSlotChanged).toBe(true);
-        expect(result[1].hasSlotChanged).toBe(false);
-        expect(result[2].hasSlotChanged).toBe(false);
+        expect(result.length)
+          .toBe(3);
+        expect(result[0].hasSlotChanged)
+          .toBe(true);
+        expect(result[1].hasSlotChanged)
+          .toBe(false);
+        expect(result[2].hasSlotChanged)
+          .toBe(false);
       });
     });
 
@@ -287,17 +302,22 @@ describe('SlotProvider', () => {
         tempNewJournal.testSlots[0].booking.candidate.driverNumber = 'NEWDRIVERNUMBER';
         tempNewJournal.testSlots[1].booking.application.welshTest = true;
         const result = slotProvider.detectSlotChanges(tempOldSlots, tempNewJournal);
-        expect(result.length).toBe(3);
-        expect(result[0].hasSlotChanged).toBe(true);
-        expect(result[1].hasSlotChanged).toBe(false);
-        expect(result[2].hasSlotChanged).toBe(true);
+        expect(result.length)
+          .toBe(3);
+        expect(result[0].hasSlotChanged)
+          .toBe(true);
+        expect(result[1].hasSlotChanged)
+          .toBe(false);
+        expect(result[2].hasSlotChanged)
+          .toBe(true);
       });
     });
 
     describe('when the journal payload contains nonTestActivities', () => {
       it('should mix them into the TestSlots such that they appear in date order', () => {
         const result = slotProvider.detectSlotChanges(oldSlots, newJournal);
-        expect(result[1].slotData.activityCode).toBe('091');
+        expect(result[1].slotData.activityCode)
+          .toBe('091');
       });
     });
   });
@@ -314,7 +334,8 @@ describe('SlotProvider', () => {
 
       const result = slotProvider.getSlotDate(slot);
 
-      expect(result).toBe('2019-01-21');
+      expect(result)
+        .toBe('2019-01-21');
     });
   });
 
@@ -324,7 +345,8 @@ describe('SlotProvider', () => {
 
       const numberOfDays = Object.keys(slotsWithEmptyDays).length;
 
-      expect(numberOfDays).toBe(7);
+      expect(numberOfDays)
+        .toBe(7);
     });
   });
 
@@ -336,101 +358,157 @@ describe('SlotProvider', () => {
     });
     it('should disallow the test when there are no permissions', () => {
       getAppConfigSpy.and.returnValue({ journal: { testPermissionPeriods: [] } });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(false);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(false);
     });
     it('should disallow the test when there are only permissions for other test categories', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'C', from: '2019-01-01', to: null },
+            {
+              testCategory: 'C',
+              from: '2019-01-01',
+              to: null,
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(false);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(false);
     });
     it('should disallow the test when there are permissions for the category which have expired', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-01-01', to: '2019-01-20' },
+            {
+              testCategory: 'B',
+              from: '2019-01-01',
+              to: '2019-01-20',
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(false);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(false);
     });
     it('should allow the test when there are multiple expired ranges and a subsequent valid range', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2018-01-01', to: '2018-03-01' },
-            { testCategory: 'B', from: '2018-05-01', to: '2018-07-01' },
-            { testCategory: 'B', from: '2019-01-01', to: '2019-02-01' },
+            {
+              testCategory: 'B',
+              from: '2018-01-01',
+              to: '2018-03-01',
+            },
+            {
+              testCategory: 'B',
+              from: '2018-05-01',
+              to: '2018-07-01',
+            },
+            {
+              testCategory: 'B',
+              from: '2019-01-01',
+              to: '2019-02-01',
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(true);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(true);
     });
     it('should allow the test when there is a permission range including the slot date', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-01-01', to: '2019-02-02' },
+            {
+              testCategory: 'B',
+              from: '2019-01-01',
+              to: '2019-02-02',
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(true);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(true);
     });
     it('should allow the test when there is a permission range starting on the slot date', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-02-01', to: '2019-02-20' },
+            {
+              testCategory: 'B',
+              from: '2019-02-01',
+              to: '2019-02-20',
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(true);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(true);
     });
     it('should allow the test when there is a permission range ending on the slot date', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-01-20', to: '2019-02-01' },
+            {
+              testCategory: 'B',
+              from: '2019-01-20',
+              to: '2019-02-01',
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(true);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(true);
     });
     it('should allow the test when there is a permission range for the slot date only', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-02-01', to: '2019-02-01' },
+            {
+              testCategory: 'B',
+              from: '2019-02-01',
+              to: '2019-02-01',
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(true);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(true);
     });
     it('should allow the test when there is a non-date bounded permission range', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-02-01', to: null },
+            {
+              testCategory: 'B',
+              from: '2019-02-01',
+              to: null,
+            },
           ],
         },
       });
-      expect(slotProvider.canStartTest(mockSlot)).toBe(true);
+      expect(slotProvider.canStartTest(mockSlot))
+        .toBe(true);
     });
     it('should disallow starting of tests that arent today', () => {
       getAppConfigSpy.and.returnValue({
         journal: {
           testPermissionPeriods: [
-            { testCategory: 'B', from: '2019-01-01', to: null },
+            {
+              testCategory: 'B',
+              from: '2019-01-01',
+              to: null,
+            },
           ],
         },
       });
       const futureSlot = cloneDeep(mockSlot);
-      futureSlot.slotDetail.start = DateTime.at(startTime).add(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss+00:00');
-      expect(slotProvider.canStartTest(futureSlot)).toEqual(false);
+      futureSlot.slotDetail.start = DateTime.at(startTime)
+        .add(1, Duration.DAY)
+        .format('YYYY-MM-DDTHH:mm:ss+00:00');
+      expect(slotProvider.canStartTest(futureSlot))
+        .toEqual(false);
     });
   });
 
@@ -438,13 +516,15 @@ describe('SlotProvider', () => {
     it('should return 0 days as the date is the same as the periodDate', () => {
       const date: Date = new Date('2019-01-10');
       const periodDate: Date = new Date('2019-01-10');
-      expect(slotProvider.dateDiffInDays(date, periodDate)).toEqual(0);
+      expect(slotProvider.dateDiffInDays(date, periodDate))
+        .toEqual(0);
     });
 
     it('should return 3 days difference between the date and the periodDate', () => {
       const date: Date = new Date('2019-01-07');
       const periodDate: Date = new Date('2019-01-10');
-      expect(slotProvider.dateDiffInDays(date, periodDate)).toEqual(3);
+      expect(slotProvider.dateDiffInDays(date, periodDate))
+        .toEqual(3);
     });
   });
 

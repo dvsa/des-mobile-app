@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HTTP_INTERCEPTORS, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/index.mock';
 import { of } from 'rxjs';
@@ -36,18 +33,39 @@ describe('Authentication interceptor', () => {
       providers: [
         AuthInterceptor,
         JournalProvider,
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: UrlProvider, useClass: UrlProviderMock },
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: UrlProvider,
+          useClass: UrlProviderMock,
+        },
+        {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthInterceptor,
           multi: true,
         },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
       ],
     });
     platform = TestBed.inject(Platform);
@@ -61,34 +79,46 @@ describe('Authentication interceptor', () => {
   afterEach(() => httpMock.verify());
 
   describe('Interceptor', () => {
-
     it('should compile', () => {
-      expect(interceptor).toBeDefined();
+      expect(interceptor)
+        .toBeDefined();
     });
 
     it('should not modify the request if not on ios', () => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
-      journalProvider.getJournal(null).subscribe(
-        () => {},
-        () => {},
-      );
+      platform.is = jasmine.createSpy('platform.is')
+        .and
+        .returnValue(false);
+      journalProvider
+        .getJournal(null)
+        .subscribe({
+          next: () => {
+          },
+          error: () => {
+          },
+        });
       const httpRequest = httpMock.expectOne(journalUrl);
-      expect(httpRequest.request.headers.has('Authorization')).toBe(false);
+      expect(httpRequest.request.headers.has('Authorization'))
+        .toBe(false);
     });
 
     it('should add the authentication header to the request if running on ios', (done) => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
-      const next: any = {
+      platform.is = jasmine.createSpy('platform.is')
+        .and
+        .returnValue(true);
+      const next = {
         handle: (request: HttpRequest<any>) => {
-          expect(request.headers.has('Authorization')).toEqual(true);
-          expect(request.headers.get('Authorization')).toEqual('token');
+          expect(request.headers.has('Authorization'))
+            .toEqual(true);
+          expect(request.headers.get('Authorization'))
+            .toEqual('token');
           return of({});
         },
-      };
+      } as HttpHandler;
       const req = new HttpRequest<any>('GET', journalUrl);
-      interceptor.intercept(req, next).subscribe(() => done());
+      interceptor
+        .intercept(req, next)
+        .subscribe(() => done());
     });
-
   });
 
 });

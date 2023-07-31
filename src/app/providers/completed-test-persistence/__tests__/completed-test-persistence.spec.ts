@@ -17,11 +17,13 @@ describe('CompletedTestPersistenceProvider', () => {
   ] as SearchResultTestSchema[];
 
   beforeEach(() => {
-    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       providers: [
         CompletedTestPersistenceProvider,
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
+        {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
       ],
       imports: [
         StoreModule.forRoot({
@@ -39,27 +41,37 @@ describe('CompletedTestPersistenceProvider', () => {
     it('should stringify and persist completed tests', async () => {
       await completedTestPersistenceProvider.persistCompletedTests(completedTests);
 
-      expect(dataStoreProvider.setItem).toHaveBeenCalledTimes(1);
-      expect(dataStoreProvider.setItem.calls.first().args[0]).toBe('COMPLETED_TESTS');
-      expect(JSON.parse(dataStoreProvider.setItem.calls.first().args[1])).toEqual(completedTests);
+      expect(dataStoreProvider.setItem)
+        .toHaveBeenCalledTimes(1);
+      expect(dataStoreProvider.setItem.calls.first().args[0])
+        .toBe('COMPLETED_TESTS');
+      expect(JSON.parse(dataStoreProvider.setItem.calls.first().args[1]))
+        .toEqual(completedTests);
     });
   });
 
   describe('loadCompletedPersistedTests', () => {
     it('should get tests from storage and dispatch action', async () => {
-      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(completedTests)));
+      spyOn(dataStoreProvider, 'getItem')
+        .and
+        .returnValue(Promise.resolve(JSON.stringify(completedTests)));
       spyOn(store$, 'dispatch');
       await completedTestPersistenceProvider.loadCompletedPersistedTests();
-      expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadCompletedTestsSuccess(completedTests));
+      expect(store$.dispatch)
+        .toHaveBeenCalledTimes(1);
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(LoadCompletedTestsSuccess(completedTests));
     });
   });
 
   describe('clearPersistedCompletedTests', () => {
     it('should clear persisted tests', async () => {
-      spyOn(dataStoreProvider, 'getKeys').and.returnValue(Promise.resolve(['COMPLETED_TESTS']));
+      spyOn(dataStoreProvider, 'getKeys')
+        .and
+        .returnValue(Promise.resolve(['COMPLETED_TESTS']));
       await completedTestPersistenceProvider.clearPersistedCompletedTests();
-      expect(dataStoreProvider.removeItem).toHaveBeenCalledWith('COMPLETED_TESTS');
+      expect(dataStoreProvider.removeItem)
+        .toHaveBeenCalledWith('COMPLETED_TESTS');
     });
   });
 

@@ -10,7 +10,7 @@ import { FaultSummaryCatCHelper } from '../cat-c/fault-summary.cat-c';
 import { FaultSummaryCatBHelper } from '../cat-b/fault-summary.cat-b';
 import { FaultSummaryCatDHelper } from '../cat-d/fault-summary.cat-d';
 import {
-  showMe2DFTellMe3DF, showMe2DFTellMe2DF, showMe1DFTellMe1DF, showMe0DFTellMe1DF,
+  showMe0DFTellMe1DF, showMe1DFTellMe1DF, showMe2DFTellMe2DF, showMe2DFTellMe3DF,
 } from './fault-summary.mock';
 import { FaultSummaryProvider } from '../fault-summary';
 import { FaultSummaryCatAM1Helper } from '../cat-a-mod1/fault-summary.cat-a-mod1';
@@ -135,28 +135,59 @@ describe('FaultSummaryProvider', () => {
     });
     faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
 
-    spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB').and.callThrough();
-    spyOn(FaultSummaryCatBHelper, 'getSeriousFaultsCatB').and.callThrough();
-    spyOn(FaultSummaryCatBHelper, 'getDangerousFaultsCatB').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsTrailer').and.callThrough();
+    spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatBHelper, 'getSeriousFaultsCatB')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatBHelper, 'getDangerousFaultsCatB')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsNonTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsNonTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsNonTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsNonTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsNonTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsNonTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsTrailer')
+      .and
+      .callThrough();
+    spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsTrailer')
+      .and
+      .callThrough();
   });
 
   describe('getDrivingFaultsList', () => {
     describe('Category B', () => {
       it('should return an empty array if there are no driving faults', () => {
         const result = faultSummaryProvider.getDrivingFaultsList({}, TestCategory.B);
-        expect(result.length).toEqual(0);
+        expect(result.length)
+          .toEqual(0);
       });
       it('should return an array matching the number of driving faults > 0', () => {
         const data: TestData = {
@@ -166,7 +197,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDrivingFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(2);
+        expect(result.length)
+          .toEqual(2);
       });
       it('should return faults in reverse order of fault count', () => {
         const data: TestData = {
@@ -177,9 +209,12 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDrivingFaultsList(data, TestCategory.B);
-        expect(result[0].faultCount).toEqual(5);
-        expect(result[1].faultCount).toEqual(2);
-        expect(result[2].faultCount).toEqual(1);
+        expect(result[0].faultCount)
+          .toEqual(5);
+        expect(result[1].faultCount)
+          .toEqual(2);
+        expect(result[2].faultCount)
+          .toEqual(1);
       });
       it('should correctly return any manoeuvre faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -192,7 +227,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDrivingFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(2);
+        expect(result.length)
+          .toEqual(2);
       });
       it('should correctly return any controlled stop faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -202,7 +238,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDrivingFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(1);
+        expect(result.length)
+          .toEqual(1);
       });
       it('should correctly return any vehicle checks faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -216,14 +253,16 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDrivingFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(1);
+        expect(result.length)
+          .toEqual(1);
       });
     });
     categoryC.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should return an empty array if there are no driving faults', () => {
           const result = faultSummaryProvider.getDrivingFaultsList({}, cat.category);
-          expect(result.length).toEqual(0);
+          expect(result.length)
+            .toEqual(0);
         });
         it('should return an array matching the number of driving faults > 0', () => {
           const data: TestData = {
@@ -233,7 +272,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any manoeuvre faults', () => {
           const data: CatCUniqueTypes.TestData = {
@@ -246,19 +286,26 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
-          expect(result[0].competencyDisplayName).toEqual('Reverse - Control');
-          expect(result[1].competencyDisplayName).toEqual('Reverse - Observation');
+          expect(result.length)
+            .toEqual(2);
+          expect(result[0].competencyDisplayName)
+            .toEqual('Reverse - Control');
+          expect(result[1].competencyDisplayName)
+            .toEqual('Reverse - Observation');
         });
         it('should correctly return any vehicle checks faults when there are 4 driving faults', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(cat.showMeTellMeSemiFaults.testData, cat.category);
-          expect(result.length).toEqual(1);
-          expect(result[0].faultCount).toEqual(cat.showMeTellMeSemiFaults.drivingFaults);
+          expect(result.length)
+            .toEqual(1);
+          expect(result[0].faultCount)
+            .toEqual(cat.showMeTellMeSemiFaults.drivingFaults);
         });
         it('should correctly return 4 driving faults as the fault count when there are 5', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(cat.showMeTellMeAllFaults.testData, cat.category);
-          expect(result.length).toEqual(1);
-          expect(result[0].faultCount).toEqual(cat.showMeTellMeAllFaults.drivingFaults);
+          expect(result.length)
+            .toEqual(1);
+          expect(result[0].faultCount)
+            .toEqual(cat.showMeTellMeAllFaults.drivingFaults);
         });
       });
     });
@@ -266,7 +313,8 @@ describe('FaultSummaryProvider', () => {
       describe(`Category ${cat.category}`, () => {
         it('should return an empty array if there are no driving faults', () => {
           const result = faultSummaryProvider.getDrivingFaultsList({}, cat.category);
-          expect(result.length).toEqual(0);
+          expect(result.length)
+            .toEqual(0);
         });
         it('should return an array matching the number of driving faults > 0', () => {
           const data: TestData = {
@@ -276,7 +324,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any manoeuvre faults', () => {
           const data: CatDUniqueTypes.TestData = {
@@ -289,19 +338,26 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
-          expect(result[0].competencyDisplayName).toEqual('Reverse - Control');
-          expect(result[1].competencyDisplayName).toEqual('Reverse - Observation');
+          expect(result.length)
+            .toEqual(2);
+          expect(result[0].competencyDisplayName)
+            .toEqual('Reverse - Control');
+          expect(result[1].competencyDisplayName)
+            .toEqual('Reverse - Observation');
         });
         it('should correctly return any vehicle checks faults when there are 4 driving faults', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(cat.showMeTellMeSemiFaults.testData, cat.category);
-          expect(result.length).toEqual(1);
-          expect(result[0].faultCount).toEqual(cat.showMeTellMeSemiFaults.drivingFaults);
+          expect(result.length)
+            .toEqual(1);
+          expect(result[0].faultCount)
+            .toEqual(cat.showMeTellMeSemiFaults.drivingFaults);
         });
         it('should correctly return 4 driving faults as the fault count when there are 5', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(cat.showMeTellMeAllFaults.testData, cat.category);
-          expect(result.length).toEqual(1);
-          expect(result[0].faultCount).toEqual(cat.showMeTellMeAllFaults.drivingFaults);
+          expect(result.length)
+            .toEqual(1);
+          expect(result[0].faultCount)
+            .toEqual(cat.showMeTellMeAllFaults.drivingFaults);
         });
       });
     });
@@ -314,7 +370,8 @@ describe('FaultSummaryProvider', () => {
           const testData = {};
           faultSummaryProvider.getDrivingFaultsList(testData, cat.category);
 
-          expect(getDrivingFaultsCatAM1Spy).toHaveBeenCalledWith(testData);
+          expect(getDrivingFaultsCatAM1Spy)
+            .toHaveBeenCalledWith(testData);
         });
       });
     });
@@ -324,7 +381,8 @@ describe('FaultSummaryProvider', () => {
     describe('Category B', () => {
       it('should return an empty array if there are no serious faults', () => {
         const result = faultSummaryProvider.getSeriousFaultsList({}, TestCategory.B);
-        expect(result.length).toEqual(0);
+        expect(result.length)
+          .toEqual(0);
       });
       it('should return an array matching the number of serious faults set to true', () => {
         const data: TestData = {
@@ -334,7 +392,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getSeriousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(2);
+        expect(result.length)
+          .toEqual(2);
       });
       it('should return an eyesight fail fault if one exists', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -345,8 +404,10 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getSeriousFaultsList(data, TestCategory.B);
-        expect(result[0].competencyIdentifier).toEqual('eyesightTest');
-        expect(result[0].comment).toEqual('test-fault-comment');
+        expect(result[0].competencyIdentifier)
+          .toEqual('eyesightTest');
+        expect(result[0].comment)
+          .toEqual('test-fault-comment');
       });
       it('should correctly return any vehicle checks faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -357,7 +418,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getSeriousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(1);
+        expect(result.length)
+          .toEqual(1);
       });
       it('should correctly return any controlled stop faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -367,7 +429,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getSeriousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(1);
+        expect(result.length)
+          .toEqual(1);
       });
       it('should return an array length matching the number of manoeuvre driving faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -380,14 +443,16 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getSeriousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(2);
+        expect(result.length)
+          .toEqual(2);
       });
     });
     categoryC.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should return an empty array if there are no serious faults', () => {
           const result = faultSummaryProvider.getSeriousFaultsList({}, cat.category);
-          expect(result.length).toEqual(0);
+          expect(result.length)
+            .toEqual(0);
         });
         it('should return an array matching the number of serious faults set to true', () => {
           const data: TestData = {
@@ -397,7 +462,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any manoeuvre faults', () => {
           const data: CatCUniqueTypes.TestData = {
@@ -410,12 +476,15 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any vehicle checks faults ', () => {
           const result = faultSummaryProvider.getSeriousFaultsList(cat.showMeTellMeAllFaults.testData, cat.category);
-          expect(result.length).toEqual(cat.showMeTellMeAllFaults.seriousFaults);
-          expect(result[0].faultCount).toEqual(cat.showMeTellMeAllFaults.seriousFaults);
+          expect(result.length)
+            .toEqual(cat.showMeTellMeAllFaults.seriousFaults);
+          expect(result[0].faultCount)
+            .toEqual(cat.showMeTellMeAllFaults.seriousFaults);
         });
       });
     });
@@ -423,7 +492,8 @@ describe('FaultSummaryProvider', () => {
       describe(`Category ${cat.category}`, () => {
         it('should return an empty array if there are no serious faults', () => {
           const result = faultSummaryProvider.getSeriousFaultsList({}, cat.category);
-          expect(result.length).toEqual(0);
+          expect(result.length)
+            .toEqual(0);
         });
         it('should return an array matching the number of serious faults set to true', () => {
           const data: TestData = {
@@ -433,7 +503,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any manoeuvre faults', () => {
           const data: CatDUniqueTypes.TestData = {
@@ -446,12 +517,15 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any vehicle checks faults ', () => {
           const result = faultSummaryProvider.getSeriousFaultsList(cat.showMeTellMeAllFaults.testData, cat.category);
-          expect(result.length).toEqual(cat.showMeTellMeAllFaults.seriousFaults);
-          expect(result[0].faultCount).toEqual(cat.showMeTellMeAllFaults.seriousFaults);
+          expect(result.length)
+            .toEqual(cat.showMeTellMeAllFaults.seriousFaults);
+          expect(result[0].faultCount)
+            .toEqual(cat.showMeTellMeAllFaults.seriousFaults);
         });
       });
     });
@@ -468,7 +542,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
       });
     });
@@ -480,7 +555,8 @@ describe('FaultSummaryProvider', () => {
           const testData = {};
           faultSummaryProvider.getSeriousFaultsList(testData, cat.category);
 
-          expect(getSeriousFaultsCatAM1Spy).toHaveBeenCalledWith(testData);
+          expect(getSeriousFaultsCatAM1Spy)
+            .toHaveBeenCalledWith(testData);
         });
       });
     });
@@ -490,7 +566,8 @@ describe('FaultSummaryProvider', () => {
     describe('Category B', () => {
       it('should return an empty array if there are no serious faults', () => {
         const result = faultSummaryProvider.getDangerousFaultsList({}, TestCategory.B);
-        expect(result.length).toEqual(0);
+        expect(result.length)
+          .toEqual(0);
       });
       it('should return an array matching the number of serious faults set to true', () => {
         const data: TestData = {
@@ -500,7 +577,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDangerousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(2);
+        expect(result.length)
+          .toEqual(2);
       });
       it('should return an array length matching the number of manoeuvre driving faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -513,7 +591,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDangerousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(2);
+        expect(result.length)
+          .toEqual(2);
       });
       it('should correctly return any vehicle checks faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -524,7 +603,8 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDangerousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(1);
+        expect(result.length)
+          .toEqual(1);
       });
       it('should correctly return any controlled stop faults', () => {
         const data: CatBUniqueTypes.TestData = {
@@ -534,14 +614,16 @@ describe('FaultSummaryProvider', () => {
           },
         };
         const result = faultSummaryProvider.getDangerousFaultsList(data, TestCategory.B);
-        expect(result.length).toEqual(1);
+        expect(result.length)
+          .toEqual(1);
       });
     });
     categoryC.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should return an empty array if there are no serious faults', () => {
           const result = faultSummaryProvider.getDangerousFaultsList({}, cat.category);
-          expect(result.length).toEqual(0);
+          expect(result.length)
+            .toEqual(0);
         });
         it('should return an array matching the number of serious faults set to true', () => {
           const data: TestData = {
@@ -551,7 +633,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any manoeuvre faults', () => {
           const data: CatCUniqueTypes.TestData = {
@@ -564,7 +647,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
       });
     });
@@ -572,7 +656,8 @@ describe('FaultSummaryProvider', () => {
       describe(`Category ${cat.category}`, () => {
         it('should return an empty array if there are no serious faults', () => {
           const result = faultSummaryProvider.getDangerousFaultsList({}, cat.category);
-          expect(result.length).toEqual(0);
+          expect(result.length)
+            .toEqual(0);
         });
         it('should return an array matching the number of serious faults set to true', () => {
           const data: TestData = {
@@ -582,7 +667,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
         it('should correctly return any manoeuvre faults', () => {
           const data: CatDUniqueTypes.TestData = {
@@ -595,7 +681,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
       });
     });
@@ -612,7 +699,8 @@ describe('FaultSummaryProvider', () => {
             },
           };
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
-          expect(result.length).toEqual(2);
+          expect(result.length)
+            .toEqual(2);
         });
       });
     });
@@ -624,7 +712,8 @@ describe('FaultSummaryProvider', () => {
           const testData = {};
           faultSummaryProvider.getDangerousFaultsList(testData, cat.category);
 
-          expect(getDangerousFaultsCatAM1Spy).toHaveBeenCalledWith(testData);
+          expect(getDangerousFaultsCatAM1Spy)
+            .toHaveBeenCalledWith(testData);
         });
       });
     });
