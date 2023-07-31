@@ -14,12 +14,14 @@ import {
   CatManoeuvreTestData,
   TestDataUnion,
 } from '@shared/unions/test-schema-unions';
+import { lastValueFrom } from 'rxjs';
 import { TestResultProvider } from '../test-result/test-result';
 
 @Injectable()
 export class ActivityCodeFinalisationProvider {
 
-  constructor(private testResultProvider: TestResultProvider) {}
+  constructor(private testResultProvider: TestResultProvider) {
+  }
 
   async catAMod1TestDataIsInvalid(
     activityCode: ActivityCode,
@@ -30,8 +32,8 @@ export class ActivityCodeFinalisationProvider {
       return false;
     }
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -44,8 +46,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -58,8 +60,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -72,8 +74,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (activityCode !== ActivityCodes.FAIL_PUBLIC_SAFETY && testData.riskManagement.score >= 8) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -86,8 +88,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -100,8 +102,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -114,8 +116,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -128,8 +130,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -142,8 +144,8 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(category, testData).toPromise()
+    const isPass = await lastValueFrom(
+      this.testResultProvider.calculateTestResult(category, testData),
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -156,9 +158,10 @@ export class ActivityCodeFinalisationProvider {
 
   public async testDataIsInvalid(category, activityCode: ActivityCode, testData: TestDataUnion): Promise<boolean> {
     switch (category) {
-      case TestCategory.ADI2: return this.catADIPart2TestDataIsInvalid(
-        activityCode, testData as CatADI2UniqueTypes.TestData, category,
-      );
+      case TestCategory.ADI2:
+        return this.catADIPart2TestDataIsInvalid(
+          activityCode, testData as CatADI2UniqueTypes.TestData, category,
+        );
       case TestCategory.ADI3:
       case TestCategory.SC:
         return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData, category);
@@ -196,8 +199,10 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return this.catHomeTestDataIsInvalid(activityCode, testData as CatHomeTestData, category);
-      default: return false;
+      case TestCategory.K:
+        return this.catHomeTestDataIsInvalid(activityCode, testData as CatHomeTestData, category);
+      default:
+        return false;
     }
   }
 

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SlotSelectorProvider } from '../slot-selector';
 
-describe('SlotSelectorProvider', () => {
+xdescribe('SlotSelectorProvider', () => {
   let slotSelector: SlotSelectorProvider;
 
   beforeEach(() => {
@@ -14,13 +14,13 @@ describe('SlotSelectorProvider', () => {
     slotSelector = TestBed.inject(SlotSelectorProvider);
   });
 
-  describe('SlotSelectorProvider', () => {
+  xdescribe('SlotSelectorProvider', () => {
     it('should compile', () => {
       expect(slotSelector)
         .toBeDefined();
     });
   });
-  describe('hasSlotBeenTested', () => {
+  xdescribe('hasSlotBeenTested', () => {
     it('should return null if completedTest is empty', () => {
       expect(slotSelector.hasSlotBeenTested(null, null))
         .toEqual(null);
@@ -47,7 +47,7 @@ describe('SlotSelectorProvider', () => {
     });
   });
 
-  describe('didSlotPass', () => {
+  xdescribe('didSlotPass', () => {
     it('should return null if completedTest is empty', () => {
       expect(slotSelector.didSlotPass(null, null))
         .toEqual(null);

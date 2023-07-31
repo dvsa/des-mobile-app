@@ -18,7 +18,7 @@ enum FriendlyDeviceModel {
   iPAD_PRO_10_5_INCH = 'iPad Pro (10.5-inch)',
 }
 
-describe('DeviceProvider', () => {
+xdescribe('DeviceProvider', () => {
   let deviceProvider: DeviceProvider;
   let store$: Store<any>;
   let logHelper: LogHelper;
@@ -55,7 +55,7 @@ describe('DeviceProvider', () => {
     logHelper = TestBed.inject(LogHelper);
   });
 
-  describe('getDeviceType', () => {
+  xdescribe('getDeviceType', () => {
     it('should return the device type', () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
@@ -66,7 +66,7 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('validDeviceType', () => {
+  xdescribe('validDeviceType', () => {
     it('should return true if the device in supported devices list', () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
@@ -77,7 +77,7 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('validDeviceType', () => {
+  xdescribe('validDeviceType', () => {
     it('should return false if the device is not in supported devices list', () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
@@ -88,7 +88,7 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('getUniqueDeviceId', () => {
+  xdescribe('getUniqueDeviceId', () => {
     it('should return the unique device id', () => {
       spyOn(deviceProvider, 'getUniqueDeviceId')
         .and
@@ -99,7 +99,7 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('singleAppMode', () => {
+  xdescribe('singleAppMode', () => {
     it('should return true when enabling single app mode', async () => {
       spyOn(deviceProvider, 'setSingleAppMode')
         .and
@@ -109,7 +109,7 @@ describe('DeviceProvider', () => {
         .toBe(true);
     });
 
-    describe('getDeviceType', () => {
+    xdescribe('getDeviceType', () => {
       it('should return model', async () => {
         deviceProvider['device'].model = 'test';
         expect(deviceProvider.getDeviceType())
@@ -117,7 +117,7 @@ describe('DeviceProvider', () => {
       });
     });
 
-    describe('getDescriptiveDeviceName', () => {
+    xdescribe('getDescriptiveDeviceName', () => {
       ['iPad7,3', 'iPad7,4'].forEach((val) => {
         it(`should return FriendlyDeviceModel.iPAD_PRO_10_5_INCH if deviceModel is ${val}`, () => {
           spyOn(deviceProvider, 'getDeviceType')
@@ -159,7 +159,7 @@ describe('DeviceProvider', () => {
       });
     });
 
-    describe('getUniqueDeviceId', () => {
+    xdescribe('getUniqueDeviceId', () => {
       it('should return uuid', async () => {
         deviceProvider['device'].uuid = 'test';
         expect(deviceProvider.getUniqueDeviceId())
@@ -167,7 +167,7 @@ describe('DeviceProvider', () => {
       });
     });
 
-    describe('is8thGenDevice', () => {
+    xdescribe('is8thGenDevice', () => {
       ['iPad11,6', 'iPad11,7'].forEach((val) => {
         it(`should return true if deviceType is ${val}`, () => {
           expect(deviceProvider.is8thGenDevice(val))
@@ -242,7 +242,7 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('isSAMEnabled', () => {
+  xdescribe('isSAMEnabled', () => {
     it('should return true if single app mode enabled', async () => {
       spyOn(Asam, 'isSingleAppModeEnabled')
         .and

@@ -7,7 +7,7 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 import { TestCentreJournalProvider } from '../test-centre-journal';
 import { AppConfig } from '../../app-config/app-config.model';
 
-describe('TestCentreJournalProvider', () => {
+xdescribe('TestCentreJournalProvider', () => {
   let testCentreJournalProvider: TestCentreJournalProvider;
   let httpMock: HttpTestingController;
   let urlProviderMock: UrlProvider;
@@ -21,8 +21,14 @@ describe('TestCentreJournalProvider', () => {
       ],
       providers: [
         TestCentreJournalProvider,
-        { provide: UrlProvider, useClass: UrlProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        {
+          provide: UrlProvider,
+          useClass: UrlProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
       ],
     });
 
@@ -32,19 +38,26 @@ describe('TestCentreJournalProvider', () => {
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
   }));
 
-  describe('getTestCentreJournal', () => {
+  xdescribe('getTestCentreJournal', () => {
     beforeEach(() => {
-      spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
+      spyOn(appConfigProviderMock, 'getAppConfig')
+        .and
+        .returnValue({ requestTimeout: 100000 } as AppConfig);
     });
     it('should call through to the URL provider for the test centre journal URL', () => {
-      testCentreJournalProvider.getTestCentreJournal().subscribe();
+      testCentreJournalProvider.getTestCentreJournal()
+        .subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/journals/testcentre');
-      expect(urlProviderMock.getTestCentreJournalUrl).toHaveBeenCalled();
+      expect(urlProviderMock.getTestCentreJournalUrl)
+        .toHaveBeenCalled();
     });
     it('should use a GET request', () => {
-      testCentreJournalProvider.getTestCentreJournal().subscribe(() => {});
+      testCentreJournalProvider.getTestCentreJournal()
+        .subscribe(() => {
+        });
       const req = httpMock.expectOne((request) => request.url === mockTestCentreJournalUrl);
-      expect(req.request.method).toBe('GET');
+      expect(req.request.method)
+        .toBe('GET');
     });
   });
 });

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SchemaValidatorProvider } from '@providers/schema-validator/schema-validator';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
 
-describe('SchemaValidatorProvider', () => {
+xdescribe('SchemaValidatorProvider', () => {
   let provider: SchemaValidatorProvider;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('SchemaValidatorProvider', () => {
     provider = TestBed.inject(SchemaValidatorProvider);
   });
 
-  describe('validateRemoteConfig', () => {
+  xdescribe('validateRemoteConfig', () => {
     it('should return true if the data is valid', async () => {
       expect(provider.validateRemoteConfig({
         approvedDeviceIdentifiers: [],

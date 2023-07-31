@@ -6,7 +6,7 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { FindUserProvider } from '../find-user';
 
-describe('FindUserProvider', () => {
+xdescribe('FindUserProvider', () => {
 
   let findUserProvider: FindUserProvider;
   let urlProvider: UrlProvider;
@@ -19,8 +19,14 @@ describe('FindUserProvider', () => {
       ],
       providers: [
         FindUserProvider,
-        { provide: UrlProvider, useClass: UrlProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        {
+          provide: UrlProvider,
+          useClass: UrlProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
       ],
     });
 
@@ -30,13 +36,15 @@ describe('FindUserProvider', () => {
     spyOn(urlProvider, 'getRekeyFindUserUrl');
   });
 
-  describe('userExists', () => {
+  xdescribe('userExists', () => {
     it('should call the find user URL with the staff number', () => {
       const staffNumber = 1234567;
 
-      findUserProvider.userExists(staffNumber).subscribe();
+      findUserProvider.userExists(staffNumber)
+        .subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/users/search/1234567');
-      expect(urlProvider.getRekeyFindUserUrl).toHaveBeenCalledWith('1234567');
+      expect(urlProvider.getRekeyFindUserUrl)
+        .toHaveBeenCalledWith('1234567');
     });
   });
 

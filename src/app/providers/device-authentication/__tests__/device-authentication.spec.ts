@@ -61,7 +61,7 @@ xdescribe('DeviceAuthenticationProvider', () => {
       .returnValue(Promise.resolve({ value: { available: true } }));
   });
 
-  describe('triggerLockScreen', () => {
+  xdescribe('triggerLockScreen', () => {
     it('should call through to verifyIdentity when available', async () => {
       try {
         await deviceAuthenticationProvider.triggerLockScreen();

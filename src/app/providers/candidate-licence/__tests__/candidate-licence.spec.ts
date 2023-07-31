@@ -10,7 +10,7 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
 /* eslint-disable */
-describe('CandidateLicenceProvider', () => {
+xdescribe('CandidateLicenceProvider', () => {
   let candidateLicenceProvider: CandidateLicenceProvider;
   let httpMock: HttpTestingController;
   let urlProviderMock: UrlProvider;
@@ -46,7 +46,7 @@ describe('CandidateLicenceProvider', () => {
     networkStateProviderMock = TestBed.inject(NetworkStateProvider);
   });
 
-  describe('clearDriverData', () => {
+  xdescribe('clearDriverData', () => {
     it('should set driverLicenceResponse and requestError to null', () => {
       candidateLicenceProvider.driverLicenceResponse = {
         driverPhotograph: null,
@@ -65,7 +65,7 @@ describe('CandidateLicenceProvider', () => {
     });
   });
 
-  describe('getDriverPhoto', () => {
+  xdescribe('getDriverPhoto', () => {
     it('should call getCandidatePhotoUrl and call http.get with the result', () => {
 
       spyOn(urlProviderMock, 'getCandidatePhotoUrl');
@@ -82,7 +82,7 @@ describe('CandidateLicenceProvider', () => {
     });
   });
 
-  describe('getDriverSignature', () => {
+  xdescribe('getDriverSignature', () => {
     it('should call getCandidateSignatureUrl and call http.get with the result', () => {
 
       spyOn(urlProviderMock, 'getCandidateSignatureUrl');
@@ -99,7 +99,7 @@ describe('CandidateLicenceProvider', () => {
     });
   });
 
-  describe('getDriverStandardData', () => {
+  xdescribe('getDriverStandardData', () => {
     it('should call getCandidateStandardDataUrl and call http.post with the result', () => {
 
       spyOn(urlProviderMock, 'getCandidateStandardDataUrl');

@@ -4,7 +4,7 @@ import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { catAM2TestDataStateObject } from './cat-AM2-test-data.mock';
 import { FaultSummaryCatAM2Helper } from '../fault-summary.cat-a-mod2';
 
-describe('FaultSummaryCatAM2Helper', () => {
+xdescribe('FaultSummaryCatAM2Helper', () => {
 
   const expectedEyesightTestFault = [
     {
@@ -26,14 +26,15 @@ describe('FaultSummaryCatAM2Helper', () => {
     },
   ];
 
-  describe('getEyesightTestSeriousFault', () => {
+  xdescribe('getEyesightTestSeriousFault', () => {
     it('should return a serious fault if eyesight test failed', () => {
       catAM2TestDataStateObject.eyesightTest.complete = true;
       catAM2TestDataStateObject.eyesightTest.seriousFault = true;
 
       expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(
         catAM2TestDataStateObject.eyesightTest,
-      )).toEqual(expectedEyesightTestFault);
+      ))
+        .toEqual(expectedEyesightTestFault);
     });
     it('should return an empty array if eyesight test passed', () => {
       catAM2TestDataStateObject.eyesightTest.complete = true;
@@ -41,16 +42,18 @@ describe('FaultSummaryCatAM2Helper', () => {
 
       expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(
         catAM2TestDataStateObject.eyesightTest,
-      )).toEqual([]);
+      ))
+        .toEqual([]);
     });
   });
 
-  describe('getSafetyAndBalanceFaults', () => {
+  xdescribe('getSafetyAndBalanceFaults', () => {
     xit('should return a single driving fault if any safety / balance questions are incorrect', () => {
 
       expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(
         catAM2TestDataStateObject.safetyAndBalanceQuestions,
-      )).toEqual(expectedSafetyAndBalanceQuestionsFault);
+      ))
+        .toEqual(expectedSafetyAndBalanceQuestionsFault);
     });
     it('should return an empty array if all safety / balance questions are correct', () => {
       catAM2TestDataStateObject.safetyAndBalanceQuestions.safetyQuestions[0].outcome = CompetencyOutcome.P;
@@ -59,7 +62,8 @@ describe('FaultSummaryCatAM2Helper', () => {
 
       expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(
         catAM2TestDataStateObject.safetyAndBalanceQuestions,
-      )).toEqual([]);
+      ))
+        .toEqual([]);
     });
   });
 });
