@@ -20,6 +20,7 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
+import { SendCurrentTest } from '@store/tests/tests.actions';
 import { DelegatedRekeyUploadOutcomePage } from '../delegated-rekey-upload-outcome';
 
 describe('DelegatedRekeyUploadOutcomePage', () => {
@@ -115,6 +116,13 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         const submitted = component.isStatusSubmitted('Submitted');
         expect(submitted)
           .toEqual(true);
+      });
+    });
+    describe('retryUpload', () => {
+      it('should dispatch SendCurrentTest', () => {
+        component.retryUpload();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SendCurrentTest());
       });
     });
   });

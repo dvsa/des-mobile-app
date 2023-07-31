@@ -36,9 +36,11 @@ export class SentryIonicErrorHandler extends ErrorHandler {
     super();
   }
 
-  async handleError(error) {
+  // keep method name different to inside `ErrorHandler` which brings more clarity to unit tests
+  async handleErr(error: any) {
     try {
-      super.handleError(error);
+      // call through to `ErrorHandler` without use of super!
+      this.handleError(error);
 
       // don't report missing apiKey errors that can be seen via Logs service;
       if (
@@ -49,7 +51,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
         return;
       }
 
-      const { role } = this.appConfigProvider.getAppConfig();
+      const role = this.appConfigProvider.getAppConfig()?.role;
       const employeeID = this.authenticationProvider.getEmployeeId();
       const appVersion = await this.appInfoProvider.getFullVersionNumber();
 

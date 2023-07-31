@@ -1,10 +1,12 @@
 export class AccessibilityServiceMock {
   textZoom: number = 100;
 
-  configureAccessibility = (): void => {
+  configureAccessibility = (): Promise<void> => {
+    return Promise.resolve();
   };
 
-  afterAppResume = (): void => {
+  afterAppResume = (): Promise<void> => {
+    return Promise.resolve();
   };
 
   getTextZoomCallback = (): void => {

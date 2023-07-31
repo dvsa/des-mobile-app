@@ -58,7 +58,7 @@ export class CandidateDetailsAnalyticsEffects {
       const candidateCheck = isCandidateCheckNeeded(slot);
       const candidateId = getCandidateId(slot);
 
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, candidateId);
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, candidateId?.toString());
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, specNeeds ? '1' : '0');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, candidateCheck ? '1' : '0');
       this.analytics.setCurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);

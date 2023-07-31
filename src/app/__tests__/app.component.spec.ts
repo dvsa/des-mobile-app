@@ -7,7 +7,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import {
-  AlertControllerMock, MenuControllerMock, PlatformMock, SecureStorageMock,
+  AlertControllerMock,
+  MenuControllerMock,
+  PlatformMock,
+  RouterMock,
+  SecureStorageMock,
 } from '@mocks/index.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
@@ -17,7 +21,7 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
+import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -35,13 +39,13 @@ import { Subscription } from 'rxjs';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
-
+  let router: Router;
   let authenticationProvider: AuthenticationProvider;
   let platform: Platform;
   let menuController: MenuController;
@@ -73,7 +77,7 @@ describe('AppComponent', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
         {
           provide: MenuController,
@@ -139,6 +143,7 @@ describe('AppComponent', () => {
     translate = TestBed.inject(TranslateService);
     appConfigProvider = TestBed.inject(AppConfigProvider);
     deviceProvider = TestBed.inject(DeviceProvider);
+    router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
   }));
 
@@ -153,10 +158,16 @@ describe('AppComponent', () => {
       spyOn(platform, 'ready')
         .and
         .returnValue(Promise.resolve(''));
+      spyOn(platform, 'is')
+        .and
+        .returnValue(true);
       spyOn(store$, 'dispatch');
       spyOn(component, 'configurePlatformSubscriptions');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
+      spyOn(component, 'initialiseSentry')
+        .and
+        .returnValue(Promise.resolve());
       spyOn(component, 'initialisePersistentStorage')
         .and
         .returnValue(Promise.resolve());
@@ -169,11 +180,15 @@ describe('AppComponent', () => {
       spyOn(appConfigProvider, 'initialiseAppConfig')
         .and
         .returnValue(Promise.resolve());
-      spyOn(deviceProvider, 'disableSingleAppMode');
     });
     it('should run app initialisation code', fakeAsync(() => {
+      spyOn(deviceProvider, 'disableSingleAppMode')
+        .and
+        .returnValue(Promise.resolve(true));
       component.ngOnInit();
       flushMicrotasks();
+      expect(deviceProvider.disableSingleAppMode)
+        .toHaveBeenCalled();
       expect(appConfigProvider.initialiseAppConfig)
         .toHaveBeenCalled();
       expect(component.initialiseAuthentication)
@@ -188,6 +203,15 @@ describe('AppComponent', () => {
         .toHaveBeenCalled();
       expect(component.configureLocale)
         .toHaveBeenCalled();
+    }));
+    it('should run through catch block if error detected', fakeAsync(() => {
+      spyOn(deviceProvider, 'disableSingleAppMode')
+        .and
+        .returnValue(Promise.reject(new Error('Failed to disable')));
+      component.ngOnInit();
+      flushMicrotasks();
+      expect(router.navigate)
+        .toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
     }));
   });
 
@@ -309,6 +333,31 @@ describe('AppComponent', () => {
     });
   });
 
+  describe('onAppResumed', () => {
+    it('should dispatch `AppResumed` and call through to accessibility provider', async () => {
+      await component.onAppResumed();
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(AppResumed());
+    });
+  });
+
+  describe('configurePlatformSubscriptions', () => {
+    it('should check the value of platformSubscription gets set', () => {
+      // check platform starts as nullish
+      expect(component['platformSubscription'])
+        .toEqual(undefined);
+
+      // start sub
+      component.configurePlatformSubscriptions();
+      expect(component['platformSubscription'])
+        .not
+        .toEqual(undefined);
+
+      // clean up
+      component['platformSubscription'].unsubscribe();
+    });
+  });
+
   describe('ionViewWillUnload', () => {
     it('should unsubscribe from subscription if there is one', () => {
       component['platformSubscription'] = new Subscription();
@@ -321,12 +370,11 @@ describe('AppComponent', () => {
 
   describe('navPage', () => {
     it('should call router.navigate with parameter passed', async () => {
-      spyOn(component['router'], 'navigate');
       await component.navPage({
         title: 'test',
         descriptor: 'test2',
       });
-      expect(component['router'].navigate)
+      expect(router.navigate)
         .toHaveBeenCalledWith(['test']);
     });
     it('should call menuController.close', async () => {

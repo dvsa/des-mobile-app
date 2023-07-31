@@ -8,7 +8,7 @@ export class AppInfoProviderMock {
     .returnValue(of('4.0.0'));
 
   getFullVersionNumber = jasmine
-    .createSpy('getVersionNumber')
+    .createSpy('getFullVersionNumber')
     .and
     .returnValue(Promise.resolve('4.0.0.0'));
 
