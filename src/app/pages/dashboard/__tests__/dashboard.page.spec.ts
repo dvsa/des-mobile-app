@@ -46,7 +46,11 @@ import { By } from '@angular/platform-browser';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { HasSeenUpdateAvailablePopup, LoadAppVersionSuccess } from '@store/app-info/app-info.actions';
+import {
+  HasSeenUpdateAvailablePopup,
+  LoadAppVersionSuccess,
+  UpdateAvailableBadgeClicked,
+} from '@store/app-info/app-info.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { selectLiveAppVersion, selectRole } from '@store/app-config/app-config.selectors';
 import { DashboardPage } from '../dashboard.page';
@@ -336,11 +340,19 @@ describe('DashboardPage', () => {
       });
     });
     describe('showUpdateAvailableModal', () => {
+      it('should dispatch UpdateAvailableBadgeClicked when manualClick is false', async () => {
+        spyOn(modalController, 'dismiss')
+          .and
+          .returnValue(Promise.resolve(true));
+        await component.showUpdateAvailableModal(true);
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(UpdateAvailableBadgeClicked());
+      });
       it('should create and dismiss the modal, then dispatch HasSeenUpdateAvailablePopup', async () => {
         spyOn(modalController, 'dismiss')
           .and
           .returnValue(Promise.resolve(true));
-        await component.showUpdateAvailableModal();
+        await component.showUpdateAvailableModal(false);
         expect(store$.dispatch)
           .toHaveBeenCalledWith(HasSeenUpdateAvailablePopup(true));
       });

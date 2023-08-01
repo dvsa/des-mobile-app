@@ -66,6 +66,7 @@ module.exports = function(config) {
     autoWatch: true,
     specReporter: {
       suppressSkipped: true,
+      showSpecTiming: true,
     },
     browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: true,

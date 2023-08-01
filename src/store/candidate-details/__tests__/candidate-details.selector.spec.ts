@@ -1,6 +1,7 @@
 import { getSlotType, SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 import { SlotTypes } from '@shared/models/slot-types';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import {
   getBusiness,
   getCandidateId,
@@ -120,17 +121,17 @@ describe('Candidate Details Selector', () => {
 
   describe('getCandidateId', () => {
     it('returns a candidate id', () => {
-      const candidateId = '12354567';
+      const candidateId = 12354567;
       const slot = {
         booking: {
           candidate: {
             candidateId,
           },
         },
-      };
+      } as TestSlot;
       const result = getCandidateId(slot);
       expect(result)
-        .toEqual('12354567');
+        .toEqual(12354567);
     });
   });
 
@@ -344,13 +345,7 @@ describe('Candidate Details Selector', () => {
     it('returns true if slot marked as changed', () => {
       const slot = {
         hasSlotChanged: true,
-        booking: {
-          application: {
-            entitlementCheck: true,
-          },
-          previousCancellation: [],
-        },
-      };
+      } as SlotItem;
       const result = getSlotChanged(slot);
       expect(result)
         .toEqual(true);
@@ -431,7 +426,6 @@ describe('Candidate Details Selector', () => {
       };
 
       const slot = {
-        hasSlotChanged: true,
         booking: {
           application: {
             entitlementCheck: true,
@@ -439,7 +433,7 @@ describe('Candidate Details Selector', () => {
           previousCancellation: [],
           business: mockBusiness,
         },
-      };
+      } as TestSlot;
 
       expect(getBusiness(slot))
         .toEqual(mockBusiness);

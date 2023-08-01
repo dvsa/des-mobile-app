@@ -16,7 +16,7 @@
       <ion-badge
         *ngIf="pageState.showUpdatesAvailable$ | async"
         color="danger"
-        (click)="showUpdateAvailableModal()">
+        (click)="showUpdateAvailableModal(true)">
         Version {{pageState.liveAppVersion$ | async}} available
       </ion-badge>
     </ion-buttons>

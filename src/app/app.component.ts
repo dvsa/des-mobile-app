@@ -41,7 +41,7 @@ interface AppComponentPageState {
   unSubmittedTestSlotsCount$: Observable<number>;
 }
 
-export interface Pages {
+export interface Page {
   title: string;
   descriptor: string;
   showUnSubmittedCount?: boolean;
@@ -54,7 +54,7 @@ export interface Pages {
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
-  Pages: Pages[] = [
+  pages: Page[] = [
     {
       title: DASHBOARD_PAGE,
       descriptor: 'Dashboard',
@@ -218,13 +218,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     return Promise.resolve();
   };
 
-  navPage = async ({
-    title,
-    descriptor,
-  }: Pages): Promise<void> => {
-    await this.router.navigate([title]);
+  navPage = async (page: Page): Promise<void> => {
+    await this.router.navigate([page.title]);
     await this.menuController.close();
-    this.store$.dispatch(SideMenuItemSelected(descriptor));
+    this.store$.dispatch(SideMenuItemSelected(page.descriptor));
   };
 
   closeSideMenu = (): void => {
