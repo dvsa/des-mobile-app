@@ -19,8 +19,4 @@ export class OfflineBannerComponent implements OnChanges {
       this.hasBeenOffline = true;
     }
   }
-
-  hasBeenOfflineSet() {
-    this.hasBeenOffline = true;
-  }
 }
