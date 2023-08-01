@@ -10,4 +10,10 @@ export class OfflineBannerComponent {
   @Input()
   isOffline: boolean;
 
+  hasBeenOffline: boolean = false;
+
+  hasBeenOfflineSet() {
+    this.hasBeenOffline = true;
+  }
+
 }
