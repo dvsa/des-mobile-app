@@ -1,5 +1,8 @@
-<div *ngIf="isOffline" id="unauthenticated-mode-indicator">
-  {{hasBeenOfflineSet()}}
-<label role="alert" id="unauth-text">You are offline. Some features may be unavailable.</label>
+<div *ngIf="isOffline; else isOnline;" id="unauthenticated-mode-indicator">
+  <label role="alert" id="unauth-text">
+    You are offline. Some features may be unavailable.
+  </label>
 </div>
-<div *ngIf="!isOffline && hasBeenOffline" aria-label="Your device has re-connected" role="alert"></div>
+<ng-template #isOnline>
+  <div *ngIf="hasBeenOffline" aria-label="Your device has re-connected" role="alert"></div>
+</ng-template>
