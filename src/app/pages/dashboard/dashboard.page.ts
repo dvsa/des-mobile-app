@@ -178,9 +178,8 @@ export class DashboardPage extends BasePageComponent {
   async navigate(pageName: string) {
     if (pageName === JOURNAL_PAGE) {
       this.store$.dispatch(journalActions.LoadCompletedTests(true));
-      console.log('JOURNAL ACTION DISPATCH!!!!!');
-    }
-    await this.router.navigate([pageName]);
+      await this.router.navigate([pageName, { navFromDashboard: true }]);
+    } else await this.router.navigate([pageName]);
   }
 
   showTestReportPracticeMode = (): boolean =>

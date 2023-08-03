@@ -18,3 +18,11 @@ export const removeLeadingZeros = (value: string): string => {
 export const removeNonAlphaNumeric = (value: string): string => {
   return value.replace(/[^a-z0-9+]+/gi, '');
 };
+
+export const stripNullishValues = <T>(obj: T): Partial<T> => {
+  const isNilOrNaN = (val) => val === null || val === '' || val === undefined || Number.isNaN(val);
+
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => !isNilOrNaN(value)),
+  ) as Partial<T>;
+};
