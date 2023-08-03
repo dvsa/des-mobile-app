@@ -462,7 +462,7 @@ describe('DashboardPage', () => {
         async () => {
           spyOn(store$, 'dispatch');
           await component.navigate('JournalPage');
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['JournalPage']);
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['JournalPage', { navFromDashboard: true }]);
           expect(store$.dispatch).toHaveBeenCalledWith(LoadCompletedTests(true));
         });
     });
