@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { JournalPage } from '@pages/journal/journal.page';
@@ -8,11 +7,8 @@ import { GoToJournalCardComponent } from '../go-to-journal-card';
 describe('GoToJournalCard', () => {
   let component: GoToJournalCardComponent;
   let fixture: ComponentFixture<GoToJournalCardComponent>;
-  let routerSpy;
 
   beforeEach(waitForAsync(() => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
       imports: [
@@ -23,7 +19,6 @@ describe('GoToJournalCard', () => {
           ],
         ),
       ],
-      providers: [{ provide: Router, useValue: routerSpy }],
     });
 
     fixture = TestBed.createComponent(GoToJournalCardComponent);
