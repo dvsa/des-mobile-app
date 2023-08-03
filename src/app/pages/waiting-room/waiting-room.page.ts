@@ -6,19 +6,16 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { merge, Observable, Subscription } from 'rxjs';
-import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import {
-  getInsuranceDeclarationStatus,
-  getResidencyDeclarationStatus,
-  getSignatureStatus,
+  selectInsuranceDeclarationStatus,
+  selectResidencyDeclarationStatus,
+  selectSignatureStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
-  formatDriverNumber,
-  getCandidateDriverNumber,
-  getCandidateName,
-  getUntitledCandidateName,
+  selectCandidateName,
+  selectFormatDriverNumber,
+  selectUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map, tap } from 'rxjs/operators';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -26,9 +23,8 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
 import { getTests } from '@store/tests/tests.reducer';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  getTestSlotAttributes,
-} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
-import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+  selectIsWelshTest,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import {
@@ -48,45 +44,31 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
 
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getTestCategory, selectTestCategory } from '@store/tests/category/category.reducer';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import {
-  getManoeuvrePassCertificateNumber,
+  selectManoeuvrePassCertificateNumber,
 } from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
 import {
-  getPreTestDeclarationsCatAMod1,
-} from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.reducer';
-import {
-  getCBTNumberStatus,
+  selectCBTNumberStatus,
 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { ErrorPage } from '@pages/error-page/error';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { selectRekey } from '@store/tests/rekey/rekey.reducer';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
-  insuranceDeclarationAccepted$: Observable<boolean>;
-  residencyDeclarationAccepted$: Observable<boolean>;
-  signature$: Observable<string>;
-  candidateName$: Observable<string>;
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  welshTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
   showVrnBtn$: Observable<boolean>;
   showManoeuvresPassCertNumber$: Observable<boolean>;
-  manoeuvresPassCertNumber$: Observable<string>;
   showCbtNumber$: Observable<boolean>;
   showResidencyDec$: Observable<boolean>;
-  cbtNumber$: Observable<string>;
-  isRekey$: Observable<boolean>;
 }
 
 @Component({
@@ -101,9 +83,19 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   pageState: WaitingRoomPageState;
   formGroup: UntypedFormGroup;
   subscription: Subscription;
-  testCategory: TestCategory;
-  isRekey: boolean;
   merged$: Observable<boolean | string | JournalData>;
+
+  candidateName = this.store$.selectSignal(selectCandidateName);
+  candidateUntitledName = this.store$.selectSignal(selectUntitledCandidateName);
+  candidateDriverNumber = this.store$.selectSignal(selectFormatDriverNumber);
+  testCategory = this.store$.selectSignal(selectTestCategory);
+  isRekey = this.store$.selectSignal(selectRekey);
+  insuranceDeclarationAccepted = this.store$.selectSignal(selectInsuranceDeclarationStatus);
+  residencyDeclarationAccepted = this.store$.selectSignal(selectResidencyDeclarationStatus);
+  signature = this.store$.selectSignal(selectSignatureStatus);
+  manoeuvresPassCertNumber = this.store$.selectSignal(selectManoeuvrePassCertificateNumber);
+  cbtNumber = this.store$.selectSignal(selectCBTNumberStatus);
+  welshTest = this.store$.selectSignal(selectIsWelshTest);
 
   constructor(
     platform: Platform,
@@ -144,39 +136,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     );
 
     this.pageState = {
-      insuranceDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getInsuranceDeclarationStatus),
-      ),
-      residencyDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getResidencyDeclarationStatus),
-      ),
-      signature$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getSignatureStatus),
-      ),
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateName),
-      ),
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
-      ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber),
-      ),
-      welshTest$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(isWelshTest),
-      ),
       conductedLanguage$: currentTest$.pipe(
         select(getCommunicationPreference),
         select(getConductedLanguage),
@@ -195,10 +154,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
         ])),
       ),
-      manoeuvresPassCertNumber$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getManoeuvrePassCertificateNumber),
-      ),
       showCbtNumber$: currentTest$.pipe(
         select(getTestCategory),
         map((category) => isAnyOf(category, [
@@ -210,21 +165,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getTestCategory),
         map((category) => !isAnyOf(category, [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC])),
       ),
-      cbtNumber$: currentTest$.pipe(
-        select(getPreTestDeclarationsCatAMod1),
-        select(getCBTNumberStatus),
-      ),
-      isRekey$: currentTest$.pipe(
-        select(getRekeyIndicator),
-        select(isRekey),
-      ),
     };
 
     const {
-      welshTest$,
       conductedLanguage$,
-      testCategory$,
-      isRekey$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -236,10 +180,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           }
         }),
       ),
-      welshTest$,
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-      testCategory$.pipe(tap((value) => this.testCategory = (value as TestCategory))),
-      isRekey$.pipe(tap((value) => this.isRekey = value)),
     );
   }
 
@@ -355,7 +296,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   private shouldNavigateToCandidateLicenceDetails = (): boolean => {
     // skip the candidate licence page when test is marked as a re-key or for non licence acquisition based categories.
-    if (this.isRekey || (isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]))) {
+    if (this.isRekey() || (isAnyOf(this.testCategory(), [TestCategory.ADI3, TestCategory.SC]))) {
       return false;
     }
     return true;

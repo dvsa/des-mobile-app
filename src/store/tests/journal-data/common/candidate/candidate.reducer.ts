@@ -1,6 +1,7 @@
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import * as candidateActions from './candidate.actions';
+import { selectJournalData } from '@store/tests/tests.selector';
 
 export const initialState: Candidate = {
   candidateId: null,
@@ -24,3 +25,8 @@ export const candidateReducer = createReducer(
 );
 
 export const getCandidate = createFeatureSelector<Candidate>('candidate');
+
+export const selectCandidate = createSelector(
+  selectJournalData,
+  (journal) => journal.candidate,
+);

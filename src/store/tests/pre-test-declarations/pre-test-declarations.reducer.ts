@@ -1,6 +1,7 @@
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
 import * as preTestDeclarationActions from './pre-test-declarations.actions';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 
 export const initialState: PreTestDeclarations = {
   insuranceDeclarationAccepted: false,
@@ -42,3 +43,8 @@ export const preTestDeclarationsReducer = createReducer(
 );
 
 export const getPreTestDeclarations = createFeatureSelector<PreTestDeclarations>('preTestDeclarations');
+
+export const selectPreTestDeclarations = createSelector(
+  selectCurrentTest,
+  (test) => test.preTestDeclarations,
+);

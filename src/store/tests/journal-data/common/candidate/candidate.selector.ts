@@ -1,10 +1,41 @@
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
+import { createSelector } from '@ngrx/store';
+import { selectCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+
+export const selectCandidateName = createSelector(
+  selectCandidate,
+  ({ candidateName }) => {
+    if (!candidateName) return '';
+    const {
+      title,
+      firstName,
+      lastName,
+    } = candidateName;
+    return title ? `${title} ${firstName} ${lastName}` : `${firstName} ${lastName}`;
+  },
+);
+
+export const selectUntitledCandidateName = createSelector(
+  selectCandidate,
+  ({ candidateName }) => {
+    if (!candidateName) return '';
+    const {
+      firstName,
+      lastName,
+    } = candidateName;
+    return `${firstName} ${lastName}`;
+  },
+);
 
 export const getCandidateName = (candidate: Candidate): string => {
   if (!candidate.candidateName) {
     return '';
   }
-  const { title, firstName, lastName } = candidate.candidateName;
+  const {
+    title,
+    firstName,
+    lastName,
+  } = candidate.candidateName;
   return title ? `${title} ${firstName} ${lastName}` : `${firstName} ${lastName}`;
 };
 
@@ -12,9 +43,17 @@ export const getUntitledCandidateName = (candidate: Candidate): string => {
   if (!candidate.candidateName) {
     return '';
   }
-  const { firstName, lastName } = candidate.candidateName;
+  const {
+    firstName,
+    lastName,
+  } = candidate.candidateName;
   return `${firstName} ${lastName}`;
 };
+
+export const selectCandidateDriverNumber = createSelector(
+  selectCandidate,
+  ({ driverNumber }) => driverNumber,
+);
 
 export const getCandidateDriverNumber = (candidate: Candidate) => candidate.driverNumber;
 
@@ -24,6 +63,11 @@ export const formatDriverNumber = (driverNumber: string) => {
   }
   return driverNumber;
 };
+
+export const selectFormatDriverNumber = createSelector(
+  selectCandidate,
+  ({ driverNumber }) => formatDriverNumber(driverNumber),
+);
 
 export const getCandidateEmailAddress = (candidate: Candidate) => (
   candidate.emailAddress ? candidate.emailAddress : ''

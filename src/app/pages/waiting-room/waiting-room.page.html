@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-page-title">
-      {{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
+      {{ 'waitingRoom.title' | translate }} - {{candidateUntitledName()}}
     </ion-title>
     <ion-buttons id="waiting-room-back-button" slot="start">
       <ion-back-button [defaultHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"></ion-back-button>
@@ -22,22 +22,22 @@
   <form [formGroup]="formGroup">
     <candidate-section
       (continueClickEvent)="onSubmit()"
-      [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [candidateName]="pageState.candidateName$ | async"
+      [candidateDriverNumber]="candidateDriverNumber()"
+      [candidateName]="candidateName()"
       [showVRNButton]="pageState.showVrnBtn$ | async">
     </candidate-section>
 
     <manoeuvres-pass-cert
-      (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
       *ngIf="pageState.showManoeuvresPassCertNumber$ | async"
+      (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
       [formGroup]="formGroup"
-      [manoeuvresPassCertificateNumber]="pageState.manoeuvresPassCertNumber$ | async">
+      [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()">
     </manoeuvres-pass-cert>
 
     <cbt-number
-      (cbtNumberChange)="cbtNumberChanged($event)"
       *ngIf="pageState.showCbtNumber$ | async"
-      [cbtNumber]="pageState.cbtNumber$ | async"
+      (cbtNumberChange)="cbtNumberChanged($event)"
+      [cbtNumber]="cbtNumber()"
       [formGroup]="formGroup">
     </cbt-number>
 
@@ -47,7 +47,7 @@
       (englishTextSelect)="dispatchCandidateChoseToProceedInEnglish()"
       (welshTextSelect)="dispatchCandidateChoseToProceedInWelsh()"
       [englishIsSelected]="(pageState.conductedLanguage$ | async) === 'English'"
-      [shouldRender]="pageState.welshTest$ | async"
+      [shouldRender]="welshTest()"
       [welshIsSelected]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
     </conducted-language>
 
@@ -65,14 +65,14 @@
         <insurance-declaration
           (insuranceDeclarationChange)="insuranceDeclarationChanged()"
           [formGroup]="formGroup"
-          [selected]="pageState.insuranceDeclarationAccepted$ | async">
+          [selected]="insuranceDeclarationAccepted()">
         </insurance-declaration>
 
         <residency-declaration
-          (residencyDeclarationChange)="residencyDeclarationChanged()"
           *ngIf="pageState.showResidencyDec$ | async"
+          (residencyDeclarationChange)="residencyDeclarationChanged()"
           [formGroup]="formGroup"
-          [selected]="pageState.residencyDeclarationAccepted$ | async">
+          [selected]="residencyDeclarationAccepted()">
         </residency-declaration>
       </div>
 
@@ -82,7 +82,7 @@
         (signatureCleared)="signatureCleared()"
         (signatureDataChange)="signatureChanged($event)"
         [formGroup]="formGroup"
-        [signature]="pageState.signature$ | async">
+        [signature]="signature()">
       </signature>
     </div>
   </form>

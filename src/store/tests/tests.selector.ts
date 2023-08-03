@@ -13,6 +13,8 @@ import { DateTime } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { createSelector } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { TestOutcome } from './tests.constants';
@@ -25,6 +27,19 @@ export const getCurrentTest = (tests: TestsModel): TestResultSchemasUnion => {
   const currentTestSlotId = tests.currentTest.slotId;
   return tests.startedTests[currentTestSlotId];
 };
+
+export const selectTests = (state: StoreModel): TestsModel => state.tests;
+
+export const selectCurrentTest = createSelector(
+  selectTests,
+  (store) => store.tests,
+  (tests) => tests.startedTests[tests.currentTest.slotId] as TestResultSchemasUnion,
+);
+
+export const selectJournalData = createSelector(
+  selectCurrentTest,
+  (store) => store.journalData,
+);
 
 export const getStartedTests = (tests: TestsModel): StartedTests => {
   return tests.startedTests;

@@ -1,5 +1,6 @@
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { selectJournalData } from '@store/tests/tests.selector';
 import * as testSlotAttributesActions from './test-slot-attributes.actions';
 
 export const initialState: TestSlotAttributes = {
@@ -25,3 +26,8 @@ export const testSlotsAttributesReducer = createReducer(
 );
 
 export const getTestSlotAttributes = createFeatureSelector<TestSlotAttributes>('testSlotAttributes');
+
+export const selectTestSlotAttributes = createSelector(
+  selectJournalData,
+  (tests) => tests.testSlotAttributes,
+);
