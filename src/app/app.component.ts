@@ -110,7 +110,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadAppVersion());
       await this.configureStatusBar();
       this.configureLocale();
-      alert('hello');
       if (this.platform.is('cordova')) {
         await this.accessibilityService.configureAccessibility();
         this.configurePlatformSubscriptions();

@@ -38,9 +38,7 @@
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col size="48">
-          <go-to-journal-card
-          (navigateClicked)="navigate($event)">
-          </go-to-journal-card>
+          <go-to-journal-card></go-to-journal-card>
         </ion-col>
         <ion-col size="48">
           <test-centre-journal-card></test-centre-journal-card>

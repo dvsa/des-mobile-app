@@ -40,7 +40,6 @@ import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
-import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
@@ -163,7 +162,6 @@ export class DashboardPage extends BasePageComponent {
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-
     return true;
   }
 
@@ -173,13 +171,6 @@ export class DashboardPage extends BasePageComponent {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  async navigate(pageName: string) {
-    if (pageName === JOURNAL_PAGE) {
-      this.store$.dispatch(journalActions.LoadCompletedTests(true));
-      await this.router.navigate([pageName, { navFromDashboard: true }]);
-    } else await this.router.navigate([pageName]);
   }
 
   showTestReportPracticeMode = (): boolean =>

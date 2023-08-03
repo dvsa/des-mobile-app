@@ -1,5 +1,7 @@
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { JournalPage } from '@pages/journal/journal.page';
 import { IonicModule } from '@ionic/angular';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
@@ -7,8 +9,11 @@ import { GoToJournalCardComponent } from '../go-to-journal-card';
 describe('GoToJournalCard', () => {
   let component: GoToJournalCardComponent;
   let fixture: ComponentFixture<GoToJournalCardComponent>;
+  let routerSpy;
 
   beforeEach(waitForAsync(() => {
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
       imports: [
@@ -19,6 +24,7 @@ describe('GoToJournalCard', () => {
           ],
         ),
       ],
+      providers: [{ provide: Router, useValue: routerSpy }],
     });
 
     fixture = TestBed.createComponent(GoToJournalCardComponent);
@@ -27,10 +33,10 @@ describe('GoToJournalCard', () => {
 
   describe('Class', () => {
     describe('navigateToJournal', () => {
-      it('should emit navigateClicked', () => {
-        spyOn(component.navigateClicked, 'emit');
+      it('should trigger navigation to Journal', () => {
         component.navigateToJournal();
-        expect(component.navigateClicked.emit).toHaveBeenCalledWith('JournalPage');
+
+        expect(routerSpy.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
       });
     });
   });

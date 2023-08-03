@@ -6,7 +6,7 @@ import {
   BehaviorSubject, merge, Observable, Subscription,
 } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
@@ -75,7 +75,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   todaysDate: DateTime;
   platformSubscription: Subscription;
   isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  navigatedFromDashboard: boolean = false;
 
   constructor(
     public modalController: ModalController,
@@ -92,7 +91,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public insomnia: Insomnia,
     public loadingProvider: LoadingProvider,
     public appConfigProvider: AppConfigProvider,
-    public route: ActivatedRoute,
   ) {
     super(platform, authenticationProvider, router);
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
@@ -154,7 +152,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
       error$.pipe(map(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
-    this.navigatedFromDashboard = this.route.snapshot.params.navFromDashboard;
   }
 
   ionViewDidLeave(): void {
@@ -171,9 +168,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.configurePlatformSubscriptions();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
 
-    if (!this.navigatedFromDashboard) {
-      this.store$.dispatch(journalActions.LoadCompletedTests(true));
-    }
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();

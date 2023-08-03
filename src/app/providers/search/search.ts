@@ -41,7 +41,7 @@ export class SearchProvider {
   }
 
   advancedSearch(advancedSearchParams: AdvancedSearchParams): Observable<SearchResultTestSchema[]> {
-    const params = JSON.parse(JSON.stringify(stripNullishValues(advancedSearchParams)));
+    const params = stripNullishValues(advancedSearchParams);
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl(),
       { params },
