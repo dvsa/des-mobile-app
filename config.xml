@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="uk.gov.dvsa.drivingexaminerservices" version="4.8.1.0" xmlns="http://www.w3.org/ns/widgets"
+<widget id="uk.gov.dvsa.drivingexaminerservices" version="4.8.1.1" xmlns="http://www.w3.org/ns/widgets"
 >
   <name>DES</name>
   <description>An application for DVSA driving examiners to conduct driving tests digitally</description>
