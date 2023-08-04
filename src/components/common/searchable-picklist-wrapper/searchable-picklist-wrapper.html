@@ -21,7 +21,7 @@
             <span class="placeholder-details" size="90">{{placeholder}}</span>
           </ion-col>
           <ion-col size="6">
-            <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
+            <ion-icon aria-hidden="true" name="caret-down-outline" class="down-caret-icon"></ion-icon>
           </ion-col>
         </ion-row>
 
@@ -31,7 +31,7 @@
             <span class="ion-no-wrap custom-font-size">{{model[displayKey] | ellipsis: 34}}</span>
           </ion-col>
           <ion-col size="6">
-            <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
+            <ion-icon aria-hidden="true" name="caret-down-outline" class="down-caret-icon"></ion-icon>
           </ion-col>
         </ion-row>
       </div>
@@ -42,6 +42,7 @@
           <!--Removes the icon if the user is on advanced search-->
           <ion-icon
             *ngIf="!isAdvancedSearch"
+            aria-hidden="true"
             name="location-sharp"
             class="test-centre-location-icon"
             id="test-centre-icon">

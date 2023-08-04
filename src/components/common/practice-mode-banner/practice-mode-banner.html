@@ -1,14 +1,18 @@
 <ion-toolbar class="practice-mode-toolbar-sizing">
-    <ion-row class="practice-mode-top-banner">
-        <ion-col size="1" class="practice-exit-icon ion-no-padding" (click)="exitPracticeMode()">
-            <ion-icon id="practice-mode-exit" name="caret-back"></ion-icon>
-        </ion-col>
-        <ion-col id="practice-mode-exit-text" size="7" class="practice-title-text ion-no-padding" (click)="exitPracticeMode()">
-            EXIT
-        </ion-col>
-        <ion-col id="practice-mode-title-text" size="73" class="practice-title-text ion-no-padding">
-            {{displayMsg$ | async}}
-        </ion-col>
-        <ion-col size="13"></ion-col>
-    </ion-row>
+  <ion-row class="practice-mode-top-banner">
+    <ion-col size="1" class="practice-exit-icon ion-no-padding" (click)="exitPracticeMode()">
+      <ion-icon aria-hidden="true" id="practice-mode-exit" name="caret-back"></ion-icon>
+    </ion-col>
+    <ion-col
+      id="practice-mode-exit-text"
+      size="7"
+      class="practice-title-text ion-no-padding"
+      (click)="exitPracticeMode()">
+      EXIT
+    </ion-col>
+    <ion-col id="practice-mode-title-text" size="73" class="practice-title-text ion-no-padding">
+      {{displayMsg$ | async}}
+    </ion-col>
+    <ion-col size="13"></ion-col>
+  </ion-row>
 </ion-toolbar>

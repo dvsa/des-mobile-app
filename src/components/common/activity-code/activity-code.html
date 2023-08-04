@@ -1,33 +1,33 @@
 <ion-row class="mes-validated-row mes-row-separator ion-nowrap" id="activity-code-row" [formGroup]="formGroup">
-    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <ion-col size="32" class="component-label align-vertical-centre">
-        <label id="activity-code-label">Activity code</label>
-    </ion-col>
-    <ion-col size="63" class="ion-align-self-center ion-padding-start modal-dropdown">
-        <ion-row class="spacing-row"></ion-row>
-        <ion-row class="activity-code-modal-row"
-                 [ngClass]="{'appear-disabled': isSelectDisabled()}"
-                 (click)="openActivityCodeListModal()">
-            <ion-col *ngIf="!activityCodeModel" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
-                <span size="90">Select an activity code</span>
-            </ion-col>
-            <ion-col size="8" class="col-font-color no-padding-end padding-top" *ngIf="activityCodeModel">
-                <span class="custom-padding custom-font-size">{{activityCodeModel?.activityCode}}</span>
-            </ion-col>
-            <ion-col size="2" class="col-font-color no-padding-start padding-top" *ngIf="activityCodeModel">
-                <span>-</span>
-            </ion-col>
-            <ion-col size="80" class="col-font-color padding-top" *ngIf="activityCodeModel">
-                <span class="ion-no-wrap custom-font-size">{{activityCodeModel?.description | ellipsis: 34}}</span>
-            </ion-col>
-            <ion-col size="6">
-                <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
-            </ion-col>
-        </ion-row>
-        <ion-row class="validation-message-row">
-            <div class="validation-text" [class.ng-invalid]="invalid" id="activity-code-validation-message">
-                Select the activity code
-            </div>
-        </ion-row>
-    </ion-col>
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col size="32" class="component-label align-vertical-centre">
+    <label id="activity-code-label">Activity code</label>
+  </ion-col>
+  <ion-col size="63" class="ion-align-self-center ion-padding-start modal-dropdown">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row class="activity-code-modal-row"
+             [ngClass]="{'appear-disabled': isSelectDisabled()}"
+             (click)="openActivityCodeListModal()">
+      <ion-col *ngIf="!activityCodeModel" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
+        <span size="90">Select an activity code</span>
+      </ion-col>
+      <ion-col size="8" class="col-font-color no-padding-end padding-top" *ngIf="activityCodeModel">
+        <span class="custom-padding custom-font-size">{{activityCodeModel?.activityCode}}</span>
+      </ion-col>
+      <ion-col size="2" class="col-font-color no-padding-start padding-top" *ngIf="activityCodeModel">
+        <span>-</span>
+      </ion-col>
+      <ion-col size="80" class="col-font-color padding-top" *ngIf="activityCodeModel">
+        <span class="ion-no-wrap custom-font-size">{{activityCodeModel?.description | ellipsis: 34}}</span>
+      </ion-col>
+      <ion-col size="6">
+        <ion-icon aria-hidden="true" name="caret-down-outline" class="down-caret-icon"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="activity-code-validation-message">
+        Select the activity code
+      </div>
+    </ion-row>
+  </ion-col>
 </ion-row>

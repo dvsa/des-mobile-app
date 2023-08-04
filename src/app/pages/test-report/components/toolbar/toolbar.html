@@ -1,40 +1,42 @@
 <div id="wrapper" class="toolbar-wrapper">
   <ion-row class="ion-no-padding">
     <ion-col size="32" class="ion-no-padding">
-      <ion-button fill="clear"
-      id="remove-button"
-      class="ion-no-padding"
-      (click)="toggleRemoveFaultMode(shouldDisableRemove)"
-      [disabled]="componentState.shouldDisableRemove$ | async"
-      [ngClass]="{
+      <ion-button
+        fill="clear"
+        id="remove-button"
+        class="ion-no-padding"
+        (click)="toggleRemoveFaultMode(shouldDisableRemove)"
+        [disabled]="componentState.shouldDisableRemove$ | async"
+        [ngClass]="{
         'active': isRemoveFaultMode,
         'inactive': !isRemoveFaultMode
-      }"
-        >
+      }">
         {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove'}}
       </ion-button>
     </ion-col>
     <ion-col size="12" class="ion-no-padding button-wrapper padding-right-16">
-        <ion-button fill="clear"
+      <ion-button
+        fill="clear"
         id="serious-button"
         class="ion-no-padding"
+        aria-label="Serious fault"
         (click)="toggleSeriousMode()"
-        [ngClass]="isSeriousMode ? 'active' : 'inactive'"
-          >
-          S
-        </ion-button>
+        [ngClass]="isSeriousMode ? 'active' : 'inactive'">
+        S
+      </ion-button>
     </ion-col>
-    <ion-col size="12"  class="ion-no-padding button-wrapper padding-right-16">
-        <ion-button fill="clear" class="ion-no-padding"
+    <ion-col size="12" class="ion-no-padding button-wrapper padding-right-16">
+      <ion-button
+        fill="clear" class="ion-no-padding"
         id="dangerous-button"
+        aria-label="Dangerous fault"
         (click)="toggleDangerousMode()"
-        [ngClass]="isDangerousMode ? 'active' : 'inactive'"
-          >
-          D
-        </ion-button>
+        [ngClass]="isDangerousMode ? 'active' : 'inactive'">
+        D
+      </ion-button>
     </ion-col>
     <ion-col class="fault-summary" size="12" *ngIf="showDrivingFaultCounter && (!isSeriousMode && !isDangerousMode)">
-        <driving-fault-summary></driving-fault-summary>
+      <driving-fault-summary></driving-fault-summary>
     </ion-col>
     <ion-col class="ion-no-padding" [hidden]="isSeriousMode || isDangerousMode">
       <timer class="ion-float-end"></timer>

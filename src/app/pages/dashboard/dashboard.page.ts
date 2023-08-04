@@ -77,6 +77,8 @@ export class DashboardPage extends BasePageComponent {
   subscription: Subscription;
   private merged$: Observable<void | string>;
 
+  isOffline: boolean = false;
+
   constructor(
     protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,

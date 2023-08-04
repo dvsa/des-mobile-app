@@ -51,6 +51,7 @@
     </ion-col>
     <ion-col size="22">
       <datetime-input
+        [ariaLabel]="'Start date'"
         (onDataPicked)="changeDate($event)"
         [leftAlign]="true"
         [control]="'start-date'"
@@ -68,18 +69,20 @@
       <label class="to-label" id="to-label">to</label>
     </ion-col>
     <ion-col size="22">
-      <datetime-input class="input-styling-background"
-                      (onDataPicked)="changeDate($event)"
-                      [control]="'end-date'"
-                      [leftAlign]="true"
-                      [disabled]="false"
-                      [displayType]="displayType.Date"
-                      [initialValue]="today"
-                      [inputId]="'datetime-input-end'"
-                      [maxValue]="today"
-                      [minValue]="startDate ? startDate : minStartDate"
-                      [pickerId]="'date-picker-end'"
-                      [showClearButton]="false"
+      <datetime-input
+        [ariaLabel]="'End date'"
+        class="input-styling-background"
+        (onDataPicked)="changeDate($event)"
+        [control]="'end-date'"
+        [leftAlign]="true"
+        [disabled]="false"
+        [displayType]="displayType.Date"
+        [initialValue]="today"
+        [inputId]="'datetime-input-end'"
+        [maxValue]="today"
+        [minValue]="startDate ? startDate : minStartDate"
+        [pickerId]="'date-picker-end'"
+        [showClearButton]="false"
       ></datetime-input>
     </ion-col>
   </ion-row>
@@ -111,7 +114,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <hr class="advanced-search-divider"/>
+            <hr class="advanced-search-divider" />
           </ion-col>
         </ion-row>
         <ion-row>
@@ -134,12 +137,12 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <hr class="advanced-search-divider"/>
+            <hr class="advanced-search-divider" />
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col class="ion-align-self-center" size="26">
-            <label>Pass certificate</label>
+            <label id="advanced-search-pass-certificate-label">Pass certificate</label>
           </ion-col>
           <ion-col size="55">
             <ion-input
@@ -159,7 +162,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <hr class="advanced-search-divider"/>
+            <hr class="advanced-search-divider" />
           </ion-col>
         </ion-row>
         <ion-row>
