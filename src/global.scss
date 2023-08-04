@@ -62,7 +62,7 @@
   color: black;
 }
 
- input, textarea {
+input, textarea {
   caret-color: var(--primary) !important;
 }
 
@@ -94,7 +94,18 @@
 
 .increase-height {
   height: 50px !important;
+
   &.ng-invalid {
     height: 50px !important;
   }
+}
+
+.screen-reader-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 0;
+  width: 0;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
 }

@@ -48,6 +48,9 @@ export class DateTimeInputComponent {
   @Input()
   emitButtonEvents?: boolean = false;
 
+  @Input()
+  ariaLabel: string = 'Date time';
+
   displayValue: string;
   outputValue: string;
 

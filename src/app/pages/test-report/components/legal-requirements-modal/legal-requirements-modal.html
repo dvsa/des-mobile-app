@@ -1,11 +1,12 @@
 <ion-card class="modal-alert">
-  <modal-alert-title id="legal-requirements-title">You've not completed all of<br />the legal requirements</modal-alert-title>
+  <modal-alert-title id="legal-requirements-title">You've not completed all of<br />the legal requirements
+  </modal-alert-title>
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" size="80">
       <div class="modal-alert-message mes-data">
         <div class="mes-data">To end this test, complete:</div>
         <ul id="legal-requirements-list" *ngIf="legalRequirements.length > 0" class="ion-padding-top">
-          <li *ngFor="let requirement of legalRequirements">{{requirement}}</li>
+          <li *ngFor="let requirement of legalRequirements;">{{requirement}}</li>
         </ul>
       </div>
     </ion-col>
@@ -22,10 +23,14 @@
   </ion-row>
   <ion-row>
     <ion-col class="column-border-top ion-no-padding" [ngClass]="{'column-border-right' : isDelegated}">
-      <ion-button id="legal-requirements-terminate-button" fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
+      <ion-button id="legal-requirements-terminate-button" fill="clear" class="terminate-button"
+                  (click)="onTerminate()">Terminate test
+      </ion-button>
     </ion-col>
     <ion-col class="column-border-top ion-no-padding" *ngIf="isDelegated">
-      <ion-button id="legal-requirements-return-button" fill="clear" class="return-button" (click)="onCancel()">Return to test</ion-button>
+      <ion-button id="legal-requirements-return-button" fill="clear" class="return-button" (click)="onCancel()">Return
+        to test
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-card>

@@ -41,7 +41,6 @@ export class Adi3DebriefCard implements OnInit {
 
   studentValueConst = studentValues;
   lessonThemeValueStr: string = '';
-  isTerminated: boolean = false;
 
   ngOnInit(): void {
     this.lessonThemeValueStr = this.lessonTheme.lessonThemes
