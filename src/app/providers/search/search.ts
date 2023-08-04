@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { timeout } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { stripNullishValues } from '@shared/helpers/formatters';
 import { UrlProvider } from '../url/url';
 import { AdvancedSearchParams } from './search.models';
 import { AppConfigProvider } from '../app-config/app-config';
@@ -14,7 +15,8 @@ export class SearchProvider {
     private http: HttpClient,
     private urlProvider: UrlProvider,
     private appConfig: AppConfigProvider,
-  ) { }
+  ) {
+  }
 
   driverNumberSearch(driverNumber: string): Observable<SearchResultTestSchema[]> {
     return this.http.get<SearchResultTestSchema[]>(
@@ -39,21 +41,10 @@ export class SearchProvider {
   }
 
   advancedSearch(advancedSearchParams: AdvancedSearchParams): Observable<SearchResultTestSchema[]> {
+    const params = stripNullishValues(advancedSearchParams);
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl(),
-      {
-        params: {
-          startDate: advancedSearchParams.startDate,
-          endDate: advancedSearchParams.endDate,
-          staffNumber: advancedSearchParams.staffNumber,
-          dtcCode: advancedSearchParams.costCode,
-          excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
-          category: encodeURIComponent(advancedSearchParams.category),
-          activityCode: advancedSearchParams.activityCode,
-          rekey: advancedSearchParams.rekey,
-          passCertificateNumber: encodeURIComponent(advancedSearchParams.passCertificateNumber),
-        },
-      },
+      { params },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
