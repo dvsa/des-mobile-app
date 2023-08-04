@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { MockComponent } from 'ng-mocks';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 
 describe('Adi3DebriefCard', () => {
@@ -20,6 +22,9 @@ describe('Adi3DebriefCard', () => {
   }));
 
   describe('displayGradeDescription', () => {
+    beforeEach(() => {
+      component.testCategory = TestCategory.ADI3;
+    });
     it('should "Sufficient competence demonstrated to permit '
       + 'entry to the Register of Approved Driving Instructors" if grade is "B"', () => {
       component.grade = 'B';
