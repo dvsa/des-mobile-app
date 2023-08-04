@@ -7,6 +7,8 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
+        fitMarker: true,
+        fitCaseNumber: 'TestNumber',
         applicationId: 1234532,
         bookingSequence: 7,
         checkDigit: 7,
