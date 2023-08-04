@@ -2,8 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
-import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  combineLatest, from, merge, Observable, Subscription,
+} from 'rxjs';
+import {
+  filter, map, switchMap, tap, withLatestFrom,
+} from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
