@@ -80,6 +80,7 @@
 
   <adi3-debrief-card
     *ngIf="showADI3DebriefCard()"
+    [testCategory]="testCategory"
     [totalScore]="pageState.totalScore$ | async"
     [lessonTheme]="pageState.lessonTheme$ | async"
     [lessonPlanning]="pageState.lessonPlanning$ | async"

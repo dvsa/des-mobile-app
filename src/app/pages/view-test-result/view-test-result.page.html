@@ -98,6 +98,7 @@
 
     <adi3-debrief-card
       *ngIf="(isCategoryADI3() || isCategorySC()) && !didTestTerminate()"
+      [testCategory]="testCategory"
       [totalScore]="totalScore"
       [lessonTheme]="testResult.testData['lessonAndTheme']"
       [lessonPlanning]="testResult.testData['lessonPlanning']"
