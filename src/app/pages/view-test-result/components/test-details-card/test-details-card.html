@@ -1,67 +1,67 @@
 <ion-card>
-    <ion-card-header>
-        <h4 id="view-test-result-test-details-title">Test details</h4>
-    </ion-card-header>
-    <ion-card-content>
-        <ion-grid>
-            <ion-row>
-                <inappropriate-use-banner></inappropriate-use-banner>
-            </ion-row>
-            <data-row [label]="'Date'" [value]="data.date"></data-row>
+  <ion-card-header>
+    <h4 id="view-test-result-test-details-title">Test details</h4>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <inappropriate-use-banner></inappropriate-use-banner>
+      </ion-row>
+      <data-row [label]="'Date'" [value]="data.date"></data-row>
 
-            <data-row [label]="'Time'" [value]="data.time"></data-row>
+      <data-row [label]="'Time'" [value]="data.time"></data-row>
 
-            <data-row [label]="'Application reference'" [value]="data.applicationReference"></data-row>
+      <data-row [label]="'Application reference'" [value]="data.applicationReference"></data-row>
 
-            <data-row [label]="'Test category'" [value]="data.category"></data-row>
+      <data-row [label]="'Test category'" [value]="data.category"></data-row>
 
-            <data-row *ngIf="showFullCatHeld()"
-                      [label]="'Full cat ' + data.category?.split('+')[0] + ' held?'"
-                      [value]="data?.fullLicenceHeld ? 'Yes' : 'No'">
-            </data-row>
+      <data-row *ngIf="showFullCatHeld()"
+                [label]="'Full cat ' + data.category?.split('+')[0] + ' held?'"
+                [value]="data?.fullLicenceHeld ? 'Yes' : 'No'">
+      </data-row>
 
-            <data-row
-                    [label]="'Slot type'"
-                    [value]="data.slotType"
-                    [shouldShowIndicator]="data.slotType !== 'Standard Test'">
-            </data-row>
+      <data-row
+        [label]="'Slot type'"
+        [value]="data.slotType"
+        [shouldShowIndicator]="data.slotType !== 'Standard Test'">
+      </data-row>
 
-            <data-row-custom [label]="'Special requirements'"
-                             [shouldShowIndicator]="specialNeedsIsPopulated(data.specialNeeds)">
-                <div *ngFor="let specialNeed of data.specialNeeds" class="mes-data">
-                    - {{specialNeed}}
-                </div>
-            </data-row-custom>
+      <data-row-custom [label]="'Additional requirements'"
+                       [shouldShowIndicator]="specialNeedsIsPopulated(data.specialNeeds)">
+        <div *ngFor="let specialNeed of data.specialNeeds" class="mes-data">
+          - {{specialNeed}}
+        </div>
+      </data-row-custom>
 
-            <data-row
-                    *ngIf="data.entitlementCheck !== undefined"
-                    [label]="'Entitlement check'"
-                    [value]="data.entitlementCheck ? 'Entitlement check is required.' : 'No'"
-                    [shouldShowIndicator]="data.entitlementCheck">
-            </data-row>
+      <data-row
+        *ngIf="data.entitlementCheck !== undefined"
+        [label]="'Entitlement check'"
+        [value]="data.entitlementCheck ? 'Entitlement check is required.' : 'No'"
+        [shouldShowIndicator]="data.entitlementCheck">
+      </data-row>
 
-            <data-row-custom
-                    [shouldHaveSeperator]="showAttemptNumber()||showPrn()"
-                    [label]="'Additional information'">
-                <div class="mes-data" *ngIf="data.previousCancellations.length === 0">- None</div>
-                <div class="mes-data" *ngIf="data.previousCancellations.length > 0">- Previous cancellations</div>
-                <div *ngFor="let previousCancellation of data.previousCancellations" class="mes-data">
-                    - {{previousCancellation}}
-                </div>
-            </data-row-custom>
+      <data-row-custom
+        [shouldHaveSeperator]="showAttemptNumber()||showPrn()"
+        [label]="'Additional information'">
+        <div class="mes-data" *ngIf="data.previousCancellations.length === 0">- None</div>
+        <div class="mes-data" *ngIf="data.previousCancellations.length > 0">- Previous cancellations</div>
+        <div *ngFor="let previousCancellation of data.previousCancellations" class="mes-data">
+          - {{previousCancellation}}
+        </div>
+      </data-row-custom>
 
-            <data-row
-                    *ngIf="showPrn()"
-                    [label]="'Personal reference number'"
-                    [value]="candidateDetails.prn">
-            </data-row>
+      <data-row
+        *ngIf="showPrn()"
+        [label]="'Personal reference number'"
+        [value]="candidateDetails.prn">
+      </data-row>
 
-            <data-row
-                    *ngIf="showAttemptNumber()"
-                    [label]="'Attempt number'"
-                    [shouldHaveSeperator]="false"
-                    [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber+1 : 1">
-            </data-row>
-        </ion-grid>
-    </ion-card-content>
+      <data-row
+        *ngIf="showAttemptNumber()"
+        [label]="'Attempt number'"
+        [shouldHaveSeperator]="false"
+        [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber+1 : 1">
+      </data-row>
+    </ion-grid>
+  </ion-card-content>
 </ion-card>
