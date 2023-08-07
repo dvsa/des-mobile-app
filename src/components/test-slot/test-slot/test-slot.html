@@ -24,6 +24,21 @@
         </ion-row>
 
         <ion-row>
+          <ion-col size="10"></ion-col>
+          <ion-col class="align-center" size="14">
+            <span>Time:</span>
+          </ion-col>
+          <ion-col size="4"></ion-col>
+          <ion-col size="43">
+            <span>Candidate name:</span>
+          </ion-col>
+          <ion-col size="6"></ion-col>
+          <ion-col class="align-center" size="15">
+            <span>Category:</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
           <ion-col size="2"></ion-col>
           <ion-col *ngIf="!isUnSubmittedTestSlotView" class="exclamation-col align-center" size="7">
             <indicators
@@ -69,7 +84,7 @@
             <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking"
                  class="team-journal-driver-number"
                  id="driver-number-{{slot.booking?.candidate?.driverNumber}}">
-              {{slot.booking?.candidate?.driverNumber}}
+              Driver no: {{slot.booking?.candidate?.driverNumber}}
             </div>
             <ion-text class="des-header-style-3" *ngIf="delegatedTest && slot.booking.candidate.driverNumber" id="del-ex-driver-number">
               {{slot.booking.candidate.driverNumber}}

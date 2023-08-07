@@ -1,6 +1,14 @@
 :host {
-  .activity-code {
-    padding-left: 80px;
+
+  .outcome-row {
+    display: flex;
+    justify-content: center;
+    min-height: 30px;
+    padding-top: 10px;
+  }
+
+  .test-outcome-margin {
+    margin-top: 32px;
   }
 
   .write-up-label {
