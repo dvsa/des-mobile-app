@@ -123,6 +123,7 @@ export const getActivityCode = (test: TestResultCommonSchema): ActivityCodeModel
   return activityCodeModelList.find((code) => code.activityCode === test.activityCode);
 };
 
+//  -------------- @TODO: Remove the next 3 in favour of createSelector methods --------------- //
 export const isTestReportPracticeTest = (
   tests: TestsModel,
 ): boolean => tests.currentTest.slotId === testReportPracticeSlotId;
@@ -134,6 +135,22 @@ export const isEndToEndPracticeTest = (
 export const isPracticeMode = (
   tests: TestsModel,
 ): boolean => isTestReportPracticeTest(tests) || isEndToEndPracticeTest(tests);
+//  -------------- ------------------------------------------------------------------------ //
+
+export const selectIsTestReportPracticeTest = createSelector(
+  selectTests,
+  (tests) => tests.currentTest?.slotId === testReportPracticeSlotId,
+);
+
+export const selectIsEndToEndPracticeTest = createSelector(
+  selectTests,
+  (tests) => startsWith(tests.currentTest.slotId, end2endPracticeSlotId),
+);
+
+export const selectIsPracticeMode = createSelector(
+  selectTests,
+  (tests) => isTestReportPracticeTest(tests) || isEndToEndPracticeTest(tests),
+);
 
 export const isDelegatedTest = (tests: TestsModel): boolean => {
   const test = getCurrentTest(tests);

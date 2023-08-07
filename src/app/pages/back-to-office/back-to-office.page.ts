@@ -71,7 +71,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    super.ngOnInit();
     this.pageState = {
       isRekey$: this.store$.pipe(
         select(getTests),
@@ -113,7 +112,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   ionViewDidLeave() {
-    super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

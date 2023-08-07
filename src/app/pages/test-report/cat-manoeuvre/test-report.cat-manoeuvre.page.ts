@@ -127,7 +127,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     super.cancelSubscription();
 
     if (this.manoeuvreSubscription) {

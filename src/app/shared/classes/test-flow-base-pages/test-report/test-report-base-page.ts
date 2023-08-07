@@ -1,7 +1,5 @@
 import { select, Store } from '@ngrx/store';
-import {
-  merge, Observable, Subject, Subscription,
-} from 'rxjs';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -132,7 +130,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   }
 
   onInitialisation(): void {
-    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),

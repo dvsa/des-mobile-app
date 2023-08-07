@@ -1,13 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
-import {
-  combineLatest, from, merge, Observable, Subscription,
-} from 'rxjs';
-import {
-  filter, map, switchMap, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -77,27 +73,26 @@ export class DashboardPage extends BasePageComponent {
   subscription: Subscription;
   private merged$: Observable<void | string>;
 
+  protected alertController = inject(AlertController);
+  private appConfigProvider = inject(AppConfigProvider);
+  private store$ = inject<Store<StoreModel>>(Store);
+  private dateTimeProvider = inject(DateTimeProvider);
+  private networkStateProvider = inject(NetworkStateProvider);
+  private insomnia = inject(Insomnia);
+  public deviceProvider = inject(DeviceProvider);
+  private completedTestPersistenceProvider = inject(CompletedTestPersistenceProvider);
+  private slotProvider = inject(SlotProvider);
+  private modalController = inject(ModalController);
+
   constructor(
-    protected alertController: AlertController,
-    private appConfigProvider: AppConfigProvider,
-    private store$: Store<StoreModel>,
-    private dateTimeProvider: DateTimeProvider,
-    private networkStateProvider: NetworkStateProvider,
-    private insomnia: Insomnia,
-    public deviceProvider: DeviceProvider,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
-    private slotProvider: SlotProvider,
-    private modalController: ModalController,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
     router: Router,
   ) {
     super(platform, authenticationProvider, router);
     this.todaysDate = this.dateTimeProvider.now();
-    this.todaysDateFormatted = this.dateTimeProvider.now()
-      .format('dddd Do MMMM YYYY');
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
-      .format('YYYY-MM-DD')));
+    this.todaysDateFormatted = this.todaysDate.format('dddd Do MMMM YYYY');
+    this.store$.dispatch(journalActions.SetSelectedDate(this.todaysDate.format('YYYY-MM-DD')));
   }
 
   ngOnInit() {

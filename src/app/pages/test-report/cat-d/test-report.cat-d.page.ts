@@ -60,7 +60,6 @@ export class TestReportCatDPage extends TestReportBasePageComponent implements O
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     super.cancelSubscription();
   }
 

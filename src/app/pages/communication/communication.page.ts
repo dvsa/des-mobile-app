@@ -111,7 +111,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -215,7 +214,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

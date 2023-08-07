@@ -59,20 +59,7 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     this.setupSubscription();
   }
 
-  async ionViewWillEnter(): Promise<void> {
-    await super.ionViewWillEnter();
-  }
-
-  ionViewDidEnter(): void {
-    super.ionViewDidEnter();
-  }
-
-  async ionViewWillLeave(): Promise<void> {
-    await super.ionViewWillLeave();
-  }
-
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     super.cancelSubscription();
   }
 }

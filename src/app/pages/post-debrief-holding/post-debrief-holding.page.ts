@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 
 @Component({
@@ -13,7 +14,7 @@ import { StoreModel } from '@shared/models/store.model';
   templateUrl: './post-debrief-holding.page.html',
   styleUrls: ['./post-debrief-holding.page.scss'],
 })
-export class PostDebriefHoldingPage extends PracticeableBasePageComponent implements OnInit {
+export class PostDebriefHoldingPage extends PracticeableBasePageComponent {
 
   constructor(
     platform: Platform,
@@ -23,10 +24,6 @@ export class PostDebriefHoldingPage extends PracticeableBasePageComponent implem
     public routeByCat: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$, false);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
   }
 
   async continueButton(): Promise<void> {

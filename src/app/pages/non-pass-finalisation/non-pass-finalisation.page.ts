@@ -146,8 +146,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
-
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),

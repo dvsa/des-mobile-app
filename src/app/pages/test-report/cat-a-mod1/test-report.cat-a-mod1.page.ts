@@ -107,7 +107,6 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     this.subscription?.unsubscribe();
   }
 

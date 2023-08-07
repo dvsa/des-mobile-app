@@ -69,7 +69,6 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     super.cancelSubscription();
   }
 

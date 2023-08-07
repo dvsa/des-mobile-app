@@ -155,7 +155,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     super.cancelSubscription();
 
     if (this.localSubscription) {
@@ -172,10 +171,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   validateLessonTheme({
-    lessonThemes,
-    other,
-    studentLevel,
-  }: LessonAndTheme): { valid: boolean; score: number; } {
+                        lessonThemes,
+                        other,
+                        studentLevel,
+                      }: LessonAndTheme): { valid: boolean; score: number; } {
     const result: { valid: boolean; score: number } = {
       valid: false,
       score: 0,

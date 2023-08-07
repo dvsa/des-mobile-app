@@ -1,8 +1,6 @@
 import { select, Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { StoreModel } from '@shared/models/store.model';
@@ -89,9 +87,7 @@ import {
 } from '@store/tests/test-summary/test-summary.selector';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import {
-  getEco, getEcoFaultText, getETA, getETAFaultText,
-} from '@store/tests/test-data/common/test-data.selector';
+import { getEco, getEcoFaultText, getETA, getETAFaultText } from '@store/tests/test-data/common/test-data.selector';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -241,7 +237,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   onInitialisation(): void {
-    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),

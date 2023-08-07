@@ -113,8 +113,6 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
-
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -270,8 +268,6 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

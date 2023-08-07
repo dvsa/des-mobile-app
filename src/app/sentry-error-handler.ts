@@ -1,6 +1,4 @@
-import {
-  ErrorHandler, Inject, Injectable, Injector,
-} from '@angular/core';
+import { ErrorHandler, inject, Injectable } from '@angular/core';
 import * as Sentry from '@sentry/capacitor';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -31,8 +29,13 @@ export const SENTRY_ERRORS: SentryError[] = [
 
 @Injectable()
 export class SentryIonicErrorHandler extends ErrorHandler {
-  // Cyclic DI dependency error if injecting services via the constructor
-  constructor(@Inject(Injector) private injector: Injector) {
+  public authenticationProvider = inject(AuthenticationProvider);
+  public appConfigProvider = inject(AppConfigProvider);
+  public appInfoProvider = inject(AppInfoProvider);
+  public logHelper = inject(LogHelper);
+  public store$ = inject<Store<StoreModel>>(Store);
+
+  constructor() {
     super();
   }
 
@@ -71,25 +74,5 @@ export class SentryIonicErrorHandler extends ErrorHandler {
         ),
       }));
     }
-  }
-
-  get authenticationProvider(): AuthenticationProvider {
-    return this.injector.get<AuthenticationProvider>(AuthenticationProvider);
-  }
-
-  get appConfigProvider(): AppConfigProvider {
-    return this.injector.get<AppConfigProvider>(AppConfigProvider);
-  }
-
-  get appInfoProvider(): AppInfoProvider {
-    return this.injector.get<AppInfoProvider>(AppInfoProvider);
-  }
-
-  get logHelper(): LogHelper {
-    return this.injector.get<LogHelper>(LogHelper);
-  }
-
-  get store$(): Store<StoreModel> {
-    return this.injector.get<Store<StoreModel>>(Store);
   }
 }

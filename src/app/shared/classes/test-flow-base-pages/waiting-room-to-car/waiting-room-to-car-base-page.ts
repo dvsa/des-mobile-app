@@ -66,7 +66,8 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import {
-  OrditTrainedChanged, TrainerRegistrationNumberChanged,
+  OrditTrainedChanged,
+  TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
 import {
@@ -121,7 +122,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   onInitialisation(): void {
-    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -185,7 +185,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -282,7 +281,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   generateDelegatedQuestionResults(number: number, outcome: CompetencyOutcome): QuestionResult[] {
-    return Array(number).fill(null).map(() => ({ outcome, code: 'DEL' }));
+    return Array(number)
+      .fill(null)
+      .map(() => ({
+        outcome,
+        code: 'DEL',
+      }));
   }
 
   closeVehicleChecksModal(): void {
