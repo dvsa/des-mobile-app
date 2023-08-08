@@ -2,17 +2,14 @@ import { Platform } from '@ionic/angular';
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
-import { Inject } from '@angular/core';
+import { inject, Inject } from '@angular/core';
 
 export abstract class BasePageComponent {
+  protected platform = inject(Platform);
+  protected authenticationProvider = inject(AuthenticationProvider);
+  protected router = inject(Router);
 
-  protected constructor(
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
-    @Inject(true) public loginRequired: boolean = true,
-  ) {
-
+  protected constructor(@Inject(true) public loginRequired: boolean = true) {
   }
 
   /**

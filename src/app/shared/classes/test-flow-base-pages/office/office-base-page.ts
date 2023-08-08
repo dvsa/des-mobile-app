@@ -1,9 +1,7 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
-import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 
-import { StoreModel } from '@shared/models/store.model';
 import {
   getActivityCode,
   getCurrentTest,
@@ -14,7 +12,6 @@ import {
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -212,10 +209,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   finishTestModal: HTMLIonModalElement;
 
   protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public navController: NavController,
     public toastController: ToastController,
     public modalController: ModalController,
@@ -225,7 +218,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     public faultCountProvider: FaultCountProvider,
     @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+    super(loginRequired);
     this.form = new UntypedFormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();

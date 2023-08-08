@@ -55,7 +55,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     public insomnia: Insomnia,
     protected router: Router,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
   }
 
   ngOnInit(): void {

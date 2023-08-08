@@ -4,11 +4,7 @@ import {
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
   PassFinalisationReportActivityCode,
@@ -73,14 +69,10 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   scEndTime: string;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

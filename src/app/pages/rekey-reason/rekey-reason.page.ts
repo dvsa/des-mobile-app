@@ -1,18 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController,
-  Platform,
-} from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Observable, merge, Subscription } from 'rxjs';
-import { IpadIssue, Transfer, Other } from '@dvsa/mes-test-schema/categories/common';
+import { merge, Observable, Subscription } from 'rxjs';
+import { IpadIssue, Other, Transfer } from '@dvsa/mes-test-schema/categories/common';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { UntypedFormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import {
-  map,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { isEmpty } from 'lodash';
 import { LoadingOptions } from '@ionic/core';
 
@@ -27,7 +21,8 @@ import {
   getReasonForRekey,
   getRekeyIpadIssue,
   getRekeyOther,
-  getRekeyTransfer, getUploadStatus,
+  getRekeyTransfer,
+  getUploadStatus,
 } from '@store/tests/rekey-reason/rekey-reason.selector';
 import { getExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.reducer';
 import { getExaminerKeyed } from '@store/tests/examiner-keyed/examiner-keyed.reducer';
@@ -61,10 +56,10 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
 import { RekeyReasonUploadModel } from './rekey-reason.model';
 import {
-  ValidateTransferRekey,
   RekeyReasonViewDidEnter,
-  ResetStaffNumberValidationError,
   RekeyUploadTest,
+  ResetStaffNumberValidationError,
+  ValidateTransferRekey,
 } from './rekey-reason.actions';
 
 interface RekeyReasonPageState {
@@ -84,7 +79,10 @@ interface RekeyReasonPageState {
 })
 export class RekeyReasonPage extends BasePageComponent implements OnInit {
 
-  private static loadingOpts: LoadingOptions = { spinner: 'circles', message: 'Uploading...' };
+  private static loadingOpts: LoadingOptions = {
+    spinner: 'circles',
+    message: 'Uploading...',
+  };
   formGroup: UntypedFormGroup;
   pageState: RekeyReasonPageState;
   subscription: Subscription = Subscription.EMPTY;
@@ -103,7 +101,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     private modalController: ModalController,
     private loaderService: LoadingProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
     this.formGroup = new UntypedFormGroup({});
   }
 
@@ -156,7 +154,11 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     };
 
     const {
-      uploadStatus$, examinerConducted$, examinerKeyed$, transfer$, fromRekeySearch$,
+      uploadStatus$,
+      examinerConducted$,
+      examinerKeyed$,
+      transfer$,
+      fromRekeySearch$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -240,18 +242,24 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   markSpecificControlsAsDirty(): void {
     // based upon what is selected, only mark controls dirty in the specific component
     if (this.formGroup.get('ipadIssueSelected').value) {
-      this.formGroup.get('ipadIssueTechnicalFault').markAsDirty();
-      this.formGroup.get('ipadIssueLost').markAsDirty();
-      this.formGroup.get('ipadIssueStolen').markAsDirty();
-      this.formGroup.get('ipadIssueBroken').markAsDirty();
+      this.formGroup.get('ipadIssueTechnicalFault')
+        .markAsDirty();
+      this.formGroup.get('ipadIssueLost')
+        .markAsDirty();
+      this.formGroup.get('ipadIssueStolen')
+        .markAsDirty();
+      this.formGroup.get('ipadIssueBroken')
+        .markAsDirty();
     }
 
     if (this.formGroup.get('transferSelected').value) {
-      this.formGroup.get('staffNumber').markAsDirty();
+      this.formGroup.get('staffNumber')
+        .markAsDirty();
     }
 
     if (this.formGroup.get('otherSelected').value) {
-      this.formGroup.get('reason').markAsDirty();
+      this.formGroup.get('reason')
+        .markAsDirty();
     }
   }
 

@@ -1,8 +1,5 @@
-import { Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { select } from '@ngrx/store';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { DebriefViewDidEnter, EndDebrief } from '@pages/debrief/debrief.actions';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -30,7 +27,6 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
 import { TestOutcome } from '@shared/models/test-outcome';
-import { Router } from '@angular/router';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
@@ -128,10 +124,6 @@ export class DebriefPage extends PracticeableBasePageComponent {
   public adviceGivenPlanning: boolean = false;
 
   constructor(
-    store$: Store<StoreModel>,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     public insomnia: Insomnia,
     private translate: TranslateService,
     private faultCountProvider: FaultCountProvider,
@@ -139,7 +131,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super();
   }
 
   ngOnInit(): void {

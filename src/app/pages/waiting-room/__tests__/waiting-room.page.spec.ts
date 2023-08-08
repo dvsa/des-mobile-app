@@ -1,41 +1,34 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import { ModalController, Platform } from '@ionic/angular';
-import { PlatformMock } from '@mocks/index.mock';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
+import { UntypedFormControl, Validators } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+
+import { ModalController } from '@ionic/angular';
+import { provideMockStore } from '@ngrx/store/testing';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { MockComponent } from 'ng-mocks';
-import { UntypedFormControl, Validators } from '@angular/forms';
-import { JournalData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { AppModule } from '@app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { StoreModel } from '@shared/models/store.model';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import {
   ToggleInsuranceDeclaration,
   ToggleResidencyDeclaration,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import {
-  initialState as preTestDeclarationInitialState,
-} from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import {
   DeviceAuthenticationProviderMock,
 } from '@providers/device-authentication/__mocks__/device-authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { MOCK_STORE_INITIAL_STATE } from '@mocks/state/initial-state';
 import * as communicationPreferenceActions
   from '@store/tests/communication-preferences/communication-preferences.actions';
+import { ModalControllerMock, RouterMock } from '@mocks/index.mock';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -44,16 +37,13 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { AppComponent } from '@app/app.component';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
-import { TestsModel } from '@store/tests/tests.model';
-import { provideMockStore } from '@ngrx/store/testing';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
@@ -69,71 +59,8 @@ describe('WaitingRoomPage', () => {
   let deviceProvider: DeviceProvider;
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let insomnia: Insomnia;
-  let translate: TranslateService;
+  let router: Router;
   let modalController: ModalController;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
-
-  const initialState = {
-    appInfo: { employeeId: '123456' },
-    tests: {
-      currentTest: {
-        slotId: '123',
-      },
-      testStatus: {},
-      startedTests: {
-        123: {
-          version: '1',
-          rekey: false,
-          activityCode: '1',
-          passCompletion: {
-            passCertificateNumber: 'test',
-            code78Present: true,
-          },
-          category: TestCategory.C,
-          changeMarker: null,
-          examinerBooked: null,
-          examinerConducted: null,
-          examinerKeyed: null,
-          journalData: {
-            examiner: null,
-            testCentre: null,
-            testSlotAttributes: null,
-            applicationReference: null,
-            candidate: {
-              candidateName: {
-                firstName: 'Firstname',
-                lastName: 'Lastname',
-              },
-            },
-          },
-          testData: {
-            vehicleChecks: {
-              fullLicenceHeld: false,
-              showMeQuestions: null,
-              tellMeQuestions: null,
-            },
-            safetyQuestions: {
-              questions: [
-                {
-                  outcome: 'DF',
-                  description: 'Fire Extinguisher',
-                },
-                {
-                  outcome: 'DF',
-                  description: 'Emergency exit',
-                },
-                {
-                  outcome: 'P',
-                  description: 'Fuel cutoff',
-                },
-              ],
-              faultComments: '',
-            },
-          },
-        } as TestResultCommonSchema,
-      },
-    } as TestsModel,
-  } as StoreModel;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -155,55 +82,12 @@ describe('WaitingRoomPage', () => {
         RouterTestingModule.withRoutes([]),
         AppModule,
         TranslateModule,
-        StoreModule.forFeature('tests', () => ({
-          currentTest: {
-            slotId: '123',
-          },
-          testStatus: {},
-          startedTests: {
-            123: {
-              category: TestCategory.C,
-              preTestDeclarations: preTestDeclarationInitialState,
-              postTestDeclarations: {
-                healthDeclarationAccepted: false,
-                passCertificateNumberReceived: false,
-                postTestSignature: '',
-              },
-              journalData: {
-                candidate: candidateMock,
-                testSlotAttributes: {
-                  welshTest: false,
-                },
-              },
-              communicationPreferences: {
-                updatedEmaill: 'test@mail.com',
-                communicationMethod: 'Email',
-                conductedLanguage: 'Cymraeg',
-              },
-            },
-          },
-        })),
+        StoreModule.forFeature('tests', () => ({})),
       ],
       providers: [
         {
-          provide: Router,
-          useValue: routerSpy,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
-        },
-        {
-          provide: DateTimeProvider,
-          useClass: DateTimeProviderMock,
         },
         {
           provide: DeviceProvider,
@@ -214,27 +98,56 @@ describe('WaitingRoomPage', () => {
           useClass: InsomniaMock,
         },
         {
-          provide: AppComponent,
-          useClass: MockAppComponent,
+          provide: ModalController,
+          useClass: ModalControllerMock,
         },
-        provideMockStore({ initialState }),
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
+        },
+        provideMockStore({ initialState: MOCK_STORE_INITIAL_STATE }),
       ],
     });
 
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
+
     deviceProvider = TestBed.inject(DeviceProvider);
     insomnia = TestBed.inject(Insomnia);
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
-    translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
     store$ = TestBed.inject(Store);
+    router = TestBed.inject(Router);
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
-    component.subscription = new Subscription();
   }));
 
   describe('Class', () => {
+    describe('ngOnInit', () => {
+      beforeEach(() => {
+        spyOn(component, 'showCandidateDataMissingError');
+      });
+      it('should not call showCandidateDataMissingError when isJournalDataInvalid returns false', async () => {
+        spyOn(component, 'isJournalDataInvalid')
+          .and
+          .returnValue(false);
+        await component.ngOnInit();
+        expect(component.showCandidateDataMissingError)
+          .not
+          .toHaveBeenCalled();
+      });
+      it('should call showCandidateDataMissingError when isJournalDataInvalid returns true', async () => {
+        spyOn(component, 'isJournalDataInvalid')
+          .and
+          .returnValue(true);
+        await component.ngOnInit();
+        expect(component.showCandidateDataMissingError)
+          .toHaveBeenCalled();
+      });
+    });
     describe('residencyDeclarationChanged', () => {
       it('should emit a residency declaration toggle action when changed', () => {
         component.residencyDeclarationChanged();
@@ -243,7 +156,6 @@ describe('WaitingRoomPage', () => {
           .toHaveBeenCalledWith(ToggleResidencyDeclaration());
       });
     });
-
     describe('insuranceDeclarationChanged', () => {
       it('should emit an insurance declaration toggle action when changed', () => {
         component.insuranceDeclarationChanged();
@@ -252,7 +164,6 @@ describe('WaitingRoomPage', () => {
           .toHaveBeenCalledWith(ToggleInsuranceDeclaration());
       });
     });
-
     describe('manoeuvresPassCertNumberChanged', () => {
       it('should emit a manoeuvre pass cert number action with payload', () => {
         component.manoeuvresPassCertNumberChanged('123');
@@ -260,7 +171,6 @@ describe('WaitingRoomPage', () => {
           .toHaveBeenCalledWith(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
       });
     });
-
     describe('dispatchCandidateChoseToProceedInWelsh', () => {
       it('it should dispatch CandidateChoseToProceedWithTestInWelsh action', () => {
         component.dispatchCandidateChoseToProceedInWelsh();
@@ -270,7 +180,6 @@ describe('WaitingRoomPage', () => {
           ));
       });
     });
-
     describe('dispatchCandidateChoseToProceedInEnglish', () => {
       it('it should dispatch CandidateChoseToProceedWithTestInEnglish action', () => {
         component.dispatchCandidateChoseToProceedInEnglish();
@@ -280,7 +189,6 @@ describe('WaitingRoomPage', () => {
           ));
       });
     });
-
     describe('showCandidateDataMissingError', () => {
       it('should create an error modal', async () => {
         spyOn(modalController, 'create')
@@ -296,7 +204,6 @@ describe('WaitingRoomPage', () => {
           .toHaveBeenCalled();
       });
     });
-
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
         spyOn(ScreenOrientation, 'lock')
@@ -313,7 +220,6 @@ describe('WaitingRoomPage', () => {
           .not
           .toHaveBeenCalled();
       });
-
       it('should enable single app mode if on ios and not in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos')
           .and
@@ -323,7 +229,6 @@ describe('WaitingRoomPage', () => {
         expect(deviceProvider.enableSingleAppMode)
           .toHaveBeenCalled();
       });
-
       it('should keep the device awake', async () => {
         spyOn(BasePageComponent.prototype, 'isIos')
           .and
@@ -340,72 +245,44 @@ describe('WaitingRoomPage', () => {
           .toHaveBeenCalledWith(GetCandidateLicenceData());
       });
     });
-
-    describe('ionViewWillEnter', () => {
-      it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<string | boolean>();
-        component.ionViewWillEnter();
-
-        expect(component.subscription)
-          .toBeDefined();
-      });
-    });
-
     describe('canDeActivate', () => {
-      it('should call through to triggerLockScreen', async () => {
-        await component.canDeActivate();
-        expect(deviceAuthenticationProvider.triggerLockScreen)
-          .toHaveBeenCalled();
+      it('should return true if triggerLockScreen does not throw', async () => {
+        spyOn(deviceAuthenticationProvider, 'triggerLockScreen')
+          .and
+          .returnValue(Promise.resolve());
+        const resp = await component.canDeActivate();
+        expect(resp)
+          .toEqual(true);
+      });
+      it('should return false if triggerLockScreen does throw', async () => {
+        spyOn(deviceAuthenticationProvider, 'triggerLockScreen')
+          .and
+          .rejectWith('err');
+        const resp = await component.canDeActivate();
+        expect(resp)
+          .toEqual(false);
       });
     });
-
     describe('shouldNavigateToCandidateLicenceDetails', () => {
       it('should return true if rekey is false and test category is not ADI3 or SC', () => {
-        component.isRekey = false;
-        component.testCategory = TestCategory.B;
+        component.isRekey = signal(false);
+        component.testCategory = signal(TestCategory.B);
         expect(component['shouldNavigateToCandidateLicenceDetails']())
           .toEqual(true);
       });
       it('should return false if rekey is true and test category is not ADI3 or SC', () => {
-        component.isRekey = true;
-        component.testCategory = TestCategory.B;
+        component.isRekey = signal(true);
+        component.testCategory = signal(TestCategory.B);
         expect(component['shouldNavigateToCandidateLicenceDetails']())
           .toEqual(false);
       });
       [TestCategory.ADI3, TestCategory.SC].forEach((val) => {
         it(`should return false if rekey is false and test category is ${val}`, () => {
-          component.isRekey = false;
-          component.testCategory = val;
+          component.isRekey = signal(false);
+          component.testCategory = signal(val);
           expect(component['shouldNavigateToCandidateLicenceDetails']())
             .toEqual(false);
         });
-      });
-
-    });
-
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe)
-          .toHaveBeenCalled();
-      });
-    });
-
-    describe('ngOnInit', () => {
-      it('should resolve state variables', () => {
-        component.ngOnInit();
-
-        component.pageState.showManoeuvresPassCertNumber$
-          .subscribe((res) => expect(res)
-            .toEqual(true));
-        component.pageState.showCbtNumber$
-          .subscribe((res) => expect(res)
-            .toEqual(false));
-        component.pageState.showResidencyDec$
-          .subscribe((res) => expect(res)
-            .toEqual(true));
       });
     });
 
@@ -440,7 +317,7 @@ describe('WaitingRoomPage', () => {
         formGroup.get('insuranceCheckbox')
           .setValue(true);
         await component.onSubmit();
-        expect(routerSpy.navigate)
+        expect(router.navigate)
           .toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
@@ -456,80 +333,36 @@ describe('WaitingRoomPage', () => {
     });
 
     describe('isJournalDataInvalid', () => {
-      const journalData: JournalData = {
-        examiner: {
-          staffNumber: 'real-staff-number',
-        },
-        testCentre: {
-          centreId: 11223344,
-          centreName: 'name',
-          costCode: 'cost code',
-        },
-        testSlotAttributes: {
-          slotId: 12123331,
-          start: '2019-11-11',
-          vehicleTypeCode: 'vehicl code',
-          welshTest: true,
-          specialNeeds: true,
-          extendedTest: false,
-        },
-        candidate: {
-          candidateName: {
-            firstName: 'fname',
-            secondName: 'sname',
-          },
-          driverNumber: 'real-driver-number',
-        },
-        applicationReference: {
-          applicationId: 11223344141414,
-          bookingSequence: 112,
-          checkDigit: 11,
-        },
-      };
-
       it('should return true if no examiner staffnumber', () => {
         const result = component.isJournalDataInvalid({
-          ...journalData,
           examiner: {
             staffNumber: '',
           },
-        });
+        } as JournalData);
         expect(result)
           .toEqual(true);
       });
 
       it('should return true if no candidate name & driver number', () => {
         const result = component.isJournalDataInvalid({
-          ...journalData,
+          examiner: { staffNumber: 'real-staff-number' },
           candidate: {
             candidateName: {},
             driverNumber: '',
           },
-        });
+        } as JournalData);
         expect(result)
           .toEqual(true);
       });
 
       it('should return false if it has staff number and candidate name but no driver number', () => {
         const result = component.isJournalDataInvalid({
-          ...journalData,
+          examiner: { staffNumber: 'real-staff-number' },
           candidate: {
-            ...journalData.candidate,
+            candidateName: { title: 'Mr' },
             driverNumber: '',
           },
-        });
-        expect(result)
-          .toEqual(false);
-      });
-
-      it('should return false if it has staff number and driver number but no candidate name', () => {
-        const result = component.isJournalDataInvalid({
-          ...journalData,
-          candidate: {
-            ...journalData.candidate,
-            driverNumber: '',
-          },
-        });
+        } as JournalData);
         expect(result)
           .toEqual(false);
       });

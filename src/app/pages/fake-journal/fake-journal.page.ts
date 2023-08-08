@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import moment from 'moment';
 
 import { BasePageComponent } from '@shared/classes/base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { StoreModel } from '@shared/models/store.model';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
@@ -22,13 +19,10 @@ export class FakeJournalPage extends BasePageComponent {
   slots = fakeJournalTestSlots;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     private store$: Store<StoreModel>,
     public orientationMonitorProvider: OrientationMonitorProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
 
     this.dateToDisplay = moment()
       .format('dddd D MMMM YYYY');

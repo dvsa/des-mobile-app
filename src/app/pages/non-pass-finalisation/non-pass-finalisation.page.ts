@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -7,11 +7,9 @@ import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { ActivatedRoute, Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
+import { select } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
@@ -126,10 +124,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   scEndTime: string;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
@@ -137,7 +131,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     private route: ActivatedRoute,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super();
     this.form = new UntypedFormGroup({});
     const { nonPassData } = this.route.snapshot.data;
     const [behaviourMap, activityCodeList] = nonPassData;

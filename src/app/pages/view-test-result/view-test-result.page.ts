@@ -1,11 +1,7 @@
-import {
-  ChangeDetectorRef, Component, Input, OnInit,
-} from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { get } from 'lodash';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
@@ -69,9 +65,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   reEnterEmail: RegeneratedEmails = null;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     public modalCtrl: ModalController,
     private store$: Store<StoreModel>,
     private searchProvider: SearchProvider,
@@ -83,7 +76,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private ref: ChangeDetectorRef,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
   }
 
   async ngOnInit(): Promise<void> {

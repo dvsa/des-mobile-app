@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { IonRefresher, ModalController, Platform } from '@ionic/angular';
+import { IonRefresher, ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
-import {
-  BehaviorSubject, merge, Observable, Subscription,
-} from 'rxjs';
+import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -79,9 +75,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     public orientationMonitorProvider: OrientationMonitorProvider,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     private store$: Store<StoreModel>,
     public dateTimeProvider: DateTimeProvider,
     private accessibilityService: AccessibilityService,
@@ -92,7 +85,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public loadingProvider: LoadingProvider,
     public appConfigProvider: AppConfigProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
       .format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();

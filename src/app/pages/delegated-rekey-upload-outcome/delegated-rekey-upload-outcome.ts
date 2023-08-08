@@ -41,7 +41,7 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
     public insomnia: Insomnia,
     protected router: Router,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
   }
 
   ngOnInit(): void {

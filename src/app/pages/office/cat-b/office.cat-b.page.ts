@@ -1,6 +1,4 @@
-import {
-  ModalController, NavController, NavParams, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, NavParams, Platform, ToastController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
@@ -98,10 +96,10 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     public navParams: NavParams,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,

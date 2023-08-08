@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AlertController, LoadingController, MenuController, Platform,
-} from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, LoadingController, MenuController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -17,9 +13,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
-import {
-  LoadLog, SaveLog, SendLogs, StartSendingLogs,
-} from '@store/logs/logs.actions';
+import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Capacitor } from '@capacitor/core';
@@ -43,21 +37,17 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   queryParamSub: Subscription;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     private store$: Store<StoreModel>,
     private loadingController: LoadingController,
     protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
-    private route: ActivatedRoute,
     private menuController: MenuController,
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
     public deviceProvider: DeviceProvider,
     public networkStateProvider: NetworkStateProvider,
   ) {
-    super(platform, authenticationProvider, alertController, router);
+    super();
   }
 
   async ngOnInit() {

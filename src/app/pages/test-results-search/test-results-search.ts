@@ -1,13 +1,11 @@
-import { Platform, ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import {
-  Subscription, of, Observable, merge,
-} from 'rxjs';
-import { tap, catchError, map } from 'rxjs/operators';
+import { merge, Observable, of, Subscription } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { ErrorTypes } from '@shared/models/error-message';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -28,7 +26,10 @@ import { getActiveTestCentres, getTestCentres } from '@store/reference-data/refe
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {
-  TestResultSearchViewDidEnter, PerformApplicationReferenceSearch, PerformDriverNumberSearch, PerformLDTMSearch,
+  PerformApplicationReferenceSearch,
+  PerformDriverNumberSearch,
+  PerformLDTMSearch,
+  TestResultSearchViewDidEnter,
 } from './test-results-search.actions';
 
 enum SearchBy {
@@ -70,7 +71,7 @@ export class TestResultsSearchPage extends BasePageComponent {
     private logHelper: LogHelper,
     private accessibilityService: AccessibilityService,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
   }
 
   ngOnInit(): void {
@@ -220,7 +221,10 @@ export class TestResultsSearchPage extends BasePageComponent {
 
     const modal = await this.modalController.create({
       component: ErrorPage,
-      componentProps: { errorType: ErrorTypes.SEARCH, displayAsModal: true },
+      componentProps: {
+        errorType: ErrorTypes.SEARCH,
+        displayAsModal: true,
+      },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();

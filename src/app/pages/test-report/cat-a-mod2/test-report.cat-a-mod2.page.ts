@@ -36,10 +36,10 @@ export class TestReportCatAMod2Page extends TestReportBasePageComponent implemen
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       modalController,
       testReportValidatorProvider,
       insomnia,

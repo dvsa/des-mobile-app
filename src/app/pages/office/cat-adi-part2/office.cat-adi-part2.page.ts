@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
@@ -27,7 +25,8 @@ import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeu
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import {
-  AddShowMeTellMeComment, ShowMeQuestionSelected,
+  AddShowMeTellMeComment,
+  ShowMeQuestionSelected,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
@@ -39,7 +38,8 @@ import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   getSelectedShowMeQuestions,
-  getVehicleChecksCatADI2, getVehicleChecksDangerous,
+  getVehicleChecksCatADI2,
+  getVehicleChecksDangerous,
   getVehicleChecksSerious,
   vehicleChecksExist,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.selector';
@@ -68,12 +68,12 @@ interface CatADI2OfficePageState {
   vehicleChecksSerious$: Observable<boolean>;
   vehicleChecksDangerous$: Observable<boolean>;
   showMeQuestionsFaults$: Observable<number>;
-  adi2DrivingFaults$: Observable<FaultSummary[]>
+  adi2DrivingFaults$: Observable<FaultSummary[]>;
   fuelEfficientDriving$: Observable<boolean>;
   ecoRelatedFault$: Observable<string>;
   ecoCaptureReason$: Observable<string>;
   displayFuelEfficient$: Observable<boolean>;
-  allowDrivingFaultComment$: Observable<boolean>
+  allowDrivingFaultComment$: Observable<boolean>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
@@ -105,10 +105,10 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,
@@ -217,11 +217,12 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
           map(([data, category]) =>
             this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)),
         ),
-      ]).pipe(
-        map((
-          [seriousF, dangerousF, drivingF],
-        ) => !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)),
-      ),
+      ])
+        .pipe(
+          map((
+            [seriousF, dangerousF, drivingF],
+          ) => !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)),
+        ),
       allowDrivingFaultComment$: combineLatest([
         currentTest$.pipe(
           select(getTestData),
@@ -235,11 +236,12 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
           map(([testData, category]) =>
             this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
         ),
-      ]).pipe(
-        map((
-          [seriousF, dangerousF],
-        ) => !!(seriousF?.length === 0 && dangerousF?.length === 0)),
-      ),
+      ])
+        .pipe(
+          map((
+            [seriousF, dangerousF],
+          ) => !!(seriousF?.length === 0 && dangerousF?.length === 0)),
+        ),
     };
     this.setupSubscription();
   }

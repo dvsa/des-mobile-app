@@ -1,36 +1,22 @@
-import {
-  NavController,
-  Platform,
-  ToastController,
-  ModalController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
-import {
-  getCurrentTest,
-  getTestOutcome,
-} from '@store/tests/tests.selector';
+import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import {
-  getModeOfTransport,
-} from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.selector';
+import { getModeOfTransport } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.selector';
 import { getTestSummary } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.reducer';
-import {
-  ModeOfTransportChanged,
-} from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
+import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import {
-  AddDangerousFaultComment,
-} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import {
@@ -43,9 +29,7 @@ import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
   safetyAndBalanceQuestionsExist,
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
-import {
-  getSafetyAndBalanceQuestions,
-} from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
+import { getSafetyAndBalanceQuestions } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import {
@@ -96,10 +80,10 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,

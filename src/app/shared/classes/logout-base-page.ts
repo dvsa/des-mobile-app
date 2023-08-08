@@ -1,17 +1,15 @@
 import { AlertController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { inject } from '@angular/core';
 import { BasePageComponent } from './base-page';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
+  protected platform = inject(Platform);
+  protected authenticationProvider = inject(AuthenticationProvider);
+  protected alertController = inject(AlertController);
 
-  constructor(
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected alertController: AlertController,
-    router: Router,
-  ) {
-    super(platform, authenticationProvider, router);
+  protected constructor() {
+    super();
   }
 
   async openLogoutModal() {
@@ -22,7 +20,8 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
       buttons: [
         {
           text: 'Cancel',
-          handler: () => { },
+          handler: () => {
+          },
         },
         {
           text: 'Logout',

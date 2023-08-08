@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
@@ -64,10 +62,10 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,

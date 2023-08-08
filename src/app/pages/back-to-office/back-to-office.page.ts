@@ -1,16 +1,9 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ModalController, Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { Component, inject } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { map } from 'rxjs/operators';
-import { merge, Observable, Subscription } from 'rxjs';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { StoreModel } from '@shared/models/store.model';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
@@ -18,24 +11,16 @@ import {
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { selectRekey } from '@store/tests/rekey/rekey.reducer';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DeviceProvider } from '@providers/device/device';
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
-
-interface BackToOfficePageState {
-  isRekey$: Observable<boolean>;
-  testCategory$: Observable<CategoryCode>;
-}
 
 export enum NavigationTarget {
   OFFICE = 'office',
@@ -48,56 +33,23 @@ export enum NavigationTarget {
   styleUrls: ['back-to-office.page.scss'],
 })
 export class BackToOfficePage extends PracticeableBasePageComponent {
-  pageState: BackToOfficePageState;
-  testCategory: TestCategory;
-  isRekey: boolean;
-  merged$: Observable<string | boolean>;
-  subscription: Subscription;
+  testCategory = this.store$.selectSignal(selectTestCategory)();
+  isRekey = this.store$.selectSignal(selectRekey)();
   singleAppModeEnabled: boolean;
   office: string = NavigationTarget.OFFICE;
   journal: string = NavigationTarget.JOURNAL;
 
-  constructor(
-    store$: Store<StoreModel>,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public insomnia: Insomnia,
-    public router: Router,
-    public routeByCategoryProvider: RouteByCategoryProvider,
-    public deviceProvider: DeviceProvider,
-    public modalController: ModalController,
-  ) {
-    super(platform, authenticationProvider, router, store$, false);
+  private insomnia = inject(Insomnia);
+  public routeByCategoryProvider = inject(RouteByCategoryProvider);
+  public deviceProvider = inject(DeviceProvider);
+  public modalController = inject(ModalController);
+
+  constructor() {
+    super(false);
   }
 
   async ngOnInit(): Promise<void> {
-    this.pageState = {
-      isRekey$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
-        select(getRekeyIndicator),
-        select(isRekey),
-      ),
-      testCategory$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
-        select(getTestCategory),
-      ),
-    };
-
-    const {
-      testCategory$,
-      isRekey$,
-    } = this.pageState;
-
-    this.merged$ = merge(
-      testCategory$.pipe(map((value) => this.testCategory = (value as TestCategory))),
-      isRekey$.pipe(map((value) => this.isRekey = value)),
-    );
-
     this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.isSAMEnabled() : false;
-
-    this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
   }
 
@@ -111,16 +63,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     }
   }
 
-  ionViewDidLeave() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  /**
-   * If single app mode is disabled display error message.
-   * @param navigationTarget
-   */
   async navigateForward(navigationTarget: string): Promise<void> {
     if (!this.singleAppModeEnabled && !this.isPracticeMode) {
       const asamModal = await this.modalController.create({
@@ -140,10 +82,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     }
   }
 
-  /**
-   * Select appropriate function based upon navigation target
-   * @param navigationTarget
-   */
   async onContinue(navigationTarget: string): Promise<void> {
     switch (navigationTarget) {
       case NavigationTarget.OFFICE:
@@ -163,11 +101,14 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       return;
     }
     this.store$.dispatch(DeferWriteUp());
-    await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
+    await this.routeByCategoryProvider.navigateToPage(JOURNAL_PAGE, null, { replaceUrl: true });
   }
 
   async goToOfficePage() {
-    await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
+    await this.routeByCategoryProvider.navigateToPage(
+      TestFlowPageNames.OFFICE_PAGE,
+      this.testCategory as TestCategory,
+    );
   }
 
   private destroyTestSubs = (): void => {

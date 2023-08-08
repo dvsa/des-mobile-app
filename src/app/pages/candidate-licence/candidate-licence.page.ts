@@ -1,10 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -59,7 +55,6 @@ interface CandidateLicencePageState {
   styleUrls: ['./candidate-licence.page.scss'],
 })
 export class CandidateLicencePage extends PracticeableBasePageComponent implements OnInit {
-
   formGroup: FormGroup;
   pageState: CandidateLicencePageState;
   driverDataReturned: boolean = false;
@@ -68,15 +63,11 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   niLicenceDetected: boolean = false;
   offlineError: boolean = false;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    private candidateLicenceProvider: CandidateLicenceProvider,
-    private domSanitizer: DomSanitizer,
-  ) {
-    super(platform, authenticationProvider, router, store$, false);
+  private candidateLicenceProvider = inject(CandidateLicenceProvider);
+  private domSanitizer = inject(DomSanitizer);
+
+  constructor() {
+    super();
     this.formGroup = new FormGroup({});
   }
 

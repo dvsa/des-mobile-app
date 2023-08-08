@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -15,13 +15,12 @@ import {
 } from '@pages/delegated-rekey-search/delegated-rekey-search-error-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  getBookedTestSlot, getDelegatedRekeySearchError,
+  getBookedTestSlot,
+  getDelegatedRekeySearchError,
   getHasSearched,
   getIsLoading,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
-import {
-  AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash';
@@ -49,21 +48,24 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   pageState: DelegatedRekeySearchPageState;
   delegatedRekeyForm: UntypedFormGroup;
   hasClickedSearch: boolean = false;
-  maxCallStackHandler = { onlySelf: true, emitEvent: false };
+  maxCallStackHandler = {
+    onlySelf: true,
+    emitEvent: false,
+  };
   applicationReference: string = '';
   subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
 
-  constructor(
-    public orientationMonitorProvider: OrientationMonitorProvider,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
-    private store$: Store<StoreModel>,
-    private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-  ) {
-    super(platform, authenticationProvider, router);
+  public orientationMonitorProvider = inject(OrientationMonitorProvider);
+  protected platform = inject(Platform);
+  protected authenticationProvider = inject(AuthenticationProvider);
+  protected router = inject(Router);
+  private store$ = inject<Store<StoreModel>>(Store);
+  private modalController = inject(ModalController);
+  private accessibilityService = inject(AccessibilityService);
+
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {
@@ -105,9 +107,11 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
     this.setUpSubscription();
   }
+
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
   }

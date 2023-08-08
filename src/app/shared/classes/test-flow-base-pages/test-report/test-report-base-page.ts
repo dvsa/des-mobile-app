@@ -1,15 +1,12 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { ModalController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
-import { StoreModel } from '@shared/models/store.model';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
@@ -108,17 +105,13 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   modal: HTMLIonModalElement;
 
   protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public modalController: ModalController,
     public testReportValidatorProvider: TestReportValidatorProvider,
     public insomnia: Insomnia,
     protected routeByCategory: RouteByCategoryProvider,
     @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+    super(loginRequired);
   }
 
   getCallback(): OverlayCallback {

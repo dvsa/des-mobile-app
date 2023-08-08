@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -43,19 +38,13 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2Waitin
   styleUrls: ['./waiting-room-to-car.cat-a-mod2.page.scss'],
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
+  public faultCountProvider = inject(FaultCountProvider);
+
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    routeByCat: RouteByCategoryProvider,
-    alertController: AlertController,
-    public faultCountProvider: FaultCountProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
   }
 

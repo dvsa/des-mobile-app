@@ -1,13 +1,8 @@
-import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Component, inject } from '@angular/core';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'app-post-debrief-holding',
@@ -15,15 +10,10 @@ import { StoreModel } from '@shared/models/store.model';
   styleUrls: ['./post-debrief-holding.page.scss'],
 })
 export class PostDebriefHoldingPage extends PracticeableBasePageComponent {
+  public routeByCat = inject(RouteByCategoryProvider);
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public routeByCat: RouteByCategoryProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$, false);
+  constructor() {
+    super();
   }
 
   async continueButton(): Promise<void> {

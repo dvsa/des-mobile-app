@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, take, withLatestFrom } from 'rxjs/operators';
@@ -48,6 +46,7 @@ interface CatManoeuvreOfficePageState {
   delegatedTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
 }
+
 type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
 
 @Component({
@@ -80,10 +79,10 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,
@@ -136,13 +135,18 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   setupSubscription(): void {
     super.setupSubscriptions();
 
-    const { testOutcomeText$, conductedLanguage$, delegatedTest$ } = this.pageState;
+    const {
+      testOutcomeText$,
+      conductedLanguage$,
+      delegatedTest$,
+    } = this.pageState;
 
     this.pageSubscription = merge(
       conductedLanguage$.pipe(map((result) => this.conductedLanguage = result)),
       testOutcomeText$.pipe(map((result) => this.testOutcomeText = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

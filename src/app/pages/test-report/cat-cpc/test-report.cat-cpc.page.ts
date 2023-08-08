@@ -92,10 +92,10 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     private testResultProvider: TestResultProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       modalController,
       testReportValidatorProvider,
       insomnia,

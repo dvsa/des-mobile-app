@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  Avoidance, Circuit, EmergencyStop,
-} from '@dvsa/mes-test-schema/categories/AM1';
+import { Avoidance, Circuit, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 
 import {
   CommonOfficePageState,
@@ -88,10 +84,6 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
       navController,
       toastController,
       modalController,

@@ -37,10 +37,10 @@ export class TestReportCatDPage extends TestReportBasePageComponent implements O
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       modalController,
       testReportValidatorProvider,
       insomnia,

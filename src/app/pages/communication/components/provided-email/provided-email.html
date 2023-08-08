@@ -1,33 +1,33 @@
 <div *ngIf="shouldRender" [formGroup]="formGroup">
-        <ion-row class="communication-option">
-            <div class="validation-bar communication-validation-bar"></div>
-            <input type="radio"
-                   id="providedEmail"
-                   formControlName="radioCtrl"
-                   name="radioCtrl"
-                   class="gds-radio-button communication-radio"
-                   (click)="providedEmailRadioSelected()"
-                   [checked]="isProvidedEmailAddressChosen"
-                   [value]="isProvidedEmailAddressChosen">
-            <label for="providedEmail" class="radio-label" id="by-email-label">
-                {{ 'communication.byEmailLabel' | translate }}
-            </label>
-        </ion-row>
-        <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
-            <ion-col size="6"></ion-col>
-            <ion-col>
-                <ion-row>
-                    <ion-col>
-                         <span class="communication-text" id="booking-email-example">
-                            {{ 'communication.bookingEmail' | translate }}:
-                        </span>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <span id="providedEmailInput" class="provided-email-textbox">
-                        {{ providedEmailAddress }}
-                    </span>
-                </ion-row>
-            </ion-col>
-        </ion-row>
+  <ion-row class="communication-option">
+    <div class="validation-bar communication-validation-bar"></div>
+    <input type="radio"
+           id="providedEmail"
+           formControlName="radioCtrl"
+           name="radioCtrl"
+           class="gds-radio-button communication-radio"
+           (click)="providedEmailRadioSelected()"
+           [checked]="isProvidedEmailAddressChosen"
+           [value]="isProvidedEmailAddressChosen">
+    <label for="providedEmail" class="radio-label" id="by-email-label">
+      {{ 'communication.byEmailLabel' | translate }}
+    </label>
+  </ion-row>
+  <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
+    <ion-col size="6"></ion-col>
+    <ion-col>
+      <ion-row>
+        <ion-col>
+          <span class="communication-text" id="booking-email-example">
+            {{ 'communication.bookingEmail' | translate }}:
+          </span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <span id="providedEmailInput" class="provided-email-textbox">
+          {{ providedEmailAddress }}
+        </span>
+      </ion-row>
+    </ion-col>
+  </ion-row>
 </div>

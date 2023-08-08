@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   CommonOfficePageState,
@@ -104,10 +102,10 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,
@@ -191,7 +189,8 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
       testOutcome$.pipe(map((result) => this.testOutcome = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

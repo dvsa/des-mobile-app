@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { ModalController } from '@ionic/angular';
 import { merge, Observable } from 'rxjs';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { Router } from '@angular/router';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import {
@@ -49,20 +45,12 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   speedCheckState: SpeedCheckState;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
       modalController,
       testReportValidatorProvider,
       insomnia,

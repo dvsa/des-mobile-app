@@ -2,14 +2,14 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-page-title">
-      {{ 'waitingRoom.title' | translate }} - {{candidateUntitledName()}}
+      {{ 'waitingRoom.title' | translate }} - {{candidateUntitledName}}
     </ion-title>
     <ion-buttons id="waiting-room-back-button" slot="start">
       <ion-back-button [defaultHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"></ion-back-button>
     </ion-buttons>
     <ion-buttons id="end-button" slot="end">
       <end-test-link
-        [category]="pageState.testCategory$ | async"
+        [category]="testCategory"
         [isPracticeMode]="isPracticeMode"
       ></end-test-link>
     </ion-buttons>
@@ -22,20 +22,20 @@
   <form [formGroup]="formGroup">
     <candidate-section
       (continueClickEvent)="onSubmit()"
-      [candidateDriverNumber]="candidateDriverNumber()"
-      [candidateName]="candidateName()"
-      [showVRNButton]="pageState.showVrnBtn$ | async">
+      [candidateDriverNumber]="candidateDriverNumber"
+      [candidateName]="candidateName"
+      [showVRNButton]="true">
     </candidate-section>
 
     <manoeuvres-pass-cert
-      *ngIf="pageState.showManoeuvresPassCertNumber$ | async"
+      *ngIf="showManoeuvresPassCertNumber"
       (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
       [formGroup]="formGroup"
       [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()">
     </manoeuvres-pass-cert>
 
     <cbt-number
-      *ngIf="pageState.showCbtNumber$ | async"
+      *ngIf="showCbtNumber"
       (cbtNumberChange)="cbtNumberChanged($event)"
       [cbtNumber]="cbtNumber()"
       [formGroup]="formGroup">
@@ -46,14 +46,14 @@
     <conducted-language
       (englishTextSelect)="dispatchCandidateChoseToProceedInEnglish()"
       (welshTextSelect)="dispatchCandidateChoseToProceedInWelsh()"
-      [englishIsSelected]="(pageState.conductedLanguage$ | async) === 'English'"
+      [englishIsSelected]="conductedLanguage() === 'English'"
       [shouldRender]="welshTest()"
-      [welshIsSelected]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+      [welshIsSelected]="conductedLanguage() === 'Cymraeg'">
     </conducted-language>
 
     <div [ngClass]="{
-            'mes-full-width-card-no-padding-top': ((pageState.showManoeuvresPassCertNumber$ | async) || (pageState.showCbtNumber$ | async)),
-            'mes-full-width-card': (!(pageState.showManoeuvresPassCertNumber$ | async) && !(pageState.showCbtNumber$ | async))
+            'mes-full-width-card-no-padding-top': (showManoeuvresPassCertNumber || showCbtNumber),
+            'mes-full-width-card': (!showManoeuvresPassCertNumber && !showCbtNumber)
         }" id="declaration-section">
       <ion-row>
         <ion-col>
@@ -69,14 +69,14 @@
         </insurance-declaration>
 
         <residency-declaration
-          *ngIf="pageState.showResidencyDec$ | async"
+          *ngIf="showResidencyDec"
           (residencyDeclarationChange)="residencyDeclarationChanged()"
           [formGroup]="formGroup"
           [selected]="residencyDeclarationAccepted()">
         </residency-declaration>
       </div>
 
-      <div *ngIf="!(pageState.showResidencyDec$ | async)" class="signature-area-padding"></div>
+      <div *ngIf="!showResidencyDec" class="signature-area-padding"></div>
 
       <signature
         (signatureCleared)="signatureCleared()"

@@ -1,1 +1,1 @@
-export const translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+export const translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang', 'use']);

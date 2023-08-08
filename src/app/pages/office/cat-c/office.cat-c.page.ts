@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -64,6 +62,7 @@ interface CatCOfficePageState {
   displayVehicleChecks$: Observable<boolean>;
   vehicleChecks$: Observable<QuestionResult[]>;
 }
+
 type OfficePageState = CommonOfficePageState & CatCOfficePageState;
 
 @Component({
@@ -101,10 +100,10 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,
@@ -188,7 +187,8 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       testOutcome$.pipe(map((result) => this.testOutcome = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

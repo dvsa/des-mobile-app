@@ -56,7 +56,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     private insomnia: Insomnia,
     private deviceProvider: DeviceProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super();
   }
 
   ngOnInit(): void {
@@ -92,6 +92,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
   }

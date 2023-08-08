@@ -1,38 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
-  DropExtraVehicleChecks, DropExtraVehicleChecksDelegated, SetFullLicenceHeld,
+  DropExtraVehicleChecks,
+  DropExtraVehicleChecksDelegated,
+  SetFullLicenceHeld,
   VehicleChecksCompletedToggled,
   VehicleChecksDrivingFaultsNumberChanged,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
-  getCandidateDeclarationSignedStatus, getInsuranceDeclarationStatus,
+  getCandidateDeclarationSignedStatus,
+  getInsuranceDeclarationStatus,
   getResidencyDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import {
-  getFullLicenceHeld, getVehicleChecksCatD, getVehicleChecksCompleted, hasFullLicenceHeldBeenSelected,
+  getFullLicenceHeld,
+  getVehicleChecksCatD,
+  getVehicleChecksCompleted,
+  hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -65,22 +66,15 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatDWaitingRo
   styleUrls: ['./waiting-room-to-car.cat-d.page.scss'],
 })
 export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent implements OnInit {
+  private faultCountProvider = inject(FaultCountProvider);
 
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
   isDelegated: boolean = false;
 
-  constructor(
-    private faultCountProvider: FaultCountProvider,
-    routeByCat: RouteByCategoryProvider,
-    store$: Store<StoreModel>,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    alertController: AlertController,
-  ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
   }
 
@@ -166,12 +160,16 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
   }
 
   setupSubscription(): void {
-    const { delegatedTest$, fullLicenceHeld$ } = this.pageState;
+    const {
+      delegatedTest$,
+      fullLicenceHeld$,
+    } = this.pageState;
 
     this.subscription = merge(
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       fullLicenceHeld$.pipe(map((result) => this.fullLicenceHeld = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   vehicleChecksCompletedOutcomeChanged(toggled: boolean): void {
@@ -190,7 +188,8 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
   };
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.DE, TestCategory.D1E])) {
@@ -206,11 +205,12 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   displayLoadSecured = (): boolean => isAnyOf(this.testCategory, [TestCategory.DE, TestCategory.D1E]);

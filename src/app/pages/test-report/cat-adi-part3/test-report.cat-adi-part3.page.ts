@@ -93,10 +93,10 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       modalController,
       testReportValidatorProvider,
       insomnia,

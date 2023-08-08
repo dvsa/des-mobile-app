@@ -73,11 +73,26 @@ export const getCandidateEmailAddress = (candidate: Candidate) => (
   candidate.emailAddress ? candidate.emailAddress : ''
 );
 
+export const selectCandidateEmailAddress = createSelector(
+  selectCandidate,
+  ({ emailAddress }) => emailAddress || '',
+);
+
 export const getPostalAddress = (candidate: Candidate) => candidate.candidateAddress;
+
+export const selectPostalAddress = createSelector(
+  selectCandidate,
+  ({ candidateAddress }) => candidateAddress,
+);
 
 export const getCandidateId = (candidate: Candidate) => candidate.candidateId;
 
 export const getCandidatePrn = (candidate: Candidate) => candidate.prn;
+
+export const selectCandidatePrn = createSelector(
+  selectCandidate,
+  ({ prn }) => prn,
+);
 
 export const getGender = (candidate: Candidate) => candidate.gender;
 

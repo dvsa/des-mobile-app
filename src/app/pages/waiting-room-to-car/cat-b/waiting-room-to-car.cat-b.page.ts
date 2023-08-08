@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Component, inject, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
@@ -53,21 +48,14 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
   styleUrls: ['./waiting-room-to-car.cat-b.page.scss'],
 })
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
+  private questionProvider = inject(QuestionProvider);
 
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
 
-  constructor(
-    private questionProvider: QuestionProvider,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    routeByCat: RouteByCategoryProvider,
-    alertController: AlertController,
-  ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+  constructor() {
+    super();
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }

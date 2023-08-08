@@ -38,7 +38,7 @@ export const selectCurrentTest = createSelector(
 
 export const selectJournalData = createSelector(
   selectCurrentTest,
-  (store) => store.journalData,
+  (test) => test.journalData,
 );
 
 export const getStartedTests = (tests: TestsModel): StartedTests => {

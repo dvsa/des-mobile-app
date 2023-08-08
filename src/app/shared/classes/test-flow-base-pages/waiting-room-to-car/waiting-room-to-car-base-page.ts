@@ -1,20 +1,17 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { AlertController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { StoreModel } from '@shared/models/store.model';
 import { JournalDataUnion } from '@shared/unions/journal-union';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
@@ -74,7 +71,7 @@ import {
   InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
-import { Inject } from '@angular/core';
+import { inject, Inject } from '@angular/core';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -95,6 +92,8 @@ export interface CommonWaitingRoomToCarPageState {
 export const wrtcDestroy$ = new Subject<{}>();
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
+  protected routeByCategoryProvider = inject(RouteByCategoryProvider);
+  protected alertController = inject(AlertController);
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -109,16 +108,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2,
   ];
 
-  protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    protected routeByCategoryProvider: RouteByCategoryProvider,
-    public alertController: AlertController,
-    @Inject(false) public loginRequired: boolean = false,
-  ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+  protected constructor(@Inject(false) public loginRequired: boolean = false) {
+    super(loginRequired);
   }
 
   onInitialisation(): void {

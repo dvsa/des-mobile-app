@@ -1,14 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -84,12 +82,8 @@ export class DashboardPage extends BasePageComponent {
   private slotProvider = inject(SlotProvider);
   private modalController = inject(ModalController);
 
-  constructor(
-    authenticationProvider: AuthenticationProvider,
-    platform: Platform,
-    router: Router,
-  ) {
-    super(platform, authenticationProvider, router);
+  constructor() {
+    super();
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.todaysDate.format('dddd Do MMMM YYYY');
     this.store$.dispatch(journalActions.SetSelectedDate(this.todaysDate.format('YYYY-MM-DD')));

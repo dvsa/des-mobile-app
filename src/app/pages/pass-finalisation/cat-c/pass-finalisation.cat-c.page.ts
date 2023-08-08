@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { UntypedFormGroup } from '@angular/forms';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -58,14 +54,10 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   testCategory: TestCategory;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
@@ -87,7 +79,10 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
     };
 
     const {
-      transmission$, code78$, provisionalLicense$, testCategory$,
+      transmission$,
+      code78$,
+      provisionalLicense$,
+      testCategory$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -140,7 +135,8 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -149,14 +145,15 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+          }
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
         }
-        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+      });
   }
 
 }

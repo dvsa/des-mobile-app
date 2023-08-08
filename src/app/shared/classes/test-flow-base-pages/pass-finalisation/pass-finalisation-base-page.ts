@@ -1,9 +1,6 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 
-import { StoreModel } from '@shared/models/store.model';
 import {
   getAllPassCerts,
   getCurrentTest,
@@ -13,7 +10,6 @@ import {
   getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
@@ -87,14 +83,8 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
 
-  protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    @Inject(false) public loginRequired: boolean = false,
-  ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+  protected constructor(@Inject(false) public loginRequired: boolean = false) {
+    super(loginRequired);
   }
 
   onInitialisation(): void {

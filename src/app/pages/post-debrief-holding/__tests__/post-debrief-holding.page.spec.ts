@@ -1,14 +1,4 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
-
-import { PlatformMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
@@ -22,9 +12,7 @@ import { PostDebriefHoldingPage } from '../post-debrief-holding.page';
 describe('PostDebriefHoldingPage', () => {
   let fixture: ComponentFixture<PostDebriefHoldingPage>;
   let component: PostDebriefHoldingPage;
-  let store$: Store<StoreModel>;
   let routeByCat: RouteByCategoryProvider;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -36,21 +24,18 @@ describe('PostDebriefHoldingPage', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         AppModule,
-        StoreModule.forFeature('tests', () => ({})),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
       ],
     });
 
     fixture = TestBed.createComponent(PostDebriefHoldingPage);
     component = fixture.componentInstance;
-    store$ = TestBed.inject(Store);
     routeByCat = TestBed.inject(RouteByCategoryProvider);
-    spyOn(store$, 'dispatch');
   }));
 
   describe('Class', () => {
@@ -64,9 +49,10 @@ describe('PostDebriefHoldingPage', () => {
         spyOn(routeByCat, 'navigateToPage');
         await component.continueButton();
         tick();
-        expect(routeByCat.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
-        );
+        expect(routeByCat.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
+          );
       }));
     });
   });

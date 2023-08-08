@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   CommonOfficePageState,
@@ -32,7 +30,9 @@ import {
   getCombination,
   getQuestion1,
   getQuestion2,
-  getQuestion3, getQuestion4, getQuestion5,
+  getQuestion3,
+  getQuestion4,
+  getQuestion5,
   getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
@@ -59,6 +59,7 @@ interface CatCPCOfficePageState {
   combination$: Observable<CombinationCodes>;
   passCertificateNumberReceived$: Observable<boolean>;
 }
+
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
 
 @Component({
@@ -92,10 +93,10 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
     public deviceProvider: DeviceProvider,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       navController,
       toastController,
       modalController,
@@ -178,7 +179,8 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
       testResult$.pipe(map((result) => this.outcome = result as TestOutcome)),
       testOutcome$.pipe(map((result) => this.testOutcome = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

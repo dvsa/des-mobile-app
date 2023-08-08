@@ -4,11 +4,8 @@ import { Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import {
-  combineLatest, merge, Observable, Subscription,
-} from 'rxjs';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
@@ -25,9 +22,7 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
-import {
-  DASHBOARD_PAGE, LOGIN_PAGE, PASS_CERTIFICATES, UNUPLOADED_TESTS_PAGE,
-} from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, LOGIN_PAGE, PASS_CERTIFICATES, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -91,9 +86,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
     protected deviceProvider: DeviceProvider,
-    router: Router,
   ) {
-    super(platform, authenticationProvider, alertController, router);
+    super();
   }
 
   async ngOnInit() {

@@ -63,10 +63,10 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
     private toastCtrl: ToastController,
   ) {
     super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
+      // platform,
+      // authenticationProvider,
+      // router,
+      // store$,
       modalController,
       testReportValidatorProvider,
       insomnia,
