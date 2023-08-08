@@ -8,6 +8,7 @@ import {
   CandidateDetailNavigationComponent,
 } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 import { CommonModule } from '@angular/common';
+import { ComponentsModule } from '@components/common/common-components.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     IonicModule,
     CommonModule,
+    ComponentsModule,
   ],
   exports: [
     InappropriateUseBannerComponent,

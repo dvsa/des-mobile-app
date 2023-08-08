@@ -32,6 +32,7 @@ import {
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
 
+import { HeaderComponentModule } from '@components/common/header-component/header-component.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
 import { TabComponent } from './tab/tab';
@@ -94,6 +95,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     PipesModule,
     TerminateTestModalModule,
     NgOptimizedImage,
+    HeaderComponentModule,
   ],
   exports: [
     DateTimeInputComponent,
@@ -130,6 +132,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    HeaderComponentModule,
   ],
 })
 export class ComponentsModule {
