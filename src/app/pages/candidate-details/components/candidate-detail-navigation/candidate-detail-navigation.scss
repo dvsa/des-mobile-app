@@ -20,6 +20,11 @@
   background: #fff;
 }
 
+.word-wrapper {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 #previous-slot {
   padding-left: 12px;
 }

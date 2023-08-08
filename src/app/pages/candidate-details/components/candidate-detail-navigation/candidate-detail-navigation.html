@@ -1,5 +1,15 @@
 <div>
     <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div id="date-container">
+            <div>
+              <h2 id="name" class="word-wrapper">Name: {{name}}</h2>
+              <h3 id="dateAndTime">Time: {{time}} {{date}}</h3>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
         <ion-row>
             <ion-col>
                 <h5 *ngIf="canNavigateToPreviousCandidate"
@@ -7,23 +17,15 @@
                     class="previous-navigation-button"
                     (click)="onPreviousCandidateClick()">
                     <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-                    <span id="previous-slot">Previous</span>
+                    <span id="previous-slot">Previous Candidate</span>
                 </h5>
-            </ion-col>
-            <ion-col>
-                <div id="date-container">
-                    <div>
-                        <h2 id="name">{{name}}</h2>
-                        <h3 id="dateAndTime">{{time}} {{date}}</h3>
-                    </div>
-                </div>
             </ion-col>
             <ion-col>
                 <h5 *ngIf="canNavigateToNextCandidate"
                     id="next-slot-container"
                     class="next-navigation-button"
                     (click)="onNextCandidateClick()">
-                    <span id="next-slot">Next</span>
+                    <span id="next-slot">Next Candidate</span>
                     <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
                 </h5>
             </ion-col>

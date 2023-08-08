@@ -11,7 +11,6 @@ import {
   styleUrls: ['candidate-detail-navigation.scss'],
 })
 export class CandidateDetailNavigationComponent {
-
   @Input()
   name: string;
   @Input()
