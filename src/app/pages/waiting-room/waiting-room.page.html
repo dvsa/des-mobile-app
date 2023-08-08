@@ -47,7 +47,7 @@
       (englishTextSelect)="dispatchCandidateChoseToProceedInEnglish()"
       (welshTextSelect)="dispatchCandidateChoseToProceedInWelsh()"
       [englishIsSelected]="conductedLanguage() === 'English'"
-      [shouldRender]="welshTest()"
+      [shouldRender]="welshTest$ | async"
       [welshIsSelected]="conductedLanguage() === 'Cymraeg'">
     </conducted-language>
 

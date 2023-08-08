@@ -1,6 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -61,7 +60,6 @@ export class CommunicationPage extends PracticeableBasePageComponent {
 
   public routeByCategoryProvider = inject(RouteByCategoryProvider);
   public deviceAuthenticationProvider = inject(DeviceAuthenticationProvider);
-  public translate = inject(TranslateService);
 
   // One time getting of values for static data
   candidateName = this.store$.selectSignal(selectCandidateName)();
@@ -74,10 +72,10 @@ export class CommunicationPage extends PracticeableBasePageComponent {
   candidateAddress = this.store$.selectSignal(selectPostalAddress)();
 
   // Signals for data that could vary over time controlled within this page
-  candidateProvidedEmail = this.store$.selectSignal(selectCandidateEmailAddress);
-  communicationEmail = this.store$.selectSignal(selectCommunicationPreferenceUpdatedEmail);
-  communicationType = this.store$.selectSignal(selectCommunicationPreferenceType);
-  validCertificate = this.store$.selectSignal(selectValidCertificateStatus);
+  candidateProvidedEmail = this.store$.selectSignal(selectCandidateEmailAddress)();
+  communicationEmail = this.store$.selectSignal(selectCommunicationPreferenceUpdatedEmail)();
+  communicationType = this.store$.selectSignal(selectCommunicationPreferenceType)();
+  validCertificate = this.store$.selectSignal(selectValidCertificateStatus)();
 
   constructor() {
     super();
@@ -97,6 +95,10 @@ export class CommunicationPage extends PracticeableBasePageComponent {
 
   ionViewDidEnter(): void {
     this.store$.dispatch(CommunicationViewDidEnter());
+  }
+
+  validCertificateChanged(validCertificate: boolean): void {
+    this.store$.dispatch(ValidPassCertChanged(validCertificate));
   }
 
   async onSubmit(): Promise<void> {
@@ -130,7 +132,7 @@ export class CommunicationPage extends PracticeableBasePageComponent {
   dispatchCandidateChoseProvidedEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
     this.store$.dispatch(CandidateChoseEmailAsCommunicationPreference(
-      this.candidateProvidedEmail(), CommunicationPage.email,
+      this.candidateProvidedEmail, CommunicationPage.email,
     ));
     this.store$.dispatch(BookingEmailSelected());
   }
@@ -145,33 +147,34 @@ export class CommunicationPage extends PracticeableBasePageComponent {
     }
   }
 
-  dispatchCandidateChosePost() {
+  dispatchCandidateChosePost(): void {
+    this.setCommunicationType(CommunicationPage.post);
     this.store$.dispatch(CandidateChosePostAsCommunicationPreference(CommunicationPage.post));
     this.store$.dispatch(PostalSelected());
   }
 
   setCommunicationType(communicationChoice: CommunicationMethod, emailType: string = null) {
-    this.communicationType = signal(communicationChoice);
+    this.communicationType = communicationChoice;
     this.emailType = emailType;
     this.verifyNewEmailFormControl(communicationChoice);
   }
 
   isProvidedEmailSelected(): boolean {
     return (
-      this.communicationType() === CommunicationPage.email
+      this.communicationType === CommunicationPage.email
       && this.emailType === CommunicationPage.providedEmail
     );
   }
 
   isNewEmailSelected(): boolean {
     return (
-      this.communicationType() === CommunicationPage.email
+      this.communicationType === CommunicationPage.email
       && this.emailType === CommunicationPage.updatedEmail
     );
   }
 
   isPostSelected() {
-    return this.communicationType() === CommunicationPage.post;
+    return this.communicationType === CommunicationPage.post;
   }
 
   getFormValidation(): { [key: string]: UntypedFormControl } {
@@ -181,19 +184,17 @@ export class CommunicationPage extends PracticeableBasePageComponent {
   }
 
   restoreRadiosFromState() {
-    if (this.communicationType() === CommunicationPage.email) {
+    if (this.communicationType === CommunicationPage.email) {
       this.assertEmailType();
     }
   }
 
   assertEmailType() {
-    const providedEmail = this.candidateProvidedEmail();
-    const commEmail = this.communicationEmail();
-    if (providedEmail !== '' && providedEmail === commEmail) {
+    if (this.candidateProvidedEmail !== '' && this.candidateProvidedEmail === this.communicationEmail) {
       this.emailType = CommunicationPage.providedEmail;
     }
 
-    if (providedEmail !== commEmail) {
+    if (this.candidateProvidedEmail !== this.communicationEmail) {
       this.emailType = CommunicationPage.updatedEmail;
     }
   }
@@ -203,7 +204,7 @@ export class CommunicationPage extends PracticeableBasePageComponent {
   }
 
   initialiseDefaultSelections() {
-    this.communicationType = signal(CommunicationPage.email);
+    this.communicationType = CommunicationPage.email;
     if (this.candidateProvidedEmail) {
       this.emailType = CommunicationPage.providedEmail;
       this.form.controls['radioCtrl'].setValue(true);
@@ -232,20 +233,15 @@ export class CommunicationPage extends PracticeableBasePageComponent {
   }
 
   shouldPreselectADefaultValue(): boolean {
-    return this.communicationType() === CommunicationPage.notProvided;
+    return this.communicationType === CommunicationPage.notProvided;
   }
 
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 
-    const commEmail = this.communicationEmail();
-    if (this.isNewEmailSelected() && commEmail !== '') {
-      this.dispatchCandidateChoseNewEmail(commEmail);
+    if (this.isNewEmailSelected() && this.communicationEmail !== '') {
+      this.dispatchCandidateChoseNewEmail(this.communicationEmail);
     }
-  }
-
-  validCertificateChanged(validCertificate: boolean): void {
-    this.store$.dispatch(ValidPassCertChanged(validCertificate));
   }
 
   async canDeActivate(): Promise<boolean> {

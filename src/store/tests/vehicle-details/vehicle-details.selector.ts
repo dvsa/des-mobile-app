@@ -1,12 +1,28 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { createSelector } from '@ngrx/store';
+import { selectVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 
 export const getRegistrationNumber = (vehicleDetails: VehicleDetails) => vehicleDetails.registrationNumber;
+export const selectRegistrationNumber = createSelector(
+  selectVehicleDetails,
+  ({ registrationNumber }) => registrationNumber,
+);
 export const getGearboxCategory = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory;
+export const selectGearboxCategory = createSelector(selectVehicleDetails, ({ gearboxCategory }) => gearboxCategory);
 export const getMotStatus = (vehicleDetails: VehicleDetails) => vehicleDetails.motStatus;
+export const selectMotStatus = createSelector(selectVehicleDetails, ({ motStatus }) => motStatus);
 export const isManual = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Manual' || false;
+export const selectIsManual = createSelector(
+  selectVehicleDetails,
+  ({ gearboxCategory }) => gearboxCategory === 'Manual' || false,
+);
 export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Automatic' || false;
+export const selectIsAutomatic = createSelector(
+  selectVehicleDetails,
+  ({ gearboxCategory }) => gearboxCategory === 'Automatic' || false,
+);
 export const showVrnButton = (category: TestCategory): boolean => isAnyOf(category, [
   TestCategory.ADI2,
   TestCategory.ADI3,

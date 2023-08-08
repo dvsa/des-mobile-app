@@ -1,5 +1,6 @@
 import { TestSummary } from '@dvsa/mes-test-schema/categories/common';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import * as testSummaryActions from './test-summary.actions';
 
 export const initialState: TestSummary = {
@@ -63,3 +64,8 @@ export const testSummaryReducer = createReducer(
 );
 
 export const getTestSummary = createFeatureSelector<TestSummary>('testSummary');
+
+export const selectTestSummary = createSelector(
+  selectCurrentTest,
+  (test) => test.testSummary as TestSummary,
+);

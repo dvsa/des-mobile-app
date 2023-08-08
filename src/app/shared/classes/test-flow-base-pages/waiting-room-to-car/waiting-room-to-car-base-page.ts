@@ -7,13 +7,21 @@ import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-sc
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { JournalDataUnion } from '@shared/unions/journal-union';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import {
+  getUntitledCandidateName,
+  selectCandidateName,
+} from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getGearboxCategory,
+  getRegistrationNumber,
+  selectGearboxCategory,
+  selectRegistrationNumber,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
@@ -22,7 +30,7 @@ import {
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getTestCategory, selectTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
@@ -41,14 +49,26 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   hasEyesightTestBeenCompleted,
   hasEyesightTestGotSeriousFault,
+  selectHasEyesightTestBeenCompleted,
+  selectHasEyesightTestGotSeriousFault,
+  selectShowEyesight,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
+import {
+  getDualControls,
+  getSchoolCar,
+  selectDualControls,
+  selectSchoolCar,
+} from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
 import {
   getInstructorAccompaniment,
   getInterpreterAccompaniment,
   getOtherAccompaniment,
   getSupervisorAccompaniment,
+  selectInstructorAccompaniment,
+  selectInterpreterAccompaniment,
+  selectOtherAccompaniment,
+  selectSupervisorAccompaniment,
 } from '@store/tests/accompaniment/accompaniment.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
@@ -98,7 +118,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
-  testCategory: TestCategory;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -107,6 +126,20 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
     TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2,
   ];
+
+  candidateName = this.store$.selectSignal(selectCandidateName)();
+  registrationNumber = this.store$.selectSignal(selectRegistrationNumber)();
+  transmission = this.store$.selectSignal(selectGearboxCategory)();
+  testCategory = this.store$.selectSignal(selectTestCategory)() as TestCategory;
+  showEyesight = this.store$.selectSignal(selectShowEyesight)();
+  eyesightTestComplete = this.store$.selectSignal(selectHasEyesightTestBeenCompleted)();
+  eyesightTestFailed = this.store$.selectSignal(selectHasEyesightTestGotSeriousFault)();
+  schoolCar = this.store$.selectSignal(selectSchoolCar)();
+  dualControls = this.store$.selectSignal(selectDualControls)();
+  instructorAccompaniment = this.store$.selectSignal(selectInstructorAccompaniment)();
+  supervisorAccompaniment = this.store$.selectSignal(selectSupervisorAccompaniment)();
+  otherAccompaniment = this.store$.selectSignal(selectOtherAccompaniment)();
+  interpreterAccompaniment = this.store$.selectSignal(selectInterpreterAccompaniment)();
 
   protected constructor(@Inject(false) public loginRequired: boolean = false) {
     super(loginRequired);

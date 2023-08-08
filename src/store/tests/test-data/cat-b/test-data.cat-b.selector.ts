@@ -4,6 +4,10 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { QuestionProvider } from 'src/app/providers/question/question';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
+import { createSelector } from '@ngrx/store';
+import { selectTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { Competencies, LegalRequirements } from '../test-data.constants';
 
 export const getDrivingFaultCount = (
@@ -21,9 +25,30 @@ export const hasManoeuvreBeenCompletedCatB = (data: CatBUniqueTypes.TestData) =>
   );
 };
 
+export const selectShowEyesight = createSelector(
+  selectTestCategory,
+  (category) => isAnyOf(category as TestCategory, [
+    TestCategory.B,
+    TestCategory.BE,
+    TestCategory.ADI2,
+    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
+    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2,
+  ]),
+);
+
 export const hasEyesightTestGotSeriousFault = (data: CatBUniqueTypes.TestData) => data?.eyesightTest?.seriousFault;
 
+export const selectHasEyesightTestGotSeriousFault = createSelector(
+  selectTestData,
+  (data) => data?.eyesightTest?.seriousFault,
+);
+
 export const hasEyesightTestBeenCompleted = (data: CatBUniqueTypes.TestData) => data?.eyesightTest?.complete;
+
+export const selectHasEyesightTestBeenCompleted = createSelector(
+  selectTestData,
+  (data) => data?.eyesightTest?.complete,
+);
 
 export const hasLegalRequirementBeenCompleted = (
   data: CatBUniqueTypes.TestRequirements, legalRequirement: LegalRequirements,
@@ -33,6 +58,11 @@ export const hasLegalRequirementBeenCompleted = (
 
 export const getVehicleChecks = (state: CatBUniqueTypes.TestData): CatBUniqueTypes.VehicleChecks => state.vehicleChecks;
 
+export const selectVehicleChecks = createSelector(
+  selectTestData,
+  ({ vehicleChecks }) => vehicleChecks,
+);
+
 export const getTellMeQuestion = (state: CatBUniqueTypes.VehicleChecks): VehicleChecksQuestion => {
   const questionProvider: QuestionProvider = new QuestionProvider();
   return questionProvider
@@ -40,9 +70,24 @@ export const getTellMeQuestion = (state: CatBUniqueTypes.VehicleChecks): Vehicle
     .find((question) => question.code === get(state, 'tellMeQuestion.code'));
 };
 
+export const selectTellMeQuestion = createSelector(
+  selectVehicleChecks,
+  ({ tellMeQuestion }) => {
+    const questionProvider: QuestionProvider = new QuestionProvider();
+    return questionProvider
+      .getTellMeQuestions(TestCategory.B)
+      .find((question) => question.code === get(tellMeQuestion, 'code'));
+  },
+);
+
 export const isTellMeQuestionSelected = (
   state: CatBUniqueTypes.VehicleChecks,
 ) => get(state, 'tellMeQuestion.code') !== undefined;
+
+export const selectIsTellMeQuestionSelected = createSelector(
+  selectVehicleChecks,
+  (vehicleChecks) => get(vehicleChecks, 'tellMeQuestion.code') !== undefined,
+);
 
 export const isTellMeQuestionCorrect = (state: CatBUniqueTypes.VehicleChecks) =>
   get(state, 'tellMeQuestion.outcome') === CompetencyOutcome.P;
@@ -51,6 +96,11 @@ export const isTellMeQuestionDrivingFault = (state: CatBUniqueTypes.VehicleCheck
   get(state, 'tellMeQuestion.outcome') === CompetencyOutcome.DF;
 
 export const tellMeQuestionOutcome = (state: CatBUniqueTypes.VehicleChecks) => get(state, 'tellMeQuestion.outcome');
+
+export const selectTellMeQuestionOutcome = createSelector(
+  selectVehicleChecks,
+  (vehicleChecks) => get(vehicleChecks, 'tellMeQuestion.outcome'),
+);
 
 export const getSelectedTellMeQuestionText = (state: CatBUniqueTypes.VehicleChecks) => {
   const questionProvider: QuestionProvider = new QuestionProvider();

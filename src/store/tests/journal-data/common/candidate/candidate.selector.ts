@@ -96,12 +96,32 @@ export const selectCandidatePrn = createSelector(
 
 export const getGender = (candidate: Candidate) => candidate.gender;
 
+export const selectGender = createSelector(
+  selectCandidate,
+  ({ gender }) => gender,
+);
+
 export const getDateOfBirth = (candidate: Candidate) => candidate.dateOfBirth;
+
+export const selectDateOfBirth = createSelector(
+  selectCandidate,
+  ({ dateOfBirth }) => dateOfBirth,
+);
 
 export const getGenderFullDescription = (
   gender: string,
 ): string => (gender === 'F') ? 'Female' : 'Male';
 
+export const selectGenderFullDescription = createSelector(
+  selectCandidate,
+  ({ gender }) => (gender === 'F') ? 'Female' : 'Male',
+);
+
 export const getGenderSilhouettePath = (
   gender: string,
 ): string => `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`;
+
+export const selectGenderSilhouettePath = createSelector(
+  selectCandidate,
+  ({ gender }) => `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`,
+);

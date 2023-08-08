@@ -1,5 +1,6 @@
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { selectJournalData } from '@store/tests/tests.selector';
 import * as applicationReferenceActions from './application-reference.actions';
 
 export const initialState: ApplicationReference = {
@@ -18,3 +19,8 @@ export const applicationReferenceReducer = createReducer(
 );
 
 export const getApplicationReference = createFeatureSelector<ApplicationReference>('applicationReference');
+
+export const selectApplicationReference = createSelector(
+  selectJournalData,
+  ({ applicationReference }) => applicationReference,
+);

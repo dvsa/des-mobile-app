@@ -5,7 +5,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title id="communication-page-title">
-      {{ 'communication.title' | translate }} - {{candidateUntitledName}}
+      {{ 'communication.title' | translate }} - {{candidateProvidedEmail}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
       <end-test-link
@@ -24,7 +24,7 @@
         (continueClickEvent)="onSubmit()"
         [candidateDriverNumber]="candidateDriverNumber"
         [candidateName]="candidateName"
-        [candidatePrnNumber]="prn()"
+        [candidatePrnNumber]="prn"
         [isStandardsCheck]="isStandardsCheck"
         [showVRNButton]="true">
       </candidate-section>
@@ -33,7 +33,7 @@
         *ngIf="isStandardsCheck"
         (validCertificateChange)="validCertificateChanged($event)"
         [formGroup]="form"
-        [validCertificate]="validCertificate()"
+        [validCertificate]="validCertificate"
       ></valid-certificate>
 
       <div class="mes-full-width-card-separator"></div>
@@ -56,8 +56,8 @@
                 (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
                 [formGroup]="form"
                 [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                [providedEmailAddress]="candidateProvidedEmail()"
-                [shouldRender]="!!(candidateProvidedEmail())">
+                [providedEmailAddress]="candidateProvidedEmail"
+                [shouldRender]="!!(candidateProvidedEmail)">
               </provided-email>
 
               <new-email
@@ -71,7 +71,7 @@
                 (postalRadioSelect)="dispatchCandidateChosePost()"
                 [formGroup]="form"
                 [isPostalAddressChosen]="isPostSelected()"
-                [postalAddress]="candidateAddress()">
+                [postalAddress]="candidateAddress">
               </postal-address>
 
               <ion-row class="validation-message-row">

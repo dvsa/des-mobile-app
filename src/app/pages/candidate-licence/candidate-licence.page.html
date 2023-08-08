@@ -5,11 +5,11 @@
       <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
     </ion-buttons>
     <ion-title id="candidate-licence-page-title">
-      DVLA Licence information - {{pageState.candidateUntitledName$ | async}}
+      DVLA Licence information - {{candidateUntitledName}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
       <end-test-link
-        [category]="pageState.testCategory$ | async"
+        [category]="testCategory"
         [isPracticeMode]="isPracticeMode"
       ></end-test-link>
     </ion-buttons>
@@ -24,7 +24,7 @@
 
     <licence-photo
       [hasError]="hasErrored"
-      [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)">
+      [imageSrc]="getImage(driverPhotograph, data.candidateLicence?.driverPhotograph)">
     </licence-photo>
 
     <licence-data-error
@@ -38,15 +38,15 @@
     <true-likeness
       (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
       [formGroup]="formGroup"
-      [trueLikeness]="pageState.trueLikenessToPhoto$ | async">
+      [trueLikeness]="trueLikeness">
     </true-likeness>
 
     <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
     <licence-information
-      [bookingAge]="pageState.age$ | async"
-      [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [bookingGender]="pageState.genderDescription$ | async"
-      [bookingName]="pageState.candidateUntitledName$ | async"
+      [bookingAge]="age"
+      [bookingDriverNumber]="candidateDriverNumber"
+      [bookingGender]="genderDescription"
+      [bookingName]="candidateUntitledName"
       [candidateData]="data.candidateLicence"
       [isPracticeMode]="isPracticeMode">
     </licence-information>

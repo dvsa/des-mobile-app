@@ -1,5 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector, createSelector } from '@ngrx/store';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { drivingFaultsReducer } from '../common/driving-faults/driving-faults.reducer';
 import { dangerousFaultsReducer } from '../common/dangerous-faults/dangerous-faults.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
@@ -46,3 +47,8 @@ export function testDataReducer(
 }
 
 export const getTestData = createFeatureSelector<CatBUniqueTypes.TestData>('testData');
+
+export const selectTestData = createSelector(
+  selectCurrentTest,
+  ({ testData }) => testData as CatBUniqueTypes.TestData,
+);
