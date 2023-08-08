@@ -41,7 +41,19 @@ export class SearchProvider {
   }
 
   advancedSearch(advancedSearchParams: AdvancedSearchParams): Observable<SearchResultTestSchema[]> {
-    const params = stripNullishValues(advancedSearchParams);
+    const params = stripNullishValues({
+      startDate: advancedSearchParams.startDate,
+      endDate: advancedSearchParams.endDate,
+      staffNumber: advancedSearchParams.staffNumber,
+      dtcCode: advancedSearchParams.costCode,
+      excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
+      category: encodeURIComponent(advancedSearchParams.category),
+      activityCode: advancedSearchParams.activityCode,
+      rekey: advancedSearchParams.rekey,
+      passCertificateNumber: advancedSearchParams.passCertificateNumber
+        ? encodeURIComponent(advancedSearchParams.passCertificateNumber)
+        : null,
+    });
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl(),
       { params },
