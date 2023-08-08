@@ -8,12 +8,22 @@
     </ion-spinner>
 
     <ng-template #showImage>
-      <img
-        [src]="imageSrc"
-        id="driver-photograph-img"
-        alt="Driver licence photo"
-        class="driver-photograph"
-      >
+      <ion-row>
+        <ion-col>
+            <h4 id="licence-information-title">Licence Photograph</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <img
+            [src]="imageSrc"
+            id="driver-photograph-img"
+            alt="Candidate photograph from driving licence"
+            aria-label="Candidate photograph from driving licence"
+            class="driver-photograph"
+          >
+        </ion-col>
+      </ion-row>
     </ng-template>
   </ion-col>
 </ion-row>
