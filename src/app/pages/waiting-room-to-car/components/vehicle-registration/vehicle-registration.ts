@@ -16,6 +16,8 @@ import {
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
+import { VehicleDetails } from '@app/providers/vehicle-details-api/vehicle-details-api.model';
+import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
 @Component({
   selector: 'vehicle-registration',
@@ -26,32 +28,28 @@ import { isEmpty } from 'lodash-es';
 export class VehicleRegistrationComponent implements OnChanges {
   @Input()
   vehicleRegistration: string;
-
   @Input()
   formGroup: UntypedFormGroup;
 
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
-
   @Output()
   vehicleRegistrationBlur = new EventEmitter<string>();
-
   @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
   @Output()
   alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
+  @Output()
+  vrnSearchListUpdate = new EventEmitter<string>();
+  @Output()
+  motDetailsUpdate = new EventEmitter<VehicleDetails>();
 
   formControl: UntypedFormControl;
-
   motData: MotDataWithStatus = null;
-
   modalData: string = null;
-
   hasCalledMOT: boolean = false;
-
   showSearchSpinner: boolean = false;
-
-  modalRepeatCount: number = 2;
+  didNotMatch: boolean = false;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
@@ -77,22 +75,29 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.clearData();
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
+    this.didNotMatch = false;
+
     this.motApiService.getVehicleByIdentifier(value).subscribe(async (val) => {
       this.motData = val;
+      this.vrnSearchListUpdate.emit(value);
       // If the MOT is invalid, open the reconfirm modal
-      if (this.motData?.data?.status === MotStatusCodes.NOT_VALID && this.modalRepeatCount !== 0) {
-        this.modalRepeatCount -= 1;
+      if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
         await this.loadModal();
-        if (this.modalData !== this.motData.data.registration) {
-          // Call the MOT service again if the new registration is different.
-          this.vehicleRegistration = this.modalData;
-          this.getMOT(this.modalData);
+        if (this.modalData === ModalEvent.CANCEL) {
+          this.showSearchSpinner = false;
           return;
+        }
+        if (this.modalData !== this.motData.data.registration) {
+          this.vrnSearchListUpdate.emit(this.modalData);
+          this.didNotMatch = true;
+          this.motData = null;
         }
       }
       this.hasCalledMOT = true;
       this.showSearchSpinner = false;
-      this.modalRepeatCount = 2;
+      if (this.motData) {
+        this.motDetailsUpdate.emit(this.motData?.data);
+      }
     });
   }
 
