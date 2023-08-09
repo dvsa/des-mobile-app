@@ -7,6 +7,7 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { isEmpty } from 'lodash';
+import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
 @Component({
   selector: 'mot-failed-modal',
@@ -53,4 +54,7 @@ export class MotFailedModal implements OnInit {
   async onConfirm() {
     await this.modalCtrl.dismiss(this.formControl.value.toUpperCase());
   }
+  onCancel = async (): Promise<void> => {
+    await this.modalCtrl.dismiss(ModalEvent.CANCEL);
+  };
 }

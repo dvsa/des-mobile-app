@@ -66,6 +66,11 @@ import {
   SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
+  VehicleExpiryDateChanged,
+  VehicleMakeChanged,
+  VehicleModelChanged,
+  VRNListUpdated,
+
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -74,6 +79,7 @@ import {
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
 import {isAnyOf} from '@shared/helpers/simplifiers';
+import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -294,6 +300,16 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
         this.trainerNumberProvided = true;
       }
     } else this.trainerNumberProvided = false;
+  }
+
+  updateVRNSearchList(vrn: string) {
+    this.store$.dispatch(VRNListUpdated(vrn));
+  }
+
+  motDetailsChanged(motDetails: VehicleDetails) {
+    this.store$.dispatch(VehicleMakeChanged(motDetails.make));
+    this.store$.dispatch(VehicleModelChanged(motDetails.model));
+    this.store$.dispatch(VehicleExpiryDateChanged(motDetails.testExpiryDate));
   }
 
   async practiceModeTestCentreAlert() {

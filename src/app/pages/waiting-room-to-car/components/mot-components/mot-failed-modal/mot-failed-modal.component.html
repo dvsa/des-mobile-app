@@ -3,8 +3,7 @@
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" size="80">
       <div class="modal-alert-message mes-data">
-        <div class="mes-data">The vehicle registration entered does not have a valid MOT.</div>
-        <div class="mes-data">Please check and re-enter VRN to confirm.</div>
+        <div class="mes-data">Please check and re-enter VRN.</div>
         <ul></ul>
       </div>
     </ion-col>
@@ -36,6 +35,9 @@
     <ion-col></ion-col>
   </ion-row>
   <ion-row class="padding-top-10">
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button id="practice-modal-cancel" class="cancel-button" fill="clear" (click)="onCancel()">Cancel</ion-button>
+    </ion-col>
     <ion-col class="ion-no-padding column-border-top column-border-right">
       <ion-button [disabled]=!this.formControl.valid fill="clear" class="return-button" (click)="onConfirm()">Confirm</ion-button>
     </ion-col>
