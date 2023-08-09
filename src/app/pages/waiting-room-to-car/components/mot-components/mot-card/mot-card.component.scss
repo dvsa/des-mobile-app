@@ -12,6 +12,16 @@
   background-color: var(--gds-green);
 }
 
+
+.icon-text-align {
+  display: flex;
+  align-items: center;
+}
+
+.icon-text-padding {
+  padding-bottom: 10px;
+}
+
 .close-icon {
   margin-top: 11px;
   width: 45px;

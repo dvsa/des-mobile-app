@@ -48,6 +48,8 @@
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vrnSearchListUpdate)="updateVRNSearchList($event)"
+              (motDetailsUpdate)="motDetailsChanged($event)"
               [formGroup]="form"
               [vehicleRegistration]="pageState.registrationNumber$ | async">
             </vehicle-registration>

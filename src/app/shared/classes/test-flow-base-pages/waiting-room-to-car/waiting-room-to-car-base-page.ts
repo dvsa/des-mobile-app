@@ -29,8 +29,8 @@ import {
   DualControlsToggled,
   GearboxCategoryChanged, MotEvidenceChanged, MotEvidenceProvidedToggled,
   SchoolBikeToggled,
-  SchoolCarToggled,
-  VehicleRegistrationChanged,
+  SchoolCarToggled, VehicleExpiryDateChanged, VehicleMakeChanged, VehicleModelChanged,
+  VehicleRegistrationChanged, VRNListUpdated,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   InstructorAccompanimentToggled,
@@ -76,6 +76,8 @@ import {
 import { Inject, Injector } from '@angular/core';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -321,6 +323,16 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   trainerRegistrationNumberChanged(instructorRegistration: number): void {
     this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
+  }
+
+  updateVRNSearchList(vrn: string) {
+    this.store$.dispatch(VRNListUpdated(vrn));
+  }
+
+  motDetailsChanged(motDetails: VehicleDetails) {
+    this.store$.dispatch(VehicleMakeChanged(motDetails.make));
+    this.store$.dispatch(VehicleModelChanged(motDetails.model));
+    this.store$.dispatch(VehicleExpiryDateChanged(motDetails.testExpiryDate));
   }
 
   async practiceModeTestCentreAlert() {

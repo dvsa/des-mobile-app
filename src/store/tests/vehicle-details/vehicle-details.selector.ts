@@ -6,6 +6,10 @@ export const getRegistrationNumber = (vehicleDetails: VehicleDetails) => vehicle
 export const getGearboxCategory = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory;
 export const getMotStatus = (vehicleDetails: VehicleDetails) => vehicleDetails.motStatus;
 export const getMotEvidenceProvided = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidenceProvided;
+export const getVehicleMake = (vehicleDetails: VehicleDetails) => vehicleDetails.make;
+export const getVehicleModel = (vehicleDetails: VehicleDetails) => vehicleDetails.model;
+export const getTestExpiryDate = (vehicleDetails: VehicleDetails) => vehicleDetails.testExpiryDate;
+export const getSearchedVRNList = (vehicleDetails: VehicleDetails) => vehicleDetails.previouslySearchedRegNumbers;
 export const getMotEvidence = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidence;
 export const isManual = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Manual' || false;
 export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Automatic' || false;
