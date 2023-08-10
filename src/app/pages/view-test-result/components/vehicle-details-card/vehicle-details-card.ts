@@ -194,4 +194,16 @@ export class VehicleDetailsCardComponent {
     return this.isADI3() || !this.instructorRegistrationNumber === undefined
       || this.shouldShowDimensions || !this.vehicleDetails === undefined;
   }
+
+  getPreviousFilteredVRNs(): string[] {
+    const filteredVRN: string[] = [];
+
+    this.data.previouslySearchedRegNumbers.forEach((value) => {
+      if (!filteredVRN.includes(value)) {
+        filteredVRN.push(value);
+      }
+    });
+
+    return filteredVRN;
+  }
 }
