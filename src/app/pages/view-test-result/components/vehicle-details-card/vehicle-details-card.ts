@@ -233,4 +233,16 @@ export class VehicleDetailsCardComponent {
       !this.vehicleDetails === undefined
     );
   }
+
+  getPreviousFilteredVRNs(): string[] {
+    const filteredVRN: string[] = [];
+
+    this.data.previouslySearchedRegNumbers.forEach((value) => {
+      if (!filteredVRN.includes(value)) {
+        filteredVRN.push(value);
+      }
+    });
+
+    return filteredVRN;
+  }
 }
