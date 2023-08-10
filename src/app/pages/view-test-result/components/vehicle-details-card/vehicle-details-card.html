@@ -24,6 +24,36 @@
       >
       </data-row>
 
+            <data-row-custom [label]="'Vehicle registration number'">
+                      <span>
+                        {{registrationNumber}}
+                          <br>
+                        <br>
+                      </span>
+                <ion-accordion-group>
+                    <ion-accordion value="first">
+                        <ion-item slot="header">
+                            <label>{{data.previouslySearchedRegNumbers ? 'Other VRNs searched' : 'No other VRNs were checked' }}</label>
+                        </ion-item>
+                        <div class="ion-padding" style="color: black" slot="content">
+                            <ion-text *ngFor="let VRN of data.previouslySearchedRegNumbers">{{VRN}}</ion-text>
+                        </div>
+                    </ion-accordion>
+                </ion-accordion-group>
+            </data-row-custom>
+
+            <data-row-custom [label]="'Make and Model'">
+                {{data.make}} {{data.model}}
+            </data-row-custom>
+
+            <data-row-custom [label]="'MOT Status'">
+                {{ isValidMOT() ? data.motStatus : 'Expired ' + data?.testExpiryDate}}
+            </data-row-custom>
+
+            <data-row [label]="'Alternative MOT evidence provided?'" [value]="data.motEvidenceProvided ? 'Yes' : 'No'"></data-row>
+
+            <data-row *ngIf="data.motEvidenceProvided" [label]="'Alternative evidence details'" [value]="data.motEvidence"></data-row>
+
       <data-row-custom
         *ngIf="vehicleDetails"
         [label]="'Vehicle details'"
