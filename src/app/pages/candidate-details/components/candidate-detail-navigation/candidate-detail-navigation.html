@@ -4,8 +4,8 @@
         <ion-col>
           <div id="date-container">
             <div>
-              <h2 id="name" class="word-wrapper">Name: {{name}}</h2>
-              <h3 id="dateAndTime">Time: {{time}} {{date}}</h3>
+              <header-component [headerNum]="2" [id]="'name'" class="word-wrapper">Name: {{name}}</header-component>
+              <header-component [headerNum]="3" [id]="'dateAndTime'">Time: {{time}} {{date}}</header-component>
             </div>
           </div>
         </ion-col>
