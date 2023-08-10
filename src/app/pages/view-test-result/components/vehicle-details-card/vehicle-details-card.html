@@ -33,10 +33,10 @@
                 <ion-accordion-group>
                     <ion-accordion value="first">
                         <ion-item slot="header">
-                            <label>{{data.previouslySearchedRegNumbers ? 'Other VRNs searched' : 'No other VRNs were checked' }}</label>
+                            <label>{{getPreviousFilteredVRNs() ? 'Other VRNs searched' : 'No other VRNs were checked' }}</label>
                         </ion-item>
                         <div class="ion-padding" style="color: black" slot="content">
-                            <ion-text *ngFor="let VRN of data.previouslySearchedRegNumbers">{{VRN}}</ion-text>
+                            <ion-text *ngFor="let VRN of getPreviousFilteredVRNs()">{{VRN}}<br></ion-text>
                         </div>
                     </ion-accordion>
                 </ion-accordion-group>
