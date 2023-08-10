@@ -12,17 +12,17 @@
       <ion-col>
         <div id="date-container">
           <div *ngIf="isSelectedDateToday; else notToday">
-            <ion-label class="header1" id="date-today-header">Today</ion-label>
-            <h3 id="today-date" aria-describedby="date-today-header">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+            <header-component [headerNum]="1" class="mes-black" [id]="'date-today-header'">Today</header-component>
+            <header-component [headerNum]="3" class="mes-black" [id]="'today-date'" aria-describedby="date-today-header">{{ selectedDate | date:'EEEE d MMMM y' }}</header-component>
           </div>
           <ng-template #notToday>
             <div *ngIf="fromTestCentreJournal; else journalView">
-              <ion-label class="header1" id="date-tomorrow-header">Tomorrow</ion-label>
-              <h3 id="tomorrow-date" aria-describedby="date-tomorrow-header">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+              <header-component [headerNum]="1" class="mes-black" [id]="'date-tomorrow-header'">Tomorrow</header-component>
+              <header-component [headerNum]="3" class="mes-black" [id]="'tomorrow-date'" aria-describedby="date-tomorrow-header">{{ selectedDate | date:'EEEE d MMMM y' }}</header-component>
             </div>
             <ng-template #journalView>
-              <ion-label class="header1" id="date-day-header">{{ selectedDate | date:'EEEE' }}</ion-label>
-              <h3 id="date-subheader" aria-describedby="date-day-header">{{ selectedDate | date:'d MMMM y' }}</h3>
+              <header-component [headerNum]="1" class="mes-black"  [id]="'date-day-header'">{{ selectedDate | date:'EEEE' }}</header-component>
+              <header-component [headerNum]="3" class="mes-black" [id]="'date-subheader'" aria-describedby="date-day-header">{{ selectedDate | date:'d MMMM y' }}</header-component>
             </ng-template>
           </ng-template>
         </div>
