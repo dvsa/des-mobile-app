@@ -1,6 +1,8 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getEcoFaultText, getETAFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
+import {
+  getEcoFaultText, getETAFaultText, hasDangerousFault, hasSeriousFault,
+} from '../../common/test-data.selector';
 import {
   areTellMeQuestionsCorrect,
   areTellMeQuestionsSelected,
