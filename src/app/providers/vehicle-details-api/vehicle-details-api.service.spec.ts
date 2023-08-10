@@ -46,12 +46,12 @@ xdescribe('VehicleDetailsApiService', () => {
         .subscribe((val) => {
           expect(val)
             .toEqual({
-          status: 'Already Saved',
+              status: 'Already Saved',
               data: {
-            registration: 'ABC123',
-          } as VehicleDetails,
-        });
-      }
+                registration: 'ABC123',
+              } as VehicleDetails,
+            });
+        }
     );
     });
     it('should call the search endpoint with the provided driver number', () => {
