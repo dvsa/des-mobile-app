@@ -11,6 +11,7 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { get } from 'lodash-es';
 
 @Component({
@@ -219,7 +220,9 @@ export class VehicleDetailsCardComponent {
   public get dualControls(): string {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
-
+  isValidMOT() {
+    return this.data?.motStatus === MotStatusCodes.VALID;
+  }
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {
