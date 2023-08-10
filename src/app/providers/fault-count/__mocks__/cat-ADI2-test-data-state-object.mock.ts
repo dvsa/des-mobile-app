@@ -31,7 +31,7 @@ export const catADI2TestDataStateObjectNoDrivingFaults: CatADI2UniqueTypes.TestD
     seriousFault: false,
   },
   testRequirements: {},
-  manoeuvres: [],
+  manoeuvres: [{}, {}],
   controlledStop: {},
 };
 
@@ -72,6 +72,7 @@ export const catADI2TestDataStateObjectManoeuvreFaults: CatADI2UniqueTypes.TestD
         controlFault: 'DF',
       },
     },
+    {},
   ],
   controlledStop: {},
 };
@@ -118,7 +119,7 @@ export const catADI2TestDataStateObjectShowMeFaults: CatADI2UniqueTypes.TestData
     seriousFault: false,
   },
   testRequirements: {},
-  manoeuvres: [],
+  manoeuvres: [{}, {}],
   controlledStop: {},
 };
 
@@ -164,7 +165,7 @@ export const catADI2TestDataStateObjectTellMeFaults: CatADI2UniqueTypes.TestData
     seriousFault: false,
   },
   testRequirements: {},
-  manoeuvres: [],
+  manoeuvres: [{}, {}],
   controlledStop: {},
 };
 
@@ -198,7 +199,7 @@ export const catADI2TestDataStateObjectControlledStopDrivingFaults: CatADI2Uniqu
     seriousFault: false,
   },
   testRequirements: {},
-  manoeuvres: [],
+  manoeuvres: [{}, {}],
   controlledStop: {
     fault: 'DF',
     selected: true,
@@ -251,6 +252,7 @@ export const catADI2TestDataStateObjectSeriousFaults: CatADI2UniqueTypes.TestDat
         controlFault: CompetencyOutcome.S,
       },
     },
+    {},
   ],
   controlledStop: {
     fault: CompetencyOutcome.S,
@@ -304,6 +306,7 @@ export const catADI2TestDataStateObjectDangerousFaults: CatADI2UniqueTypes.TestD
         controlFault: CompetencyOutcome.D,
       },
     },
+    {},
   ],
   controlledStop: {
     fault: CompetencyOutcome.D,

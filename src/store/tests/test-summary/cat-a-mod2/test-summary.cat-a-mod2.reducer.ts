@@ -4,7 +4,7 @@ import * as testSummaryActions from '@store/tests/test-summary/test-summary.acti
 import * as fromMod2fromTestSummaryActions from './test-summary.cat-a-mod2.actions';
 import * as fromTestSummaryActions from '../test-summary.actions';
 
-export const initialState : TestSummary = {
+export const initialState: TestSummary = {
   routeNumber: null,
   modeOfTransport: null,
   independentDriving: null,
@@ -39,7 +39,7 @@ export const testSummaryMod2Reducer = createReducer(
     routeNumber,
   }): TestSummary => ({
     ...state,
-    routeNumber,
+    routeNumber: routeNumber as 88,
   })),
   on(fromTestSummaryActions.DebriefWitnessed, (state): TestSummary => ({
     ...state,
