@@ -6,20 +6,32 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "rxjs"
+    "rxjs",
+    "import"
   ],
   "extends": [
     "airbnb-typescript/base"
   ],
   "rules": {
-    "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 1, "ignoredNodes": ["PropertyDefinition"] }],
+    "@typescript-eslint/indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1,
+        "ignoredNodes": [
+          "PropertyDefinition"
+        ]
+      }
+    ],
     "import/no-named-default": "off",
     "@typescript-eslint/no-useless-constructor": "off",
     "no-useless-constructor": "off",
     "no-param-reassign": "off",
+    "@typescript-eslint/default-param-last": "off",
     "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/dot-notation": "off",
+    "@typescript-eslint/no-redeclare": "off",
     "no-return-assign": "off",
     "implicit-arrow-linebreak": "off",
     "no-unused-expressions": "error",
@@ -31,9 +43,18 @@
     "no-console": "warn",
     "no-confusing-arrow": "off",
     "import/prefer-default-export": "off",
-    "quotes": ["error", "single"],
+    "default-param-last": "off",
+    "quotes": [
+      "error",
+      "single"
+    ],
     "no-nested-ternary": "off",
-    "max-len": ["error", { "code": 120 }],
+    "max-len": [
+      "error",
+      {
+        "code": 120
+      }
+    ],
     "rxjs/finnish": [
       "error",
       {
