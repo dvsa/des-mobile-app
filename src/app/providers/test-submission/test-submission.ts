@@ -1,3 +1,4 @@
+import { gzipSync } from 'zlib';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import {
@@ -7,7 +8,6 @@ import { catchError, timeout } from 'rxjs/operators';
 import { Observable, forkJoin, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { gzipSync } from 'zlib';
 import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
 import { ActivityCodes } from '@shared/models/activity-codes';

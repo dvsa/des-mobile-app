@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
 import { gzipSync } from 'zlib';
+import { TestBed } from '@angular/core/testing';
 import { CompressionProvider } from '../compression';
 
 describe('CompressionProvider', () => {

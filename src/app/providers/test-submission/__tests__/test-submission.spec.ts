@@ -1,6 +1,6 @@
+import { gunzipSync } from 'zlib';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { gunzipSync } from 'zlib';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Store, StoreModule } from '@ngrx/store';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
