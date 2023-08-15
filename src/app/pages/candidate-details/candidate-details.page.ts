@@ -25,6 +25,7 @@ import {
 } from '@store/journal/journal.selector';
 import { ActivityCode } from '@dvsa/mes-search-schema';
 import { map } from 'rxjs/operators';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -175,5 +176,17 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   isCompleted(testStatus: TestStatus, completedTestOutcome: ActivityCode): boolean {
     if (completedTestOutcome) return true;
     return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
+  }
+
+  /**
+   * do not display restricted categoties when on test centre journals
+   */
+  restrictDetails(): boolean {
+    return this.isTeamJournal && isAnyOf(this.slot.booking.application.testCategory, [
+      TestCategory.ADI2,
+      TestCategory.ADI3,
+      TestCategory.SC,
+    ]);
+
   }
 }
