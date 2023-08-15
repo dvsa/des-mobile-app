@@ -28,7 +28,7 @@
           <ion-col *ngIf="!isUnSubmittedTestSlotView" class="exclamation-col align-center" size="7">
             <indicators
               [applicationId]="slot.booking.application.applicationId"
-              [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking()"
+              [showExclamationIndicator]="isIndicatorNeededForSlot() && !slotProvider.isTestCentreJournalADIBooking(slot, isTeamJournal)"
               [testStatus]="componentState.testStatus$ | async">
             </indicators>
           </ion-col>
@@ -46,7 +46,7 @@
           </ion-col>
           <ion-col class="align-center" size="24">
             <test-category
-              *ngIf="!isTestCentreJournalADIBooking()"
+              *ngIf="!slotProvider.isTestCentreJournalADIBooking(slot, isTeamJournal)"
               [applicationId]="slot.booking.application.applicationId"
               [category]="slot.booking.application.testCategory">
             </test-category>
@@ -67,7 +67,7 @@
           </ion-col>
           <ion-col size="2"></ion-col>
           <ion-col size="68">
-            <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking()"
+            <div *ngIf="isTeamJournal && !slotProvider.isTestCentreJournalADIBooking(slot, isTeamJournal)"
                  class="team-journal-driver-number"
                  id="driver-number-{{slot.booking?.candidate?.driverNumber}}">
               {{slot.booking?.candidate?.driverNumber}}
@@ -150,7 +150,7 @@
 </ion-card>
 
 <ng-template #candidateLink>
-  <candidate-link *ngIf="canViewCandidateDetails() && !isTestCentreJournalADIBooking()"
+  <candidate-link *ngIf="slotProvider.canViewCandidateDetails(slot) && !slotProvider.isTestCentreJournalADIBooking(slot, isTeamJournal)"
                   [applicationId]="slot.booking.application.applicationId"
                   [isPortrait]="isPortrait"
                   [isTeamJournal]="isTeamJournal"
@@ -159,11 +159,11 @@
                   [slot]="slot"
                   [slots]="slots">
   </candidate-link>
-  <ion-button *ngIf="!canViewCandidateDetails() &&!isTestCentreJournalADIBooking()"
+  <ion-button *ngIf="!slotProvider.canViewCandidateDetails(slot) &&!slotProvider.isTestCentreJournalADIBooking(slot, isTeamJournal)"
               class="candidate-details-placeholder-text" disabled expand="full" fill="clear">
     <h3 class="candidate-name">Candidate details unavailable</h3>
   </ion-button>
-  <ion-button *ngIf="isTestCentreJournalADIBooking()" class="candidate-details-placeholder-text" disabled
+  <ion-button *ngIf="slotProvider.isTestCentreJournalADIBooking(slot, isTeamJournal)" class="candidate-details-placeholder-text" disabled
               expand="full" fill="clear">
     <h3>ADI Enforcement Activities</h3>
   </ion-button>

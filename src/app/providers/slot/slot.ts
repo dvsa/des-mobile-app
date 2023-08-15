@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { ExaminerWorkSchedule, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import * as moment from 'moment';
 import { SlotItem } from '../slot-selector/slot-item';
 import { AppConfigProvider } from '../app-config/app-config';
 import { SlotHasChanged } from './slot.actions';
@@ -139,11 +141,47 @@ export class SlotProvider {
     return this.dateDiffInDays(slotDate, new Date(periodTo)) >= 0;
   };
 
-  getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
+  public getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
     let slotItemsByDate: { [date: string]: SlotItem[] };
     slotItemsByDate = groupBy(slotItems, this.getSlotDate);
     slotItemsByDate = this.extendWithEmptyDays(slotItemsByDate);
     slotItemsByDate = this.getRelevantSlots(slotItemsByDate);
     return slotItemsByDate;
   };
+
+  public isTestCentreJournalADIBooking(slot, isTeamJournal): boolean {
+    const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
+    const testCategory: TestCategory = get(slot, 'booking.application.testCategory', null) as TestCategory;
+    return aDICats.includes(testCategory) && isTeamJournal;
+  }
+
+  canViewCandidateDetails(slot): boolean {
+    const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
+    const currentDateTime = new Date();
+    const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
+      return (period.testCategory === TestCategory.ADI2)
+        && new Date(period.from) <= currentDateTime
+        && (new Date(period.to) >= currentDateTime || period.to === null);
+    });
+    const slotStart = moment(slot.slotDetail.start)
+      .startOf('day');
+    const maxViewStart = moment(this.getLatestViewableSlotDateTime())
+      .startOf('day');
+    return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
+  }
+
+  getLatestViewableSlotDateTime(): Date {
+    const today = moment();
+    // add 3 days if current day is friday, 2 if saturday, else add 1
+    let daysToAdd;
+    if (today.isoWeekday() === 5) {
+      daysToAdd = 3;
+    } else {
+      daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
+    }
+    return moment()
+      .add(daysToAdd, 'days')
+      .startOf('day')
+      .toDate();
+  }
 }
