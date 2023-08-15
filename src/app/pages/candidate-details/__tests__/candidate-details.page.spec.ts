@@ -31,8 +31,6 @@ import { JournalModel } from '@store/journal/journal.model';
 import { StoreModel } from '@shared/models/store.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { SlotProvider } from '@providers/slot/slot';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
@@ -101,7 +99,6 @@ describe('CandidateDetailsPage', () => {
         { provide: NavParams, useValue: mockNavParams },
         { provide: Router, useClass: RouterMock },
         { provide: SlotProvider, useClass: SlotProvider },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         provideMockStore({ initialState }),
       ],
     });

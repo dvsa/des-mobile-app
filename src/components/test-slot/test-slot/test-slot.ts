@@ -99,7 +99,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,
-    private slotProvider: SlotProvider,
+    public slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
     public appComponent: AppComponent,
   ) {
