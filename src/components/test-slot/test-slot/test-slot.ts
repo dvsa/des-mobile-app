@@ -6,7 +6,6 @@ import { filter, map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import * as moment from 'moment';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -174,36 +173,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
   }
 
-  canViewCandidateDetails(): boolean {
-    const { testPermissionPeriods } = this.appConfig.getAppConfig().journal;
-    const currentDateTime = new Date();
-    const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
-      return (period.testCategory === TestCategory.ADI2)
-        && new Date(period.from) <= currentDateTime
-        && (new Date(period.to) >= currentDateTime || period.to === null);
-    });
-    const slotStart = moment(this.slot.slotDetail.start)
-      .startOf('day');
-    const maxViewStart = moment(this.getLatestViewableSlotDateTime())
-      .startOf('day');
-    return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
-  }
-
-  getLatestViewableSlotDateTime(): Date {
-    const today = moment();
-    // add 3 days if current day is friday, 2 if saturday, else add 1
-    let daysToAdd;
-    if (today.isoWeekday() === 5) {
-      daysToAdd = 3;
-    } else {
-      daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
-    }
-    return moment()
-      .add(daysToAdd, 'days')
-      .startOf('day')
-      .toDate();
-  }
-
   getExaminerId(): number {
     let returnValue = null;
     if (this.delegatedTest) {
@@ -211,12 +180,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       returnValue = slot.examinerId;
     }
     return returnValue;
-  }
-
-  isTestCentreJournalADIBooking(): boolean {
-    const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
-    const testCategory: TestCategory = get(this.slot, 'booking.application.testCategory', null) as TestCategory;
-    return aDICats.includes(testCategory) && this.isTeamJournal;
   }
 
   isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;

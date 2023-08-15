@@ -25,7 +25,8 @@ import {
 } from '@store/journal/journal.selector';
 import { ActivityCode } from '@dvsa/mes-search-schema';
 import { map } from 'rxjs/operators';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { SlotProvider } from '@providers/slot/slot';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -66,6 +67,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     public store$: Store<StoreModel>,
     public router: Router,
     public dateTimeProvider: DateTimeProvider,
+    public appConfig: AppConfigProvider,
+    public slotProvider: SlotProvider,
   ) {
   }
 
@@ -151,9 +154,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   }
 
   /**
-     * Strip the slash from the start of the url returned by the router
-     * @param url
-     */
+   * Strip the slash from the start of the url returned by the router
+   * @param url
+   */
   formatUrl(url: string): string {
     return url ? url.substring(1) : null;
   }
@@ -179,14 +182,12 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   }
 
   /**
-   * do not display restricted categoties when on test centre journals
+   * Do not display restricted categories when on test centre journals
+   * if user doesnt conduct restricted tests
    */
   restrictDetails(): boolean {
-    return this.isTeamJournal && isAnyOf(this.slot.booking.application.testCategory, [
-      TestCategory.ADI2,
-      TestCategory.ADI3,
-      TestCategory.SC,
-    ]);
-
+    return this.slotProvider.canViewCandidateDetails(this.slot)
+      && this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
   }
+
 }

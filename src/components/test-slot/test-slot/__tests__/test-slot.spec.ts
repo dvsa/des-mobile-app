@@ -7,7 +7,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import * as moment from 'moment';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -20,7 +19,6 @@ import { StartTest } from '@store/tests/tests.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 import { SlotProvider } from '@providers/slot/slot';
-import { AppConfig } from '@providers/app-config/app-config.model';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { IndicatorsComponent } from '@components/test-slot/indicators/indicators';
@@ -287,324 +285,152 @@ describe('TestSlotComponent', () => {
       });
     });
 
-    describe('getLatestViewableSlotDateTime()', () => {
-      it('should return the next day if current day is not friday or saturday', () => {
-        jasmine.clock()
-          .mockDate(new Date('2020-07-23')); // thursday
-        const nextDay = component.getLatestViewableSlotDateTime();
-        expect(nextDay)
-          .toEqual(moment('2020-07-24')
-            .toDate());
+    describe('isCompletedTest', () => {
+      it('should show banner if test status is completed', () => {
+        expect(component.isCompletedTest(TestStatus.Completed))
+          .toEqual(true);
       });
-      it('should return start of the following monday if friday', () => {
-        jasmine.clock()
-          .mockDate(new Date('2020-07-24')); // friday
-        const nextDay = component.getLatestViewableSlotDateTime();
-        expect(nextDay)
-          .toEqual(moment('2020-07-27')
-            .toDate());
+      it('should not show banner if test status is booked', () => {
+        expect(component.isCompletedTest(TestStatus.Booked))
+          .toEqual(false);
       });
-      it('should return start of the following monday if saturday', () => {
-        jasmine.clock()
-          .mockDate(new Date('2020-07-25')); // friday
-        const nextDay = component.getLatestViewableSlotDateTime();
-        expect(nextDay)
-          .toEqual(moment('2020-07-27')
-            .toDate());
+      it('should not show banner if test status is decided', () => {
+        expect(component.isCompletedTest(TestStatus.Decided))
+          .toEqual(false);
+      });
+      it('should not show banner if test status is started', () => {
+        expect(component.isCompletedTest(TestStatus.Started))
+          .toEqual(false);
+      });
+      it('should not show banner if test status is submitted', () => {
+        expect(component.isCompletedTest(TestStatus.Submitted))
+          .toEqual(false);
       });
     });
-    describe('canViewCandidateDetails()', () => {
-      it('should return false if slot date is after latest viewable date and user NOT whitelisted for ADI', () => {
-        spyOn(component, 'getLatestViewableSlotDateTime')
-          .and
-          .callFake(() => moment('2020-07-24')
-            .toDate());
-        component.slot.slotDetail.start = '2020-07-25T08:10:00';
-        const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails)
-          .toEqual(false);
-      });
 
-      it('should return false if slot date is after latest viewable date and user is not whitelisted for ADI2', () => {
-        jasmine.clock()
-          .mockDate(new Date('2020-07-25'));
-        spyOn(component, 'getLatestViewableSlotDateTime')
-          .and
-          .callFake(() => moment('2020-07-24')
-            .toDate());
-        spyOn(component.appConfig, 'getAppConfig')
-          .and
-          .returnValue({
-            journal: {
-              testPermissionPeriods: [{
-                testCategory: TestCategory.ADI3,
-                from: '2020-01-01',
-                to: null,
-              }],
-            },
-          } as AppConfig);
-        component.slot.slotDetail.start = '2020-07-25T08:10:00';
-        const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails)
-          .toEqual(false);
-      });
+    describe('DOM', () => {
+      describe('Component Interaction', () => {
+        it('should pass the special needs status to a indicator component', () => {
 
-      it('should return true if slot date is after latest viewable date and user IS whitelisted for ADI', () => {
-        const now = new Date();
-        const mockDate = new Date('2020-07-25');
-        mockDate.setTime(now.getTime());
-        jasmine.clock()
-          .mockDate(mockDate);
-        spyOn(component, 'getLatestViewableSlotDateTime')
-          .and
-          .callFake(() => moment('2020-07-24')
-            .toDate());
-        spyOn(component.appConfig, 'getAppConfig')
-          .and
-          .returnValue({
-            journal: {
-              testPermissionPeriods: [{
-                testCategory: TestCategory.ADI2,
-                from: '2020-01-01',
-                to: '2020-07-25',
-              }],
-            },
-          } as AppConfig);
-        component.slot.slotDetail.start = '2020-07-25T08:10:00';
-        const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails)
-          .toEqual(true);
-      });
+          component.slot.booking.application.specialNeeds = '';
+          fixture.detectChanges();
+          const indicatorComponent = fixture.debugElement.query(
+            By.directive(MockComponent(IndicatorsComponent)),
+          ).componentInstance;
+          expect(indicatorComponent)
+            .toBeDefined();
+          expect(indicatorComponent.showExclamationIndicator)
+            .toEqual(false);
+        });
 
-      it('should return false if slot date is after latest viewable date and user IS NOT whitelisted for ADI', () => {
-        jasmine.clock()
-          .mockDate(new Date('2020-07-25'));
-        spyOn(component, 'getLatestViewableSlotDateTime')
-          .and
-          .callFake(() => moment('2020-07-24')
-            .toDate());
-        spyOn(component.appConfig, 'getAppConfig')
-          .and
-          .returnValue({
-            journal: {
-              testPermissionPeriods: [{
-                testCategory: TestCategory.B,
-                from: '2020-01-01',
-                to: null,
-              }],
-            },
-          } as AppConfig);
-        component.slot.slotDetail.start = '2020-07-25T08:10:00';
-        const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails)
-          .toEqual(false);
-      });
+        it('should pass something to sub-component time input', () => {
+          fixture.detectChanges();
+          const subByDirective = fixture.debugElement.query(By.directive(MockComponent(TimeComponent)))
+            .componentInstance;
+          expect(subByDirective.time)
+            .toBe(startTime);
+        });
 
-      it('should return true if slot date is equal to latest viewable date', () => {
-        spyOn(component, 'getLatestViewableSlotDateTime')
-          .and
-          .callFake(() => moment('2020-07-24')
-            .toDate());
-        component.slot.slotDetail.start = '2020-07-24T08:10:00';
-        const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails)
-          .toEqual(true);
-      });
-      it('should return true if slot date is less than latest viewable date', () => {
-        spyOn(component, 'getLatestViewableSlotDateTime')
-          .and
-          .callFake(() => moment('2020-07-24')
-            .toDate());
-        component.slot.slotDetail.start = '2020-07-22T08:10:00';
-        const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails)
-          .toEqual(true);
+        it('should pass something to sub-component candidate input', () => {
+          fixture.detectChanges();
+          const subByDirective = fixture.debugElement.query(
+            By.directive(MockComponent(CandidateLinkComponent)),
+          ).componentInstance;
+          expect(subByDirective.name.title)
+            .toBe('Miss');
+          expect(subByDirective.name.firstName)
+            .toBe('Florence');
+          expect(subByDirective.name.lastName)
+            .toBe('Pearson');
+        });
+
+        it('should pass something to sub-component test-category input', () => {
+          fixture.detectChanges();
+          const subByDirective = fixture.debugElement.query(
+            By.directive(MockComponent(TestCategoryComponent)),
+          ).componentInstance;
+          expect(subByDirective.category)
+            .toBe('B');
+        });
+
+        it('should pass something to sub-component test-outcome input', () => {
+          fixture.detectChanges();
+          component.componentState = {
+            testStatus$: of(TestStatus.Booked),
+            testActivityCode$: of(ActivityCodes.PASS),
+            testPassCertificate$: of('C123456X'),
+            isRekey$: of(false),
+          };
+          fixture.detectChanges();
+          const subByDirective = fixture.debugElement.query(
+            By.directive(MockComponent(TestOutcomeComponent)),
+          ).componentInstance;
+
+          expect(subByDirective.slotDetail.slotId)
+            .toEqual(mockSlot.slotDetail.slotId);
+          expect(subByDirective.canStartTest)
+            .toEqual(true);
+        });
+
+        it('should pass test status decided to the test-outcome component when the outcome observable changes', () => {
+          fixture.detectChanges();
+          store$.dispatch(
+            StartTest(mockSlot.slotDetail.slotId, mockSlot.booking.application.testCategory as TestCategory),
+          );
+          store$.dispatch(SetTestStatusDecided(mockSlot.slotDetail.slotId.toString()));
+          fixture.detectChanges();
+
+          const testOutcomeSubComponent = fixture.debugElement.query(
+            By.directive(MockComponent(TestOutcomeComponent)),
+          ).componentInstance;
+
+          expect(testOutcomeSubComponent.testStatus)
+            .toBe(TestStatus.Decided);
+        });
+
+        it('should pass something to sub-component vehicle-details input', () => {
+          spyOn(component, 'showVehicleDetails')
+            .and
+            .returnValue(true);
+          fixture.detectChanges();
+
+          const subByDirective = fixture.debugElement.query(
+            By.directive(MockComponent(VehicleDetailsComponent)),
+          ).componentInstance;
+
+          expect(subByDirective.height)
+            .toBe(4);
+          expect(subByDirective.width)
+            .toBe(3);
+          expect(subByDirective.length)
+            .toBe(2);
+          expect(subByDirective.seats)
+            .toBe(5);
+          expect(subByDirective.transmission)
+            .toBe('Manual');
+          expect(subByDirective.showVehicleDetails)
+            .toBeFalsy();
+        });
+
+        it('should pass something to sub-component language input', () => {
+          fixture.detectChanges();
+          const subByDirective = fixture.debugElement.query(
+            By.directive(MockComponent(LanguageComponent)),
+          ).componentInstance;
+          expect(subByDirective.welshLanguage)
+            .toEqual(false);
+        });
+
+        it('should pass something to sub-component location input', () => {
+          fixture.detectChanges();
+          const subByDirective = fixture.debugElement.query(
+            By.directive(MockComponent(LocationComponent)),
+          ).componentInstance;
+          expect(subByDirective.location)
+            .toBe('Example Test Centre');
+        });
       });
     });
-    describe('isTestCentreJournalADIBooking', () => {
-      beforeEach(() => {
-        component.isTeamJournal = true;
-        component.slot = {
-          booking: {
-            application: {
-              testCategory: TestCategory.B,
-            },
-          },
-        } as TestSlot;
-      });
-      it('should return false if non ADI / SC booking', () => {
-        expect(component.isTestCentreJournalADIBooking())
-          .toEqual(false);
-      });
-      it('should return true if ADI2 booking and team journal', () => {
-        component.slot.booking.application.testCategory = TestCategory.ADI2;
-        expect(component.isTestCentreJournalADIBooking())
-          .toEqual(true);
-      });
-      it('should return true if ADI3 booking and team journal', () => {
-        component.slot.booking.application.testCategory = TestCategory.ADI3;
-        expect(component.isTestCentreJournalADIBooking())
-          .toEqual(true);
-      });
-      it('should return true if SC booking and team journal', () => {
-        component.slot.booking.application.testCategory = TestCategory.SC;
-        expect(component.isTestCentreJournalADIBooking())
-          .toEqual(true);
-      });
-      it('should return false if SC booking and NOT team journal', () => {
-        component.slot.booking.application.testCategory = TestCategory.SC;
-        component.isTeamJournal = false;
-        expect(component.isTestCentreJournalADIBooking())
-          .toEqual(false);
-      });
 
-    });
   });
-
-  describe('isCompletedTest', () => {
-    it('should show banner if test status is completed', () => {
-      expect(component.isCompletedTest(TestStatus.Completed))
-        .toEqual(true);
-    });
-    it('should not show banner if test status is booked', () => {
-      expect(component.isCompletedTest(TestStatus.Booked))
-        .toEqual(false);
-    });
-    it('should not show banner if test status is decided', () => {
-      expect(component.isCompletedTest(TestStatus.Decided))
-        .toEqual(false);
-    });
-    it('should not show banner if test status is started', () => {
-      expect(component.isCompletedTest(TestStatus.Started))
-        .toEqual(false);
-    });
-    it('should not show banner if test status is submitted', () => {
-      expect(component.isCompletedTest(TestStatus.Submitted))
-        .toEqual(false);
-    });
-  });
-
-  describe('DOM', () => {
-    describe('Component Interaction', () => {
-      it('should pass the special needs status to a indicator component', () => {
-
-        component.slot.booking.application.specialNeeds = '';
-        fixture.detectChanges();
-        const indicatorComponent = fixture.debugElement.query(
-          By.directive(MockComponent(IndicatorsComponent)),
-        ).componentInstance;
-        expect(indicatorComponent)
-          .toBeDefined();
-        expect(indicatorComponent.showExclamationIndicator)
-          .toEqual(false);
-      });
-
-      it('should pass something to sub-component time input', () => {
-        fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(By.directive(MockComponent(TimeComponent))).componentInstance;
-        expect(subByDirective.time)
-          .toBe(startTime);
-      });
-
-      it('should pass something to sub-component candidate input', () => {
-        fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(CandidateLinkComponent)),
-        ).componentInstance;
-        expect(subByDirective.name.title)
-          .toBe('Miss');
-        expect(subByDirective.name.firstName)
-          .toBe('Florence');
-        expect(subByDirective.name.lastName)
-          .toBe('Pearson');
-      });
-
-      it('should pass something to sub-component test-category input', () => {
-        fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(TestCategoryComponent)),
-        ).componentInstance;
-        expect(subByDirective.category)
-          .toBe('B');
-      });
-
-      it('should pass something to sub-component test-outcome input', () => {
-        fixture.detectChanges();
-        component.componentState = {
-          testStatus$: of(TestStatus.Booked),
-          testActivityCode$: of(ActivityCodes.PASS),
-          testPassCertificate$: of('C123456X'),
-          isRekey$: of(false),
-        };
-        fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(TestOutcomeComponent)),
-        ).componentInstance;
-
-        expect(subByDirective.slotDetail.slotId)
-          .toEqual(mockSlot.slotDetail.slotId);
-        expect(subByDirective.canStartTest)
-          .toEqual(true);
-      });
-
-      it('should pass test status decided to the test-outcome component when the outcome observable changes', () => {
-        fixture.detectChanges();
-        store$.dispatch(
-          StartTest(mockSlot.slotDetail.slotId, mockSlot.booking.application.testCategory as TestCategory),
-        );
-        store$.dispatch(SetTestStatusDecided(mockSlot.slotDetail.slotId.toString()));
-        fixture.detectChanges();
-
-        const testOutcomeSubComponent = fixture.debugElement.query(
-          By.directive(MockComponent(TestOutcomeComponent)),
-        ).componentInstance;
-
-        expect(testOutcomeSubComponent.testStatus)
-          .toBe(TestStatus.Decided);
-      });
-
-      it('should pass something to sub-component vehicle-details input', () => {
-        spyOn(component, 'showVehicleDetails')
-          .and
-          .returnValue(true);
-        fixture.detectChanges();
-
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(VehicleDetailsComponent)),
-        ).componentInstance;
-
-        expect(subByDirective.height)
-          .toBe(4);
-        expect(subByDirective.width)
-          .toBe(3);
-        expect(subByDirective.length)
-          .toBe(2);
-        expect(subByDirective.seats)
-          .toBe(5);
-        expect(subByDirective.transmission)
-          .toBe('Manual');
-        expect(subByDirective.showVehicleDetails)
-          .toBeFalsy();
-      });
-
-      it('should pass something to sub-component language input', () => {
-        fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(LanguageComponent)),
-        ).componentInstance;
-        expect(subByDirective.welshLanguage)
-          .toEqual(false);
-      });
-
-      it('should pass something to sub-component location input', () => {
-        fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(LocationComponent)),
-        ).componentInstance;
-        expect(subByDirective.location)
-          .toBe('Example Test Centre');
-      });
-    });
-  });
-
 });
