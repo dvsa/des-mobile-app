@@ -25,7 +25,6 @@ import {
 } from '@store/journal/journal.selector';
 import { ActivityCode } from '@dvsa/mes-search-schema';
 import { map } from 'rxjs/operators';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SlotProvider } from '@providers/slot/slot';
 import { Details } from './candidate-details.page.model';
 
@@ -59,6 +58,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   idPrefix: string = 'candidate-details';
   prevSlot: TestSlot;
   nextSlot: TestSlot;
+  restrictDetails: boolean = true;
   private destroy$ = new Subject<{}>();
 
   constructor(
@@ -67,7 +67,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     public store$: Store<StoreModel>,
     public router: Router,
     public dateTimeProvider: DateTimeProvider,
-    public appConfig: AppConfigProvider,
     public slotProvider: SlotProvider,
   ) {
   }
@@ -130,6 +129,11 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     setTimeout(() => {
       this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
+
+    this.restrictDetails = (
+      this.slotProvider.canViewCandidateDetails(this.slot)
+      && this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal)
+    );
   }
 
   ionViewDidEnter(): void {
@@ -179,15 +183,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   isCompleted(testStatus: TestStatus, completedTestOutcome: ActivityCode): boolean {
     if (completedTestOutcome) return true;
     return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
-  }
-
-  /**
-   * Do not display restricted categories when on test centre journals
-   * if user doesnt conduct restricted tests
-   */
-  restrictDetails(): boolean {
-    return this.slotProvider.canViewCandidateDetails(this.slot)
-      && this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
   }
 
 }

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar mode="ios" class="toolbar-spacing">
         <ion-title id="test-details-title" class="ion-text-center toolbar-item-spacing">
-            {{ restrictDetails() ? 'ADI Enforcement Activities' : 'Test details - ' + pageState.name }}
+            {{ restrictDetails ? 'ADI Enforcement Activities' : 'Test details - ' + pageState.name }}
         </ion-title>
         <ion-buttons class="toolbar-item-spacing">
             <ion-button slot="start" id="close-button" (click)="dismiss()">
@@ -12,7 +12,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="restrictDetails(); else candidateDetails">
+<ion-content *ngIf="restrictDetails; else candidateDetails">
     <ion-grid>
         <ion-row class="navigation-row">
             <candidate-detail-navigation

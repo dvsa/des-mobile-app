@@ -4,7 +4,9 @@ import {
   flatten, times, isEmpty, get, groupBy,
 } from 'lodash';
 import { Store } from '@ngrx/store';
-import { ExaminerWorkSchedule, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
+import {
+  ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot,
+} from '@dvsa/mes-journal-schema';
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -149,13 +151,13 @@ export class SlotProvider {
     return slotItemsByDate;
   };
 
-  public isTestCentreJournalADIBooking(slot, isTeamJournal): boolean {
+  public isTestCentreJournalADIBooking(slot: TestSlot | NonTestActivity, isTeamJournal: boolean = false): boolean {
     const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
     const testCategory: TestCategory = get(slot, 'booking.application.testCategory', null) as TestCategory;
     return aDICats.includes(testCategory) && isTeamJournal;
   }
 
-  canViewCandidateDetails(slot): boolean {
+  canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
     const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
     const currentDateTime = new Date();
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
