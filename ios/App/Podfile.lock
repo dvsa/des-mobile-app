@@ -1,6 +1,8 @@
 PODS:
   - Capacitor (5.2.1):
     - CapacitorCordova
+  - CapacitorAppLauncher (5.0.6):
+    - Capacitor
   - CapacitorCordova (5.2.1)
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
@@ -30,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorAppLauncher (from `../../node_modules/@capacitor/app-launcher`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - CapacitorNativeBiometric (from `../../node_modules/capacitor-native-biometric`)
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
@@ -50,6 +53,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Capacitor:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorAppLauncher:
+    :path: "../../node_modules/@capacitor/app-launcher"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorNativeBiometric:
@@ -75,6 +80,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Capacitor: 36510199454641113344c2e5ef43bf3f54b5af79
+  CapacitorAppLauncher: 5a9f06c13c6b4f5d65b550a07128ef04f3a216b3
   CapacitorCordova: d173eeb1635e62aa95a20874a5d5cbbf0aa1e0df
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
   CapacitorSplashScreen: 5fa2ab5e46cf5cc530cf16a51c80c7a986579ccd
@@ -89,6 +95,6 @@ SPEC CHECKSUMS:
   Sentry: bc644307e2eb6a4c9c55cf117a80b895bb2a25a7
   SentryCapacitor: f31de50b1671f12c107f25f735937f196f87f9d2
 
-PODFILE CHECKSUM: 6e6c4042ab9a91ebf65bcda09389edc710947ca4
+PODFILE CHECKSUM: bae2fc522529f92a4fdb12d3271471219942538b
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1
