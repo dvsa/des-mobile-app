@@ -93,13 +93,16 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   practiceTestStatus: TestStatus = TestStatus.Booked;
 
+  canViewCandidateDetails: boolean = false;
+  isTestCentreJournalADIBooking: boolean = false;
+
   formatAppRef = formatApplicationReference;
 
   constructor(
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,
-    public slotProvider: SlotProvider,
+    private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
     public appComponent: AppComponent,
   ) {
@@ -128,6 +131,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         select(isRekey),
       ),
     };
+
+    this.canViewCandidateDetails = this.slotProvider.canViewCandidateDetails(this.slot);
+    this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
+
   }
 
   getColSize(): string {
