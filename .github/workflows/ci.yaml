@@ -39,7 +39,7 @@ jobs:
       - name: 🔧 Create ionic.config.json
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
-  audit:
+  ci:
     runs-on: mito-2
     needs: [ setup ]
     steps:
@@ -51,50 +51,10 @@ jobs:
       - name: ➕ Install dependencies
         run: npm ci
 
-      - name: 🕵️‍♀️ Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
-
-  build:
-    runs-on: mito-2
-    needs: [ setup ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
-
-      - name: ⚒️ Build project
-        run: npm run build:ci
-
-  lint:
-    runs-on: mito-2
-    needs: [ setup, build ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
-
-      - name: 📝 Lint codebase
-        run: npm run lint
-
-  test:
-    runs-on: mito-2
-    needs: [ setup, build ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
-
-      - name: 🧪️ Execute unit tests
-        run: npm run test
+      - name: CI
+        run: |
+          npx concurrently \
+          "npm audit --omit=dev --audit-level=high" \
+          "npm:build:ci" \
+          "npm:lint" \
+          "npm:test"
