@@ -23,12 +23,12 @@ PODS:
   - DvsaCapacitorPluginAsam (0.0.10):
     - Capacitor
   - GoogleAnalytics (3.20.0)
-  - Sentry (7.27.1):
-    - Sentry/Core (= 7.27.1)
-  - Sentry/Core (7.27.1)
-  - SentryCapacitor (0.12.1):
+  - Sentry/HybridSDK (8.8.0):
+    - SentryPrivate (= 8.8.0)
+  - SentryCapacitor (0.12.2):
     - Capacitor
-    - Sentry (~> 7.27.1)
+    - Sentry/HybridSDK (= 8.8.0)
+  - SentryPrivate (8.8.0)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -49,6 +49,7 @@ SPEC REPOS:
   trunk:
     - GoogleAnalytics
     - Sentry
+    - SentryPrivate
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -92,8 +93,9 @@ SPEC CHECKSUMS:
   CordovaPluginsStatic: fab1f288d8e518a16d30c438fd33531749e341d0
   DvsaCapacitorPluginAsam: 9c9f03afdc71818a37ca5b8a03c0ba35d70dfaf6
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
-  Sentry: bc644307e2eb6a4c9c55cf117a80b895bb2a25a7
-  SentryCapacitor: f31de50b1671f12c107f25f735937f196f87f9d2
+  Sentry: 927dfb29d18a14d924229a59cc2ad149f43349f2
+  SentryCapacitor: dfb6be40c56dc29689eb3d587b8f134b15c26ef6
+  SentryPrivate: 4350d865f898224ab9fa02b37d6ee7fbb623f47e
 
 PODFILE CHECKSUM: bae2fc522529f92a4fdb12d3271471219942538b
 
