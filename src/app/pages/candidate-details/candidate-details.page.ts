@@ -25,6 +25,7 @@ import {
 } from '@store/journal/journal.selector';
 import { ActivityCode } from '@dvsa/mes-search-schema';
 import { map } from 'rxjs/operators';
+import { SlotProvider } from '@providers/slot/slot';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -57,6 +58,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   idPrefix: string = 'candidate-details';
   prevSlot: TestSlot;
   nextSlot: TestSlot;
+  restrictDetails: boolean = true;
   private destroy$ = new Subject<{}>();
 
   constructor(
@@ -65,6 +67,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     public store$: Store<StoreModel>,
     public router: Router,
     public dateTimeProvider: DateTimeProvider,
+    public slotProvider: SlotProvider,
   ) {
   }
 
@@ -126,6 +129,11 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     setTimeout(() => {
       this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
+
+    this.restrictDetails = (
+      this.slotProvider.canViewCandidateDetails(this.slot)
+      && this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal)
+    );
   }
 
   ionViewDidEnter(): void {
@@ -150,9 +158,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   }
 
   /**
-     * Strip the slash from the start of the url returned by the router
-     * @param url
-     */
+   * Strip the slash from the start of the url returned by the router
+   * @param url
+   */
   formatUrl(url: string): string {
     return url ? url.substring(1) : null;
   }
@@ -176,4 +184,5 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     if (completedTestOutcome) return true;
     return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
   }
+
 }
