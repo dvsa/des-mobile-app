@@ -7,9 +7,14 @@ import { StoreModel } from '@shared/models/store.model';
 import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
-  getBusiness, getCategoryEntitlementCheckText, getDetails,
-  getFitCaseNumber, getFitMarker,
-  getTime, isCandidateCheckNeeded, isCategoryEntitlementChecked,
+  getBusiness,
+  getCategoryEntitlementCheckText,
+  getDetails,
+  getFitCaseNumber,
+  getFitMarker,
+  getTime,
+  isCandidateCheckNeeded,
+  isCategoryEntitlementChecked,
 } from '@store/candidate-details/candidate-details.selector';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Router } from '@angular/router';
@@ -19,10 +24,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatus } from '@store/tests/tests.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getJournalState } from '@store/journal/journal.reducer';
-import {
-  getCompletedTestOutcome,
-  getCompletedTests,
-} from '@store/journal/journal.selector';
+import { getCompletedTestOutcome, getCompletedTests } from '@store/journal/journal.selector';
 import { ActivityCode } from '@dvsa/mes-search-schema';
 import { map } from 'rxjs/operators';
 import { SlotProvider } from '@providers/slot/slot';
@@ -44,8 +46,8 @@ interface CandidateDetailsPageState {
 
 @Component({
   selector: 'app-candidate-details',
-  templateUrl: './candidate-details.page.html',
-  styleUrls: ['./candidate-details.page.scss'],
+  templateUrl: 'candidate-details.page.html',
+  styleUrls: ['candidate-details.page.scss'],
 })
 export class CandidateDetailsPage implements OnInit, OnDestroy {
   pageState: CandidateDetailsPageState;

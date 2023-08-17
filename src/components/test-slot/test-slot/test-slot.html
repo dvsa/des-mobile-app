@@ -28,7 +28,7 @@
           <ion-col *ngIf="!isUnSubmittedTestSlotView" class="exclamation-col align-center" size="7">
             <indicators
               [applicationId]="slot.booking.application.applicationId"
-              [showExclamationIndicator]="isIndicatorNeededForSlot() && isTestCentreJournalADIBooking"
+              [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking"
               [testStatus]="componentState.testStatus$ | async">
             </indicators>
           </ion-col>
@@ -40,9 +40,9 @@
           </ion-col>
           <ion-col size="2"></ion-col>
           <ion-col [size]="getColSize()" class="vertical-align-center">
-            <ng-content
+            <ng-template
               *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate;">
-            </ng-content>
+            </ng-template>
           </ion-col>
           <ion-col class="align-center" size="24">
             <test-category
@@ -150,26 +150,41 @@
 </ion-card>
 
 <ng-template #candidateLink>
-  <candidate-link *ngIf="canViewCandidateDetails && !isTestCentreJournalADIBooking"
-                  [applicationId]="slot.booking.application.applicationId"
-                  [isPortrait]="isPortrait"
-                  [isTeamJournal]="isTeamJournal"
-                  [name]="slot.booking.candidate.candidateName"
-                  [slotChanged]="hasSlotChanged"
-                  [slot]="slot"
-                  [slots]="slots">
+  <candidate-link
+    *ngIf="canViewCandidateDetails && !isTestCentreJournalADIBooking"
+    [applicationId]="slot.booking.application.applicationId"
+    [isPortrait]="isPortrait"
+    [isTeamJournal]="isTeamJournal"
+    [name]="slot.booking.candidate.candidateName"
+    [slotChanged]="hasSlotChanged"
+    [slot]="slot"
+    [slots]="slots">
   </candidate-link>
-  <ion-button *ngIf="!canViewCandidateDetails &&!isTestCentreJournalADIBooking"
-              class="candidate-details-placeholder-text" disabled expand="full" fill="clear">
+  <ion-button
+    *ngIf="!canViewCandidateDetails &&!isTestCentreJournalADIBooking"
+    class="candidate-details-placeholder-text"
+    disabled="true"
+    expand="full"
+    fill="clear">
     <h3 class="candidate-name">Candidate details unavailable</h3>
   </ion-button>
-  <ion-button *ngIf="isTestCentreJournalADIBooking" class="candidate-details-placeholder-text" disabled
-              expand="full" fill="clear">
+  <ion-button
+    *ngIf="isTestCentreJournalADIBooking"
+    class="candidate-details-placeholder-text"
+    disabled="true"
+    expand="full"
+    fill="clear">
     <h3>ADI Enforcement Activities</h3>
   </ion-button>
 </ng-template>
 <ng-template #unknownCandidate>
-  <ion-button class="candidate-details-placeholder-text mes-transparent-button" disabled expand="full" fill="clear">
-    <h3 class="trainer-booked-un-named">Trainer booked -<br *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-regular'"> unnamed</h3>
+  <ion-button
+    class="candidate-details-placeholder-text mes-transparent-button"
+    disabled="true"
+    expand="full"
+    fill="clear">
+    <h3 class="trainer-booked-un-named">
+      Trainer booked -<br *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-regular'"> unnamed
+    </h3>
   </ion-button>
 </ng-template>

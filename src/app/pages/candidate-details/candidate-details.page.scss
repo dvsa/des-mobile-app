@@ -1,22 +1,37 @@
-.exclamation-indicator {
-  width: 26px;
-  height: 26px;
-  float: left;
-}
+:host {
+  .exclamation-indicator {
+    width: 26px;
+    height: 26px;
+    float: left;
+  }
 
-.navigation-row {
-  width: 100%;
-  display: block;
-}
+  .navigation-row {
+    width: 100%;
+    display: block;
+  }
 
-.test-start-details {
-  float: right;
-}
+  .test-start-details {
+    float: right;
+  }
 
-.toolbar-spacing {
-  height: 60px;
-}
+  .toolbar-spacing {
+    height: 60px;
+  }
 
-.toolbar-item-spacing {
-  padding-top: 20px;
+  .toolbar-item-spacing {
+    padding-top: 20px;
+  }
+
+  ul {
+    margin-block-end: 0;
+    margin-block-start: 0;
+  }
+
+  .entitlement-check-padding {
+    padding-top: 10px
+  }
+
+  .previous-cancellation-padding {
+    padding-bottom: 10px;
+  }
 }
