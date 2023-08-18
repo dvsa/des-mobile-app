@@ -40,7 +40,7 @@ export class LicenceDataError {
       return 'Details of Northern Ireland licences are not provided by DVLA.';
     }
     if (this.candidateDataUnavailable) {
-      return 'We are unable to return DVLA data for given candidate.';
+      return 'We are unable to return DVLA data for this candidate.';
     }
     if (this.candidateDataError) {
       return 'No DVLA data has been found using candidates driving licence number.';
