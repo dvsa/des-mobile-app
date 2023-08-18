@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
+import { AppLauncher } from '@capacitor/app-launcher';
+
 import {
   combineLatest, from, merge, Observable, Subscription,
 } from 'rxjs';
@@ -76,6 +78,7 @@ export class DashboardPage extends BasePageComponent {
   liveAppVersion: string;
   subscription: Subscription;
   private merged$: Observable<void | string>;
+  private static readonly CompanyPortalURLScheme = 'companyportal://apps';
 
   constructor(
     protected alertController: AlertController,
@@ -209,6 +212,25 @@ export class DashboardPage extends BasePageComponent {
     const { data } = await modal.onDidDismiss<UpdateAvailable>();
 
     this.store$.dispatch(UpdateAvailableOptionClicked(data));
+
     this.store$.dispatch(HasSeenUpdateAvailablePopup(true));
+
+    if (data === UpdateAvailable.OK) {
+      // Disable SAM if not already off
+      await this.deviceProvider.disableSingleAppMode();
+
+      // Check if the disabling worked
+      const enabled = await this.deviceProvider.isSAMEnabled();
+
+      // If not enabled, user should be allowed out of app and therefore proceed with option to go to portal
+      if (!enabled) {
+        const url = DashboardPage.CompanyPortalURLScheme;
+        const { value: canOpen } = await AppLauncher.canOpenUrl({ url });
+
+        if (canOpen) {
+          await AppLauncher.openUrl({ url });
+        }
+      }
+    }
   }
 }

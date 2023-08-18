@@ -29,6 +29,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>companyportal</string>
+    </array>
 	<key>CFBundleVersion</key>
 	<string>4.9.0.0</string>
 	<key>LSRequiresIPhoneOS</key>
