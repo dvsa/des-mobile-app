@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { NativeBiometric } from 'capacitor-native-biometric';
 import { Platform } from '@ionic/angular';
 import { DeviceProvider } from '@providers/device/device';
@@ -43,7 +41,6 @@ export class DeviceAuthenticationProvider {
     return (
       !this.platform.is('cordova')
       || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG
-      || (environment as unknown as TestersEnvironmentFile)?.isTest
     );
   };
 
