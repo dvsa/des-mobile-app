@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@almothafar/angular-signature-pad": "^5.0.1",
-    "@angular/cdk": "^16.1.5",
+    "@angular/cdk": "^16.1.6",
     "@angular/common": "^16.1.5",
     "@angular/core": "^16.1.5",
     "@angular/forms": "^16.1.5",
