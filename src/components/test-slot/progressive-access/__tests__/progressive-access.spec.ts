@@ -22,14 +22,14 @@ describe('ProgressiveAccessComponent', () => {
       it('should render text when the language is Welsh', () => {
         component.progressiveAccess = true;
         fixture.detectChanges();
-        const renderedText = fixture.debugElement.query(By.css('h6.language-description'))
+        const renderedText = fixture.debugElement.query(By.css('ion-text.language-description'))
           .nativeElement;
         expect(renderedText.textContent).toBe('PROG');
       });
       it('should not render text when the language is not Welsh', () => {
         component.progressiveAccess = false;
         fixture.detectChanges();
-        const renderedText = fixture.debugElement.queryAll(By.css('h6.language-description'));
+        const renderedText = fixture.debugElement.queryAll(By.css('ion-text.language-description'));
         expect(renderedText.length).toBe(0);
       });
     });

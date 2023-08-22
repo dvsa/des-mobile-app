@@ -35,7 +35,7 @@ describe('TimeComponent', () => {
     describe('Time output ', () => {
       it('should be displayed', () => {
         fixture.detectChanges();
-        const timeSpan: any = componentEl.query(By.css('h2')).nativeElement;
+        const timeSpan: any = componentEl.query(By.css('ion-text.des-header-style-2')).nativeElement;
         expect(timeSpan.textContent).toBe('10:04');
       });
     });
@@ -43,7 +43,7 @@ describe('TimeComponent', () => {
     describe('class if test complete ', () => {
       it('should be time-test-complete-text', () => {
         fixture.detectChanges();
-        const timeSpan: any = componentEl.query(By.css('h2'));
+        const timeSpan: any = componentEl.query(By.css('ion-text.des-header-style-2'));
         expect(timeSpan.classes['time-test-complete-text']).not.toBeNull();
       });
     });

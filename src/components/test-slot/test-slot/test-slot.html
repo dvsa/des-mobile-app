@@ -72,9 +72,9 @@
                  id="driver-number-{{slot.booking?.candidate?.driverNumber}}">
               {{slot.booking?.candidate?.driverNumber}}
             </div>
-            <h3 *ngIf="delegatedTest && slot.booking.candidate.driverNumber" id="del-ex-driver-number">
+            <ion-text class="des-header-style-3" *ngIf="delegatedTest && slot.booking.candidate.driverNumber" id="del-ex-driver-number">
               {{slot.booking.candidate.driverNumber}}
-            </h3>
+            </ion-text>
             <vehicle-details
               *ngIf="showVehicleDetails() && !delegatedTest && !isTeamJournal"
               [height]="slot.booking.application.vehicleHeight"
@@ -166,7 +166,7 @@
     disabled="true"
     expand="full"
     fill="clear">
-    <h3 class="candidate-name">Candidate details unavailable</h3>
+    <ion-text class="des-header-style-3 candidate-name">Candidate details unavailable</ion-text>
   </ion-button>
   <ion-button
     *ngIf="isTestCentreJournalADIBooking"
@@ -174,7 +174,7 @@
     disabled="true"
     expand="full"
     fill="clear">
-    <h3>ADI Enforcement Activities</h3>
+    <ion-text class="des-header-style-3">ADI Enforcement Activities</ion-text>
   </ion-button>
 </ng-template>
 <ng-template #unknownCandidate>
@@ -183,8 +183,8 @@
     disabled="true"
     expand="full"
     fill="clear">
-    <h3 class="trainer-booked-un-named">
+    <ion-text class="des-header-style-3 trainer-booked-un-named">
       Trainer booked -<br *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-regular'"> unnamed
-    </h3>
+    </ion-text>>
   </ion-button>
 </ng-template>
