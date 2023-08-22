@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-title id="page-title">Journal</ion-title>
+    <ion-title aria-level="1" role="heading" id="page-title">Journal</ion-title>
     <ion-buttons id="back-button" slot="start">
       <ion-back-button
         (click)="router.navigate(['DashboardPage'], {replaceUrl: true})"
@@ -13,11 +13,12 @@
         [disabled]="pageState.isLoading$ | async"
         class="refresh-button"
         id="refresh-button">
-        <div>
+        <div class="line-height-styling">
           <ion-icon class="refresh-button-icon colour-white" name="sync-outline"></ion-icon>
           <span class="colour-white">Refresh</span>
+          <br>
           <ion-label>
-            <h6 class="last-sync" id="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
+            <ion-text class="des-header-style-6 last-sync" id="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</ion-text>
           </ion-label>
         </div>
       </ion-button>
