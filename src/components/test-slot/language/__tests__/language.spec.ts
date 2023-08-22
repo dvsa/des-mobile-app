@@ -38,14 +38,14 @@ describe('LanguageComponent', () => {
       it('should render text when the language is Welsh', () => {
         component.welshLanguage = true;
         fixture.detectChanges();
-        const renderedText = fixture.debugElement.query(By.css('h6.language-padding'))
+        const renderedText = fixture.debugElement.query(By.css('ion-text.language-padding'))
           .nativeElement;
         expect(renderedText.textContent).toBe('Cymraeg');
       });
       it('should not render text when the language is not Welsh', () => {
         component.welshLanguage = false;
         fixture.detectChanges();
-        const renderedText = fixture.debugElement.queryAll(By.css('h6.language-padding'));
+        const renderedText = fixture.debugElement.queryAll(By.css('ion-text.language-padding'));
         expect(renderedText.length).toBe(0);
       });
     });
