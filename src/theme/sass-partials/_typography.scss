@@ -10,51 +10,54 @@
 .heavy-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 800;
+  color: var(--gds-black);
 }
 
 .semibold-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 600;
+  color: var(--gds-black);
 }
 
 .regular-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 400;
+  color: var(--gds-black);
 }
 
 html .text-zoom-regular {
-  h1 {
+  .des-header-style-1 {
     @extend .heavy-font-family;
     font-size: 40px;
     line-height: 56px;
   }
 
-  h2 {
+  .des-header-style-2 {
     @extend .heavy-font-family;
     font-size: 28px;
     line-height: 40px;
   }
 
-  h3 {
+  .des-header-style-3 {
     @extend .semibold-font-family;
     font-size: 20px;
     line-height: 26px;
   }
 
-  h4 {
+  .des-header-style-4 {
     @extend .heavy-font-family;
     font-size: 24px;
     line-height: 30px;
   }
 
-  h5 {
+  .des-header-style-5 {
     @extend .heavy-font-family;
     font-weight: 700;
     font-size: 20px;
     line-height: 26px;
   }
 
-  h6 {
+  .des-header-style-6 {
     @extend .regular-font-family;
     font-size: 14px;
     line-height: 20px;
@@ -89,38 +92,38 @@ html .text-zoom-regular {
 }
 
 .text-zoom-large {
-  h1 {
+  .des-header-style-1 {
     @extend .heavy-font-family;
     font-size: 48px;
     line-height: 68px;
   }
 
-  h2 {
+  .des-header-style-2 {
     @extend .heavy-font-family;
     font-size: 32px;
     line-height: 44px;
   }
 
-  h3 {
+  .des-header-style-3 {
     @extend .semibold-font-family;
     font-size: 24px;
     line-height: 30px;
   }
 
-  h4 {
+  .des-header-style-4 {
     @extend .heavy-font-family;
     font-size: 28px;
     line-height: 34px;
   }
 
-  h5 {
+  .des-header-style-5 {
     @extend .heavy-font-family;
     font-weight: 700;
     font-size: 24px;
     line-height: 30px;
   }
 
-  h6 {
+  .des-header-style-6 {
     @extend .regular-font-family;
     font-size: 16px;
     line-height: 22px;
@@ -154,39 +157,39 @@ html .text-zoom-regular {
 }
 
 .text-zoom-x-large {
-  h1 {
+  .des-header-style-1 {
     @extend .heavy-font-family;
     font-size: 58px;
     line-height: 80px;
   }
 
-  h2 {
+  .des-header-style-2 {
     @extend .heavy-font-family;
     font-size: 38px;
     line-height: 48px;
   }
 
-  h3 {
+  .des-header-style-3 {
     @extend .semibold-font-family;
     font-weight: 600;
     font-size: 28px;
     line-height: 36px;
   }
 
-  h4 {
+  .des-header-style-4 {
     @extend .heavy-font-family;
     font-size: 32px;
     line-height: 40px;
   }
 
-  h5 {
+  .des-header-style-5 {
     @extend .heavy-font-family;
     font-weight: 700;
     font-size: 28px;
     line-height: 36px;
   }
 
-  h6 {
+  .des-header-style-6 {
     @extend .regular-font-family;
     font-size: 18px;
     line-height: 24px;
