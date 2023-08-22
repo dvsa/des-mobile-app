@@ -7,6 +7,12 @@
     color: inherit;
   }
 
+  .mes-primary-button {
+    .des-header-style-3 {
+      color: var(--mes-white);
+    }
+  }
+
   .mes-rekey-button {
     --background: var(--gds-blue);
     --color: var(--mes-white);
