@@ -1,6 +1,6 @@
 .test-centre-journal-button {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
@@ -9,7 +9,7 @@
 
   --background: none;
 
-  h1, h4 {
+  .des-header-style-1, .des-header-style-4 {
     color: var(--mes-white);
   }
 
@@ -28,7 +28,7 @@
     margin-top: 30px;
     box-shadow: none;
 
-    h3 {
+    .des-header-style-3 {
       color: var(--mes-white);
     }
 
