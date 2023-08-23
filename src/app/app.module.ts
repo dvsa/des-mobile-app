@@ -46,10 +46,10 @@ import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/en
 
 import { JournalModule } from '@store/journal/journal.module';
 import { AppConfigStoreModule } from '@store/app-config/app-config.module';
-import { appConfigReducer } from '@store/app-config/app-config.reducer';
+import { appConfigFeatureKey, appConfigReducer } from '@store/app-config/app-config.reducer';
 import { journalReducer } from '@store/journal/journal.reducer';
-import { appInfoReducer } from '@store/app-info/app-info.reducer';
-import { testsReducer } from '@store/tests/tests.reducer';
+import { appInfoFeatureKey, appInfoReducer } from '@store/app-info/app-info.reducer';
+import { testsFeatureKey, testsReducer } from '@store/tests/tests.reducer';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { LogsStoreModule } from '@store/logs/logs.module';
@@ -68,8 +68,11 @@ import { PassCertificateValidationProvider } from '@providers/pass-certificate-v
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.module';
-
 import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
+import { PreferencesStoreModule } from '@store/preferences/preferences.module';
+import { refDataFeatureKey } from '@store/reference-data/reference-data.reducer';
+import { preferencesFeatureKey, preferencesReducer } from '@store/preferences/preferences.reducer';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -81,7 +84,13 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['appInfo', 'tests', 'appConfig', 'refData'],
+    keys: [
+      appInfoFeatureKey,
+      testsFeatureKey,
+      appConfigFeatureKey,
+      refDataFeatureKey,
+      preferencesFeatureKey,
+    ],
     rehydrate: true,
   })(reducer);
 }
@@ -93,6 +102,7 @@ const reducers: ActionReducerMap<any> = {
   tests: testsReducer,
   rekeySearch: rekeySearchReducer,
   delegatedRekeySearch: delegatedSearchReducer,
+  preferences: preferencesReducer,
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];
@@ -134,6 +144,7 @@ if (enableRehydrationPlugin) {
     EffectsModule.forRoot(),
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
+    PreferencesStoreModule,
     ReferenceDataStoreModule,
     AppConfigStoreModule,
     LogsStoreModule,

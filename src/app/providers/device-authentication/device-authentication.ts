@@ -10,11 +10,14 @@ import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { Store } from '@ngrx/store';
+import { selectEnableSAMForDeviceAuth } from '@store/preferences/preferences.selector';
+
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()
 export class DeviceAuthenticationProvider {
+  enableSAMForDeviceAuth = this.store$.selectSignal(selectEnableSAMForDeviceAuth)();
 
   constructor(
     private platform: Platform,
@@ -48,20 +51,28 @@ export class DeviceAuthenticationProvider {
   };
 
   private performBiometricVerification = async (isPracticeMode: boolean = false): Promise<void> => {
-    try {
-      await this.deviceProvider.disableSingleAppMode();
+    if (this.enableSAMForDeviceAuth) {
+      try {
+        await this.deviceProvider.disableSingleAppMode();
 
-      await NativeBiometric.verifyIdentity({
-        reason: 'Please authenticate',
-        useFallback: true, // fallback to passcode if biometric authentication unavailable
-      });
-    } finally {
-      if (!isPracticeMode) {
-        await this.loadingProvider.handleUILoading(true);
-        await this.deviceProvider.enableSingleAppMode();
-        await this.loadingProvider.handleUILoading(false);
+        await this.verifyIdentity();
+      } finally {
+        if (!isPracticeMode) {
+          await this.loadingProvider.handleUILoading(true);
+          await this.deviceProvider.enableSingleAppMode();
+          await this.loadingProvider.handleUILoading(false);
+        }
       }
+    } else {
+      return this.verifyIdentity();
     }
+  };
+
+  private verifyIdentity = async () => {
+    await NativeBiometric.verifyIdentity({
+      reason: 'Please authenticate',
+      useFallback: true, // fallback to passcode if biometric authentication unavailable
+    });
   };
 
   public logEvent = (err: any) => {

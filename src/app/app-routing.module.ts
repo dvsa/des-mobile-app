@@ -8,6 +8,7 @@ import {
   JOURNAL_PAGE,
   LOGIN_PAGE,
   PASS_CERTIFICATES,
+  PREFERENCES_PAGE,
   REKEY_SEARCH_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
   TEST_RESULTS_SEARCH_PAGE,
@@ -73,6 +74,11 @@ const routes: Routes = [
     path: DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
     loadChildren: () => import('./pages/delegated-rekey-upload-outcome/delegated-rekey-upload-outcome.module')
       .then((m) => m.DelegatedRekeyUploadOutcomePageModule),
+  },
+  {
+    path: PREFERENCES_PAGE,
+    loadChildren: () => import('./pages/preferences/preferences.module')
+      .then((m) => m.PreferencesModule),
   },
   {
     path: TestFlowPageNames.DEBRIEF_PAGE,

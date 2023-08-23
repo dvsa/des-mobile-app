@@ -95,14 +95,15 @@ export class DeviceProvider implements IDeviceProvider {
       return Promise.resolve(false);
     }
 
-    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
-      map((didSucceed: boolean): boolean => {
-        if (!didSucceed) throw new Error('Call to enable ASAM failed');
-        return didSucceed;
-      }),
-      retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
-      timeout(this.enableASAMTimeout),
-    );
+    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true))
+      .pipe(
+        map((didSucceed: boolean): boolean => {
+          if (!didSucceed) throw new Error('Call to enable ASAM failed');
+          return didSucceed;
+        }),
+        retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
+        timeout(this.enableASAMTimeout),
+      );
 
     const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
       .catch(() => {
@@ -140,6 +141,8 @@ export class DeviceProvider implements IDeviceProvider {
     const disable = await Asam.setSingleAppMode({ shouldEnable: false });
     if (!disable.didSucceed) {
       this.logEvent('Failed to manually disable ASAM', 'no error details');
+    } else {
+      this.logEvent('Success with manually disabling ASAM', '');
     }
   };
 

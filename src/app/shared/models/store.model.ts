@@ -9,6 +9,7 @@ import { testCentreJournalFeatureKey } from '@store/test-centre-journal/test-cen
 import { TestsModel } from '@store/tests/tests.model';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
 import { refDataFeatureKey, RefDataStateModel } from '@store/reference-data/reference-data.reducer';
+import { preferencesFeatureKey, PreferencesStateModel } from '@store/preferences/preferences.reducer';
 
 export interface StoreModel {
   [appInfoFeatureKey]: AppInfoStateModel,
@@ -17,4 +18,5 @@ export interface StoreModel {
   [testCentreJournalFeatureKey]: TestCentreJournalModel,
   [testsFeatureKey]: TestsModel,
   [refDataFeatureKey]: RefDataStateModel,
+  [preferencesFeatureKey]: PreferencesStateModel,
 }

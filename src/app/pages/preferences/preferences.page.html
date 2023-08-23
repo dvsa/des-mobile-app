@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons id="preferences-burger-menu-btn" slot="start">
+      <ion-menu-button class="white-text" id="preferences-menu-button"></ion-menu-button>
+    </ion-buttons>
+    <ion-title aria-level="1" role="heading" id="preferences-page-title">Preferences</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="resetPreferences()">
+        <ion-icon class="white-text" name="refresh-outline"></ion-icon>
+        <span class="white-text">Reset</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content force-overscroll="false">
+  <ion-card *ngIf="presentLockedInCard()">
+    <ion-card-header>
+      <h4>Locked in?</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-grid>
+          <ion-item>
+            <ion-col size="85">
+              <ion-text>Are you stuck in the DES app or the home button is unresponsive?</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-button (click)="disableSAM()">Unlock</ion-button>
+            </ion-col>
+          </ion-item>
+        </ion-grid>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-no-padding">
+    <ion-card-header>
+      <h4>App preferences</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-grid>
+
+          <ion-item>
+            <ion-col size="85">
+              <ion-text>Enable Single App mode for Device Authentication?</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-toggle
+                enableOnOffLabels="true"
+                [checked]="enableSAMForDeviceAuth()"
+                (ionChange)="preferenceChanged('enableSAMForDeviceAuth')">
+              </ion-toggle>
+            </ion-col>
+          </ion-item>
+        </ion-grid>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
