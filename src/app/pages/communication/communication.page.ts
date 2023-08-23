@@ -239,7 +239,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
 
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       this.store$.dispatch(CommunicationSubmitInfo());
       await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.testCategory);
     } catch (err) {
@@ -366,7 +366,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   async canDeActivate(): Promise<boolean> {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       return true;
     } catch {
       return false;
