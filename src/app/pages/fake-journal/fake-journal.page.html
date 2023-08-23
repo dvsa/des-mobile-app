@@ -1,33 +1,24 @@
 <ion-header>
-    <practice-mode-banner [practiceJournal]="true"></practice-mode-banner>
-    <ion-toolbar mode="ios" class="toolbar-no-padding">
-        <ion-title id="page-title">Journal</ion-title>
-    </ion-toolbar>
+  <practice-mode-banner practiceJournal="true"></practice-mode-banner>
+  <ion-toolbar mode="ios" class="toolbar-no-padding">
+    <ion-title aria-level="1" role="heading" id="page-title">Journal</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <journal-navigation
+    [isSelectedDateToday]="true"
+    [selectedDate]="selectedDate">
+  </journal-navigation>
 
-    <div class="date-navigation">
-        <ion-grid>
-            <ion-row>
-                <ion-col class="col-align">
-                    <header-component [headerNum]="1">
-                      <ion-label>Today</ion-label>
-                    </header-component>
-                    <header-component [headerNum]="3">{{dateToDisplay}}</header-component>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </div>
+  <location location="Example Test Centre"></location>
 
-    <location location='Example Test Centre'></location>
-
-    <test-slot
-            *ngFor="let slot of slots;"
-            [slots]="slots"
-            [slot]="slot"
-            [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-            [isPracticeMode]="true"
-            [hasSlotChanged]="false">
-    </test-slot>
+  <test-slot
+    *ngFor="let slot of slots;"
+    [slots]="slots"
+    [slot]="slot"
+    [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+    [isPracticeMode]="true"
+    [hasSlotChanged]="false">
+  </test-slot>
 </ion-content>

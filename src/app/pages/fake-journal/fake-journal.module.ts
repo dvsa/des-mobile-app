@@ -11,6 +11,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { JournalComponentsModule } from '@pages/journal/components/journal-components.module';
+
 import { FakeJournalPage } from './fake-journal.page';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 
@@ -28,6 +30,7 @@ import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
       FakeJournalEffects,
       FakeJournalAnalyticsEffects,
     ]),
+    JournalComponentsModule,
   ],
   declarations: [
     FakeJournalPage,
