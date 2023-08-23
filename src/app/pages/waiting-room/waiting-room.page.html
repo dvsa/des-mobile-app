@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-page-title">
+    <ion-title role="heading" aria-level="1" id="waiting-room-page-title">
       {{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="waiting-room-back-button" slot="start">
@@ -57,7 +57,7 @@
         }" id="declaration-section">
       <ion-row>
         <ion-col>
-          <h4 id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:</h4>
+          <ion-text class="des-header-style-4" id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:</ion-text>
         </ion-col>
       </ion-row>
 
