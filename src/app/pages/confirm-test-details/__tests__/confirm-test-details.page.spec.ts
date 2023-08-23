@@ -146,18 +146,18 @@ describe('ConfirmTestDetailsPage', () => {
   describe('getProvisionalText', () => {
     it('should return appropriate string if true', () => {
       expect(component.getProvisionalText(true))
-        .toEqual('Yes - Please retain the candidates licence');
+        .toEqual('Yes - Please retain the candidates licence.');
     });
     it('should return appropriate string if false', () => {
       expect(component.getProvisionalText(false))
-        .toEqual('No - Please ensure that the licence is kept by the candidate');
+        .toEqual('No - Please ensure that the licence is kept by the candidate.');
     });
   });
 
   describe('getD255Text', () => {
     it('should return appropriate string if true', () => {
       expect(component.getD255Text(true))
-        .toEqual('Yes - Please complete a D255');
+        .toEqual('Yes - Please complete a D255.');
     });
     it('should return appropriate string if false', () => {
       expect(component.getD255Text(false))
