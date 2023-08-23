@@ -404,7 +404,7 @@ describe('TestOutcomeComponent', () => {
         spyOn(component, 'showDelegatedExaminerRekeyButton').and.returnValue(true);
         spyOn(component, 'rekeyDelegatedTest');
         fixture.detectChanges();
-        const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-delegated-button'));
+        const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
         rekeyDelegatedButton.triggerEventHandler('click', null);
         expect(component.rekeyDelegatedTest).toHaveBeenCalled();
       });
@@ -418,7 +418,7 @@ describe('TestOutcomeComponent', () => {
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
 
-        const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
+        const debriefButton = fixture.debugElement.query(By.css('.mes-warning-button'));
         debriefButton.triggerEventHandler('click', null);
 
         expect(component.resumeTest).toHaveBeenCalled();
@@ -447,7 +447,7 @@ describe('TestOutcomeComponent', () => {
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
 
-        const resumeButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
+        const resumeButton = fixture.debugElement.query(By.css('.mes-warning-button'));
         resumeButton.triggerEventHandler('click', null);
 
         expect(component.resumeTest).toHaveBeenCalled();
