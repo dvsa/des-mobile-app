@@ -10,19 +10,19 @@
 </div>
 <div *ngIf="showTestActionButton && !showOutcome()" class="outcome-position">
     <ion-col *ngIf="showRekeyButton(); else nonRekey">
-        <ion-button id="rekey-button-{{applicationId}}" class="mes-secondary-button mes-rekey-button" (click)="rekeyTest()"
+        <ion-button id="rekey-button-{{applicationId}}" class="generic-button mes-rekey-button" (click)="rekeyTest()"
                     [disabled]="!canStartTest">
             <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
         </ion-button>
     </ion-col>
     <ng-template #nonRekey>
         <ion-col *ngIf="showDelegatedExaminerRekeyButton()">
-            <ion-button id="write-up-rekey-button-{{applicationId}}" class="mes-secondary-button mes-delegated-button" (click)="rekeyDelegatedTest()">
+            <ion-button id="write-up-rekey-button-{{applicationId}}" class="generic-button mes-rekey-button" (click)="rekeyDelegatedTest()">
                 <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showResumeButton()">
-            <ion-button id="resume-button-{{applicationId}}" class="mes-secondary-button mes-warning-button" (click)="clickStartOrResumeTest()">
+            <ion-button id="resume-button-{{applicationId}}" class="generic-button mes-warning-button" (click)="clickStartOrResumeTest()">
                 <ion-text class="des-header-style-3 write-up-label">Resume</ion-text>
             </ion-button>
         </ion-col>
