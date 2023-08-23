@@ -1,7 +1,7 @@
 <div class="signature-area" (blur)="onTouched()">
     <ion-row>
         <ion-col size="auto">
-            <h5 id="signature-area-sign-here" class="sign-here-label">{{signHereText || "Sign here"}}</h5>
+            <ion-text id="signature-area-sign-here" class="des-header-style-5 sign-here-label">{{signHereText || "Sign here"}}</ion-text>
         </ion-col>
         <ion-col>
             <div id="signature-area-validation-text" class="validation-text" [class.ng-invalid]="showValidText">

@@ -1,18 +1,18 @@
 <ion-row class="candidate-top-row full-width-padding">
   <ion-col>
-    <h2 id="candidate-name" class="nameHeader">Name: {{ candidateName }}</h2>
+    <ion-text id="candidate-name" class="des-header-style-2 nameHeader">Name: {{ candidateName }}</ion-text>
   </ion-col>
 </ion-row>
 <ion-row class="candidate-bottom-row full-width-padding" id="candidate-section">
   <ion-col>
-    <h3 id="candidate-driver-number">Licence: {{ isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber }}</h3>
+    <ion-text class="des-header-style-3" id="candidate-driver-number">Licence: {{ isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber }}</ion-text>
   </ion-col>
   <ion-col size="38" class="ion-align-self-end button-column">
     <ion-button (click)="proceed()" id="continue-button" class="mes-primary-button ion-float-right">
-      <h3>{{ 'common.continue' | translate }}</h3>
+      <ion-text class="continue-text des-header-style-3">{{ 'common.continue' | translate }}</ion-text>
     </ion-button>
     <ion-button [hidden]="!showVRNButton" (click)="openVRNModal()" id="vrn-button" class="mes-grey-button ion-float-right">
-      <h3>VRN</h3>
+      <ion-text class="des-header-style-3">VRN</ion-text>
     </ion-button>
   </ion-col>
 </ion-row>
