@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -28,7 +28,7 @@
           (licenseReceived)="provisionalLicenseReceived()"
           *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
           [form]="form"
-          [licenseReceivedLabel]="'Provisional licence Received'"
+          [licenseReceivedLabel]="'Provisional licence received'"
           [license]="pageState.provisionalLicense$ | async">
         </license-provided>
 

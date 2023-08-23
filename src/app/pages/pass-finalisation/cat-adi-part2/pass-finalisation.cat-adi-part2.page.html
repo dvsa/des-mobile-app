@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
