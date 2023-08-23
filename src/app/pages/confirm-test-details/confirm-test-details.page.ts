@@ -92,12 +92,12 @@ interface ConfirmTestDetailsPageState {
 }
 
 enum LicenceReceivedText {
-  TRUE = 'Yes - Please retain the candidates licence',
-  FALSE = 'No - Please ensure that the licence is kept by the candidate',
+  TRUE = 'Yes - Please retain the candidates licence.',
+  FALSE = 'No - Please ensure that the licence is kept by the candidate.',
 }
 
 enum D255 {
-  TRUE = 'Yes - Please complete a D255',
+  TRUE = 'Yes - Please complete a D255.',
   FALSE = 'No',
 }
 

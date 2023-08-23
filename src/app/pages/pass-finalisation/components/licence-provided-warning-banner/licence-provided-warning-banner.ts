@@ -9,7 +9,7 @@ export class LicenceProvidedWarningBannerComponent {
   @Input()
   licenceProvided: boolean;
 
-  yesText: string = 'Please retain the candidate\'s licence';
-  noText: string = 'Please ensure the licence is kept by the candidate';
+  yesText: string = 'Please retain the candidate\'s licence.';
+  noText: string = 'Please ensure the licence is kept by the candidate.';
 
 }

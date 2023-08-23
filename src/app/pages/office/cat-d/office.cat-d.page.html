@@ -57,7 +57,7 @@
               *ngIf="isDelegated && isPass()"
               [form]="form"
               [license]="pageState.provisionalLicense$ | async"
-              [licenseReceivedLabel]="'Provisional licence Received'"
+              [licenseReceivedLabel]="'Provisional licence received'"
               (licenseReceived)="provisionalLicenseReceived()"
               (licenseNotReceived)="provisionalLicenseNotReceived()">
             </license-provided>
