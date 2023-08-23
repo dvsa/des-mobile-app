@@ -28,7 +28,7 @@
           <ion-col *ngIf="!isUnSubmittedTestSlotView" class="exclamation-col align-center" size="7">
             <indicators
               [applicationId]="slot.booking.application.applicationId"
-              [showExclamationIndicator]="isIndicatorNeededForSlot() && isTestCentreJournalADIBooking"
+              [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking"
               [testStatus]="componentState.testStatus$ | async">
             </indicators>
           </ion-col>
@@ -170,6 +170,7 @@
 </ng-template>
 <ng-template #unknownCandidate>
   <ion-button class="candidate-details-placeholder-text mes-transparent-button" disabled expand="full" fill="clear">
-    <h3 class="trainer-booked-un-named">Trainer booked -<br *ngIf="appComponent.getTextZoomClass() !== 'text-zoom-regular'"> unnamed</h3>
+    <h3 class="trainer-booked-un-named">Trainer booked -<br
+      *ngIf="appComponent.getTextZoomClass() !== 'text-zoom-regular'"> unnamed</h3>
   </ion-button>
 </ng-template>
