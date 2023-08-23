@@ -105,7 +105,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
 
   async canDeActivate(): Promise<boolean> {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       return true;
     } catch {
       return false;
