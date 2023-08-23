@@ -24,7 +24,6 @@ enum CountDescription {
   templateUrl: 'incomplete-tests-banner.html',
   styleUrls: ['incomplete-tests-banner.scss'],
 })
-
 export class IncompleteTestsBanner implements OnInit {
 
   @Input()

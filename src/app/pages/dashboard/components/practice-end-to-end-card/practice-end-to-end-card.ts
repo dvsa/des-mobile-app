@@ -7,10 +7,10 @@ import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
   templateUrl: 'practice-end-to-end-card.html',
   styleUrls: ['practice-end-to-end-card.scss'],
 })
-
 export class PracticeEndToEndCardComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   navigateToFakeJournal = async () => {
     await this.router.navigate([FAKE_JOURNAL_PAGE]);

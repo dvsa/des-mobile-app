@@ -25,7 +25,9 @@
 
 <ion-content [fullscreen]="true">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
+
   <div>
     <profile-header
       [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
@@ -33,8 +35,11 @@
       [name]="pageState.employeeName$ | async"
       [role]="pageState.role$ | async">
     </profile-header>
+
     <hr />
+
     <h2 class="date des-header-style-4" id="date-field">{{todaysDateFormatted}}</h2>
+
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col size="48">
