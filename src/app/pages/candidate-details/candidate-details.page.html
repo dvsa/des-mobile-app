@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar mode="ios" class="toolbar-spacing">
-    <ion-title id="test-details-title" class="ion-text-center toolbar-item-spacing">
+    <ion-title role="heading" aria-level="1" id="test-details-title" class="ion-text-center toolbar-item-spacing">
       {{ restrictDetails ? 'ADI Enforcement Activities' : 'Test details - ' + pageState.name }}
     </ion-title>
     <ion-buttons class="toolbar-item-spacing">
@@ -48,7 +48,7 @@
 
     <ion-card>
       <ion-card-header>
-        <h4 id="candidate-details-title">Candidate details</h4>
+        <h2 class="des-header-style-4" id="candidate-details-title">Candidate details</h2>
       </ion-card-header>
       <ion-card-content>
         <inappropriate-use-banner></inappropriate-use-banner>
@@ -144,7 +144,7 @@
     </ion-card>
     <ion-card>
       <ion-card-header>
-        <h4 id="contact-details-title">Contact details</h4>
+        <h2 class="des-header-style-4" id="contact-details-title">Contact details</h2>
       </ion-card-header>
       <ion-card-content>
         <ion-grid>
