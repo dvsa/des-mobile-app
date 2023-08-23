@@ -259,7 +259,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   async canDeActivate() {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       return true;
     } catch {
       return false;
@@ -312,7 +312,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
       if (shouldNavToCandidateLicenceDetails) {
         try {
-          await this.deviceAuthenticationProvider.triggerLockScreen();
+          await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
         } catch {
           return;
         }
