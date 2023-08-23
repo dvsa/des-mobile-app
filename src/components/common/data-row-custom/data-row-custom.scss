@@ -3,6 +3,11 @@
     vertical-align: text-top;
   }
 
+  .vertical-align-center {
+    display: flex;
+    align-items: center;
+  }
+
   .exclamation-indicator {
     width: 26px;
     height: 26px;
