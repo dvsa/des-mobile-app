@@ -19,7 +19,6 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
   templateUrl: 'practice-test-report-card.html',
   styleUrls: ['practice-test-report-card.scss'],
 })
-
 export class PracticeTestReportCardComponent {
 
   slotId: string = testReportPracticeModeSlot.slotDetail.slotId;
@@ -28,7 +27,8 @@ export class PracticeTestReportCardComponent {
     private store$: Store<StoreModel>,
     private modalController: ModalController,
     public routeByCat: RouteByCategoryProvider,
-  ) { }
+  ) {
+  }
 
   async showDrivingFaultModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalController.create({
