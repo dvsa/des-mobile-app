@@ -332,7 +332,7 @@ describe('CommunicationPage', () => {
       it('should render the page in English by default', () => {
         fixture.detectChanges();
         const { debugElement } = fixture;
-        expect(debugElement.query(By.css('h4')).nativeElement.innerHTML)
+        expect(debugElement.query(By.css('ion-text.des-header-style-4')).nativeElement.innerHTML)
           .toBe('Select how to receive the test results');
       });
     });
