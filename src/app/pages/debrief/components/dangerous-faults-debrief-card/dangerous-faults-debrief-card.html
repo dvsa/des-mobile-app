@@ -7,7 +7,6 @@
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <ion-grid>
       <ion-row *ngFor="let dangerousFault of dangerousFaults" class="mes-data ion-align-items-center">
         <ion-col size="32" class="ion-no-padding"></ion-col>
         <ion-col size="2" class="ion-align-self-start ion-no-padding">
@@ -26,6 +25,5 @@
             id="{{dangerousFaults}}-driving-text">{{'debrief.competencies.' + dangerousFault | translate | modifyCompetencyLabel:testCategory:dangerousFault}}</div>
         </ion-col>
       </ion-row>
-    </ion-grid>
   </ion-card-content>
 </ion-card>
