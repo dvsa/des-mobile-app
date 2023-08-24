@@ -1,28 +1,38 @@
 <ion-card class="modal-alert">
-    <modal-alert-title id="model-title">Are you sure you want to submit this result?</modal-alert-title>
-    <ion-row>
-        <ion-col class="ion-no-padding" size="15"></ion-col>
-        <ion-col class="ion-no-padding" size="66">
-            <div class="modal-alert-message">
-                <div id='model-text' class="mes-data">You are about to submit a {{this.testOutcome}} Cat {{this.category}} test for {{this.candidateName}}</div>
-            </div>
+  <modal-alert-title id="model-title">Are you sure you want to submit this result?</modal-alert-title>
+  <ion-row>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col class="ion-no-padding" size="66">
+      <div class="modal-alert-message">
+        <div id="model-text" class="mes-data">
+          You are about to submit a {{testOutcome}} Cat {{category}} test for {{candidateName}}
+        </div>
+      </div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-row>
+        <ion-col>
+          <ion-button
+            id="cancel-button"
+            fill="clear"
+            class="confirm-submit-cancel-button"
+            (click)="onBack()">
+            Cancel
+          </ion-button>
         </ion-col>
-        <ion-col class="ion-no-padding" size="15"></ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col class="column-border-top ion-no-padding">
-            <ion-row>
-                <ion-col>
-                    <ion-button id="cancel-button" fill="clear" class="confirm-submit-cancel-button" (click)="onBack()">
-                        Cancel
-                    </ion-button>
-                </ion-col>
-                <ion-col>
-                    <ion-button id="continue-button" fill="clear" class="confirm-submit-continue-button" (click)="onCompleteTest()">
-                        Submit
-                    </ion-button>
-                </ion-col>
-            </ion-row>
+        <ion-col>
+          <ion-button
+            id="continue-button"
+            fill="clear"
+            class="confirm-submit-continue-button"
+            (click)="onCompleteTest()">
+            Submit
+          </ion-button>
         </ion-col>
-    </ion-row>
+      </ion-row>
+    </ion-col>
+  </ion-row>
 </ion-card>
