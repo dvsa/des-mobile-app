@@ -164,7 +164,7 @@
                   "with": "src/environments/environment.testing.ts"
                 }
               ],
-              "aot": false,
+              "aot": true,
               "vendorChunk": true,
               "extractLicenses": false,
               "buildOptimizer": false,
