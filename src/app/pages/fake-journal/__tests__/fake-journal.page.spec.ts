@@ -14,6 +14,8 @@ import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { FakeJournalPage } from '../fake-journal.page';
 
 describe('FakeJournalPage', () => {
@@ -37,6 +39,7 @@ describe('FakeJournalPage', () => {
         OrientationMonitorProvider,
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState: {} }),
       ],
