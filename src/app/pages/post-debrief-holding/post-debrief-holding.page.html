@@ -1,17 +1,17 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-title id="post-debrief-title" role="heading" aria-level="1">Post debrief</ion-title>
 </ion-header>
 
 <ion-content id="post-debrief-holding-page" class="content-styling" forceOverscroll="false">
-    <div class="container">
-        <img id="dvsa-logo" src="assets/imgs/back-to-office/logo.png" alt="Post debrief back to office image" />
-    </div>
-    <div class="container">
-        <ion-button id="continue-to-non-pass-finalisation"
-                    class="mes-neutral-button office-button top-button"
-                    (click)="continueButton()">Continue
-        </ion-button>
-    </div>
+  <div class="container">
+    <img id="dvsa-logo" src="assets/imgs/back-to-office/logo.png" alt="Post debrief back to office image" />
+  </div>
+  <div class="container">
+    <ion-button id="continue-to-non-pass-finalisation"
+                class="mes-neutral-button office-button top-button"
+                (click)="continueButton()">Continue
+    </ion-button>
+  </div>
 </ion-content>
 
