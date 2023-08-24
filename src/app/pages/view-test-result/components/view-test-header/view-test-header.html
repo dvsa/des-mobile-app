@@ -1,16 +1,20 @@
-<ion-row class='header-row' id="candidate-section">
-    <ion-col size="56">
-        <h2 id="candidateName">{{data.candidateName}}</h2>
-        <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
-    </ion-col>
-    <ion-col size="40" class="ion-text-end">
-        <h2 id="activityCode">{{data.activityCode}}</h2>
-        <h3 [ngClass]="data.grade ? 'grade-styling' : null " >Test outcome:
-            <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
-            <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green" >{{data.testOutcome}} - Grade {{data.grade}}</span>
-        </h3>
-        <h3>
-            <span *ngIf="appVersion" id="appVersion">App Version: {{appVersion}}</span>
-        </h3>
-    </ion-col>
+<ion-row class="header-row" id="candidate-section">
+  <ion-col size="56">
+    <ion-text class="des-header-style-2" id="candidateName">{{data.candidateName}}</ion-text>
+    <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
+  </ion-col>
+  <ion-col size="40" class="ion-text-end">
+    <ion-text class="des-header-style-2" id="activityCode">{{data.activityCode}}</ion-text>
+    <ion-text [ngClass]="['des-header-style-3', data.grade ? 'grade-styling' : '']">Test outcome:
+      <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">
+        {{data.testOutcome}}
+      </span>
+      <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green">
+        {{data.testOutcome}} - Grade {{data.grade}}
+      </span>
+    </ion-text>
+    <ion-text class="des-header-style-3">
+      <span *ngIf="appVersion" id="appVersion">App Version: {{appVersion}}</span>
+    </ion-text>
+  </ion-col>
 </ion-row>

@@ -1,23 +1,36 @@
 <ion-card>
   <ion-card-header>
-    <h4 id="view-test-result-test-details-title">Test details</h4>
+    <h2 class="des-header-style-4" id="view-test-result-test-details-title">Test details</h2>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
       <ion-row>
         <inappropriate-use-banner></inappropriate-use-banner>
       </ion-row>
-      <data-row [label]="'Date'" [value]="data.date"></data-row>
+      <data-row
+        [label]="'Date'"
+        [value]="data.date">
+      </data-row>
 
-      <data-row [label]="'Time'" [value]="data.time"></data-row>
+      <data-row
+        [label]="'Time'"
+        [value]="data.time">
+      </data-row>
 
-      <data-row [label]="'Application reference'" [value]="data.applicationReference"></data-row>
+      <data-row
+        [label]="'Application reference'"
+        [value]="data.applicationReference">
+      </data-row>
 
-      <data-row [label]="'Test category'" [value]="data.category"></data-row>
+      <data-row
+        [label]="'Test category'"
+        [value]="data.category">
+      </data-row>
 
-      <data-row *ngIf="showFullCatHeld()"
-                [label]="'Full cat ' + data.category?.split('+')[0] + ' held?'"
-                [value]="data?.fullLicenceHeld ? 'Yes' : 'No'">
+      <data-row
+        *ngIf="showFullCatHeld()"
+        [label]="'Full cat ' + data.category?.split('+')[0] + ' held?'"
+        [value]="data?.fullLicenceHeld ? 'Yes' : 'No'">
       </data-row>
 
       <data-row
@@ -26,8 +39,9 @@
         [shouldShowIndicator]="data.slotType !== 'Standard Test'">
       </data-row>
 
-      <data-row-custom [label]="'Additional requirements'"
-                       [shouldShowIndicator]="specialNeedsIsPopulated(data.specialNeeds)">
+      <data-row-custom
+        [label]="'Additional requirements'"
+        [shouldShowIndicator]="specialNeedsIsPopulated(data.specialNeeds)">
         <div *ngFor="let specialNeed of data.specialNeeds" class="mes-data">
           - {{specialNeed}}
         </div>
@@ -60,7 +74,7 @@
         *ngIf="showAttemptNumber()"
         [label]="'Attempt number'"
         [shouldHaveSeperator]="false"
-        [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber+1 : 1">
+        [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1">
       </data-row>
     </ion-grid>
   </ion-card-content>
