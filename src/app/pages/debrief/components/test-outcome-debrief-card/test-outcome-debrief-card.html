@@ -1,11 +1,21 @@
 <div id="test-outcome-background" [ngSwitch]="outcome">
-    <div class="test-outcome-container {{outcome}}">
-        <h4 id="outcome-header">{{ 'debrief.outcomeHeader' | translate }}</h4>
-        <div *ngSwitchCase="'Pass'">
-            <h1 *ngIf="grade" id="status-passed-grade">Passed - Grade {{grade}}</h1>
-            <h1 *ngIf="!grade" id="status-passed">{{ 'debrief.passStatus' | translate }}</h1>
-        </div>
-        <h1 id="status-fail" *ngSwitchCase="'Fail'">{{ 'debrief.failStatus' | translate }}</h1>
-        <h1 id="status-terminated" *ngSwitchCase="'Terminated'">{{ 'debrief.terminatedStatus' | translate }}</h1>
+  <div class="test-outcome-container {{outcome}}">
+    <ion-text class="des-header-style-4" id="outcome-header">{{ 'debrief.outcomeHeader' | translate }}</ion-text>
+    <div *ngSwitchCase="'Pass'">
+      <ion-text *ngIf="grade" class="des-header-style-1" id="status-passed-grade">Passed - Grade {{grade}}</ion-text>
+      <ion-text
+        *ngIf="!grade"
+        class="des-header-style-1"
+        id="status-passed">
+        {{ 'debrief.passStatus' | translate }}
+      </ion-text>
     </div>
+    <div *ngSwitchCase="'Fail'">
+      <ion-text class="des-header-style-1" id="status-fail">{{ 'debrief.failStatus' | translate }}</ion-text>
+    </div>
+    <div *ngSwitchCase="'Terminated'">
+      <ion-text class="des-header-style-1"
+                id="status-terminated">{{ 'debrief.terminatedStatus' | translate }}</ion-text>
+    </div>
+  </div>
 </div>
