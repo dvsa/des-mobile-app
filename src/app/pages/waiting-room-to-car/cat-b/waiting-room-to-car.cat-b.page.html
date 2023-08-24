@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -99,7 +99,7 @@
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
         id="view-test-centre-journal-button" shape="round">
-        <h3>View test centre journal</h3>
+        <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
     <ion-col size="6"></ion-col>
@@ -108,7 +108,7 @@
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
         id="continue-to-test-report-button" shape="round">
-        <h3>Continue to test report</h3>
+        <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>
   </ion-row>
