@@ -43,7 +43,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
       component.seriousFaults = seriousFaults;
       fixture.detectChanges();
       const seriousFaultLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
-      const drivingFaultCount = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+      const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
       expect(seriousFaultLabels[0].nativeElement.innerHTML).toBe('Control - Ancillary Controls');
       expect(seriousFaultLabels[1].nativeElement.innerHTML).toBe('Clearance');
       expect(drivingFaultCount.innerHTML).toBe(seriousFaults.length.toString());
@@ -56,7 +56,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
       translate.onLangChange.subscribe(() => {
         fixture.detectChanges();
         const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
-        const drivingFaultCount = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+        const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
         expect(drivingFaultsLabels[0].nativeElement.innerHTML)
           .toBe((<any>welshTranslations).debrief.competencies.useOfSpeed);
         expect(drivingFaultsLabels[1].nativeElement.innerHTML)
@@ -67,8 +67,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
     });
 
     it('no serious faults showing', () => {
-      const seriousFaults = [];
-      component.seriousFaults = seriousFaults;
+      component.seriousFaults = [];
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#serious-fault'))).toBeNull();
     });

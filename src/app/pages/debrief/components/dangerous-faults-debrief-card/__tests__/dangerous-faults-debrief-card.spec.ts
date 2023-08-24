@@ -43,7 +43,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       component.dangerousFaults = dangerousFaults;
       fixture.detectChanges();
       const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
-      const dangerousCounts = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+      const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
       expect(dangerousLabels[0].nativeElement.innerHTML).toBe('Control - Ancillary Controls');
       expect(dangerousLabels[1].nativeElement.innerHTML).toBe('Clearance');
       expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
@@ -56,7 +56,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       translate.onLangChange.subscribe(() => {
         fixture.detectChanges();
         const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
-        const dangerousCounts = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+        const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
         expect(dangerousLabels[0].nativeElement.innerHTML)
           .toBe((<any>welshTranslations).debrief.competencies.ancillaryControls);
         expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
@@ -66,8 +66,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
     });
 
     it('no dangerous faults showing', () => {
-      const dangerousFaults = [];
-      component.dangerousFaults = dangerousFaults;
+      component.dangerousFaults = [];
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#dangerous-fault'))).toBeNull();
     });
