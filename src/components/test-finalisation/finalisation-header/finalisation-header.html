@@ -1,15 +1,15 @@
 <ion-grid>
   <ion-row class="header-card top-row">
     <ion-col>
-      <h2 id="finalisation-header-candidate-name">{{candidateName}}</h2>
+      <ion-text class="des-header-style-2" id="finalisation-header-candidate-name">{{candidateName}}</ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="header-card bottom-row">
     <ion-col>
-      <h3 id="finalisation-header-candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber}}</h3>
+      <ion-text class="des-header-style-3" id="finalisation-header-candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber}}</ion-text>
     </ion-col>
     <ion-col [size]="grade ? 60 : 40" class="align-col-right">
-      <h3>Test outcome:
+      <ion-text class="des-header-style-3">Test outcome:
         <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
           <div class="pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
             {{grade ? outcomeText + ' - Grade ' + grade : outcomeText}}
@@ -21,7 +21,7 @@
             {{outcomeText}}
           </div>
         </div>
-      </h3>
+      </ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="mes-row-separator"></ion-row>
