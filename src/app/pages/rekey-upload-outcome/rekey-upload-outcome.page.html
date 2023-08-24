@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title id="rekey-upload-outcome-page-title" role="heading" aria-level="1">Reason upload outcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [scrollY]="false" id="rekey-upload-outcome-page">
   <ion-grid>
     <ion-row class="message-wrapper ion-align-items-center" *ngIf="!(pageState.duplicateUpload$ | async)">
@@ -6,7 +12,7 @@
           <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <h2 class="modal-alert-header">Rekeyed test uploaded successfully</h2>
+          <ion-text class="modal-alert-header des-header-style-2">Rekeyed test uploaded successfully</ion-text>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -16,7 +22,7 @@
           <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <h2 class="modal-alert-header">Rekeyed test has already been uploaded</h2>
+          <ion-text class="modal-alert-header des-header-style-2">Rekeyed test has already been uploaded</ion-text>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -26,7 +32,7 @@
 <ion-footer>
   <ion-row class="mes-full-width-card">
     <ion-button class="mes-primary-button" (click)="goToJournal()">
-      <h3>Return to journal</h3>
+      <ion-text class="des-header-style-3">Return to journal</ion-text>
     </ion-button>
   </ion-row>
 </ion-footer>
