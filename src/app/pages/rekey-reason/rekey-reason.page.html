@@ -1,68 +1,72 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons id="rekey-reason-back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-title id="rekey-reason-page-title">Reason for rekey</ion-title>
-        <ion-buttons slot="end">
-            <ion-button (click)="onExitRekeyPressed()">
-                <span id="rekey-reason-exit-rekey">Exit rekey</span>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons id="rekey-reason-back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title id="rekey-reason-page-title" role="heading" aria-level="1">Reason for rekey</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onExitRekeyPressed()">
+        <span id="rekey-reason-exit-rekey">Exit rekey</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content force-overscroll="false">
-    <ion-card class="ion-no-padding">
-        <ion-card-header>
-            <h4 id="rekey-reason-for-use">Reason for use</h4>
-        </ion-card-header>
+  <ion-card class="ion-no-padding">
+    <ion-card-header>
+      <h2 id="rekey-reason-for-use" class="des-header-style-4">Reason for use</h2>
+    </ion-card-header>
 
-        <div [formGroup]="formGroup">
-            <ion-grid class="ion-no-padding">
-                <ipad-issue [formGroup]="formGroup"
-                            [selected]="(pageState.ipadIssue$ | async).selected"
-                            [technicalFault]="(pageState.ipadIssue$ | async).technicalFault"
-                            [lost]="(pageState.ipadIssue$ | async).lost"
-                            [stolen]="(pageState.ipadIssue$ | async).stolen"
-                            [broken]="(pageState.ipadIssue$ | async).broken"
-                            (selectedChange)="ipadIssueSelected($event)"
-                            (technicalFaultChange)="ipadIssueTechnicalFaultChanged()"
-                            (lostChange)="ipadIssueLostChanged()"
-                            (stolenChange)="ipadIssueStolenChanged()"
-                            (brokenChange)="ipadIssueBrokenChanged()">
-                </ipad-issue>
+    <div [formGroup]="formGroup">
+      <ion-grid class="ion-no-padding">
+        <ipad-issue
+          [formGroup]="formGroup"
+          [selected]="(pageState.ipadIssue$ | async).selected"
+          [technicalFault]="(pageState.ipadIssue$ | async).technicalFault"
+          [lost]="(pageState.ipadIssue$ | async).lost"
+          [stolen]="(pageState.ipadIssue$ | async).stolen"
+          [broken]="(pageState.ipadIssue$ | async).broken"
+          (selectedChange)="ipadIssueSelected($event)"
+          (technicalFaultChange)="ipadIssueTechnicalFaultChanged()"
+          (lostChange)="ipadIssueLostChanged()"
+          (stolenChange)="ipadIssueStolenChanged()"
+          (brokenChange)="ipadIssueBrokenChanged()">
+        </ipad-issue>
 
-                <transfer [formGroup]="formGroup"
-                          [selected]="(pageState.transfer$ | async).selected"
-                          [staffNumber]="examinerConducted"
-                          [isStaffNumberInvalid]="isStaffNumberInvalid"
-                          (selectedChange)="transferSelected($event)"
-                          (staffNumberChange)="staffNumberChanged($event)">
-                </transfer>
+        <transfer
+          [formGroup]="formGroup"
+          [selected]="(pageState.transfer$ | async).selected"
+          [staffNumber]="examinerConducted"
+          [isStaffNumberInvalid]="isStaffNumberInvalid"
+          (selectedChange)="transferSelected($event)"
+          (staffNumberChange)="staffNumberChanged($event)">
+        </transfer>
 
-                <other-reason [formGroup]="formGroup"
-                              [selected]="(pageState.other$ | async).selected"
-                              [reason]="(pageState.other$ | async).reason"
-                              (selectedChange)="otherSelected($event)"
-                              (reasonChange)="otherReasonChanged($event)">
-                </other-reason>
-            </ion-grid>
-        </div>
-    </ion-card>
+        <other-reason
+          [formGroup]="formGroup"
+          [selected]="(pageState.other$ | async).selected"
+          [reason]="(pageState.other$ | async).reason"
+          (selectedChange)="otherSelected($event)"
+          (reasonChange)="otherReasonChanged($event)">
+        </other-reason>
+      </ion-grid>
+    </div>
+  </ion-card>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-col class="ion-text-center">
-            <ion-button shape="round" class="mes-primary-button uploadRekeyButton" id="rekey-reason-upload-rekey-btn"
-                       [disabled]="!canClickUploadRekeyTest(
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-col class="ion-text-center">
+      <ion-button
+        shape="round" class="mes-primary-button uploadRekeyButton" id="rekey-reason-upload-rekey-btn"
+        [disabled]="!canClickUploadRekeyTest(
                         pageState.ipadIssue$ | async,
                         pageState.transfer$ | async,
                         pageState.other$ | async
                     )" (click)="onUploadPressed()">
-                <h3 id="rekey-reason-upload-rekey-label">Upload rekeyed test</h3>
-            </ion-button>
-        </ion-col>
-    </ion-row>
+        <ion-text id="rekey-reason-upload-rekey-label" class="des-header-style-3">Upload rekeyed test</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-footer>

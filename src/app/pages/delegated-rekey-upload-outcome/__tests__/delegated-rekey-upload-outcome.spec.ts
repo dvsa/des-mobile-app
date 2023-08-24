@@ -134,7 +134,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         component.pageState.testStatus$ = of(TestStatus.Submitted);
         fixture.detectChanges();
         const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-        expect(element.textContent)
+        expect(element.textContent?.trim())
           .toEqual('Rekey upload was successful');
         expect(fixture.debugElement.query(By.css('.tick-icon')))
           .toBeDefined();
@@ -146,7 +146,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         component.pageState.testStatus$ = of(TestStatus.Booked);
         fixture.detectChanges();
         const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-        expect(element.textContent)
+        expect(element.textContent?.trim())
           .toEqual('Rekey upload was unsuccessful');
         expect(fixture.debugElement.query(By.css('.warning-icon')))
           .toBeDefined();
