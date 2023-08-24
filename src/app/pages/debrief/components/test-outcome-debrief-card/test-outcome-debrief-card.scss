@@ -1,5 +1,30 @@
 :host {
-  .fault-heading {
-    display:inline;
+  #test-outcome-background {
+    text-align: center;
+    padding: 16px 0;
+    background: var(--mes-white);
+    height: 201px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+  .Pass {
+    border: 8px solid var(--gds-dark-green);
+  }
+  .Fail {
+    border: 8px solid var(--gds-red);
+  }
+  .Terminated {
+    border: 8px solid var(--gds-grey-1);
+  }
+  .test-outcome-container {
+    height: 140px;
+    margin: 16px;
+
+    .des-header-style-4 {
+      line-height: 60px;
+    }
+
+    .des-header-style-1 {
+      line-height: 30px;
+    }
   }
 }
