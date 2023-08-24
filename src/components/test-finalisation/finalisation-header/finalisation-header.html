@@ -5,10 +5,10 @@
     </ion-col>
   </ion-row>
   <ion-row class="header-card bottom-row">
-    <ion-col>
+    <ion-col size="45">
       <ion-text class="des-header-style-3" id="finalisation-header-candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber}}</ion-text>
     </ion-col>
-    <ion-col [size]="grade ? 60 : 40" class="align-col-right">
+    <ion-col class="align-col-right">
       <ion-text class="des-header-style-3">Test outcome:
         <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
           <div class="pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
