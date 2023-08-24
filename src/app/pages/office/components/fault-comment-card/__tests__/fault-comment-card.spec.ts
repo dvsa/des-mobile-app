@@ -40,7 +40,7 @@ describe('FaultCommentCardComponent', () => {
       component.faultType = 'drivingFault';
       fixture.detectChanges();
 
-      const header = fixture.debugElement.query(By.css('h4')).nativeElement;
+      const header = fixture.debugElement.query(By.css('h2')).nativeElement;
       expect(header.innerHTML).toBe('header');
     });
 

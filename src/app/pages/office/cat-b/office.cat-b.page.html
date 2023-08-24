@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title>Office</ion-title>
+    <ion-title role="heading" aria-level="1">Office</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +18,7 @@
 
     <ion-card>
       <ion-card-header>
-        <h4>Test summary</h4>
+        <h2 class="des-header-style-4">Test summary</h2>
       </ion-card-header>
 
       <ion-card-content class="card-content-ios no-padding">
