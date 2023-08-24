@@ -1,54 +1,58 @@
 <ion-header>
-    <ion-toolbar mode="ios">
-        <ion-buttons slot="start">
-            <ion-button *ngIf="(!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()" (click)="openLogoutModal()" id="logout-button">
-                <span class="colour-white">Logout</span>
-            </ion-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button (click)="login()">
-                <span class="colour-white">Login</span>
-            </ion-button>
-        </ion-buttons>
-        <ion-title (click)="deviceProvider.manuallyDisableSingleAppMode()">Driver Examiner Services</ion-title>
-    </ion-toolbar>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button
+        *ngIf="(!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()"
+        (click)="openLogoutModal()"
+        id="logout-button">
+        <span class="colour-white">Logout</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="login()">
+        <span class="colour-white">Login</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title (click)="deviceProvider.manuallyDisableSingleAppMode()" role="heading" aria-level="1">
+      Driver Examiner Services
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div class="login-grid">
-        <div *ngIf="hasUserLoggedOut">
-            <h2>You've signed out</h2>
-            <h3><span (click)="login()" class="link">Sign in</span> again.</h3>
-        </div>
-        <div *ngIf="isInternetConnectionError()">
-            <h2>You're offline</h2>
-            <h3>Close the app, turn on mobile data or wifi, and then try again.</h3>
-        </div>
-        <div *ngIf="isUserCancelledError()">
-            <h2>You've cancelled sign in</h2>
-            <h3><span (click)="login()" class="link">Sign in</span> to continue.</h3>
-        </div>
-        <div *ngIf="isUnknownError()">
-            <h2 id="loginSorry">Sorry, something went wrong</h2>
-            <h3 id="loginPleaseTryAgain">Please try again later.</h3>
-            <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
-        </div>
-        <div *ngIf="hasDeviceTypeError">
-            <h2>Unsupported device</h2>
-            <h3>Install the application on an approved device</h3>
-        </div>
-        <div *ngIf="isUserNotAuthorised()">
-            <h2>You're not authorised to use this app</h2>
-            <h3>Speak to your line manager if you want to use this app.</h3>
-            <h3>If you think you’re already authorised,<br/> you can try to <span (click)="login()"
-                                                                                  class="link">sign in</span>
-                again.</h3>
-        </div>
-        <div *ngIf="isInvalidAppVersionError()">
-            <h2>Unsupported application version</h2>
-            <h3>This version of DES is out of date</h3>
-            <h3>Please get the latest version from the company portal</h3>
-        </div>
+  <div class="login-grid">
+    <div *ngIf="hasUserLoggedOut">
+      <ion-text class="des-header-style-2">You've signed out</ion-text>
+      <ion-text class="des-header-style-3"><span (click)="login()" class="link">Sign in</span> again.</ion-text>
     </div>
-
+    <div *ngIf="isInternetConnectionError()">
+      <ion-text class="des-header-style-2">You're offline</ion-text>
+      <ion-text class="des-header-style-3">Close the app, turn on mobile data or wifi, and then try again.</ion-text>
+    </div>
+    <div *ngIf="isUserCancelledError()">
+      <ion-text class="des-header-style-2">You've cancelled sign in</ion-text>
+      <ion-text class="des-header-style-3"><span (click)="login()" class="link">Sign in</span> to continue.</ion-text>
+    </div>
+    <div *ngIf="isUnknownError()">
+      <ion-text class="des-header-style-2" id="loginSorry">Sorry, something went wrong</ion-text>
+      <ion-text class="des-header-style-3" id="loginPleaseTryAgain">Please try again later.</ion-text>
+      <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
+    </div>
+    <div *ngIf="hasDeviceTypeError">
+      <ion-text class="des-header-style-2">Unsupported device</ion-text>
+      <ion-text class="des-header-style-3">Install the application on an approved device</ion-text>
+    </div>
+    <div *ngIf="isUserNotAuthorised()">
+      <ion-text class="des-header-style-2">You're not authorised to use this app</ion-text>
+      <ion-text class="des-header-style-3">Speak to your line manager if you want to use this app.</ion-text>
+      <ion-text class="des-header-style-3">If you think you’re already authorised,<br /> you can try to
+        <span (click)="login()" class="link">sign in</span>again.
+      </ion-text>
+    </div>
+    <div *ngIf="isInvalidAppVersionError()">
+      <ion-text class="des-header-style-2">Unsupported application version</ion-text>
+      <ion-text class="des-header-style-3">This version of DES is out of date</ion-text>
+      <ion-text class="des-header-style-3">Please get the latest version from the company portal</ion-text>
+    </div>
+  </div>
 </ion-content>

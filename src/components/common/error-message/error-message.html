@@ -1,22 +1,25 @@
 <div class="container">
   <div *ngIf="displayAsModal">
-    <h2 class="error-message">Sorry, something went wrong</h2>
+    <ion-text class="error-message des-header-style-2">Sorry, something went wrong</ion-text>
     <div>
       <div class="link error-details-link" (click)="dismiss()">
         Return to {{redirectLinkText}}
       </div>
-      <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>
+      <ion-text class="error-details des-header-style-3" *ngIf="additionalText">&nbsp;{{additionalText}}</ion-text>
     </div>
-    <h3 class="additional-error-details" *ngIf="adviceToUsePaperTest">Use the paper form if the problem persists.</h3>
+    <ion-text class="additional-error-details des-header-style-3" *ngIf="adviceToUsePaperTest">
+      Use the paper form if the problem persists.
+    </ion-text>
   </div>
 
   <div *ngIf="!displayAsModal">
-    <h2 class="error-message" id="default-validation-error-message">{{defaultErrorStatement}}</h2>
+    <ion-text class="error-message des-header-style-2"
+              id="default-validation-error-message">{{defaultErrorStatement}}</ion-text>
     <div>
       <div *ngIf="redirectLinkText" class="link error-details-link" (click)="navigateBack()">
         Return to {{redirectLinkText}}
       </div>
-      <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>
+      <ion-text class="error-details des-header-style-3" *ngIf="additionalText">&nbsp;{{additionalText}}</ion-text>
     </div>
   </div>
 </div>

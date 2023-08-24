@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title id="dlg-rekey-upload-outcome-page-title" role="heading" aria-level="1">Reason upload outcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [scrollY]="false" id="dlg-rekey-upload-outcome-page">
   <ion-grid *ngIf="pageState.isUploading$ | async">
     <ion-row class="message-wrapper ion-align-items-center">
@@ -16,7 +22,9 @@
           <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <h2 class="modal-alert-header" id="dlg-rekey-upload-successful-label">Rekey upload was successful</h2>
+          <ion-text class="modal-alert-header des-header-style-2" id="dlg-rekey-upload-successful-label">
+            Rekey upload was successful
+          </ion-text>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -27,12 +35,14 @@
           <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <h2 class="modal-alert-header" id="dlg-rekey-upload-unsuccessful-label">Rekey upload was unsuccessful</h2>
+          <ion-text class="modal-alert-header des-header-style-2" id="dlg-rekey-upload-unsuccessful-label">
+            Rekey upload was unsuccessful
+          </ion-text>
         </ion-row>
         <br>
         <ion-row class="ion-justify-content-center">
           <ion-button id="dlg-retry-upload-btn" class="mes-grey-button retry-button" (click)="retryUpload()">
-            <h3 id="dlg-retry-upload-label">Retry upload</h3>
+            <ion-text id="dlg-retry-upload-label" class="des-header-style-3">Retry upload</ion-text>
           </ion-button>
         </ion-row>
       </ion-col>
@@ -43,15 +53,21 @@
 <ion-footer>
   <ion-row class="mes-full-width-card">
     <ion-col class="ion-no-padding ion-text-left">
-      <ion-button id="dlg-return-to-dashboard-btn" class="mes-grey-button retry-button" (click)="goToDashboard()"
-                  [disabled]="pageState.isUploading$ | async">
-        <h3 id="dlg-return-to-dashboard-label">Return to dashboard</h3>
+      <ion-button
+        id="dlg-return-to-dashboard-btn"
+        class="mes-grey-button retry-button"
+        (click)="goToDashboard()"
+        [disabled]="pageState.isUploading$ | async">
+        <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
       </ion-button>
     </ion-col>
     <ion-col class="ion-no-padding ion-text-end">
-      <ion-button id="dlg-rekey-another-btn" class="mes-primary-button retry-button" (click)="goToDelegatedSearch()"
-                  [disabled]="pageState.isUploading$ | async">
-        <h3 id="dlg-rekey-another-label">Rekey another test</h3>
+      <ion-button
+        id="dlg-rekey-another-btn"
+        class="mes-primary-button retry-button"
+        (click)="goToDelegatedSearch()"
+        [disabled]="pageState.isUploading$ | async">
+        <ion-text id="dlg-rekey-another-label" class="des-header-style-3">Rekey another test</ion-text>
       </ion-button>
     </ion-col>
   </ion-row>
