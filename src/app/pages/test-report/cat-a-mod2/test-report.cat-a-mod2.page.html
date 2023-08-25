@@ -1,7 +1,9 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title id="test-report-page-title" role="heading" aria-level="1">
+      Test report - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
     </ion-buttons>
@@ -24,7 +26,7 @@
       <ion-col size="32">
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Test requirements</span>
+            <h2 class="section-header">Test requirements</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -76,7 +78,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Safety questions</span>
+            <h2 class="section-header">Safety questions</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -102,7 +104,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Move away</span>
+            <h2 class="section-header">Move away</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -117,7 +119,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Control</span>
+            <h2 class="section-header">Control</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -173,7 +175,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Rear observation</span>
+            <h2 class="section-header">Rear observation</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -193,7 +195,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Signals</span>
+            <h2 class="section-header">Signals</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -223,7 +225,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Response to signs/signals</span>
+            <h2 class="section-header">Response to signs/signals</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -276,7 +278,7 @@
       <ion-col size="32">
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Progress</span>
+            <h2 class="section-header">Progress</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -291,7 +293,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Junctions</span>
+            <h2 class="section-header">Junctions</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -321,7 +323,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Judgement</span>
+            <h2 class="section-header">Judgement</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -341,7 +343,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="only-top-padding">
-            <span class="section-header">Positioning</span>
+            <h2 class="section-header">Positioning</h2>
           </ion-col>
         </ion-row>
         <ion-row>

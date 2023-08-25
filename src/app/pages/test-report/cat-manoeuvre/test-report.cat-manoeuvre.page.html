@@ -1,10 +1,12 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button id="test-report-back-button"></ion-back-button>
     </ion-buttons>
+    <ion-title id="test-report-page-title" role="heading" aria-level="1">
+      Test report - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
     </ion-buttons>
@@ -27,23 +29,25 @@
       <ion-col size="44">
         <ion-row>
           <ion-col>
-            <span class="section-header">Reverse manoeuvre</span>
+            <h2 class="section-header">Reverse manoeuvre</h2>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-row>
             <ion-col class="ion-no-padding padding-bottom">
-              <competency-button class="uncouple-recouple-toggle"
-                                 [onTap]="toggleReverseManoeuvre"
-                                 [onPress]="toggleReverseManoeuvre"
-                                 [ripple]="false"
-                                 [ngClass]="{
-                                                'checked': pageState.selectedReverseManoeuvre$ | async
-                                              }">
-                                      <span class="tickwrapper">
-                                        <tick-indicator
-                                          [ticked]="pageState.selectedReverseManoeuvre$ | async"></tick-indicator>
-                                      </span>
+              <competency-button
+                class="uncouple-recouple-toggle"
+                [onTap]="toggleReverseManoeuvre"
+                [onPress]="toggleReverseManoeuvre"
+                [ripple]="false"
+                [ngClass]="{
+                 'checked': pageState.selectedReverseManoeuvre$ | async
+                  }">
+                <span class="tickwrapper">
+                  <tick-indicator
+                    [ticked]="pageState.selectedReverseManoeuvre$ | async">
+                  </tick-indicator>
+                </span>
               </competency-button>
             </ion-col>
           </ion-row>
@@ -72,7 +76,7 @@
           </ion-row>
           <ion-row>
             <ion-col class="ion-no-padding">
-              <span class="section-header">Vehicle with trailer</span>
+              <h2 class="section-header">Vehicle with trailer</h2>
             </ion-col>
           </ion-row>
           <ion-row>

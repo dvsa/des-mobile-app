@@ -1,68 +1,67 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-        <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
-        <ion-buttons slot="end">
-            <ion-button (click)="onContinueClick()" id="end-test-button">End test</ion-button>
-        </ion-buttons>
-        <ion-buttons id="tr-back-button" slot="start">
-            <ion-back-button defaultHref="WaitingRoomToCarCatADIPart3Page"></ion-back-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
+    <ion-buttons id="tr-back-button" slot="start">
+      <ion-back-button defaultHref="WaitingRoomToCarCatADIPart3Page"></ion-back-button>
+    </ion-buttons>
+    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onContinueClick()" id="end-test-button">End test</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-row class="mes-full-width-card-small-top ion-nowrap">
-        <ion-col size="60">
-            <h2 id="adi-pt3-dashboard-title" class="normal-font-weight ion-padding-start">
-                {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
-            </h2>
-        </ion-col>
-        <ion-col>
-            <timer class="ion-float-end"></timer>
-        </ion-col>
-    </ion-row>
+  <ion-row class="mes-full-width-card-small-top ion-nowrap">
+    <ion-col size="60">
+      <h2 id="adi-pt3-dashboard-title" class="normal-font-weight ion-padding-start des-header-style-2">
+        {{testCategory === 'SC' ? 'Standards check' : 'ADI Part 3'}} assessment
+      </h2>
+    </ion-col>
+    <ion-col>
+      <timer class="ion-float-end"></timer>
+    </ion-col>
+  </ion-row>
 
-    <dashboard-item
-            (click)="navigateToPage('lessonTheme')"
-            [title]="'Lesson & Theme'"
-            [isInvalid]="(hasClickedComplete || lessonAndThemeState?.score > 0) && lessonAndThemeState?.valid === false"
-            [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
-            [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3?.lessonAndTheme?.other && !isEmpty(testDataADI3?.lessonAndTheme?.other))"
-            [score]="lessonAndThemeState?.score"
-            [maxScore]="2"
-            [idSelector]="'lesson-and-theme'">
-    </dashboard-item>
+  <dashboard-item
+    (click)="navigateToPage('lessonTheme')"
+    [title]="'Lesson & Theme'"
+    [isInvalid]="(hasClickedComplete || lessonAndThemeState?.score > 0) && lessonAndThemeState?.valid === false"
+    [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
+    [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3?.lessonAndTheme?.other && !isEmpty(testDataADI3?.lessonAndTheme?.other))"
+    [score]="lessonAndThemeState?.score"
+    [maxScore]="2"
+    [idSelector]="'lesson-and-theme'">
+  </dashboard-item>
 
-    <dashboard-item
-            (click)="navigateToPage('testReport')"
-            [title]="'Test Report'"
-            [isInvalid]="(hasClickedComplete || testReportState > 0) && testReportState < 17"
-            [isValid]="testReportState === 17"
-            [showCompleted]="testReportState > 0"
-            [score]="testReportState"
-            [maxScore]="17"
-            [idSelector]="'test-report'">
-    </dashboard-item>
+  <dashboard-item
+    (click)="navigateToPage('testReport')"
+    [title]="'Test Report'"
+    [isInvalid]="(hasClickedComplete || testReportState > 0) && testReportState < 17"
+    [isValid]="testReportState === 17"
+    [showCompleted]="testReportState > 0"
+    [score]="testReportState"
+    [maxScore]="17"
+    [idSelector]="'test-report'">
+  </dashboard-item>
 
-    <review-feedback
-            [form]="form"
-            [feedback]="pageState.feedback$ | async"
-            (feedbackChange)="feedbackChanged($event)">
-    </review-feedback>
-
+  <review-feedback
+    [form]="form"
+    [feedback]="pageState.feedback$ | async"
+    (feedbackChange)="feedbackChanged($event)">
+  </review-feedback>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow" style="background-color: white;">
-        <ion-col class="ion-text-center">
-            <ion-button
-                    (click)="onContinueClick()"
-                    shape="round"
-                    class="mes-primary-button wrtc-footer-btn"
-                    id="continue-button">
-                <h3 id="continue-text">Continue</h3>
-            </ion-button>
-        </ion-col>
-    </ion-row>
+  <ion-row class="mes-full-width-card box-shadow" style="background-color: white;">
+    <ion-col class="ion-text-center">
+      <ion-button
+        (click)="onContinueClick()"
+        shape="round"
+        class="mes-primary-button wrtc-footer-btn"
+        id="continue-button">
+        <ion-text id="continue-text" class="des-header-style-3">Continue</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-footer>
