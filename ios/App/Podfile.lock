@@ -1,9 +1,9 @@
 PODS:
-  - Capacitor (5.2.3):
+  - Capacitor (5.3.0):
     - CapacitorCordova
   - CapacitorAppLauncher (5.0.6):
     - Capacitor
-  - CapacitorCordova (5.2.3)
+  - CapacitorCordova (5.3.0)
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
   - CapacitorSplashScreen (5.0.6):
@@ -14,10 +14,10 @@ PODS:
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (5.0.0):
     - Capacitor
-  - CordovaPlugins (5.2.3):
+  - CordovaPlugins (5.3.0):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (5.2.3):
+  - CordovaPluginsStatic (5.3.0):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (0.0.10):
@@ -25,7 +25,7 @@ PODS:
   - GoogleAnalytics (3.20.0)
   - Sentry/HybridSDK (8.8.0):
     - SentryPrivate (= 8.8.0)
-  - SentryCapacitor (0.12.2):
+  - SentryCapacitor (0.12.3):
     - Capacitor
     - Sentry/HybridSDK (= 8.8.0)
   - SentryPrivate (8.8.0)
@@ -80,23 +80,23 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 6f44cbc33839b8a4202b8eac97041fe584083417
+  Capacitor: 1ac9165943bc4f2137642d218c5ba05df811de69
   CapacitorAppLauncher: 5a9f06c13c6b4f5d65b550a07128ef04f3a216b3
-  CapacitorCordova: 35def3ebfdef491f0a7b652816eb873ff4b20bbf
+  CapacitorCordova: b9374d68e63ce29e96ab5db994cf14fbefd722c9
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
   CapacitorSplashScreen: 5fa2ab5e46cf5cc530cf16a51c80c7a986579ccd
   CapacitorStatusBar: 565c0a1ebd79bb40d797606a8992b4a105885309
   CapawesomeCapacitorManagedConfigurations: 87db7aa30986c411b7a285d273b780acaca9b91a
   CapawesomeCapacitorScreenOrientation: 5b7cfb76348775e4b824bf460e5c52212b94c8d1
-  CordovaPlugins: 7b076b4b1f6d5e380e84671665bcf1bf54e4faae
+  CordovaPlugins: 409301fcd2cfd33e00dd708cd9663a790d64b65c
   CordovaPluginsResources: 1b3992e05cb6336d2850cd77dd5e3054f2f76f96
-  CordovaPluginsStatic: fab1f288d8e518a16d30c438fd33531749e341d0
+  CordovaPluginsStatic: 346bedf3847c612171fc06b1bc3b01c0e8a491c3
   DvsaCapacitorPluginAsam: 9c9f03afdc71818a37ca5b8a03c0ba35d70dfaf6
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: 927dfb29d18a14d924229a59cc2ad149f43349f2
-  SentryCapacitor: dfb6be40c56dc29689eb3d587b8f134b15c26ef6
+  SentryCapacitor: 8721f0ada5dca84617870212988890d857aa8fdc
   SentryPrivate: 4350d865f898224ab9fa02b37d6ee7fbb623f47e
 
-PODFILE CHECKSUM: bae2fc522529f92a4fdb12d3271471219942538b
+PODFILE CHECKSUM: 3392007ad239496101284ce78ea30b6d5ff8a725
 
 COCOAPODS: 1.12.1

@@ -138,6 +138,7 @@ $card-ios-background-color: var(--mes-white);
   /** app styles **/
   --ion-accordion: #f4f5f8;
   --ion-background-color: var(--mes-background);
+
   ion-content {
     --ion-background-color: var(--mes-background);
   }
@@ -306,6 +307,12 @@ $card-ios-background-color: var(--mes-white);
 
     --ion-card-background: #{$mes-white};
   }
+}
+
+// Ionic 7 introduced surplus padding for DES, setting to 0 by default and can be overridden if needed inside components.
+ion-button {
+  --padding-top: 0px;
+  --padding-bottom: 0px;
 }
 
 .alert-wrapper.sc-ion-alert-ios {
