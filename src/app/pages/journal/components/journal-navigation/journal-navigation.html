@@ -2,39 +2,60 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h5 id="previous-day-container" *ngIf="canNavigateToPreviousDay"
-            class="navigation-button"
-            (click)="onPreviousDayClick()">
-          <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-          <span id="previous-day">{{previousDayLabel}}</span>
-        </h5>
+        <ion-text
+          *ngIf="canNavigateToPreviousDay"
+          (click)="onPreviousDayClick()"
+          class="des-header-style-5 navigation-button"
+          id="previous-day-container">
+          <ion-icon class="navigation-arrow" name="chevron-back-outline" aria-labelledby="previous-day"></ion-icon>
+          <span id="previous-day" aria-labelledby="previous-day">{{previousDayLabel}}</span>
+        </ion-text>
       </ion-col>
       <ion-col>
         <div id="date-container">
-          <div *ngIf="isSelectedDateToday; else notToday">
-            <h1 id="date-today-header">Today</h1>
-            <h3 id="today-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+          <div *ngIf="isSelectedDateToday; else notToday;">
+            <h2 class="des-header-style-1" id="date-today-header">Today</h2>
+            <h3 class="des-header-style-3" id="today-date" aria-labelledby="date-today-header today-date">
+              {{ selectedDate | date:'EEEE d MMMM y' }}
+            </h3>
           </div>
           <ng-template #notToday>
             <div *ngIf="fromTestCentreJournal; else journalView">
-              <h1 id="date-tomorrow-header">Tomorrow</h1>
-              <h3 id="tomorrow-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+              <ion-text class="des-header-style-1" id="date-tomorrow-header">Tomorrow</ion-text>
+              <br>
+              <ion-text
+                class="des-header-style-3"
+                id="tomorrow-date"
+                aria-labelledby="date-tomorrow-header tomorrow-date">
+                {{ selectedDate | date:'EEEE d MMMM y' }}
+              </ion-text>
             </div>
             <ng-template #journalView>
-              <h1 id="date-day-header">{{ selectedDate | date:'EEEE' }}</h1>
-              <h3 id="date-subheader">{{ selectedDate | date:'d MMMM y' }}</h3>
+              <ion-text class="des-header-style-1" id="date-day-header" aria-labelledby="date-day-header">
+                {{ selectedDate | date:'EEEE' }}
+              </ion-text>
+              <br>
+              <ion-text class="des-header-style-3" id="date-subheader" aria-labelledby="date-day-header date-subheader">
+                {{ selectedDate | date:'d MMMM y' }}
+              </ion-text>
             </ng-template>
           </ng-template>
         </div>
       </ion-col>
       <ion-col>
-        <h5 id="next-day-container"
-            *ngIf="canNavigateToNextDay"
-            class="next-navigation-button"
-            (click)="onNextDayClick()">
-          <span id="next-day">{{nextDayLabel}}</span>
-          <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
-        </h5>
+        <ion-text
+          *ngIf="canNavigateToNextDay"
+          (click)="onNextDayClick()"
+          id="next-day-container"
+          class="des-header-style-5 next-navigation-button"
+        >
+          <span id="next-day" aria-labelledby="next-day">{{nextDayLabel}}</span>
+          <ion-icon
+            class="navigation-arrow"
+            name="chevron-forward-outline"
+            aria-labelledby="next-day"
+          ></ion-icon>
+        </ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -97,7 +97,7 @@
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
     <ion-button (click)="onSubmit()" class="mes-primary-button" id="pass-finalisation-continue-button">
-      <h3>Continue</h3>
+      <ion-text class="des-header-style-3">Continue</ion-text>
     </ion-button>
   </ion-row>
 </ion-footer>

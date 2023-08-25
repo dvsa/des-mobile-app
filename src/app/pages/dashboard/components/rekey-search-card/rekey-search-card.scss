@@ -1,6 +1,6 @@
 button[clear] {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
@@ -11,7 +11,7 @@ button[clear] {
   }
 }
 .rekey-search-card {
-  h1, h4 {
+  .des-header-style-1, .des-header-style-4 {
     color: var(--mes-white);
   }
 
@@ -35,7 +35,7 @@ button[clear] {
       background:  var(--mes-white-darken-10);
     }
 
-    h3 {
+    .des-header-style-3 {
       color: var(--gds-blue);
       .text-zoom-large & {
         line-height: 1.4em;

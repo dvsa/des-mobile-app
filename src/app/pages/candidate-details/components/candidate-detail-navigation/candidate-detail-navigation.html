@@ -4,30 +4,31 @@
         <ion-col>
           <div id="date-container">
             <div class="mes-black">
-              <header-component [headerNum]="2" [id]="'name'" class="word-wrapper">Name: {{name}}</header-component>
-              <header-component [headerNum]="3" [id]="'dateAndTime'">Time: {{time}} {{date}}</header-component>
+              <ion-text id="name" class="des-header-style-2 word-wrapper">Name: {{name}}</ion-text>
+              <br>
+              <ion-text class="des-header-style-3" id="dateAndTime">Time: {{time}} {{date}}</ion-text>
             </div>
           </div>
         </ion-col>
       </ion-row>
         <ion-row>
             <ion-col>
-                <h5 *ngIf="canNavigateToPreviousCandidate"
+                <ion-text *ngIf="canNavigateToPreviousCandidate"
                     id="previous-slot-container"
-                    class="previous-navigation-button"
+                    class="des-header-style-5 previous-navigation-button"
                     (click)="onPreviousCandidateClick()">
                     <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
                     <span id="previous-slot">Previous Candidate</span>
-                </h5>
+                </ion-text>
             </ion-col>
             <ion-col>
-                <h5 *ngIf="canNavigateToNextCandidate"
+                <ion-text *ngIf="canNavigateToNextCandidate"
                     id="next-slot-container"
-                    class="next-navigation-button"
+                    class="des-header-style-5 next-navigation-button"
                     (click)="onNextCandidateClick()">
                     <span id="next-slot">Next Candidate</span>
                     <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
-                </h5>
+                </ion-text>
             </ion-col>
         </ion-row>
     </ion-grid>

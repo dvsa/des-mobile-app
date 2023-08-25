@@ -1,7 +1,9 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title id="test-report-page-title" role="heading" aria-level="1">
+      Test report - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
     </ion-buttons>
@@ -75,7 +77,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="ion-no-padding">
-            <span class="section-header">Move away</span>
+            <h2 class="section-header">Move away</h2>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -107,9 +109,17 @@
       </ion-col>
     </ion-row>
     <speed-check-header></speed-check-header>
-    <speed-check [competency]="competencies.speedCheckEmergency" [pairedCompetency]="singleFaultCompetencyNames.emergencyStop"></speed-check>
-    <speed-check [competency]="competencies.speedCheckAvoidance" [pairedCompetency]="singleFaultCompetencyNames.avoidance"></speed-check>
+    <speed-check
+      [competency]="competencies.speedCheckEmergency"
+      [pairedCompetency]="singleFaultCompetencyNames.emergencyStop">
+    </speed-check>
+    <speed-check
+      [competency]="competencies.speedCheckAvoidance"
+      [pairedCompetency]="singleFaultCompetencyNames.avoidance">
+    </speed-check>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="isRemoveFaultMode"></div>
+  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
+       [class.show-overlay]="displayOverlay"></div>
+  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
+       [class.show-overlay]="isRemoveFaultMode"></div>
 </ion-content>

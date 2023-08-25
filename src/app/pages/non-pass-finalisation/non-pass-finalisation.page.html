@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="non-pass-page-title">Finalise outcome - {{pageState.candidateName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="non-pass-page-title">Finalise outcome - {{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button
         *ngIf="isADI3() && !didTestComplete()"
@@ -112,7 +112,7 @@
 <ion-footer>
   <div id="footer-background">
     <ion-button id="continue-button" class="mes-primary-button continue" (click)="continue()">
-      <h3>Continue</h3>
+      <ion-text class="des-header-style-3">Continue</ion-text>
     </ion-button>
   </div>
 </ion-footer>

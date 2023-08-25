@@ -1,15 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { get } from 'lodash';
 import { DateTime } from '@shared/helpers/date-time';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
-import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
-import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
-import { TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
-import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
-import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
-import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 @Component({
   selector: 'rekey-details-card',
@@ -18,15 +10,7 @@ import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 export class RekeyDetailsCardComponent {
 
   @Input()
-  data: CatBUniqueTypes.TestResult
-  | TestResultCatADI3Schema
-  | CatCUniqueTypes.TestResult
-  | CatCEUniqueTypes.TestResult
-  | CatC1UniqueTypes.TestResult
-  | CatC1EUniqueTypes.TestResult
-  | TestResultCatAM1Schema
-  | TestResultCatAM2Schema
-  | TestResultCatCPCSchema;
+  data: TestResultSchemasUnion;
 
   public get scheduledStaffNumber(): string {
     return get(this.data, 'examinerBooked')

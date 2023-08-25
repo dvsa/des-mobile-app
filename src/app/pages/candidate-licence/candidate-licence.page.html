@@ -4,7 +4,7 @@
     <ion-buttons id="candidate-licence-back-button" slot="start">
       <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
     </ion-buttons>
-    <ion-title id="candidate-licence-page-title">
+    <ion-title role="heading" aria-level="1" id="candidate-licence-page-title">
       DVLA Licence information - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
@@ -56,7 +56,7 @@
 <ion-footer>
   <ion-row>
     <ion-button (click)="onContinue()" class="mes-primary-button continue" id="candidate-licence-continue-button">
-      <h3>Continue</h3>
+      <ion-text class="des-header-style-3">Continue</ion-text>
     </ion-button>
   </ion-row>
 </ion-footer>

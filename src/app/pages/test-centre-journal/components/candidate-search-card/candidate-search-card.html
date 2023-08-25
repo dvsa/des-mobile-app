@@ -35,7 +35,7 @@
 <ion-row class="mes-full-width-card">
   <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton"
               (click)="showResults()" id="show-booking-button">
-    <h3 id="show-booking-button-text">Show booking</h3>
+    <ion-text id="show-booking-button-text" class="des-header-style-3">Show booking</ion-text>
   </ion-button>
 </ion-row>
 
@@ -45,8 +45,8 @@
     <ion-grid>
       <ion-row>
         <ion-col class="ion-text-center">
-          <h1>Today</h1>
-          <h3>{{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
+          <h2 class="des-header-style-1">Today</h2>
+          <h3 class="des-header-style-3">{{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -73,8 +73,8 @@
     <ion-grid>
       <ion-row>
         <ion-col class="ion-text-center">
-          <h1>Tomorrow</h1>
-          <h3>{{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
+          <h2 class="des-header-style-1">Tomorrow</h2>
+          <h3 class="des-header-style-3">{{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
         </ion-col>
       </ion-row>
     </ion-grid>

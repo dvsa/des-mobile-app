@@ -1,22 +1,26 @@
 <ion-card class="modal-alert">
   <ion-row class="ion-justify-content-center">
-    <ion-col class="ion-no-padding" >
-      <h2 id="end test-text" class="modal-alert-header">End test</h2>
+    <ion-col class="ion-no-padding">
+      <ion-text id="end test-text" class="modal-alert-header des-header-style-2 flex-center">End test</ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84" class="ion-no-padding">
       <ion-button id="end-test-continue-button" class="mes-primary-button" (click)="onContinue()">
-        <h3>Continue to debrief</h3>
+        <ion-text class="des-header-style-3">Continue to debrief</ion-text>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="ion-no-padding column-border-top column-border-right">
-      <ion-button id="end-test-terminate-button" fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
+      <ion-button id="end-test-terminate-button" fill="clear" class="terminate-button" (click)="onTerminate()">
+        Terminate test
+      </ion-button>
     </ion-col>
     <ion-col class="ion-no-padding column-border-top">
-      <ion-button id="end-test-return-button" fill="clear" class="return-button" (click)="onCancel()">Return to test</ion-button>
+      <ion-button id="end-test-return-button" fill="clear" class="return-button" (click)="onCancel()">
+        Return to test
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-card>

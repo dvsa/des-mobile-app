@@ -6,7 +6,7 @@
         <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
-    <ion-title id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
+    <ion-title role="heading" aria-level="1" id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
       Vehicle checks - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -27,9 +27,9 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h4 id="vehicle-checks-modal-show-me-label">
+          <h2 class="des-header-style-4" id="vehicle-checks-modal-show-me-label">
             Show me questions
-          </h4>
+          </h2>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -47,9 +47,9 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h4 id="vehicle-checks-modal-tell-me-label">
+          <h2 class="des-header-style-4" id="vehicle-checks-modal-tell-me-label">
             Tell me questions
-          </h4>
+          </h2>
         </ion-card-title>
       </ion-card-header>
 
@@ -75,7 +75,7 @@
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
     <ion-button class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
-      <h3 id="vehicle-checks-modal-submit-label">Submit vehicle checks</h3>
+      <ion-text class="des-header-style-3" id="vehicle-checks-modal-submit-label">Submit vehicle checks</ion-text>
     </ion-button>
   </ion-row>
 </ion-footer>

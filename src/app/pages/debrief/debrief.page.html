@@ -4,7 +4,7 @@
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title id="page-title">{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="page-title">{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
   </ion-toolbar>
   <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
 </ion-header>
@@ -94,7 +94,7 @@
 <ion-footer>
   <div id="end-debrief-background">
     <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
-      <h3>{{ 'debrief.end' | translate }}</h3>
+      <ion-text class="des-header-style-3">{{ 'debrief.end' | translate }}</ion-text>
     </ion-button>
   </div>
 </ion-footer>

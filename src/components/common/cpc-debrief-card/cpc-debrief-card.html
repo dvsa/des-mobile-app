@@ -1,66 +1,66 @@
 <ion-card>
   <ion-card-header>
     <ion-card-title>
-      <h4 id="debrief-cpc-title">{{getCardHeader()}}</h4>
+      <h2 class="des-header-style-4" id="debrief-cpc-title">{{getCardHeader()}}</h2>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-      <ion-grid>
-        <section *ngFor="let question of questions; index as i; let first = first; let last = last;">
-          <ion-row *ngIf="first && isDetailedTestView" class="cpc-line-break">
-            <ion-col size="32">
-              <h3 id="combination-label">Combination</h3>
-            </ion-col>
-            <ion-col size="60">
-              <span id="combination-value">{{combination}}</span>
-            </ion-col>
-          </ion-row>
+    <ion-grid>
+      <section *ngFor="let question of questions; index as i; let first = first; let last = last;">
+        <ion-row *ngIf="first && isDetailedTestView" class="cpc-line-break">
+          <ion-col size="32">
+            <ion-text class="des-header-style-3" id="combination-label">Combination</ion-text>
+          </ion-col>
+          <ion-col size="60">
+            <span id="combination-value">{{combination}}</span>
+          </ion-col>
+        </ion-row>
 
-          <ion-row class="cpc-line-break ion-align-items-start" *ngIf="combination !== null">
-            <ion-col size="56">
-              <h3 [id]="'debrief-cpc-question-' + i">{{getFormattedQuestion(question)}}</h3>
-            </ion-col>
-            <ion-col size="25" class="cpc-percentage ion-text-center">
-              <span [id]="'debrief-cpc-question-percentage-' + i">{{getQuestionPercentage(question)}}%</span>
-            </ion-col>
-            <ion-col size="12" class="ion-align-items-end ion-text-center">
-              <div class="cpc-answer-icon">
-                <img *ngIf="shouldTickBox(question)"
-                     src="assets/imgs/greenCorrectAnswer.png"
-                     alt="Correct Answer"
-                     [id]="'debrief-cpc-question-icon-pass-' + i"
-                     class="correct-icon icon-image"/>
-                <img *ngIf="!shouldTickBox(question)"
-                     src="assets/imgs/redWrongAnswer.png"
-                     alt="Wrong Answer"
-                     [id]="'debrief-cpc-question-icon-fail-' + i"
-                     class="wrong-icon icon-image"/>
-              </div>
-            </ion-col>
-          </ion-row>
+        <ion-row class="cpc-line-break ion-align-items-start" *ngIf="combination !== null">
+          <ion-col size="56">
+            <ion-text class="des-header-style-3" [id]="'debrief-cpc-question-' + i">{{getFormattedQuestion(question)}}</ion-text>
+          </ion-col>
+          <ion-col size="25" class="cpc-percentage ion-text-center">
+            <span [id]="'debrief-cpc-question-percentage-' + i">{{getQuestionPercentage(question)}}%</span>
+          </ion-col>
+          <ion-col size="12" class="ion-align-items-end ion-text-center">
+            <div class="cpc-answer-icon">
+              <img *ngIf="shouldTickBox(question)"
+                   src="assets/imgs/greenCorrectAnswer.png"
+                   alt="Correct Answer"
+                   [id]="'debrief-cpc-question-icon-pass-' + i"
+                   class="correct-icon icon-image" />
+              <img *ngIf="!shouldTickBox(question)"
+                   src="assets/imgs/redWrongAnswer.png"
+                   alt="Wrong Answer"
+                   [id]="'debrief-cpc-question-icon-fail-' + i"
+                   class="wrong-icon icon-image" />
+            </div>
+          </ion-col>
+        </ion-row>
 
-          <ion-row *ngIf="last && combination !== null" class="cpc-total-padding">
-            <ion-col size="56">
-              <h3 id="debrief-cpc-total-label">Total</h3>
-            </ion-col>
-            <ion-col size="25" class="cpc-percentage ion-text-center">
-              <span id="debrief-cpc-total-value">{{overallScore}}%</span>
-            </ion-col>
-            <ion-col size="12" class="align-items-end">
-              <div class="cpc-answer-icon">
-                <img *ngIf="isPass()" src="assets/imgs/greenCorrectAnswer.png"
-                     alt="Correct Answer"
-                     id="debrief-cpc-total-score-pass-icon"
-                     class="correct-icon icon-image"/>
-                <img *ngIf="!isPass()" src="assets/imgs/redWrongAnswer.png"
-                     alt="Wrong Answer"
-                     id="debrief-cpc-total-score-fail-icon"
-                     class="wrong-icon icon-image"/>
-              </div>
-            </ion-col>
-          </ion-row>
+        <ion-row *ngIf="last && combination !== null" class="cpc-total-padding">
+          <ion-col size="56">
+            <ion-text class="des-header-style-3" id="debrief-cpc-total-label">Total</ion-text>
+          </ion-col>
+          <ion-col size="25" class="cpc-percentage ion-text-center">
+            <span id="debrief-cpc-total-value">{{overallScore}}%</span>
+          </ion-col>
+          <ion-col size="12" class="align-items-end">
+            <div class="cpc-answer-icon">
+              <img *ngIf="isPass()" src="assets/imgs/greenCorrectAnswer.png"
+                   alt="Correct Answer"
+                   id="debrief-cpc-total-score-pass-icon"
+                   class="correct-icon icon-image" />
+              <img *ngIf="!isPass()" src="assets/imgs/redWrongAnswer.png"
+                   alt="Wrong Answer"
+                   id="debrief-cpc-total-score-fail-icon"
+                   class="wrong-icon icon-image" />
+            </div>
+          </ion-col>
+        </ion-row>
 
-        </section>
-      </ion-grid>
+      </section>
+    </ion-grid>
   </ion-card-content>
 </ion-card>

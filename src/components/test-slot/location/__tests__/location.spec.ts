@@ -23,7 +23,7 @@ describe('LocationComponent', () => {
     describe('location icon', () => {
       it('should display test centre name', () => {
         const locationEl: HTMLElement = fixture.debugElement.query(
-          By.css('h3'),
+          By.css('h4'),
         ).nativeElement;
         fixture.detectChanges();
         expect(locationEl.textContent).toBe('Example Test Centre');

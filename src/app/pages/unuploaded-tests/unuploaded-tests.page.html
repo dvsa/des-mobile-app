@@ -3,7 +3,7 @@
     <ion-buttons id="unuploaded-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title id="page-title">My Dashboard</ion-title>
+    <ion-title id="page-title" role="heading" aria-level="1">My Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,9 +19,11 @@
     </profile-header>
   </div>
 
-  <h2 class="header-divider">
+  <div class="header-divider"></div>
+
+  <ion-text class="des-header-style-2">
     You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
-  </h2>
+  </ion-text>
 
   <test-slot
     *ngFor="let slot of state.slots; let count = count;"

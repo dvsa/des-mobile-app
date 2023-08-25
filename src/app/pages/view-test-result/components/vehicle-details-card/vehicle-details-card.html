@@ -1,75 +1,77 @@
 <ion-card *ngIf="!shouldHideCard()">
-    <ion-card-header>
-        <h4 id="view-test-result-vehicle-details-title">Vehicle details</h4>
-    </ion-card-header>
-    <ion-card-content>
+  <ion-card-header>
+    <h2 class="des-header-style-4" id="view-test-result-vehicle-details-title">Vehicle details</h2>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <data-row
+        *ngIf="transmission && !showTransmissionWithCode78"
+        [label]="'Transmission'"
+        [value]="transmission">
+      </data-row>
+
+      <transmission-display
+        *ngIf="transmission && showTransmissionWithCode78"
+        [category]="category"
+        [transmission]="data.gearboxCategory"
+        [code78]="passCompletion?.code78Present"
+        [isTestSubmitted]="true">
+      </transmission-display>
+
+      <data-row
+        *ngIf="registrationNumber"
+        [shouldHaveSeperator]="displayRegistration()"
+        [label]="'Vehicle registration number'"
+        [value]="registrationNumber">
+      </data-row>
+
+      <data-row-custom
+        *ngIf="vehicleDetails"
+        [label]="'Vehicle details'"
+        [shouldHaveSeperator]="!!instructorRegistrationNumber || shouldShowDimensions">
+        <span class="mes-data" *ngIf="vehicleDetails?.length === 0">None</span>
+        <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
+      </data-row-custom>
+
+      <data-row
+        *ngIf="instructorRegistrationNumber"
+        [label]="'Instructor registration number'"
+        [value]="instructorRegistrationNumber"
+        [shouldHaveSeperator]="false">
+      </data-row>
+
+      <data-row-custom *ngIf="shouldShowDimensions" [label]="'Vehicle dimensions'">
         <ion-grid>
-            <data-row
-                    *ngIf="transmission && !showTransmissionWithCode78"
-                    [label]="'Transmission'"
-                    [value]="transmission">
-            </data-row>
-
-            <transmission-display
-                    *ngIf="transmission && showTransmissionWithCode78"
-                    [category]="category"
-                    [transmission]="data.gearboxCategory"
-                    [code78]="passCompletion?.code78Present"
-                    [isTestSubmitted]="true">
-            </transmission-display>
-
-            <data-row
-                    *ngIf="registrationNumber"
-                    [shouldHaveSeperator]="displayRegistration()"
-                    [label]="'Vehicle registration number'"
-                    [value]="registrationNumber">
-            </data-row>
-
-            <data-row-custom
-                    *ngIf="vehicleDetails"
-                    [label]="'Vehicle details'"
-                    [shouldHaveSeperator]="!!instructorRegistrationNumber || shouldShowDimensions">
-                <span class=mes-data *ngIf="vehicleDetails?.length === 0">None</span>
-                <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
-            </data-row-custom>
-
-            <data-row
-                    *ngIf="instructorRegistrationNumber"
-                    [label]="'Instructor registration number'"
-                    [value]="instructorRegistrationNumber"
-                    [shouldHaveSeperator]="false">
-            </data-row>
-
-            <data-row-custom *ngIf="shouldShowDimensions" [label]="'Vehicle dimensions'">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
-                            <span class="mes-data"><span class="mes-data bold">L:</span> {{ vehicleLength }}</span>
-                        </ion-col>
-                        <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
-                            <span class="mes-data"><span class="mes-data bold">W:</span> {{ vehicleWidth }}</span>
-                        </ion-col>
-                        <ion-col *ngIf="shouldShowExtraDimensions" size="20">
-                            <span class="mes-data"><span class="mes-data bold">H:</span> {{ vehicleHeight }}</span>
-                        </ion-col>
-                        <ion-col *ngIf="shouldShowExtraDimensions" size="34">
-                            <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </data-row-custom>
-
-            <data-row *ngIf="schoolBike" [label]="'School Bike'" [value]="schoolBike"></data-row>
-
-            <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
-
-            <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"></data-row>
-
-            <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
-
-            <data-row *ngIf="displayVehicleDetails && !isADI3()" [shouldHaveSeperator]="false" [label]="'Vehicle Details'" [value]="schoolCarDualControls"></data-row>
-            <data-row *ngIf="isADI3()" [shouldHaveSeperator]="false" [label]="'Dual Controls'" [value]="dualControls"></data-row>
-
+          <ion-row>
+            <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
+              <span class="mes-data"><span class="mes-data bold">L:</span> {{ vehicleLength }}</span>
+            </ion-col>
+            <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
+              <span class="mes-data"><span class="mes-data bold">W:</span> {{ vehicleWidth }}</span>
+            </ion-col>
+            <ion-col *ngIf="shouldShowExtraDimensions" size="20">
+              <span class="mes-data"><span class="mes-data bold">H:</span> {{ vehicleHeight }}</span>
+            </ion-col>
+            <ion-col *ngIf="shouldShowExtraDimensions" size="34">
+              <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
+            </ion-col>
+          </ion-row>
         </ion-grid>
-    </ion-card-content>
+      </data-row-custom>
+
+      <data-row *ngIf="schoolBike" [label]="'School Bike'" [value]="schoolBike"></data-row>
+
+      <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
+
+      <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"></data-row>
+
+      <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
+
+      <data-row *ngIf="displayVehicleDetails && !isADI3()" [shouldHaveSeperator]="false" [label]="'Vehicle Details'"
+                [value]="schoolCarDualControls"></data-row>
+      <data-row *ngIf="isADI3()" [shouldHaveSeperator]="false" [label]="'Dual Controls'"
+                [value]="dualControls"></data-row>
+
+    </ion-grid>
+  </ion-card-content>
 </ion-card>

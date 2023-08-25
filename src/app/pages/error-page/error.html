@@ -5,15 +5,15 @@
         <span class="colour-white">Logout</span>
       </ion-button>
     </ion-buttons>
-    <ion-title>Driving Examiner Services</ion-title>
+    <ion-title role="heading" aria-level="1">Driving Examiner Services</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <error-message
-          class="error"
-          returnTo="{{errorType}}"
-          [displayAsModal]="displayAsModal"
-          (exitModal)="dismiss()">
+    class="error"
+    returnTo="{{errorType}}"
+    [displayAsModal]="displayAsModal"
+    (exitModal)="dismiss()">
   </error-message>
 </ion-content>
