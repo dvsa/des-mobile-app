@@ -1,9 +1,9 @@
 PODS:
-  - Capacitor (5.2.1):
+  - Capacitor (5.2.3):
     - CapacitorCordova
   - CapacitorAppLauncher (5.0.6):
     - Capacitor
-  - CapacitorCordova (5.2.1)
+  - CapacitorCordova (5.2.3)
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
   - CapacitorSplashScreen (5.0.6):
@@ -14,21 +14,21 @@ PODS:
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (5.0.0):
     - Capacitor
-  - CordovaPlugins (5.2.1):
+  - CordovaPlugins (5.2.3):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (5.2.1):
+  - CordovaPluginsStatic (5.2.3):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (0.0.10):
     - Capacitor
   - GoogleAnalytics (3.20.0)
-  - Sentry (7.27.1):
-    - Sentry/Core (= 7.27.1)
-  - Sentry/Core (7.27.1)
-  - SentryCapacitor (0.12.1):
+  - Sentry/HybridSDK (8.8.0):
+    - SentryPrivate (= 8.8.0)
+  - SentryCapacitor (0.12.2):
     - Capacitor
-    - Sentry (~> 7.27.1)
+    - Sentry/HybridSDK (= 8.8.0)
+  - SentryPrivate (8.8.0)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -49,6 +49,7 @@ SPEC REPOS:
   trunk:
     - GoogleAnalytics
     - Sentry
+    - SentryPrivate
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -79,21 +80,22 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 36510199454641113344c2e5ef43bf3f54b5af79
+  Capacitor: 6f44cbc33839b8a4202b8eac97041fe584083417
   CapacitorAppLauncher: 5a9f06c13c6b4f5d65b550a07128ef04f3a216b3
-  CapacitorCordova: d173eeb1635e62aa95a20874a5d5cbbf0aa1e0df
+  CapacitorCordova: 35def3ebfdef491f0a7b652816eb873ff4b20bbf
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
   CapacitorSplashScreen: 5fa2ab5e46cf5cc530cf16a51c80c7a986579ccd
   CapacitorStatusBar: 565c0a1ebd79bb40d797606a8992b4a105885309
   CapawesomeCapacitorManagedConfigurations: 87db7aa30986c411b7a285d273b780acaca9b91a
   CapawesomeCapacitorScreenOrientation: 5b7cfb76348775e4b824bf460e5c52212b94c8d1
-  CordovaPlugins: 1cf77b1c66dbac710f5d2ab4df78e49fa00761e8
+  CordovaPlugins: 7b076b4b1f6d5e380e84671665bcf1bf54e4faae
   CordovaPluginsResources: 1b3992e05cb6336d2850cd77dd5e3054f2f76f96
-  CordovaPluginsStatic: bf5846e45a5c689197a268b74abab387c33ab283
+  CordovaPluginsStatic: fab1f288d8e518a16d30c438fd33531749e341d0
   DvsaCapacitorPluginAsam: 9c9f03afdc71818a37ca5b8a03c0ba35d70dfaf6
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
-  Sentry: bc644307e2eb6a4c9c55cf117a80b895bb2a25a7
-  SentryCapacitor: f31de50b1671f12c107f25f735937f196f87f9d2
+  Sentry: 927dfb29d18a14d924229a59cc2ad149f43349f2
+  SentryCapacitor: dfb6be40c56dc29689eb3d587b8f134b15c26ef6
+  SentryPrivate: 4350d865f898224ab9fa02b37d6ee7fbb623f47e
 
 PODFILE CHECKSUM: bae2fc522529f92a4fdb12d3271471219942538b
 
