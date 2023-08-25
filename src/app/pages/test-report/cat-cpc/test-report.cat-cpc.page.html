@@ -1,12 +1,14 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
-    </ion-buttons>
     <ion-buttons id="tr-back-button" slot="start" *ngIf="pageState.delegatedTest$ | async">
       <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title id="test-report-page-title" role="heading" aria-level="1">
+      Test report - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

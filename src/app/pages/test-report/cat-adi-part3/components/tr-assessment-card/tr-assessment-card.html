@@ -2,12 +2,12 @@
   <ion-card-header class="tr-header-padding">
     <ion-row>
       <ion-col size="66">
-        <h3 [id]="sectionHeader | formatToID">
+        <h3 [id]="sectionHeader | formatToID" class="des-header-style-3">
           {{sectionHeader}}
         </h3>
       </ion-col>
       <ion-col size="26">
-        <h3 class="ion-float-right" [id]="sectionHeader | formatToID: 'score'">
+        <h3 class="ion-float-right des-header-style-3" [id]="sectionHeader | formatToID: 'score'">
           Score - {{sectionData.score}}
         </h3>
       </ion-col>

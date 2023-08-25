@@ -12,7 +12,9 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  combineLatest, lastValueFrom, Observable, Subscription,
+} from 'rxjs';
 import {
   CombinationCodes, Question, Question5, TestData,
 } from '@dvsa/mes-test-schema/categories/CPC';
@@ -177,8 +179,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   }
 
   onEndTestClick = async (): Promise<void> => {
-    const result = await this.testResultProvider.calculateTestResult(this.category, this.testData)
-      .toPromise();
+    const result = await lastValueFrom(this.testResultProvider.calculateTestResult(this.category, this.testData));
 
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CPCEndTestModal,
