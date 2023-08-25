@@ -1,9 +1,10 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockComponent } from 'ng-mocks';
 
+import { JournalNavigationComponent } from '@pages/journal/components/journal-navigation/journal-navigation';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
@@ -31,16 +32,29 @@ describe('FakeJournalPage', () => {
         MockComponent(PracticeModeBanner),
         MockComponent(LocationComponent),
         MockComponent(TestSlotComponent),
+        MockComponent(JournalNavigationComponent),
       ],
       imports: [
         IonicModule,
       ],
       providers: [
         OrientationMonitorProvider,
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: Router, useValue: routerSpy },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: routerSpy,
+        },
         provideMockStore({ initialState: {} }),
       ],
     });
@@ -53,13 +67,15 @@ describe('FakeJournalPage', () => {
   }));
 
   it('should setup test', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('ionViewDidEnter', () => {
     it('should dispatch an action', () => {
       component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(FakeJournalDidEnter());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(FakeJournalDidEnter());
     });
   });
 
@@ -67,7 +83,8 @@ describe('FakeJournalPage', () => {
     it('should call tearDownListener', () => {
       spyOn(component.orientationMonitorProvider, 'tearDownListener');
       component.ionViewWillLeave();
-      expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
+      expect(component.orientationMonitorProvider.tearDownListener)
+        .toHaveBeenCalled();
     });
   });
 
@@ -75,7 +92,8 @@ describe('FakeJournalPage', () => {
     it('should call monitorOrientation', () => {
       spyOn(component.orientationMonitorProvider, 'monitorOrientation');
       component.ionViewWillEnter();
-      expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
+      expect(component.orientationMonitorProvider.monitorOrientation)
+        .toHaveBeenCalled();
     });
   });
 });

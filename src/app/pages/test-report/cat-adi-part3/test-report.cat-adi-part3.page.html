@@ -1,94 +1,101 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-        <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
-        <ion-buttons id="tr-back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
+    <ion-buttons id="tr-back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title id="test-report-page-title" role="heading" aria-level="1">
+      Test report - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ng-container *ngIf="page === 'lessonTheme'">
-        <ion-row class="mes-full-width-card-small-top ion-nowrap">
-            <ion-col size="60">
-                <h2 id="adi-pt3-assessment-lesson-theme-title" class="normal-font-weight ion-padding-start">
-                    {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
-                </h2>
-            </ion-col>
-            <ion-col size="36">
-                <h2 id="adi-pt3-lesson-theme-title" class="ion-float-right normal-font-weight ion-padding-end">Lesson &
-                    Theme</h2>
-            </ion-col>
-        </ion-row>
-
-        <student-level
-                [studentLevel]="pageState.studentLevel$ | async"
-                (studentLevelChange)="studentLevelChanged($event)">
-        </student-level>
-
-        <lesson-theme
-                [formGroup]="form"
-                [lessonThemes]="pageState.lessonThemes$ | async"
-                [otherReason]="pageState.otherReason$ | async"
-                (lessonThemeChange)="lessonThemeChanged($event)"
-                (otherReasoningChange)="otherReasonChanged($event)">
-        </lesson-theme>
-    </ng-container>
-
-    <ng-container *ngIf="page === 'testReport'">
-        <ion-row class="mes-full-width-card-small-top ion-nowrap">
-            <ion-col size="60">
-                <h2 id="adi-pt3-assessment-test-report-title" class="normal-font-weight ion-padding-start">
-                    {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
-                </h2>
-            </ion-col>
-            <ion-col size="36">
-                <h2 id="adi-pt3-test-report-title" class="ion-float-right normal-font-weight ion-padding-end">Test
-                    report</h2>
-            </ion-col>
-        </ion-row>
-
-        <tr-assessment-card
-                [showMissing]="showMissing"
-                [sectionHeader]="'Lesson planning'"
-                [assessmentCard]="'lp'"
-                [sectionData]="pageState.lessonPlanning$ | async"
-                (answerChange)="lessonPlanningChanged($event)">
-        </tr-assessment-card>
-
-        <tr-assessment-card
-                [showMissing]="showMissing"
-                [sectionHeader]="'Risk management'"
-                [assessmentCard]="'rm'"
-                [sectionData]="pageState.riskManagement$ | async"
-                (answerChange)="riskManagementChanged($event)">
-        </tr-assessment-card>
-
-        <tr-assessment-card
-                [showMissing]="showMissing"
-                [sectionHeader]="'Teaching & learning strategies'"
-                [assessmentCard]="'tls'"
-                [sectionData]="pageState.teachingLearningStrategies$ | async"
-                (answerChange)="teachingLearningStrategyChanged($event)">
-        </tr-assessment-card>
-    </ng-container>
-
-    <question-score *ngIf="page === 'testReport'"
-                    [score]="adi3AssessmentProvider.countScoreIfTouched(pageState.adi3TestData$ | async)"
-                    [displayPercentage]=false
-                    [label]="'Total Score:'">
-    </question-score>
-
-    <ion-row class="mes-full-width-card box-shadow button-row-colour">
-        <ion-col class="ion-text-center">
-          <ion-button *ngIf="{ score: pageState.totalScore$ | async } as data"
-                      (click)="onContinueClick(data.score)"
-                      id="adi-pt3-continue-tr-button"
-                      shape="round"
-                      class="mes-primary-button wrtc-footer-btn">
-            <h3 id="adi-pt3-continue-tr-label">Continue</h3>
-          </ion-button>
-        </ion-col>
+  <ng-container *ngIf="page === 'lessonTheme'">
+    <ion-row class="mes-full-width-card-small-top ion-nowrap">
+      <ion-col size="60">
+        <h2 id="adi-pt3-assessment-lesson-theme-title" class="normal-font-weight ion-padding-start des-header-style-2">
+          {{testCategory === 'SC' ? 'Standards check' : 'ADI Part 3'}} assessment
+        </h2>
+      </ion-col>
+      <ion-col size="36">
+        <ion-text id="adi-pt3-lesson-theme-title"
+                  class="ion-float-right normal-font-weight ion-padding-end des-header-style-2">
+          Lesson & Theme
+        </ion-text>
+      </ion-col>
     </ion-row>
+
+    <student-level
+      [studentLevel]="pageState.studentLevel$ | async"
+      (studentLevelChange)="studentLevelChanged($event)">
+    </student-level>
+
+    <lesson-theme
+      [formGroup]="form"
+      [lessonThemes]="pageState.lessonThemes$ | async"
+      [otherReason]="pageState.otherReason$ | async"
+      (lessonThemeChange)="lessonThemeChanged($event)"
+      (otherReasoningChange)="otherReasonChanged($event)">
+    </lesson-theme>
+  </ng-container>
+
+  <ng-container *ngIf="page === 'testReport'">
+    <ion-row class="mes-full-width-card-small-top ion-nowrap">
+      <ion-col size="60">
+        <h2 id="adi-pt3-assessment-test-report-title" class="normal-font-weight ion-padding-start des-header-style-2">
+          {{testCategory === 'SC' ? 'Standards check' : 'ADI Part 3'}} assessment
+        </h2>
+      </ion-col>
+      <ion-col size="36">
+        <ion-text id="adi-pt3-test-report-title"
+                  class="ion-float-right normal-font-weight ion-padding-end des-header-style-2">
+          Test report
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <tr-assessment-card
+      [showMissing]="showMissing"
+      [sectionHeader]="'Lesson planning'"
+      [assessmentCard]="'lp'"
+      [sectionData]="pageState.lessonPlanning$ | async"
+      (answerChange)="lessonPlanningChanged($event)">
+    </tr-assessment-card>
+
+    <tr-assessment-card
+      [showMissing]="showMissing"
+      [sectionHeader]="'Risk management'"
+      [assessmentCard]="'rm'"
+      [sectionData]="pageState.riskManagement$ | async"
+      (answerChange)="riskManagementChanged($event)">
+    </tr-assessment-card>
+
+    <tr-assessment-card
+      [showMissing]="showMissing"
+      [sectionHeader]="'Teaching & learning strategies'"
+      [assessmentCard]="'tls'"
+      [sectionData]="pageState.teachingLearningStrategies$ | async"
+      (answerChange)="teachingLearningStrategyChanged($event)">
+    </tr-assessment-card>
+  </ng-container>
+
+  <question-score
+    *ngIf="page === 'testReport'"
+    [score]="adi3AssessmentProvider.countScoreIfTouched(pageState.adi3TestData$ | async)"
+    [displayPercentage]="false"
+    [label]="'Total Score:'">
+  </question-score>
+
+  <ion-row class="mes-full-width-card box-shadow button-row-colour">
+    <ion-col class="ion-text-center">
+      <ion-button *ngIf="{ score: pageState.totalScore$ | async } as data"
+                  (click)="onContinueClick(data.score)"
+                  id="adi-pt3-continue-tr-button"
+                  shape="round"
+                  class="mes-primary-button wrtc-footer-btn">
+        <ion-text id="adi-pt3-continue-tr-label" class="des-header-style-3">Continue</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>
