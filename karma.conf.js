@@ -1,7 +1,6 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-const webpackTestConfig = require('./webpack.test.js');
 const puppeteer = require('puppeteer');
 const os = require('os');
 process.env.CHROME_BIN = puppeteer.executablePath();
@@ -32,7 +31,6 @@ module.exports = function(config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-spec-reporter'),
     ],
-    webpack: webpackTestConfig,
     webpackMiddleware: { stats: 'errors-only' },
     webpackServer: { noInfo: true },
     client: {
