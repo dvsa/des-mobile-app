@@ -64,7 +64,7 @@ $toolbar-height: 56px;
   }
 
   .dark-divider {
-    border-top: 1px solid #2f3233;
+    border-top: 1px solid var(--mes-theme-main-variant7);
     box-shadow: 0 1px 0 0 var(--mes-theme-main-colour);
     margin: 4px 8px;
   }
