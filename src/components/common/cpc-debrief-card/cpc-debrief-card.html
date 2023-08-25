@@ -9,7 +9,7 @@
       <section *ngFor="let question of questions; index as i; let first = first; let last = last;">
         <ion-row *ngIf="first && isDetailedTestView" class="cpc-line-break">
           <ion-col size="32">
-            <h3 id="combination-label">Combination</h3>
+            <ion-text class="des-header-style-3" id="combination-label">Combination</ion-text>
           </ion-col>
           <ion-col size="60">
             <span id="combination-value">{{combination}}</span>
@@ -18,7 +18,7 @@
 
         <ion-row class="cpc-line-break ion-align-items-start" *ngIf="combination !== null">
           <ion-col size="56">
-            <h3 [id]="'debrief-cpc-question-' + i">{{getFormattedQuestion(question)}}</h3>
+            <ion-text class="des-header-style-3" [id]="'debrief-cpc-question-' + i">{{getFormattedQuestion(question)}}</ion-text>
           </ion-col>
           <ion-col size="25" class="cpc-percentage ion-text-center">
             <span [id]="'debrief-cpc-question-percentage-' + i">{{getQuestionPercentage(question)}}%</span>
@@ -41,7 +41,7 @@
 
         <ion-row *ngIf="last && combination !== null" class="cpc-total-padding">
           <ion-col size="56">
-            <h3 id="debrief-cpc-total-label">Total</h3>
+            <ion-text class="des-header-style-3" id="debrief-cpc-total-label">Total</ion-text>
           </ion-col>
           <ion-col size="25" class="cpc-percentage ion-text-center">
             <span id="debrief-cpc-total-value">{{overallScore}}%</span>
