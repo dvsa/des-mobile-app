@@ -232,7 +232,9 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     // ionViewWillEnter lifecycle event used to ensure screen orientation is correct before page transition
     if (super.isIos() && this.isPracticeMode) {
       await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
+      console.log('Before keepAwake()');
       await this.insomnia.keepAwake();
+      console.log('After keepAwake()');
       await StatusBar.hide();
     }
   }

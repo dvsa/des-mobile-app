@@ -53,6 +53,9 @@ import {
   getValidCertificateStatus,
 } from '@store/tests/pre-test-declarations/cat-a-mod2/pre-test-declarations.cat-adi-part3.selector';
 import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -105,6 +108,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
+    private deviceProvider: DeviceProvider,
+    private insomnia: Insomnia,
   ) {
     super(platform, authenticationProvider, router, store$, false);
     this.form = new UntypedFormGroup(this.getFormValidation());
@@ -221,8 +226,17 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
   }
 
-  ionViewDidEnter(): void {
+  async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(CommunicationViewDidEnter());
+
+    if (super.isIos()) {
+      await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
+      await this.insomnia.keepAwake();
+
+      if (!this.isEndToEndPracticeMode) {
+        await this.deviceProvider.enableSingleAppMode();
+      }
+    }
   }
 
   async onSubmit(): Promise<void> {
