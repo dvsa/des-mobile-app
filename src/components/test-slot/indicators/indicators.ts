@@ -4,6 +4,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 @Component({
   selector: 'indicators',
   templateUrl: 'indicators.html',
+  styleUrls: ['indicators.scss'],
 })
 export class IndicatorsComponent {
 

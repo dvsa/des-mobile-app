@@ -4,15 +4,29 @@
     display: flex;
     justify-content: center;
     min-height: 30px;
-    padding-top: 10px;
   }
 
   .test-outcome-margin {
     margin-top: 32px;
   }
 
+  .align-position {
+    position: relative;
+    bottom: 3px;
+  }
+
   .write-up-label {
     color: inherit;
+  }
+
+  .extend-width {
+    width: 460px;
+  }
+
+  .align-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .mes-rekey-button {
@@ -29,7 +43,7 @@
 
     .text-zoom-x-large & {
       position: relative;
-      left: -15px;
+      left: -5px;
     }
   }
 

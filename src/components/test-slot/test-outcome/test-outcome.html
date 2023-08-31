@@ -1,6 +1,6 @@
 <div class="activity-alignment outcome" *ngIf="showOutcome()">
   <ion-grid>
-    <ion-row>
+    <ion-row class="align-position flex-center">
       <span>Outcome:</span>
     </ion-row>
     <ion-row class="outcome-row">
@@ -10,12 +10,9 @@
         {{activityCode}}
       </ion-text>
     </ion-row>
-    <ion-row>
-      <p id="pass-certificate-{{applicationId}}">{{passCertificate}}</p>
-    </ion-row>
   </ion-grid>
 </div>
-<div *ngIf="showTestActionButton && !showOutcome()" class="outcome-position test-outcome-margin">
+<div *ngIf="showTestActionButton && !showOutcome()" class="outcome-position">
   <ion-col *ngIf="showRekeyButton(); else nonRekey">
     <ion-button id="rekey-button-{{applicationId}}" class="generic-button mes-rekey-button" (click)="rekeyTest()"
                 [disabled]="!canStartTest">

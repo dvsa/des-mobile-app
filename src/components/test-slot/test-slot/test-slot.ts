@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { get, isNil } from 'lodash';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -30,6 +30,7 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -92,6 +93,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   componentState: TestSlotComponentState;
 
   practiceTestStatus: TestStatus = TestStatus.Booked;
+  activityCode: ActivityCode = null;
+  testStatus: TestStatus;
+  passCertificate: String;
 
   canViewCandidateDetails: boolean = false;
   isTestCentreJournalADIBooking: boolean = false;
@@ -114,14 +118,23 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
+        tap((value) => {
+          this.testStatus = value;
+        }),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
         map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
+        tap((value) => {
+          this.activityCode = value;
+        }),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
         map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId)),
+        tap((value) => {
+          this.passCertificate = value;
+        }),
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
@@ -190,4 +203,26 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
+  protected readonly ActivityCodes = ActivityCodes;
+
+  showExtraDetailsRow(): boolean {
+    return (this.delegatedTest) ||
+      (this.isTeamJournal && !this.isTestCentreJournalADIBooking) ||
+      (this.slot.booking.application.progressiveAccess) ||
+      (this.showVehicleDetails() && !this.delegatedTest && !this.isTeamJournal) ||
+      (this.showAdditionalCandidateDetails() && !this.isTeamJournal && !!this.slot.booking.candidate) ||
+      (this.isUnSubmittedTestSlotView);
+  }
+
+  showTopRow(): boolean {
+    return this.hasBanner() ||
+      this.slot.booking.application.welshTest ||
+      this.isTeamJournal ||
+      this.isUnSubmittedTestSlotView;
+  }
+
+  hasBanner(): boolean {
+    return !this.isTeamJournal && this.isCompletedTest(this.testStatus) ||
+      this.slot.booking.application.fitMarker && !this.isCompletedTest(this.testStatus);
+  }
 }

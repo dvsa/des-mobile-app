@@ -4,7 +4,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="80">
-        <ion-row>
+        <ion-row *ngIf="showTopRow()">
           <ion-col size="2"></ion-col>
           <ion-col class="no-padding" size="24">
             <language
@@ -29,7 +29,7 @@
             <span>Time:</span>
           </ion-col>
           <ion-col size="4"></ion-col>
-          <ion-col size="43">
+          <ion-col class="vertical-align-center display-flex" size="43">
             <span>Candidate name:</span>
           </ion-col>
           <ion-col size="6"></ion-col>
@@ -68,7 +68,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="showExtraDetailsRow()">
           <ion-col size="7"></ion-col>
           <ion-col size="19">
             <date
@@ -86,7 +86,8 @@
                  id="driver-number-{{slot.booking?.candidate?.driverNumber}}">
               Driver no: {{slot.booking?.candidate?.driverNumber}}
             </div>
-            <ion-text class="des-header-style-3" *ngIf="delegatedTest && slot.booking.candidate.driverNumber" id="del-ex-driver-number">
+            <ion-text class="des-header-style-3" *ngIf="delegatedTest && slot.booking.candidate.driverNumber"
+                      id="del-ex-driver-number">
               {{slot.booking.candidate.driverNumber}}
             </ion-text>
             <vehicle-details
@@ -114,7 +115,7 @@
       </ion-col>
 
       <ion-col size="16">
-        <ion-row>
+        <ion-row *ngIf="hasBanner()">
           <ion-col class="align-center">
             <submission-status
               *ngIf="!isTeamJournal && isCompletedTest(componentState.testStatus$ | async)"
@@ -126,6 +127,7 @@
             </integrity-marker>
           </ion-col>
         </ion-row>
+
         <ion-row class="row-height">
           <ion-col class="align-center">
             <test-outcome
@@ -158,6 +160,12 @@
         <ion-row>
         </ion-row>
       </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="ActivityCodes.PASS === activityCode">
+      <ion-col size="22.6"></ion-col>
+      <span class="reduced-height ion-no-padding">Pass certificate:</span>
+      <p class="ion-no-margin" id="pass-certificate-{{slot.booking.application.applicationId}}">&nbsp;{{passCertificate}}</p>
     </ion-row>
   </ion-grid>
 
@@ -199,6 +207,6 @@
     fill="clear">
     <ion-text class="des-header-style-3 trainer-booked-un-named">
       Trainer booked -<br *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-regular'"> unnamed
-    </ion-text>>
+    </ion-text>
   </ion-button>
 </ng-template>

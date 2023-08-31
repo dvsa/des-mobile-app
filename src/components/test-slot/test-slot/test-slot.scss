@@ -58,6 +58,14 @@ ion-col {
   width: 8px;
 }
 
+.display-flex {
+  display: flex;
+}
+
+.reduced-height {
+  height: 28px;
+}
+
 .slot-changed {
   background: var(--journalSlotChangeIdentifier);
 }
