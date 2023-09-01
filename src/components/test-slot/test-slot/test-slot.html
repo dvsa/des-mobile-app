@@ -59,7 +59,7 @@
               *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate;">
             </ng-template>
           </ion-col>
-          <ion-col class="align-center" size="24">
+          <ion-col class="flex-end" size="24">
             <test-category
               *ngIf="!isTestCentreJournalADIBooking"
               [applicationId]="slot.booking.application.applicationId"
@@ -114,7 +114,7 @@
         </ion-row>
       </ion-col>
 
-      <ion-col size="16">
+      <ion-col class="flex-column align-center" size="16">
         <ion-row *ngIf="hasBanner()">
           <ion-col class="align-center">
             <submission-status
@@ -128,7 +128,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="row-height">
+        <ion-row>
           <ion-col class="align-center">
             <test-outcome
               *ngIf="!teamJournalCandidateResult"
@@ -157,12 +157,10 @@
             </examiner-name>
           </ion-col>
         </ion-row>
-        <ion-row>
-        </ion-row>
       </ion-col>
     </ion-row>
 
-    <ion-row *ngIf="ActivityCodes.PASS === activityCode">
+    <ion-row *ngIf="ActivityCodes.PASS === activityCode && passCertificate">
       <ion-col size="22.6"></ion-col>
       <span class="reduced-height ion-no-padding">Pass certificate:</span>
       <p class="ion-no-margin" id="pass-certificate-{{slot.booking.application.applicationId}}">&nbsp;{{passCertificate}}</p>
