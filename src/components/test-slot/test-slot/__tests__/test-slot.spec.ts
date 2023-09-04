@@ -420,6 +420,7 @@ describe('TestSlotComponent', () => {
         });
 
         it('should pass something to sub-component language input', () => {
+          spyOn(component, 'showTopRow').and.returnValue(true);
           fixture.detectChanges();
           const subByDirective = fixture.debugElement.query(
             By.directive(MockComponent(LanguageComponent)),
