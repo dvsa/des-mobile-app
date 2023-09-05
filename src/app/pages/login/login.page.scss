@@ -7,6 +7,8 @@
   & div{
     max-width: 80%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
   }
 }
 .link {
