@@ -24,7 +24,7 @@ export class LicenceDataError {
       return 'Northern Ireland Licence';
     }
     if (this.candidateDataUnavailable) {
-      return 'Error obtaining details';
+      return 'Unable to display data';
     }
     if (this.candidateDataError) {
       return 'No data found';
