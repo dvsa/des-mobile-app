@@ -66,9 +66,19 @@ ion-col {
   padding: 0;
 }
 
+.width-change {
+  width: 1%;
+}
+
 .align-center {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.align-end {
+  display: flex;
+  justify-content: end;
   align-items: center;
 }
 
@@ -88,7 +98,7 @@ ion-col {
 }
 
 .full-width {
-  width: 100%;
+  width: 90%;
 }
 
 .trainer-booked-un-named {

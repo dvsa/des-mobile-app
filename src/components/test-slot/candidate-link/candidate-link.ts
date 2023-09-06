@@ -31,7 +31,7 @@ export class CandidateLinkComponent {
   testComplete: boolean;
 
   @Input()
-  isPortrait: boolean;
+  maxWidth: string;
 
   constructor(
     public modalController: ModalController,
