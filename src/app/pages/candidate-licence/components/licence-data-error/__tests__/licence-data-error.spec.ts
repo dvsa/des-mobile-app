@@ -30,7 +30,7 @@ describe('LicenceDataError', () => {
       it('should return the appropriate message for when details unavailable', () => {
         component.candidateDataUnavailable = true;
         expect(component.errorHeading)
-          .toEqual('Error obtaining details');
+          .toEqual('Unable to display data');
       });
       it('should return the appropriate message for when details not found', () => {
         component.candidateDataError = true;
