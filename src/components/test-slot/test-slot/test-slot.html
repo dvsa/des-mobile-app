@@ -130,7 +130,7 @@
             </div>
           </ion-col>
           <ion-col *ngIf="(componentState.testActivityCode$ | async) === ActivityCodes.PASS" size="37">
-            <p class="ion-no-margin" id="pass-certificate-{{slot.booking.application.applicationId}}">Pass
+            <p class="ion-no-margin ion-float-end" id="pass-certificate-{{slot.booking.application.applicationId}}">Pass
               cert: {{componentState.testPassCertificate$ | async}}</p>
           </ion-col>
         </ion-row>
@@ -143,7 +143,7 @@
 <ng-template #candidateLink>
   <candidate-link
     *ngIf="canViewCandidateDetails && !isTestCentreJournalADIBooking"
-    [maxWidth]="maxWidth ? maxWidth.toString() + 'px' : '0px'"
+    [maxWidth]="maxWidth ? maxWidth.toString() + 'px' : '230px'"
     [applicationId]="slot.booking.application.applicationId"
     [isTeamJournal]="isTeamJournal"
     [name]="slot.booking.candidate.candidateName"
