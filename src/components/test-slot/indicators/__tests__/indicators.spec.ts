@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
+import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 
 describe('IndicatorsComponent', () => {
   let component: IndicatorsComponent;
@@ -12,6 +13,9 @@ describe('IndicatorsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [IndicatorsComponent],
       imports: [IonicModule],
+      providers: [
+        MobileAccessibility,
+      ],
     });
 
     fixture = TestBed.createComponent(IndicatorsComponent);
