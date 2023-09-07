@@ -2040,7 +2040,7 @@ export const fakeJournalTestSlots = [
         ethnicityCode: 'A',
         emailAddress: 'libby@bentley.com',
         prn: 7500673,
-        previousADITests: 3,
+        previousADITests: 1,
       },
     },
     slotDetail: {

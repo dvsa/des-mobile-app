@@ -87,6 +87,16 @@ ion-col {
   align-items: center;
 }
 
+.candidate-name {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.candidate-icon {
+  color: var(--gds-black);
+}
+
 .candidate-details-placeholder-text[disabled] {
   position: relative;
   left: -20px;
