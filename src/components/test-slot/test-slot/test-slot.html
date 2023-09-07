@@ -4,7 +4,7 @@
   <ion-grid>
     <ion-row>
       <ion-col id="warning-indicator-col" class="align-center" size="5">
-        <ion-col size="auto" class="align-center" *ngIf="!isUnSubmittedTestSlotView">
+        <ion-col class="align-center" *ngIf="!isUnSubmittedTestSlotView">
           <indicators
             [applicationId]="slot.booking.application.applicationId"
             [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking"
@@ -41,33 +41,32 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="auto" class="text-regular align-center">
+          <ion-col size="15" class="text-regular align-center">
             <time
               [isUnSubmittedTestSlotView]="isUnSubmittedTestSlotView"
               [time]="slot.slotDetail.start">
             </time>
           </ion-col>
           <ion-col size="2"></ion-col>
-          <ion-col id="candidate-col-{{slot.booking.application.applicationId}}" class="vertical-align-center width-change">
+          <ion-col id="candidate-col-{{formatAppRef(slot.booking.application)}}" class="width-change vertical-align-center">
             <ng-template
               *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate;">
             </ng-template>
           </ion-col>
-          <ion-col size="auto" class="align-end">
+          <ion-col id="category-col-{{slot.booking.application.applicationId}}" size="auto" class="align-end">
             <test-category
               *ngIf="!isTestCentreJournalADIBooking"
               [applicationId]="slot.booking.application.applicationId"
               [category]="slot.booking.application.testCategory">
             </test-category>
           </ion-col>
-          <ion-col size="2"></ion-col>
           <ion-col size="22">
             <test-outcome
               *ngIf="!teamJournalCandidateResult"
               [activityCode]="componentState.testActivityCode$ | async"
               [applicationId]="slot.booking.application.applicationId"
               [canStartTest]="canStartTest()"
-              [category]="slot.booking.application.testCategory"
+              [category]="formatTestCategory"
               [examinerId]="getExaminerId()"
               [hasNavigatedFromUnsubmitted]="isUnSubmittedTestSlotView"
               [hasSeenCandidateDetails]="hasSeenCandidateDetails"
@@ -130,7 +129,7 @@
               Driver no: {{slot.booking?.candidate?.driverNumber}}
             </div>
           </ion-col>
-          <ion-col *ngIf="(componentState.testActivityCode$ | async) === ActivityCodes.PASS" size="auto">
+          <ion-col *ngIf="(componentState.testActivityCode$ | async) === ActivityCodes.PASS" size="37">
             <p class="ion-no-margin" id="pass-certificate-{{slot.booking.application.applicationId}}">Pass
               cert: {{componentState.testPassCertificate$ | async}}</p>
           </ion-col>
@@ -144,7 +143,7 @@
 <ng-template #candidateLink>
   <candidate-link
     *ngIf="canViewCandidateDetails && !isTestCentreJournalADIBooking"
-    [maxWidth]="getCandidateLinkCol()"
+    [maxWidth]="maxWidth ? maxWidth.toString() + 'px' : '0px'"
     [applicationId]="slot.booking.application.applicationId"
     [isTeamJournal]="isTeamJournal"
     [name]="slot.booking.candidate.candidateName"
@@ -152,6 +151,7 @@
     [slot]="slot"
     [slots]="slots">
   </candidate-link>
+
   <ion-button
     *ngIf="!canViewCandidateDetails &&!isTestCentreJournalADIBooking"
     class="candidate-details-placeholder-text"

@@ -31,6 +31,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { ModalController } from '@ionic/angular';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -100,10 +101,13 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   isTestCentreJournalADIBooking: boolean = false;
 
   formatAppRef = formatApplicationReference;
+  formatTestCategory: TestCategory;
+  maxWidth: number;
 
   constructor(
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
+    public modalController: ModalController,
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
@@ -142,30 +146,29 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     };
 
     this.canViewCandidateDetails = this.slotProvider.canViewCandidateDetails(this.slot);
-    this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
+    this.formatTestCategory = this.slot.booking.application.testCategory as TestCategory;
+    this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
+      this.slot, this.isTeamJournal,
+    );
   }
 
-  getColSize(): string {
-    switch (this.accessibilityService.getTextZoomClass()) {
-      case 'text-zoom-x-large':
-        return '40';
-      default:
-        return '44';
-    }
+  ngAfterViewChecked() {
+    if (!(this.maxWidth > 0))
+      this.maxWidth = this.getCandidateLinkCol();
   }
 
   isIndicatorNeededForSlot(): boolean {
-    const specialNeeds: boolean = this.isSpecialNeedsSlot();
+    const additionalNeeds: boolean = this.isAdditionalNeedsSlot();
     const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
     const categoryCheckNeeded: boolean = this.slot.booking.application.categoryEntitlementCheck || false;
     const nonStandardTest: boolean = getSlotType(this.slot) !== SlotTypes.STANDARD_TEST;
 
-    return specialNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
+    return additionalNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
   }
 
-  isSpecialNeedsSlot(): boolean {
-    const specialNeeds = get(this.slot, 'booking.application.specialNeeds', '');
-    return !isNil(specialNeeds) && specialNeeds.length > 0;
+  isAdditionalNeedsSlot(): boolean {
+    const additionalNeeds = get(this.slot, 'booking.application.specialNeeds', '');
+    return !isNil(additionalNeeds) && additionalNeeds.length > 0;
   }
 
   showVehicleDetails(): boolean {
@@ -218,10 +221,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       this.isUnSubmittedTestSlotView ||
       (this.activityCode === ActivityCodes.PASS);
   }
-
-  getCandidateLinkCol(): string {
+  getCandidateLinkCol(): number {
     return ((document.getElementById(
-      'candidate-col-' + this.slot.booking.application.applicationId,
-    ).offsetWidth) - 55).toString() + 'px';
+      'candidate-col-' + this.formatAppRef(this.slot.booking.application),
+    ).offsetWidth - 45));
   }
 }
