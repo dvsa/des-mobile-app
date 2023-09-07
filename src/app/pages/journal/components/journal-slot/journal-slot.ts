@@ -5,6 +5,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { get, has, isEmpty } from 'lodash';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { formatApplicationReference } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'journal-slots',
@@ -23,6 +24,9 @@ export class JournalSlotComponent {
 
   @Input()
   isPortrait: boolean = false;
+
+  savedColSizes: { appRef: string; width: number; zoomLevel?: string }[] = [];
+  formatAppRef = formatApplicationReference;
 
   constructor(
     private slotSelector: SlotSelectorProvider,
@@ -76,4 +80,18 @@ export class JournalSlotComponent {
 
   trackBySlotID = (_: number, slot: SlotItem) => get(slot, 'slotData.slotDetail.slotId', null);
 
+
+  getWidthData(passedAppRef: string) {
+    return this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === passedAppRef)];
+  }
+
+  saveWidthDetails(data: { appRef: string; width: number; zoomLevel?: string }) {
+    if (this.savedColSizes.some(({ appRef }) => appRef === data.appRef)) {
+      this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === data.appRef)] = data;
+    } else {
+      this.savedColSizes.push(data);
+    }
+  }
+
+  protected readonly formatApplicationReference = formatApplicationReference;
 }
