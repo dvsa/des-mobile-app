@@ -113,12 +113,16 @@
             *ngIf="pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck">
             <ion-row class="mes-data">
               <ion-col>
-                <ul>
+                <ul *ngIf="pageState.candidateEntitlementCheck && pageState.categoryEntitlementCheck">
                   <li *ngIf="pageState.candidateEntitlementCheck" size="85">Entitlement check is required.</li>
                   <li *ngIf="pageState.categoryEntitlementCheck" size="85" class="entitlement-check-padding">
                     {{ pageState.categoryEntitlementCheckText }}
                   </li>
                 </ul>
+                <ion-row *ngIf="pageState.candidateEntitlementCheck &&
+                !pageState.categoryEntitlementCheck">Entitlement check is required.</ion-row>
+                <ion-row *ngIf="pageState.categoryEntitlementCheck &&
+                !pageState.candidateEntitlementCheck">{{ pageState.categoryEntitlementCheckText }}</ion-row>
               </ion-col>
             </ion-row>
           </data-row-custom>
