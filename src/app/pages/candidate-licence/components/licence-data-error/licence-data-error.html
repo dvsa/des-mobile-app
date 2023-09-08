@@ -1,19 +1,17 @@
-<ion-card class="ion-text-center error-card">
-  <ion-card-header>
-    <ion-row>
-      <ion-col class="center-icon ion-no-padding">
-        <ion-icon id="model-alert-title-icon" class="alert-icon" ios="alert-circle"></ion-icon>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col class="ion-no-padding">
-        <ion-text class="des-header-style-4" id="driver-photograph-error-header">{{errorHeading}}</ion-text>
-      </ion-col>
-    </ion-row>
-  </ion-card-header>
-  <ion-card-content id="driver-photograph-error-text" class="black-text">
-    <p class="errorFontSize">{{errorBody}}</p>
-    <p id="driver-standard-id-check-msg" class="errorFontSize">Please continue with standard ID checks.</p>
-    <br>
-  </ion-card-content>
-</ion-card>
+<ion-row class="ion-text-center ion-justify-content-center ion-padding-top">
+  <ion-col class="ion-no-padding">
+    <ion-text class="des-header-style-4" id="driver-photograph-error-header">{{errorHeading}}</ion-text>
+  </ion-col>
+</ion-row>
+<ion-row class="ion-text-center error-card">
+  <ion-col class="center-icon ion-no-padding">
+    <ion-icon id="model-alert-title-icon" class="alert-icon" aria-label="Warning Icon" ios="alert-circle"></ion-icon>
+  </ion-col>
+</ion-row>
+<ion-row class="ion-justify-content-center black-text">
+  <p class="errorFontSize">{{errorBody}}</p>
+</ion-row>
+<ion-row class="ion-justify-content-center black-text">
+  <p id="driver-standard-id-check-msg" class="errorFontSize">Please continue with standard ID checks.</p>
+</ion-row>
+<br>
