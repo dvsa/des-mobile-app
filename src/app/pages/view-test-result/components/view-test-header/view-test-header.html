@@ -1,10 +1,12 @@
-<ion-row class="header-row" id="candidate-section">
-  <ion-col size="56">
+<ion-row class="header-row ion-text-wrap" id="candidate-section">
+  <ion-col>
     <ion-text class="des-header-style-2" id="candidateName">{{data.candidateName}}</ion-text>
+    <br>
     <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
   </ion-col>
-  <ion-col size="40" class="ion-text-end">
+  <ion-col [size]="data.grade ? 50 : 41" class="ion-text-end">
     <ion-text class="des-header-style-2" id="activityCode">{{data.activityCode}}</ion-text>
+    <br>
     <ion-text [ngClass]="['des-header-style-3', data.grade ? 'grade-styling' : '']">Test outcome:
       <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">
         {{data.testOutcome}}
@@ -13,6 +15,7 @@
         {{data.testOutcome}} - Grade {{data.grade}}
       </span>
     </ion-text>
+    <br>
     <ion-text class="des-header-style-3">
       <span *ngIf="appVersion" id="appVersion">App Version: {{appVersion}}</span>
     </ion-text>
