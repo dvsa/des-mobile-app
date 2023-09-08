@@ -20,7 +20,7 @@
 
       <data-row
         *ngIf="registrationNumber"
-        [shouldHaveSeperator]="displayRegistration()"
+        [shouldHaveSeperator]="!!((!isADI3() && trainerPRN) || displayRegistration() || vehicleDetails)"
         [label]="'Vehicle registration number'"
         [value]="registrationNumber">
       </data-row>
@@ -59,18 +59,45 @@
         </ion-grid>
       </data-row-custom>
 
-      <data-row *ngIf="schoolBike" [label]="'School Bike'" [value]="schoolBike"></data-row>
+      <data-row
+        *ngIf="schoolBike"
+        [label]="'School Bike'"
+        [shouldHaveSeperator]="!!(isADI2() || isADI3() || (!isADI3() && trainerPRN))"
+        [value]="schoolBike">
+      </data-row>
 
-      <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
+      <data-row
+        *ngIf="!isADI3() && trainerPRN"
+        [label]="'Trainer PRN'"
+        [value]="trainerPRN">
+      </data-row>
 
-      <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"></data-row>
+      <data-row
+        *ngIf="isADI2() || isADI3()"
+        [label]="'ORDIT'"
+        [value]="ordit">
+      </data-row>
 
-      <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
+      <data-row
+        *ngIf="isADI2()"
+        [label]="'Training Records'"
+        [shouldHaveSeperator]="(displayVehicleDetails && !isADI3()) || isADI3()"
+        [value]="trainingRecords">
+      </data-row>
 
-      <data-row *ngIf="displayVehicleDetails && !isADI3()" [shouldHaveSeperator]="false" [label]="'Vehicle Details'"
-                [value]="schoolCarDualControls"></data-row>
-      <data-row *ngIf="isADI3()" [shouldHaveSeperator]="false" [label]="'Dual Controls'"
-                [value]="dualControls"></data-row>
+      <data-row
+        *ngIf="displayVehicleDetails && !isADI3()"
+        [shouldHaveSeperator]="false"
+        [label]="'Vehicle Details'"
+        [value]="schoolCarDualControls">
+      </data-row>
+
+      <data-row
+        *ngIf="isADI3()"
+        [shouldHaveSeperator]="false"
+        [label]="'Dual Controls'"
+        [value]="dualControls">
+      </data-row>
 
     </ion-grid>
   </ion-card-content>

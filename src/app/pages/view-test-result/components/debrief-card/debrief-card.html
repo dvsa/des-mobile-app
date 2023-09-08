@@ -101,6 +101,7 @@
 
       <vehicle-checks-data-row
         *ngIf="!delegatedTest && !isMod1() && !isMod2()"
+        [shouldHaveSeperator]="isValidEmergencyStopOrAvoidance() || isCatD()"
         [label]="'Show me question(s)'"
         [data]="showMeQuestions">
       </vehicle-checks-data-row>
