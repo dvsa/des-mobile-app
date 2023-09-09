@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonRefresher, ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
-import {
-  BehaviorSubject, merge, Observable, Subscription,
-} from 'rxjs';
+import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -21,6 +19,7 @@ import { ErrorTypes } from '@shared/models/error-message';
 import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 import * as journalActions from '@store/journal/journal.actions';
+import { AddColSize, UpdateColSize } from '@store/journal/journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
@@ -31,6 +30,7 @@ import {
   getLastRefreshedTime,
   getSelectedDate,
   getSlotsOnSelectedDate,
+  selectColSizing,
 } from '@store/journal/journal.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
@@ -41,6 +41,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
+import { JournalColSizing } from '@store/journal/journal.model';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -75,6 +76,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
   todaysDate: DateTime;
   platformSubscription: Subscription;
   isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  savedColSizes = this.store$.selectSignal(selectColSizing);
 
   constructor(
     public modalController: ModalController,
@@ -277,4 +280,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     const callThrough = true;
     this.store$.dispatch(journalActions.LoadCompletedTests(callThrough));
   };
+
+  onColSizeChange(event: { data: JournalColSizing, action: 'add' | 'update' }) {
+    const act = (event.action === 'add') ? AddColSize : UpdateColSize;
+    this.store$.dispatch(act(event.data));
+  }
 }

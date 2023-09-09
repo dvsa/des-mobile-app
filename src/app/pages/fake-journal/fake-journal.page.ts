@@ -11,6 +11,10 @@ import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { selectColSizing } from '@store/journal/journal.selector';
+import { JournalColSizing } from '@store/journal/journal.model';
+import { AddColSize, UpdateColSize } from '@store/journal/journal.actions';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 
 @Component({
   selector: 'app-fake-journal',
@@ -20,10 +24,12 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 export class FakeJournalPage extends BasePageComponent {
 
   dateToDisplay: string;
-  slots = fakeJournalTestSlots;
+  slots = fakeJournalTestSlots.map((testSlot) => ({
+    hasSlotChanged: false,
+    slotData: testSlot,
+  })) as unknown as SlotItem[];
   selectedDate: string;
-  savedColSizes: { appRef: string; width: number; zoomLevel?: string }[] = [];
-
+  savedColSizes = this.store$.selectSignal(selectColSizing);
   formatAppRef = formatApplicationReference;
 
   constructor(
@@ -54,15 +60,8 @@ export class FakeJournalPage extends BasePageComponent {
     await this.orientationMonitorProvider.tearDownListener();
   }
 
-  getWidthData(passedAppRef: string) {
-    return this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === passedAppRef)];
-  }
-
-  saveWidthDetails(data: { appRef: string; width: number; zoomLevel?: string }) {
-    if (this.savedColSizes.some(({ appRef }) => appRef === data.appRef)) {
-      this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === data.appRef)] = data;
-    } else {
-      this.savedColSizes.push(data);
-    }
+  onColSizeChange(event: { data: JournalColSizing, action: 'add' | 'update' }) {
+    const act = (event.action === 'add') ? AddColSize : UpdateColSize;
+    this.store$.dispatch(act(event.data));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -6,12 +6,16 @@ import { get, has, isEmpty } from 'lodash';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { Store } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
+import { JournalColSizing } from '@store/journal/journal.model';
 
 @Component({
   selector: 'journal-slots',
   templateUrl: 'journal-slot.html',
 })
 export class JournalSlotComponent {
+  store$ = inject<Store<StoreModel>>(Store);
 
   @Input()
   completedTests: SearchResultTestSchema[] = [];
@@ -23,9 +27,17 @@ export class JournalSlotComponent {
   isTeamJournal: boolean = false;
 
   @Input()
+  isPracticeMode: boolean = false;
+
+  @Input()
   isPortrait: boolean = false;
 
-  savedColSizes: { appRef: string; width: number; zoomLevel?: string }[] = [];
+  @Input()
+  savedColSizes: JournalColSizing[] = [];
+
+  @Output()
+  colSizeChange = new EventEmitter<{ data: JournalColSizing; action: 'update' | 'add' }>();
+
   formatAppRef = formatApplicationReference;
 
   constructor(
@@ -49,6 +61,7 @@ export class JournalSlotComponent {
   ): string | null => this.slotSelector.didSlotPass(slotData, completedTests);
 
   slotType = (slot: SlotItem): string => {
+    console.log(slot);
     const {
       slotData,
       personalCommitment,
@@ -80,18 +93,23 @@ export class JournalSlotComponent {
 
   trackBySlotID = (_: number, slot: SlotItem) => get(slot, 'slotData.slotDetail.slotId', null);
 
-
   getWidthData(passedAppRef: string) {
+    if (!this.savedColSizes) return;
     return this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === passedAppRef)];
   }
 
   saveWidthDetails(data: { appRef: string; width: number; zoomLevel?: string }) {
     if (this.savedColSizes.some(({ appRef }) => appRef === data.appRef)) {
-      this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === data.appRef)] = data;
+      this.colSizeChange.emit({
+        data,
+        action: 'update',
+      });
     } else {
-      this.savedColSizes.push(data);
+      this.colSizeChange.emit({
+        data,
+        action: 'add',
+      });
     }
   }
 
-  protected readonly formatApplicationReference = formatApplicationReference;
 }

@@ -20,11 +20,18 @@ export type JournalModel = {
   selectedDate: string,
   examiner: Examiner,
   completedTests: SearchResultTestSchema[],
+  colSizing?: JournalColSizing[],
 };
 
 export interface ExaminerSlotItems {
   examiner: Examiner;
   slotItems: SlotItem[];
+}
+
+export interface JournalColSizing {
+  appRef: string;
+  width: number;
+  zoomLevel?: string;
 }
 
 export interface ExaminerSlotItemsByDate {

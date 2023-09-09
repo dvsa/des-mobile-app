@@ -8,6 +8,15 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { JournalModel } from './journal.model';
+import { StoreModel } from '@shared/models/store.model';
+import { createSelector } from '@ngrx/store';
+
+export const selectJournal = (state: StoreModel): JournalModel => state.journal;
+
+export const selectColSizing = createSelector(
+  selectJournal,
+  (journal) => journal.colSizing,
+);
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 

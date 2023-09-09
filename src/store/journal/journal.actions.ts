@@ -2,7 +2,7 @@ import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { createAction, props } from '@ngrx/store';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { MesError } from '@shared/models/mes-error.model';
-import { ExaminerSlotItemsByDate } from './journal.model';
+import { ExaminerSlotItemsByDate, JournalColSizing } from './journal.model';
 
 export const EarlyStartModalDidEnter = createAction(
   '[JournalPage] Early Start Modal Entered',
@@ -114,7 +114,10 @@ export const ResumingWriteUp = createAction(
 
 export const JournalRefreshError = createAction(
   '[JournalPage] Journal Refresh Error',
-  (errorDescription: string, errorMessage: string) => ({ errorDescription, errorMessage }),
+  (errorDescription: string, errorMessage: string) => ({
+    errorDescription,
+    errorMessage,
+  }),
 );
 
 export const JournalRefresh = createAction(
@@ -125,4 +128,14 @@ export const JournalRefresh = createAction(
 export const CandidateDetailsSeen = createAction(
   '[JournalPage] Candidate Details Seen',
   props<{ slotId: number }>(),
+);
+
+export const AddColSize = createAction(
+  '[JournalMetaData] Add col size',
+  (colSize: JournalColSizing) => ({ colSize }),
+);
+
+export const UpdateColSize = createAction(
+  '[JournalMetaData] Update col size',
+  (colSize: JournalColSizing) => ({ colSize }),
 );

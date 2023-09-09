@@ -11,16 +11,13 @@
     [selectedDate]="selectedDate">
   </journal-navigation>
 
-  <location location="Example Test Centre"></location>
-
-  <test-slot
-    (colSizeDetails)="saveWidthDetails($event)"
-    [widthData]="getWidthData(formatAppRef(this.slot.booking.application))"
-    *ngFor="let slot of slots;"
-    [slots]="slots"
-    [slot]="slot"
-    [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-    [isPracticeMode]="true"
-    [hasSlotChanged]="false">
-  </test-slot>
+  <ion-list>
+    <journal-slots
+      [isPracticeMode]="true"
+      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+      [slots]="slots"
+      [savedColSizes]="savedColSizes()"
+      (colSizeChange)="onColSizeChange($event)">
+    </journal-slots>
+  </ion-list>
 </ion-content>

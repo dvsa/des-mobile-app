@@ -12,6 +12,7 @@ export const initialState: JournalModel = {
   selectedDate: '',
   examiner: null,
   completedTests: [],
+  colSizing: [],
 };
 
 export const journalFeatureKey = 'journal';
@@ -21,7 +22,11 @@ export const journalReducer = createReducer(
   on(journalActions.LoadJournal, (state: JournalModel): JournalModel => ({
     ...state,
     isLoading: true,
-    error: { message: '', status: 0, statusText: '' },
+    error: {
+      message: '',
+      status: 0,
+      statusText: '',
+    },
   })),
   on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
@@ -63,7 +68,10 @@ export const journalReducer = createReducer(
   })),
   on(journalActions.UnloadJournal, (): JournalModel => initialState),
   on(journalActions.UnsetError, (state: JournalModel): JournalModel => {
-    const { error, ...stateWithoutError } = state;
+    const {
+      error,
+      ...stateWithoutError
+    } = state;
     return {
       ...stateWithoutError,
     };
@@ -108,6 +116,16 @@ export const journalReducer = createReducer(
   on(journalActions.LoadCompletedTestsFailure, (state: JournalModel): JournalModel => ({
     ...state,
     isLoading: false,
+  })),
+  on(journalActions.AddColSize, (state: JournalModel, { colSize }): JournalModel => ({
+    ...state,
+    colSizing: [...state.colSizing, colSize],
+  })),
+  on(journalActions.UpdateColSize, (state: JournalModel, { colSize }): JournalModel => ({
+    ...state,
+    colSizing: state.colSizing.map(
+      (col) => (col.appRef === colSize.appRef) ? colSize : col,
+    ),
   })),
 );
 
