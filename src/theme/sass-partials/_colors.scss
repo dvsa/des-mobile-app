@@ -8,7 +8,7 @@
 }
 
 .mes-green {
-  color: var(--gds-dark-green);
+  color: var(--gds-dark-green) !important;
 }
 
 .mes-grey {
@@ -16,5 +16,5 @@
 }
 
 .mes-red {
-  color: var(--gds-bright-red);
+  color: var(--gds-bright-red) !important;
 }
