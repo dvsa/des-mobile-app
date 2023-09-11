@@ -4,14 +4,14 @@
     <br>
     <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
   </ion-col>
-  <ion-col [size]="data.grade ? 50 : 41" class="ion-text-end">
+  <ion-col size="auto" class="ion-text-end">
     <ion-text class="des-header-style-2" id="activityCode">{{data.activityCode}}</ion-text>
     <br>
     <ion-text [ngClass]="['des-header-style-3', data.grade ? 'grade-styling' : '']">Test outcome:
-      <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">
+      <span *ngIf="!data.grade" id="testOutcome" [ngClass]="['des-header-style-3', isPassed() ? 'mes-green' : 'mes-red']">
         {{data.testOutcome}}
       </span>
-      <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green">
+      <span *ngIf="data.grade" id="gradeTestOutcome" class="des-header-style-3 mes-green">
         {{data.testOutcome}} - Grade {{data.grade}}
       </span>
     </ion-text>

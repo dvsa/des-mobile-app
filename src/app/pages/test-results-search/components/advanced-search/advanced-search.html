@@ -100,7 +100,9 @@
       </ion-item>
       <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
         <ion-row>
-          <ion-col class="ion-align-self-center" size="26">
+          <ion-col
+            class="ion-align-self-center"
+            [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26">
             <label>Activity code</label>
           </ion-col>
           <ion-col size="55">
@@ -124,7 +126,9 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="26">
+          <ion-col
+            class="ion-align-self-center"
+            [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26">
             <label>Test category</label>
           </ion-col>
           <ion-col size="55">
@@ -147,7 +151,9 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="26">
+          <ion-col
+            class="ion-align-self-center"
+            [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26">
             <label id="advanced-search-pass-certificate-label">Pass certificate</label>
           </ion-col>
           <ion-col size="55">
@@ -172,7 +178,9 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="26">
+          <ion-col
+            class="ion-align-self-center"
+            [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26">
             <label id="rekey-checkbox-filter">Show rekey only</label>
           </ion-col>
           <ion-col size="10">
