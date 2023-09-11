@@ -4,12 +4,12 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsScreenNames, AnalyticsEventCategories, AnalyticsEvents } from '@providers/analytics/analytics.model';
+import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import {
-  TestResultSearchViewDidEnter,
   PerformApplicationReferenceSearch,
   PerformDriverNumberSearch,
   PerformLDTMSearch,
+  TestResultSearchViewDidEnter,
 } from './test-results-search.actions';
 
 @Injectable()
@@ -67,6 +67,22 @@ export class TestResultsSearchAnalyticsEffects {
 
       if (action.advancedSearchParams.costCode) {
         searchParametersUsed.push('test centre');
+      }
+
+      if (action.advancedSearchParams.activityCode) {
+        searchParametersUsed.push('activity code');
+      }
+
+      if (action.advancedSearchParams.category) {
+        searchParametersUsed.push('test category');
+      }
+
+      if (action.advancedSearchParams.passCertificateNumber) {
+        searchParametersUsed.push('pass certificate');
+      }
+
+      if (action.advancedSearchParams.rekey) {
+        searchParametersUsed.push('rekey');
       }
 
       searchParametersUsed.forEach((searchParameter) => {
