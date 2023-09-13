@@ -97,14 +97,19 @@
             [idPrefix]="idPrefix"
             [label]="'Additional requirements'"
             [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">
-            <div class="mes-data" *ngIf="!specialNeedsIsPopulated(pageState.details.specialNeeds)">
-              {{pageState.details.specialNeeds}}
-            </div>
-            <div *ngIf="specialNeedsIsPopulated(pageState.details.specialNeeds)">
-              <ul *ngFor="let specialNeed of pageState.details.specialNeeds;" class="mes-data">
-                <li>{{specialNeed}}</li>
-              </ul>
-            </div>
+            <ng-container *ngIf="specialNeedsIsPopulated(pageState.details.specialNeeds); then isArray; else notArray">
+            </ng-container>
+            <ng-template #isArray>
+              <div *ngIf="pageState.details.specialNeeds.length > 1; else singleValue">
+                <ul *ngFor="let specialNeed of pageState.details.specialNeeds;" class="mes-data">
+                  <li>{{specialNeed}}</li>
+                </ul>
+              </div>
+              <ng-template #singleValue class="mes-data">
+                <div class="mes-data" >{{pageState.details.specialNeeds}}</div>
+              </ng-template>
+            </ng-template>
+            <ng-template #notArray><div class="mes-data">{{pageState.details.specialNeeds}}</div></ng-template>
           </data-row-custom>
           <data-row-custom
             [idPrefix]="idPrefix"
