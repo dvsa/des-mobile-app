@@ -94,22 +94,17 @@
             [value]="slot.booking.candidate.previousADITests+1">
           </data-row>
           <data-row-custom
-            [idPrefix]="idPrefix"
             [label]="'Additional requirements'"
-            [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">
-            <ng-container *ngIf="specialNeedsIsPopulated(pageState.details.specialNeeds); then isArray; else notArray">
+            [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)"
+            [idPrefix]="idPrefix">
+            <ng-container class="mes-data" *ngIf="pageState.details.specialNeeds?.length > 1; else oneItem">
+              <ul *ngFor="let specialNeed of pageState.details.specialNeeds;" class="mes-data">
+                <li>{{specialNeed}}</li>
+              </ul>
             </ng-container>
-            <ng-template #isArray>
-              <div *ngIf="pageState.details.specialNeeds.length > 1; else singleValue">
-                <ul *ngFor="let specialNeed of pageState.details.specialNeeds;" class="mes-data">
-                  <li>{{specialNeed}}</li>
-                </ul>
-              </div>
-              <ng-template #singleValue class="mes-data">
-                <div class="mes-data" >{{pageState.details.specialNeeds}}</div>
-              </ng-template>
+            <ng-template #oneItem>
+              <div class="mes-data">{{pageState.details.specialNeeds[0]}}</div>
             </ng-template>
-            <ng-template #notArray><div class="mes-data">{{pageState.details.specialNeeds}}</div></ng-template>
           </data-row-custom>
           <data-row-custom
             [idPrefix]="idPrefix"

@@ -41,7 +41,7 @@ export const getApplicationRef = (application: Application): string => {
 };
 
 export const processSpecialNeeds = (slot: TestSlot): string | string[] => {
-  return slot.booking.application.specialNeeds ? slot.booking.application.specialNeeds.split(';') : 'None';
+  return slot.booking.application.specialNeeds ? slot.booking.application.specialNeeds.split(';') : ['None'];
 };
 
 export const getDetails = (slot: TestSlot): Details => {
