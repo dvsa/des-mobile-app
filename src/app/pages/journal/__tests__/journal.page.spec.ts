@@ -142,7 +142,6 @@ describe('JournalPage', () => {
     component.subscription = new Subscription();
     insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
-    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
     spyOn(store$, 'dispatch');

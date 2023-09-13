@@ -165,7 +165,6 @@ describe('DashboardPage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     insomnia = TestBed.inject(Insomnia);
     modalController = TestBed.inject(ModalController);
-    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     spyOn(store$, 'dispatch');
     store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
   }));
