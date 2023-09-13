@@ -33,7 +33,6 @@ import { DateTime } from '@shared/helpers/date-time';
 import {
   LoadCompletedTestsFromUnsubmitted,
   StoreUnuploadedSlotsInTests,
-  UnuploadedTestsViewDidEnter,
 } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { getTests } from '@store/tests/tests.reducer';
@@ -62,13 +61,6 @@ export class UnuploadedTestsEffects {
     private slotProvider: SlotProvider,
   ) {
   }
-
-  unUploadedTestsViewDidEnter$ = createEffect(() => this.actions$.pipe(
-    ofType(UnuploadedTestsViewDidEnter),
-    switchMap(() => ([
-      LoadCompletedTestsFromUnsubmitted(this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView),
-    ])),
-  ));
 
   loadCompletedTests$ = createEffect(() => this.actions$.pipe(
     ofType(LoadCompletedTestsFromUnsubmitted),

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, interval, of } from 'rxjs';
 import { Action, select, Store } from '@ngrx/store';
-import {
-  find, has, omit, startsWith,
-} from 'lodash';
+import { find, has, omit, startsWith } from 'lodash';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -14,9 +12,7 @@ import {
   Examiner,
   TestSlotAttributes,
 } from '@dvsa/mes-test-schema/categories/common';
-import {
-  catchError, concatMap, filter, map, switchMap, withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -57,9 +53,7 @@ import {
 import { PopulateCandidateDetails } from './journal-data/common/candidate/candidate.actions';
 import { testReportPracticeModeSlot } from './__mocks__/tests.mock';
 import { getTests } from './tests.reducer';
-import {
-  getCurrentTest, getCurrentTestSlotId, getCurrentTestStatus, isPracticeMode,
-} from './tests.selector';
+import { getCurrentTest, getCurrentTestSlotId, getCurrentTestStatus, isPracticeMode } from './tests.selector';
 import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { getJournalState } from '../journal/journal.reducer';
@@ -375,13 +369,13 @@ export class TestsEffects {
       )),
     filter(() => this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE),
     switchMap(([, tests]: [ReturnType<typeof SendCompletedTests>, TestsModel]) => {
-
       const completedTestKeys = Object.keys(tests.testStatus)
         .filter((slotId: string) =>
           slotId !== testReportPracticeSlotId
           && !startsWith(slotId, end2endPracticeSlotId)
           && (tests.testStatus[slotId] === TestStatus.Completed || tests.testStatus[slotId] === TestStatus.WriteUp)
-          && !tests.startedTests[slotId].rekey);
+          && !tests.startedTests[slotId]?.rekey,
+        );
 
       const completedTests: TestToSubmit[] = completedTestKeys.map((slotId: string, index: number) => ({
         index,
@@ -400,9 +394,9 @@ export class TestsEffects {
             return responses.map((response, index) => {
               const matchedTests = find(completedTests, ['index', index]);
               if (response.status === HttpStatusCodes.CREATED) {
-                return matchedTests.status === TestStatus.WriteUp
-                  ? testActions.SendPartialTestSuccess(matchedTests.slotId)
-                  : testActions.SendCompletedTestSuccess(matchedTests.slotId);
+                return (matchedTests.status === TestStatus.WriteUp)
+                  ? testActions.SendPartialTestSuccess(matchedTests.slotId, matchedTests.status)
+                  : testActions.SendCompletedTestSuccess(matchedTests.slotId, matchedTests.status);
               }
               return matchedTests.status === TestStatus.WriteUp
                 ? testActions.SendPartialTestsFailure()

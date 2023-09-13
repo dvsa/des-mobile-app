@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonRefresher, ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
-import {
-  BehaviorSubject, merge, Observable, Subscription,
-} from 'rxjs';
+import { BehaviorSubject, merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -24,7 +22,6 @@ import * as journalActions from '@store/journal/journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getCompletedTests,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -35,7 +32,6 @@ import {
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { DeviceProvider } from '@providers/device/device';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { LoadingProvider } from '@providers/loader/loader';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
@@ -86,7 +82,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public dateTimeProvider: DateTimeProvider,
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private deviceProvider: DeviceProvider,
     public insomnia: Insomnia,
     public loadingProvider: LoadingProvider,
@@ -137,10 +132,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map((selectedDate) => selectedDate === this.dateTimeProvider.now()
           .format('YYYY-MM-DD')),
       ),
-      completedTests$: this.store$.pipe(
-        select(getJournalState),
-        select(getCompletedTests),
-      ),
+      completedTests$: of([]),
     };
 
     const {
@@ -166,9 +158,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await this.loadJournalManually();
     this.setupPolling();
     this.configurePlatformSubscriptions();
-    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -253,7 +242,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public refreshJournal = async () => {
     await this.loadJournalManually();
-    this.loadCompletedTestsWithCallThrough();
   };
 
   async logout() {
@@ -268,13 +256,4 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
-
-  private loadCompletedTestsWithCallThrough = () => {
-    // When manually refreshing the journal we want to check
-    // if any of the tests have already been submitted by another device
-    // So we must make the Load Completed Tests request
-    // And that's why we set the callThrough property to true
-    const callThrough = true;
-    this.store$.dispatch(journalActions.LoadCompletedTests(callThrough));
-  };
 }

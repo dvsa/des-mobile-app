@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  AlertController, IonicModule, ModalController, Platform,
-} from '@ionic/angular';
+import { AlertController, IonicModule, ModalController, Platform } from '@ionic/angular';
 import { AlertControllerMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
@@ -67,7 +65,6 @@ describe('DashboardPage', () => {
   let store$: MockStore;
   let insomnia: Insomnia;
   let modalController: ModalController;
-  let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
 
   const initialState = {
     appInfo: {
@@ -202,14 +199,11 @@ describe('DashboardPage', () => {
     describe('ionViewWillEnter', () => {
       it('should set todaysDate and todaysDateFormatted on view will enter', async () => {
         spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-        spyOn(completedTestPersistenceProvider, 'loadCompletedPersistedTests');
         await component.ionViewWillEnter();
         expect(component.todaysDate)
           .toEqual(new DateTime('2019-02-01'));
         expect(component.todaysDateFormatted)
           .toEqual('Friday 1st February 2019');
-        expect(completedTestPersistenceProvider.loadCompletedPersistedTests)
-          .toHaveBeenCalled();
       });
     });
     describe('ionViewDidEnter', () => {
