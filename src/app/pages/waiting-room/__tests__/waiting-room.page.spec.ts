@@ -1,6 +1,4 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
@@ -11,7 +9,7 @@ import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { MockComponent } from 'ng-mocks';
 import { UntypedFormControl, Validators } from '@angular/forms';
-import { JournalData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -97,7 +95,9 @@ describe('WaitingRoomPage', () => {
           journalData: {
             examiner: null,
             testCentre: null,
-            testSlotAttributes: null,
+            testSlotAttributes: {
+              extendedTest: false,
+            } as TestSlotAttributes,
             applicationReference: null,
             candidate: {
               candidateName: {

@@ -20,7 +20,7 @@ import {
   getCandidateName,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { getTests } from '@store/tests/tests.reducer';
@@ -28,7 +28,10 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
-import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+import {
+  isExtendedTest,
+  isWelshTest,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import {
@@ -206,9 +209,16 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Mod 2
         ])),
       ),
+      // don't show residency dec for ADI2, ADI3 or SC or when its a Cat B extended test
       showResidencyDec$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) => !isAnyOf(category, [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC])),
+        select(getJournalData),
+        select(getTestSlotAttributes),
+        select(isExtendedTest),
+        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
+        map(([isExtended, category]) => !(
+          (isAnyOf(category, [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC])) ||
+          (isAnyOf(category, [TestCategory.B]) && isExtended)
+        )),
       ),
       cbtNumber$: currentTest$.pipe(
         select(getPreTestDeclarationsCatAMod1),
