@@ -1,8 +1,9 @@
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-const journalSchema = require('@dvsa/mes-journal-schema/index.json');
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
-import { getTodayAsIsoDate, getNextWorkingDayAsIsoDate, getPreviousWorkingDayAsIsoDate } from './mock-date-utils';
+import { getNextWorkingDayAsIsoDate, getPreviousWorkingDayAsIsoDate, getTodayAsIsoDate } from './mock-date-utils';
+
+const journalSchema = require('@dvsa/mes-journal-schema/index.json');
 
 const today = getTodayAsIsoDate();
 // For unit tests to pass, the local-journal.json file must include one test slot for the next working day.
@@ -95,7 +96,7 @@ export const localJournal: ExaminerWorkSchedule = {
           entitlementCheck: false,
           fitMarker: true,
           fitCaseNumber: 'QWERTY 55-087-27 HB9',
-          extendedTest: false,
+          extendedTest: true,
           progressiveAccess: false,
           testCategory: 'B',
           vehicleGearbox: 'Automatic',

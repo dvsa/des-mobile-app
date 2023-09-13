@@ -57,7 +57,9 @@
         }" id="declaration-section">
       <ion-row>
         <ion-col>
-          <ion-text class="des-header-style-4" id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:</ion-text>
+          <ion-text class="des-header-style-4"
+                    id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:
+          </ion-text>
         </ion-col>
       </ion-row>
 
@@ -69,8 +71,8 @@
         </insurance-declaration>
 
         <residency-declaration
-          (residencyDeclarationChange)="residencyDeclarationChanged()"
           *ngIf="pageState.showResidencyDec$ | async"
+          (residencyDeclarationChange)="residencyDeclarationChanged()"
           [formGroup]="formGroup"
           [selected]="pageState.residencyDeclarationAccepted$ | async">
         </residency-declaration>
