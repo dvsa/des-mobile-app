@@ -1,5 +1,6 @@
 import { createAction, union } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from './tests.model';
 
 export const UnloadTests = createAction(
@@ -71,7 +72,10 @@ export const SendCompletedTests = createAction(
 
 export const SendCompletedTestSuccess = createAction(
   '[TestsEffects] Send Completed Tests Success',
-  (payload: string) => ({ payload }),
+  (payload: string, testStatus: TestStatus) => ({
+    payload,
+    testStatus,
+  }),
 );
 
 export const SendCompletedTestsFailure = createAction(
@@ -80,7 +84,10 @@ export const SendCompletedTestsFailure = createAction(
 
 export const SendPartialTestSuccess = createAction(
   '[TestsEffects] Send Partial Tests Success',
-  (payload: string) => ({ payload }),
+  (payload: string, testStatus: TestStatus) => ({
+    payload,
+    testStatus,
+  }),
 );
 
 export const SendPartialTestsFailure = createAction(

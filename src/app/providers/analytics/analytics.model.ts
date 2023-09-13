@@ -55,6 +55,7 @@ export enum AnalyticsScreenNames {
 export enum AnalyticsEventCategories {
   CLICK = 'click',
   TEST_LIFECYCLE = 'test lifecycle',
+  TEST_SUBMISSION = 'test submission',
   ERROR = 'error',
   JOURNAL = 'journal',
   TEST_CENTRE_JOURNAL = 'test centre journal',

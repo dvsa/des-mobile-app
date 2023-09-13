@@ -54,7 +54,6 @@ describe('JournalPage', () => {
   let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
   let loaderService: LoadingProvider;
-  let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   const loadingOpts: LoadingOptions = {
     id: 'journal_loading_spinner',
     spinner: 'circles',
@@ -143,7 +142,6 @@ describe('JournalPage', () => {
     component.subscription = new Subscription();
     insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
-    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
     spyOn(store$, 'dispatch');
@@ -282,14 +280,6 @@ describe('JournalPage', () => {
       });
     });
 
-    describe('loadCompletedTestsWithCallThrough', () => {
-      it('should dispatch LoadCompletedTests with true', () => {
-        component['loadCompletedTestsWithCallThrough']();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(journalActions.LoadCompletedTests(true));
-      });
-    });
-
     describe('ionViewWillEnter', () => {
       it('should run necessary functions', async () => {
         spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
@@ -298,9 +288,6 @@ describe('JournalPage', () => {
           .callThrough();
         spyOn(component, 'setupPolling');
         spyOn(component, 'configurePlatformSubscriptions');
-        spyOn(completedTestPersistenceProvider, 'loadCompletedPersistedTests')
-          .and
-          .callThrough();
 
         await component.ionViewWillEnter();
         expect(BasePageComponent.prototype.ionViewWillEnter)
@@ -310,8 +297,6 @@ describe('JournalPage', () => {
         expect(component.setupPolling)
           .toHaveBeenCalled();
         expect(component.configurePlatformSubscriptions)
-          .toHaveBeenCalled();
-        expect(completedTestPersistenceProvider.loadCompletedPersistedTests)
           .toHaveBeenCalled();
       });
     });

@@ -13,6 +13,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import { TestSubmissionProviderMock } from '@providers/test-submission/__mocks__/test-submission.mock';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTime } from '@shared/helpers/date-time';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -213,11 +214,11 @@ describe('TestsEffects', () => {
         if (result.type === testsActions.SendCompletedTestSuccess.type) {
           if (result.payload === currentTestSlotId) {
             expect(result)
-              .toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId));
+              .toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId, TestStatus.Completed));
           }
           if (result.payload === currentTestSlotId1) {
             expect(result)
-              .toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId1));
+              .toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId1, TestStatus.Completed));
           }
           if (result.payload === currentTestSlotId2) {
             expect(result.type)
