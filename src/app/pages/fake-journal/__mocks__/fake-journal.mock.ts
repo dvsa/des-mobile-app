@@ -2060,6 +2060,7 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
+        fitMarker: true,
         applicationId: 7654321,
         bookingSequence: 1,
         checkDigit: 3,
