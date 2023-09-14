@@ -68,6 +68,7 @@ interface DashboardPageState {
 })
 export class DashboardPage extends BasePageComponent {
 
+  announce: boolean = true;
   pageState: DashboardPageState;
   todaysDateFormatted: string;
   todaysDate: DateTime;
@@ -186,6 +187,11 @@ export class DashboardPage extends BasePageComponent {
 
   practiceTestReportCardClicked = (): void => {
     this.store$.dispatch(PracticeTestReportCard());
+  };
+
+  navigateTo = async (page: string) => {
+    this.announce = false;
+    await this.router.navigate([page]);
   };
 
   async showUpdateAvailableModal(manualClick: boolean = false): Promise<void> {

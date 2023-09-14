@@ -24,7 +24,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner *ngIf="announce" [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
 
@@ -56,7 +56,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <test-results-search-card></test-results-search-card>
+          <test-results-search-card (navigate)="navigateTo($event)"></test-results-search-card>
         </ion-col>
         <ion-col>
           <rekey-search-card></rekey-search-card>

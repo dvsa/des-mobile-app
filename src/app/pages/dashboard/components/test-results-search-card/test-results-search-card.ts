@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
 
 @Component({
@@ -9,10 +9,14 @@ import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
 })
 export class TestResultsSearchCardComponent {
 
-  constructor(private router: Router) { }
+  @Input()
+  state: OfflineBannerComponent;
+
+  @Output()
+  navigate = new EventEmitter<string>();
 
   navigateToTestResultsSearch = async () => {
-    await this.router.navigate([TEST_RESULTS_SEARCH_PAGE]);
+    this.navigate.emit(TEST_RESULTS_SEARCH_PAGE);
   };
 
 }
