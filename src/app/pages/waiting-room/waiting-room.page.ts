@@ -209,7 +209,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Mod 2
         ])),
       ),
-      // don't show residency dec for ADI2, ADI3 or SC or when its a Cat B extended test
+      // don't show residency dec when it's (ADI2, ADI3, SC) or an (extended test)
       showResidencyDec$: currentTest$.pipe(
         select(getJournalData),
         select(getTestSlotAttributes),
@@ -217,7 +217,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         map(([isExtended, category]) => !(
           (isAnyOf(category, [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC])) ||
-          (isAnyOf(category, [TestCategory.B]) && isExtended)
+          (isExtended)
         )),
       ),
       cbtNumber$: currentTest$.pipe(
