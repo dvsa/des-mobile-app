@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons id="rekey-search-back-button" slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button
+        (click)="router.navigate(['DashboardPage'], {replaceUrl: true})"
+        [defaultHref]="'DashboardPage'">
+      </ion-back-button>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="rekey-search-page-title">Search test bookings</ion-title>
   </ion-toolbar>

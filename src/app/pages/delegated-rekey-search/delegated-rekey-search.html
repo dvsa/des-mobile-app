@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons id="delegated-rekey-search-back-button" slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button
+        (click)="router.navigate(['DashboardPage'], {replaceUrl: true})"
+        [defaultHref]="'DashboardPage'">
+      </ion-back-button>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="delegated-rekey-search-page-title">
       Search test rekey backlog

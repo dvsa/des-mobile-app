@@ -219,7 +219,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   navPage = async (page: Page): Promise<void> => {
-    await this.router.navigate([page.title]);
+    await this.router.navigate([page.title], { replaceUrl: true });
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(page.descriptor));
   };

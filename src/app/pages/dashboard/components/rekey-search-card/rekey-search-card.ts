@@ -13,7 +13,7 @@ export class RekeySearchCardComponent {
   }
 
   navigateToRekeySearch = async () => {
-    await this.router.navigate([REKEY_SEARCH_PAGE]);
+    await this.router.navigate([REKEY_SEARCH_PAGE], { replaceUrl: true });
   };
 
 }

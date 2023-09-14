@@ -12,7 +12,7 @@ export class TestResultsSearchCardComponent {
   constructor(private router: Router) { }
 
   navigateToTestResultsSearch = async () => {
-    await this.router.navigate([TEST_RESULTS_SEARCH_PAGE]);
+    await this.router.navigate([TEST_RESULTS_SEARCH_PAGE], { replaceUrl: true });
   };
 
 }

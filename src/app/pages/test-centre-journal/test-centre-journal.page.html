@@ -1,7 +1,11 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons id="back-button" slot="start">
-      <ion-back-button id="test-centre-journal-back-button"></ion-back-button>
+      <ion-back-button
+        id="test-centre-journal-back-button"
+        (click)="router.navigate(['DashboardPage'], {replaceUrl: true})"
+        [defaultHref]="'DashboardPage'">
+      </ion-back-button>
     </ion-buttons>
     <ion-title id="test-centre-journal-page-title" role="heading" aria-level="1">Test Centre Journal</ion-title>
     <ion-buttons slot="end">

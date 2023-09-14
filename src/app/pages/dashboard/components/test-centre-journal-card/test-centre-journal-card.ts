@@ -12,7 +12,7 @@ export class TestCentreJournalCardComponent {
   constructor(private router: Router) {}
 
   navigateToTestCentreJournal = async () => {
-    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE], { replaceUrl: true });
   };
 
 }

@@ -12,7 +12,7 @@ export class DelegatedSearchCardComponent {
   constructor(private router: Router) { }
 
   navigateToDelegatedRekeySearch = async () => {
-    await this.router.navigate([DELEGATED_REKEY_SEARCH_PAGE]);
+    await this.router.navigate([DELEGATED_REKEY_SEARCH_PAGE], { replaceUrl: true });
   };
 
 }

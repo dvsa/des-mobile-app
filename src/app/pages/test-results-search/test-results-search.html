@@ -2,7 +2,10 @@
   <ion-toolbar>
     <ion-title id="search-submitted-title">Search submitted test</ion-title>
     <ion-buttons id="back-button" slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button
+        (click)="router.navigate(['DashboardPage'], {replaceUrl: true})"
+        [defaultHref]="'DashboardPage'">
+      </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

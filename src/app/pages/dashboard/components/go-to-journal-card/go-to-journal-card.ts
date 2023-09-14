@@ -13,6 +13,6 @@ export class GoToJournalCardComponent {
   }
 
   navigateToJournal = async () => {
-    await this.router.navigate([JOURNAL_PAGE]);
+    await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
   };
 }

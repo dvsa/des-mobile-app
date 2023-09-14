@@ -13,7 +13,7 @@ export class PracticeEndToEndCardComponent {
   }
 
   navigateToFakeJournal = async () => {
-    await this.router.navigate([FAKE_JOURNAL_PAGE]);
+    await this.router.navigate([FAKE_JOURNAL_PAGE], { replaceUrl: true });
   };
 
 }

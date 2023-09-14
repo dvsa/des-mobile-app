@@ -48,12 +48,12 @@ export class PracticeTestReportCardComponent {
       case ModalEvent.FAULT:
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionDrivingFault());
-        await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
+        await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B, { replaceUrl: true });
         break;
       case ModalEvent.NO_FAULT:
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionCorrect());
-        await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
+        await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B, { replaceUrl: true });
         break;
       case ModalEvent.CANCEL:
         break;
