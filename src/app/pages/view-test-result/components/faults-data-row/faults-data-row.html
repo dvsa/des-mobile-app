@@ -59,7 +59,7 @@
             </ion-row>
             <ion-row *ngFor="let drivingFault of drivingFaults">
                 <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="flex-center ion-align-items-center list-max-height" size="7">
-                    <div>
+                    <div class="padding-top-10">
                         <driving-faults-badge [count]='drivingFault.faultCount'></driving-faults-badge>
                     </div>
                 </ion-col>
