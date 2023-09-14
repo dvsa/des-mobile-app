@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'faults-data-row',
@@ -35,6 +36,9 @@ export class FaultsDataRowComponent {
 
   @Input()
   testCategory?: TestCategory;
+
+  constructor(public accessibilityService: AccessibilityService) {
+  }
 
   showNoFaultsMessage = (): boolean =>
     this.drivingFaultCount === 0

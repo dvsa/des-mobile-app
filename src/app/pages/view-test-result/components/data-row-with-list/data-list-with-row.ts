@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DataRowListItem } from './data-list-with-row.model';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'data-row-with-list',
@@ -16,4 +17,7 @@ export class DataRowWithListComponent {
 
   @Input()
   data: DataRowListItem[];
+
+  constructor(public accessibilityService: AccessibilityService) {
+  }
 }
