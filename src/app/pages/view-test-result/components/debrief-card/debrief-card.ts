@@ -16,6 +16,7 @@ import {
   TestRequirementsLabels,
   ViewTestResultLabels,
 } from '../data-row-with-list/data-list-with-row.model';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'debrief-card',
@@ -52,6 +53,7 @@ export class DebriefCardComponent implements OnInit {
 
   constructor(
     private questionProvider: QuestionProvider,
+    public accessibilityService: AccessibilityService,
   ) {
 
   }

@@ -5,8 +5,8 @@
     <ion-col size="57">
         <ion-grid>
             <ion-row *ngFor="let item of data;">
-                <ion-col size="7">
-                    <div class="checked-badge-container">
+                <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="flex-center list-max-height ion-align-items-center" size="7">
+                    <div>
                         <tick-indicator [ticked]='item.checked'></tick-indicator>
                     </div>
                 </ion-col>

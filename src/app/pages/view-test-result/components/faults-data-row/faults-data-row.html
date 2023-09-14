@@ -9,7 +9,7 @@
                 <ion-col><span class='mes-data bold'>{{dangerousFaults.length}} dangerous faults</span></ion-col>
             </ion-row>
             <ion-row *ngFor="let dangerousFault of dangerousFaults">
-                <ion-col size="7">
+              <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="flex-center ion-align-items-center list-max-height" size="7">
                     <div class="badge-container">
                         <dangerous-fault-badge [showBadge]="true"></dangerous-fault-badge>
                     </div>
@@ -33,7 +33,7 @@
                 <ion-col><span class='mes-data bold'>{{seriousFaults.length}} serious faults</span></ion-col>
             </ion-row>
             <ion-row *ngFor="let seriousFault of seriousFaults">
-                <ion-col size="7">
+              <ion-col class="flex-center ion-align-items-center list-max-height" size="7">
                     <div class="badge-container">
                         <serious-fault-badge [showBadge]="true"></serious-fault-badge>
                     </div>
@@ -58,8 +58,8 @@
                 </ion-col>
             </ion-row>
             <ion-row *ngFor="let drivingFault of drivingFaults">
-                <ion-col size="7">
-                    <div class="badge-container">
+                <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="flex-center ion-align-items-center list-max-height" size="7">
+                    <div>
                         <driving-faults-badge [count]='drivingFault.faultCount'></driving-faults-badge>
                     </div>
                 </ion-col>

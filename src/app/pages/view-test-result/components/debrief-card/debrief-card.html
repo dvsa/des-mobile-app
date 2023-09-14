@@ -40,8 +40,8 @@
         [centeredLabel]="false"
         [label]="'ECO'">
         <ion-row *ngFor="let item of eco;">
-          <ion-col size="7">
-            <div class="checked-badge-container">
+          <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="list-max-height flex-center ion-align-items-center" size="7">
+            <div>
               <tick-indicator [ticked]="item.checked"></tick-indicator>
             </div>
           </ion-col>
@@ -53,8 +53,8 @@
           <label>Fuel efficient driving fault - {{data.eco.fuelEfficientDriving ? 'Yes' : 'No' }}</label>
         </ion-row>
         <ion-row *ngIf="ecoFault">
-          <ion-col size="7">
-            <div class="badge-container">
+          <ion-col class="flex-center ion-align-items-center" size="7">
+            <div>
               <driving-faults-badge [count]="1"></driving-faults-badge>
             </div>
           </ion-col>

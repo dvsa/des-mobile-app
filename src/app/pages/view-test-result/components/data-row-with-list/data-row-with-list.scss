@@ -1,5 +1,11 @@
-:host {
-  .checked-badge-container {
-    padding-top: 3px;
+.list-max-height {
+  max-height: 34px;
+
+  &.text-zoom-large {
+    max-height: 40px;
+  }
+
+  &.text-zoom-x-large {
+    max-height: 46px;
   }
 }
