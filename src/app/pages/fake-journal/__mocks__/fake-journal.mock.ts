@@ -8,7 +8,7 @@ export const fakeJournalTestSlots = [
     booking: {
       application: {
         fitMarker: true,
-        fitCaseNumber: 'TestNumber',
+        fitCaseNumber: 'AAAAA 11-111-11 AA1',
         applicationId: 1234532,
         bookingSequence: 7,
         checkDigit: 7,
@@ -2061,6 +2061,7 @@ export const fakeJournalTestSlots = [
     booking: {
       application: {
         fitMarker: true,
+        fitCaseNumber: 'AAAAA 11-111-11 AA1',
         applicationId: 7654321,
         bookingSequence: 1,
         checkDigit: 3,
