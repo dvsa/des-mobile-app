@@ -1,25 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { App } from '@capacitor/app';
 import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AppInfoProvider {
 
-  constructor(private appVersion: AppVersion) { }
-
   public getVersionNumber(): Observable<string> {
-    return from(this.appVersion.getVersionNumber());
+    return from(App.getInfo())
+      .pipe(map((info) => info.version));
   }
 
-  public getFullVersionNumber(): Promise<string> {
-    return this.appVersion.getVersionNumber();
-  }
-
-  public async getMajorAndMinorVersionNumber(): Promise<string> {
-    const versionNumber = await this.appVersion.getVersionNumber();
-    const majorVersion = versionNumber.split('.')[0];
-    const minorVersion = versionNumber.split('.')[1];
-    return `${majorVersion}.${minorVersion}`;
+  public async getFullVersionNumber(): Promise<string> {
+    const info = await App.getInfo();
+    return info.version;
   }
 
 }

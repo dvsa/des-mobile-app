@@ -39,7 +39,7 @@ import {
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 import { DeviceProvider } from '@providers/device/device';
@@ -115,7 +115,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     store$: Store<StoreModel>,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private deviceProvider: DeviceProvider,
-    private insomnia: Insomnia,
     private translate: TranslateService,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
@@ -130,7 +129,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
     if (super.isIos()) {
       await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
-      await this.insomnia.keepAwake();
+      await Insomnia.keepAwake();
 
       if (!this.isEndToEndPracticeMode) {
         await this.deviceProvider.enableSingleAppMode();

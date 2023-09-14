@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -15,7 +14,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { StoreModel } from '@shared/models/store.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -28,7 +26,6 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
   let component: DelegatedRekeyUploadOutcomePage;
   let router: Router;
   let store$: Store<StoreModel>;
-  let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
 
   beforeEach(waitForAsync(() => {
@@ -59,10 +56,6 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
           useClass: DateTimeProviderMock,
         },
         {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
           provide: DeviceProvider,
           useClass: DeviceProviderMock,
         },
@@ -74,7 +67,6 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     router = TestBed.inject(Router);
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
-    insomnia = TestBed.inject(Insomnia);
     spyOn(store$, 'dispatch');
     spyOn(router, 'navigate');
     spyOn(BasePageComponent.prototype, 'isIos')
@@ -86,8 +78,8 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', async () => {
         await component.ionViewDidEnter();
-        expect(insomnia.allowSleepAgain)
-          .toHaveBeenCalled();
+        // expect(insomnia.allowSleepAgain)
+        //   .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();
       });

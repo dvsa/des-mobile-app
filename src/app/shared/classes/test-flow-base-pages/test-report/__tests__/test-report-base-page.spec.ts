@@ -12,7 +12,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { Subscription } from 'rxjs';
@@ -26,7 +25,6 @@ describe('TestReportBasePageComponent', () => {
   let store$: Store<StoreModel>;
   let modalController: ModalController;
   let testReportValidatorProvider: TestReportValidatorProvider;
-  let insomnia: Insomnia;
   let routeByCategory: RouteByCategoryProvider;
 
   let basePageComponent: TestReportBasePageComponent;
@@ -87,10 +85,9 @@ describe('TestReportBasePageComponent', () => {
         sto$: Store<StoreModel>,
         modal: ModalController,
         trValidator: TestReportValidatorProvider,
-        insom: Insomnia,
         routeByCat: RouteByCategoryProvider,
       ) {
-        super(plat, auth, rout, sto$, modal, trValidator, insom, routeByCat);
+        super(plat, auth, rout, sto$, modal, trValidator, routeByCat);
       }
     }
 
@@ -100,7 +97,6 @@ describe('TestReportBasePageComponent', () => {
       router, store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
   }));
@@ -109,7 +105,8 @@ describe('TestReportBasePageComponent', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.candidateUntitledName$
-        .subscribe((res) => expect(res).toEqual('Marge Simpson'));
+        .subscribe((res) => expect(res)
+          .toEqual('Marge Simpson'));
     });
   });
 
@@ -123,7 +120,8 @@ describe('TestReportBasePageComponent', () => {
     it('should return correct value from getTestRequirementsCatB if the switch defaults', () => {
       expect(basePageComponent.getTestRequirements({
         testRequirements: { normalStart1: true },
-      }, TestCategory.EUA1M1)).toEqual({ normalStart1: true });
+      }, TestCategory.EUA1M1))
+        .toEqual({ normalStart1: true });
     });
 
     [
@@ -178,7 +176,8 @@ describe('TestReportBasePageComponent', () => {
     it('should toggle displayOverlay', () => {
       basePageComponent.displayOverlay = false;
       basePageComponent.toggleReportOverlay();
-      expect(basePageComponent.displayOverlay).toEqual(true);
+      expect(basePageComponent.displayOverlay)
+        .toEqual(true);
     });
   });
 });

@@ -1,7 +1,5 @@
 import { select, Store } from '@ngrx/store';
-import {
-  merge, Observable, Subject, Subscription,
-} from 'rxjs';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -18,7 +16,7 @@ import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
@@ -116,7 +114,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     store$: Store<StoreModel>,
     public modalController: ModalController,
     public testReportValidatorProvider: TestReportValidatorProvider,
-    public insomnia: Insomnia,
     protected routeByCategory: RouteByCategoryProvider,
     @Inject(false) public loginRequired: boolean = false,
   ) {
@@ -232,7 +229,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     // ionViewWillEnter lifecycle event used to ensure screen orientation is correct before page transition
     if (super.isIos() && this.isPracticeMode) {
       await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
-      await this.insomnia.keepAwake();
+      await Insomnia.keepAwake();
       await StatusBar.hide();
     }
   }

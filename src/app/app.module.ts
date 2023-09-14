@@ -3,21 +3,16 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { RouteReuseStrategy } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 
 import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
-import {
-  ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
-import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonModule } from '@angular/common';
@@ -69,7 +64,6 @@ import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.module';
 
-import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -169,8 +163,6 @@ if (enableRehydrationPlugin) {
       provide: ErrorHandler,
       useClass: SentryIonicErrorHandler,
     },
-    AppVersion,
-    MobileAccessibility,
     AppConfigProvider,
     AuthenticationProvider,
     AppInfoProvider,
@@ -180,7 +172,6 @@ if (enableRehydrationPlugin) {
     GoogleAnalytics,
     DataStoreProvider,
     Network,
-    Device,
     NetworkStateProvider,
     UrlProvider,
     JournalProvider,
@@ -195,7 +186,6 @@ if (enableRehydrationPlugin) {
     TestCentreJournalProvider,
     RouteByCategoryProvider,
     DeviceAuthenticationProvider,
-    Insomnia,
     QuestionProvider,
     CommonModule,
     WeatherConditionProvider,

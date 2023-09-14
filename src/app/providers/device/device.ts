@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
 import { defer, Observable } from 'rxjs';
-import { Device } from '@awesome-cordova-plugins/device/ngx';
+// import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { Device } from '@capacitor/device';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { retryWithDelay } from '@shared/helpers/retry-with-delay';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { Asam } from '@dvsa/capacitor-plugin-asam';
-import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+import { BatteryInfo, DeviceId, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
 
 // Descriptive / Friendly mappings found here - https://www.theiphonewiki.com/wiki/Models
 enum FriendlyDeviceModel {
@@ -23,7 +24,7 @@ enum FriendlyDeviceModel {
 }
 
 @Injectable()
-export class DeviceProvider implements IDeviceProvider {
+export class DeviceProvider {
   private supportedDevices: string[] = [];
   private enableASAMRetryLimit: number = 4;
   private enableASAMRetryInternal: number = 750;
@@ -34,25 +35,31 @@ export class DeviceProvider implements IDeviceProvider {
     public appConfig: AppConfigProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private device: Device,
   ) {
   }
 
-  validDeviceType = (): boolean => {
-    const model = this.getDeviceType();
-    this.supportedDevices = this.appConfig.getAppConfig().approvedDeviceIdentifiers;
+  validDeviceType = async (): Promise<boolean> => {
+    const model = await this.getDeviceType();
+    this.supportedDevices = this.appConfig.getAppConfig()?.approvedDeviceIdentifiers;
     if (this.supportedDevices.findIndex((device) => device === model) > -1) {
       return true;
     }
     return false;
   };
 
-  getDeviceType = (): string => {
-    return this.device.model;
+  getDeviceType = async (): Promise<string> => {
+    const { model } = await Device.getInfo();
+    return model;
   };
 
-  getDescriptiveDeviceName = (): string => {
-    const deviceModel = this.getDeviceType();
+  getId = async (): Promise<DeviceId> => Device.getId();
+
+  getDeviceInfo = async (): Promise<DeviceInfo> => Device.getInfo();
+
+  getBatteryInfo = async (): Promise<BatteryInfo> => Device.getBatteryInfo();
+
+  getDescriptiveDeviceName = async (): Promise<string> => {
+    const deviceModel = await this.getDeviceType();
 
     switch (deviceModel) {
       case 'iPad7,3':
@@ -70,8 +77,9 @@ export class DeviceProvider implements IDeviceProvider {
     }
   };
 
-  getUniqueDeviceId = (): string => {
-    return this.device.uuid;
+  getUniqueDeviceId = async (): Promise<string> => {
+    const { identifier } = await Device.getId();
+    return identifier;
   };
 
   is8thGenDevice = (deviceType: string): boolean => isAnyOf(deviceType, ['iPad11,6', 'iPad11,7']);
@@ -91,18 +99,19 @@ export class DeviceProvider implements IDeviceProvider {
    * a unique log is sent.
    */
   enableSingleAppMode = async (): Promise<any> => {
-    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
+    if (this.appConfig.getAppConfig()?.role === ExaminerRole.DLG) {
       return Promise.resolve(false);
     }
 
-    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
-      map((didSucceed: boolean): boolean => {
-        if (!didSucceed) throw new Error('Call to enable ASAM failed');
-        return didSucceed;
-      }),
-      retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
-      timeout(this.enableASAMTimeout),
-    );
+    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true))
+      .pipe(
+        map((didSucceed: boolean): boolean => {
+          if (!didSucceed) throw new Error('Call to enable ASAM failed');
+          return didSucceed;
+        }),
+        retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
+        timeout(this.enableASAMTimeout),
+      );
 
     const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
       .catch(() => {

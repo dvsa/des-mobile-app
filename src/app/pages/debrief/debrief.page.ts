@@ -9,18 +9,14 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
-import {
-  filter, map, take, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  CategoryCode, Eco, ETA, QuestionResult, SafetyQuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, Eco, ETA, QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
@@ -136,7 +132,6 @@ export class DebriefPage extends PracticeableBasePageComponent {
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
-    public insomnia: Insomnia,
     private translate: TranslateService,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
@@ -408,7 +403,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
 
     if (this.isTestReportPracticeMode && super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
     }
 
     if (this.subscription) {

@@ -1,13 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  ModalController, NavParams, Platform, ToastController,
-} from '@ionic/angular';
+import { ModalController, NavParams, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -17,7 +14,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import {
@@ -93,10 +89,6 @@ describe('TestReportCatManoeuvrePage', () => {
         {
           provide: TestReportValidatorProvider,
           useClass: TestReportValidatorProviderMock,
-        },
-        {
-          provide: Insomnia,
-          useClass: InsomniaMock,
         },
         {
           provide: ToastController,
@@ -194,13 +186,15 @@ describe('TestReportCatManoeuvrePage', () => {
       component.merged$ = new Observable<boolean>();
       await component.ionViewWillEnter();
 
-      expect(component.manoeuvreSubscription).toBeDefined();
+      expect(component.manoeuvreSubscription)
+        .toBeDefined();
     });
     it('should call base page ionViewWillEnter', async () => {
       spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter');
       await component.ionViewWillEnter();
 
-      expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewWillEnter)
+        .toHaveBeenCalled();
     });
   });
   describe('ionViewDidLeave', () => {
@@ -211,9 +205,12 @@ describe('TestReportCatManoeuvrePage', () => {
       spyOn(component.manoeuvreSubscription, 'unsubscribe');
 
       component.ionViewDidLeave();
-      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
-      expect(component.manoeuvreSubscription.unsubscribe).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave)
+        .toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription)
+        .toHaveBeenCalled();
+      expect(component.manoeuvreSubscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 });

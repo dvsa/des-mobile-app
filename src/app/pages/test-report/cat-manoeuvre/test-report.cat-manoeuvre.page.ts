@@ -9,7 +9,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { merge, Observable, Subscription } from 'rxjs';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -57,7 +56,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private testDataByCategory: TestDataByCategoryProvider,
     private toastCtrl: ToastController,
@@ -69,7 +67,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
       store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
     this.displayOverlay = false;

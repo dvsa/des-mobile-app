@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
     },
   },
   cordova: {},
+  ios: {
+    preferredContentMode: 'mobile',
+  },
 };
 
 export default config;

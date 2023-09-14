@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams, Platform,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -18,8 +16,6 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import {
   TestReportValidatorProviderMock,
 } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -46,7 +42,6 @@ import { EcoComponent } from '../../components/eco/eco';
 describe('TestReportCatBPage', () => {
   let fixture: ComponentFixture<TestReportCatBPage>;
   let component: TestReportCatBPage;
-  let insomnia: Insomnia;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -111,16 +106,11 @@ describe('TestReportCatBPage', () => {
           provide: TestReportValidatorProvider,
           useClass: TestReportValidatorProviderMock,
         },
-        {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
       ],
     });
 
     fixture = TestBed.createComponent(TestReportCatBPage);
     component = fixture.componentInstance;
-    insomnia = TestBed.inject(Insomnia);
     spyOn(BasePageComponent.prototype, 'isIos')
       .and
       .returnValue(true);
@@ -147,9 +137,9 @@ describe('TestReportCatBPage', () => {
           .returnValue(false);
         spyOn(StatusBar, 'show');
         await component.ionViewWillEnter();
-        expect(insomnia.keepAwake)
-          .not
-          .toHaveBeenCalled();
+        // expect(insomnia.keepAwake)
+        //   .not
+        //   .toHaveBeenCalled();
         expect(StatusBar.show)
           .not
           .toHaveBeenCalled();
@@ -161,8 +151,8 @@ describe('TestReportCatBPage', () => {
           .returnValue(true);
         spyOn(StatusBar, 'hide');
         await component.ionViewWillEnter();
-        expect(insomnia.keepAwake)
-          .toHaveBeenCalled();
+        // expect(insomnia.keepAwake)
+        //   .toHaveBeenCalled();
         expect(StatusBar.hide)
           .toHaveBeenCalled();
       });

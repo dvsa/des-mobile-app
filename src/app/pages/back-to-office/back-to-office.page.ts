@@ -17,7 +17,7 @@ import {
   ClearVehicleData,
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
@@ -61,7 +61,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     store$: Store<StoreModel>,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public insomnia: Insomnia,
     public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
     public deviceProvider: DeviceProvider,
@@ -108,7 +107,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
     }
   }
 

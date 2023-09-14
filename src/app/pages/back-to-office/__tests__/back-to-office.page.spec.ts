@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams, Platform,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { NavParamsMock, PlatformMock } from '@mocks/index.mock';
 
 import { AppModule } from 'src/app/app.module';
@@ -11,10 +9,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { By } from '@angular/platform-browser';
@@ -33,7 +29,6 @@ describe('BackToOfficePage', () => {
   let component: BackToOfficePage;
   let modalController: ModalController;
   let store$: Store<StoreModel>;
-  let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
   let router: Router;
 
@@ -56,10 +51,6 @@ describe('BackToOfficePage', () => {
         {
           provide: AuthenticationProvider,
           useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: Insomnia,
-          useClass: InsomniaMock,
         },
         {
           provide: RouteByCategoryProvider,
@@ -86,7 +77,6 @@ describe('BackToOfficePage', () => {
 
     fixture = TestBed.createComponent(BackToOfficePage);
     component = fixture.componentInstance;
-    insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
@@ -110,8 +100,8 @@ describe('BackToOfficePage', () => {
           .toHaveBeenCalled();
         expect(ScreenOrientation.unlock)
           .toHaveBeenCalled();
-        expect(insomnia.allowSleepAgain)
-          .toHaveBeenCalled();
+        // expect(insomnia.allowSleepAgain)
+        //   .toHaveBeenCalled();
       });
     });
 

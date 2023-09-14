@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProvider } from '@providers/device/device';
@@ -38,7 +38,6 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
     private deviceProvider: DeviceProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public insomnia: Insomnia,
     protected router: Router,
   ) {
     super(platform, authenticationProvider, router);
@@ -60,7 +59,7 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
   async ionViewDidEnter(): Promise<void> {
     if (super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
       await this.deviceProvider.disableSingleAppMode();
     }
   }

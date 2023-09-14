@@ -3,13 +3,13 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { concatAll, concatMap, switchMap, toArray, withLatestFrom } from 'rxjs/operators';
 import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -29,6 +29,8 @@ import { SendCompletedTestsFailure, SendPartialTestsFailure, StartTest, TestOutc
 import { getCurrentTest, getJournalData, getTestById } from './tests.selector';
 import { getTests } from './tests.reducer';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
+import { DeviceProvider } from '@providers/device/device';
+import { BatteryInfo, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
 
 @Injectable()
 export class TestsAnalyticsEffects {
@@ -41,6 +43,7 @@ export class TestsAnalyticsEffects {
     private actions$: Actions,
     private store$: Store<StoreModel>,
     public router: Router,
+    private device: DeviceProvider,
     private navigationStateProvider: NavigationStateProvider,
   ) {
   }
@@ -110,7 +113,7 @@ export class TestsAnalyticsEffects {
       )),
     switchMap((
       [action, tests]:
-      [ReturnType<typeof testActions.SendPartialTestSuccess | typeof testActions.SendCompletedTestSuccess>, TestsModel],
+        [ReturnType<typeof testActions.SendPartialTestSuccess | typeof testActions.SendCompletedTestSuccess>, TestsModel],
     ) => {
       const slotID = action.payload;
 
@@ -178,21 +181,49 @@ export class TestsAnalyticsEffects {
             select(getApplicationReference),
             select(getApplicationNumber),
           ),
+          from([this.device.getDeviceInfo(), this.device.getBatteryInfo()])
+            .pipe(
+              concatAll(),
+              toArray(),
+            ),
         ),
       )),
-    switchMap(([action, applicationReference]: [ReturnType<typeof StartTest>, string]) => {
+    switchMap((
+      [action, applicationReference, [deviceInfo, batteryInfo]]:
+        [ReturnType<typeof StartTest>, string, [DeviceInfo, BatteryInfo]],
+    ) => {
       const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
         ? AnalyticsEventCategories.REKEY_SEARCH
         : AnalyticsEventCategories.JOURNAL;
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference,
+
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
+      this.analytics.logEvent(category, AnalyticsEvents.START_TEST);
+
+      console.log(deviceInfo);
+      console.log(batteryInfo);
+
+      this.analytics.logEvent(
+        AnalyticsEventCategories.METADATA,
+        AnalyticsEvents.REPORT_DEVICE_STATE,
+        'batteryLevel',
+        batteryInfo.batteryLevel,
       );
 
       this.analytics.logEvent(
-        category,
-        AnalyticsEvents.START_TEST,
+        AnalyticsEventCategories.METADATA,
+        AnalyticsEvents.REPORT_DEVICE_STATE,
+        'realDiskFree',
+        deviceInfo.realDiskFree,
+      );
+
+      this.analytics.logEvent(
+        AnalyticsEventCategories.METADATA,
+        AnalyticsEvents.REPORT_DEVICE_STATE,
+        'realDiskTotal',
+        deviceInfo.realDiskTotal,
       );
 
       return of(AnalyticRecorded());

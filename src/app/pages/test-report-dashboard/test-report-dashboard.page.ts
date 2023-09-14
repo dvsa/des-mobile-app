@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -71,7 +70,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private testResultProvider: TestResultProvider,
     private adi3AssessmentProvider: ADI3AssessmentProvider,
@@ -83,7 +81,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
     this.form = new UntypedFormGroup({});
@@ -172,10 +169,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   validateLessonTheme({
-    lessonThemes,
-    other,
-    studentLevel,
-  }: LessonAndTheme): { valid: boolean; score: number; } {
+                        lessonThemes,
+                        other,
+                        studentLevel,
+                      }: LessonAndTheme): { valid: boolean; score: number; } {
     const result: { valid: boolean; score: number } = {
       valid: false,
       score: 0,

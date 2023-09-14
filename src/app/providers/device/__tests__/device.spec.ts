@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
-import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
 import { Asam } from '@mocks/@capacitor/asam';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { DeviceProvider } from '../device';
@@ -23,7 +21,6 @@ describe('DeviceProvider', () => {
   let deviceProvider: DeviceProvider;
   let store$: Store<any>;
   let logHelper: LogHelper;
-  let device: Device;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,10 +38,6 @@ describe('DeviceProvider', () => {
           useClass: AppConfigProviderMock,
         },
         {
-          provide: Device,
-          useClass: DeviceMock,
-        },
-        {
           provide: LogHelper,
           useClass: LogHelperMock,
         },
@@ -55,48 +48,38 @@ describe('DeviceProvider', () => {
     store$ = TestBed.inject(Store);
     deviceProvider = TestBed.inject(DeviceProvider);
     logHelper = TestBed.inject(LogHelper);
-    device = TestBed.inject(Device);
   });
 
   describe('getDeviceType', () => {
-    it('should return the device type', () => {
-      spyOn(deviceProvider, 'getDeviceType')
-        .and
-        .returnValue('iPad7,4');
-      const deviceType = deviceProvider.getDeviceType();
+    it('should return the device type', async () => {
+      const deviceType = await deviceProvider.getDeviceType();
       expect(deviceType)
         .toBe('iPad7,4');
     });
   });
 
   describe('validDeviceType', () => {
-    it('should return true if the device in supported devices list', () => {
+    it('should return true if the device in supported devices list', async () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
-        .returnValue('iPad7,4');
-      const deviceValid = deviceProvider.validDeviceType();
+        .returnValue(Promise.resolve('iPad7,4'));
+      const deviceValid = await deviceProvider.validDeviceType();
       expect(deviceValid)
         .toEqual(true);
     });
-  });
-
-  describe('validDeviceType', () => {
-    it('should return false if the device is not in supported devices list', () => {
+    it('should return false if the device is not in supported devices list', async () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
-        .returnValue('nonIpad7,4');
-      const deviceValid = deviceProvider.validDeviceType();
+        .returnValue(Promise.resolve('nonIpad7,4'));
+      const deviceValid = await deviceProvider.validDeviceType();
       expect(deviceValid)
         .toEqual(false);
     });
   });
 
   describe('getUniqueDeviceId', () => {
-    it('should return the unique device id', () => {
-      spyOn(deviceProvider, 'getUniqueDeviceId')
-        .and
-        .returnValue('A1234');
-      const deviceId = deviceProvider.getUniqueDeviceId();
+    it('should return the unique device id', async () => {
+      const deviceId = await deviceProvider.getUniqueDeviceId();
       expect(deviceId)
         .toBe('A1234');
     });
@@ -104,58 +87,56 @@ describe('DeviceProvider', () => {
 
   describe('getDeviceType', () => {
     it('should return model', async () => {
-      device.model = 'test';
-      expect(deviceProvider.getDeviceType())
+      expect(await deviceProvider.getDeviceType())
         .toBe('test');
     });
   });
 
   describe('getDescriptiveDeviceName', () => {
     ['iPad7,3', 'iPad7,4'].forEach((val) => {
-      it(`should return FriendlyDeviceModel.iPAD_PRO_10_5_INCH if deviceModel is ${val}`, () => {
+      it(`should return FriendlyDeviceModel.iPAD_PRO_10_5_INCH if deviceModel is ${val}`, async () => {
         spyOn(deviceProvider, 'getDeviceType')
           .and
-          .returnValue(val);
-        expect(deviceProvider.getDescriptiveDeviceName())
-          .toBe(FriendlyDeviceModel.iPAD_PRO_10_5_INCH);
+          .returnValue(Promise.resolve(val));
+        expect(await deviceProvider.getDescriptiveDeviceName())
+          .toEqual(FriendlyDeviceModel.iPAD_PRO_10_5_INCH);
       });
     });
     ['iPad11,6', 'iPad11,7'].forEach((val) => {
-      it(`should return FriendlyDeviceModel.iPAD_8TH_GEN if deviceModel is ${val}`, () => {
+      it(`should return FriendlyDeviceModel.iPAD_8TH_GEN if deviceModel is ${val}`, async () => {
         spyOn(deviceProvider, 'getDeviceType')
           .and
-          .returnValue(val);
-        expect(deviceProvider.getDescriptiveDeviceName())
-          .toBe(FriendlyDeviceModel.iPAD_8TH_GEN);
+          .returnValue(Promise.resolve(val));
+        expect(await deviceProvider.getDescriptiveDeviceName())
+          .toEqual(FriendlyDeviceModel.iPAD_8TH_GEN);
       });
     });
-    it('should return FriendlyDeviceModel.iPAD_AIR_3RD_GEN if deviceModel is iPad11,4', () => {
+    it('should return FriendlyDeviceModel.iPAD_AIR_3RD_GEN if deviceModel is iPad11,4', async () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
-        .returnValue('iPad11,4');
-      expect(deviceProvider.getDescriptiveDeviceName())
-        .toBe(FriendlyDeviceModel.iPAD_AIR_3RD_GEN);
+        .returnValue(Promise.resolve('iPad11,4'));
+      expect(await deviceProvider.getDescriptiveDeviceName())
+        .toEqual(FriendlyDeviceModel.iPAD_AIR_3RD_GEN);
     });
-    it('should return FriendlyDeviceModel.iPAD_9TH_GEN if deviceModel is iPad12,2', () => {
+    it('should return FriendlyDeviceModel.iPAD_9TH_GEN if deviceModel is iPad12,2', async () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
-        .returnValue('iPad12,2');
-      expect(deviceProvider.getDescriptiveDeviceName())
-        .toBe(FriendlyDeviceModel.iPAD_9TH_GEN);
+        .returnValue(Promise.resolve('iPad12,2'));
+      expect(await deviceProvider.getDescriptiveDeviceName())
+        .toEqual(FriendlyDeviceModel.iPAD_9TH_GEN);
     });
-    it('should return switch value if the switch defaults', () => {
+    it('should return switch value if the switch defaults', async () => {
       spyOn(deviceProvider, 'getDeviceType')
         .and
-        .returnValue('test');
-      expect(deviceProvider.getDescriptiveDeviceName())
-        .toBe('test');
+        .returnValue(Promise.resolve('test'));
+      expect(await deviceProvider.getDescriptiveDeviceName())
+        .toEqual('test');
     });
   });
 
   describe('getUniqueDeviceId', () => {
     it('should return uuid', async () => {
-      device.uuid = 'test';
-      expect(deviceProvider.getUniqueDeviceId())
+      expect(await deviceProvider.getUniqueDeviceId())
         .toBe('test');
     });
   });

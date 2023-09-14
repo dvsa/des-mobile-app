@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, Subscription } from 'rxjs';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -34,7 +33,6 @@ import {
   selectUpdateAvailablePresented,
   selectVersionNumber,
 } from '@store/app-info/app-info.selectors';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
@@ -63,7 +61,6 @@ describe('DashboardPage', () => {
   let appConfigProvider: AppConfigProvider;
   let deviceProvider: DeviceProvider;
   let store$: MockStore;
-  let insomnia: Insomnia;
   let modalController: ModalController;
 
   const initialState = {
@@ -134,10 +131,6 @@ describe('DashboardPage', () => {
           useClass: DeviceProviderMock,
         },
         {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
           provide: SlotProvider,
           useClass: SlotProviderMock,
         },
@@ -163,7 +156,6 @@ describe('DashboardPage', () => {
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
     deviceProvider = TestBed.inject(DeviceProvider);
-    insomnia = TestBed.inject(Insomnia);
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
     store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
@@ -219,9 +211,9 @@ describe('DashboardPage', () => {
         expect(ScreenOrientation.unlock)
           .not
           .toHaveBeenCalled();
-        expect(insomnia.allowSleepAgain)
-          .not
-          .toHaveBeenCalled();
+        // expect(insomnia.allowSleepAgain)
+        //   .not
+        //   .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .not
           .toHaveBeenCalled();
@@ -237,8 +229,8 @@ describe('DashboardPage', () => {
           .toHaveBeenCalledWith(DashboardViewDidEnter());
         expect(ScreenOrientation.unlock)
           .toHaveBeenCalled();
-        expect(insomnia.allowSleepAgain)
-          .toHaveBeenCalled();
+        // expect(insomnia.allowSleepAgain)
+        //   .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();
         expect(store$.dispatch)

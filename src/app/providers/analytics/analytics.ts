@@ -25,13 +25,13 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   initialiseAnalytics = (): Promise<any> => new Promise((resolve) => {
-    this.googleAnalyticsKey = this.appConfig.getAppConfig().googleAnalyticsId;
+    this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
     this.platform.ready()
-      .then(() => {
-        this.setDeviceId(this.device.getUniqueDeviceId());
+      .then(async () => {
+        this.setDeviceId(await this.device.getUniqueDeviceId());
         this.setUserId(this.authProvider.getEmployeeId());
         this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
-        this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, this.device.getDescriptiveDeviceName());
+        this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, await this.device.getDescriptiveDeviceName());
         this.enableExceptionReporting();
       });
     resolve(true);
@@ -71,7 +71,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       });
   }
 
-  logEvent(category: string, event: string, label ?: string, value?: number): void {
+  logEvent(category: string, event: string, label?: string, value?: number): void {
     this.platform.ready()
       .then(() => {
         if (this.isIos()) {

@@ -9,7 +9,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Observable } from 'rxjs';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -32,7 +31,6 @@ export class TestReportCatADI2Page extends TestReportBasePageComponent implement
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
@@ -42,7 +40,6 @@ export class TestReportCatADI2Page extends TestReportBasePageComponent implement
       store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
     this.displayOverlay = false;

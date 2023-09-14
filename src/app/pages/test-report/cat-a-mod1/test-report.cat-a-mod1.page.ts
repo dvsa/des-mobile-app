@@ -5,7 +5,6 @@ import { merge, Observable } from 'rxjs';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Router } from '@angular/router';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
@@ -55,7 +54,6 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
@@ -65,7 +63,6 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
       store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
     this.displayOverlay = false;

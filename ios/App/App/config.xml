@@ -12,20 +12,8 @@
     <param name="ios-package" value="IonicAuthConnectStorage"/>
   </feature>
 
-  <feature name="AppVersion">
-    <param name="ios-package" value="AppVersion"/>
-  </feature>
-
-  <feature name="Device">
-    <param name="ios-package" value="CDVDevice"/>
-  </feature>
-
   <feature name="UniversalAnalytics">
     <param name="ios-package" value="UniversalAnalyticsPlugin"/>
-  </feature>
-
-  <feature name="Insomnia">
-    <param name="ios-package" value="Insomnia"/>
   </feature>
 
   <feature name="DisableShakeToEdit">
@@ -43,10 +31,6 @@
 
   <feature name="SecureStorage">
     <param name="ios-package" value="SecureStorage"/>
-  </feature>
-
-  <feature name="MobileAccessibility">
-    <param name="ios-package" value="CDVMobileAccessibility" onload="true"/>
   </feature>
 
   
