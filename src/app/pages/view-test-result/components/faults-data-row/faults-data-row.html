@@ -33,7 +33,7 @@
                 <ion-col><span class='mes-data bold'>{{seriousFaults.length}} serious faults</span></ion-col>
             </ion-row>
             <ion-row *ngFor="let seriousFault of seriousFaults">
-              <ion-col class="flex-center ion-align-items-center list-max-height" size="7">
+              <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="flex-center ion-align-items-center list-max-height" size="7">
                     <div class="badge-container">
                         <serious-fault-badge [showBadge]="true"></serious-fault-badge>
                     </div>
