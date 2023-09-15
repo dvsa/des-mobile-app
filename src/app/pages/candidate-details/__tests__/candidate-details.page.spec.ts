@@ -212,8 +212,8 @@ describe('CandidateDetailsPage', () => {
       expect(result).toEqual(true);
     });
 
-    it('returns false for string', () => {
-      const specialNeedsString: string = 'No details supplied';
+    it('returns false for first index being \'None\'', () => {
+      const specialNeedsString: string[] = ['None'];
       const result = component.specialNeedsIsPopulated(specialNeedsString);
       expect(result).toEqual(false);
     });
