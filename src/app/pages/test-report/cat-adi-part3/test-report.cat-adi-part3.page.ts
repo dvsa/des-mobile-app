@@ -163,9 +163,9 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   };
 
   lessonThemeChanged = ({
-                          lessonTheme,
-                          added,
-                        }: { lessonTheme: LessonTheme, added: boolean }): void => {
+    lessonTheme,
+    added,
+  }: { lessonTheme: LessonTheme, added: boolean }): void => {
     this.store$.dispatch(LessonThemeChanged(lessonTheme as LessonTheme));
     if (added) {
       this.store$.dispatch(LessonThemeAdded(lessonTheme));
@@ -179,23 +179,23 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   };
 
   lessonPlanningChanged = ({
-                             question,
-                             answer,
-                           }: { question: number; answer: number; }): void => {
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(LessonPlanningQuestionScoreChanged(question, answer));
   };
 
   riskManagementChanged = ({
-                             question,
-                             answer,
-                           }: { question: number; answer: number; }): void => {
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(RiskManagementQuestionScoreChanged(question, answer));
   };
 
   teachingLearningStrategyChanged = ({
-                                       question,
-                                       answer,
-                                     }: { question: number; answer: number; }): void => {
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
 

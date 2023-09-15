@@ -251,7 +251,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       .pipe(takeUntil(trDestroy$))
       .subscribe((
         [question1, question2, question3, question4, question5, overallPercentage, category, delegated]:
-          [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
+        [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
       ) => {
         this.questions = [question1, question2, question3, question4, question5];
         this.overallPercentage = overallPercentage;
