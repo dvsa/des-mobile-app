@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -130,6 +131,9 @@ describe('TestReportCatBPage', () => {
     });
 
     describe('ionViewWillEnter', () => {
+      beforeEach(() => {
+        spyOn(Insomnia, 'keepAwake');
+      });
       it('should not enable the plugins when the test is not a practice test', async () => {
         component.isPracticeMode = false;
         spyOn(TestReportCatBPage.prototype, 'isIos')
@@ -137,9 +141,9 @@ describe('TestReportCatBPage', () => {
           .returnValue(false);
         spyOn(StatusBar, 'show');
         await component.ionViewWillEnter();
-        // expect(insomnia.keepAwake)
-        //   .not
-        //   .toHaveBeenCalled();
+        expect(Insomnia.keepAwake)
+          .not
+          .toHaveBeenCalled();
         expect(StatusBar.show)
           .not
           .toHaveBeenCalled();
@@ -151,8 +155,8 @@ describe('TestReportCatBPage', () => {
           .returnValue(true);
         spyOn(StatusBar, 'hide');
         await component.ionViewWillEnter();
-        // expect(insomnia.keepAwake)
-        //   .toHaveBeenCalled();
+        expect(Insomnia.keepAwake)
+          .toHaveBeenCalled();
         expect(StatusBar.hide)
           .toHaveBeenCalled();
       });

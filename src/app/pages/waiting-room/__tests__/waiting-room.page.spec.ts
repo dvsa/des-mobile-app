@@ -12,6 +12,7 @@ import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/m
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -291,6 +292,7 @@ describe('WaitingRoomPage', () => {
 
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
+        spyOn(Insomnia, 'keepAwake');
         spyOn(ScreenOrientation, 'lock')
           .and
           .returnValue(Promise.resolve());
@@ -322,8 +324,8 @@ describe('WaitingRoomPage', () => {
           .returnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
-        // expect(insomnia.keepAwake)
-        //   .toHaveBeenCalled();
+        expect(Insomnia.keepAwake)
+          .toHaveBeenCalled();
       });
 
       it('should dispatch the action which calls out for candidate licence data', async () => {

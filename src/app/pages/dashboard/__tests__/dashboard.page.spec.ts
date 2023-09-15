@@ -3,6 +3,7 @@ import { AlertController, IonicModule, ModalController, Platform } from '@ionic/
 import { AlertControllerMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, Subscription } from 'rxjs';
@@ -200,6 +201,7 @@ describe('DashboardPage', () => {
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
         spyOn(ScreenOrientation, 'unlock');
+        spyOn(Insomnia, 'allowSleep');
       });
       it('should dispatch the actions but not the native features', async () => {
         spyOn(BasePageComponent.prototype, 'isIos')
@@ -211,9 +213,9 @@ describe('DashboardPage', () => {
         expect(ScreenOrientation.unlock)
           .not
           .toHaveBeenCalled();
-        // expect(insomnia.allowSleepAgain)
-        //   .not
-        //   .toHaveBeenCalled();
+        expect(Insomnia.allowSleep)
+          .not
+          .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .not
           .toHaveBeenCalled();
@@ -229,8 +231,8 @@ describe('DashboardPage', () => {
           .toHaveBeenCalledWith(DashboardViewDidEnter());
         expect(ScreenOrientation.unlock)
           .toHaveBeenCalled();
-        // expect(insomnia.allowSleepAgain)
-        //   .toHaveBeenCalled();
+        expect(Insomnia.allowSleep)
+          .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();
         expect(store$.dispatch)

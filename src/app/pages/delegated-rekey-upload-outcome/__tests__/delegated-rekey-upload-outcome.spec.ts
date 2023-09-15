@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -77,9 +78,10 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', async () => {
+        spyOn(Insomnia, 'allowSleep');
         await component.ionViewDidEnter();
-        // expect(insomnia.allowSleepAgain)
-        //   .toHaveBeenCalled();
+        expect(Insomnia.allowSleep)
+          .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();
       });

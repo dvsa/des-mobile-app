@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { NavParamsMock, PlatformMock } from '@mocks/index.mock';
-
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -94,14 +94,15 @@ describe('BackToOfficePage', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async () => {
         spyOn(ScreenOrientation, 'unlock');
+        spyOn(Insomnia, 'allowSleep');
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode)
           .not
           .toHaveBeenCalled();
         expect(ScreenOrientation.unlock)
           .toHaveBeenCalled();
-        // expect(insomnia.allowSleepAgain)
-        //   .toHaveBeenCalled();
+        expect(Insomnia.allowSleep)
+          .toHaveBeenCalled();
       });
     });
 

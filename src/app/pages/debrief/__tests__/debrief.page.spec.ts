@@ -4,6 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppModule } from '@app/app.module';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -451,6 +452,7 @@ describe('DebriefPage', () => {
   describe('ionViewDidLeave', () => {
     beforeEach(() => {
       spyOn(ScreenOrientation, 'unlock');
+      spyOn(Insomnia, 'allowSleep');
     });
     it('should unsubscribe from subscription if there is one', async () => {
       component.subscription = new Subscription();
@@ -470,8 +472,8 @@ describe('DebriefPage', () => {
       await component.ionViewDidLeave();
       expect(ScreenOrientation.unlock)
         .toHaveBeenCalled();
-      // expect(component.insomnia.allowSleepAgain)
-      //   .toHaveBeenCalled();
+      expect(Insomnia.allowSleep)
+        .toHaveBeenCalled();
     });
   });
 });
