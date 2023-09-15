@@ -31,7 +31,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
         this.setDeviceId(await this.device.getUniqueDeviceId());
         this.setUserId(this.authProvider.getEmployeeId());
         this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
-        this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, await this.device.getDescriptiveDeviceName());
+        this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, await this.device.getDeviceName());
         this.enableExceptionReporting();
       });
     resolve(true);

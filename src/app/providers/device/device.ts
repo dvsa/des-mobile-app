@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
-import { defer, Observable } from 'rxjs';
-// import { Device } from '@awesome-cordova-plugins/device/ngx';
+import { defer, from, Observable } from 'rxjs';
 import { Device } from '@capacitor/device';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -13,15 +12,14 @@ import { Asam } from '@dvsa/capacitor-plugin-asam';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
-import { BatteryInfo, DeviceId, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
 
 // Descriptive / Friendly mappings found here - https://www.theiphonewiki.com/wiki/Models
-enum FriendlyDeviceModel {
-  iPAD_AIR_3RD_GEN = 'iPad Air (3rd generation)',
-  iPAD_8TH_GEN = 'iPad (8th generation)',
-  iPAD_9TH_GEN = 'iPad (9th generation)',
-  iPAD_PRO_10_5_INCH = 'iPad Pro (10.5-inch)',
-}
+// enum FriendlyDeviceModel {
+//   iPAD_AIR_3RD_GEN = 'iPad Air (3rd generation)',
+//   iPAD_8TH_GEN = 'iPad (8th generation)',
+//   iPAD_9TH_GEN = 'iPad (9th generation)',
+//   iPAD_PRO_10_5_INCH = 'iPad Pro (10.5-inch)',
+// }
 
 @Injectable()
 export class DeviceProvider {
@@ -52,30 +50,39 @@ export class DeviceProvider {
     return model;
   };
 
-  getId = async (): Promise<DeviceId> => Device.getId();
-
-  getDeviceInfo = async (): Promise<DeviceInfo> => Device.getInfo();
-
-  getBatteryInfo = async (): Promise<BatteryInfo> => Device.getBatteryInfo();
-
-  getDescriptiveDeviceName = async (): Promise<string> => {
-    const deviceModel = await this.getDeviceType();
-
-    switch (deviceModel) {
-      case 'iPad7,3':
-      case 'iPad7,4':
-        return FriendlyDeviceModel.iPAD_PRO_10_5_INCH;
-      case 'iPad11,4':
-        return FriendlyDeviceModel.iPAD_AIR_3RD_GEN;
-      case 'iPad11,6':
-      case 'iPad11,7':
-        return FriendlyDeviceModel.iPAD_8TH_GEN;
-      case 'iPad12,2':
-        return FriendlyDeviceModel.iPAD_9TH_GEN;
-      default:
-        return deviceModel;
-    }
+  getDeviceName = async (): Promise<string> => {
+    const { name } = await Device.getInfo();
+    return name;
   };
+
+  getId = () => Device.getId();
+
+  getDeviceInfo = () => Device.getInfo();
+
+  getDeviceInfo$ = () => from(Device.getInfo());
+
+  getBatteryInfo = () => Device.getBatteryInfo();
+
+  getBatteryInfo$ = () => from(Device.getBatteryInfo());
+
+  // getDescriptiveDeviceName = async (): Promise<string> => {
+  //   const deviceModel = await this.getDeviceType();
+  //
+  //   switch (deviceModel) {
+  //     case 'iPad7,3':
+  //     case 'iPad7,4':
+  //       return FriendlyDeviceModel.iPAD_PRO_10_5_INCH;
+  //     case 'iPad11,4':
+  //       return FriendlyDeviceModel.iPAD_AIR_3RD_GEN;
+  //     case 'iPad11,6':
+  //     case 'iPad11,7':
+  //       return FriendlyDeviceModel.iPAD_8TH_GEN;
+  //     case 'iPad12,2':
+  //       return FriendlyDeviceModel.iPAD_9TH_GEN;
+  //     default:
+  //       return deviceModel;
+  //   }
+  // };
 
   getUniqueDeviceId = async (): Promise<string> => {
     const { identifier } = await Device.getId();

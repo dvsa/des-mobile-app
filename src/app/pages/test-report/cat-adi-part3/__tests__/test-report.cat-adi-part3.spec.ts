@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavController, NavParams, Platform,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -14,8 +12,6 @@ import { Action, Store, StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
@@ -110,10 +106,6 @@ describe('TestReportCatADI3Page', () => {
           useClass: TestReportValidatorProviderMock,
         },
         {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
           provide: NavController,
           useClass: NavControllerMock,
         },
@@ -194,8 +186,10 @@ describe('TestReportCatADI3Page', () => {
         spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
         component.ionViewDidLeave();
 
-        expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-        expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
+        expect(TestReportBasePageComponent.prototype.ionViewDidLeave)
+          .toHaveBeenCalled();
+        expect(TestReportBasePageComponent.prototype.cancelSubscription)
+          .toHaveBeenCalled();
       });
     });
     describe('teachingLearningStrategyChanged', () => {
@@ -212,10 +206,15 @@ describe('TestReportCatADI3Page', () => {
       it('should dispatch AssessmentOverallScoreChanged action with the total score value', () => {
         component.onContinueClick(12);
 
-        expect(store$.dispatch).toHaveBeenCalledWith(
-          { score: 12, type: '[TestReportPage] Assessment Overall Score Changed' } as Action,
-        );
-        expect(component.navController.back).toHaveBeenCalled();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(
+            {
+              score: 12,
+              type: '[TestReportPage] Assessment Overall Score Changed',
+            } as Action,
+          );
+        expect(component.navController.back)
+          .toHaveBeenCalled();
       });
     });
   });

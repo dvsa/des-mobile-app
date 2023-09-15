@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Device } from '@capacitor/device';
+import { BatteryInfo, DeviceId, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
 import { concatAll, map, tap, toArray } from 'rxjs/operators';
 import { from, merge } from 'rxjs';
-import { BatteryInfo, Device, DeviceId, DeviceInfo } from '@capacitor/device';
 
 import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -40,10 +41,10 @@ export class LogHelper {
       .pipe(
         concatAll(),
         toArray(),
-        tap(([{ identifier }, deviceInfo, { batteryLevel }]: [DeviceId, DeviceInfo, BatteryInfo]) => {
-          this.deviceId = identifier;
-          this.iosVersion = deviceInfo.iOSVersion?.toString();
-          this.battery = batteryLevel;
+        tap(([id, deviceInfo, battery]) => {
+          this.deviceId = (id as DeviceId).identifier;
+          this.iosVersion = (deviceInfo as DeviceInfo).osVersion?.toString();
+          this.battery = (battery as BatteryInfo).batteryLevel;
         }),
       );
 
@@ -52,7 +53,7 @@ export class LogHelper {
   }
 
   createLog(logType: LogType, desc: string, error: string): Log {
-    const log = {
+    return {
       message: error,
       type: logType,
       timestamp: Date.now(),
@@ -68,7 +69,5 @@ export class LogHelper {
         realDiskTotal: this.deviceInfo?.realDiskTotal,
       },
     };
-    console.log('log', log);
-    return log;
   }
 }

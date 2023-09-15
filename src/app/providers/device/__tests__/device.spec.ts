@@ -10,13 +10,6 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '../../logs/logs-helper';
 
-enum FriendlyDeviceModel {
-  iPAD_AIR_3RD_GEN = 'iPad Air (3rd generation)',
-  iPAD_8TH_GEN = 'iPad (8th generation)',
-  iPAD_9TH_GEN = 'iPad (9th generation)',
-  iPAD_PRO_10_5_INCH = 'iPad Pro (10.5-inch)',
-}
-
 describe('DeviceProvider', () => {
   let deviceProvider: DeviceProvider;
   let store$: Store<any>;
@@ -82,62 +75,6 @@ describe('DeviceProvider', () => {
       const deviceId = await deviceProvider.getUniqueDeviceId();
       expect(deviceId)
         .toBe('A1234');
-    });
-  });
-
-  describe('getDeviceType', () => {
-    it('should return model', async () => {
-      expect(await deviceProvider.getDeviceType())
-        .toBe('test');
-    });
-  });
-
-  describe('getDescriptiveDeviceName', () => {
-    ['iPad7,3', 'iPad7,4'].forEach((val) => {
-      it(`should return FriendlyDeviceModel.iPAD_PRO_10_5_INCH if deviceModel is ${val}`, async () => {
-        spyOn(deviceProvider, 'getDeviceType')
-          .and
-          .returnValue(Promise.resolve(val));
-        expect(await deviceProvider.getDescriptiveDeviceName())
-          .toEqual(FriendlyDeviceModel.iPAD_PRO_10_5_INCH);
-      });
-    });
-    ['iPad11,6', 'iPad11,7'].forEach((val) => {
-      it(`should return FriendlyDeviceModel.iPAD_8TH_GEN if deviceModel is ${val}`, async () => {
-        spyOn(deviceProvider, 'getDeviceType')
-          .and
-          .returnValue(Promise.resolve(val));
-        expect(await deviceProvider.getDescriptiveDeviceName())
-          .toEqual(FriendlyDeviceModel.iPAD_8TH_GEN);
-      });
-    });
-    it('should return FriendlyDeviceModel.iPAD_AIR_3RD_GEN if deviceModel is iPad11,4', async () => {
-      spyOn(deviceProvider, 'getDeviceType')
-        .and
-        .returnValue(Promise.resolve('iPad11,4'));
-      expect(await deviceProvider.getDescriptiveDeviceName())
-        .toEqual(FriendlyDeviceModel.iPAD_AIR_3RD_GEN);
-    });
-    it('should return FriendlyDeviceModel.iPAD_9TH_GEN if deviceModel is iPad12,2', async () => {
-      spyOn(deviceProvider, 'getDeviceType')
-        .and
-        .returnValue(Promise.resolve('iPad12,2'));
-      expect(await deviceProvider.getDescriptiveDeviceName())
-        .toEqual(FriendlyDeviceModel.iPAD_9TH_GEN);
-    });
-    it('should return switch value if the switch defaults', async () => {
-      spyOn(deviceProvider, 'getDeviceType')
-        .and
-        .returnValue(Promise.resolve('test'));
-      expect(await deviceProvider.getDescriptiveDeviceName())
-        .toEqual('test');
-    });
-  });
-
-  describe('getUniqueDeviceId', () => {
-    it('should return uuid', async () => {
-      expect(await deviceProvider.getUniqueDeviceId())
-        .toBe('test');
     });
   });
 

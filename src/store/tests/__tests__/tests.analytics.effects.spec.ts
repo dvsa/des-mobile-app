@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -29,11 +29,13 @@ import * as applicationReferenceActions
   from '../journal-data/common/application-reference/application-reference.actions';
 
 import { candidateMock } from '../__mocks__/tests.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 
 describe('TestsAnalyticsEffects', () => {
   let effects: TestsAnalyticsEffects;
-  let analyticsProviderMock;
-  let navigationStateProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
+  let navigationStateProviderMock: NavigationStateProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const mockApplication: Application = {
@@ -51,11 +53,24 @@ describe('TestsAnalyticsEffects', () => {
       ],
       providers: [
         TestsAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
-        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: NavigationStateProvider,
+          useClass: NavigationStateProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
-        { provide: Router, useClass: RouterMock },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
       ],
     });
 
@@ -78,7 +93,8 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
       // ASSERT
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -104,7 +120,8 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
       // ASSERT
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -126,7 +143,8 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.SendCompletedTestsFailure());
       // ASSERT
       effects.sendCompletedTestsFailureEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(
             'Error connecting to microservice (test submission)',
@@ -149,7 +167,8 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.TestOutcomeChanged(eventLabel));
       // ASSERT
       effects.testOutcomeChangedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
@@ -167,17 +186,21 @@ describe('TestsAnalyticsEffects', () => {
   describe('startTestAnalyticsEffect', () => {
     it('should log the correct event if it triggered from the journal page', (done) => {
       // ARRANGE
-      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
+      spyOn(navigationStateProviderMock, 'isRekeySearch')
+        .and
+        .returnValue(false);
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
       actions$.next(testsActions.StartTest(12345, TestCategory.B));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-          AnalyticsDimensionIndices.TEST_CATEGORY,
-          TestCategory.B,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(
+            AnalyticsDimensionIndices.TEST_CATEGORY,
+            TestCategory.B,
+          );
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.JOURNAL,
@@ -188,17 +211,21 @@ describe('TestsAnalyticsEffects', () => {
     });
     it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
       // ARRANGE
-      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
+      spyOn(navigationStateProviderMock, 'isRekeySearch')
+        .and
+        .returnValue(true);
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
       actions$.next(testsActions.StartTest(12345, TestCategory.B));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-          AnalyticsDimensionIndices.TEST_CATEGORY,
-          TestCategory.B,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(
+            AnalyticsDimensionIndices.TEST_CATEGORY,
+            TestCategory.B,
+          );
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.REKEY_SEARCH,

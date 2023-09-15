@@ -3,13 +3,13 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { concatAll, concatMap, switchMap, toArray, withLatestFrom } from 'rxjs/operators';
+import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
-import { from, of } from 'rxjs';
+import { of } from 'rxjs';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -113,7 +113,7 @@ export class TestsAnalyticsEffects {
       )),
     switchMap((
       [action, tests]:
-        [ReturnType<typeof testActions.SendPartialTestSuccess | typeof testActions.SendCompletedTestSuccess>, TestsModel],
+      [ReturnType<typeof testActions.SendPartialTestSuccess | typeof testActions.SendCompletedTestSuccess>, TestsModel],
     ) => {
       const slotID = action.payload;
 
@@ -181,16 +181,16 @@ export class TestsAnalyticsEffects {
             select(getApplicationReference),
             select(getApplicationNumber),
           ),
-          from([this.device.getDeviceInfo(), this.device.getBatteryInfo()])
-            .pipe(
-              concatAll(),
-              toArray(),
-            ),
         ),
       )),
+    switchMap(([action, applicationReference]) => Promise.all([
+      action,
+      applicationReference,
+      this.device.getDeviceInfo(),
+      this.device.getBatteryInfo(),
+    ])),
     switchMap((
-      [action, applicationReference, [deviceInfo, batteryInfo]]:
-        [ReturnType<typeof StartTest>, string, [DeviceInfo, BatteryInfo]],
+      [action, applicationReference, device, battery],
     ) => {
       const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
         ? AnalyticsEventCategories.REKEY_SEARCH
@@ -202,28 +202,25 @@ export class TestsAnalyticsEffects {
 
       this.analytics.logEvent(category, AnalyticsEvents.START_TEST);
 
-      console.log(deviceInfo);
-      console.log(batteryInfo);
-
       this.analytics.logEvent(
         AnalyticsEventCategories.METADATA,
         AnalyticsEvents.REPORT_DEVICE_STATE,
         'batteryLevel',
-        batteryInfo.batteryLevel,
+        (battery as BatteryInfo).batteryLevel,
       );
 
       this.analytics.logEvent(
         AnalyticsEventCategories.METADATA,
         AnalyticsEvents.REPORT_DEVICE_STATE,
         'realDiskFree',
-        deviceInfo.realDiskFree,
+        (device as DeviceInfo).realDiskFree,
       );
 
       this.analytics.logEvent(
         AnalyticsEventCategories.METADATA,
         AnalyticsEvents.REPORT_DEVICE_STATE,
         'realDiskTotal',
-        deviceInfo.realDiskTotal,
+        (device as DeviceInfo).realDiskTotal,
       );
 
       return of(AnalyticRecorded());
