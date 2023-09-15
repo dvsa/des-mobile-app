@@ -40,7 +40,7 @@ export const getApplicationRef = (application: Application): string => {
   return formatApplicationReference(applicationReference);
 };
 
-export const processSpecialNeeds = (slot: TestSlot): string | string[] => {
+export const processSpecialNeeds = (slot: TestSlot): string[] => {
   return slot.booking.application.specialNeeds ? slot.booking.application.specialNeeds.split(';') : ['None'];
 };
 
