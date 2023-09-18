@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams, Platform,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -18,8 +17,6 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import {
   TestReportValidatorProviderMock,
 } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -46,7 +43,6 @@ import { EcoComponent } from '../../components/eco/eco';
 describe('TestReportCatBPage', () => {
   let fixture: ComponentFixture<TestReportCatBPage>;
   let component: TestReportCatBPage;
-  let insomnia: Insomnia;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -111,16 +107,11 @@ describe('TestReportCatBPage', () => {
           provide: TestReportValidatorProvider,
           useClass: TestReportValidatorProviderMock,
         },
-        {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
       ],
     });
 
     fixture = TestBed.createComponent(TestReportCatBPage);
     component = fixture.componentInstance;
-    insomnia = TestBed.inject(Insomnia);
     spyOn(BasePageComponent.prototype, 'isIos')
       .and
       .returnValue(true);
@@ -140,6 +131,9 @@ describe('TestReportCatBPage', () => {
     });
 
     describe('ionViewWillEnter', () => {
+      beforeEach(() => {
+        spyOn(Insomnia, 'keepAwake');
+      });
       it('should not enable the plugins when the test is not a practice test', async () => {
         component.isPracticeMode = false;
         spyOn(TestReportCatBPage.prototype, 'isIos')
@@ -147,7 +141,7 @@ describe('TestReportCatBPage', () => {
           .returnValue(false);
         spyOn(StatusBar, 'show');
         await component.ionViewWillEnter();
-        expect(insomnia.keepAwake)
+        expect(Insomnia.keepAwake)
           .not
           .toHaveBeenCalled();
         expect(StatusBar.show)
@@ -161,7 +155,7 @@ describe('TestReportCatBPage', () => {
           .returnValue(true);
         spyOn(StatusBar, 'hide');
         await component.ionViewWillEnter();
-        expect(insomnia.keepAwake)
+        expect(Insomnia.keepAwake)
           .toHaveBeenCalled();
         expect(StatusBar.hide)
           .toHaveBeenCalled();

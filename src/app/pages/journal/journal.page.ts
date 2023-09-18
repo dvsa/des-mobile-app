@@ -7,8 +7,8 @@ import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -83,7 +83,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     private deviceProvider: DeviceProvider,
-    public insomnia: Insomnia,
     public loadingProvider: LoadingProvider,
     public appConfigProvider: AppConfigProvider,
   ) {
@@ -181,7 +180,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
       await this.deviceProvider.disableSingleAppMode();
     }
   }

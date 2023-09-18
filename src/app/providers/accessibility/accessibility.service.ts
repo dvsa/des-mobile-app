@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
+import { TextZoom } from '@capacitor/text-zoom';
 
 @Injectable({
   providedIn: 'root',
@@ -7,23 +7,21 @@ import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibili
 export class AccessibilityService {
   textZoom: number = 100;
 
-  constructor(private mobileAccessibility: MobileAccessibility) {
-  }
+  private decimalToPercentage = (decimal: number) => decimal * 100;
 
   configureAccessibility = async (): Promise<void> => {
-    this.mobileAccessibility.updateTextZoom();
-    this.getTextZoomCallback(await this.mobileAccessibility.getTextZoom());
+    const { value } = await TextZoom.getPreferred();
+    this.getTextZoomCallback(this.decimalToPercentage(value));
   };
 
   afterAppResume = async (): Promise<void> => {
-    this.mobileAccessibility.usePreferredTextZoom(true);
-    this.getTextZoomCallback(await this.mobileAccessibility.getTextZoom());
+    const { value } = await TextZoom.getPreferred();
+    this.getTextZoomCallback(this.decimalToPercentage(value));
   };
 
-  getTextZoomCallback = (zoomLevel: number): void => {
+  getTextZoomCallback = (zoomLevel: number) => {
     // Default iOS zoom levels are: 88%, 94%, 100%, 106%, 119%, 131%, 144% - 106% is default / normal zoom for ipad
     this.textZoom = zoomLevel;
-    this.mobileAccessibility.usePreferredTextZoom(false);
   };
 
   public getTextZoom(zoom: number): string {

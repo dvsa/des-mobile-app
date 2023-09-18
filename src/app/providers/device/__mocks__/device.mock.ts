@@ -24,11 +24,35 @@ export class DeviceProviderMock implements IDeviceProvider {
     return 'A1234';
   };
 
-  enableSingleAppMode = jasmine.createSpy('enableSingleAppMode').and.returnValue(Promise.resolve(true));
+  getDeviceInfo = jasmine.createSpy('getDeviceInfo')
+    .and
+    .returnValue(Promise.resolve({
+      iOSVersion: 16.6,
+      model: 'iPad7,4',
+      memUsed: 123,
+      realDiskFree: 456,
+      realDiskTotal: 1000,
+    }));
 
-  disableSingleAppMode = jasmine.createSpy('disableSingleAppMode').and.returnValue(Promise.resolve(true));
+  getBatteryInfo = jasmine.createSpy('getBatteryInfo')
+    .and
+    .returnValue(Promise.resolve({
+      batteryLevel: 0.9,
+    }));
 
-  checkSingleAppMode = jasmine.createSpy('checkSingleAppMode').and.returnValue(Promise.resolve(true));
+  enableSingleAppMode = jasmine.createSpy('enableSingleAppMode')
+    .and
+    .returnValue(Promise.resolve(true));
 
-  is8thGenDevice = jasmine.createSpy('is8thGenDevice').and.returnValue(true);
+  disableSingleAppMode = jasmine.createSpy('disableSingleAppMode')
+    .and
+    .returnValue(Promise.resolve(true));
+
+  checkSingleAppMode = jasmine.createSpy('checkSingleAppMode')
+    .and
+    .returnValue(Promise.resolve(true));
+
+  is8thGenDevice = jasmine.createSpy('is8thGenDevice')
+    .and
+    .returnValue(true);
 }

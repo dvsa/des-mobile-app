@@ -81,10 +81,12 @@ export enum AnalyticsEventCategories {
   NAVIGATION = 'navigation',
   UN_UPLOADED_TESTS = 'Incomplete Tests',
   APP_UPDATE_BADGE = 'app update badge',
+  METADATA = 'metadata',
 }
 
 export enum AnalyticsEvents {
   START_TEST = 'start test',
+  REPORT_DEVICE_STATE = 'device state',
   REKEY_TEST = 'rekey test',
   END_TEST = 'test ended',
   APP_LOAD = 'app load',

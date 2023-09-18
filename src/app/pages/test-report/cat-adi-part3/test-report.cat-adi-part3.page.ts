@@ -9,7 +9,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -87,7 +86,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     public navController: NavController,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
@@ -99,7 +97,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
     this.form = new UntypedFormGroup({});

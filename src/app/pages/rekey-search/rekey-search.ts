@@ -1,20 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { BasePageComponent } from '@shared/classes/base-page';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
+import { isEmpty } from 'lodash';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
+
+import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
+import { BasePageComponent } from '@shared/classes/base-page';
 import {
   RekeySearchClearState,
   RekeySearchViewDidEnter,
   SearchBookedTest,
 } from '@pages/rekey-search/rekey-search.actions';
-import { map } from 'rxjs/operators';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import {
   getBookedTestSlot,
@@ -22,8 +25,6 @@ import {
   getIsLoading,
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
-import { isEmpty } from 'lodash';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
@@ -53,7 +54,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
     private store$: Store<StoreModel>,
-    private insomnia: Insomnia,
     private deviceProvider: DeviceProvider,
   ) {
     super(platform, authenticationProvider, router);
@@ -84,7 +84,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(RekeySearchViewDidEnter());
 
     if (super.isIos()) {
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
       await this.deviceProvider.disableSingleAppMode();
     }
   }
@@ -92,6 +92,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
   }

@@ -4,8 +4,8 @@ import { PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Router } from '@angular/router';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -15,7 +15,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { StoreModel } from '@shared/models/store.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { RekeyUploadOutcomePage } from '@pages/rekey-upload-outcome/rekey-upload-outcome.page';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
@@ -28,7 +27,6 @@ describe('RekeyUploadOutcomePage', () => {
   let fixture: ComponentFixture<RekeyUploadOutcomePage>;
   let component: RekeyUploadOutcomePage;
   let store$: Store<StoreModel>;
-  let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
   let router: Router;
   const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -66,10 +64,6 @@ describe('RekeyUploadOutcomePage', () => {
           useClass: DateTimeProviderMock,
         },
         {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
           provide: DeviceProvider,
           useClass: DeviceProviderMock,
         },
@@ -78,7 +72,6 @@ describe('RekeyUploadOutcomePage', () => {
 
     fixture = TestBed.createComponent(RekeyUploadOutcomePage);
     component = fixture.componentInstance;
-    insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
     router = TestBed.inject(Router);
@@ -92,8 +85,9 @@ describe('RekeyUploadOutcomePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', async () => {
+        spyOn(Insomnia, 'allowSleep');
         await component.ionViewDidEnter();
-        expect(insomnia.allowSleepAgain)
+        expect(Insomnia.allowSleep)
           .toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();

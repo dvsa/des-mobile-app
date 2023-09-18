@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams, Platform,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -16,8 +14,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import {
@@ -123,10 +119,6 @@ describe('TestReportCatAMod1Page', () => {
         {
           provide: TestReportValidatorProvider,
           useClass: TestReportValidatorProviderMock,
-        },
-        {
-          provide: Insomnia,
-          useClass: InsomniaMock,
         },
       ],
     });

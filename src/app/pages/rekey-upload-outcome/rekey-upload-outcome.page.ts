@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { isEmpty } from 'lodash';
@@ -52,7 +52,6 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     private deviceProvider: DeviceProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public insomnia: Insomnia,
     protected router: Router,
   ) {
     super(platform, authenticationProvider, router);
@@ -110,7 +109,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
   async ionViewDidEnter(): Promise<void> {
     if (super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
       await this.deviceProvider.disableSingleAppMode();
     }
 

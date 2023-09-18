@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { MockComponent } from 'ng-mocks';
 import { UntypedFormControl, Validators } from '@angular/forms';
@@ -13,6 +12,7 @@ import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/m
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -37,7 +37,6 @@ import * as communicationPreferenceActions
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -66,7 +65,6 @@ describe('WaitingRoomPage', () => {
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
-  let insomnia: Insomnia;
   let translate: TranslateService;
   let modalController: ModalController;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
@@ -210,10 +208,6 @@ describe('WaitingRoomPage', () => {
           useClass: DeviceProviderMock,
         },
         {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
           provide: AppComponent,
           useClass: MockAppComponent,
         },
@@ -224,7 +218,6 @@ describe('WaitingRoomPage', () => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);
-    insomnia = TestBed.inject(Insomnia);
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
@@ -299,6 +292,7 @@ describe('WaitingRoomPage', () => {
 
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
+        spyOn(Insomnia, 'keepAwake');
         spyOn(ScreenOrientation, 'lock')
           .and
           .returnValue(Promise.resolve());
@@ -330,7 +324,7 @@ describe('WaitingRoomPage', () => {
           .returnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
-        expect(insomnia.keepAwake)
+        expect(Insomnia.keepAwake)
           .toHaveBeenCalled();
       });
 

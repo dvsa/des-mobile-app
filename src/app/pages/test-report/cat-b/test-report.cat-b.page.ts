@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Router } from '@angular/router';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
@@ -33,7 +32,6 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
@@ -43,7 +41,6 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
       store$,
       modalController,
       testReportValidatorProvider,
-      insomnia,
       routeByCategory,
     );
     this.displayOverlay = false;

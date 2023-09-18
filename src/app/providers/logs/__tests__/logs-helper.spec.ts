@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
-import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '../logs-helper';
 
@@ -18,10 +16,6 @@ describe('LogHelper', () => {
         }),
       ],
       providers: [
-        {
-          provide: Device,
-          useValue: DeviceMock,
-        },
         LogHelper,
         Store,
       ],

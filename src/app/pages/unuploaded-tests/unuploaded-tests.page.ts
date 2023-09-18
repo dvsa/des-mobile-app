@@ -9,9 +9,7 @@ import { ExaminerRoleDescription } from '@providers/app-config/constants/examine
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import {
-  unsubmittedTestSlotsInDateOrder$,
-} from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { unsubmittedTestSlotsInDateOrder$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -19,7 +17,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
@@ -45,7 +43,6 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
-    private insomnia: Insomnia,
     public deviceProvider: DeviceProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
@@ -58,8 +55,10 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
-      role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
+      employeeId$: this.store$.select(selectEmployeeId)
+        .pipe(map(this.getEmployeeNumberDisplayValue)),
+      role$: this.store$.select(selectRole)
+        .pipe(map(this.getRoleDisplayValue)),
       unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider),
       unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
         .pipe(map((data) => data.map((slot) => slot.slotData))),
@@ -69,6 +68,7 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
   }
@@ -78,7 +78,7 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
       await this.deviceProvider.disableSingleAppMode();
     }
   }

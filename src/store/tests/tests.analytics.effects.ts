@@ -29,6 +29,8 @@ import { SendCompletedTestsFailure, SendPartialTestsFailure, StartTest, TestOutc
 import { getCurrentTest, getJournalData, getTestById } from './tests.selector';
 import { getTests } from './tests.reducer';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
+import { DeviceProvider } from '@providers/device/device';
+import { BatteryInfo, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
 
 @Injectable()
 export class TestsAnalyticsEffects {
@@ -41,6 +43,7 @@ export class TestsAnalyticsEffects {
     private actions$: Actions,
     private store$: Store<StoreModel>,
     public router: Router,
+    private device: DeviceProvider,
     private navigationStateProvider: NavigationStateProvider,
   ) {
   }
@@ -180,19 +183,44 @@ export class TestsAnalyticsEffects {
           ),
         ),
       )),
-    switchMap(([action, applicationReference]: [ReturnType<typeof StartTest>, string]) => {
+    switchMap(([action, applicationReference]) => Promise.all([
+      action,
+      applicationReference,
+      this.device.getDeviceInfo(),
+      this.device.getBatteryInfo(),
+    ])),
+    switchMap((
+      [action, applicationReference, device, battery],
+    ) => {
       const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
         ? AnalyticsEventCategories.REKEY_SEARCH
         : AnalyticsEventCategories.JOURNAL;
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference,
+
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
+      this.analytics.logEvent(category, AnalyticsEvents.START_TEST);
+
+      this.analytics.logEvent(
+        AnalyticsEventCategories.METADATA,
+        AnalyticsEvents.REPORT_DEVICE_STATE,
+        'batteryLevel',
+        (battery as BatteryInfo).batteryLevel,
       );
 
       this.analytics.logEvent(
-        category,
-        AnalyticsEvents.START_TEST,
+        AnalyticsEventCategories.METADATA,
+        AnalyticsEvents.REPORT_DEVICE_STATE,
+        'realDiskFree',
+        (device as DeviceInfo).realDiskFree,
+      );
+
+      this.analytics.logEvent(
+        AnalyticsEventCategories.METADATA,
+        AnalyticsEvents.REPORT_DEVICE_STATE,
+        'realDiskTotal',
+        (device as DeviceInfo).realDiskTotal,
       );
 
       return of(AnalyticRecorded());

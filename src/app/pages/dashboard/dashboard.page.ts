@@ -6,9 +6,8 @@ import { AppLauncher } from '@capacitor/app-launcher';
 
 import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -82,9 +81,7 @@ export class DashboardPage extends BasePageComponent {
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private networkStateProvider: NetworkStateProvider,
-    private insomnia: Insomnia,
     public deviceProvider: DeviceProvider,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
     authenticationProvider: AuthenticationProvider,
@@ -146,7 +143,7 @@ export class DashboardPage extends BasePageComponent {
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();
-      await this.insomnia.allowSleepAgain();
+      await Insomnia.allowSleep();
       await this.deviceProvider.disableSingleAppMode();
     }
 

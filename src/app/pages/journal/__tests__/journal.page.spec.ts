@@ -6,6 +6,8 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
+
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -35,8 +37,6 @@ import { ErrorTypes } from '@shared/models/error-message';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import { By } from '@angular/platform-browser';
 import { DeviceProvider } from '@providers/device/device';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
@@ -51,7 +51,6 @@ describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
   let component: JournalPage;
   let store$: Store<StoreModel>;
-  let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
   let loaderService: LoadingProvider;
   const loadingOpts: LoadingOptions = {
@@ -118,10 +117,6 @@ describe('JournalPage', () => {
           useClass: DeviceProviderMock,
         },
         {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
           provide: CompletedTestPersistenceProvider,
           useClass: CompletedTestPersistenceProviderMock,
         },
@@ -140,7 +135,6 @@ describe('JournalPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.subscription = new Subscription();
-    insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
@@ -219,12 +213,13 @@ describe('JournalPage', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', async () => {
         spyOn(ScreenOrientation, 'unlock');
+        spyOn(Insomnia, 'allowSleep');
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();
         expect(ScreenOrientation.unlock)
           .toHaveBeenCalled();
-        expect(insomnia.allowSleepAgain)
+        expect(Insomnia.allowSleep)
           .toHaveBeenCalled();
       });
     });
