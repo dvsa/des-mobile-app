@@ -1,10 +1,10 @@
 import { AnalyticsEventCategories } from '@providers/analytics/analytics.model';
 import { TestsModel } from '@store/tests/tests.model';
 import {
-  isEndToEndPracticeTest,
-  isTestReportPracticeTest,
   getCurrentTest,
   isDelegatedTest,
+  isEndToEndPracticeTest,
+  isTestReportPracticeTest,
 } from '@store/tests/tests.selector';
 
 export function formatAnalyticsText(eventText: string, tests: TestsModel): string {
@@ -17,7 +17,8 @@ export function formatAnalyticsText(eventText: string, tests: TestsModel): strin
   if (isDelegatedTest(tests)) {
     return `${AnalyticsEventCategories.DELEGATED_TEST} - ${eventText}`;
   }
-  if (getCurrentTest(tests).rekey) {
+  // `.rekey` won't exist if no started tests
+  if (getCurrentTest(tests)?.rekey) {
     return `${AnalyticsEventCategories.REKEY} - ${eventText}`;
   }
   return eventText;
