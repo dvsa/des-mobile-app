@@ -11,7 +11,7 @@ import { JournalModel } from './journal.model';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 
-export const getSlotsOnSelectedDate = (journal: JournalModel) => journal.slots[journal.selectedDate];
+export const getSlotsOnSelectedDate = (journal: JournalModel) => journal.slots[journal.selectedDate] || [];
 
 export const getSlotsOnDate = (
   journal: JournalModel,

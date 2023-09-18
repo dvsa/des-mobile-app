@@ -33,7 +33,12 @@ export const showUpdateAvailable$ = (
     withLatestFrom(store$.select(selectLiveAppVersion)),
     map((
       [currentVersion, liveVersion],
-    ) => compareVersions(currentVersion, '<', liveVersion)),
+    ) => {
+      if (!currentVersion || !liveVersion) {
+        return false;
+      }
+      return compareVersions(currentVersion, '<', liveVersion);
+    }),
   );
 
 export const getUpdateAvailableCount$ = (
