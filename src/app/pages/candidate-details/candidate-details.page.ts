@@ -146,8 +146,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     }
   }
 
-  public specialNeedsIsPopulated(specialNeeds: string | string[]): boolean {
-    return Array.isArray(specialNeeds);
+  public specialNeedsIsPopulated(specialNeeds: string[]): boolean {
+    return specialNeeds.length && specialNeeds[0] !== 'None';
   }
 
   async dismiss(): Promise<void> {

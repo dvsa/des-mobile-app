@@ -58,9 +58,9 @@ describe('Candidate Details Selector', () => {
 
       const result = processSpecialNeeds(slot);
       expect(result)
-        .toEqual('None');
+        .toEqual(['None']);
     });
-    it('return `Nonr` when special needs is a false-y value', () => {
+    it('return `None` when special needs is a false-y value', () => {
       const slot = {
         booking: {
           application: {
@@ -71,7 +71,7 @@ describe('Candidate Details Selector', () => {
 
       const result = processSpecialNeeds(slot);
       expect(result)
-        .toEqual('None');
+        .toEqual(['None']);
     });
   });
 

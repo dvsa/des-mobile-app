@@ -6,7 +6,7 @@ export type Details = {
   meetingPlace: string,
   driverNumber: string,
   applicationRef: string,
-  specialNeeds: string | string[],
+  specialNeeds: string[],
   candidateComments: {
     isSectionEmpty: boolean,
     previousCancellations: string[],
