@@ -26,7 +26,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
 import {
-  DASHBOARD_PAGE, LOGIN_PAGE, PASS_CERTIFICATES, UNUPLOADED_TESTS_PAGE,
+  DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE,
 } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
@@ -65,10 +65,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
-    {
-      title: PASS_CERTIFICATES,
-      descriptor: 'Missing/Spoiled Pass Certificates',
-    },
+    // {
+    //   title: PASS_CERTIFICATES,
+    //   descriptor: 'Missing/Spoiled Pass Certificates',
+    // },
   ];
 
   pageState: AppComponentPageState;
