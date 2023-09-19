@@ -8,7 +8,7 @@
     <ion-grid>
       <ion-row class="ion-align-items-center row-padding mes-data" *ngFor="let question of safetyAndBalanceQuestions$| async">
         <ion-col size="32" class="ion-no-padding"></ion-col>
-        <ion-col size="auto" class="ion-no-padding">
+        <ion-col size="3.2" class="ion-no-padding">
           <div class="display-flex counter-icon">
             <img *ngIf="!questionHasFault(question)" src="assets/imgs/greenCorrectAnswer.png" alt="Correct Answer" class="correct-icon"/>
             <img *ngIf="questionHasFault(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer" class="wrong-icon"/>

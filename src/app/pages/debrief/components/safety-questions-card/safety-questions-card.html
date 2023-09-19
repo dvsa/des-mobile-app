@@ -1,0 +1,28 @@
+<ion-card id="vehicle-checks" *ngIf="data.length > 0; let questions">
+    <ion-card-header>
+        <ion-card-title>
+            <ion-text class="des-header-style-4 fault-heading">Safety question(s)</ion-text>
+        </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <ion-row *ngFor="let item of data" class="row-padding mes-data ion-align-items-center">
+                <ion-col size="32" class="ion-no-padding"></ion-col>
+                <ion-col size="3.2" class="display-flex ion-align-items-center ion-no-padding">
+                    <div class="vehicle-check-icon">
+                        <img *ngIf="!questionHasFault(item)" src="assets/imgs/greenCorrectAnswer.png"
+                             alt="Correct Answer" class="display-flex correct-icon"/>
+                        <img *ngIf="questionHasFault(item)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer"
+                             class="display-flex wrong-icon"/>
+                    </div>
+                </ion-col>
+                <ion-col size="1" class="ion-no-padding"></ion-col>
+                <ion-col class="ion-no-padding">
+                    <div class="counter-label">
+                        {{item.description}}
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

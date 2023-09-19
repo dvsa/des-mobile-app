@@ -9,19 +9,16 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 })
 export class SafetyDataRowComponent {
 
-  @Input()
-  label: string;
+    @Input()
+    label: string;
 
-  @Input()
-  data: SafetyQuestionResult[];
+    @Input()
+    data: SafetyQuestionResult[];
 
-  @Input()
-  shouldHaveSeperator: boolean = true;
+    @Input()
+    shouldHaveSeperator: boolean = true;
 
-  @Input()
-  isDebrief: boolean = false;
-
-  public shouldShowFault(outcome: QuestionOutcome): boolean {
-    return outcome === CompetencyOutcome.DF || outcome === undefined;
-  }
+    public shouldShowFault(outcome: QuestionOutcome): boolean {
+      return outcome === CompetencyOutcome.DF || outcome === undefined;
+    }
 }

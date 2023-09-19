@@ -2,6 +2,7 @@
   .alignment-fix {
     flex-direction: column;
   }
+
   .mes-data.bold {
     font-weight: bold;
   }
@@ -24,31 +25,9 @@
   }
 }
 
-.debrief-padding {
-  padding-right: 8px;
-}
-
-.completed-test-padding {
-  padding-left: 265px;
-  position: relative;
-  top: -40px;
-}
-
 .completed-icon-padding {
   padding-right: 12px;
   padding-top: 2px;
-}
-
-.debrief-card-padding {
-  position: relative;
-  top: 46px;
-  right: 84px;
-}
-
-.debrief-position-fix {
-  position: relative;
-  top: -22px;
-  height: 225px;
 }
 
 .search-card-padding-and-position {
