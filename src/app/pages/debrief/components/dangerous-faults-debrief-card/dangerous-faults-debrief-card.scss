@@ -1,14 +1,33 @@
 :host {
-  .fault-heading {
-    display:inline;
+  .row-padding {
+    padding-bottom: 4px;
   }
+
+  .counter-label {
+    padding-left: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .title-padding {
+    padding: 20px 20px 16px 20px;
+  }
+
+  .fault-heading {
+    display: inline;
+  }
+
   .down-padding {
     padding-top: 2px;
   }
+
   ion-card-header {
     padding-left: 52px;
   }
+
   ion-card-content {
+    padding-top: 0;
     padding-left: 83px;
   }
 }

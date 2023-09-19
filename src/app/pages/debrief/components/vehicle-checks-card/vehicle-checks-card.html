@@ -6,17 +6,17 @@
     </ion-card-header>
     <ion-card-content>
         <ion-grid>
-            <ion-row *ngFor="let question of tellMeShowMeQuestions" class="mes-data ion-align-items-center">
+            <ion-row *ngFor="let question of tellMeShowMeQuestions" class="row-padding mes-data ion-align-items-center">
                 <ion-col size="32" class="ion-no-padding"></ion-col>
-                <ion-col size="2" class="ion-align-self-start ion-no-padding">
+                <ion-col size="auto" class="display-flex ion-align-items-center ion-no-padding">
                     <div class="vehicle-check-icon">
                         <img *ngIf="!questionHasFault(question)" src="assets/imgs/greenCorrectAnswer.png"
-                             alt="Correct Answer" class="correct-icon"/>
+                             alt="Correct Answer" class="display-flex correct-icon"/>
                         <img *ngIf="questionHasFault(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer"
-                             class="wrong-icon"/>
+                             class="display-flex wrong-icon"/>
                     </div>
                 </ion-col>
-                <ion-col size="3" class="ion-no-padding"></ion-col>
+                <ion-col size="1" class="ion-no-padding"></ion-col>
                 <ion-col class="ion-no-padding">
                     <div class="counter-label">
               <span *ngIf="isHomeTest()">

@@ -4,7 +4,11 @@
   background: var(--gds-yellow);
   .lock-icon {
     height: 20px;
-    margin-right: 16px;
-    margin-bottom: 6px;
   }
+}
+ion-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }

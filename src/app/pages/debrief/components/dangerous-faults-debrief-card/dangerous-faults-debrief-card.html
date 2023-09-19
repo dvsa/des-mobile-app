@@ -1,17 +1,15 @@
 <ion-card id="dangerous-fault" *ngIf="dangerousFaults?.length > 0">
-  <ion-card-header>
-    <ion-card-title>
+    <ion-card-title class="title-padding">
       <ion-text id="dangerous-fault-count" class="des-header-style-1 fault-heading">{{dangerousFaults.length}}</ion-text>
       <ion-text id="dangerous-fault-title"
           class="des-header-style-4 fault-heading">{{ 'debrief.dangerousFaultsCardDescription' | translate }}</ion-text>
     </ion-card-title>
-  </ion-card-header>
   <ion-card-content>
     <ion-grid>
-      <ion-row *ngFor="let dangerousFault of dangerousFaults" class="mes-data ion-align-items-center">
-        <ion-col size="32" class="ion-no-padding"></ion-col>
-        <ion-col size="2" class="ion-align-self-start ion-no-padding">
-          <div class="down-padding counter-icon">
+      <ion-row *ngFor="let dangerousFault of dangerousFaults" class="row-padding mes-data ion-align-items-center">
+        <ion-col size="26" class="ion-no-padding"></ion-col>
+        <ion-col size="auto" class="display-flex ion-align-items-center ion-no-padding">
+          <div>
             <dangerous-fault-badge
               [showBadge]="true"
               [competencyDisplayName]="dangerousFault"
@@ -19,7 +17,7 @@
             </dangerous-fault-badge>
           </div>
         </ion-col>
-        <ion-col size="3" class="ion-no-padding"></ion-col>
+        <ion-col size="1" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
           <div
             class="counter-label"

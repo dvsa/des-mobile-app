@@ -1,24 +1,22 @@
 <ion-card id="serious-fault" *ngIf="seriousFaults?.length > 0">
-  <ion-card-header>
-    <ion-card-title>
+    <ion-card-title class="title-padding">
       <ion-text id="serious-fault-count" class="des-header-style-1 fault-heading">{{seriousFaults.length}}</ion-text>
-      <ion-text id="serious-fault-title" class="des-header-style-4 fault-heading">{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text>
+      <ion-text id="serious-fault-title"
+                class="des-header-style-4 fault-heading">{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text>
     </ion-card-title>
-  </ion-card-header>
   <ion-card-content>
     <ion-grid>
-      <ion-row *ngFor="let seriousFault of seriousFaults" class="mes-data ion-align-items-center">
-        <ion-col size="32" class="ion-no-padding"></ion-col>
-        <ion-col size="2" class="ion-align-self-start ion-no-padding">
-          <div class="down-padding counter-icon">
+      <ion-row *ngFor="let seriousFault of seriousFaults" class="row-padding mes-data ion-align-items-center">
+        <ion-col size="26" class="ion-no-padding"></ion-col>
+        <ion-col size="auto" class="display-flex ion-align-items-center ion-no-padding">
+          <div>
             <serious-fault-badge
               [showBadge]="true"
-              [competencyDisplayName]="seriousFault"
-            >
+              [competencyDisplayName]="seriousFault">
             </serious-fault-badge>
           </div>
         </ion-col>
-        <ion-col size="3" class="ion-no-padding"></ion-col>
+        <ion-col size="1" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
           <div class="counter-label"
                id="{{seriousFault}}-serious-text">{{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}</div>
