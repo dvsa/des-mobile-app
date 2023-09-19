@@ -9,6 +9,11 @@ export const Device = {
     memUsed: 123,
     realDiskFree: 456,
     realDiskTotal: 1000,
+    isVirtual: true,
+    platform: 'ios',
+    webViewVersion: '1',
+    operatingSystem: 'ios',
+    manufacturer: 'Apple',
   }),
   getBatteryInfo: async () => ({
     batteryLevel: 0.9,

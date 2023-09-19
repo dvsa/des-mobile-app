@@ -44,6 +44,7 @@ export class LogHelper {
         tap(([id, deviceInfo, battery]) => {
           this.deviceId = (id as DeviceId).identifier;
           this.iosVersion = (deviceInfo as DeviceInfo).osVersion?.toString();
+          this.deviceInfo = deviceInfo as DeviceInfo;
           this.battery = (battery as BatteryInfo).batteryLevel;
         }),
       );

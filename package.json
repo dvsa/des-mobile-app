@@ -74,7 +74,7 @@
     "@capacitor/text-zoom": "^5.0.6",
     "@capawesome/capacitor-managed-configurations": "^5.0.0",
     "@capawesome/capacitor-screen-orientation": "^5.0.0",
-    "@dvsa/capacitor-plugin-asam": "^0.0.10",
+    "@dvsa/capacitor-plugin-asam": "^0.1.0",
     "@dvsa/mes-config-schema": "1.4.1",
     "@dvsa/mes-driver-schema": "^0.0.1",
     "@dvsa/mes-journal-schema": "1.3.1",
