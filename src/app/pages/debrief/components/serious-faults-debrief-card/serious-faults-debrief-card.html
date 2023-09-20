@@ -1,14 +1,14 @@
 <ion-card id="serious-fault" *ngIf="seriousFaults?.length > 0">
-    <ion-card-title class="title-padding">
-      <ion-text id="serious-fault-count" class="des-header-style-1 fault-heading">{{seriousFaults.length}}</ion-text>
-      <ion-text id="serious-fault-title"
-                class="des-header-style-4 fault-heading">{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text>
-    </ion-card-title>
+  <ion-card-title class="title-padding">
+    <ion-text id="serious-fault-count" class="des-header-style-1 fault-heading">{{seriousFaults.length}}</ion-text>
+    <ion-text id="serious-fault-title"
+              class="des-header-style-4 fault-heading">{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text>
+  </ion-card-title>
   <ion-card-content>
     <ion-grid>
       <ion-row *ngFor="let seriousFault of seriousFaults" class="row-padding mes-data ion-align-items-center">
         <ion-col size="26" class="ion-no-padding"></ion-col>
-        <ion-col size="3.2" class="display-flex ion-align-items-center ion-no-padding">
+        <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
           <div>
             <serious-fault-badge
               [showBadge]="true"

@@ -1,94 +1,95 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-buttons id="back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-title role="heading" aria-level="1" id="page-title">{{ 'debrief.title' | translate }}
-            - {{pageState.candidateName$ | async}}</ion-title>
-    </ion-toolbar>
-    <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title role="heading" aria-level="1" id="page-title">{{ 'debrief.title' | translate }}
+      - {{pageState.candidateName$ | async}}</ion-title>
+  </ion-toolbar>
+  <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
 </ion-header>
 
 <ion-content>
-    <speed-check-debrief-card
-            *ngIf="pageState.showSpeedCheck$ | async"
-            [emergencyStop]="pageState.emergencyStop$ | async"
-            [avoidance]="pageState.avoidance$ | async"
-            [avoidanceAttempted]="pageState.avoidanceAttempted$ | async">
-    </speed-check-debrief-card>
+  <speed-check-debrief-card
+    *ngIf="pageState.showSpeedCheck$ | async"
+    [emergencyStop]="pageState.emergencyStop$ | async"
+    [avoidance]="pageState.avoidance$ | async"
+    [avoidanceAttempted]="pageState.avoidanceAttempted$ | async">
+  </speed-check-debrief-card>
 
-    <eta-debrief-card
-            [hasPhysicalEta]="hasPhysicalEta"
-            [hasVerbalEta]="hasVerbalEta">
-    </eta-debrief-card>
+  <eta-debrief-card
+    [hasPhysicalEta]="hasPhysicalEta"
+    [hasVerbalEta]="hasVerbalEta">
+  </eta-debrief-card>
 
-    <dangerous-faults-debrief-card
-            [dangerousFaults]="pageState.dangerousFaults$ | async">
-    </dangerous-faults-debrief-card>
+  <dangerous-faults-debrief-card
+    [dangerousFaults]="pageState.dangerousFaults$ | async">
+  </dangerous-faults-debrief-card>
 
-    <serious-faults-debrief-card
-            [seriousFaults]="pageState.seriousFaults$ | async">
-    </serious-faults-debrief-card>
+  <serious-faults-debrief-card
+    [seriousFaults]="pageState.seriousFaults$ | async">
+  </serious-faults-debrief-card>
 
-    <driving-faults-debrief-card
-            [drivingFaults]="pageState.drivingFaults$ | async"
-            [drivingFaultCount]="pageState.drivingFaultCount$ | async"
-            [testCategory]="testCategory">
-    </driving-faults-debrief-card>
+  <driving-faults-debrief-card
+    [drivingFaults]="pageState.drivingFaults$ | async"
+    [drivingFaultCount]="pageState.drivingFaultCount$ | async"
+    [testCategory]="testCategory">
+  </driving-faults-debrief-card>
 
-    <eco-debrief-card
-            *ngIf="pageState.showEco$ | async"
-            [adviceGivenControl]="adviceGivenControl"
-            [adviceGivenPlanning]="adviceGivenPlanning">
-    </eco-debrief-card>
+  <eco-debrief-card
+    *ngIf="pageState.showEco$ | async"
+    [adviceGivenControl]="adviceGivenControl"
+    [adviceGivenPlanning]="adviceGivenPlanning">
+  </eco-debrief-card>
 
-    <vehicle-checks-card-cat-b
-            *ngIf="isCategoryBTest()">
-    </vehicle-checks-card-cat-b>
+  <vehicle-checks-card-cat-b
+    *ngIf="isCategoryBTest()">
+  </vehicle-checks-card-cat-b>
 
-    <vehicle-checks-card
-            *ngIf="showVehicleChecksArrayCard()"
-            [category]="pageState.category$ | async"
-            [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async">
-    </vehicle-checks-card>
+  <vehicle-checks-card
+    *ngIf="showVehicleChecksArrayCard()"
+    [category]="pageState.category$ | async"
+    [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async">
+  </vehicle-checks-card>
 
-    <cpc-debrief-card
-            *ngIf="!isTerminated() && showCPCDebriefCard()"
-            [overallScore]="pageState.overallScore$ | async"
-            [question1]="pageState.question1$ | async"
-            [question2]="pageState.question2$ | async"
-            [question3]="pageState.question3$ | async"
-            [question4]="pageState.question4$ | async"
-            [question5]="pageState.question5$ | async"
-            [testOutcome]="outcome">
-    </cpc-debrief-card>
+  <cpc-debrief-card
+    *ngIf="!isTerminated() && showCPCDebriefCard()"
+    [overallScore]="pageState.overallScore$ | async"
+    [question1]="pageState.question1$ | async"
+    [question2]="pageState.question2$ | async"
+    [question3]="pageState.question3$ | async"
+    [question4]="pageState.question4$ | async"
+    [question5]="pageState.question5$ | async"
+    [testOutcome]="outcome">
+  </cpc-debrief-card>
 
-    <safety-questions-card
-            [data]="pageState.safetyQuestions$ | async">
-    </safety-questions-card>
+  <safety-questions-card
+    *ngIf="isCatD() && pageState.showSafetyQuestions$ | async"
+    [data]="pageState.safetyQuestions$ | async">
+  </safety-questions-card>
 
-    <safety-and-balance-card-cat-a-mod2
-            *ngIf="pageState.showSafetyAndBalance$ | async">
-    </safety-and-balance-card-cat-a-mod2>
+  <safety-and-balance-card-cat-a-mod2
+    *ngIf="pageState.showSafetyAndBalance$ | async">
+  </safety-and-balance-card-cat-a-mod2>
 
-    <adi3-debrief-card
-            *ngIf="showADI3DebriefCard()"
-            [testCategory]="testCategory"
-            [totalScore]="pageState.totalScore$ | async"
-            [lessonTheme]="pageState.lessonTheme$ | async"
-            [lessonPlanning]="pageState.lessonPlanning$ | async"
-            [riskManagement]="pageState.riskManagement$ | async"
-            [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
-            [grade]="pageState.grade$ | async"
-            [review]="pageState.review$ | async">
-    </adi3-debrief-card>
+  <adi3-debrief-card
+    *ngIf="showADI3DebriefCard()"
+    [testCategory]="testCategory"
+    [totalScore]="pageState.totalScore$ | async"
+    [lessonTheme]="pageState.lessonTheme$ | async"
+    [lessonPlanning]="pageState.lessonPlanning$ | async"
+    [riskManagement]="pageState.riskManagement$ | async"
+    [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
+    [grade]="pageState.grade$ | async"
+    [review]="pageState.review$ | async">
+  </adi3-debrief-card>
 </ion-content>
 
 <ion-footer>
-    <div id="end-debrief-background">
-        <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
-            <ion-text class="des-header-style-3">{{ 'debrief.end' | translate }}</ion-text>
-        </ion-button>
-    </div>
+  <div id="end-debrief-background">
+    <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
+      <ion-text class="des-header-style-3">{{ 'debrief.end' | translate }}</ion-text>
+    </ion-button>
+  </div>
 </ion-footer>

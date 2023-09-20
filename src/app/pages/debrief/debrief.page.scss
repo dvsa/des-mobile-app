@@ -6,16 +6,19 @@
     height: 110px;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
   }
+
   #end-debrief-button {
     min-height: 56px;
     width: 746px;
     margin-top: 11px;
   }
+
   .counter-icon {
     width: 22px;
     height: 22px;
     min-width: 22px;
     padding: 2px 4px 4px;
+
     .text-zoom-large & {
       padding-top: 4px;
     }
@@ -24,8 +27,9 @@
       padding-top: 6px;
     }
   }
+
   .fault-heading {
-    display:inline;
+    display: inline;
     padding-left: 5px;
   }
 
