@@ -301,10 +301,6 @@ export const fakeJournalTestSlots = [
         specialNeeds: 'Candidate has Dyslexia; Candidate has poor eyesight; Candidate has poor eyesight',
         specialNeedsCode: 'EXTRA',
         specialNeedsExtendedTest: true,
-        candidateComments: {
-          isSectionEmpty: false,
-          previousCancellations: ['Cancellation 1', 'Cancellation 2', 'Cancellation 3'],
-        },
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'CM',
