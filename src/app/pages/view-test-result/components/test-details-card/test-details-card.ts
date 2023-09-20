@@ -18,8 +18,8 @@ export class TestDetailsCardComponent {
   @Input()
   candidateDetails: CandidateDetails;
 
-  specialNeedsIsPopulated(specialNeedsArray: string[]): boolean {
-    return specialNeedsArray.length > 0 && specialNeedsArray[0] !== 'None';
+  additionalReqsIsPopulated(additionalReqsArray: string[]): boolean {
+    return additionalReqsArray.length > 0 && additionalReqsArray[0] !== 'None';
   }
 
   showFullCatHeld(): boolean {
@@ -28,12 +28,12 @@ export class TestDetailsCardComponent {
 
   showAttemptNumber(): boolean {
     return get(this.candidateDetails, 'attemptNumber', null) !== null
-        || typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined';
+      || typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined';
   }
 
   showPrn(): boolean {
     return get(this.candidateDetails, 'prn', null) !== null
-        || typeof get(this.candidateDetails, 'prn') !== 'undefined';
+      || typeof get(this.candidateDetails, 'prn') !== 'undefined';
   }
 
 }

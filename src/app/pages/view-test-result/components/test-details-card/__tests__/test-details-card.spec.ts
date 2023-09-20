@@ -34,20 +34,20 @@ describe('TestDetailsCardComponent', () => {
       expect(component).toBeDefined();
     });
 
-    describe('specialNeedsIsPopulated', () => {
+    describe('additionalReqsIsPopulated', () => {
       it('should return false for an empty array', () => {
         const specialNeedsArray = [];
-        expect(component.specialNeedsIsPopulated(specialNeedsArray)).toBeFalsy();
+        expect(component.additionalReqsIsPopulated(specialNeedsArray)).toBeFalsy();
       });
 
       it('should return false for an array that has None in it', () => {
         const specialNeedsArray = ['None'];
-        expect(component.specialNeedsIsPopulated(specialNeedsArray)).toBeFalsy();
+        expect(component.additionalReqsIsPopulated(specialNeedsArray)).toBeFalsy();
       });
 
       it('should return true for a populated array', () => {
         const specialNeedsArray = ['special need 1', 'special need 2'];
-        expect(component.specialNeedsIsPopulated(specialNeedsArray)).toBeTruthy();
+        expect(component.additionalReqsIsPopulated(specialNeedsArray)).toBeTruthy();
       });
     });
 
