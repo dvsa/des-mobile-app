@@ -1,16 +1,16 @@
 <ion-row id="candidate-name-section" class="candidate-side-padding candidate-top-padding">
     <ion-col size="60" class="ion-no-padding">
-        <ion-text class="des-header-style-2" id="candidate-name">{{candidateName}}</ion-text>
+        <ion-text class="des-header-style-2" id="candidate-name">Name: {{candidateName}}</ion-text>
     </ion-col>
     <ion-col size="36" class="align-col-right ion-no-padding">
         <ion-text class="des-header-style-2" id="candidate-start-time">{{startTime}}</ion-text>
     </ion-col>
 </ion-row>
 <ion-row id="candidate-number-section" class="candidate-side-padding">
-    <ion-col size="44" class="ion-no-padding">
-        <ion-text class="des-header-style-3" id="candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : driverNumber}}</ion-text>
+    <ion-col size="50" class="ion-no-padding">
+        <ion-text class="des-header-style-3" id="candidate-driver-number" [attr.aria-label]="isStandardsCheck ? 'PRN' : 'Licence Number'">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : 'Lic. Number: ' + driverNumber}}</ion-text>
     </ion-col>
-    <ion-col size="52" class="align-col-right ion-no-padding">
+    <ion-col size="46" class="align-col-right ion-no-padding">
         <ion-text class="des-header-style-3">Test outcome:
             <div id="test-outcome-text" class="inline-mode">
                 <span [class]="getTestOutcomeClass(testOutcomeText)">
