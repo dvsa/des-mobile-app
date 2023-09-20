@@ -17,10 +17,10 @@
       [src]="imgSrc"
       [id]="label | formatToID: idPrefix: true"
       [style]="dataStyling"
-      [alt]="label + ' image'">
+      [alt]="label + ' image'"/>
   </ion-col>
   <ng-template #notImage>
-    <ion-col [size]="shouldShowIndicator ? 50 : 56">
+    <ion-col [size]="shouldShowIndicator ? 50 : 56" style="text-align: start">
       <span [style]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
     </ion-col>
   </ng-template>
