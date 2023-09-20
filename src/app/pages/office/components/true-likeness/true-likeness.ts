@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -14,6 +12,9 @@ export class TrueLikenessComponent implements OnChanges {
 
   @Input()
   formGroup: UntypedFormGroup;
+
+  @Input()
+  colSize: number = 31;
 
   @Output()
   trueLikenessChange = new EventEmitter<boolean>();
@@ -32,10 +33,14 @@ export class TrueLikenessComponent implements OnChanges {
     }
   }
 
-  trueLikenessChanged(trueLikeness:string): void {
+  trueLikenessChanged(trueLikeness: string): void {
     if (this.formControl.valid) {
       this.trueLikenessChange.emit(trueLikeness === 'true');
     }
+  }
+
+  get requireLabelPadding() {
+    return this.colSize === 31;
   }
 
   get invalid(): boolean {
