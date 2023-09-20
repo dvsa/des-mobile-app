@@ -21,4 +21,7 @@ export class DataRowCustomComponent {
 
   @Input()
   centeredLabel: boolean = true;
+
+  @Input()
+  centredData: boolean = false;
 }

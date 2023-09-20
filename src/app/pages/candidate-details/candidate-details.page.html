@@ -96,7 +96,9 @@
           <data-row-custom
             [label]="'Additional requirements'"
             [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)"
-            [idPrefix]="idPrefix">
+            [idPrefix]="idPrefix"
+            [centeredLabel]="pageState.details.specialNeeds?.length <= 1"
+            [centredData]="pageState.details.specialNeeds?.length <= 1">
             <ng-container class="mes-data" *ngIf="pageState.details.specialNeeds?.length > 1; else oneItem">
               <ul *ngFor="let specialNeed of pageState.details.specialNeeds;" class="mes-data">
                 <li>{{specialNeed}}</li>
@@ -110,6 +112,8 @@
             [idPrefix]="idPrefix"
             [label]="'Entitlement check'"
             [shouldShowIndicator]="true"
+            [centeredLabel]="!pageState.candidateEntitlementCheck || !pageState.categoryEntitlementCheck"
+            [centredData]="!pageState.candidateEntitlementCheck || !pageState.categoryEntitlementCheck"
             *ngIf="pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck">
             <ion-row class="mes-data">
               <ion-col>

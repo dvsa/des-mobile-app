@@ -1,5 +1,5 @@
 <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
-    <ion-col [size]="shouldShowIndicator ? 40 : 34" [class.labelTop]="!centeredLabel" class="vertical-alignment">
+    <ion-col [size]="shouldShowIndicator ? 40 : 34" [class.vertical-align-center]="centeredLabel">
         <label [id]="label | formatToID: idPrefix">{{ label }}</label>
     </ion-col>
     <ion-col size="6" class="vertical-align-center">
@@ -9,7 +9,7 @@
              *ngIf="shouldShowIndicator"
         />
     </ion-col>
-    <ion-col [size]="shouldShowIndicator ? 50 : 56">
+    <ion-col [size]="shouldShowIndicator ? 50 : 56" [class]="centredData ? 'ion-align-items-center display-flex' : null">
         <ng-content></ng-content>
     </ion-col>
 </ion-row>
