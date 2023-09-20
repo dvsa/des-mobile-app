@@ -1,16 +1,14 @@
 <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
-  <ion-col [size]="shouldShowIndicator ? 40 : 34">
+  <ion-col [size]="shouldShowIndicator ? 40 : 34" class="ion-align-items-center display-flex">
     <label [id]="label | formatToID: idPrefix">{{ label }}</label>
     <br>
     <label *ngIf="label2" [id]="label2 | formatToID: idPrefix">{{ label2 }}</label>
   </ion-col>
-  <ion-col size="6">
+  <ion-col size="6" class="ion-align-items-center display-flex">
     <img *ngIf="shouldShowIndicator"
          alt="Exclamation Indicator"
-         ngSrc="../../../assets/imgs/journal/exclamation-indicator.png"
-         class="exclamation-indicator ion-text-end"
-         height="134"
-         width="156" />
+         src="assets/imgs/journal/exclamation-indicator.png"
+         class="exclamation-indicator"/>
   </ion-col>
   <ion-col size="40" *ngIf="imgSrc; else notImage;">
     <img
@@ -20,7 +18,7 @@
       [alt]="label + ' image'"/>
   </ion-col>
   <ng-template #notImage>
-    <ion-col [size]="shouldShowIndicator ? 50 : 56" style="text-align: start">
+    <ion-col [size]="shouldShowIndicator ? 50 : 56" class="ion-align-items-center display-flex">
       <span [style]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
     </ion-col>
   </ng-template>
