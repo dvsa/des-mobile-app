@@ -41,10 +41,17 @@
 
       <data-row-custom
         [label]="'Additional requirements'"
-        [shouldShowIndicator]="specialNeedsIsPopulated(data.specialNeeds)">
-        <div *ngFor="let specialNeed of data.specialNeeds" class="mes-data">
-          - {{specialNeed}}
-        </div>
+        [shouldShowIndicator]="additionalReqsIsPopulated(data.specialNeeds)"
+        [centeredLabel]="data.specialNeeds?.length <= 1"
+        [centredData]="data.specialNeeds?.length <= 1">
+        <ng-container class="mes-data" *ngIf="data.specialNeeds?.length > 1; else oneItem">
+          <ul *ngFor="let additionalReq of data.specialNeeds;" class="mes-data">
+            <li>{{additionalReq}}</li>
+          </ul>
+        </ng-container>
+        <ng-template #oneItem>
+          <div class="mes-data">{{data.specialNeeds[0]}}</div>
+        </ng-template>
       </data-row-custom>
 
       <data-row
@@ -57,10 +64,17 @@
       <data-row-custom
         [shouldHaveSeperator]="showAttemptNumber()||showPrn()"
         [label]="'Additional information'">
-        <div class="mes-data" *ngIf="data.previousCancellations.length === 0">- None</div>
-        <div class="mes-data" *ngIf="data.previousCancellations.length > 0">- Previous cancellations</div>
-        <div *ngFor="let previousCancellation of data.previousCancellations" class="mes-data">
-          - {{previousCancellation}}
+        <div class="mes-data" *ngIf="data.previousCancellations.length === 0">None</div>
+        <div *ngIf="!(data.previousCancellations.length === 0)">
+          <div *ngIf="data.previousCancellations.length > 0">
+            <div class="mes-data previous-cancellation-padding">Previous cancellations</div>
+            <ul *ngFor="let previousCancellation of data.previousCancellations;"
+                class="mes-data">
+              <li>
+                {{previousCancellation}}
+              </li>
+            </ul>
+          </div>
         </div>
       </data-row-custom>
 
