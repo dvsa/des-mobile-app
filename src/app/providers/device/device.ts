@@ -1,33 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
-import { defer, from, Observable } from 'rxjs';
+import { defer, lastValueFrom, retry } from 'rxjs';
+import { Asam } from '@dvsa/capacitor-plugin-asam';
 import { Device } from '@capacitor/device';
+
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
-import { retryWithDelay } from '@shared/helpers/retry-with-delay';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { Asam } from '@dvsa/capacitor-plugin-asam';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 
-// Descriptive / Friendly mappings found here - https://www.theiphonewiki.com/wiki/Models
-// enum FriendlyDeviceModel {
-//   iPAD_AIR_3RD_GEN = 'iPad Air (3rd generation)',
-//   iPAD_8TH_GEN = 'iPad (8th generation)',
-//   iPAD_9TH_GEN = 'iPad (9th generation)',
-//   iPAD_PRO_10_5_INCH = 'iPad Pro (10.5-inch)',
-// }
-
 @Injectable()
 export class DeviceProvider {
-  private supportedDevices: string[] = [];
   private enableASAMRetryLimit: number = 4;
   private enableASAMRetryInternal: number = 750;
   private enableASAMTimeout: number = 10000;
-  private enableASAMRetryFailureMessage: string = 'All retries to enable ASAM failed';
+  private asamRetryFailureMessage = (action: 'enable' | 'disable') => `All retries to ${action} ASAM failed`;
 
   constructor(
     public appConfig: AppConfigProvider,
@@ -37,12 +27,13 @@ export class DeviceProvider {
   }
 
   validDeviceType = async (): Promise<boolean> => {
+    const appConf = this.appConfig.getAppConfig();
+
+    if (!appConf || !appConf?.approvedDeviceIdentifiers) return false;
+
     const model = await this.getDeviceType();
-    this.supportedDevices = this.appConfig.getAppConfig()?.approvedDeviceIdentifiers;
-    if (this.supportedDevices.findIndex((device) => device === model) > -1) {
-      return true;
-    }
-    return false;
+
+    return appConf.approvedDeviceIdentifiers.some((device) => device === model);
   };
 
   getDeviceType = async (): Promise<string> => {
@@ -55,88 +46,23 @@ export class DeviceProvider {
     return name;
   };
 
-  getId = () => Device.getId();
-
   getDeviceInfo = () => Device.getInfo();
 
-  getDeviceInfo$ = () => from(Device.getInfo());
-
   getBatteryInfo = () => Device.getBatteryInfo();
-
-  getBatteryInfo$ = () => from(Device.getBatteryInfo());
-
-  // getDescriptiveDeviceName = async (): Promise<string> => {
-  //   const deviceModel = await this.getDeviceType();
-  //
-  //   switch (deviceModel) {
-  //     case 'iPad7,3':
-  //     case 'iPad7,4':
-  //       return FriendlyDeviceModel.iPAD_PRO_10_5_INCH;
-  //     case 'iPad11,4':
-  //       return FriendlyDeviceModel.iPAD_AIR_3RD_GEN;
-  //     case 'iPad11,6':
-  //     case 'iPad11,7':
-  //       return FriendlyDeviceModel.iPAD_8TH_GEN;
-  //     case 'iPad12,2':
-  //       return FriendlyDeviceModel.iPAD_9TH_GEN;
-  //     default:
-  //       return deviceModel;
-  //   }
-  // };
 
   getUniqueDeviceId = async (): Promise<string> => {
     const { identifier } = await Device.getId();
     return identifier;
   };
 
-  is8thGenDevice = (deviceType: string): boolean => isAnyOf(deviceType, ['iPad11,6', 'iPad11,7']);
-
-  /**
-   * [enableSingleAppMode description]
-   *
-   * @returns Promise<any>
-   *
-   * Runs setSingleAppMode(true) and retries a number
-   * of times, eventually timing out after a specified
-   * duration.
-   *
-   * This method is designed to execute and complete
-   * in the background without blocking the user.
-   * If after retrying, ASAM still failed to enable,
-   * a unique log is sent.
-   */
-  enableSingleAppMode = async (): Promise<any> => {
+  enableSingleAppMode = async (): Promise<boolean> => {
     if (this.appConfig.getAppConfig()?.role === ExaminerRole.DLG) {
       return Promise.resolve(false);
     }
-
-    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true))
-      .pipe(
-        map((didSucceed: boolean): boolean => {
-          if (!didSucceed) throw new Error('Call to enable ASAM failed');
-          return didSucceed;
-        }),
-        retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
-        timeout(this.enableASAMTimeout),
-      );
-
-    const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
-      .catch(() => {
-        this.store$.dispatch(SaveLog({
-          payload: this.logHelper.createLog(
-            LogType.ERROR,
-            null,
-            this.enableASAMRetryFailureMessage,
-          ),
-        }));
-      });
-
-    return promisifiedEnableAsamWithRetriesAndTimeout;
+    return this.setSingleAppModeWithRetry(true);
   };
 
-  disableSingleAppMode = async (): Promise<boolean> => {
-    return this.setSingleAppMode(false);
-  };
+  disableSingleAppMode = async (): Promise<boolean> => this.setSingleAppModeWithRetry(false);
 
   setSingleAppMode = async (enable: boolean): Promise<boolean> => {
     const asamResult = await Asam.setSingleAppMode({ shouldEnable: enable });
@@ -149,7 +75,8 @@ export class DeviceProvider {
   };
 
   isSAMEnabled = async (): Promise<boolean> => {
-    return (await Asam.isSingleAppModeEnabled()).isEnabled;
+    const status = await Asam.isSingleAppModeEnabled();
+    return status.isEnabled;
   };
 
   manuallyDisableSingleAppMode = async () => {
@@ -157,6 +84,39 @@ export class DeviceProvider {
     if (!disable.didSucceed) {
       this.logEvent('Failed to manually disable ASAM', 'no error details');
     }
+  };
+
+  private setSingleAppModeWithRetry = async (enable: boolean): Promise<boolean> => {
+    const action = enable ? 'enable' : 'disable';
+
+    return lastValueFrom(
+      // call `setSingleAppMode`
+      defer(() => this.setSingleAppMode(enable))
+        .pipe(
+          map((didSucceed: boolean): boolean => {
+            // each failure will produce a single log
+            if (!didSucceed) {
+              throw new Error(`Call to ${action} ASAM failed`);
+            }
+            return didSucceed;
+          }),
+          // if the call fails, then retry this.enableASAMRetryLimit times.
+          // there will be an interval of this.enableASAMTimeout between each retry
+          retry({
+            count: this.enableASAMRetryLimit,
+            delay: this.enableASAMRetryInternal,
+          }),
+          // the call will bail out if no response within this.enableASAMTimeout
+          timeout(this.enableASAMTimeout),
+        ),
+    )
+      // if the retry threshold is hit, then dispatch log
+      .catch(() => {
+        this.store$.dispatch(SaveLog({
+          payload: this.logHelper.createLog(LogType.ERROR, null, this.asamRetryFailureMessage(action)),
+        }));
+        return false;
+      });
   };
 
   private logEvent = (desc: string, err: any) => {

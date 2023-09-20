@@ -4,6 +4,7 @@ import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { Asam } from '@mocks/@capacitor/asam';
 import { AppConfig } from '@providers/app-config/app-config.model';
+import { StoreModel } from '@shared/models/store.model';
 import { DeviceProvider } from '../device';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -12,7 +13,7 @@ import { LogHelper } from '../../logs/logs-helper';
 
 describe('DeviceProvider', () => {
   let deviceProvider: DeviceProvider;
-  let store$: Store<any>;
+  let store$: Store<StoreModel>;
   let logHelper: LogHelper;
 
   beforeEach(() => {
@@ -41,6 +42,7 @@ describe('DeviceProvider', () => {
     store$ = TestBed.inject(Store);
     deviceProvider = TestBed.inject(DeviceProvider);
     logHelper = TestBed.inject(LogHelper);
+    spyOn(store$, 'dispatch');
   });
 
   describe('getDeviceType', () => {
@@ -78,16 +80,36 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('is8thGenDevice', () => {
-    ['iPad11,6', 'iPad11,7'].forEach((val) => {
-      it(`should return true if deviceType is ${val}`, () => {
-        expect(deviceProvider.is8thGenDevice(val))
-          .toBe(true);
-      });
+  describe('getDeviceName', () => {
+    it('should return device name', async () => {
+      expect(await deviceProvider.getDeviceName())
+        .toEqual('name');
     });
-    it('should return false if deviceType does not fit the requirements', () => {
-      expect(deviceProvider.is8thGenDevice('test'))
-        .toBe(false);
+  });
+
+  describe('getDeviceInfo', () => {
+    it('should return device info data', async () => {
+      expect(await deviceProvider.getDeviceInfo())
+        .toEqual({
+          osVersion: '16.6',
+          model: 'iPad7,4',
+          name: 'name',
+          memUsed: 123,
+          realDiskFree: 456,
+          realDiskTotal: 1000,
+          isVirtual: true,
+          platform: 'ios',
+          webViewVersion: '1',
+          operatingSystem: 'ios',
+          manufacturer: 'Apple',
+        });
+    });
+  });
+
+  describe('getBatteryInfo', () => {
+    it('should return battery info data', async () => {
+      expect(await deviceProvider.getBatteryInfo())
+        .toEqual({ batteryLevel: 0.9 });
     });
   });
 
@@ -106,9 +128,6 @@ describe('DeviceProvider', () => {
       spyOn(deviceProvider, 'setSingleAppMode')
         .and
         .returnValue(Promise.resolve(false));
-      spyOn(store$, 'dispatch')
-        .and
-        .callThrough();
       const asamFailureLog = SaveLog({
         payload: logHelper.createLog(
           LogType.ERROR,
@@ -161,6 +180,54 @@ describe('DeviceProvider', () => {
       const result = await deviceProvider.isSAMEnabled();
       expect(result)
         .toBe(false);
+    });
+  });
+
+  describe('setSingleAppMode', () => {
+    it('should succeed, return true and not log an event', async () => {
+      spyOn(Asam, 'setSingleAppMode')
+        .and
+        .returnValue(Promise.resolve({ didSucceed: true }));
+      const res = await deviceProvider.setSingleAppMode(true);
+      expect(res)
+        .toEqual(true);
+      expect(Asam.setSingleAppMode)
+        .toHaveBeenCalledWith({ shouldEnable: true });
+      expect(store$.dispatch)
+        .not
+        .toHaveBeenCalled();
+    });
+    it('should fail, return false and log an event', async () => {
+      spyOn(Asam, 'setSingleAppMode')
+        .and
+        .returnValue(Promise.resolve({ didSucceed: false }));
+      const res = await deviceProvider.setSingleAppMode(false);
+      expect(res)
+        .toEqual(false);
+      expect(Asam.setSingleAppMode)
+        .toHaveBeenCalledWith({ shouldEnable: false });
+      expect(store$.dispatch)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('manuallyDisableSingleAppMode', () => {
+    it('should call setSingleAppMode, and not dispatch on didSucceed = true', async () => {
+      spyOn(Asam, 'setSingleAppMode')
+        .and
+        .returnValue(Promise.resolve({ didSucceed: true }));
+      await deviceProvider.manuallyDisableSingleAppMode();
+      expect(store$.dispatch)
+        .not
+        .toHaveBeenCalled();
+    });
+    it('should call setSingleAppMode, and dispatch when didSucceed = false', async () => {
+      spyOn(Asam, 'setSingleAppMode')
+        .and
+        .returnValue(Promise.resolve({ didSucceed: false }));
+      await deviceProvider.manuallyDisableSingleAppMode();
+      expect(store$.dispatch)
+        .toHaveBeenCalled();
     });
   });
 

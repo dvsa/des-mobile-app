@@ -234,7 +234,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     if (!validDevice) {
       this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
       this.hasDeviceTypeError = true;
-      this.analytics.logException(`${this.deviceTypeError}-${this.deviceProvider.getDeviceType()}`, true);
+      const deviceType = await this.deviceProvider.getDeviceType();
+      this.analytics.logException(`${this.deviceTypeError}-${deviceType}`, true);
     } else {
       await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }

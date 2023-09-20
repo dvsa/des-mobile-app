@@ -11,7 +11,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import { merge, Observable, Subscription } from 'rxjs';
+import { firstValueFrom, merge, Observable, Subscription } from 'rxjs';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
@@ -207,9 +207,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   displayEndTestModal = async (riskToPublicSafety: boolean = false): Promise<void> => {
-    const result = await this.testResultProvider
-      .calculateTestResultADI3(this.testDataADI3)
-      .toPromise();
+    const result = await firstValueFrom(
+      this.testResultProvider.calculateTestResultADI3(this.testDataADI3),
+    );
+
     const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: Adi3EndTestModal,
