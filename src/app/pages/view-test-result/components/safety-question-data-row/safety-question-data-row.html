@@ -1,36 +1,26 @@
-<div [class]="isDebrief ? 'debrief-position-fix' : null">
-  <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
-    <ion-card-header class="alignment-fix" *ngIf="isDebrief">
-      <ion-card-title>
-        <h2 class="fault-heading des-header-style-2">{{ label }}</h2>
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content [class]="isDebrief ? 'debrief-card-padding' : 'search-card-padding-and-position'">
-      <ion-col *ngIf="!isDebrief" size="40">
-        <label>{{ label }}</label>
-      </ion-col>
-      <ion-col size="56">
-        <span class="mes-data" *ngIf="data.length === 0">None</span>
-
-        <ion-grid [class]="isDebrief ? null : 'completed-test-padding'">
-          <ion-row *ngFor="let item of data" class="mes-data ion-align-items-center">
-            <ion-col
-              id="icon-column"
-              [class]="isDebrief ? 'debrief-padding ion-no-padding ion-align-self-start'
-                            : 'ion-no-padding ion-align-self-start completed-icon-padding'" size="9">
-              <div class="counter-icon">
-                <img *ngIf="!shouldShowFault(item.outcome)" src="assets/imgs/greenCorrectAnswer.png"
-                     alt="Correct Answer" class="correct-icon" />
-                <img *ngIf="shouldShowFault(item.outcome)" src="assets/imgs/redWrongAnswer.png"
-                     alt="Wrong Answer" class="wrong-icon" />
-              </div>
-            </ion-col>
-            <ion-col no-padding>
-              <div class="mes-data large">{{item.description}}</div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-col>
-    </ion-card-content>
-  </ion-row>
-</div>
+<ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
+  <ion-col size="40">
+    <label>{{ label }}</label>
+  </ion-col>
+  <ion-col>
+    <span class="mes-data" *ngIf="data.length === 0">None</span>
+    <ion-grid>
+      <ion-row *ngFor="let item of data" class="mes-data ion-align-items-center">
+        <ion-col
+          id="icon-column"
+          class="display-flex ion-align-items-center ion-no-padding completed-icon-padding"
+          size="10">
+          <div class="display-flex counter-icon">
+            <img *ngIf="!shouldShowFault(item.outcome)" src="assets/imgs/greenCorrectAnswer.png"
+                 alt="Correct Answer" class="correct-icon"/>
+            <img *ngIf="shouldShowFault(item.outcome)" src="assets/imgs/redWrongAnswer.png"
+                 alt="Wrong Answer" class="wrong-icon"/>
+          </div>
+        </ion-col>
+        <ion-col no-padding>
+          <div class="mes-data large">{{item.description}}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-col>
+</ion-row>

@@ -20,11 +20,13 @@ import { DrivingFaultsDebriefCardComponent } from './driving-faults-debrief-card
 import { EcoDebriefCardComponent } from './eco-debrief-card/eco-debrief-card';
 import { TestOutcomeDebriefCardComponent } from './test-outcome-debrief-card/test-outcome-debrief-card';
 import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks-card';
+import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
 
 @NgModule({
   declarations: [
     VehicleChecksCardComponent,
     EtaDebriefCardComponent,
+    SafetyQuestionsCardComponent,
     DangerousFaultsDebriefCardComponent,
     SeriousFaultsDebriefCardComponent,
     DrivingFaultsDebriefCardComponent,
@@ -53,6 +55,8 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
     VehicleChecksCardCatBComponent,
     SpeedCheckDebriefCardComponent,
     SafetyAndBalanceCardCatAMod2Component,
+    SafetyQuestionsCardComponent,
   ],
 })
-export class DebriefComponentsModule { }
+export class DebriefComponentsModule {
+}

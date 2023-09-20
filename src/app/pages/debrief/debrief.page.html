@@ -4,7 +4,8 @@
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title role="heading" aria-level="1" id="page-title">{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="page-title">{{ 'debrief.title' | translate }}
+      - {{pageState.candidateName$ | async}}</ion-title>
   </ion-toolbar>
   <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
 </ion-header>
@@ -63,16 +64,10 @@
     [testOutcome]="outcome">
   </cpc-debrief-card>
 
-
-  <ion-card *ngIf="isCatD() && pageState.showSafetyQuestions$ | async">
-    <safety-question-data-row
-      [label]="'Safety question(s)'"
-      [data]="pageState.safetyQuestions$ | async"
-      [isDebrief]="true"
-      [shouldHaveSeperator]="false">
-    </safety-question-data-row>
-  </ion-card>
-
+  <safety-questions-card
+    *ngIf="isCatD() && pageState.showSafetyQuestions$ | async"
+    [data]="pageState.safetyQuestions$ | async">
+  </safety-questions-card>
 
   <safety-and-balance-card-cat-a-mod2
     *ngIf="pageState.showSafetyAndBalance$ | async">

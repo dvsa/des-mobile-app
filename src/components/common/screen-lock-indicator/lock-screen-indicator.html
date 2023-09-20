@@ -1,4 +1,10 @@
 <div class="screen-lock-indicator">
-  <img aria-hidden="true" class="lock-icon" src="/assets/imgs/lock.png" alt="Lock icon" />
-  <label id="lock-banner-label">{{ 'common.screenLocked' | translate }}</label>
+  <ion-row>
+    <ion-col class="display-flex ion-align-items-center" size="auto">
+      <img aria-hidden="true" class="lock-icon" src="/assets/imgs/lock.png" alt="Lock icon"/>
+    </ion-col>
+    <ion-col size="auto">
+      <label id="lock-banner-label">{{ 'common.screenLocked' | translate }}</label>
+    </ion-col>
+  </ion-row>
 </div>

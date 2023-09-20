@@ -18,9 +18,6 @@ export class SafetyDataRowComponent {
   @Input()
   shouldHaveSeperator: boolean = true;
 
-  @Input()
-  isDebrief: boolean = false;
-
   public shouldShowFault(outcome: QuestionOutcome): boolean {
     return outcome === CompetencyOutcome.DF || outcome === undefined;
   }
