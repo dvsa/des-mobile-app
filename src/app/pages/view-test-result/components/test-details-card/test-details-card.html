@@ -68,7 +68,7 @@
         <div class="mes-data" *ngIf="data.previousCancellations.length === 0">None</div>
         <div *ngIf="!(data.previousCancellations.length === 0)">
           <div *ngIf="data.previousCancellations.length > 0">
-            <div class="mes-data previous-cancellation-padding">Previous cancellations</div>
+            <div class="mes-data previous-cancellation-padding">Previous cancellations:</div>
             <ul *ngFor="let previousCancellation of data.previousCancellations;"
                 class="ion-no-margin mes-data">
               <li>
