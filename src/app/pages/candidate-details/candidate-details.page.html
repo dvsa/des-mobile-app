@@ -137,7 +137,7 @@
             <div class="mes-data" *ngIf="pageState.details.candidateComments.isSectionEmpty">None</div>
             <div *ngIf="!pageState.details.candidateComments.isSectionEmpty">
               <div *ngIf="pageState.details.candidateComments.previousCancellations?.length > 0">
-                <div class="mes-data previous-cancellation-padding">Previous cancellations</div>
+                <div class="mes-data previous-cancellation-padding">Previous cancellations:</div>
                 <ul *ngFor="let previousCancellation of pageState.details.candidateComments.previousCancellations;"
                     class="mes-data">
                   <li>
