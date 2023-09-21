@@ -2,7 +2,7 @@
     <ion-col [size]="shouldShowIndicator ? 40 : 34" [class.vertical-align-center]="centeredLabel">
         <label [id]="label | formatToID: idPrefix">{{ label }}</label>
     </ion-col>
-    <ion-col size="6" class="vertical-align-center">
+    <ion-col size="6" [class]="centeredIcon ? 'vertical-align-center' : 'top-align-padding'">
         <img alt="Exclamation Indicator"
              src="assets/imgs/journal/exclamation-indicator.png"
              class="exclamation-indicator"

@@ -43,9 +43,10 @@
         [label]="'Additional requirements'"
         [shouldShowIndicator]="additionalReqsIsPopulated(data.specialNeeds)"
         [centeredLabel]="data.specialNeeds?.length <= 1"
+        [centeredIcon]="data.specialNeeds?.length <= 1"
         [centredData]="data.specialNeeds?.length <= 1">
         <ng-container class="mes-data" *ngIf="data.specialNeeds?.length > 1; else oneItem">
-          <ul *ngFor="let additionalReq of data.specialNeeds;" class="mes-data">
+          <ul *ngFor="let additionalReq of data.specialNeeds;" class="ion-no-margin mes-data">
             <li>{{additionalReq}}</li>
           </ul>
         </ng-container>
@@ -69,7 +70,7 @@
           <div *ngIf="data.previousCancellations.length > 0">
             <div class="mes-data previous-cancellation-padding">Previous cancellations</div>
             <ul *ngFor="let previousCancellation of data.previousCancellations;"
-                class="mes-data">
+                class="ion-no-margin mes-data">
               <li>
                 {{previousCancellation}}
               </li>
