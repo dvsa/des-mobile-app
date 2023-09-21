@@ -23,5 +23,8 @@ export class DataRowCustomComponent {
   centeredLabel: boolean = true;
 
   @Input()
+  centeredIcon: boolean = true;
+
+  @Input()
   centredData: boolean = false;
 }
