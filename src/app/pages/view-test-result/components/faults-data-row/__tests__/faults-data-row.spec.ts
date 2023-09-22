@@ -69,7 +69,7 @@ describe('FaultsDataRowComponent', () => {
     it('should return false when there are no comments', () => {
       const localFaultSummary = {
         ...faultSummary,
-        comment: undefined,
+        comment: null,
       };
 
       component.drivingFaultCount = 7;
