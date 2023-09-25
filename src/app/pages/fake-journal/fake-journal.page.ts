@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { formatApplicationReference } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'app-fake-journal',
@@ -22,9 +21,6 @@ export class FakeJournalPage extends BasePageComponent {
   dateToDisplay: string;
   slots = fakeJournalTestSlots;
   selectedDate: string;
-  savedColSizes: { appRef: string; width: number; zoomLevel?: string }[] = [];
-
-  formatAppRef = formatApplicationReference;
 
   constructor(
     platform: Platform,
@@ -54,15 +50,4 @@ export class FakeJournalPage extends BasePageComponent {
     await this.orientationMonitorProvider.tearDownListener();
   }
 
-  getWidthData(passedAppRef: string) {
-    return this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === passedAppRef)];
-  }
-
-  saveWidthDetails(data: { appRef: string; width: number; zoomLevel?: string }) {
-    if (this.savedColSizes.some(({ appRef }) => appRef === data.appRef)) {
-      this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === data.appRef)] = data;
-    } else {
-      this.savedColSizes.push(data);
-    }
-  }
 }

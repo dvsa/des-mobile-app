@@ -25,8 +25,6 @@
 
         <test-slot
           *ngSwitchCase="'test-slot'"
-          (colSizeDetails)="saveWidthDetails($event)"
-          [widthData]="getWidthData(formatAppRef(this.slot?.slotData.booking.application))"
           [delegatedTest]="false"
           [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
           [derivedPassCertificate]="didSlotPass(slot.slotData, completedTests)"

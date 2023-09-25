@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { get, isNil } from 'lodash';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -31,7 +31,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { ModalController } from '@ionic/angular';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -90,19 +89,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     isPortrait: boolean = false;
 
     @Input()
-    widthData: { appRef: string, width: number, zoomLevel?: string };
-
-    @Input()
     isUnSubmittedTestSlotView: boolean = false;
 
-    @Output()
-    colSizeDetails = new EventEmitter<{ appRef: string, width: number, zoomLevel?: string }>();
-
     componentState: TestSlotComponentState;
-    testStatus: TestStatus;
-    activityCode: ActivityCode;
 
-    maxWidth: number;
     practiceTestStatus: TestStatus = TestStatus.Booked;
 
     canViewCandidateDetails: boolean = false;
@@ -114,7 +104,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     constructor(
       public appConfig: AppConfigProvider,
       public dateTimeProvider: DateTimeProvider,
-      public modalController: ModalController,
       public store$: Store<StoreModel>,
       private slotProvider: SlotProvider,
       public categoryWhitelist: CategoryWhitelistProvider,
@@ -128,16 +117,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         testStatus$: this.store$.pipe(
           select(getTests),
           select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
-          tap((value) => {
-            this.testStatus = value;
-          }),
         ),
         testActivityCode$: this.store$.pipe(
           select(getTests),
           map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
-          tap((value) => {
-            this.activityCode = value;
-          }),
         ),
         testPassCertificate$: this.store$.pipe(
           select(getTests),
@@ -157,14 +140,15 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
         this.slot, this.isTeamJournal,
       );
-      if (this.widthData) {
-        this.maxWidth = this.widthData.width;
-      }
+
     }
 
-    ngAfterViewChecked() {
-      if (!(this.maxWidth > 0) || (this.widthData?.zoomLevel !== this.accessibilityService.getTextZoomClass())) {
-        this.maxWidth = this.getCandidateLinkCol();
+    getColSize(): string {
+      switch (this.accessibilityService.getTextZoomClass()) {
+        case 'text-zoom-x-large':
+          return '40';
+        default:
+          return '44';
       }
     }
 
@@ -212,40 +196,5 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     }
 
     isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
-    protected readonly ActivityCodes = ActivityCodes;
-
-    displayTopRow(): boolean {
-      return this.slot.booking.application.welshTest ||
-            this.isTeamJournal ||
-            this.isUnSubmittedTestSlotView ||
-            (!this.isTeamJournal && this.isCompletedTest(this.testStatus)) ||
-            (this.slot.booking.application.fitMarker && !this.isCompletedTest(this.testStatus));
-    }
-
-    displayBottomRow() {
-      return this.delegatedTest ||
-            this.slot.booking.application.progressiveAccess ||
-            (this.isTeamJournal && !this.isTestCentreJournalADIBooking) ||
-            (this.delegatedTest && this.slot.booking.candidate.driverNumber) ||
-            (this.showVehicleDetails() && !this.delegatedTest && !this.isTeamJournal) ||
-            (this.showAdditionalCandidateDetails() && !this.isTeamJournal && this.slot.booking.candidate) ||
-            this.isUnSubmittedTestSlotView ||
-            (this.activityCode === ActivityCodes.PASS);
-    }
-
-    getCandidateLinkCol(): number {
-      const size = (document.getElementById(
-        'candidate-col-' + this.formatAppRef(this.slot.booking.application),
-      ).offsetWidth - 45);
-      if (size >= 0) {
-        this.colSizeDetails.emit(
-          {
-            width: size,
-            appRef: this.formatAppRef(this.slot.booking.application),
-            zoomLevel: this.accessibilityService.getTextZoomClass(),
-          },
-        );
-      }
-      return size;
-    }
+  protected readonly ActivityCodes = ActivityCodes;
 }

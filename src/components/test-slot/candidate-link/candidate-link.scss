@@ -4,6 +4,23 @@
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &.candidate-name-portrait {
+      max-width: 265px;
+      &.team-journal {
+        max-width: 240px;
+      }
+      &.extra-large-mode {
+        max-width: 230px;
+        &.team-journal {
+          max-width: 205px;
+        }
+      }
+    }
+
+    &.candidate-name-landscape {
+      max-width: 350px;
+    }
   }
 }
 

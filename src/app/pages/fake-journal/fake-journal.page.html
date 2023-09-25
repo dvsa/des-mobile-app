@@ -14,8 +14,6 @@
   <location location="Example Test Centre"></location>
 
   <test-slot
-    (colSizeDetails)="saveWidthDetails($event)"
-    [widthData]="getWidthData(formatAppRef(this.slot.booking.application))"
     *ngFor="let slot of slots;"
     [slots]="slots"
     [slot]="slot"
