@@ -5,7 +5,6 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { get, has, isEmpty } from 'lodash';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
-import { formatApplicationReference } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'journal-slots',
@@ -24,8 +23,6 @@ export class JournalSlotComponent {
 
   @Input()
   isPortrait: boolean = false;
-
-  formatAppRef = formatApplicationReference;
 
   constructor(
     private slotSelector: SlotSelectorProvider,
