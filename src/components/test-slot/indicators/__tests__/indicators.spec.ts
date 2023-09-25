@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
-import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 
 describe('IndicatorsComponent', () => {
   let component: IndicatorsComponent;
@@ -13,9 +12,6 @@ describe('IndicatorsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [IndicatorsComponent],
       imports: [IonicModule],
-      providers: [
-        MobileAccessibility,
-      ],
     });
 
     fixture = TestBed.createComponent(IndicatorsComponent);
@@ -28,21 +24,21 @@ describe('IndicatorsComponent', () => {
         component.showExclamationIndicator = true;
         component.testStatus = TestStatus.Booked;
         fixture.detectChanges();
-        const renderedImage = fixture.debugElement.query(By.css('.exclamation-indicator'));
+        const renderedImage = fixture.debugElement.query(By.css('.exclamation'));
         expect(renderedImage.attributes.src).toContain('exclamation');
       });
       it('should not be rendered when visibility is turned off', () => {
         component.showExclamationIndicator = false;
         component.testStatus = TestStatus.Booked;
         fixture.detectChanges();
-        const renderedImages = fixture.debugElement.queryAll(By.css('.exclamation-indicator'));
+        const renderedImages = fixture.debugElement.queryAll(By.css('.exclamation'));
         expect(renderedImages.length).toBe(0);
       });
       it('should not be rendered when test status is submitted', () => {
         component.showExclamationIndicator = false;
         component.testStatus = TestStatus.Submitted;
         fixture.detectChanges();
-        const renderedImages = fixture.debugElement.queryAll(By.css('.exclamation-indicator'));
+        const renderedImages = fixture.debugElement.queryAll(By.css('.exclamation'));
         expect(renderedImages.length).toBe(0);
       });
     });
@@ -51,14 +47,14 @@ describe('IndicatorsComponent', () => {
         component.showExclamationIndicator = false;
         component.testStatus = TestStatus.Submitted;
         fixture.detectChanges();
-        const renderedImage = fixture.debugElement.query(By.css('.green-tick-indicator'));
+        const renderedImage = fixture.debugElement.query(By.css('.green-tick'));
         expect(renderedImage.attributes.src).toContain('tick');
       });
       it('should not rendered when test status is not submitted', () => {
         component.showExclamationIndicator = false;
         component.testStatus = TestStatus.Booked;
         fixture.detectChanges();
-        const renderedImages = fixture.debugElement.queryAll(By.css('.green-tick-indicator'));
+        const renderedImages = fixture.debugElement.queryAll(By.css('.green-tick'));
         expect(renderedImages.length).toBe(0);
       });
     });
