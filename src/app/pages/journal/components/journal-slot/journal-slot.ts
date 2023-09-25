@@ -25,7 +25,6 @@ export class JournalSlotComponent {
   @Input()
   isPortrait: boolean = false;
 
-  savedColSizes: { appRef: string; width: number; zoomLevel?: string }[] = [];
   formatAppRef = formatApplicationReference;
 
   constructor(
@@ -79,19 +78,4 @@ export class JournalSlotComponent {
   ): boolean => get(slot, 'slotData.testCentre.centreName') !== get(prevSlot, 'slotData.testCentre.centreName', null);
 
   trackBySlotID = (_: number, slot: SlotItem) => get(slot, 'slotData.slotDetail.slotId', null);
-
-
-  getWidthData(passedAppRef: string) {
-    return this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === passedAppRef)];
-  }
-
-  saveWidthDetails(data: { appRef: string; width: number; zoomLevel?: string }) {
-    if (this.savedColSizes.some(({ appRef }) => appRef === data.appRef)) {
-      this.savedColSizes[this.savedColSizes.findIndex(({ appRef }) => appRef === data.appRef)] = data;
-    } else {
-      this.savedColSizes.push(data);
-    }
-  }
-
-  protected readonly formatApplicationReference = formatApplicationReference;
 }
