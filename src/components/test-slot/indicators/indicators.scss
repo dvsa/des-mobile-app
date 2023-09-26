@@ -1,0 +1,29 @@
+.green-tick {
+  width: 25px;
+  height: 25px;
+
+  &.text-zoom-large {
+    width: 28px;
+    height: 28px;
+  }
+
+  &.text-zoom-x-large {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.exclamation {
+  width: 29px;
+  height: 25px;
+
+  &.text-zoom-large {
+    width: 33px;
+    height: 28.5px;
+  }
+
+  &.text-zoom-x-large {
+    width: 36px;
+    height: 31px;
+  }
+}

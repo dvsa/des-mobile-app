@@ -30,6 +30,7 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -44,150 +45,156 @@ interface TestSlotComponentState {
   styleUrls: ['test-slot.scss'],
 })
 export class TestSlotComponent implements SlotComponent, OnInit {
-  @Input()
-  slot: TestSlot;
 
-  @Input()
-  slots: TestSlot[];
+    @Input()
+    slot: TestSlot;
 
-  @Input()
-  hasSlotChanged: boolean;
+    @Input()
+    slots: TestSlot[];
 
-  @Input()
-  hasSeenCandidateDetails: boolean;
+    @Input()
+    hasSlotChanged: boolean;
 
-  @Input()
-  showLocation: boolean;
+    @Input()
+    hasSeenCandidateDetails: boolean;
 
-  @Input()
-  delegatedTest: boolean = false;
+    @Input()
+    showLocation: boolean;
 
-  @Input()
-  teamJournalCandidateResult: boolean = false;
+    @Input()
+    delegatedTest: boolean = false;
 
-  @Input()
-  derivedTestStatus: TestStatus | null = null;
+    @Input()
+    teamJournalCandidateResult: boolean = false;
 
-  @Input()
-  derivedActivityCode: ActivityCode | null = null;
+    @Input()
+    derivedTestStatus: TestStatus | null = null;
 
-  @Input()
-  derivedPassCertificate?: string;
+    @Input()
+    derivedActivityCode: ActivityCode | null = null;
 
-  @Input()
-  examinerName: string = null;
+    @Input()
+    derivedPassCertificate?: string;
 
-  @Input()
-  isTeamJournal: boolean = false;
+    @Input()
+    examinerName: string = null;
 
-  @Input()
-  isPracticeMode?: boolean = false;
+    @Input()
+    isTeamJournal: boolean = false;
 
-  @Input()
-  isPortrait: boolean = false;
+    @Input()
+    isPracticeMode?: boolean = false;
 
-  @Input()
-  isUnSubmittedTestSlotView: boolean = false;
+    @Input()
+    isPortrait: boolean = false;
 
-  componentState: TestSlotComponentState;
+    @Input()
+    isUnSubmittedTestSlotView: boolean = false;
 
-  practiceTestStatus: TestStatus = TestStatus.Booked;
+    componentState: TestSlotComponentState;
 
-  canViewCandidateDetails: boolean = false;
-  isTestCentreJournalADIBooking: boolean = false;
+    practiceTestStatus: TestStatus = TestStatus.Booked;
 
-  formatAppRef = formatApplicationReference;
+    canViewCandidateDetails: boolean = false;
+    isTestCentreJournalADIBooking: boolean = false;
 
-  constructor(
-    public appConfig: AppConfigProvider,
-    public dateTimeProvider: DateTimeProvider,
-    public store$: Store<StoreModel>,
-    private slotProvider: SlotProvider,
-    public categoryWhitelist: CategoryWhitelistProvider,
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+    formatAppRef = formatApplicationReference;
+    formatTestCategory: TestCategory;
 
-  ngOnInit(): void {
-    const { slotId } = this.slot.slotDetail;
-    this.componentState = {
-      testStatus$: this.store$.pipe(
-        select(getTests),
-        select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
-      ),
-      testActivityCode$: this.store$.pipe(
-        select(getTests),
-        map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
-      ),
-      testPassCertificate$: this.store$.pipe(
-        select(getTests),
-        map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId)),
-      ),
-      isRekey$: this.store$.pipe(
-        select(getTests),
-        map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
-        filter((test) => test !== undefined),
-        select(getRekeyIndicator),
-        select(isRekey),
-      ),
-    };
-
-    this.canViewCandidateDetails = this.slotProvider.canViewCandidateDetails(this.slot);
-    this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
-
-  }
-
-  getColSize(): string {
-    switch (this.accessibilityService.getTextZoomClass()) {
-      case 'text-zoom-x-large':
-        return '40';
-      default:
-        return '44';
+    constructor(
+      public appConfig: AppConfigProvider,
+      public dateTimeProvider: DateTimeProvider,
+      public store$: Store<StoreModel>,
+      private slotProvider: SlotProvider,
+      public categoryWhitelist: CategoryWhitelistProvider,
+      public accessibilityService: AccessibilityService,
+    ) {
     }
-  }
 
-  isIndicatorNeededForSlot(): boolean {
-    const specialNeeds: boolean = this.isSpecialNeedsSlot();
-    const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
-    const categoryCheckNeeded: boolean = this.slot.booking.application.categoryEntitlementCheck || false;
-    const nonStandardTest: boolean = getSlotType(this.slot) !== SlotTypes.STANDARD_TEST;
+    ngOnInit(): void {
+      const { slotId } = this.slot.slotDetail;
+      this.componentState = {
+        testStatus$: this.store$.pipe(
+          select(getTests),
+          select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
+        ),
+        testActivityCode$: this.store$.pipe(
+          select(getTests),
+          map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
+        ),
+        testPassCertificate$: this.store$.pipe(
+          select(getTests),
+          map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId)),
+        ),
+        isRekey$: this.store$.pipe(
+          select(getTests),
+          map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
+          filter((test) => test !== undefined),
+          select(getRekeyIndicator),
+          select(isRekey),
+        ),
+      };
 
-    return specialNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
-  }
+      this.canViewCandidateDetails = this.slotProvider.canViewCandidateDetails(this.slot);
+      this.formatTestCategory = this.slot.booking.application.testCategory as TestCategory;
+      this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
+        this.slot, this.isTeamJournal,
+      );
 
-  isSpecialNeedsSlot(): boolean {
-    const specialNeeds = get(this.slot, 'booking.application.specialNeeds', '');
-    return !isNil(specialNeeds) && specialNeeds.length > 0;
-  }
-
-  showVehicleDetails(): boolean {
-    return vehicleDetails[this.slot.booking.application.testCategory as TestCategory];
-  }
-
-  showAdditionalCandidateDetails(): boolean {
-    return isAnyOf(this.slot.booking.application.testCategory, [
-      TestCategory.ADI2,
-      TestCategory.ADI3,
-      TestCategory.SC,
-    ]);
-  }
-
-  canStartTest(): boolean {
-    if (this.isPracticeMode) {
-      return true;
     }
-    return this.slotProvider.canStartTest(this.slot)
-      && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
-  }
 
-  getExaminerId(): number {
-    let returnValue = null;
-    if (this.delegatedTest) {
-      const slot = this.slot as DelegatedExaminerTestSlot;
-      returnValue = slot.examinerId;
+    getColSize(): string {
+      switch (this.accessibilityService.getTextZoomClass()) {
+        case 'text-zoom-x-large':
+          return '40';
+        default:
+          return '44';
+      }
     }
-    return returnValue;
-  }
 
-  isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
+    isIndicatorNeededForSlot(): boolean {
+      const additionalNeeds: boolean = this.isAdditionalNeedsSlot();
+      const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
+      const categoryCheckNeeded: boolean = this.slot.booking.application.categoryEntitlementCheck || false;
+      const nonStandardTest: boolean = getSlotType(this.slot) !== SlotTypes.STANDARD_TEST;
+
+      return additionalNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
+    }
+
+    isAdditionalNeedsSlot(): boolean {
+      const additionalNeeds = get(this.slot, 'booking.application.specialNeeds', '');
+      return !isNil(additionalNeeds) && additionalNeeds.length > 0;
+    }
+
+    showVehicleDetails(): boolean {
+      return vehicleDetails[this.slot.booking.application.testCategory as TestCategory];
+    }
+
+    showAdditionalCandidateDetails(): boolean {
+      return isAnyOf(this.slot.booking.application.testCategory, [
+        TestCategory.ADI2,
+        TestCategory.ADI3,
+        TestCategory.SC,
+      ]);
+    }
+
+    canStartTest(): boolean {
+      if (this.isPracticeMode) {
+        return true;
+      }
+      return this.slotProvider.canStartTest(this.slot)
+            && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
+    }
+
+    getExaminerId(): number {
+      let returnValue = null;
+      if (this.delegatedTest) {
+        const slot = this.slot as DelegatedExaminerTestSlot;
+        returnValue = slot.examinerId;
+      }
+      return returnValue;
+    }
+
+    isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
+  protected readonly ActivityCodes = ActivityCodes;
 }

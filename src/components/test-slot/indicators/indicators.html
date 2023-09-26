@@ -1,4 +1,4 @@
 <div id="indicator-{{applicationId}}">
-  <img src="assets/imgs/journal/exclamation-indicator.png" alt="Attention, special needs" class="exclamation-indicator" *ngIf="shouldShowExclamationIndicator()" />
-  <img src="assets/imgs/journal/green-tick-indicator.png" alt="Test has been Accepted" class="green-tick-indicator" *ngIf="shouldShowGreenTickIndicator()" />
+  <img src="assets/imgs/journal/exclamation-indicator.png" alt="Attention, additional needs" [ngClass]="accessibilityService.getTextZoomClass()" class="exclamation" *ngIf="shouldShowExclamationIndicator()" />
+  <img src="assets/imgs/journal/green-tick-indicator.png" alt="Test has been Accepted" [ngClass]="accessibilityService.getTextZoomClass()" class="green-tick" *ngIf="shouldShowGreenTickIndicator()" />
 </div>
