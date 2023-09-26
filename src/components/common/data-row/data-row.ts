@@ -16,9 +16,6 @@ export class DataRowComponent {
   imgSrc: string;
 
   @Input()
-  label2: string = null;
-
-  @Input()
   value: string | number | boolean;
 
   @Input()
