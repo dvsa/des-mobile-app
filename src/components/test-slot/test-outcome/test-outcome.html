@@ -48,8 +48,12 @@
       </ion-button>
     </ion-col>
     <ion-col class="display-flex" *ngIf="showWriteUpButton()">
-      <ion-button class="mes-secondary-button" (click)="writeUpTest()" id="write-up-button-{{applicationId}}">
-        <ion-text class="des-header-style-3 write-up-label">Write-up</ion-text>
+      <ion-button
+        class="mes-secondary-button mes-warning-button mes-black"
+        (click)="writeUpTest()"
+        id="write-up-button-{{applicationId}}"
+      >
+        <ion-text class="des-header-style-3">Write-up</ion-text>
       </ion-button>
     </ion-col>
   </ng-template>
