@@ -59,7 +59,9 @@
               [category]="slot.booking.application.testCategory">
             </test-category>
           </ion-col>
-          <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-regular'? 18 : 22">
+          <ion-col
+            class="align-center"
+            [size]="accessibilityService.getTextZoomClass() === 'text-zoom-regular'? 18 : 22">
             <test-outcome
               *ngIf="!teamJournalCandidateResult"
               [activityCode]="componentState.testActivityCode$ | async"
