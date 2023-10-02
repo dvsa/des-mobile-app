@@ -50,8 +50,12 @@ export class FaultsDataRowComponent {
    * OR fault comments exist when no serious/dangerous faults exist
    * @param drivingFault
    */
-  showFaultComment = (drivingFault: FaultSummary): boolean =>
-    this.drivingFaultCount > this.minDrivingFaultCount && drivingFault.comment !== null;
+  showFaultComment(drivingFault: FaultSummary): boolean {
+    if (drivingFault.comment === (undefined || '')) {
+      drivingFault.comment = null;
+    }
+    return this.drivingFaultCount > this.minDrivingFaultCount && drivingFault.comment !== null;
+  }
 
   public getDriverType(isRider: boolean): string {
     return isRider ? 'riding' : 'driving';
