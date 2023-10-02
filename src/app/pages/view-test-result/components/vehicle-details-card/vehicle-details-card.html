@@ -20,7 +20,11 @@
 
       <data-row
         *ngIf="registrationNumber"
-        [shouldHaveSeperator]="!!((!isADI3() && trainerPRN) || displayRegistration() || vehicleDetails)"
+        [shouldHaveSeperator]="!!((isADI2() || isADI3()) ||
+         (!isADI3() && trainerPRN) ||
+         schoolBike ||
+         displayRegistration() ||
+         vehicleDetails)"
         [label]="'Vehicle registration number'"
         [value]="registrationNumber">
       </data-row>
@@ -37,10 +41,20 @@
         *ngIf="instructorRegistrationNumber"
         [label]="'Instructor registration number'"
         [value]="instructorRegistrationNumber"
-        [shouldHaveSeperator]="false">
+        [shouldHaveSeperator]="!!(shouldShowDimensions ||
+        schoolBike ||
+        isADI2() ||
+        isADI3() ||
+        (!isADI3() && trainerPRN))">
       </data-row>
 
-      <data-row-custom *ngIf="shouldShowDimensions" [label]="'Vehicle dimensions'">
+      <data-row-custom
+        *ngIf="shouldShowDimensions"
+        [shouldHaveSeperator]="!!(isADI2() ||
+        schoolBike ||
+        isADI3() ||
+        (!isADI3() && trainerPRN))"
+        [label]="'Vehicle dimensions'">
         <ion-grid>
           <ion-row>
             <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">

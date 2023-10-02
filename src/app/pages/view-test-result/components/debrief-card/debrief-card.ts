@@ -499,6 +499,7 @@ export class DebriefCardComponent implements OnInit {
 
   ETASeparator(): boolean {
     return (this.isMod2()
+      || this.isCatD()
       || this.isValidEmergencyStopOrAvoidance()
       || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
   }

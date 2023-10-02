@@ -12,7 +12,6 @@ import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-
 @Component({
   selector: 'vehicle-details-card',
   templateUrl: 'vehicle-details-card.html',
