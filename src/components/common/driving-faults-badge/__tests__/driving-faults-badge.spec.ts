@@ -23,7 +23,7 @@ describe('DrivingFaultsBadgeComponent', () => {
 
       fixture.detectChanges();
 
-      const renderedCount = fixture.debugElement.query(By.css('.count')).nativeElement.innerHTML;
+      const renderedCount = fixture.debugElement.query(By.css('.label')).nativeElement.innerHTML;
       expect(renderedCount).toBe('5');
     });
   });
