@@ -1,5 +1,6 @@
 <div>
   <div class="background" *ngIf="showBadge">
-    <span class="label" id="{{competencyDisplayName}}-D">D</span>
+    <span aria-labelledby="sf-desc" class="label" id="{{competencyDisplayName}}-D">D</span>
+    <div id="df-desc" class="screen-reader-only">Dangerous Fault</div>
   </div>
 </div>
