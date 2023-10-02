@@ -18,6 +18,8 @@ export class DebriefWitnessedComponent implements OnChanges {
   debriefWitnessed: boolean;
   @Input()
   formGroup: UntypedFormGroup;
+  @Input()
+  shouldShowSeparator: boolean = true;
   @Output()
   debriefWitnessedChange = new EventEmitter<boolean>();
   @Input()

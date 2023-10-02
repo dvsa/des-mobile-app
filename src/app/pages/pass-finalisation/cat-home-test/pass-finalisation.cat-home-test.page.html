@@ -63,6 +63,7 @@
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
           [debriefWitnessed]="pageState.debriefWitnessed$ | async" [display]=true
+          [shouldShowSeparator]="false"
           [formGroup]="form" [outcome]="testOutcome">
         </debrief-witnessed>
 
