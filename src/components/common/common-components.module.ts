@@ -46,6 +46,7 @@ import { DangerousFaultBadgeComponent } from './dangerous-fault-badge/dangerous-
 import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     PipesModule,
     TerminateTestModalModule,
     NgOptimizedImage,
+    DirectivesModule,
   ],
   exports: [
     DateTimeInputComponent,

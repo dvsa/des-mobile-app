@@ -29,6 +29,7 @@
                            formControlName="newEmailCtrl"
                            name="newEmailCtrl"
                            aria-label="New email input"
+                           noEmoji
                            [value]="newEmailAddress"
                            (ionChange)="newEmailTextChanged($event.target.value)"
                            [class.ng-invalid]="invalid">

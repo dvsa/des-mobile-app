@@ -3,6 +3,7 @@
     <ion-searchbar
       (ionClear)="onSearchbarClear()"
       (ionInput)="onSearchbarChange($event)"
+      noEmoji
       [id]="'searchbar' | formatToID: idPrefix"
       [ngModel]="model ? model[displayKey] : searchedValue"
       [placeholder]="placeholder">
