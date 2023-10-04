@@ -119,7 +119,7 @@
     "url": "^0.11.3",
     "util": "^0.12.5",
     "uuid": "^9.0.1",
-    "zone.js": "~0.13.1"
+    "zone.js": "~0.13.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.4",
