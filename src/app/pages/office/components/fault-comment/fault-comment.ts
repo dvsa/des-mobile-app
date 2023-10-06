@@ -50,6 +50,9 @@ export class FaultCommentComponent implements OnChanges {
   @Input()
   testCategory?: TestCategory;
 
+  @Input()
+  header: string;
+
   @Output()
   faultCommentChange = new EventEmitter<FaultSummary>();
 
@@ -58,7 +61,6 @@ export class FaultCommentComponent implements OnChanges {
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
-
     // mes 2393 - need to remove validations if < 16 faults as comments can
     // only be entered if 16 or more
     if (this.isFieldNotVisible || this.shouldClearDrivingFaultValidators()) {

@@ -12,7 +12,8 @@
           <div>
             <driving-faults-badge
               [count]="drivingFault.faultCount"
-              [competencyDisplayName]="drivingFault.competencyIdentifier">
+              [competencyDisplayName]="drivingFault.competencyIdentifier"
+              [header]="isRider() ? 'Riding' : 'Driving'">
             </driving-faults-badge>
           </div>
         </ion-col>

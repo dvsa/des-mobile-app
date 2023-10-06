@@ -15,4 +15,7 @@ export class DrivingFaultsComponent {
 
   @Input()
   testCategory?: TestCategory;
+
+  @Input()
+  header: string = 'Driving';
 }
