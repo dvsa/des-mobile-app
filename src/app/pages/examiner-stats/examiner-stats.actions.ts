@@ -1,5 +1,5 @@
 import { createAction } from '@ngrx/store';
 
-export const PassCertificatedViewDidEnter = createAction(
+export const ExaminerStatsViewDidEnter = createAction(
   '[ExaminerStatsPage] Page Entered',
 );
