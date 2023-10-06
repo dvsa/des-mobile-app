@@ -25,7 +25,8 @@ import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
-  getCandidateDriverNumber, getCandidateName,
+  getCandidateDriverNumber,
+  getCandidateName,
   getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
