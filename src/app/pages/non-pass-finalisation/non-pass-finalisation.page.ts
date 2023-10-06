@@ -25,7 +25,7 @@ import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
-  getCandidateDriverNumber,
+  getCandidateDriverNumber, getCandidateName,
   getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -78,6 +78,7 @@ import {
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
+  candidateUntitledName$: Observable<string>;
   candidateDriverNumber$: Observable<string>;
   isTestOutcomeSet$: Observable<boolean>;
   testOutcome$: Observable<string>;
@@ -161,6 +162,11 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map((tests) => tests.currentTest.slotId),
       ),
       candidateName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidateName),
+      ),
+      candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getUntitledCandidateName),
@@ -483,4 +489,5 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   isADI3 = (): boolean => {
     return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
   };
+  protected readonly getUntitledCandidateName = getUntitledCandidateName;
 }
