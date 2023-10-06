@@ -48,6 +48,7 @@ export const initialState: AppConfig = {
     testSubmissionUrl: null,
     multipleTestResultsUrl: null,
     autoSendInterval: null,
+    examinerRecordsUrl: null,
   },
   user: {
     findUserUrl: null,

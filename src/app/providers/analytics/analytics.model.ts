@@ -19,6 +19,7 @@ export interface IAnalyticsProvider {
 export enum AnalyticsScreenNames {
   COMMUNICATION = 'communication screen',
   HEALTH_DECLARATION = 'health declaration screen',
+  EXAMINER_STATS = 'examiner stats',
   JOURNAL = 'journal screen',
   TEST_CENTRE_JOURNAL = 'test centre journal screen',
   PASS_TEST_SUMMARY = 'pass test summary screen',
@@ -53,6 +54,7 @@ export enum AnalyticsScreenNames {
 }
 
 export enum AnalyticsEventCategories {
+  EXAMINER_STATS = 'examiner stats',
   CLICK = 'click',
   TEST_LIFECYCLE = 'test lifecycle',
   TEST_SUBMISSION = 'test submission',
@@ -231,6 +233,14 @@ export enum AnalyticsEvents {
   EXAMINER_SELECTION = 'examiner selection',
   CANDIDATE_SELECTION = 'candidate selection',
   CANDIDATE_RECEIVE_TEST_RESULTS = 'candidate receive test results',
+
+  DATE_RANGE_CHANGED = 'date range changed',
+  LOCATION_CHANGED = 'location changed',
+  TEST_CATEGORY_CHANGED = 'test category changed',
+  COLOUR_SCHEME_CHANGED = 'colour scheme changed',
+  ONLINE_TESTS_SAVED = 'online tests saved',
+  HIDE_CHARTS_CHANGED = 'chart visibility changed',
+  ADDITIONAL_FILTERS_TOGGLED = 'additional filters toggled',
 }
 
 export enum AnalyticsLabels {
