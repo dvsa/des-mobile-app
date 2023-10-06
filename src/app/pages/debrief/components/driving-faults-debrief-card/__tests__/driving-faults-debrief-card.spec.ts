@@ -128,12 +128,12 @@ describe('DrivingFaultsDebriefCardComponent', () => {
 
   describe('isRider', () => {
     it('should return true if correct category is passed', () => {
-      component.category = TestCategory.EUA1M2;
+      component.testCategory = TestCategory.EUA1M2;
       expect(component.isRider())
         .toEqual(true);
     });
     it('should return false if correct category is not passed', () => {
-      component.category = TestCategory.ADI2;
+      component.testCategory = TestCategory.ADI2;
       expect(component.isRider())
         .toEqual(false);
     });
