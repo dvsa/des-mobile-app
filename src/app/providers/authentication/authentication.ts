@@ -215,10 +215,8 @@ export class AuthenticationProvider {
 
   public async logout(): Promise<void> {
     try {
-      if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
-        await this.testPersistenceProvider.clearPersistedTests();
-        await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
-      }
+      await this.testPersistenceProvider.clearPersistedTests();
+      await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
 
       this.store$.dispatch(UnloadJournal());
       this.store$.dispatch(UnloadTests());
