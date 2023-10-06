@@ -125,4 +125,17 @@ describe('DrivingFaultsDebriefCardComponent', () => {
       expect(value).toEqual('debrief.drivingFaultsCardDescription');
     });
   });
+
+  describe('isRider', () => {
+    it('should return true if correct category is passed', () => {
+      component.category = TestCategory.EUA1M2;
+      expect(component.isRider())
+        .toEqual(true);
+    });
+    it('should return false if correct category is not passed', () => {
+      component.category = TestCategory.ADI2;
+      expect(component.isRider())
+        .toEqual(false);
+    });
+  });
 });

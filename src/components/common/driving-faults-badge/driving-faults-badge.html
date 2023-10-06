@@ -1,6 +1,6 @@
 <div>
   <div class="counter-background" *ngIf="shouldDisplay()">
     <span aria-labelledby="drf-desc" aria-hidden="true" class="count" id="{{competencyDisplayName}}-count">{{count}}</span>
-    <div id="drf-desc" class="screen-reader-only">{{count}} {{count > 1 ? 'Driver Faults' : 'Driver Fault'}}</div>
+    <div id="drf-desc" class="screen-reader-only">{{count}} {{header + (count > 1 ? ' Faults' : ' Fault')}}</div>
   </div>
 </div>
