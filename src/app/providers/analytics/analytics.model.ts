@@ -19,6 +19,7 @@ export interface IAnalyticsProvider {
 export enum AnalyticsScreenNames {
   COMMUNICATION = 'communication screen',
   HEALTH_DECLARATION = 'health declaration screen',
+  EXAMINER_STATS = 'examiner stats',
   JOURNAL = 'journal screen',
   TEST_CENTRE_JOURNAL = 'test centre journal screen',
   PASS_TEST_SUMMARY = 'pass test summary screen',
