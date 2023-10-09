@@ -48,6 +48,7 @@ import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
+import { DataGridComponent } from '@components/common/data-grid/data-grid';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { TestRecoveredBannerComponent } from '@components/common/test-recovered-
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    DataGridComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -135,6 +137,7 @@ import { TestRecoveredBannerComponent } from '@components/common/test-recovered-
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    DataGridComponent,
   ],
 })
 export class ComponentsModule {
