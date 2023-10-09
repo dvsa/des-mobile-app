@@ -19,8 +19,8 @@ describe('AccessibilityService', () => {
       expect(accessibilityService.getTextZoom(null))
         .toEqual('regular');
     });
-    it('should return regular when zoom is less than 106', () => {
-      expect(accessibilityService.getTextZoom(100))
+    it('should return regular when zoom is less than 100', () => {
+      expect(accessibilityService.getTextZoom(99))
         .toEqual('regular');
     });
     it('should return x-large when zoom is 131 or above', () => {

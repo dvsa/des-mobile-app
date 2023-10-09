@@ -27,7 +27,7 @@ export class AccessibilityService {
   public getTextZoom(zoom: number): string {
     if (!zoom) return 'regular';
     if (zoom >= 131) return 'x-large';
-    if (zoom >= 106) return 'large';
+    if (zoom >= 100) return 'large';
     return 'regular';
   }
 
