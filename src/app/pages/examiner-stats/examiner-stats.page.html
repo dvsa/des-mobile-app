@@ -3,7 +3,7 @@
     <ion-buttons id="pass-cert-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title id="page-title">Examiner stats</ion-title>
+    <ion-title id="page-title">Examiner stats (last 28 days)</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,11 +11,44 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        <ion-text class="des-header-style-4 fault-heading">Test Routes Completed</ion-text>
+        <ion-text class="des-header-style-4 fault-heading">Test Routes completed</ion-text>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <data-grid [headers]="['Route', 'Amount used']" [passedData]="routesUsed"></data-grid>
+    </ion-card-content>
+  </ion-card>
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-text class="des-header-style-4 fault-heading">Manoeuvres completed</ion-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <data-grid [headers]="['Manoeuvre', 'Amount used']" [passedData]="manoeuvresUsed"></data-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-text class="des-header-style-4 fault-heading">Show me questions completed</ion-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <data-grid [headers]="['Question', 'Amount asked']" [passedData]="showMeQuestionsUsed"></data-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-text class="des-header-style-4 fault-heading">Tell me questions completed</ion-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <data-grid [headers]="['Question', 'Amount asked']" [passedData]="tellMeQuestionsUsed"></data-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>
