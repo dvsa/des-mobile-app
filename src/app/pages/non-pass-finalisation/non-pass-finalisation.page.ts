@@ -490,5 +490,4 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   isADI3 = (): boolean => {
     return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
   };
-  protected readonly getUntitledCandidateName = getUntitledCandidateName;
 }
