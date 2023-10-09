@@ -47,6 +47,7 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { DirectivesModule } from '@directives/directives.module';
+import { DataGridComponent } from '@components/common/data-grid/data-grid';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { DirectivesModule } from '@directives/directives.module';
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    DataGridComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -132,6 +134,7 @@ import { DirectivesModule } from '@directives/directives.module';
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    DataGridComponent,
   ],
 })
 export class ComponentsModule {
