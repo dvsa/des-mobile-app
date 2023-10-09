@@ -26,6 +26,7 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import {
   formatDriverNumber,
   getCandidateDriverNumber,
+  getCandidateName,
   getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -78,6 +79,7 @@ import {
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
+  candidateUntitledName$: Observable<string>;
   candidateDriverNumber$: Observable<string>;
   isTestOutcomeSet$: Observable<boolean>;
   testOutcome$: Observable<string>;
@@ -161,6 +163,11 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map((tests) => tests.currentTest.slotId),
       ),
       candidateName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidateName),
+      ),
+      candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getUntitledCandidateName),

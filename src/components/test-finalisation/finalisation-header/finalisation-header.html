@@ -1,25 +1,25 @@
 <ion-grid>
   <ion-row class="header-card top-row">
     <ion-col>
-      <ion-text class="des-header-style-2" id="finalisation-header-candidate-name">{{candidateName}}</ion-text>
+      <ion-text class="des-header-style-2" id="finalisation-header-candidate-name">Name: {{candidateName}}</ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="header-card bottom-row">
-    <ion-col size="45">
-      <ion-text class="des-header-style-3" id="finalisation-header-candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber}}</ion-text>
+    <ion-col size="51">
+      <ion-text class="des-header-style-3" id="finalisation-header-candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : 'Licence: ' + candidateDriverNumber}}</ion-text>
     </ion-col>
     <ion-col class="align-col-right">
       <ion-text class="des-header-style-3">Test outcome:
         <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
-          <div class="pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
+          <ion-text class="des-header-style-3 pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
             {{grade ? outcomeText + ' - Grade ' + grade : outcomeText}}
-          </div>
-          <div class="fail" *ngSwitchCase="'Unsuccessful'" id="unsuccessful-outcome-text">
+          </ion-text>
+          <ion-text class="des-header-style-3 fail" *ngSwitchCase="'Unsuccessful'" id="unsuccessful-outcome-text">
             {{outcomeText}}
-          </div>
-          <div class="terminated" *ngSwitchCase="'Terminated'" id="terminated-outcome-text">
+          </ion-text>
+          <ion-text class="des-header-style-3 terminated" *ngSwitchCase="'Terminated'" id="terminated-outcome-text">
             {{outcomeText}}
-          </div>
+          </ion-text>
         </div>
       </ion-text>
     </ion-col>

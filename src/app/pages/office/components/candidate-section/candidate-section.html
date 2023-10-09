@@ -8,14 +8,14 @@
 </ion-row>
 <ion-row id="candidate-number-section" class="candidate-side-padding">
     <ion-col size="50" class="ion-no-padding">
-        <ion-text class="des-header-style-3" id="candidate-driver-number" [attr.aria-label]="isStandardsCheck ? 'PRN' : 'Licence Number'">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : 'Lic. Number: ' + driverNumber}}</ion-text>
+        <ion-text class="des-header-style-3" id="candidate-driver-number" [attr.aria-label]="isStandardsCheck ? 'PRN' : 'Licence Number'">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : 'Licence: ' + driverNumber}}</ion-text>
     </ion-col>
     <ion-col size="46" class="align-col-right ion-no-padding">
         <ion-text class="des-header-style-3">Test outcome:
             <div id="test-outcome-text" class="inline-mode">
-                <span [class]="getTestOutcomeClass(testOutcomeText)">
+                <ion-text [ngClass]="[getTestOutcomeClass(testOutcomeText), 'des-header-style-3']">
                     {{grade ? 'Passed - Grade ' + grade : testOutcomeText}}
-                </span>
+                </ion-text>
             </div>
         </ion-text>
     </ion-col>
