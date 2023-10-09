@@ -1,0 +1,13 @@
+<ion-row>
+  <ion-col class="ion-justify-content-center display-flex" *ngFor="let header of headers">
+    <label>{{header}}</label>
+  </ion-col>
+</ion-row>
+<br>
+<ion-row class="mes-row-separator"></ion-row>
+<br>
+<ion-row *ngFor="let passedItem of passedData">
+  <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of passedItem">
+    <span class="mes-data">{{data}}</span>
+  </ion-col>
+</ion-row>
