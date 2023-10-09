@@ -10,6 +10,7 @@ import { ExaminerStatsPage } from './examiner-stats.page';
 import { ExaminerStatsRoutingModule } from '@pages/examiner-stats/examiner-stats-routing.module';
 import { ExaminerStatsAnalyticsEffects } from '@pages/examiner-stats/examiner-stats.analytics.effects';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentsModule } from '@components/common/common-components.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
       ExaminerStatsAnalyticsEffects,
     ]),
     TranslateModule,
+    ComponentsModule,
   ],
   declarations: [ExaminerStatsPage],
 })
