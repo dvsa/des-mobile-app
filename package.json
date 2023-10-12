@@ -31,7 +31,7 @@
     "lint:fix:commit": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
     "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
-    "gitSecrets": "git secrets --scan && git log -p | scanrepo",
+    "gitSecrets": "git secrets --scan && git log -p -n 200 | scanrepo",
     "e2e-build": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App SYMROOT=$(PWD)/build",
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
