@@ -37,10 +37,15 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   questionFormControl: UntypedFormControl;
   questionOutcomeFormControl: UntypedFormControl;
+  questionPreSelected: boolean = false;
 
   readonly questionId: string = uniqueId();
   readonly questionOutcomeFieldName: string = `vehicleChecksQuestionOutcome_${this.questionId}`;
   readonly questionFieldName: string = `vehicleChecksQuestion_${this.questionId}`;
+
+  ngOnInit() {
+    if (this.questionResult) this.questionPreSelected = true;
+  }
 
   ngOnChanges(): void {
     if (!this.questionFormControl) {
@@ -75,6 +80,7 @@ export class VehicleChecksQuestionComponent implements OnChanges {
       description: vehicleChecksQuestion.shortName,
     };
     this.vehicleChecksQuestionChange.emit(result);
+    this.questionPreSelected = false;
   }
 
   vehicleChecksPassSelected() {
@@ -93,5 +99,9 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   shouldShowOutcomeFields(): boolean {
     return !!(this.questionResult && this.questionResult.code && this.questionResult.description);
+  }
+
+  get invalid(): boolean {
+    return this.questionPreSelected && !this.questionResult.outcome;
   }
 }

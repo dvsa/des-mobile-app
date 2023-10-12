@@ -22,31 +22,45 @@
         </ion-select>
       </ion-row>
     </ion-col>
-    <ion-col *ngIf="shouldShowOutcomeFields()" size="28">
+    <ion-col *ngIf="shouldShowOutcomeFields()" size="56">
       <ion-row>
-        <input (change)="vehicleChecksPassSelected()"
-               [attr.id]="'vehicleChecksCorrect_'+questionId"
-               [attr.name]="questionOutcomeFieldName"
-               [formControlName]="questionOutcomeFieldName"
-               class="gds-radio-button"
-               type="radio"
-               value="P">
-        <label [for]="'vehicleChecksCorrect_'+questionId" class="radio-label"
-               id="vehicle-checks-correct-{{questionId}}">Correct</label>
+        <ion-col>
+          <input (change)="vehicleChecksPassSelected()"
+                 [attr.id]="'vehicleChecksCorrect_'+questionId"
+                 [attr.name]="questionOutcomeFieldName"
+                 [formControlName]="questionOutcomeFieldName"
+                 class="gds-radio-button"
+                 type="radio"
+                 value="P">
+          <label [for]="'vehicleChecksCorrect_'+questionId" class="radio-label"
+                 id="vehicle-checks-correct-{{questionId}}">Correct</label>
+        </ion-col>
+        <ion-col>
+          <input (change)="vehicleChecksDrivingFaultSelected()"
+                 [attr.id]="'vehicleChecksFault_'+questionId"
+                 [attr.name]="questionOutcomeFieldName"
+                 [formControlName]="questionOutcomeFieldName"
+                 class="gds-radio-button"
+                 type="radio"
+                 value="DF">
+          <label [for]="'vehicleChecksFault_'+questionId" class="radio-label" id="vehicle-checks-fault-{{questionId}}">1
+            driving fault</label>
+        </ion-col>
+      </ion-row>
+      <ion-row class="validation-message-row ion-align-items-center">
+        <div
+          class="validation-text"
+          [attr.id]="'validationMessage_'+questionId"
+          [class.ng-invalid]="invalid">
+          Question incomplete
+        </div>
       </ion-row>
     </ion-col>
-    <ion-col *ngIf="shouldShowOutcomeFields()" size="28">
-      <ion-row>
-        <input (change)="vehicleChecksDrivingFaultSelected()"
-               [attr.id]="'vehicleChecksFault_'+questionId"
-               [attr.name]="questionOutcomeFieldName"
-               [formControlName]="questionOutcomeFieldName"
-               class="gds-radio-button"
-               type="radio"
-               value="DF">
-        <label [for]="'vehicleChecksFault_'+questionId" class="radio-label" id="vehicle-checks-fault-{{questionId}}">1
-          driving fault</label>
-      </ion-row>
-    </ion-col>
+
   </ion-row>
+
+
 </form>
+
+
+
