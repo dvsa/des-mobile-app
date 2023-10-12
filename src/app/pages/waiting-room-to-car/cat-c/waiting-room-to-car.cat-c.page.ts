@@ -66,6 +66,7 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
   isDelegated: boolean = false;
+  submitClicked: boolean = false;
 
   constructor(
     private faultCountProvider: FaultCountProvider,
@@ -194,6 +195,8 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
         this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
       }
     });
+
+    this.submitClicked = true;
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);

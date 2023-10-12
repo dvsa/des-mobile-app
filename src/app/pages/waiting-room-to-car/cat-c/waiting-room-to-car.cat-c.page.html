@@ -47,7 +47,8 @@
               [formGroup]="form"
               [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-              [vehicleChecks]="pageState.vehicleChecks$ | async">
+              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              [submitClicked]="submitClicked">
             </vehicle-checks-vocational>
 
             <full-licence-held-toggle

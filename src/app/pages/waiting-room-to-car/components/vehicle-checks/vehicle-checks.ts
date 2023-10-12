@@ -62,8 +62,14 @@ export class VehicleChecksComponent implements OnChanges {
   @Input()
   category: TestCategory | CategoryCode;
 
+  @Input()
+  submitClicked: boolean;
+
   @Output()
   fullLicenceHeldChange = new EventEmitter<boolean>();
+
+  @Output()
+  onOpenVehicleChecksModal = new EventEmitter<void>();
 
   @Output()
   onCloseVehicleChecksModal = new EventEmitter<void>();
@@ -91,10 +97,15 @@ export class VehicleChecksComponent implements OnChanges {
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: this.getVehicleCheckModal(),
-      componentProps: { category: this.category },
+      componentProps: {
+        category: this.category,
+        modalOpened: this.onOpenVehicleChecksModal,
+        submitClicked: this.submitClicked,
+      },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();
+    this.onOpenVehicleChecksModal.emit();
     const didDismiss = await modal.onDidDismiss();
 
     if (didDismiss) {

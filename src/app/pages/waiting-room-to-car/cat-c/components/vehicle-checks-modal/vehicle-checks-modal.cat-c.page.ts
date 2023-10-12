@@ -1,5 +1,5 @@
 import { ModalController, NavParams } from '@ionic/angular';
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
@@ -72,6 +72,8 @@ export class VehicleChecksCatCModal {
   tellMeQuestions: VehicleChecksQuestion[];
 
   category: TestCategory;
+  modalOpened: EventEmitter<void>;
+  submitClicked: boolean;
   fullLicenceHeld: boolean = null;
   showMeQuestionsNumberArray: number[];
   tellMeQuestionsNumberArray: number[];
@@ -88,6 +90,8 @@ export class VehicleChecksCatCModal {
     params: NavParams,
   ) {
     this.category = params.get('category');
+    this.modalOpened = params.get('modalOpened');
+    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(this.category);
