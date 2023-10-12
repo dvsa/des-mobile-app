@@ -10,7 +10,8 @@
     "import"
   ],
   "extends": [
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "plugin:deprecation/recommended"
   ],
   "rules": {
     "@typescript-eslint/indent": [

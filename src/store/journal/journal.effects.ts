@@ -12,9 +12,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {
-  interval, Observable, of, throwError,
-} from 'rxjs';
+import { interval, Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Action, select, Store } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
@@ -37,9 +35,7 @@ import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.
 import { getTests } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
-import {
-  hasStartedTests,
-} from '@store/tests/tests.selector';
+import { hasStartedTests } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import * as moment from 'moment';
 import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
@@ -77,91 +73,97 @@ export class JournalEffects {
 
   callJournalProvider$ = (mode: string): Observable<Action> => {
     this.store$.dispatch(journalActions.JournalRefresh(mode));
-    return of(null).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getJournalState),
-          map(getLastRefreshed),
+    return of(null)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getJournalState),
+            map(getLastRefreshed),
+          ),
+          this.store$.pipe(
+            select(getJournalState),
+            map(getSlots),
+          ),
+          this.store$.pipe(
+            select(getJournalState),
+            map(getExaminer),
+          ),
         ),
-        this.store$.pipe(
-          select(getJournalState),
-          map(getSlots),
-        ),
-        this.store$.pipe(
-          select(getJournalState),
-          map(getExaminer),
-        ),
-      ),
-      switchMap(([, lastRefreshed, slots, examiner]) => {
-        return this.journalProvider
-          .getJournal(lastRefreshed)
-          .pipe(
-            tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
-            map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
-              examiner: journalData.examiner as Required<Examiner>,
-              slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
-            })),
-            map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
-              examiner: examinerSlotItems.examiner,
-              slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
-            })),
-            map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess(
-              slotItemsByDate,
-              this.networkStateProvider.getNetworkState(),
-              this.authProvider.isInUnAuthenticatedMode(),
-              lastRefreshed,
-            )),
-            catchError((err: HttpErrorResponse) => {
-              // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
-              if (err.status === HttpStatusCodes.NOT_MODIFIED) {
-                return of(journalActions.LoadJournalSuccess(
-                  { examiner, slotItemsByDate: slots },
-                  this.networkStateProvider.getNetworkState(),
-                  this.authProvider.isInUnAuthenticatedMode(),
-                  lastRefreshed,
-                ));
-              }
+        switchMap(([, lastRefreshed, slots, examiner]) => {
+          return this.journalProvider
+            .getJournal(lastRefreshed)
+            .pipe(
+              tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
+              map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
+                examiner: journalData.examiner as Required<Examiner>,
+                slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
+              })),
+              map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
+                examiner: examinerSlotItems.examiner,
+                slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+              })),
+              map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess(
+                slotItemsByDate,
+                this.networkStateProvider.getNetworkState(),
+                this.authProvider.isInUnAuthenticatedMode(),
+                lastRefreshed,
+              )),
+              catchError((err: HttpErrorResponse) => {
+                // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
+                if (err.status === HttpStatusCodes.NOT_MODIFIED) {
+                  return of(journalActions.LoadJournalSuccess(
+                    {
+                      examiner,
+                      slotItemsByDate: slots,
+                    },
+                    this.networkStateProvider.getNetworkState(),
+                    this.authProvider.isInUnAuthenticatedMode(),
+                    lastRefreshed,
+                  ));
+                }
 
-              if (err.message === 'Timeout has occurred') {
-                return of(journalActions.JournalRefreshError('Retrieving Journal', err.message));
-              }
+                if (err.message === 'Timeout has occurred') {
+                  return of(journalActions.JournalRefreshError('Retrieving Journal', err.message));
+                }
 
-              this.store$.dispatch(SaveLog({
-                payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
-              }));
+                this.store$.dispatch(SaveLog({
+                  payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
+                }));
 
-              return throwError(err);
-            }),
-          );
-      }),
-    );
+                return throwError(() => new HttpErrorResponse(err));
+              }),
+            );
+        }),
+      );
   };
 
   journal$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LoadJournalSilent),
     switchMap(
-      () => this.callJournalProvider$(JournalRefreshModes.AUTOMATIC).pipe(
-        catchError((err: HttpErrorResponse) => {
-          return [
-            journalActions.JournalRefreshError('AutomaticJournalRefresh', err.message),
-            journalActions.LoadJournalSilentFailure(err),
-          ];
-        }),
-      ),
+      () => this.callJournalProvider$(JournalRefreshModes.AUTOMATIC)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            return [
+              journalActions.JournalRefreshError('AutomaticJournalRefresh', err.message),
+              journalActions.LoadJournalSilentFailure(err),
+            ];
+          }),
+        ),
     ),
   ));
 
   loadJournal$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LoadJournal),
     switchMap(
-      () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
-        catchError((err: HttpErrorResponse) => {
-          return [
-            journalActions.JournalRefreshError('ManualJournalRefresh', err.message),
-            journalActions.LoadJournalFailure(err),
-          ];
-        }),
-      ),
+      () => this.callJournalProvider$(JournalRefreshModes.MANUAL)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            return [
+              journalActions.JournalRefreshError('ManualJournalRefresh', err.message),
+              journalActions.LoadJournalFailure(err),
+            ];
+          }),
+        ),
     ),
   ));
 
@@ -194,23 +196,24 @@ export class JournalEffects {
 
   loadCompletedTests$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LoadCompletedTests),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getJournalState),
-          select(getExaminer),
-          select(getStaffNumber),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getJournalState),
+            select(getExaminer),
+            select(getStaffNumber),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(hasStartedTests),
+          ),
+          this.store$.pipe(
+            select(getJournalState),
+            select(getCompletedTests),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(hasStartedTests),
-        ),
-        this.store$.pipe(
-          select(getJournalState),
-          select(getCompletedTests),
-        ),
-      ),
-    )),
+      )),
     filter(([action, , hasStarted, completedTests]:
     [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
@@ -222,11 +225,14 @@ export class JournalEffects {
 
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
-    switchMap(([, staffNumber, ,]) => {
+    switchMap(([, staffNumber]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
       const advancedSearchParams: AdvancedSearchParams = {
-        startDate: moment().subtract(numberOfDaysToView, 'days').format('YYYY-MM-DD'),
-        endDate: moment().format('YYYY-MM-DD'),
+        startDate: moment()
+          .subtract(numberOfDaysToView, 'days')
+          .format('YYYY-MM-DD'),
+        endDate: moment()
+          .format('YYYY-MM-DD'),
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
         excludeAutoSavedTests: 'true',
@@ -234,32 +240,36 @@ export class JournalEffects {
         category: '',
       };
 
-      return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
-        map((searchResults: SearchResultTestSchema[]) => searchResults),
-        tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
-        map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
-        catchError((err) => of(LoadCompletedTestsFailure(err))),
-      );
+      return this.searchProvider.advancedSearch(advancedSearchParams)
+        .pipe(
+          map((searchResults: SearchResultTestSchema[]) => searchResults),
+          tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
+          map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
+          catchError((err) => of(LoadCompletedTestsFailure(err))),
+        );
     }),
   ));
 
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectPreviousDay),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getJournalState),
-          map(getSelectedDate),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getJournalState),
+            map(getSelectedDate),
+          ),
+          this.store$.pipe(
+            select(getJournalState),
+            map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now())),
+          ),
         ),
-        this.store$.pipe(
-          select(getJournalState),
-          map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now())),
-        ),
-      ),
-    )),
+      )),
     filter(([, , canNavigateToPreviousDayVal]) => canNavigateToPreviousDayVal),
     switchMap(([, selectedDate]) => {
-      const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
+      const previousDay = DateTime.at(selectedDate)
+        .add(-1, Duration.DAY)
+        .format('YYYY-MM-DD');
 
       return [
         journalActions.SetSelectedDate(previousDay),
@@ -270,21 +280,24 @@ export class JournalEffects {
 
   selectNextDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectNextDay),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getJournalState),
-          map(getSelectedDate),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getJournalState),
+            map(getSelectedDate),
+          ),
+          this.store$.pipe(
+            select(getJournalState),
+            map(canNavigateToNextDay),
+          ),
         ),
-        this.store$.pipe(
-          select(getJournalState),
-          map(canNavigateToNextDay),
-        ),
-      ),
-    )),
+      )),
     filter(([, , canNavigateToNextDayVal]) => canNavigateToNextDayVal),
     switchMap(([, selectedDate]) => {
-      const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
+      const nextDay = DateTime.at(selectedDate)
+        .add(1, Duration.DAY)
+        .format('YYYY-MM-DD');
 
       return [
         journalActions.SetSelectedDate(nextDay),

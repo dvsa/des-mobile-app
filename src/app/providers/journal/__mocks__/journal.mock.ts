@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { of, Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { default as localJournalJson } from '@assets/mock/local-journal.json';
 
 export class JournalProviderMock {
@@ -14,16 +14,16 @@ export class JournalProviderMock {
 
   public getJournal(): Observable<ExaminerWorkSchedule> {
     if (this.do304ErrorNextCall) {
-      return throwError({ status: 304 });
+      return throwError(() => ({ status: 304 }));
     }
     if (this.doTimeoutErrorNextCall) {
-      return throwError({ message: 'Timeout has occurred' });
+      return throwError(() => ({ message: 'Timeout has occurred' }));
     }
     if (this.doActualError) {
-      return throwError({});
+      return throwError(() => ({}));
     }
     if (this.doHttpResponseError) {
-      return throwError(new HttpErrorResponse({
+      return throwError(() => new HttpErrorResponse({
         error: 'Error message',
         status: 403,
         statusText: 'Forbidden',
@@ -31,7 +31,9 @@ export class JournalProviderMock {
     }
     return of(JournalProviderMock.mockJournal);
   }
-  public saveJournalForOffline = () => { };
+
+  public saveJournalForOffline = () => {
+  };
 
   public setupHttp304Error() {
     this.do304ErrorNextCall = true;

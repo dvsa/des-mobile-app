@@ -210,23 +210,23 @@ export class AppConfigProvider {
         const url = `${this.environmentFile.configUrl}?app_version=${version}`;
         this.httpClient.get(url)
           .pipe(timeout(30000))
-          .subscribe(
-            (data: RemoteConfig) => {
+          .subscribe({
+            next: (data: RemoteConfig) => {
               this.dataStoreProvider.setItem('CONFIG', JSON.stringify(data));
               resolve(data);
             },
-            (error: HttpErrorResponse) => {
-              if (this.shouldGetCachedConfig(error.error)) {
-                this.logError('Getting remote config failed, using cached data', error.error);
+            error: ({ error }: HttpErrorResponse) => {
+              if (this.shouldGetCachedConfig(error)) {
+                this.logError('Getting remote config failed, using cached data', error);
                 this.getCachedRemoteConfig()
                   .then((data) => resolve(data))
                   .catch((cacheError) => reject(cacheError));
               } else {
-                this.logError('Getting remote config failed, not using cached data', error.error);
+                this.logError('Getting remote config failed, not using cached data', error);
                 reject(error);
               }
             },
-          );
+          });
       });
   });
 
