@@ -1,5 +1,5 @@
 import {
-  Component, Input, Output, EventEmitter, OnChanges, OnInit, OnDestroy,
+  Component, Input, Output, EventEmitter, OnChanges, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -13,8 +13,10 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'vehicle-checks-question',
   templateUrl: 'vehicle-checks-question.html',
   styleUrls: ['vehicle-checks-question.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehicleChecksQuestionComponent implements OnChanges, OnInit, OnDestroy {
+  constructor(private ref: ChangeDetectorRef) {}
 
   @Input()
   questionResult: QuestionResult;
@@ -56,6 +58,8 @@ export class VehicleChecksQuestionComponent implements OnChanges, OnInit, OnDest
       this.setInvalidIfUndefined(this.questionFormControl);
       this.setInvalidIfUndefined(this.questionOutcomeFormControl);
     });
+
+    this.ref.detectChanges();
   }
 
   ngOnDestroy() {
