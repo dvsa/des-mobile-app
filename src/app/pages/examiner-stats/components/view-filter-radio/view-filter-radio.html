@@ -1,0 +1,47 @@
+<ion-row id="view-filter-row" [formGroup]="formGroup">
+    <div class="validation-bar"></div>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col class="ion-align-self-center">
+                <input type="radio"
+                       id="value-filter-both"
+                       class="gds-radio-button"
+                       name="valueFilter"
+                       formControlName="valueFilter"
+                       value="Both"
+                       (change)="viewFilterChanged($event.target.value)">
+                <label for="value-filter-both" class="radio-label" id="value-filter-both-label">
+                    Both
+                </label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+                <input type="radio"
+                       id="value-filter-data"
+                       class="gds-radio-button"
+                       name="valueFilter"
+                       formControlName="valueFilter"
+                       value="Data"
+                       (change)="viewFilterChanged($event.target.value)">
+                <label for="value-filter-data" class="radio-label" id="value-filter-data-label">
+                    Data
+                </label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+                <input type="radio"
+                       id="value-filter-chart"
+                       class="gds-radio-button"
+                       name="valueFilter"
+                       formControlName="valueFilter"
+                       value="Chart"
+                       (change)="viewFilterChanged($event.target.value)">
+                <label for="value-filter-chart" class="radio-label" id="value-filter-chart-label">
+                    Chart
+                </label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"></div>
+        </ion-row>
+    </ion-col>
+</ion-row>

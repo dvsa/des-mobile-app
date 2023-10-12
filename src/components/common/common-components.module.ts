@@ -49,6 +49,8 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
 import { DirectivesModule } from '@directives/directives.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { ChartComponent } from '@components/common/chart/chart';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
     DataGridComponent,
+    ChartComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -100,6 +103,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
     TerminateTestModalModule,
     NgOptimizedImage,
     DirectivesModule,
+    NgApexchartsModule,
   ],
   exports: [
     DateTimeInputComponent,
@@ -138,6 +142,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
     DataGridComponent,
+    ChartComponent,
   ],
 })
 export class ComponentsModule {
