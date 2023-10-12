@@ -11,11 +11,45 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
+        <ion-text class="des-header-style-4 fault-heading">View filters</ion-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <view-filter-radio
+        [formGroup]="form"
+        (filterChange)="filterOption = $event"
+      ></view-filter-radio>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Test Routes completed</ion-text>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <data-grid [headers]="['Route', 'Amount used']" [passedData]="routesUsed"></data-grid>
+      <ion-row>
+        <ion-col *ngIf="filterOption !== 'Chart'">
+          <data-grid [headers]="['Route', 'Amount used']"
+                     [rowIconColors]="colors"
+                     [passedData]="handleGrid(pageState.routeNumbers$ | async)"></data-grid>
+        </ion-col>
+        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
+          <ion-col *ngIf="filterOption === 'Chart'">
+            <data-grid
+              [rowIconColors]="colors"
+              [passedData]="handleGrid(pageState.routeNumbers$ | async)">
+            </data-grid>
+          </ion-col>
+          <ion-col>
+            <chart
+              [chartId]="'routeNum'"
+              [data]="pageState.routeNumbers$ | async">
+            </chart>
+          </ion-col>
+        </ion-col>
+      </ion-row>
+
     </ion-card-content>
   </ion-card>
 
@@ -26,7 +60,20 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <data-grid [headers]="['Manoeuvre', 'Amount used']" [passedData]="manoeuvresUsed"></data-grid>
+      <ion-row>
+        <ion-col *ngIf="filterOption !== 'Chart'">
+          <data-grid [headers]="['Manoeuvre', 'Amount used']"
+                     [rowCropCount]="1"
+                     [passedData]="handleGrid(pageState.manoeuvres$ | async)">
+          </data-grid>
+        </ion-col>
+        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
+          <chart
+            [chartId]="'manoeuvres'"
+            [data]="(pageState.manoeuvres$ | async)">
+          </chart>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 
@@ -37,7 +84,20 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <data-grid [headers]="['Question', 'Amount asked']" [passedData]="showMeQuestionsUsed"></data-grid>
+      <ion-row>
+        <ion-col *ngIf="filterOption !== 'Chart'">
+          <data-grid [headers]="['Question(s)', 'Amount asked']"
+                     [rowCropCount]="1"
+                     [passedData]="handleGrid(pageState.showMeQuestions$ | async)">
+          </data-grid>
+        </ion-col>
+        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
+          <chart
+            [chartId]="'showMe'"
+            [data]="(pageState.showMeQuestions$ | async)">
+          </chart>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 
@@ -48,7 +108,28 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <data-grid [headers]="['Question', 'Amount asked']" [passedData]="tellMeQuestionsUsed"></data-grid>
+      <ion-row>
+        <ion-col *ngIf="filterOption !== 'Chart'">
+          <data-grid [headers]="['Question(s)', 'Amount asked']"
+                     [rowCropCount]="1"
+                     [passedData]="handleGrid(pageState.tellMeQuestions$ | async)">
+          </data-grid>
+        </ion-col>
+        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
+          <ion-col *ngIf="filterOption === 'Chart'">
+            <data-grid
+              [rowIconColors]="colors"
+              [passedData]="handleGrid(pageState.tellMeQuestions$ | async)">
+            </data-grid>
+          </ion-col>
+          <ion-col>
+            <chart
+              [chartId]="'tellMe'"
+              [data]="pageState.tellMeQuestions$ | async">
+            </chart>
+          </ion-col>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>
