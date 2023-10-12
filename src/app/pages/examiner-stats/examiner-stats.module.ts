@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -11,6 +11,7 @@ import { ExaminerStatsRoutingModule } from '@pages/examiner-stats/examiner-stats
 import { ExaminerStatsAnalyticsEffects } from '@pages/examiner-stats/examiner-stats.analytics.effects';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ViewFilterRadioComponent } from '@pages/examiner-stats/components/view-filter-radio/view-filter-radio';
 
 @NgModule({
   imports: [
@@ -23,7 +24,11 @@ import { ComponentsModule } from '@components/common/common-components.module';
     ]),
     TranslateModule,
     ComponentsModule,
+    ReactiveFormsModule,
   ],
-  declarations: [ExaminerStatsPage],
+  declarations: [
+    ExaminerStatsPage,
+    ViewFilterRadioComponent,
+  ],
 })
 export class ExaminerStatsPageModule {}

@@ -4,13 +4,45 @@ import { StoreModel } from '@shared/models/store.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getTests } from '@store/tests/tests.reducer';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { getStartedTests } from '@store/tests/tests.selector';
 import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
-import { get } from 'lodash';
+import {
+  getManoeuvresUsed,
+  getRouteNumbers,
+  getShowMeQuestions,
+  getTellMeQuestions,
+} from '@pages/examiner-stats/examiner-stats.selector';
+import { UntypedFormGroup } from '@angular/forms';
+
+export enum BaseManoeuvreTypeLabels {
+  reverseLeft = 'Reverse left',
+  reverseRight = 'Reverse right',
+  reverseParkRoad = 'Reverse park (road)',
+  reverseParkCarpark = 'Reverse park (car park)',
+  forwardPark = 'Forward park',
+  reverseManoeuvre = 'Reverse',
+}
+
+export enum AlternativeManoeuvreTypeLabels {
+  reverseLeft = 'Reverse',
+  reverseRight = 'Reverse right',
+  reverseParkRoad = 'Reverse park (road)',
+  reverseParkCarpark = 'Reverse park (car park)',
+  forwardPark = 'Forward park',
+  reverseManoeuvre = 'Reverse',
+}
 
 interface ExaminerStatsState {
-  startedTests$: Observable<{ [slotId: string]: TestResultSchemasUnion }>;
+  routeNumbers$: Observable<any[]>;
+  manoeuvres$: Observable<any[]>;
+  showMeQuestions$: Observable<any[]>;
+  tellMeQuestions$: Observable<any[]>;
+}
+
+export const enum FilterEnum {
+  Both = 'Both',
+  Data_Only = 'Data',
+  Chart_Only = 'Chart',
 }
 
 @Component({
@@ -21,74 +53,57 @@ interface ExaminerStatsState {
 
 export class ExaminerStatsPage implements OnInit {
 
-  merged$: Observable<any>;
 
-  public routesUsed = [];
-  public manoeuvresUsed = [];
-  public showMeQuestionsUsed = [];
-  public tellMeQuestionsUsed = [];
+    merged$: Observable<any>;
+    form: UntypedFormGroup = new UntypedFormGroup({});
 
-  constructor(
-    public store$: Store<StoreModel>,
-  ) {
-  }
-
-  pageState: ExaminerStatsState;
-
-
-  ngOnInit(): void {
-    this.pageState = {
-      startedTests$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-      ),
-    };
-
-    this.pageState.startedTests$.subscribe(value => {
-      for (let key in value) {
-        this.routesUsed.push(get(value[key], 'testSummary.routeNumber'));
-        this.manoeuvresUsed.push(Object.keys(get(value[key], 'testData.manoeuvres')));
-        if (!!get(value[key], 'testData.vehicleChecks.showMeQuestion.code')) {
-          this.showMeQuestionsUsed.push(`${get(value[key], 'testData.vehicleChecks.showMeQuestion.code')}
-        - ${get(value[key], 'testData.vehicleChecks.showMeQuestion.description')}`);
-        }
-        if (!!get(value[key], 'testData.vehicleChecks.tellMeQuestion.code')) {
-          this.tellMeQuestionsUsed.push(`${get(value[key], 'testData.vehicleChecks.tellMeQuestion.code')}
-        - ${get(value[key], 'testData.vehicleChecks.tellMeQuestion.description')}`);
-        }
-      }
-      this.routesUsed = this.handleArray(this.routesUsed);
-      this.manoeuvresUsed = this.handleManoeuvres(this.manoeuvresUsed);
-      this.tellMeQuestionsUsed = this.handleArray(this.tellMeQuestionsUsed);
-      this.showMeQuestionsUsed = this.handleArray(this.showMeQuestionsUsed);
-    }).unsubscribe();
-  }
-
-  ionViewDidEnter() {
-    this.store$.dispatch(ExaminerStatsViewDidEnter());
-  }
-
-  handleArray(array: any[]) {
-    array = array.filter(value => !([null, undefined, '', []].includes(value)));
-    let tempObject = {};
-    for (let element of array) {
-      if (tempObject[element]) {
-        tempObject[element] += 1;
-      } else {
-        tempObject[element] = 1;
-      }
+    constructor(
+      public store$: Store<StoreModel>,
+    ) {
     }
-    return Object.entries(tempObject);
-  }
 
-  handleManoeuvres(manoeuvresUsed: any[]) {
-    let tempArray = [];
-    manoeuvresUsed.forEach((i) => {
-      i.forEach((j) => {
-        tempArray.push(j.replace(/([A-Z])/g, ' $1').charAt(0).toUpperCase()
-          + j.replace(/([A-Z])/g, ' $1').slice(1).toLowerCase());
+    pageState: ExaminerStatsState;
+    filterOption: FilterEnum = FilterEnum.Both;
+    colors: string[] = [
+      window.getComputedStyle(document.documentElement).getPropertyValue('--gds-dark-green'),
+      window.getComputedStyle(document.documentElement).getPropertyValue('--secondary-button'),
+    ];
+
+
+    ngOnInit(): void {
+      this.pageState = {
+        routeNumbers$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getRouteNumbers),
+        ),
+        manoeuvres$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getManoeuvresUsed),
+        ),
+        showMeQuestions$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getShowMeQuestions),
+        ),
+        tellMeQuestions$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getTellMeQuestions),
+        ),
+      };
+    }
+
+    ionViewDidEnter() {
+      this.store$.dispatch(ExaminerStatsViewDidEnter());
+    }
+
+    handleGrid(object: { item: string, count: number }[]) {
+      let tempArray = [];
+      object.forEach((val: { item: string, count: number }) => {
+        tempArray.push([val.item, val.count]);
       });
-    });
-    return this.handleArray(tempArray);
-  }
+      return tempArray;
+    }
 }

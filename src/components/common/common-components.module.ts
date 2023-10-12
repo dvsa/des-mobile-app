@@ -48,6 +48,8 @@ import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { ChartComponent } from '@components/common/chart/chart';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
     DataGridComponent,
+    ChartComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -98,6 +101,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
     TerminateTestModalModule,
     NgOptimizedImage,
     DirectivesModule,
+    NgApexchartsModule,
   ],
   exports: [
     DateTimeInputComponent,
@@ -135,6 +139,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
     DataGridComponent,
+    ChartComponent,
   ],
 })
 export class ComponentsModule {
