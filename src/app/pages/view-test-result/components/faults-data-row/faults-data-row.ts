@@ -51,8 +51,8 @@ export class FaultsDataRowComponent {
    * @param drivingFault
    */
   showFaultComment = (drivingFault: FaultSummary): boolean =>
-    (this.drivingFaultCount > this.minDrivingFaultCount) ||
-    drivingFault.competencyIdentifier === CommentSource.VEHICLE_CHECKS
+    ((this.drivingFaultCount > this.minDrivingFaultCount) ||
+    drivingFault.competencyIdentifier === CommentSource.VEHICLE_CHECKS)
     && !!(drivingFault.comment);
 
   public getDriverType(isRider: boolean): string {
