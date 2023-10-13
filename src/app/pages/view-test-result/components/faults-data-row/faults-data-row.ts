@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FaultSummary } from '@shared/models/fault-marking.model';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
@@ -51,7 +51,9 @@ export class FaultsDataRowComponent {
    * @param drivingFault
    */
   showFaultComment = (drivingFault: FaultSummary): boolean =>
-    this.drivingFaultCount > this.minDrivingFaultCount && !!(drivingFault.comment);
+    (this.drivingFaultCount > this.minDrivingFaultCount) ||
+    drivingFault.competencyIdentifier === CommentSource.VEHICLE_CHECKS
+    && !!(drivingFault.comment);
 
   public getDriverType(isRider: boolean): string {
     return isRider ? 'riding' : 'driving';
