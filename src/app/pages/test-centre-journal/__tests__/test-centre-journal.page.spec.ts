@@ -197,11 +197,11 @@ describe('TestCenterJournalPage', () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal')
         .and
         .callFake(() => {
-          return throwError({
+          return throwError(() => ({
             statusCode: 400,
             message: 'Some error',
             error: ErrorTypes.TEST_CENTRE_JOURNAL_ERROR,
-          });
+          }));
         });
       await component.getTestCentreData();
       expect(testCentreJournalProvider.getTestCentreJournal)
