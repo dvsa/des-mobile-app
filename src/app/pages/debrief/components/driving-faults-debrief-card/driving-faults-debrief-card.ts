@@ -18,9 +18,12 @@ export class DrivingFaultsDebriefCardComponent {
   public drivingFaultCount: number;
 
   @Input()
+  public hideVehicleCheckFault: boolean = true;
+
+  @Input()
   public testCategory: TestCategory;
 
-  drivingFaultsCardDescriptionSwitch(testCategory: TestCategory):string {
+  drivingFaultsCardDescriptionSwitch(testCategory: TestCategory): string {
     return `debrief.${getDrivingOrRidingLabel(testCategory)}FaultsCardDescription`;
   }
 
@@ -29,4 +32,10 @@ export class DrivingFaultsDebriefCardComponent {
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
   ]);
 
+  shouldDisplay(drivingFault: FaultSummary) {
+    if (drivingFault.competencyIdentifier === 'vehicleChecks') {
+      return !this.hideVehicleCheckFault;
+    }
+    return true;
+  }
 }

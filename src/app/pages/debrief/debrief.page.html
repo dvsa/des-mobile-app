@@ -32,6 +32,7 @@
   </serious-faults-debrief-card>
 
   <driving-faults-debrief-card
+    [hideVehicleCheckFault]="seriousOrDangerousFaultsContainsVehicleChecks(pageState.seriousFaults$ | async, pageState.dangerousFaults$ | async)"
     [drivingFaults]="pageState.drivingFaults$ | async"
     [drivingFaultCount]="pageState.drivingFaultCount$ | async"
     [testCategory]="testCategory">

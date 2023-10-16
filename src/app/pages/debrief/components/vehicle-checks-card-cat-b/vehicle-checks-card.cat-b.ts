@@ -65,4 +65,7 @@ export class VehicleChecksCardCatBComponent implements OnInit {
     (vehicleChecks.tellMeQuestion.outcome && vehicleChecks.tellMeQuestion.outcome !== CompetencyOutcome.P)
     || (vehicleChecks.showMeQuestion.outcome && vehicleChecks.showMeQuestion.outcome !== CompetencyOutcome.P);
 
+  shouldDisplayIncorrect(outcome: 'P' | 'DF' | 'S' | 'D' | null) {
+    return (outcome === 'S' || outcome === 'D');
+  }
 }

@@ -453,4 +453,7 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     ]);
   }
 
+  seriousOrDangerousFaultsContainsVehicleChecks(serious: string[] | null, dangerous: string[] | null) {
+    return serious.includes('vehicleChecks') || dangerous.includes('vehicleChecks');
+  }
 }

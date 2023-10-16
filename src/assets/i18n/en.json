@@ -402,7 +402,8 @@
     "emergencyStopHeader": "Emergency stop",
     "speedRequirementMet": "Met",
     "speedRequirementNotMet": "Not Met",
-    "speedRequirementAborted": "Aborted attempt"
+    "speedRequirementAborted": "Aborted attempt",
+    "incorrect": "Incorrect"
   },
   "healthDeclaration": {
     "confirm": "I confirm",
