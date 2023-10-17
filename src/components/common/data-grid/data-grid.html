@@ -1,5 +1,5 @@
 <ion-row *ngIf="headers">
-  <ion-col size="auto" *ngIf="rowIconColors">
+  <ion-col size="auto" *ngIf="displayColour">
     <span class="dot placeholder"></span>
   </ion-col>
   <ion-col class="ion-justify-content-center display-flex" *ngFor="let header of headers">
@@ -11,29 +11,41 @@
 <br>
 <ng-template *ngIf="croppedRows; then showMore else fullData;"></ng-template>
 <ng-template #showMore>
-  <ion-row *ngFor="let passedItem of croppedRows.preCrop">
+
+  <ion-row *ngFor="let passedItem of croppedRows.preCrop; index as i">
+    <ion-col size="auto" *ngIf="displayColour">
+      <span [style.background-color]="finalColourArray[i]" class="dot"></span>
+    </ion-col>
     <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of passedItem">
       <span class="text-align-center mes-data">{{data}}</span>
     </ion-col>
   </ion-row>
+
   <ion-row class="padding-top-10 display-flex ion-justify-content-center" *ngIf="!showCroppedData">
     <ion-button class="mes-grey-button" (click)="showCroppedData = !showCroppedData">Show more</ion-button>
   </ion-row>
+
   <div *ngIf="showCroppedData">
-    <ion-row *ngFor="let passedItem of croppedRows.postCrop">
+    <ion-row *ngFor="let passedItem of croppedRows.postCrop; index as i">
+      <ion-col size="auto" *ngIf="displayColour">
+        <span [style.background-color]="finalColourArray[i+croppedRows.preCrop.length]" class="dot"></span>
+      </ion-col>
       <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of passedItem">
         <span class="text-align-center mes-data">{{data}}</span>
       </ion-col>
     </ion-row>
   </div>
+
   <ion-row class="padding-top-10 display-flex ion-justify-content-center" *ngIf="showCroppedData">
     <ion-button class="mes-grey-button" (click)="showCroppedData = !showCroppedData">Show less</ion-button>
   </ion-row>
+
 </ng-template>
+
 <ng-template #fullData>
   <ion-row *ngFor="let passedItem of passedData; index as i">
-    <ion-col size="auto" *ngIf="rowIconColors">
-      <span [style.background-color]="rowIconColors[i]" class="dot"></span>
+    <ion-col size="auto" *ngIf="displayColour">
+      <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
     <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of passedItem">
       <span class="text-align-center mes-data">{{data}}</span>
