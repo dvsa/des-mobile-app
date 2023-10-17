@@ -64,10 +64,7 @@ export class ExaminerStatsPage implements OnInit {
 
     pageState: ExaminerStatsState;
     filterOption: FilterEnum = FilterEnum.Both;
-    colors: string[] = [
-      window.getComputedStyle(document.documentElement).getPropertyValue('--gds-dark-green'),
-      window.getComputedStyle(document.documentElement).getPropertyValue('--secondary-button'),
-    ];
+    colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
 
     ngOnInit(): void {
