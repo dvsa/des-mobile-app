@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DataGridComponent implements OnInit {
 
-  @Input() headers: any[] = null;
+  @Input() headers: string[] = null;
   @Input() passedData: [string, number][] = null;
   @Input() rowCropCount: number = null;
   @Input() colourScheme: string[] = null;

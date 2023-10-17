@@ -17,7 +17,7 @@ import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { TestOutcome } from './tests.constants';
 
-type StartedTests = { [slotId: string]: TestResultSchemasUnion };
+export type StartedTests = { [slotId: string]: TestResultSchemasUnion };
 
 export const getCurrentTestSlotId = (tests: TestsModel): string => tests.currentTest.slotId;
 

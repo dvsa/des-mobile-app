@@ -16,11 +16,9 @@ import {
 export class ChartComponent {
   @Input() public chartId: string;
   @Input() public chartType: ChartType = 'pie';
-
   @Input() public data: { item: string, count: number }[] = [];
   @Input() public showLegend: boolean = false;
-
-  public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+  @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
@@ -30,16 +28,18 @@ export class ChartComponent {
     switch (this.chartType) {
       case 'donut':
       case 'pie':
+      case 'polarArea':
         return '1Axis';
       case 'bar':
         return '2Axis';
     }
   }
 
-  async ngAfterViewInit() {
-
+  ngOnInit() {
     this.filterData();
+  }
 
+  async ngAfterViewInit() {
     this.chart = new ApexCharts(document.getElementById(this.chartId), this.getOptions());
     await this.chart.render();
   }
@@ -48,6 +48,30 @@ export class ChartComponent {
     if (!!this.chart) {
       await this.chart.updateOptions(this.getOptions());
     }
+  }
+
+  getOptions1() {
+    return {
+      series: [44, 55, 13, 43, 22],
+      chart: {
+        width: 380,
+        type: 'donut',
+      },
+      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: 'bottom',
+            },
+          },
+        },
+      ],
+    };
   }
 
   getOptions() {
@@ -87,6 +111,14 @@ export class ChartComponent {
           },
         },
       ],
+      plotOptions: {
+        bar: {
+          distributed: true,
+          dataLabels: {
+            position: 'bottom',
+          },
+        },
+      },
     } as ApexOptions;
   }
 
