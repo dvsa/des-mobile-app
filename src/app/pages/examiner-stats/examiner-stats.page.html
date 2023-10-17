@@ -3,7 +3,7 @@
     <ion-buttons id="pass-cert-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title id="page-title">Examiner stats (last 28 days)</ion-title>
+    <ion-title id="page-title">Examiner stats (last 14 days)</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,6 +21,21 @@
       ></view-filter-radio>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-text class="des-header-style-4 fault-heading">Test Stats</ion-text>
+    </ion-card-header>
+    <ion-card-content>
+      <data-row [value]="pageState.testCount$ | async" label="Total tests completed"></data-row>
+      <data-row [value]="pageState.passPercentage$ | async" label="Pass percentage"></data-row>
+      <data-row
+        [shouldHaveSeperator]="false"
+        [value]="pageState.controlledStopCount$ | async"
+        label="Controlled stop"></data-row>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>
@@ -66,7 +81,7 @@
         </ion-col>
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
-            [chartType]="'donut'"
+            [chartType]="'polarArea'"
             [chartId]="'manoeuvres'"
             [showLegend]="filterOption !== 'Both'"
             [data]="(pageState.manoeuvres$ | async)">
@@ -95,6 +110,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'showMe'"
+            [chartType]="'donut'"
             [showLegend]="filterOption !== 'Both'"
             [data]="(pageState.showMeQuestions$ | async)">
           </chart>
@@ -122,6 +138,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'tellMe'"
+            [chartType]="'pie'"
             [showLegend]="filterOption !== 'Both'"
             [data]="pageState.tellMeQuestions$ | async">
           </chart>

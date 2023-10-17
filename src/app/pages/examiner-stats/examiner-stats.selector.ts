@@ -1,13 +1,13 @@
 import { forOwn, get, transform, uniqBy } from 'lodash';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { AlternativeManoeuvreTypeLabels, BaseManoeuvreTypeLabels } from '@pages/examiner-stats/examiner-stats.page';
+import { StartedTests } from '@store/tests/tests.selector';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
-type StartedTests = { [slotId: string]: TestResultSchemasUnion };
-
-export const getRouteNumbers = (startedTests: StartedTests): { item: string, count: number }[] => {
+export type ExaminerStatData = { item: string, count: number };
+export const getRouteNumbers = (startedTests: StartedTests): ExaminerStatData[] => {
   const data = Object.keys(startedTests)
     // extract route number
     .map((slotID: string) => (get(startedTests[slotID], 'testSummary.routeNumber', null)))
@@ -18,7 +18,25 @@ export const getRouteNumbers = (startedTests: StartedTests): { item: string, cou
     count: data.filter((r1) => r1 === item).length,
   })), 'item');
 };
-export const getShowMeQuestions = (startedTests: StartedTests): { item: string, count: number }[] => {
+
+export const getPassedTestCount = (startedTests: StartedTests): number => {
+  return Object.keys(startedTests)
+    .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
+    .length;
+};
+
+export const getControlledStopCount = (startedTests: StartedTests): number => {
+  return Object.keys(startedTests)
+    .map((slotID: string) => get(startedTests[slotID], 'testData.controlledStop', null))
+    .filter((controlledStop) => !!controlledStop?.selected)
+    .length;
+};
+
+export const getStartedTestCount = (startedTests: StartedTests): number => {
+  return Object.keys(startedTests).length;
+};
+
+export const getShowMeQuestions = (startedTests: StartedTests): ExaminerStatData[] => {
   const data = Object.keys(startedTests)
   // extract pass cert
     .map((slotID: string) => get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestion', null)).flat()
@@ -29,7 +47,8 @@ export const getShowMeQuestions = (startedTests: StartedTests): { item: string, 
     count: data.filter((r1) => r1 === item).length,
   })), 'item');
 };
-export const getTellMeQuestions = (startedTests: StartedTests): { item: string, count: number }[] => {
+
+export const getTellMeQuestions = (startedTests: StartedTests): ExaminerStatData[] => {
   const data = Object.keys(startedTests)
   // extract pass cert
     .map((slotID: string) => get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestion', null)).flat()
@@ -41,6 +60,7 @@ export const getTellMeQuestions = (startedTests: StartedTests): { item: string, 
     count: data.filter((r1) => r1 === item).length,
   })), 'item');
 };
+
 export const getManoeuvreTypeLabels = (category: TestCategory, type: ManoeuvreTypes) => {
   if ([TestCategory.BE, TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
@@ -50,7 +70,8 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type: ManoeuvreTy
     return BaseManoeuvreTypeLabels[type];
   }
 };
-export const getManoeuvresUsed = (startedTests: StartedTests): { item: string, count: number }[] => {
+
+export const getManoeuvresUsed = (startedTests: StartedTests): ExaminerStatData[] => {
   const faultsEncountered: string[] = [];
 
   Object.keys(startedTests)
