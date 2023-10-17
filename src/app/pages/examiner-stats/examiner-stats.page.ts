@@ -2,14 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests } from '@store/tests/tests.selector';
 import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
 import {
+  ExaminerStatData,
+  getControlledStopCount,
   getManoeuvresUsed,
+  getPassedTestCount,
   getRouteNumbers,
   getShowMeQuestions,
+  getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-stats/examiner-stats.selector';
 import { UntypedFormGroup } from '@angular/forms';
@@ -33,10 +37,13 @@ export enum AlternativeManoeuvreTypeLabels {
 }
 
 interface ExaminerStatsState {
-  routeNumbers$: Observable<any[]>;
-  manoeuvres$: Observable<any[]>;
-  showMeQuestions$: Observable<any[]>;
-  tellMeQuestions$: Observable<any[]>;
+  routeNumbers$: Observable<ExaminerStatData[]>;
+  manoeuvres$: Observable<ExaminerStatData[]>;
+  showMeQuestions$: Observable<ExaminerStatData[]>;
+  tellMeQuestions$: Observable<ExaminerStatData[]>;
+  testCount$: Observable<number>;
+  passPercentage$: Observable<string>;
+  controlledStopCount$: Observable<string>;
 }
 
 export const enum FilterEnum {
@@ -73,21 +80,63 @@ export class ExaminerStatsPage implements OnInit {
           select(getTests),
           map(getStartedTests),
           map(getRouteNumbers),
+          take(1),
+        ),
+        passPercentage$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getStartedTestCount),
+          withLatestFrom(
+            this.store$.pipe(
+              select(getTests),
+              map(getStartedTests),
+              map(getPassedTestCount),
+            ),
+          ),
+          map(([started, passed]) =>
+            `${((passed / started) * 100).toFixed(2)}%`,
+          ),
+          take(1),
+        ),
+        controlledStopCount$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getStartedTestCount),
+          withLatestFrom(
+            this.store$.pipe(
+              select(getTests),
+              map(getStartedTests),
+              map(getControlledStopCount),
+            ),
+          ),
+          map(([started, controlledStop]) =>
+            `${((controlledStop / started) * 100).toFixed(2)}%`,
+          ),
+          take(1),
+        ),
+        testCount$: this.store$.pipe(
+          select(getTests),
+          map(getStartedTests),
+          map(getStartedTestCount),
+          take(1),
         ),
         manoeuvres$: this.store$.pipe(
           select(getTests),
           map(getStartedTests),
           map(getManoeuvresUsed),
+          take(1),
         ),
         showMeQuestions$: this.store$.pipe(
           select(getTests),
           map(getStartedTests),
           map(getShowMeQuestions),
+          take(1),
         ),
         tellMeQuestions$: this.store$.pipe(
           select(getTests),
           map(getStartedTests),
           map(getTellMeQuestions),
+          take(1),
         ),
       };
     }
