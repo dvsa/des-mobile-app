@@ -96,11 +96,7 @@ export class ExaminerStatsPage implements OnInit {
       this.store$.dispatch(ExaminerStatsViewDidEnter());
     }
 
-    handleGrid(object: { item: string, count: number }[]) {
-      let tempArray = [];
-      object.forEach((val: { item: string, count: number }) => {
-        tempArray.push([val.item, val.count]);
-      });
-      return tempArray;
+    handleGrid(object: { item: string, count: number }[]): [string, number][] {
+      return object.map((val) => [val.item, val.count]);
     }
 }

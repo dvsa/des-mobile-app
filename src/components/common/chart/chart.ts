@@ -20,6 +20,8 @@ export class ChartComponent {
   @Input() public data: { item: string, count: number }[] = [];
   @Input() public showLegend: boolean = false;
 
+  public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
   public chart: ApexCharts = null;
@@ -51,6 +53,9 @@ export class ChartComponent {
   getOptions() {
     return {
       chart: {
+        toolbar: {
+          show: false,
+        },
         animations: {
           enabled: false,
         },
@@ -65,13 +70,9 @@ export class ChartComponent {
         enabled: true,
         style: {
           fontSize: '24px',
-          colors: ['#000000'],
         },
       },
-      // stroke: {
-      //   width: 1,
-      //   colors: ['#000000'],
-      // },
+      colors: this.colors,
       series: this.dataValues,
       labels: this.labels,
       responsive: [
@@ -93,7 +94,7 @@ export class ChartComponent {
     let tempValues = [];
 
     this.data.forEach((value) => {
-      if (this.chartType === ('pie' || 'donut')) {
+      if (this.getChartType() === '1Axis') {
         this.labels.push(value.item);
         (this.dataValues as ApexNonAxisChartSeries).push(value.count);
       } else {
