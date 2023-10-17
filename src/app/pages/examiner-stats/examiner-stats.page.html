@@ -38,6 +38,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'routeNum'"
+            [chartType]="'bar'"
             [showLegend]="filterOption !== 'Both'"
             [data]="pageState.routeNumbers$ | async">
           </chart>
@@ -65,6 +66,7 @@
         </ion-col>
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
+            [chartType]="'donut'"
             [chartId]="'manoeuvres'"
             [showLegend]="filterOption !== 'Both'"
             [data]="(pageState.manoeuvres$ | async)">
