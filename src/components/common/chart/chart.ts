@@ -2,23 +2,10 @@ import { Component, Input } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import {
   ApexAxisChartSeries,
-  ApexChart, ApexLegend,
   ApexNonAxisChartSeries,
-  ApexResponsive,
-  ApexTitleSubtitle,
-} from 'ng-apexcharts';
-import { ApexDataLabels } from 'ng-apexcharts/lib/model/apex-types';
-
-export type ChartOptions = {
-  series: ApexNonAxisChartSeries | ApexAxisChartSeries;
-  chart: ApexChart;
-  colors: string[];
-  responsive: ApexResponsive[];
-  title: ApexTitleSubtitle;
-  labels: any;
-  dataLabels: ApexDataLabels;
-  legendData: ApexLegend;
-};
+  ApexOptions,
+  ChartType,
+} from 'ng-apexcharts/lib/model/apex-types';
 
 @Component({
   selector: 'chart',
@@ -28,56 +15,96 @@ export type ChartOptions = {
 })
 export class ChartComponent {
   @Input() public chartId: string;
+  @Input() public chartType: ChartType = 'pie';
 
   @Input() public data: { item: string, count: number }[] = [];
-  @Input() public legendData: ApexLegend = { show: false };
-  @Input() public chartConfig: ApexChart = {
-    height: 350,
-    width: 400,
-    type: 'donut',
-  };
+  @Input() public showLegend: boolean = false;
 
-  public chartOptions: Partial<ChartOptions>;
-  public dataValues = [];
-  public labels = [];
+  public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
+  public labels: string[] = [];
+  public chart: ApexCharts = null;
 
-  ngOnInit() {
+  getChartType(): string {
+    switch (this.chartType) {
+      case 'donut':
+      case 'pie':
+        return '1Axis';
+      case 'bar':
+        return '2Axis';
+    }
+  }
+
+  async ngAfterViewInit() {
 
     this.filterData();
-    let chart = new ApexCharts(
-      document.getElementById(this.chartId),
-      {
-        chart: {
-          width: 500,
-          height: 500,
-          type: 'pie',
-        },
-        dataLabels: {
+
+    this.chart = new ApexCharts(document.getElementById(this.chartId), this.getOptions());
+    await this.chart.render();
+  }
+
+  async ngOnChanges() {
+    if (!!this.chart) {
+      await this.chart.updateOptions(this.getOptions());
+    }
+  }
+
+  getOptions() {
+    return {
+      chart: {
+        animations: {
           enabled: false,
         },
-        series: [
-          44, 55, 41, 64, 22, 43, 21,
-        ],
-        responsive: [
-          {
-            breakpoint: 1000,
-            options: {
-              legend: {
-                position: 'bottom',
-              },
+        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
+        fontSize: '24px',
+        foreColor: '#000000',
+        width: 300,
+        height: 300,
+        type: this.chartType,
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          fontSize: '24px',
+          colors: ['#000000'],
+        },
+      },
+      // stroke: {
+      //   width: 1,
+      //   colors: ['#000000'],
+      // },
+      series: this.dataValues,
+      labels: this.labels,
+      responsive: [
+        {
+          breakpoint: 1000,
+          options: {
+            legend: {
+              show: this.showLegend,
+              fontSize: '24px',
+              position: 'bottom',
             },
           },
-        ],
-      });
-    chart.render();
+        },
+      ],
+    } as ApexOptions;
   }
 
   filterData() {
+    let tempValues = [];
+
     this.data.forEach((value) => {
-      this.labels.push(value.item);
-      this.dataValues.push(value.count);
+      if (this.chartType === ('pie' || 'donut')) {
+        this.labels.push(value.item);
+        (this.dataValues as ApexNonAxisChartSeries).push(value.count);
+      } else {
+        this.labels.push(value.item);
+        tempValues.push(value.count);
+      }
     });
 
+    if (this.getChartType() === '2Axis') {
+      (this.dataValues as ApexAxisChartSeries) = [{ data: tempValues }];
+    }
   }
 }
 
