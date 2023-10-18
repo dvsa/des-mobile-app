@@ -39,6 +39,8 @@ export class DataGridComponent implements OnInit {
       .flat();
   }
 
+  trackByIndex = (index: number) => index;
+
   cropData() {
     this.croppedRows = {
       preCrop: this.passedData.slice(0, this.rowCropCount),

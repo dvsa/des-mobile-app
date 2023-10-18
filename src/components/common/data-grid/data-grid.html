@@ -15,7 +15,7 @@
 
 <ng-template *ngIf="croppedRows; then showMore else fullData;"></ng-template>
 <ng-template #showMore>
-  <ion-row *ngFor="let passedItem of croppedRows.preCrop; index as i">
+  <ion-row *ngFor="let passedItem of croppedRows.preCrop; index as i; trackBy: trackByIndex;">
     <ion-col size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
@@ -29,7 +29,7 @@
   </ion-row>
 
   <div *ngIf="showCroppedData">
-    <ion-row *ngFor="let passedItem of croppedRows.postCrop; index as i">
+    <ion-row *ngFor="let passedItem of croppedRows.postCrop; index as i; trackBy: trackByIndex;">
       <ion-col size="auto" *ngIf="displayColour">
         <span [style.background-color]="finalColourArray[i+croppedRows.preCrop.length]" class="dot"></span>
       </ion-col>
@@ -46,7 +46,7 @@
 </ng-template>
 
 <ng-template #fullData>
-  <ion-row *ngFor="let passedItem of passedData; index as i">
+  <ion-row *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;">
     <ion-col size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
