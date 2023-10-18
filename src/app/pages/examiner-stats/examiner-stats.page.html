@@ -10,8 +10,8 @@
 <ion-content [fullscreen]="true" *ngIf="{
   routeGrid: handleGrid(pageState.routeNumbers$ | async),
   manoeuvresGrid: handleGrid(pageState.manoeuvres$ | async),
-  showMeQuestions: handleGrid(pageState.showMeQuestions$ | async),
-  tellMeQuestions: handleGrid(pageState.tellMeQuestions$ | async),
+  showMeQuestionsGrid: handleGrid(pageState.showMeQuestions$ | async),
+  tellMeQuestionsGrid: handleGrid(pageState.tellMeQuestions$ | async),
   testCount: pageState.testCount$ | async,
 } as data">
 
@@ -108,7 +108,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.showMeQuestions?.length">
+  <ion-card *ngIf="data.showMeQuestionsGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Show me questions completed</ion-text>
@@ -122,7 +122,7 @@
             [rowCropCount]="1"
             [colourScheme]="colors"
             [displayColour]="filterOption === 'Both'"
-            [passedData]="data.showMeQuestions">
+            [passedData]="data.showMeQuestionsGrid">
           </data-grid>
         </ion-col>
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
@@ -130,14 +130,14 @@
             [chartId]="'showMe'"
             [chartType]="'donut'"
             [showLegend]="filterOption !== 'Both'"
-            [passedData]="data.showMeQuestions">
+            [passedData]="data.showMeQuestionsGrid">
           </chart>
         </ion-col>
       </ion-row>
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.tellMeQuestions?.length">
+  <ion-card *ngIf="data.tellMeQuestionsGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Tell me questions completed</ion-text>
@@ -151,7 +151,7 @@
             [rowCropCount]="3"
             [colourScheme]="colors"
             [displayColour]="filterOption === 'Both'"
-            [passedData]="data.tellMeQuestions">
+            [passedData]="data.tellMeQuestionsGrid">
           </data-grid>
         </ion-col>
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
@@ -159,7 +159,7 @@
             [chartId]="'tellMe'"
             [chartType]="'pie'"
             [showLegend]="filterOption !== 'Both'"
-            [passedData]="data.tellMeQuestions">
+            [passedData]="data.tellMeQuestionsGrid">
           </chart>
         </ion-col>
       </ion-row>
