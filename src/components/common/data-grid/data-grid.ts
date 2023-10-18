@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+type PassedData = [string, number];
+
 @Component({
   selector: 'data-grid',
   templateUrl: 'data-grid.html',
@@ -8,14 +10,13 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DataGridComponent implements OnInit {
 
   @Input() headers: string[] = null;
-  @Input() passedData: [string, number][] = null;
+  @Input() passedData: PassedData[] = null;
   @Input() rowCropCount: number = null;
   @Input() colourScheme: string[] = null;
   @Input() displayColour: boolean = false;
 
   public finalColourArray: string[] = null;
-  public croppedRows: { preCrop: any[], postCrop: any[] } = null;
-  public croppedColumns: { preCrop: any[], postCrop: any[] } = null;
+  public croppedRows: { preCrop: PassedData[], postCrop: PassedData[] } = null;
   public showCroppedData: boolean = false;
 
   ngOnInit() {
@@ -28,23 +29,14 @@ export class DataGridComponent implements OnInit {
   }
 
   loopColours() {
-    let tempArray: string[] = [];
-    if (this.croppedRows) {
-      let loopCount: number = Math.ceil((
-        this.croppedRows.preCrop.length + this.croppedRows.postCrop.length
-      ) / this.colourScheme.length);
-      for (let i = 0; i < loopCount; i += 1) {
-        tempArray.push.apply(tempArray, this.colourScheme);
-      }
-    } else {
-      let loopCount: number = Math.ceil((
-        this.passedData.length
-      ) / this.colourScheme.length);
-      for (let i = 0; i < loopCount; i += 1) {
-        tempArray.push.apply(tempArray, this.colourScheme);
-      }
-    }
-    return  tempArray;
+    const loopCount = !!(this.rowCropCount)
+      ? Math.ceil((this.croppedRows.preCrop.length + this.croppedRows.postCrop.length) / this.colourScheme.length)
+      : Math.ceil((this.passedData.length) / this.colourScheme.length);
+
+    return Array(loopCount)
+      .fill(() => null)
+      .map(() => this.colourScheme)
+      .flat();
   }
 
   cropData() {
