@@ -70,6 +70,8 @@ export class ExaminerStatsPage implements OnInit {
   pageState: ExaminerStatsState;
   filterOption: FilterEnum = FilterEnum.Both;
   colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+  controlledStopTotal: number;
+  selectFilterOptions: string[] = ['Today', 'Last 7 days', 'Last 14 days'];
 
   ngOnInit(): void {
     this.pageState = {
@@ -106,8 +108,10 @@ export class ExaminerStatsPage implements OnInit {
             map(getControlledStopCount),
           ),
         ),
-        map(([started, controlledStop]) =>
-          `${((controlledStop / started) * 100).toFixed(2)}%`,
+        map(([started, controlledStop]) => {
+          this.controlledStopTotal = controlledStop;
+          return `${((controlledStop / started) * 100).toFixed(2)}%`;
+        },
         ),
         take(1),
       ),
@@ -144,5 +148,9 @@ export class ExaminerStatsPage implements OnInit {
 
   handleGrid(object: { item: string, count: number }[]): [string, number][] {
     return object.map((val) => [val.item, val.count]);
+  }
+
+  handleFilter($event: any) {
+    console.log($event);
   }
 }
