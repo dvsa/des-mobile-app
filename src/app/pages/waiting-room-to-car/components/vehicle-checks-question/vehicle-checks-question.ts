@@ -6,7 +6,6 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'vehicle-checks-question',
@@ -41,7 +40,6 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   questionFormControl: UntypedFormControl;
   questionOutcomeFormControl: UntypedFormControl;
-  private onDestroy$ = new Subject<void>();
 
   readonly questionId: string = uniqueId();
   readonly questionOutcomeFieldName: string = `vehicleChecksQuestionOutcome_${this.questionId}`;
