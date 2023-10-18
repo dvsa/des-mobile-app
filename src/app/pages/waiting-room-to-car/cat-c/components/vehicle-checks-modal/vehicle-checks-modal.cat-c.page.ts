@@ -1,9 +1,9 @@
 import { ModalController, NavParams } from '@ionic/angular';
-import { Component, EventEmitter } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Observable, merge, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
-import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
@@ -15,20 +15,20 @@ import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import {
-  ShowMeQuestionSelected,
-  ShowMeQuestionOutcomeChanged,
-  TellMeQuestionSelected,
-  TellMeQuestionOutcomeChanged,
   SetFullLicenceHeld,
+  ShowMeQuestionOutcomeChanged,
+  ShowMeQuestionSelected,
+  TellMeQuestionOutcomeChanged,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
-  getVehicleChecksCatC,
-  getSelectedShowMeQuestions,
-  getSelectedTellMeQuestions,
   CatCVehicleChecks,
   getFullLicenceHeld,
+  getSelectedShowMeQuestions,
+  getSelectedTellMeQuestions,
+  getVehicleChecksCatC,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -63,6 +63,7 @@ interface VehicleChecksModalCatCState {
   selector: 'vehicle-checks-modal-cat-c',
   templateUrl: 'vehicle-checks-modal.cat-c.page.html',
   styleUrls: ['vehicle-checks-modal.cat-c.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VehicleChecksCatCModal {
   pageState: VehicleChecksModalCatCState;
@@ -72,7 +73,6 @@ export class VehicleChecksCatCModal {
   tellMeQuestions: VehicleChecksQuestion[];
 
   category: TestCategory;
-  modalOpened: EventEmitter<void>;
   submitClicked: boolean;
   fullLicenceHeld: boolean = null;
   showMeQuestionsNumberArray: number[];
@@ -85,12 +85,12 @@ export class VehicleChecksCatCModal {
   constructor(
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
+    private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
     params: NavParams,
   ) {
     this.category = params.get('category');
-    this.modalOpened = params.get('modalOpened');
     this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
@@ -160,6 +160,7 @@ export class VehicleChecksCatCModal {
 
     this.subscription = merged$.subscribe();
     this.setNumberOfShowMeTellMeQuestions(this.fullLicenceHeld);
+    this.ref.detectChanges();
   }
 
   setNumberOfShowMeTellMeQuestions(fullLicenceHeld?: boolean) {

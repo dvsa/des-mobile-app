@@ -10,4 +10,9 @@ version: v1.25.0
 
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
+  SNYK-JS-BABELTRAVERSE-5962462:
+     - '*':
+         reason: Remediation not yet available
+         expires: 2024-10-18T09:57:51:122Z
+         created: 2023-10-18T09:57:51:122Z
 patch: {}

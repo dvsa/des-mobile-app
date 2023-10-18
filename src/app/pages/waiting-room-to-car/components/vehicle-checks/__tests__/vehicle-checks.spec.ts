@@ -80,7 +80,7 @@ describe('VehicleChecksComponent', () => {
         await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: VehicleChecksCatCModal,
-          componentProps: { category: TestCategory.C1E },
+          componentProps: { category: TestCategory.C1E, submitClicked: undefined },
           cssClass: 'modal-fullscreen regular',
         });
       });
