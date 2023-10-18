@@ -1,22 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import ApexCharts from 'apexcharts';
-import {
-  ApexAxisChartSeries,
-  ApexNonAxisChartSeries,
-  ApexOptions,
-  ChartType,
-} from 'ng-apexcharts/lib/model/apex-types';
+import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
+import { isEqual } from 'lodash';
+import { PassedData } from '@components/common/data-grid/data-grid';
 
 @Component({
   selector: 'chart',
   templateUrl: 'chart.html',
   styleUrls: ['chart.scss'],
-
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public chartId: string;
   @Input() public chartType: ChartType = 'pie';
-  @Input() public data: { item: string, count: number }[] = [];
+  @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
@@ -40,41 +36,17 @@ export class ChartComponent {
   }
 
   async ngAfterViewInit() {
-    this.chart = new ApexCharts(document.getElementById(this.chartId), this.getOptions());
+    this.chart = new ApexCharts(document.getElementById(this.chartId), this.options);
     await this.chart.render();
   }
 
-  async ngOnChanges() {
-    if (!!this.chart) {
-      await this.chart.updateOptions(this.getOptions());
+  async ngOnChanges(changes: SimpleChanges) {
+    if (!!this.chart && !isEqual(changes.passedData.currentValue, changes.passedData.previousValue)) {
+      await this.chart.updateOptions(this.options);
     }
   }
 
-  getOptions1() {
-    return {
-      series: [44, 55, 13, 43, 22],
-      chart: {
-        width: 380,
-        type: 'donut',
-      },
-      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-            legend: {
-              position: 'bottom',
-            },
-          },
-        },
-      ],
-    };
-  }
-
-  getOptions() {
+  get options() {
     return {
       chart: {
         toolbar: {
@@ -123,21 +95,13 @@ export class ChartComponent {
   }
 
   filterData() {
-    let tempValues = [];
+    this.labels = this.passedData.map(([label]) => label);
 
-    this.data.forEach((value) => {
-      if (this.getChartType() === '1Axis') {
-        this.labels.push(value.item);
-        (this.dataValues as ApexNonAxisChartSeries).push(value.count);
-      } else {
-        this.labels.push(value.item);
-        tempValues.push(value.count);
-      }
-    });
+    const values: number[] = this.passedData.map(([, value]) => value);
 
-    if (this.getChartType() === '2Axis') {
-      (this.dataValues as ApexAxisChartSeries) = [{ data: tempValues }];
-    }
+    this.dataValues = (this.getChartType() === '1Axis')
+      ? values as ApexNonAxisChartSeries
+      : [{ data: values }] as ApexAxisChartSeries;
   }
 }
 

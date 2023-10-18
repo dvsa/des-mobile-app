@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-type PassedData = [string, number];
+export type PassedData = [string, number];
 
 @Component({
   selector: 'data-grid',

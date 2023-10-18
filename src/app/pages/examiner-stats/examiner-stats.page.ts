@@ -57,95 +57,92 @@ export const enum FilterEnum {
   templateUrl: './examiner-stats.page.html',
   styleUrls: ['./examiner-stats.page.scss'],
 })
-
 export class ExaminerStatsPage implements OnInit {
 
+  merged$: Observable<any>;
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
-    merged$: Observable<any>;
-    form: UntypedFormGroup = new UntypedFormGroup({});
+  constructor(
+    public store$: Store<StoreModel>,
+  ) {
+  }
 
-    constructor(
-      public store$: Store<StoreModel>,
-    ) {
-    }
+  pageState: ExaminerStatsState;
+  filterOption: FilterEnum = FilterEnum.Both;
+  colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
-    pageState: ExaminerStatsState;
-    filterOption: FilterEnum = FilterEnum.Both;
-    colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
-
-
-    ngOnInit(): void {
-      this.pageState = {
-        routeNumbers$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getRouteNumbers),
-          take(1),
-        ),
-        passPercentage$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getStartedTestCount),
-          withLatestFrom(
-            this.store$.pipe(
-              select(getTests),
-              map(getStartedTests),
-              map(getPassedTestCount),
-            ),
+  ngOnInit(): void {
+    this.pageState = {
+      routeNumbers$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getRouteNumbers),
+        take(1),
+      ),
+      passPercentage$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getStartedTestCount),
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            map(getStartedTests),
+            map(getPassedTestCount),
           ),
-          map(([started, passed]) =>
-            `${((passed / started) * 100).toFixed(2)}%`,
+        ),
+        map(([started, passed]) =>
+          `${((passed / started) * 100).toFixed(2)}%`,
+        ),
+        take(1),
+      ),
+      controlledStopCount$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getStartedTestCount),
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            map(getStartedTests),
+            map(getControlledStopCount),
           ),
-          take(1),
         ),
-        controlledStopCount$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getStartedTestCount),
-          withLatestFrom(
-            this.store$.pipe(
-              select(getTests),
-              map(getStartedTests),
-              map(getControlledStopCount),
-            ),
-          ),
-          map(([started, controlledStop]) =>
-            `${((controlledStop / started) * 100).toFixed(2)}%`,
-          ),
-          take(1),
+        map(([started, controlledStop]) =>
+          `${((controlledStop / started) * 100).toFixed(2)}%`,
         ),
-        testCount$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getStartedTestCount),
-          take(1),
-        ),
-        manoeuvres$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getManoeuvresUsed),
-          take(1),
-        ),
-        showMeQuestions$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getShowMeQuestions),
-          take(1),
-        ),
-        tellMeQuestions$: this.store$.pipe(
-          select(getTests),
-          map(getStartedTests),
-          map(getTellMeQuestions),
-          take(1),
-        ),
-      };
-    }
+        take(1),
+      ),
+      testCount$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getStartedTestCount),
+        take(1),
+      ),
+      manoeuvres$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getManoeuvresUsed),
+        take(1),
+      ),
+      showMeQuestions$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getShowMeQuestions),
+        take(1),
+      ),
+      tellMeQuestions$: this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        map(getTellMeQuestions),
+        take(1),
+      ),
+    };
+  }
 
-    ionViewDidEnter() {
-      this.store$.dispatch(ExaminerStatsViewDidEnter());
-    }
+  ionViewDidEnter() {
+    this.store$.dispatch(ExaminerStatsViewDidEnter());
+  }
 
-    handleGrid(object: { item: string, count: number }[]): [string, number][] {
-      return object.map((val) => [val.item, val.count]);
-    }
+  handleGrid(object: { item: string, count: number }[]): [string, number][] {
+    return object.map((val) => [val.item, val.count]);
+  }
 }
