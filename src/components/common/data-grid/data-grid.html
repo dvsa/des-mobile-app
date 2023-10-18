@@ -6,12 +6,15 @@
     <label class="text-align-center">{{header}}</label>
   </ion-col>
 </ion-row>
+
 <br>
+
 <ion-row *ngIf="headers" class="mes-row-separator"></ion-row>
+
 <br>
+
 <ng-template *ngIf="croppedRows; then showMore else fullData;"></ng-template>
 <ng-template #showMore>
-
   <ion-row *ngFor="let passedItem of croppedRows.preCrop; index as i">
     <ion-col size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
