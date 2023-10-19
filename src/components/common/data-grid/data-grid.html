@@ -24,7 +24,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row class="padding-top-10 display-flex ion-justify-content-center" *ngIf="!showCroppedData">
+  <ion-row class="padding-top-10 display-flex ion-justify-content-center" *ngIf="!showCroppedData && croppedRows.preCrop.length >= rowCropCount">
     <ion-button class="mes-grey-button" (click)="showCroppedData = !showCroppedData">Show more</ion-button>
   </ion-row>
 
