@@ -30,15 +30,29 @@
         ></view-filter-radio>
       </data-row-custom>
       <data-row-custom
-        [shouldHaveSeperator]="false"
+        [shouldHaveSeperator]="true"
         [label]="'Date filter'">
         <ion-select
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
-          (ionChange)="handleFilter($event)"
+          (ionChange)="handleDateFilter($event)"
           labelPlacement="stacked"
           placeholder="Last 14 days">
-          <ion-select-option [value]="option.val" *ngFor="let option of selectFilterOptions;">
+          <ion-select-option [value]="option.val" *ngFor="let option of dateFilterOptions;">
+            {{option.display}}
+          </ion-select-option>
+        </ion-select>
+      </data-row-custom>
+      <data-row-custom
+        [shouldHaveSeperator]="false"
+        [label]="'Chart Type'">
+        <ion-select
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          (ionChange)="handleChartFilter($event)"
+          labelPlacement="stacked"
+          placeholder="Default">
+          <ion-select-option [value]="option.val" *ngFor="let option of chartFilterOptions;">
             {{option.display}}
           </ion-select-option>
         </ion-select>
@@ -90,7 +104,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'routeNum'"
-            [chartType]="'bar'"
+            [chartType]="globalChartType ? globalChartType : 'bar'"
             [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.routeGrid">
@@ -120,7 +134,7 @@
         </ion-col>
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
-            [chartType]="'polarArea'"
+            [chartType]="globalChartType ? globalChartType : 'polarArea'"
             [chartId]="'manoeuvres'"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.manoeuvresGrid">
@@ -150,7 +164,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'showMe'"
-            [chartType]="'donut'"
+            [chartType]="globalChartType ? globalChartType : 'donut'"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.showMeQuestionsGrid">
           </chart>
@@ -179,7 +193,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'tellMe'"
-            [chartType]="'pie'"
+            [chartType]="globalChartType ? globalChartType : 'pie'"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.tellMeQuestionsGrid">
           </chart>
@@ -208,7 +222,7 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'safetyAndBalance'"
-            [chartType]="'pie'"
+            [chartType]="globalChartType ? globalChartType : 'pie'"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.safetyAndBalanceGrid">
           </chart>
