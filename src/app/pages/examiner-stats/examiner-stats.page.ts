@@ -20,6 +20,7 @@ import {
   getTellMeQuestions,
 } from '@pages/examiner-stats/examiner-stats.selector';
 import { DateRange } from '@shared/helpers/date-time';
+import { ChartType } from 'ng-apexcharts';
 
 export enum BaseManoeuvreTypeLabels {
   reverseLeft = 'Reverse left',
@@ -65,18 +66,13 @@ export class ExaminerStatsPage implements OnInit {
 
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
-
-  constructor(
-    public store$: Store<StoreModel>,
-  ) {
-  }
-
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   pageState: ExaminerStatsState;
   filterOption: FilterEnum = FilterEnum.Both;
   colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   controlledStopTotal: number;
-  selectFilterOptions: { display: string; val: DateRange }[] = [
+  globalChartType: ChartType;
+  dateFilterOptions: { display: string; val: DateRange }[] = [
     {
       display: 'Today',
       val: 'today',
@@ -90,6 +86,19 @@ export class ExaminerStatsPage implements OnInit {
       val: 'fortnight',
     },
   ];
+  chartFilterOptions: { display: string, val: ChartType }[] = [
+    { display: 'Default', val: null },
+    { display: 'Bar', val: 'bar' },
+    { display: 'Pie', val: 'pie' },
+    { display: 'Donut', val: 'donut' },
+    { display: 'Polar Area', val: 'polarArea' },
+  ];
+
+  constructor(
+    public store$: Store<StoreModel>,
+  ) {
+  }
+
   private calculatePercentage = (
     [startedTestCount, comparatorCount],
   ) => `${((comparatorCount / startedTestCount) * 100).toFixed(2)}%`;
@@ -146,8 +155,12 @@ export class ExaminerStatsPage implements OnInit {
     return object.map((val) => [val.item, val.count]);
   }
 
-  handleFilter(event: CustomEvent) {
+  handleDateFilter(event: CustomEvent) {
     const range = event.detail?.value ?? null;
     this.rangeSubject$.next(range);
+  }
+
+  handleChartFilter($event: any) {
+    this.globalChartType = $event.detail.value;
   }
 }

@@ -42,9 +42,10 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (!!this.chart
-      && (!isEqual(changes?.passedData.currentValue, changes?.passedData.previousValue)
-        || !isEqual(changes?.showLegend?.currentValue, changes?.showLegend?.previousValue))) {
+    const dataChanged = Object.keys(changes)
+      .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
+
+    if (!!this.chart && dataChanged) {
       await this.chart.updateOptions(this.options);
     }
   }
