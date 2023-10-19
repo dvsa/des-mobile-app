@@ -9,6 +9,8 @@ export enum Duration {
   SECOND = 'second',
 }
 
+export type DateRange = 'today' | 'week' | 'fortnight';
+
 export class DateTime {
   moment: moment.Moment;
 
@@ -82,6 +84,27 @@ export class DateTime {
   isBefore(targetDate: DateTime | string | Date): boolean {
     const date = new DateTime(targetDate);
     return date.moment.diff(this.moment, Duration.SECOND) > 0;
+  }
+
+  isDuring(range: DateRange) {
+    let dateRange: moment.Moment = null;
+
+    switch (range) {
+      case 'today':
+        dateRange = moment(new Date())
+          .subtract(1, 'day');
+        break;
+      case 'week':
+        dateRange = moment(new Date())
+          .subtract(1, 'week');
+        break;
+      case 'fortnight':
+        dateRange = moment(new Date())
+          .subtract(2, 'week');
+        break;
+    }
+
+    return this.moment.isSameOrAfter(dateRange);
   }
 
   static today(): Date {

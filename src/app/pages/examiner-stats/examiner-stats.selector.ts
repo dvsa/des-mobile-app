@@ -5,55 +5,78 @@ import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { AlternativeManoeuvreTypeLabels, BaseManoeuvreTypeLabels } from '@pages/examiner-stats/examiner-stats.page';
 import { StartedTests } from '@store/tests/tests.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 
 export type ExaminerStatData = { item: string, count: number };
-export const getRouteNumbers = (startedTests: StartedTests): ExaminerStatData[] => {
+
+// add date range filter
+const dateFilter = (test: TestResultSchemasUnion, range: DateRange = null): boolean => (range)
+  // use range when provided
+  ? new DateTime(get(test, 'journalData.testSlotAttributes.start')).isDuring(range)
+  // return true to get all tests when no range provided
+  : true;
+
+export const getPassedTestCount = (startedTests: StartedTests, range: DateRange = null): number =>
+  Object.keys(startedTests)
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+    .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
+    .length;
+
+export const getControlledStopCount = (startedTests: StartedTests, range: DateRange = null): number =>
+  Object.keys(startedTests)
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+    .map((slotID: string) => get(startedTests[slotID], 'testData.controlledStop', null))
+    .filter((controlledStop) => !!controlledStop?.selected)
+    .length;
+
+export const getStartedTestCount = (startedTests: StartedTests, range: DateRange = null): number =>
+  Object.keys(startedTests)
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+    .length;
+
+export const getRouteNumbers = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
   const data = Object.keys(startedTests)
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
     // extract route number
-    .map((slotID: string) => (get(startedTests[slotID], 'testSummary.routeNumber', null)))
+    .map((slotID: string) => get(startedTests[slotID], 'testSummary.routeNumber', null))
     // filter for any nulls
     .filter((route) => route !== null);
+
   return uniqBy(data.map((item) => ({
     item,
     count: data.filter((r1) => r1 === item).length,
   })), 'item');
 };
 
-export const getPassedTestCount = (startedTests: StartedTests): number => {
-  return Object.keys(startedTests)
-    .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
-    .length;
-};
-
-export const getControlledStopCount = (startedTests: StartedTests): number => {
-  return Object.keys(startedTests)
-    .map((slotID: string) => get(startedTests[slotID], 'testData.controlledStop', null))
-    .filter((controlledStop) => !!controlledStop?.selected)
-    .length;
-};
-
-export const getStartedTestCount = (startedTests: StartedTests): number => {
-  return Object.keys(startedTests).length;
-};
-
-export const getShowMeQuestions = (startedTests: StartedTests): ExaminerStatData[] => {
+export const getShowMeQuestions = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
   const data = Object.keys(startedTests)
-  // extract pass cert
-    .map((slotID: string) => get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestion', null)).flat()
-  // filter for any empty string/null values
-    .filter((question: { code: string, description: string }) => !!question?.code);
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+    .map((slotID: string) => [
+      ...[get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestion', null)] as [QuestionResult],
+      ...get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestions', []) as QuestionResult[],
+    ])
+    .flat()
+    // filter for any empty string/null values
+    .filter((question: QuestionResult) => !!question?.code);
+
   return uniqBy(data.map((item) => ({
     item: `${item.code} - ${item.description}`,
     count: data.filter((r1) => r1 === item).length,
   })), 'item');
 };
 
-export const getTellMeQuestions = (startedTests: StartedTests): ExaminerStatData[] => {
+export const getTellMeQuestions = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
   const data = Object.keys(startedTests)
-  // extract pass cert
-    .map((slotID: string) => get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestion', null)).flat()
-  // filter for any empty string/null values
-    .filter((question: { code: string, description: string }) => !!question?.code);
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+    .map((slotID: string) => [
+      ...[get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestion', null)] as [QuestionResult],
+      ...get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestions', []) as QuestionResult[],
+    ])
+    .flat()
+    // filter for any empty string/null values
+    .filter((question: QuestionResult) => !!question?.code);
 
   return uniqBy(data.map((item) => ({
     item: `${item.code} - ${item.description}`,
@@ -71,10 +94,11 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type: ManoeuvreTy
   }
 };
 
-export const getManoeuvresUsed = (startedTests: StartedTests): ExaminerStatData[] => {
+export const getManoeuvresUsed = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
   const faultsEncountered: string[] = [];
 
   Object.keys(startedTests)
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
     .forEach((slotID) => {
       const manoeuvres = get(startedTests[slotID], 'testData.manoeuvres');
       if (!manoeuvres) return;
@@ -89,6 +113,7 @@ export const getManoeuvresUsed = (startedTests: StartedTests): ExaminerStatData[
         });
       });
     });
+
   return uniqBy(
     faultsEncountered
       .filter((fault) => !!fault)

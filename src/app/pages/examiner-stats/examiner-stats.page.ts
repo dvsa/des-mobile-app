@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { UntypedFormGroup } from '@angular/forms';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+
 import { StoreModel } from '@shared/models/store.model';
-import { Observable } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
 import { getTests } from '@store/tests/tests.reducer';
-import { getStartedTests } from '@store/tests/tests.selector';
+import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
 import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
 import {
   ExaminerStatData,
@@ -16,7 +18,7 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-stats/examiner-stats.selector';
-import { UntypedFormGroup } from '@angular/forms';
+import { DateRange } from '@shared/helpers/date-time';
 
 export enum BaseManoeuvreTypeLabels {
   reverseLeft = 'Reverse left',
@@ -43,7 +45,7 @@ interface ExaminerStatsState {
   tellMeQuestions$: Observable<ExaminerStatData[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
-  controlledStopCount$: Observable<string>;
+  controlledStopPercentage$: Observable<string>;
 }
 
 export const enum FilterEnum {
@@ -67,78 +69,69 @@ export class ExaminerStatsPage implements OnInit {
   ) {
   }
 
+  rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   pageState: ExaminerStatsState;
   filterOption: FilterEnum = FilterEnum.Both;
   colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   controlledStopTotal: number;
-  selectFilterOptions: string[] = ['Today', 'Last 7 days', 'Last 14 days'];
+  selectFilterOptions: { display: string; val: DateRange }[] = [
+    {
+      display: 'Today',
+      val: 'today',
+    },
+    {
+      display: 'Last 7 days',
+      val: 'week',
+    },
+    {
+      display: 'Last 14 days',
+      val: 'fortnight',
+    },
+  ];
+  private calculatePercentage = (
+    [startedTestCount, comparatorCount],
+  ) => `${((comparatorCount / startedTestCount) * 100).toFixed(2)}%`;
+
+  // wrapper used to reduce/centralise code
+  // take in a dynamic type, and a function with signature of fn(test, date)
+  private filterUsingDateRange = <T>(fn: (tests: StartedTests, range: DateRange) => T): Observable<T> => combineLatest(
+    [
+      // get the startedTests once per change detection cycle
+      this.store$.pipe(
+        select(getTests),
+        map(getStartedTests),
+        take(1),
+      ),
+      // listen for changes to the range
+      this.rangeSubject$.asObservable(),
+    ])
+    .pipe(
+      // return an observable using the generic `fn`
+      switchMap(([tests, range]) => of(fn(tests, range))),
+    );
 
   ngOnInit(): void {
     this.pageState = {
-      routeNumbers$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getRouteNumbers),
-        take(1),
-      ),
-      passPercentage$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getStartedTestCount),
-        withLatestFrom(
-          this.store$.pipe(
-            select(getTests),
-            map(getStartedTests),
-            map(getPassedTestCount),
+      routeNumbers$: this.filterUsingDateRange(getRouteNumbers),
+      manoeuvres$: this.filterUsingDateRange(getManoeuvresUsed),
+      showMeQuestions$: this.filterUsingDateRange(getShowMeQuestions),
+      tellMeQuestions$: this.filterUsingDateRange(getTellMeQuestions),
+      testCount$: this.filterUsingDateRange(getStartedTestCount),
+      passPercentage$: this.filterUsingDateRange(getStartedTestCount)
+        .pipe(
+          withLatestFrom(
+            this.filterUsingDateRange(getPassedTestCount),
           ),
+          map(this.calculatePercentage),
         ),
-        map(([started, passed]) =>
-          `${((passed / started) * 100).toFixed(2)}%`,
-        ),
-        take(1),
-      ),
-      controlledStopCount$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getStartedTestCount),
-        withLatestFrom(
-          this.store$.pipe(
-            select(getTests),
-            map(getStartedTests),
-            map(getControlledStopCount),
+      controlledStopPercentage$: this.filterUsingDateRange(getStartedTestCount)
+        .pipe(
+          withLatestFrom(
+            this.filterUsingDateRange(getControlledStopCount),
           ),
+          tap(([, controlledStop]) => this.controlledStopTotal = controlledStop),
+          map(this.calculatePercentage),
         ),
-        map(([started, controlledStop]) => {
-          this.controlledStopTotal = controlledStop;
-          return `${((controlledStop / started) * 100).toFixed(2)}%`;
-        },
-        ),
-        take(1),
-      ),
-      testCount$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getStartedTestCount),
-        take(1),
-      ),
-      manoeuvres$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getManoeuvresUsed),
-        take(1),
-      ),
-      showMeQuestions$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getShowMeQuestions),
-        take(1),
-      ),
-      tellMeQuestions$: this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(getTellMeQuestions),
-        take(1),
-      ),
     };
   }
 
@@ -150,7 +143,8 @@ export class ExaminerStatsPage implements OnInit {
     return object.map((val) => [val.item, val.count]);
   }
 
-  handleFilter($event: any) {
-    console.log($event);
+  handleFilter(event: CustomEvent) {
+    const range = event.detail?.value ?? null;
+    this.rangeSubject$.next(range);
   }
 }
