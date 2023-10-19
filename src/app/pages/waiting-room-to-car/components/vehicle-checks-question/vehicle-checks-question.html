@@ -1,7 +1,7 @@
 <ion-row [formGroup]="formGroup"
          [ngClass]="!isLastQuestion && 'mes-row-separator'"
          class="mes-validated-row ion-nowrap" id="vehicle-checks-question-row">
-  <div *ngIf="isInvalid()" class="validation-bar ng-invalid"></div>
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="display-flex ion-justify-content-center direction-column">
     <ion-row>
       <ion-col size="40" class="ion-align-self-center">

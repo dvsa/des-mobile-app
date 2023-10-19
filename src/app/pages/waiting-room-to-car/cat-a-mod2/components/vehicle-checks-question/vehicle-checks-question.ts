@@ -97,7 +97,7 @@ export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
     return !!(this.questionResult && this.questionResult.code && this.questionResult.description);
   }
 
-  isInvalid(): boolean {
+  get invalid(): boolean {
     if (this.submitClicked) {
       return !this.questionFormControl.valid || !this.questionOutcomeFormControl.valid;
     }
