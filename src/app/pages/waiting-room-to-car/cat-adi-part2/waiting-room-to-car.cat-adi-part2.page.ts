@@ -50,6 +50,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi2Waitin
 export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
+  submitClicked: boolean;
 
   constructor(
     private questionProvider: QuestionProvider,
@@ -118,6 +119,8 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
         this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
       }
     });
+
+    this.submitClicked = true;
   };
 
   eyesightFailCancelled = (): void => {

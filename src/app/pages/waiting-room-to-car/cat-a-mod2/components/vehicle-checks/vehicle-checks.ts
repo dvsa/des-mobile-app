@@ -32,6 +32,9 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   @Input()
   formGroup: UntypedFormGroup;
 
+  @Input()
+  submitClicked: boolean;
+
   formControl: UntypedFormControl;
 
   constructor(
@@ -43,6 +46,7 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: VehicleChecksCatAMod2Modal,
+      componentProps: { submitClicked: this.submitClicked },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();

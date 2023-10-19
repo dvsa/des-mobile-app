@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
@@ -29,6 +29,9 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   @Input()
   isLastQuestion: boolean;
 
+  @Input()
+  submitClicked: boolean;
+
   @Output()
   vehicleChecksQuestionChange = new EventEmitter<QuestionResult>();
 
@@ -44,12 +47,12 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.questionFormControl) {
-      this.questionFormControl = new UntypedFormControl({ disabled: true });
+      this.questionFormControl = new UntypedFormControl({ disabled: true }, [Validators.required]);
       this.formGroup.addControl(this.questionFieldName, this.questionFormControl);
     }
 
     if (!this.questionOutcomeFormControl) {
-      this.questionOutcomeFormControl = new UntypedFormControl();
+      this.questionOutcomeFormControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(this.questionOutcomeFieldName, this.questionOutcomeFormControl);
     }
 
@@ -93,5 +96,19 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   shouldShowOutcomeFields(): boolean {
     return !!(this.questionResult && this.questionResult.code && this.questionResult.description);
+  }
+
+  get invalid(): boolean {
+    if (this.submitClicked) {
+      return !this.questionFormControl.valid || !this.questionOutcomeFormControl.valid;
+    }
+    return false;
+  }
+
+  displayErrorMessage(): boolean {
+    if (this.submitClicked) {
+      return this.questionFormControl.valid && !this.questionOutcomeFormControl.valid;
+    }
+    return false;
   }
 }

@@ -91,6 +91,7 @@ export class VehicleChecksCatDModal {
   safetyQuestions: SafetyQuestion[];
 
   category: TestCategory;
+  submitClicked: boolean;
 
   showMeQuestionsNumberArray: number[];
   tellMeQuestionsNumberArray: number[];
@@ -113,6 +114,7 @@ export class VehicleChecksCatDModal {
     params: NavParams,
   ) {
     this.category = params.get('category');
+    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.safetyQuestionsNumberArray = Array(NUMBER_OF_SAFETY_QUESTIONS);
     this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);

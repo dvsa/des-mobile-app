@@ -45,6 +45,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2Waitin
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
+  submitClicked: boolean;
 
   constructor(
     platform: Platform,
@@ -107,6 +108,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
           this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
         }
       });
+
+    this.submitClicked = true;
   };
 
   eyesightFailCancelled = (): void => {

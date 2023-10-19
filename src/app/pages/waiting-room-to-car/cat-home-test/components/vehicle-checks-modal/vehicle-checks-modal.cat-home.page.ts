@@ -54,6 +54,7 @@ export class VehicleChecksCatHomeTestModal {
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
   category: TestCategory;
+  submitClicked: boolean;
   readonly showMeQuestionsNumberArray: number[] = Array(NUMBER_OF_SHOW_ME_QUESTIONS);
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
   vehicleChecksScore: VehicleChecksScore;
@@ -67,6 +68,7 @@ export class VehicleChecksCatHomeTestModal {
     params: NavParams,
   ) {
     this.category = params.get('category');
+    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);

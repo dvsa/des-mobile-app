@@ -60,6 +60,7 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
 
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
+  submitClicked: boolean;
 
   constructor(
     private faultCountProvider: FaultCountProvider,
@@ -129,6 +130,8 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
         this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
       }
     });
+
+    this.submitClicked = true;
   };
 
   eyesightFailCancelled = (): void => {

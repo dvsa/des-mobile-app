@@ -59,6 +59,7 @@
                   [formGroup]="form"
                   [safetyAndBalanceQuestionsScore]="pageState.safetyAndBalanceQuestionsScore$ | async"
                   [safetyAndBalanceQuestions]="pageState.safetyAndBalanceQuestions$ | async"
+                  [submitClicked]="submitClicked"
                 ></vehicle-checks-cat-a-mod2>
 
                 <accompaniment-card (instructorAccompanimentChange)="instructorAccompanimentToggled()"

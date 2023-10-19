@@ -1,50 +1,63 @@
-<form>
-  <ion-row [formGroup]="formGroup" class="mes-validated-row ion-nowrap ion-align-items-center"
-           id="vehicle-checks-question-row">
-    <ion-col size="40">
-      <ion-row>
-        <ion-select (ionChange)="safetyAndBalanceQuestionChanged($event?.detail?.value)"
-                    [formControlName]="questionFieldName"
-                    [interfaceOptions]="{cssClass:'mes-select vehicle-checks-question-select', enableBackdropDismiss:false}"
-                    aria-label="Vehicle check question"
-                    cancelText="Cancel"
-                    id="vehicle-checks-question-selector-{{questionId}}"
-                    labelPlacement="stacked"
-                    okText="Submit"
-                    placeholder="Select a question">
-          <ion-select-option *ngFor="let question of questions"
-                             [disabled]="isOptionDisabled(question)"
-                             [value]="question">
-            {{question.code}} - {{question.shortName}}
-          </ion-select-option>
-        </ion-select>
-      </ion-row>
-    </ion-col>
-    <ion-col *ngIf="shouldShowOutcomeFields()" size="28">
-      <ion-row>
-        <input (change)="safetyAndBalancePassSelected()"
-               [attr.id]="'vehicleChecksCorrect_'+questionId"
-               [attr.name]="questionOutcomeFieldName"
-               [formControlName]="questionOutcomeFieldName"
-               class="gds-radio-button"
-               type="radio"
-               value="P">
-        <label [for]="'vehicleChecksCorrect_'+questionId" class="radio-label"
-               id="vehicle-checks-correct-{{questionId}}">Correct</label>
-      </ion-row>
-    </ion-col>
-    <ion-col *ngIf="shouldShowOutcomeFields()" size="28">
-      <ion-row>
-        <input (change)="safetyAndBalanceDrivingFaultSelected()"
-               [attr.id]="'vehicleChecksFault_'+questionId"
-               [attr.name]="questionOutcomeFieldName"
-               [formControlName]="questionOutcomeFieldName"
-               class="gds-radio-button"
-               type="radio"
-               value="DF">
-        <label [for]="'vehicleChecksFault_'+questionId" class="radio-label" id="vehicle-checks-fault-{{questionId}}">Wrong
-          answer</label>
-      </ion-row>
-    </ion-col>
-  </ion-row>
-</form>
+<ion-row [formGroup]="formGroup"
+         [ngClass]="!isLastQuestion && 'mes-row-separator'"
+         class="mes-validated-row ion-nowrap" id="vehicle-checks-question-row">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="display-flex ion-justify-content-center direction-column">
+    <ion-row>
+      <ion-col size="40" class="ion-align-self-center">
+        <ion-row>
+          <ion-select (ionChange)="safetyAndBalanceQuestionChanged($event?.detail?.value)"
+                      [formControlName]="questionFieldName"
+                      [interfaceOptions]="{cssClass:'mes-select vehicle-checks-question-select', enableBackdropDismiss:false}"
+                      aria-label="Vehicle check question"
+                      cancelText="Cancel"
+                      class="dropdown-size"
+                      id="vehicle-checks-question-selector-{{questionId}}"
+                      labelPlacement="stacked"
+                      okText="Submit"
+                      placeholder="Select a question">
+            <ion-select-option *ngFor="let question of questions"
+                               [disabled]="isOptionDisabled(question)"
+                               [value]="question">
+              {{question.code}} - {{question.shortName}}
+            </ion-select-option>
+          </ion-select>
+        </ion-row>
+      </ion-col>
+      <ion-col *ngIf="shouldShowOutcomeFields()" size="28" class="ion-align-self-center">
+        <ion-row>
+          <input (change)="safetyAndBalancePassSelected()"
+                 [attr.id]="'vehicleChecksCorrect_'+questionId"
+                 [attr.name]="questionOutcomeFieldName"
+                 [formControlName]="questionOutcomeFieldName"
+                 class="gds-radio-button"
+                 type="radio"
+                 value="P">
+          <label [for]="'vehicleChecksCorrect_'+questionId" class="radio-label"
+                 id="vehicle-checks-correct-{{questionId}}">Correct</label>
+        </ion-row>
+      </ion-col>
+      <ion-col *ngIf="shouldShowOutcomeFields()" size="28" class="ion-align-self-center">
+        <ion-row>
+          <input (change)="safetyAndBalanceDrivingFaultSelected()"
+                 [attr.id]="'vehicleChecksFault_'+questionId"
+                 [attr.name]="questionOutcomeFieldName"
+                 [formControlName]="questionOutcomeFieldName"
+                 class="gds-radio-button"
+                 type="radio"
+                 value="DF">
+          <label [for]="'vehicleChecksFault_'+questionId" class="radio-label" id="vehicle-checks-fault-{{questionId}}">Wrong
+            answer</label>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="displayErrorMessage()" class="validation-message-row">
+      <ion-col size="40"></ion-col>
+      <ion-col>
+        <div class="validation-text ion-no-padding ng-invalid">
+          Question Incomplete
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>

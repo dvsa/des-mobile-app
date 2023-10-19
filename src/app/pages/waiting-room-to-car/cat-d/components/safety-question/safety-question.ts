@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
 
@@ -27,6 +27,9 @@ export class SafetyQuestionComponent implements OnChanges {
   @Input()
   isLastSafetyQuestion: boolean;
 
+  @Input()
+  submitClicked: boolean;
+
   @Output()
   safetyQuestionOutcomeChange = new EventEmitter<QuestionOutcome>();
 
@@ -39,12 +42,12 @@ export class SafetyQuestionComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.safetyQuestionFormControl) {
-      this.safetyQuestionFormControl = new UntypedFormControl({ disabled: true });
+      this.safetyQuestionFormControl = new UntypedFormControl({ disabled: true }, [Validators.required]);
       this.formGroup.addControl(this.safetyQuestionFieldName, this.safetyQuestionFormControl);
     }
 
     if (!this.safetyQuestionOutcomeFormControl) {
-      this.safetyQuestionOutcomeFormControl = new UntypedFormControl();
+      this.safetyQuestionOutcomeFormControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(this.safetyQuestionOutcomeFieldName, this.safetyQuestionOutcomeFormControl);
     }
 
@@ -66,5 +69,11 @@ export class SafetyQuestionComponent implements OnChanges {
 
   findQuestion(): SafetyQuestionResult {
     return this.questions.find((question) => question.description === this.questionResult.description);
+  }
+
+  isInvalid(): boolean {
+    if (this.submitClicked) {
+      return !this.safetyQuestionOutcomeFormControl.valid;
+    } return false;
   }
 }
