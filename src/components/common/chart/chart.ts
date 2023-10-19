@@ -44,7 +44,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   async ngOnChanges(changes: SimpleChanges) {
     if (!!this.chart
       && (!isEqual(changes?.passedData.currentValue, changes?.passedData.previousValue)
-      || !isEqual(changes?.showLegend?.currentValue, changes?.showLegend?.previousValue))) {
+        || !isEqual(changes?.showLegend?.currentValue, changes?.showLegend?.previousValue))) {
       await this.chart.updateOptions(this.options);
     }
   }
@@ -71,6 +71,16 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
           fontSize: '24px',
         },
       },
+      xaxis: {
+        labels: {
+          formatter: (val) => val,
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (val) => val.toFixed(0),
+        },
+      },
       colors: this.colors,
       series: this.dataValues,
       labels: this.labels,
@@ -89,6 +99,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       plotOptions: {
         bar: {
           distributed: true,
+          horizontal: false,
           dataLabels: {
             position: 'bottom',
           },

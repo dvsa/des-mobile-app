@@ -1,6 +1,6 @@
 import { forOwn, get, transform, uniqBy } from 'lodash';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
+import { Manoeuvre, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { AlternativeManoeuvreTypeLabels, BaseManoeuvreTypeLabels } from '@pages/examiner-stats/examiner-stats.page';
 import { StartedTests } from '@store/tests/tests.selector';
@@ -18,27 +18,28 @@ const dateFilter = (test: TestResultSchemasUnion, range: DateRange = null): bool
   // return true to get all tests when no range provided
   : true;
 
+export const getEligibleTests = (startedTests: StartedTests, range: DateRange = null) => {
+  return Object.keys(startedTests)
+    .filter((slotID: string) => !slotID.includes('practice'))
+    .filter((slotID: string) => dateFilter(startedTests[slotID], range));
+};
+
 export const getPassedTestCount = (startedTests: StartedTests, range: DateRange = null): number =>
-  Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+  getEligibleTests(startedTests, range)
     .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
     .length;
 
 export const getControlledStopCount = (startedTests: StartedTests, range: DateRange = null): number =>
-  Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+  getEligibleTests(startedTests, range)
     .map((slotID: string) => get(startedTests[slotID], 'testData.controlledStop', null))
     .filter((controlledStop) => !!controlledStop?.selected)
     .length;
 
 export const getStartedTestCount = (startedTests: StartedTests, range: DateRange = null): number =>
-  Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
-    .length;
+  getEligibleTests(startedTests, range).length;
 
 export const getRouteNumbers = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
-  const data = Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+  const data = getEligibleTests(startedTests, range)
     // extract route number
     .map((slotID: string) => get(startedTests[slotID], 'testSummary.routeNumber', null))
     // filter for any nulls
@@ -50,9 +51,27 @@ export const getRouteNumbers = (startedTests: StartedTests, range: DateRange = n
   })), 'item');
 };
 
+export const getSafetyAndBalanceQuestions = (
+  startedTests: StartedTests,
+  range: DateRange = null,
+): ExaminerStatData[] => {
+  const data = getEligibleTests(startedTests, range)
+    .map((slotID: string) => [
+      ...get(startedTests[slotID], 'testData.safetyQuestions.questions', []) as SafetyQuestionResult[],
+      ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.safetyQuestions', []) as QuestionResult[],
+      ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.balanceQuestions', []) as QuestionResult[],
+    ])
+    .flat()
+    // filter for any empty string/null values
+    .filter((question: SafetyQuestionResult | QuestionResult) =>
+      ('code' in question) ? !!question?.code : !!question?.description);
+  return uniqBy(data.map((item: SafetyQuestionResult | QuestionResult) => ({
+    item: ('code' in item) ? `${item.code} - ${item.description}` : item.description,
+    count: data.filter((r1) => r1 === item).length,
+  })), 'item');
+};
 export const getShowMeQuestions = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
-  const data = Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+  const data = getEligibleTests(startedTests, range)
     .map((slotID: string) => [
       ...[get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestion', null)] as [QuestionResult],
       ...get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestions', []) as QuestionResult[],
@@ -68,8 +87,7 @@ export const getShowMeQuestions = (startedTests: StartedTests, range: DateRange 
 };
 
 export const getTellMeQuestions = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
-  const data = Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+  const data = getEligibleTests(startedTests, range)
     .map((slotID: string) => [
       ...[get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestion', null)] as [QuestionResult],
       ...get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestions', []) as QuestionResult[],
@@ -97,8 +115,7 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type: ManoeuvreTy
 export const getManoeuvresUsed = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
   const faultsEncountered: string[] = [];
 
-  Object.keys(startedTests)
-    .filter((slotID: string) => dateFilter(startedTests[slotID], range))
+  getEligibleTests(startedTests, range)
     .forEach((slotID) => {
       const manoeuvres = get(startedTests[slotID], 'testData.manoeuvres');
       if (!manoeuvres) return;

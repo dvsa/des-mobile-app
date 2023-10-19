@@ -12,6 +12,7 @@
   manoeuvresGrid: handleGrid(pageState.manoeuvres$ | async),
   showMeQuestionsGrid: handleGrid(pageState.showMeQuestions$ | async),
   tellMeQuestionsGrid: handleGrid(pageState.tellMeQuestions$ | async),
+  safetyAndBalanceGrid: handleGrid(pageState.safetyAndBalanceQuestions$ | async),
   testCount: pageState.testCount$ | async,
 } as data">
 
@@ -52,11 +53,11 @@
     <ion-card-content>
       <data-row
         [value]="data.testCount"
-        label="Total tests completed">
+        label="Tests started">
       </data-row>
       <data-row
         [value]="pageState.passPercentage$ | async"
-        label="Pass percentage">
+        label="Pass rate (%)">
       </data-row>
       <data-row
         [value]="controlledStopTotal"
@@ -132,7 +133,7 @@
   <ion-card *ngIf="data.showMeQuestionsGrid?.length">
     <ion-card-header>
       <ion-card-title>
-        <ion-text class="des-header-style-4 fault-heading">Show me questions completed</ion-text>
+        <ion-text class="des-header-style-4 fault-heading">Show me questions asked</ion-text>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -161,7 +162,7 @@
   <ion-card *ngIf="data.tellMeQuestionsGrid?.length">
     <ion-card-header>
       <ion-card-title>
-        <ion-text class="des-header-style-4 fault-heading">Tell me questions completed</ion-text>
+        <ion-text class="des-header-style-4 fault-heading">Tell me questions asked</ion-text>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -181,6 +182,35 @@
             [chartType]="'pie'"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.tellMeQuestionsGrid">
+          </chart>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="data.safetyAndBalanceGrid?.length">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-text class="des-header-style-4 fault-heading">Safety and balance questions asked</ion-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col *ngIf="filterOption !== 'Chart'">
+          <data-grid
+            [headers]="['Question(s)', 'Amount asked']"
+            [rowCropCount]="3"
+            [colourScheme]="colors"
+            [displayColour]="filterOption === 'Both'"
+            [passedData]="data.safetyAndBalanceGrid">
+          </data-grid>
+        </ion-col>
+        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
+          <chart
+            [chartId]="'safetyAndBalance'"
+            [chartType]="'pie'"
+            [showLegend]="filterOption !== 'Both'"
+            [passedData]="data.safetyAndBalanceGrid">
           </chart>
         </ion-col>
       </ion-row>

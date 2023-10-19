@@ -14,6 +14,7 @@ import {
   getManoeuvresUsed,
   getPassedTestCount,
   getRouteNumbers,
+  getSafetyAndBalanceQuestions,
   getShowMeQuestions,
   getStartedTestCount,
   getTellMeQuestions,
@@ -43,6 +44,7 @@ interface ExaminerStatsState {
   manoeuvres$: Observable<ExaminerStatData[]>;
   showMeQuestions$: Observable<ExaminerStatData[]>;
   tellMeQuestions$: Observable<ExaminerStatData[]>;
+  safetyAndBalanceQuestions$: Observable<ExaminerStatData[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
   controlledStopPercentage$: Observable<string>;
@@ -114,6 +116,7 @@ export class ExaminerStatsPage implements OnInit {
     this.pageState = {
       routeNumbers$: this.filterUsingDateRange(getRouteNumbers),
       manoeuvres$: this.filterUsingDateRange(getManoeuvresUsed),
+      safetyAndBalanceQuestions$: this.filterUsingDateRange(getSafetyAndBalanceQuestions),
       showMeQuestions$: this.filterUsingDateRange(getShowMeQuestions),
       tellMeQuestions$: this.filterUsingDateRange(getTellMeQuestions),
       testCount$: this.filterUsingDateRange(getStartedTestCount),
