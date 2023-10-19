@@ -14,6 +14,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
+  @Input() public transformOptions: { width: number, height: number } = { width: 300, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
@@ -41,7 +42,9 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (!!this.chart && !isEqual(changes.passedData.currentValue, changes.passedData.previousValue)) {
+    if (!!this.chart
+      && (!isEqual(changes?.passedData.currentValue, changes?.passedData.previousValue)
+      || !isEqual(changes?.showLegend?.currentValue, changes?.showLegend?.previousValue))) {
       await this.chart.updateOptions(this.options);
     }
   }
@@ -58,8 +61,8 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
         fontSize: '24px',
         foreColor: '#000000',
-        width: 300,
-        height: 300,
+        width: this.transformOptions.width,
+        height: this.transformOptions.height,
         type: this.chartType,
       },
       dataLabels: {
