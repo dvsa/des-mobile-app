@@ -28,7 +28,9 @@ import { ViewFilterRadioComponent } from '@pages/examiner-stats/components/view-
   ],
   declarations: [
     ExaminerStatsPage,
+    // @TODO: Remove this and create `examiner-stats.components.module.ts` and import above
     ViewFilterRadioComponent,
   ],
 })
-export class ExaminerStatsPageModule {}
+export class ExaminerStatsPageModule {
+}
