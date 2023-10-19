@@ -33,7 +33,7 @@ PODS:
   - GoogleAnalytics (3.20.0)
   - Sentry/HybridSDK (8.8.0):
     - SentryPrivate (= 8.8.0)
-  - SentryCapacitor (0.12.3):
+  - SentryCapacitor (0.14.0):
     - Capacitor
     - Sentry/HybridSDK (= 8.8.0)
   - SentryPrivate (8.8.0)
@@ -118,7 +118,7 @@ SPEC CHECKSUMS:
   DvsaCapacitorPluginAsam: da3121d4d69fe03f173114a098c0ef57b946d6a2
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: 927dfb29d18a14d924229a59cc2ad149f43349f2
-  SentryCapacitor: 8721f0ada5dca84617870212988890d857aa8fdc
+  SentryCapacitor: 24d2fdc00e259b9cd9454a2331444ab6c41141be
   SentryPrivate: 4350d865f898224ab9fa02b37d6ee7fbb623f47e
 
 PODFILE CHECKSUM: 61573ea5bd18f943e4e59ed5bae05613b2fe01a7

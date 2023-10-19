@@ -90,8 +90,8 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@popperjs/core": "^2.11.8",
-    "@sentry/angular-ivy": "7.64.0",
-    "@sentry/capacitor": "0.12.3",
+    "@sentry/angular-ivy": "7.73.0",
+    "@sentry/capacitor": "0.14.0",
     "assert": "^2.1.0",
     "bootstrap": "^5.3.2",
     "browserify-zlib": "^0.2.0",
@@ -119,7 +119,7 @@
     "url": "^0.11.3",
     "util": "^0.12.5",
     "uuid": "^9.0.1",
-    "zone.js": "~0.14.0"
+    "zone.js": "~0.13.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.6",
