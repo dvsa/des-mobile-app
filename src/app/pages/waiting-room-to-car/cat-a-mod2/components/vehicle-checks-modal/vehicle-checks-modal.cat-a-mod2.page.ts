@@ -1,4 +1,4 @@
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, NavParams } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -50,6 +50,7 @@ export class VehicleChecksCatAMod2Modal {
 
   pageState: VehicleChecksModalState;
   formGroup: UntypedFormGroup;
+  submitClicked: boolean;
 
   safetyQuestions: VehicleChecksQuestion[];
   balanceQuestions: VehicleChecksQuestion[];
@@ -67,8 +68,10 @@ export class VehicleChecksCatAMod2Modal {
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
+    params: NavParams,
   ) {
     this.formGroup = new UntypedFormGroup({});
+    this.submitClicked = params.get('submitClicked');
     this.safetyQuestions = questionProvider.getSafetyQuestions(TestCategory.EUAM2);
     this.balanceQuestions = questionProvider.getBalanceQuestions(TestCategory.EUAM2);
   }

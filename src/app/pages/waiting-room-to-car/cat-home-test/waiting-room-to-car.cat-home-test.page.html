@@ -56,7 +56,8 @@
               [fullLicenceHeld]="false"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
               [vehicleChecks]="pageState.vehicleChecks$ | async"
-            ></vehicle-checks-vocational>
+              [submitClicked]="submitClicked">
+            </vehicle-checks-vocational>
 
             <accompaniment-card
               (instructorAccompanimentChange)="instructorAccompanimentToggled()"

@@ -29,6 +29,7 @@
         [questions]="tellMeQuestions"
         [questionsToDisable]="pageState.tellMeQuestions$ | async"
         [isLastQuestion]="l"
+        [submitClicked]="submitClicked"
         (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
         (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
       ></vehicle-checks-question>

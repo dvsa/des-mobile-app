@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController, NavParams } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { NavControllerMock } from '@mocks/index.mock';
+import { NavControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -119,6 +119,10 @@ describe('VehicleChecksCatADIPart2Modal', () => {
         {
           provide: NavController,
           useClass: NavControllerMock,
+        },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
         },
         provideMockStore({ initialState }),
       ],

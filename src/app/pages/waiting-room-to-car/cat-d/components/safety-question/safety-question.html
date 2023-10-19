@@ -1,36 +1,49 @@
-<form>
-  <ion-row [ngClass]="!isLastSafetyQuestion && 'mes-row-separator'"
-    class="mes-validated-row ion-align-items-center ion-nowrap" id="safety-question-row" [formGroup]="formGroup">
-    <ion-col size="40">
-      <ion-row>
+<ion-row [formGroup]="formGroup"
+         [ngClass]="!isLastSafetyQuestion && 'mes-row-separator'"
+         class="mes-validated-row ion-nowrap" id="safety-question-row">
+  <div *ngIf="isInvalid()" class="validation-bar ng-invalid"></div>
+  <ion-col class="display-flex ion-justify-content-center direction-column">
+    <ion-row>
+      <ion-col size="40" class="ion-align-self-center">
+        <ion-row>
           <div class="safety-question-text">
             {{questions[questionIndex].description}}
           </div>
-      </ion-row>
-    </ion-col>
-    <ion-col size="28">
-      <ion-row>
-        <input type="radio"
-               [attr.name]="safetyQuestionOutcomeFieldName"
-               [attr.id]="'safetyQuestionsCorrect_'+safetyQuestionId"
-               class="gds-radio-button"
-               value="P"
-               [formControlName]="safetyQuestionOutcomeFieldName"
-               (change)="safetyQuestionsPassSelected()">
-        <label [for]="'safetyQuestionsCorrect_'+safetyQuestionId" class="radio-label" id="safety-question-correct-{{safetyQuestionId}}">Correct</label>
-      </ion-row>
-    </ion-col>
-    <ion-col size="28">
-      <ion-row>
-        <input type="radio"
-               [attr.name]="safetyQuestionOutcomeFieldName"
-               [attr.id]="'safetyQuestionsFault_'+safetyQuestionId"
-               class="gds-radio-button"
-               value="DF"
-               [formControlName]="safetyQuestionOutcomeFieldName"
-               (change)="safetyQuestionsDrivingFaultSelected()">
-        <label [for]="'safetyQuestionsFault_'+safetyQuestionId" class="radio-label">Wrong answer</label>
-      </ion-row>
-    </ion-col>
-  </ion-row>
-</form>
+        </ion-row>
+      </ion-col>
+      <ion-col size="28" class="ion-align-self-center">
+        <ion-row>
+          <input type="radio"
+                 [attr.name]="safetyQuestionOutcomeFieldName"
+                 [attr.id]="'safetyQuestionsCorrect_'+safetyQuestionId"
+                 class="gds-radio-button"
+                 value="P"
+                 [formControlName]="safetyQuestionOutcomeFieldName"
+                 (change)="safetyQuestionsPassSelected()">
+          <label [for]="'safetyQuestionsCorrect_'+safetyQuestionId" class="radio-label"
+                 id="safety-question-correct-{{safetyQuestionId}}">Correct</label>
+        </ion-row>
+      </ion-col>
+      <ion-col size="28" class="ion-align-self-center">
+        <ion-row>
+          <input type="radio"
+                 [attr.name]="safetyQuestionOutcomeFieldName"
+                 [attr.id]="'safetyQuestionsFault_'+safetyQuestionId"
+                 class="gds-radio-button"
+                 value="DF"
+                 [formControlName]="safetyQuestionOutcomeFieldName"
+                 (change)="safetyQuestionsDrivingFaultSelected()">
+          <label [for]="'safetyQuestionsFault_'+safetyQuestionId" class="radio-label">Wrong answer</label>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isInvalid()" class="validation-message-row">
+      <ion-col size="40"></ion-col>
+      <ion-col>
+        <div class="validation-text ion-no-padding ng-invalid">
+          Question Incomplete
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>

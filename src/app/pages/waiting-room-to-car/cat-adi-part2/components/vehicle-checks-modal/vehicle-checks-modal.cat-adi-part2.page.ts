@@ -1,4 +1,4 @@
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -48,13 +48,16 @@ export class VehicleChecksCatADIPart2Modal {
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
   vehicleChecksScore: VehicleChecksScore;
   subscription: Subscription;
+  submitClicked: boolean;
 
   constructor(
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
+    params: NavParams,
   ) {
+    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.ADI2);
   }

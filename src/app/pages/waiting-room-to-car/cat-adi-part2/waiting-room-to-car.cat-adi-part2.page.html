@@ -45,7 +45,8 @@
               [formGroup]="form"
               [fullLicenceHeld]="false"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-              [vehicleChecks]="pageState.vehicleChecks$ | async">
+              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              [submitClicked]="submitClicked">
             </vehicle-checks-vocational>
 
             <vehicle-registration

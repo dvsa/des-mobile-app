@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
-import { ModalControllerMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -36,6 +36,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         { provide: Store, useClass: MockStore },
+        { provide: NavParams, useClass: NavParamsMock },
       ],
     });
 
@@ -58,6 +59,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: VehicleChecksCatAMod2Modal,
+          componentProps: { submitClicked: undefined },
           cssClass: 'modal-fullscreen regular',
         });
       });

@@ -1,65 +1,70 @@
 <ion-header>
-    <ion-toolbar mode="ios" class="toolbar-spacing">
-        <ion-buttons slot="start" class="toolbar-item-spacing">
-            <ion-button id="closeVehicleChecksModalCatAMod2" (click)="onClose()">
-                <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
-                <ion-label class="close-btn" id="close-label">Close</ion-label>
-            </ion-button>
-        </ion-buttons>
-        <ion-title role="heading" aria-level="1" id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
-            Safety and Balance Questions - {{ pageState.candidateName$ | async }}
-        </ion-title>
-    </ion-toolbar>
+  <ion-toolbar mode="ios" class="toolbar-spacing">
+    <ion-buttons slot="start" class="toolbar-item-spacing">
+      <ion-button id="closeVehicleChecksModalCatAMod2" (click)="onClose()">
+        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+        <ion-label class="close-btn" id="close-label">Close</ion-label>
+      </ion-button>
+    </ion-buttons>
+    <ion-title role="heading" aria-level="1" id="vehicle-checks-modal-title"
+               class="ion-text-center toolbar-item-spacing">
+      Safety and Balance Questions - {{ pageState.candidateName$ | async }}
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>
-                <h2 class="des-header-style-4">
-                    Safety questions
-                </h2>
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <vehicle-checks-question-cat-a-mod2 *ngFor="let question of safetyQuestionsNumberArray; let i = index; let l = last"
-                                     [formGroup]="formGroup"
-                                     [questionResult]="(pageState.safetyQuestions$ | async)[i]"
-                                     [questions]="safetyQuestions"
-                                     [questionsToDisable]="pageState.safetyQuestions$ | async"
-                                     [isLastQuestion]="l"
-                                     (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
-                                     (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)">
-            </vehicle-checks-question-cat-a-mod2>
-        </ion-card-content>
-    </ion-card>
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>
-                <h2 class="des-header-style-4">
-                    Balance questions
-                </h2>
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <vehicle-checks-question-cat-a-mod2 *ngFor="let question of balanceQuestionsNumberArray; let i = index; let l = last"
-                                     [formGroup]="formGroup"
-                                     [questionResult]="(pageState.balanceQuestions$ | async)[i]"
-                                     [questions]="balanceQuestions"
-                                     [questionsToDisable]="pageState.balanceQuestions$ | async"
-                                     [isLastQuestion]="l"
-                                     (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
-                                     (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)">
-            </vehicle-checks-question-cat-a-mod2>
-        </ion-card-content>
-    </ion-card>
-    <warning-banner warningText="This will result in 1 riding fault" *ngIf="shouldDisplayBanner()"></warning-banner>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <h2 class="des-header-style-4">
+          Safety questions
+        </h2>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <vehicle-checks-question-cat-a-mod2
+        *ngFor="let question of safetyQuestionsNumberArray; let i = index; let l = last"
+        [formGroup]="formGroup"
+        [questionResult]="(pageState.safetyQuestions$ | async)[i]"
+        [questions]="safetyQuestions"
+        [questionsToDisable]="pageState.safetyQuestions$ | async"
+        [isLastQuestion]="l"
+        [submitClicked]="submitClicked"
+        (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
+        (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)">
+      </vehicle-checks-question-cat-a-mod2>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <h2 class="des-header-style-4">
+          Balance questions
+        </h2>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <vehicle-checks-question-cat-a-mod2
+        *ngFor="let question of balanceQuestionsNumberArray; let i = index; let l = last"
+        [formGroup]="formGroup"
+        [questionResult]="(pageState.balanceQuestions$ | async)[i]"
+        [questions]="balanceQuestions"
+        [questionsToDisable]="pageState.balanceQuestions$ | async"
+        [isLastQuestion]="l"
+        [submitClicked]="submitClicked"
+        (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
+        (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)">
+      </vehicle-checks-question-cat-a-mod2>
+    </ion-card-content>
+  </ion-card>
+  <warning-banner warningText="This will result in 1 riding fault" *ngIf="shouldDisplayBanner()"></warning-banner>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-button type="submit" class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
-            <ion-text class="des-header-style-3">Continue</ion-text>
-        </ion-button>
-    </ion-row>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-button type="submit" class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
+      <ion-text class="des-header-style-3">Continue</ion-text>
+    </ion-button>
+  </ion-row>
 </ion-footer>
