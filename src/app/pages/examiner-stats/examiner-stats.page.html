@@ -28,14 +28,18 @@
           (filterChange)="filterOption = $event"
         ></view-filter-radio>
       </data-row-custom>
-      <data-row-custom [shouldHaveSeperator]="false" [label]="'Date filter'">
+      <data-row-custom
+        [shouldHaveSeperator]="false"
+        [label]="'Date filter'">
         <ion-select
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
           (ionChange)="handleFilter($event)"
           labelPlacement="stacked"
           placeholder="Last 14 days">
-          <ion-select-option [value]="option" *ngFor="let option of selectFilterOptions">{{option}}</ion-select-option>
+          <ion-select-option [value]="option.val" *ngFor="let option of selectFilterOptions;">
+            {{option.display}}
+          </ion-select-option>
         </ion-select>
       </data-row-custom>
     </ion-card-content>
@@ -60,7 +64,7 @@
       </data-row>
       <data-row
         [shouldHaveSeperator]="false"
-        [value]="pageState.controlledStopCount$ | async"
+        [value]="pageState.controlledStopPercentage$ | async"
         label="Controlled stop (%)">
       </data-row>
     </ion-card-content>
