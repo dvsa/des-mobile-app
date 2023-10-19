@@ -146,22 +146,27 @@
       <fault-comment-card id="dangerous-fault-comment-card" [formGroup]="form"
                           [faultComments]="pageState.dangerousFaults$ | async"
                           [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
-                          [outcome]="pageState.testOutcome$ | async" faultType="dangerous"
-                          header="Dangerous faults"
+                          [outcome]="pageState.testOutcome$ | async"
+                          faultType="dangerous"
+                          header="Dangerous"
                           (faultCommentsChange)="dangerousFaultCommentChanged($event)">
       </fault-comment-card>
 
       <fault-comment-card id="serious-fault-comment-card" [formGroup]="form"
                           [faultComments]="pageState.seriousFaults$ | async"
                           [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
-                          [outcome]="pageState.testOutcome$ | async" faultType="serious" header="Serious faults"
+                          [outcome]="pageState.testOutcome$ | async"
+                          faultType="serious"
+                          header="Serious"
                           (faultCommentsChange)="seriousFaultCommentChanged($event)">
       </fault-comment-card>
 
       <fault-comment-card id="driving-fault-comment-card" [formGroup]="form"
                           [faultComments]="pageState.drivingFaults$ | async"
                           [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && pageState.displayDrivingFault$ | async"
-                          [outcome]="pageState.testOutcome$ | async" faultType="driving" header="Driving faults"
+                          [outcome]="pageState.testOutcome$ | async"
+                          faultType="driving"
+                          header="Driving"
                           [faultCount]="pageState.drivingFaultCount$ | async"
                           (faultCommentsChange)="drivingFaultCommentChanged($event)">
       </fault-comment-card>

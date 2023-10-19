@@ -149,7 +149,7 @@
 
       <fault-comment-card
         faultType="dangerous"
-        header="Dangerous faults"
+        header="Dangerous"
         [formGroup]="form"
         [faultComments]="pageState.dangerousFaults$ | async"
         [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
@@ -160,7 +160,7 @@
 
       <fault-comment-card
         faultType="serious"
-        header="Serious faults"
+        header="Serious"
         [formGroup]="form"
         [faultComments]="pageState.seriousFaults$ | async"
         [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
@@ -172,7 +172,7 @@
       <fault-comment-card
         id="driving-fault-comment-card"
         faultType="driving"
-        header="Riding faults"
+        header="Riding"
         [formGroup]="form"
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"

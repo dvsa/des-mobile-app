@@ -186,7 +186,7 @@
         [shouldRender]="(pageState?.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
         [outcome]="pageState.testOutcome$ | async"
         faultType="dangerous"
-        header="Dangerous faults"
+        header="Dangerous"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)">
       </fault-comment-card>
 
@@ -195,7 +195,7 @@
         [shouldRender]="(pageState?.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
         [outcome]="pageState.testOutcome$ | async"
         faultType="serious"
-        header="Serious faults"
+        header="Serious"
         (faultCommentsChange)="seriousFaultCommentChanged($event)">
       </fault-comment-card>
 
@@ -208,7 +208,7 @@
                     (pageState.allowDrivingFaultComment$ | async)"
         [outcome]="pageState.testOutcome$ | async"
         faultType="driving"
-        header="Driving faults"
+        header="Driving"
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)">
       </fault-comment-card>
