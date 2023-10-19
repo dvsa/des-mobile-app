@@ -90,6 +90,7 @@
           <chart
             [chartId]="'routeNum'"
             [chartType]="'bar'"
+            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.routeGrid">
           </chart>
