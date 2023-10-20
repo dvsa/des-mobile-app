@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
@@ -12,6 +11,7 @@ import {
   ExaminerStatData,
   getControlledStopCount,
   getManoeuvresUsed,
+  getOutcome,
   getPassedTestCount,
   getRouteNumbers,
   getSafetyAndBalanceQuestions,
@@ -48,6 +48,7 @@ interface ExaminerStatsState {
   safetyAndBalanceQuestions$: Observable<ExaminerStatData[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
+  outcomes$: Observable<ExaminerStatData[]>;
   controlledStopPercentage$: Observable<string>;
 }
 
@@ -69,8 +70,12 @@ export class ExaminerStatsPage implements OnInit {
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   pageState: ExaminerStatsState;
   filterOption: FilterEnum = FilterEnum.Both;
-  colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+  colors: { fullColour: string[], monochrome: string[] } = {
+    fullColour: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'],
+    monochrome: ['#008ffbd9', '#1c9bfbd9', '#37a7fcd9', '#53b3fcd9', '#6fc0fdd9'],
+  };
   controlledStopTotal: number;
+  monochrome: boolean = false;
   globalChartType: ChartType;
   dateFilterOptions: { display: string; val: DateRange }[] = [
     {
@@ -93,6 +98,7 @@ export class ExaminerStatsPage implements OnInit {
     { display: 'Donut', val: 'donut' },
     { display: 'Polar Area', val: 'polarArea' },
   ];
+  public dateFilter: string = 'Last 14 days';
 
   constructor(
     public store$: Store<StoreModel>,
@@ -129,6 +135,7 @@ export class ExaminerStatsPage implements OnInit {
       showMeQuestions$: this.filterUsingDateRange(getShowMeQuestions),
       tellMeQuestions$: this.filterUsingDateRange(getTellMeQuestions),
       testCount$: this.filterUsingDateRange(getStartedTestCount),
+      outcomes$: this.filterUsingDateRange(getOutcome),
       passPercentage$: this.filterUsingDateRange(getStartedTestCount)
         .pipe(
           withLatestFrom(
@@ -156,11 +163,15 @@ export class ExaminerStatsPage implements OnInit {
   }
 
   handleDateFilter(event: CustomEvent) {
-    const range = event.detail?.value ?? null;
-    this.rangeSubject$.next(range);
+    this.dateFilter = event.detail?.value.display ?? null;
+    this.rangeSubject$.next(event.detail?.value.val ?? null);
   }
 
   handleChartFilter($event: any) {
     this.globalChartType = $event.detail.value;
+  }
+
+  swapMonochrome() {
+    this.monochrome = !this.monochrome;
   }
 }
