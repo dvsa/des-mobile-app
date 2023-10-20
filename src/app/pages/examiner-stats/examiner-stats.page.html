@@ -44,27 +44,36 @@
           </ion-select-option>
         </ion-select>
       </data-row-custom>
-      <data-row-custom
-        [label]="'Chart type'">
-        <ion-select
-          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-          class="input-styling-background black-text"
-          (ionChange)="handleChartFilter($event)"
-          labelPlacement="stacked"
-          placeholder="Default">
-          <ion-select-option [value]="option.val" *ngFor="let option of chartFilterOptions;">
-            {{option.display}}
-          </ion-select-option>
-        </ion-select>
-      </data-row-custom>
-      <data-row-custom [shouldHaveSeperator]="false" [label]="'Monochrome charts'">
-        <input type="checkbox"
-               class="gds-checkbox"
-               id="monochrome-checkbox"
-               [checked]="monochrome"
-               (click)="swapMonochrome()">
-        <label id="monochrome-label" for="monochrome-checkbox"></label>
-      </data-row-custom>
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header">
+            <label>Additional Filters</label>
+          </ion-item>
+          <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
+            <data-row-custom
+              [label]="'Chart type'">
+              <ion-select
+                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+                class="input-styling-background black-text"
+                (ionChange)="handleChartFilter($event)"
+                labelPlacement="stacked"
+                placeholder="Default">
+                <ion-select-option [value]="option.val" *ngFor="let option of chartFilterOptions;">
+                  {{option.display}}
+                </ion-select-option>
+              </ion-select>
+            </data-row-custom>
+            <data-row-custom [shouldHaveSeperator]="false" [label]="'Monochrome charts'">
+              <input type="checkbox"
+                     class="gds-checkbox"
+                     id="monochrome-checkbox"
+                     [checked]="monochrome"
+                     (click)="swapMonochrome()">
+              <label id="monochrome-label" for="monochrome-checkbox"></label>
+            </data-row-custom>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
     </ion-card-content>
   </ion-card>
 

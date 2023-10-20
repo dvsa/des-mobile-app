@@ -105,6 +105,13 @@ export class ExaminerStatsPage implements OnInit {
   ) {
   }
 
+  blurElement(event: EventTarget) {
+    if (!((event as HTMLElement).id.includes('input'))) {
+      (document.activeElement as HTMLElement).blur();
+    }
+  }
+
+
   private calculatePercentage = (
     [startedTestCount, comparatorCount],
   ) => `${((comparatorCount / startedTestCount) * 100).toFixed(2)}%`;
