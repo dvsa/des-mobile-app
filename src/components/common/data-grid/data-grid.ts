@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { isEqual } from 'lodash';
 
 export type PassedData = [string, number];
 
@@ -24,6 +25,19 @@ export class DataGridComponent implements OnInit {
       this.cropData();
     }
     if (this.colourScheme && !this.finalColourArray) {
+      this.finalColourArray = this.loopColours();
+    }
+  }
+
+  ngOnChanges(changes) {
+
+    const dataChanged = Object.keys(changes)
+      .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
+
+    if (dataChanged) {
+      if (this.rowCropCount && this.passedData) {
+        this.cropData();
+      }
       this.finalColourArray = this.loopColours();
     }
   }
