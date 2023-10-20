@@ -14,6 +14,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
+  @Input() public monochrome: boolean = false;
   @Input() public transformOptions: { width: number, height: number } = { width: 300, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
@@ -46,6 +47,12 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
 
     if (!!this.chart && dataChanged) {
+      this.filterData();
+
+      if (Object.keys(changes).includes('chartType')) {
+        this.chart = new ApexCharts(document.getElementById(this.chartId), this.options);
+        await this.chart.render();
+      } else {}
       await this.chart.updateOptions(this.options);
     }
   }
@@ -82,6 +89,11 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
           formatter: (val) => val.toFixed(0),
         },
       },
+      theme: {
+        monochrome: {
+          enabled: this.monochrome,
+        },
+      },
       colors: this.colors,
       series: this.dataValues,
       labels: this.labels,
@@ -92,7 +104,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
             legend: {
               show: this.showLegend,
               fontSize: '24px',
-              position: 'bottom',
+              position: 'left',
             },
           },
         },
@@ -102,7 +114,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
           distributed: true,
           horizontal: false,
           dataLabels: {
-            position: 'bottom',
+            position: 'left',
           },
         },
       },

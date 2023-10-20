@@ -1,6 +1,6 @@
 import { forOwn, get, transform, uniqBy } from 'lodash';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Manoeuvre, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { Manoeuvre, SafetyQuestionResult, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { AlternativeManoeuvreTypeLabels, BaseManoeuvreTypeLabels } from '@pages/examiner-stats/examiner-stats.page';
 import { StartedTests } from '@store/tests/tests.selector';
@@ -8,6 +8,7 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
+import { getTestOutcome } from '@pages/debrief/debrief.selector';
 
 export type ExaminerStatData = { item: string, count: number };
 
@@ -28,6 +29,19 @@ export const getPassedTestCount = (startedTests: StartedTests, range: DateRange 
   getEligibleTests(startedTests, range)
     .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
     .length;
+
+export const getOutcome = (startedTests: StartedTests, range: DateRange = null): ExaminerStatData[] => {
+  const data = getEligibleTests(startedTests, range)
+    // filter for any nulls
+    .filter((slotID) => startedTests[slotID].activityCode !== null)
+  // extract route number
+    .map((slotID: string) => getTestOutcome(startedTests[slotID] as TestResultCommonSchema));
+
+  return uniqBy(data.map((item) => ({
+    item,
+    count: data.filter((r1) => r1 === item).length,
+  })), 'item');
+};
 
 export const getControlledStopCount = (startedTests: StartedTests, range: DateRange = null): number =>
   getEligibleTests(startedTests, range)
