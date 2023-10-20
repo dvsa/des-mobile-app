@@ -76,7 +76,16 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       dataLabels: {
         enabled: true,
         style: {
-          fontSize: '24px',
+          fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          colors: ['#000000'],
+        },
+        background: {
+          enabled: true,
+        },
+        dropShadow: {
+          enabled: false,
         },
       },
       xaxis: {
@@ -114,7 +123,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
           distributed: true,
           horizontal: false,
           dataLabels: {
-            position: 'left',
+            position: 'bottom',
           },
         },
       },
