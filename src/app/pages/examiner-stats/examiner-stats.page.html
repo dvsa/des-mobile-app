@@ -8,13 +8,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="{
-  routeGrid: handleGrid(pageState.routeNumbers$ | async),
-  manoeuvresGrid: handleGrid(pageState.manoeuvres$ | async),
+  routeGrid: handleGrid(pageState.routeNumbers$ | async, 'R'),
+  manoeuvresGrid: handleGrid(pageState.manoeuvres$ | async, 'M'),
   showMeQuestionsGrid: handleGrid(pageState.showMeQuestions$ | async),
   tellMeQuestionsGrid: handleGrid(pageState.tellMeQuestions$ | async),
   safetyAndBalanceGrid: handleGrid(pageState.safetyAndBalanceQuestions$ | async),
   testCount: pageState.testCount$ | async,
-  outcomes: handleGrid(pageState.outcomes$ | async),
+  outcomes: handleGrid(pageState.outcomes$ | async, 'O'),
 } as data">
 
   <ion-card>
@@ -27,8 +27,8 @@
       <data-row-custom [label]="'Display options'">
         <view-filter-radio
           [formGroup]="form"
-          (filterChange)="filterOption = $event"
-        ></view-filter-radio>
+          (filterChange)="filterOption = $event">
+        </view-filter-radio>
       </data-row-custom>
       <data-row-custom
         [shouldHaveSeperator]="true"
@@ -50,6 +50,12 @@
             <label>Additional Filters</label>
           </ion-item>
           <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
+            <data-row-custom [label]="'Colour options'">
+              <colour-filter-radio
+                [formGroup]="form"
+                (filterChange)="colourOption = $event">
+              </colour-filter-radio>
+            </data-row-custom>
             <data-row-custom
               [label]="'Chart type'">
               <ion-select
@@ -62,14 +68,6 @@
                   {{option.display}}
                 </ion-select-option>
               </ion-select>
-            </data-row-custom>
-            <data-row-custom [shouldHaveSeperator]="false" [label]="'Monochrome charts'">
-              <input type="checkbox"
-                     class="gds-checkbox"
-                     id="monochrome-checkbox"
-                     [checked]="monochrome"
-                     (click)="swapMonochrome()">
-              <label id="monochrome-label" for="monochrome-checkbox"></label>
             </data-row-custom>
           </div>
         </ion-accordion>
@@ -115,7 +113,7 @@
         <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
             [headers]="['Route', 'Amount used']"
-            [colourScheme]="monochrome ? colors.monochrome : colors.fullColour"
+            [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
             [passedData]="data.routeGrid">
           </data-grid>
@@ -123,8 +121,8 @@
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
             [chartId]="'routeNum'"
-            [monochrome]="monochrome"
             [chartType]="globalChartType ? globalChartType : 'bar'"
+            [colors]="colourSelect()"
             [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.routeGrid">
@@ -147,8 +145,8 @@
         <ion-row>
           <ion-col *ngIf="filterOption !== 'Chart'">
             <data-grid
-              [headers]="['Route', 'Amount used']"
-              [colourScheme]="monochrome ? colors.monochrome : colors.fullColour"
+              [headers]="['Test outcome', 'Amount used']"
+              [colourScheme]="colourSelect()"
               [displayColour]="filterOption === 'Both'"
               [passedData]="data.outcomes">
             </data-grid>
@@ -156,8 +154,8 @@
           <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
             <chart
               [chartId]="'outcomes'"
-              [monochrome]="monochrome"
               [chartType]="globalChartType ? globalChartType : 'pie'"
+              [colors]="colourSelect()"
               [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
               [showLegend]="filterOption !== 'Both'"
               [passedData]="data.outcomes">
@@ -182,16 +180,16 @@
           <data-grid
             [headers]="['Manoeuvre', 'Amount used']"
             [rowCropCount]="1"
-            [colourScheme]="monochrome ? colors.monochrome : colors.fullColour"
+            [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
             [passedData]="data.manoeuvresGrid">
           </data-grid>
         </ion-col>
         <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center">
           <chart
-            [chartType]="globalChartType ? globalChartType : 'polarArea'"
+            [chartType]="globalChartType ? globalChartType : 'pie'"
             [chartId]="'manoeuvres'"
-            [monochrome]="monochrome"
+            [colors]="colourSelect()"
             [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.manoeuvresGrid">
@@ -215,7 +213,7 @@
           <data-grid
             [headers]="['Question(s)', 'Amount asked']"
             [rowCropCount]="1"
-            [colourScheme]="monochrome ? colors.monochrome : colors.fullColour"
+            [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
             [passedData]="data.showMeQuestionsGrid">
           </data-grid>
@@ -224,7 +222,7 @@
           <chart
             [chartId]="'showMe'"
             [chartType]="globalChartType ? globalChartType : 'donut'"
-            [monochrome]="monochrome"
+            [colors]="colourSelect()"
             [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.showMeQuestionsGrid">
@@ -248,7 +246,7 @@
           <data-grid
             [headers]="['Question(s)', 'Amount asked']"
             [rowCropCount]="3"
-            [colourScheme]="monochrome ? colors.monochrome : colors.fullColour"
+            [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
             [passedData]="data.tellMeQuestionsGrid">
           </data-grid>
@@ -257,7 +255,7 @@
           <chart
             [chartId]="'tellMe'"
             [chartType]="globalChartType ? globalChartType : 'pie'"
-            [monochrome]="monochrome"
+            [colors]="colourSelect()"
             [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.tellMeQuestionsGrid">
@@ -281,7 +279,7 @@
           <data-grid
             [headers]="['Question(s)', 'Amount asked']"
             [rowCropCount]="3"
-            [colourScheme]="monochrome ? colors.monochrome : colors.fullColour"
+            [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
             [passedData]="data.safetyAndBalanceGrid">
           </data-grid>
@@ -290,7 +288,7 @@
           <chart
             [chartId]="'safetyAndBalance'"
             [chartType]="globalChartType ? globalChartType : 'pie'"
-            [monochrome]="monochrome"
+            [colors]="colourSelect()"
             [transformOptions]="filterOption === 'Chart' ? {width: 800, height: 300} : {width: 300, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.safetyAndBalanceGrid">
