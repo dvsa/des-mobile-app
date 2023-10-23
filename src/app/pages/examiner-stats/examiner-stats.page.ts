@@ -57,6 +57,11 @@ export const enum FilterEnum {
   Data_Only = 'Data',
   Chart_Only = 'Chart',
 }
+export const enum ColourEnum {
+  Default = 'Default',
+  Monochrome = 'Monochrome',
+  Corporate = 'Corporate',
+}
 
 @Component({
   selector: 'examiner-stats',
@@ -70,12 +75,13 @@ export class ExaminerStatsPage implements OnInit {
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   pageState: ExaminerStatsState;
   filterOption: FilterEnum = FilterEnum.Both;
-  colors: { fullColour: string[], monochrome: string[] } = {
-    fullColour: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'],
+  colourOption: ColourEnum = ColourEnum.Default;
+  colors: { default: string[], monochrome: string[], corporate: string[] } = {
+    default: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'],
     monochrome: ['#008ffbd9', '#1c9bfbd9', '#37a7fcd9', '#53b3fcd9', '#6fc0fdd9'],
+    corporate: ['#FFD600', '#2187C9', '#E0177D', '#3BAB36', '#ED6926'],
   };
   controlledStopTotal: number;
-  monochrome: boolean = false;
   globalChartType: ChartType;
   dateFilterOptions: { display: string; val: DateRange }[] = [
     {
@@ -96,7 +102,6 @@ export class ExaminerStatsPage implements OnInit {
     { display: 'Bar', val: 'bar' },
     { display: 'Pie', val: 'pie' },
     { display: 'Donut', val: 'donut' },
-    { display: 'Polar Area', val: 'polarArea' },
   ];
   public dateFilter: string = 'Last 14 days';
 
@@ -165,8 +170,8 @@ export class ExaminerStatsPage implements OnInit {
     this.store$.dispatch(ExaminerStatsViewDidEnter());
   }
 
-  handleGrid(object: { item: string, count: number }[]): [string, number][] {
-    return object.map((val) => [val.item, val.count]);
+  handleGrid(object: { item: string, count: number }[], indexVal: string = null): [string, number][] {
+    return object.map((val, index) => [indexVal ? `${indexVal}${index + 1} - ${val.item}` : val.item, val.count]);
   }
 
   handleDateFilter(event: CustomEvent) {
@@ -178,7 +183,15 @@ export class ExaminerStatsPage implements OnInit {
     this.globalChartType = $event.detail.value;
   }
 
-  swapMonochrome() {
-    this.monochrome = !this.monochrome;
+  colourSelect() {
+    switch (this.colourOption) {
+      default:
+      case 'Default':
+        return this.colors.default;
+      case 'Monochrome':
+        return this.colors.monochrome;
+      case 'Corporate':
+        return this.colors.corporate;
+    }
   }
 }
