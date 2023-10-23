@@ -5,38 +5,38 @@
         <ion-row>
             <ion-col class="ion-align-self-center">
                 <input type="radio"
-                       id="value-filter-both"
+                       id="value-filter-default"
                        class="gds-radio-button"
-                       name="displayFilter"
-                       formControlName="displayFilter"
-                       value="Both"
+                       name="colourFilter"
+                       formControlName="colourFilter"
+                       value="Default"
                        (change)="viewFilterChanged($event.target.value)">
-                <label for="value-filter-both" class="radio-label" id="value-filter-both-label">
-                    Both
+                <label for="value-filter-default" class="radio-label" id="value-filter-default-label">
+                  Default
                 </label>
             </ion-col>
             <ion-col class="ion-align-self-center">
                 <input type="radio"
-                       id="value-filter-data"
+                       id="value-filter-monochrome"
                        class="gds-radio-button"
-                       name="displayFilter"
-                       formControlName="displayFilter"
-                       value="Data"
+                       name="colourFilter"
+                       formControlName="colourFilter"
+                       value="Monochrome"
                        (change)="viewFilterChanged($event.target.value)">
-                <label for="value-filter-data" class="radio-label" id="value-filter-data-label">
-                    Data
+                <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label">
+                  Monochrome
                 </label>
             </ion-col>
             <ion-col class="ion-align-self-center">
                 <input type="radio"
-                       id="value-filter-chart"
+                       id="value-filter-corporate"
                        class="gds-radio-button"
-                       name="displayFilter"
-                       formControlName="displayFilter"
-                       value="Chart"
+                       name="colourFilter"
+                       formControlName="colourFilter"
+                       value="Corporate"
                        (change)="viewFilterChanged($event.target.value)">
-                <label for="value-filter-chart" class="radio-label" id="value-filter-chart-label">
-                    Chart
+                <label for="value-filter-corporate" class="radio-label" id="value-filter-corporate-label">
+                  Corporate
                 </label>
             </ion-col>
         </ion-row>

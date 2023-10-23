@@ -10,11 +10,10 @@ import { PassedData } from '@components/common/data-grid/data-grid';
   styleUrls: ['chart.scss'],
 })
 export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() public chartId: string;
+  @Input() public chartId: string = '';
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
-  @Input() public monochrome: boolean = false;
   @Input() public transformOptions: { width: number, height: number } = { width: 300, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
@@ -26,7 +25,6 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     switch (this.chartType) {
       case 'donut':
       case 'pie':
-      case 'polarArea':
         return '1Axis';
       case 'bar':
         return '2Axis';
@@ -52,7 +50,8 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       if (Object.keys(changes).includes('chartType')) {
         this.chart = new ApexCharts(document.getElementById(this.chartId), this.options);
         await this.chart.render();
-      } else {}
+      } else {
+      }
       await this.chart.updateOptions(this.options);
     }
   }
@@ -74,7 +73,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
         type: this.chartType,
       },
       dataLabels: {
-        enabled: true,
+        enabled: this.chartType !== 'bar',
         style: {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
           fontSize: '18px',
@@ -87,6 +86,8 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
         dropShadow: {
           enabled: false,
         },
+        formatter: (val, opts) =>
+          opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%',
       },
       xaxis: {
         labels: {
@@ -96,11 +97,6 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       yaxis: {
         labels: {
           formatter: (val) => val.toFixed(0),
-        },
-      },
-      theme: {
-        monochrome: {
-          enabled: this.monochrome,
         },
       },
       colors: this.colors,
@@ -124,6 +120,17 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
           horizontal: false,
           dataLabels: {
             position: 'bottom',
+          },
+        },
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              total: {
+                show: this.chartType === 'donut',
+                showAlways: this.chartType === 'donut',
+              },
+            },
           },
         },
       },
