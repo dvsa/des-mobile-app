@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { isEqual } from 'lodash';
 
-export type PassedData = [string, number];
+export type PassedData = [string, number, string];
 
 @Component({
   selector: 'data-grid',
@@ -11,13 +11,13 @@ export type PassedData = [string, number];
 export class DataGridComponent implements OnInit {
 
   @Input() headers: string[] = null;
-  @Input() passedData: PassedData[] = null;
+  @Input() passedData: unknown[][] = null;
   @Input() rowCropCount: number = null;
   @Input() colourScheme: string[] = null;
   @Input() displayColour: boolean = false;
 
   public finalColourArray: string[] = null;
-  public croppedRows: { preCrop: PassedData[], postCrop: PassedData[] } = null;
+  public croppedRows: { preCrop: unknown[], postCrop: unknown[] } = null;
   public showCroppedData: boolean = false;
 
   ngOnInit() {
