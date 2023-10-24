@@ -33,8 +33,8 @@
       <ion-col size="auto" *ngIf="displayColour">
         <span [style.background-color]="finalColourArray[i+croppedRows.preCrop.length]" class="dot"></span>
       </ion-col>
-      <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of passedItem">
-        <span class="text-align-center mes-data">{{data}}</span>
+      <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of headers; index as y">
+        <span class="text-align-center mes-data">{{passedItem[y]}}</span>
       </ion-col>
     </ion-row>
   </div>
