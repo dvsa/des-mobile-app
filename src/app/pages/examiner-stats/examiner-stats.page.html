@@ -70,6 +70,20 @@
                 </ion-select-option>
               </ion-select>
             </data-row-custom>
+            <data-row-custom
+              [shouldHaveSeperator]="false"
+              [label]="'Location filter'">
+              <ion-select
+                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+                class="input-styling-background black-text"
+                (ionChange)="handleLocationFilter($event)"
+                labelPlacement="stacked"
+                placeholder="All">
+                <ion-select-option [value]="option.centreId" *ngFor="let option of locationFilterOptions;">
+                  {{option.centreName}}
+                </ion-select-option>
+              </ion-select>
+            </data-row-custom>
           </div>
         </ion-accordion>
       </ion-accordion-group>
