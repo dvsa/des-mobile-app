@@ -16,6 +16,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public showLegend: boolean = false;
   @Input() public transformOptions: { width: number, height: number } = { width: 300, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+  @Input() public labelColour: string = '#000000';
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
@@ -58,6 +59,14 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   get options() {
     return {
+      states: {
+        active: {
+          filter: {
+            type: 'none',
+            value: 1,
+          },
+        },
+      },
       chart: {
         toolbar: {
           show: false,
@@ -67,7 +76,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
         },
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
         fontSize: '24px',
-        foreColor: '#000000',
+        foreColor: this.labelColour,
         width: this.transformOptions.width,
         height: this.transformOptions.height,
         type: this.chartType,
@@ -91,17 +100,26 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       },
       xaxis: {
         labels: {
-          formatter: (val) => val,
+          style: {
+            colors: this.labelColour,
+          },
+          // formatter: (val) => val,
         },
       },
       yaxis: {
         labels: {
-          formatter: (val) => val.toFixed(0),
+          style: {
+            colors: this.labelColour,
+          },
+          // formatter: (val) => val.toFixed(0),
         },
       },
       colors: this.colors,
       series: this.dataValues,
       labels: this.labels,
+      tooltip: {
+        enabled: false,
+      },
       responsive: [
         {
           breakpoint: 1000,
@@ -117,16 +135,19 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       plotOptions: {
         bar: {
           distributed: true,
-          horizontal: false,
+          horizontal: true,
           dataLabels: {
             position: 'bottom',
           },
         },
         pie: {
+          expandOnClick: false,
           donut: {
             labels: {
-              show: true,
+              show: this.chartType === 'donut',
+              color: this.labelColour,
               total: {
+                color: this.labelColour,
                 show: this.chartType === 'donut',
                 showAlways: this.chartType === 'donut',
               },
