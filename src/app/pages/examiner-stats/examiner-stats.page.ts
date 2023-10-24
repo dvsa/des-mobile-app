@@ -10,6 +10,7 @@ import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.
 import {
   ExaminerStatData,
   getControlledStopCount,
+  getLocations,
   getManoeuvresUsed,
   getOutcome,
   getPassedTestCount,
@@ -21,6 +22,7 @@ import {
 } from '@pages/examiner-stats/examiner-stats.selector';
 import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
+import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 
 export enum BaseManoeuvreTypeLabels {
   reverseLeft = 'Reverse left',
@@ -50,6 +52,7 @@ interface ExaminerStatsState {
   passPercentage$: Observable<string>;
   outcomes$: Observable<ExaminerStatData[]>;
   controlledStopPercentage$: Observable<string>;
+  locationList$: Observable<TestCentre[]>;
 }
 
 export const enum FilterEnum {
@@ -57,6 +60,7 @@ export const enum FilterEnum {
   Data_Only = 'Data',
   Chart_Only = 'Chart',
 }
+
 export const enum ColourEnum {
   Default = 'Default',
   Monochrome = 'Monochrome',
@@ -73,6 +77,7 @@ export class ExaminerStatsPage implements OnInit {
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
+  locationSubject$ = new BehaviorSubject<number | null>(null);
   pageState: ExaminerStatsState;
   filterOption: FilterEnum = FilterEnum.Both;
   colourOption: ColourEnum = ColourEnum.Default;
@@ -83,6 +88,7 @@ export class ExaminerStatsPage implements OnInit {
   };
   controlledStopTotal: number;
   globalChartType: ChartType;
+  locationFilterOptions: TestCentre[] = [];
   dateFilterOptions: { display: string; val: DateRange }[] = [
     {
       display: 'Today',
@@ -123,7 +129,9 @@ export class ExaminerStatsPage implements OnInit {
 
   // wrapper used to reduce/centralise code
   // take in a dynamic type, and a function with signature of fn(test, date)
-  private filterUsingDateRange = <T>(fn: (tests: StartedTests, range: DateRange) => T): Observable<T> => combineLatest(
+  private filterByParameters = <T>(fn: (
+    tests: StartedTests, range: DateRange, location: number
+  ) => T): Observable<T> => combineLatest(
     [
       // get the startedTests once per change detection cycle
       this.store$.pipe(
@@ -133,37 +141,43 @@ export class ExaminerStatsPage implements OnInit {
       ),
       // listen for changes to the range
       this.rangeSubject$.asObservable(),
+      this.locationSubject$.asObservable(),
     ])
     .pipe(
       // return an observable using the generic `fn`
-      switchMap(([tests, range]) => of(fn(tests, range))),
+      switchMap(([tests, range, location]) => of(fn(tests, range, location))),
     );
 
   ngOnInit(): void {
     this.pageState = {
-      routeNumbers$: this.filterUsingDateRange(getRouteNumbers),
-      manoeuvres$: this.filterUsingDateRange(getManoeuvresUsed),
-      safetyAndBalanceQuestions$: this.filterUsingDateRange(getSafetyAndBalanceQuestions),
-      showMeQuestions$: this.filterUsingDateRange(getShowMeQuestions),
-      tellMeQuestions$: this.filterUsingDateRange(getTellMeQuestions),
-      testCount$: this.filterUsingDateRange(getStartedTestCount),
-      outcomes$: this.filterUsingDateRange(getOutcome),
-      passPercentage$: this.filterUsingDateRange(getStartedTestCount)
+      routeNumbers$: this.filterByParameters(getRouteNumbers),
+      manoeuvres$: this.filterByParameters(getManoeuvresUsed),
+      safetyAndBalanceQuestions$: this.filterByParameters(getSafetyAndBalanceQuestions),
+      showMeQuestions$: this.filterByParameters(getShowMeQuestions),
+      tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
+      testCount$: this.filterByParameters(getStartedTestCount),
+      outcomes$: this.filterByParameters(getOutcome),
+      locationList$: this.filterByParameters(getLocations),
+      passPercentage$: this.filterByParameters(getStartedTestCount)
         .pipe(
           withLatestFrom(
-            this.filterUsingDateRange(getPassedTestCount),
+            this.filterByParameters(getPassedTestCount),
           ),
           map(this.calculatePercentage),
         ),
-      controlledStopPercentage$: this.filterUsingDateRange(getStartedTestCount)
+      controlledStopPercentage$: this.filterByParameters(getStartedTestCount)
         .pipe(
           withLatestFrom(
-            this.filterUsingDateRange(getControlledStopCount),
+            this.filterByParameters(getControlledStopCount),
           ),
           tap(([, controlledStop]) => this.controlledStopTotal = controlledStop),
           map(this.calculatePercentage),
         ),
     };
+    this.pageState.locationList$.subscribe(value => {
+      this.locationFilterOptions = [{ costCode: null, centreName: 'All', centreId: null }];
+      this.locationFilterOptions = this.locationFilterOptions.concat(value);
+    });
   }
 
   ionViewDidEnter() {
@@ -178,6 +192,10 @@ export class ExaminerStatsPage implements OnInit {
   handleDateFilter(event: CustomEvent) {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
+  }
+
+  handleLocationFilter(event: CustomEvent) {
+    this.locationSubject$.next(event.detail?.value ?? null);
   }
 
   handleChartFilter($event: any) {
