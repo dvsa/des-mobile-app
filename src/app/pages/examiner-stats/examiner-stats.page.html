@@ -14,7 +14,7 @@
   tellMeQuestionsGrid: handleGrid(pageState.tellMeQuestions$ | async),
   safetyAndBalanceGrid: handleGrid(pageState.safetyAndBalanceQuestions$ | async),
   testCount: pageState.testCount$ | async,
-  outcomes: handleGrid(pageState.outcomes$ | async, 'O'),
+  outcomes: handleGrid(pageState.outcomes$ | async),
 } as data">
 
   <ion-card>
@@ -31,7 +31,7 @@
         </view-filter-radio>
       </data-row-custom>
       <data-row-custom
-        [shouldHaveSeperator]="true"
+        [shouldHaveSeperator]="false"
         [label]="'Date filter'">
         <ion-select
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
@@ -57,6 +57,7 @@
               </colour-filter-radio>
             </data-row-custom>
             <data-row-custom
+              [shouldHaveSeperator]="false"
               [label]="'Chart type'">
               <ion-select
                 [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
@@ -100,7 +101,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.routeGrid?.length">
+  <ion-card [class]="colourSelect() === colors.corporate ? ['white-text' , 'navy-card'] : 'mes-black'" *ngIf="data.routeGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Test Routes completed</ion-text>
@@ -112,7 +113,7 @@
       <ion-row>
         <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
-            [headers]="['Route', 'Amount used']"
+            [headers]="filterOption !== 'Data' ? ['Route', 'Amount used'] : ['Route', 'Amount used', 'Percentage of total']"
             [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
             [passedData]="data.routeGrid">
@@ -123,7 +124,8 @@
             [chartId]="'routeNum'"
             [chartType]="globalChartType ? globalChartType : 'bar'"
             [colors]="colourSelect()"
-            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
+            [labelColour]="colourSelect() === colors.corporate ? '#FFFFFF' : null"
+            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 350, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.routeGrid">
           </chart>
@@ -133,7 +135,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.outcomes?.length">
+  <ion-card [class]="colourSelect() === colors.corporate ? ['white-text' , 'navy-card'] : 'mes-black'" *ngIf="data.outcomes?.length">
       <ion-card-header>
         <ion-card-title>
           <ion-text class="des-header-style-4 fault-heading">Test outcomes</ion-text>
@@ -145,7 +147,7 @@
         <ion-row>
           <ion-col *ngIf="filterOption !== 'Chart'">
             <data-grid
-              [headers]="['Test outcome', 'Amount used']"
+              [headers]="filterOption !== 'Data' ? ['Test outcome', 'Amount used'] : ['Test outcome', 'Amount used', 'Percentage of total']"
               [colourScheme]="colourSelect()"
               [displayColour]="filterOption === 'Both'"
               [passedData]="data.outcomes">
@@ -156,7 +158,8 @@
               [chartId]="'outcomes'"
               [chartType]="globalChartType ? globalChartType : 'pie'"
               [colors]="colourSelect()"
-              [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
+              [labelColour]="colourSelect() === colors.corporate ? '#FFFFFF' : null"
+              [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 350, height: 300}"
               [showLegend]="filterOption !== 'Both'"
               [passedData]="data.outcomes">
             </chart>
@@ -166,7 +169,7 @@
       </ion-card-content>
     </ion-card>
 
-  <ion-card *ngIf="data.manoeuvresGrid?.length">
+  <ion-card [class]="colourSelect() === colors.corporate ? ['white-text' , 'navy-card'] : 'mes-black'" *ngIf="data.manoeuvresGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Manoeuvres completed</ion-text>
@@ -178,7 +181,7 @@
       <ion-row>
         <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
-            [headers]="['Manoeuvre', 'Amount used']"
+            [headers]="filterOption !== 'Data' ? ['Manoeuvre', 'Amount used'] : ['Manoeuvre', 'Amount used', 'Percentage of total']"
             [rowCropCount]="1"
             [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
@@ -190,7 +193,8 @@
             [chartType]="globalChartType ? globalChartType : 'pie'"
             [chartId]="'manoeuvres'"
             [colors]="colourSelect()"
-            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
+            [labelColour]="colourSelect() === colors.corporate ? '#FFFFFF' : null"
+            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 350, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.manoeuvresGrid">
           </chart>
@@ -199,7 +203,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.showMeQuestionsGrid?.length">
+  <ion-card [class]="colourSelect() === colors.corporate ? ['white-text' , 'navy-card'] : 'mes-black'" *ngIf="data.showMeQuestionsGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Show me questions asked</ion-text>
@@ -211,7 +215,7 @@
       <ion-row>
         <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
-            [headers]="['Question(s)', 'Amount asked']"
+            [headers]="filterOption !== 'Data' ? ['Question(s)', 'Amount used'] : ['Question(s)', 'Amount used', 'Percentage of total']"
             [rowCropCount]="1"
             [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
@@ -223,7 +227,8 @@
             [chartId]="'showMe'"
             [chartType]="globalChartType ? globalChartType : 'donut'"
             [colors]="colourSelect()"
-            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
+            [labelColour]="colourSelect() === colors.corporate ? '#FFFFFF' : null"
+            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 350, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.showMeQuestionsGrid">
           </chart>
@@ -232,7 +237,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.tellMeQuestionsGrid?.length">
+  <ion-card [class]="colourSelect() === colors.corporate ? ['white-text' , 'navy-card'] : 'mes-black'" *ngIf="data.tellMeQuestionsGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Tell me questions asked</ion-text>
@@ -244,7 +249,7 @@
       <ion-row>
         <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
-            [headers]="['Question(s)', 'Amount asked']"
+            [headers]="filterOption !== 'Data' ? ['Question(s)', 'Amount used'] : ['Question(s)', 'Amount used', 'Percentage of total']"
             [rowCropCount]="3"
             [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
@@ -256,7 +261,8 @@
             [chartId]="'tellMe'"
             [chartType]="globalChartType ? globalChartType : 'pie'"
             [colors]="colourSelect()"
-            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 300, height: 300}"
+            [labelColour]="colourSelect() === colors.corporate ? '#FFFFFF' : null"
+            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 350, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.tellMeQuestionsGrid">
           </chart>
@@ -265,7 +271,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="data.safetyAndBalanceGrid?.length">
+  <ion-card [class]="colourSelect() === colors.corporate ? ['white-text' , 'navy-card'] : 'mes-black'" *ngIf="data.safetyAndBalanceGrid?.length">
     <ion-card-header>
       <ion-card-title>
         <ion-text class="des-header-style-4 fault-heading">Safety and balance questions asked</ion-text>
@@ -277,7 +283,7 @@
       <ion-row>
         <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
-            [headers]="['Question(s)', 'Amount asked']"
+            [headers]="filterOption !== 'Data' ? ['Question(s)', 'Amount used'] : ['Question(s)', 'Amount used', 'Percentage of total']"
             [rowCropCount]="3"
             [colourScheme]="colourSelect()"
             [displayColour]="filterOption === 'Both'"
@@ -289,7 +295,8 @@
             [chartId]="'safetyAndBalance'"
             [chartType]="globalChartType ? globalChartType : 'pie'"
             [colors]="colourSelect()"
-            [transformOptions]="filterOption === 'Chart' ? {width: 800, height: 300} : {width: 300, height: 300}"
+            [labelColour]="colourSelect() === colors.corporate ? '#FFFFFF' : null"
+            [transformOptions]="filterOption === 'Chart' ? {width: 700, height: 300} : {width: 350, height: 300}"
             [showLegend]="filterOption !== 'Both'"
             [passedData]="data.safetyAndBalanceGrid">
           </chart>
