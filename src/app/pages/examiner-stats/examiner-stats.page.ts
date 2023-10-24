@@ -170,8 +170,9 @@ export class ExaminerStatsPage implements OnInit {
     this.store$.dispatch(ExaminerStatsViewDidEnter());
   }
 
-  handleGrid(object: { item: string, count: number }[], indexVal: string = null): [string, number][] {
-    return object.map((val, index) => [indexVal ? `${indexVal}${index + 1} - ${val.item}` : val.item, val.count]);
+  handleGrid(object: ExaminerStatData[], indexVal: string = null) {
+    return object.map((val, index) =>
+      [indexVal ? `${indexVal}${index + 1} - ${val.item}` : val.item, val.count, val.percentage]).sort();
   }
 
   handleDateFilter(event: CustomEvent) {

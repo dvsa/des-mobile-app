@@ -1,6 +1,9 @@
 .text-align-center {
   text-align: center;
 }
+span, label {
+  color: inherit !important;
+}
 .dot {
   height: 25px;
   width: 25px;
