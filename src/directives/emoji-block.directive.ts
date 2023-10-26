@@ -15,8 +15,9 @@ export class EmojiBlockDirective {
   onInput(event: InputEvent | ClipboardEvent): void {
     event.preventDefault();
     const inputField = this.el.nativeElement;
+    if (!inputField) return;
     const isPaste = event.type === 'paste';
-    const pastedData = isPaste ? (event as ClipboardEvent).clipboardData.getData('text') : null;
+    const pastedData = isPaste ? (event as ClipboardEvent).clipboardData?.getData('text') : null;
 
     inputField.value = (isPaste ? pastedData : inputField.value).replace(this.emojiPattern, '');
   }
