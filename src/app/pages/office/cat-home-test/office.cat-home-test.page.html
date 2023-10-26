@@ -105,7 +105,7 @@
                           [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
                           [outcome]="pageState.testOutcome$ | async"
                           faultType="dangerous"
-                          header="Dangerous"
+                          header="Dangerous faults"
                           [maxFaultCount]="maxFaultCount"
                           (faultCommentsChange)="dangerousFaultCommentChanged($event)">
       </fault-comment-card>
@@ -115,7 +115,7 @@
                           [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
                           [outcome]="pageState.testOutcome$ | async"
                           faultType="serious"
-                          header="Serious"
+                          header="Serious faults"
                           [maxFaultCount]="maxFaultCount"
                           (faultCommentsChange)="seriousFaultCommentChanged($event)">
       </fault-comment-card>
@@ -127,6 +127,7 @@
                           [outcome]="pageState.testOutcome$ | async"
                           faultType="driving"
                           header="Driving"
+                          badgeLabel="Driving"
                           [faultCount]="pageState.drivingFaultCount$ | async"
                           [maxFaultCount]="maxFaultCount"
                           (faultCommentsChange)="drivingFaultCommentChanged($event)">
@@ -135,6 +136,7 @@
       <driving-faults
         *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)"
         [label]="'Driving faults'"
+        badgeLabel="Driving"
         [faults]="(pageState.drivingFaults$ | async)">
       </driving-faults>
     </div>

@@ -149,7 +149,7 @@
 
       <fault-comment-card
         faultType="dangerous"
-        header="Dangerous"
+        header="Dangerous faults"
         [formGroup]="form"
         [faultComments]="pageState.dangerousFaults$ | async"
         [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
@@ -160,7 +160,7 @@
 
       <fault-comment-card
         faultType="serious"
-        header="Serious"
+        header="Serious faults"
         [formGroup]="form"
         [faultComments]="pageState.seriousFaults$ | async"
         [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
@@ -173,6 +173,7 @@
         id="driving-fault-comment-card"
         faultType="driving"
         header="Riding"
+        badgeLabel="Riding"
         [formGroup]="form"
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
@@ -187,7 +188,7 @@
         [label]="'Riding faults'"
         [testCategory]="(pageState.testCategory$ | async)"
         [faults]="(pageState.drivingFaults$ | async)"
-        header="Riding">
+        badgeLabel="Riding">
       </driving-faults>
     </div>
   </form>

@@ -17,5 +17,5 @@ export class DrivingFaultsComponent {
   testCategory?: TestCategory;
 
   @Input()
-  header: string = 'Driving';
+  badgeLabel: string = 'Driving';
 }

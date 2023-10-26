@@ -51,7 +51,7 @@ export class FaultCommentComponent implements OnChanges {
   testCategory?: TestCategory;
 
   @Input()
-  header: string;
+  badgeLabel: string;
 
   @Output()
   faultCommentChange = new EventEmitter<FaultSummary>();

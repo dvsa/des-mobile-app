@@ -237,6 +237,7 @@
         [outcome]="pageState.testOutcome$ | async"
         faultType="driving"
         header="Driving faults {{isDelegated ? (pageState.drivingFaultCount$ | async) : null}}"
+        badgeLabel="Driving"
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)">
       </fault-comment-card>
@@ -244,6 +245,7 @@
       <driving-faults
         *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated"
         [label]="'Driving faults'"
+        badgeLabel="Driving"
         [faults]="(pageState.drivingFaults$ | async)">
       </driving-faults>
     </div>
