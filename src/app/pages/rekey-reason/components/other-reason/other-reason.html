@@ -19,7 +19,8 @@
                     (onCharacterCountChanged)="characterCountChanged($event)"
                     [value]="reason"
                     [class.ng-invalid]="invalid"
-                    (change)="reasonTextChanged($event.target.value)">
+                    (change)="reasonTextChanged($event.target.value)"
+                    emojiBlock>
             </textarea>
 
             <div class="character-count validation-text"

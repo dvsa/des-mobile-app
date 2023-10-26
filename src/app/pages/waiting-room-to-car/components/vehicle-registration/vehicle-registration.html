@@ -16,7 +16,8 @@
                        [value]="vehicleRegistration"
                        (ionInput)="vehicleRegistrationChanged($event)"
                        (ionBlur)="onBlurEvent(vehicleRegistration)"
-                       [maxlength]="registrationNumberValidator.maxLength">
+                       [maxlength]="registrationNumberValidator.maxLength"
+                       emojiBlock>
                 </ion-input>
             </ion-col>
         </ion-row>

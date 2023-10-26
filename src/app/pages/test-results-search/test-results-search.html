@@ -58,7 +58,8 @@
                 (ionBlur)="setFocus(null)"
                 [value]="candidateInfo"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)">
+                (ionInput)="candidateInfoChanged($event.target.value)"
+                emojiBlock>
               </ion-input>
               <ion-input
                 *ngIf="searchBy === 'appReference'"
@@ -73,7 +74,8 @@
                 (ionBlur)="setFocus(null)"
                 [value]="candidateInfo"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)">
+                (ionInput)="candidateInfoChanged($event.target.value)"
+                emojiBlock>
               </ion-input>
             </ion-col>
           </ion-row>

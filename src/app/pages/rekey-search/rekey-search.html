@@ -29,7 +29,8 @@
                 (ionBlur)="setFocus(null)"
                 [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                 [value]="applicationReference"
-                (change)="applicationReferenceChanged($event.target.value)">
+                (change)="applicationReferenceChanged($event.target.value)"
+                emojiBlock>
               </ion-input>
             </ion-col>
           </ion-row>
@@ -51,7 +52,8 @@
                 (ionBlur)="setFocus(null)"
                 [ngClass]="{'input-focus': focusedElement === 'staffNum'}"
                 [value]="staffNumber"
-                (change)="staffNumberChanged($event.target.value)">
+                (change)="staffNumberChanged($event.target.value)"
+                emojiBlock>
               </ion-input>
             </ion-col>
           </ion-row>

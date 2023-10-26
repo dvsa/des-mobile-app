@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
 import { VRNCaptureModal } from './vrn-capture-modal';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { VRNCaptureModal } from './vrn-capture-modal';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
+    DirectivesModule,
   ],
   declarations: [
     VRNCaptureModal,

@@ -26,6 +26,7 @@ import {
 import { CombinationComponent } from './components/combination/combination';
 import { OfficeCatCPCPage } from './office.cat-cpc.page';
 import { OfficeCatCPCPageRoutingModule } from './office.cat-cpc-routing.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { OfficeCatCPCPageRoutingModule } from './office.cat-cpc-routing.module';
     TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     WaitingRoomToCarCatCPCComponentsModule,
+    DirectivesModule,
   ],
   providers: [
     FaultSummaryProvider,

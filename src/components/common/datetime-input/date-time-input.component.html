@@ -6,7 +6,8 @@
     [attr.aria-label]="ariaLabel"
     [(ngModel)]="displayValue"
     [disabled]="disabled"
-    [placeholder]="displayType === 'date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)">
+    [placeholder]="displayType === 'date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)"
+    emojiBlock>
   </ion-input>
   <ion-modal
     class="{{displayType}}-modal"

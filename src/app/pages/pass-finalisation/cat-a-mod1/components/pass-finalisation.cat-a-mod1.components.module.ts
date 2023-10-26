@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PassCertificateNumberCatAMod1Component } from './pass-certificate-number/pass-certificate-number.cat-a-mod1';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { PassCertificateNumberCatAMod1Component } from './pass-certificate-numbe
     CommonModule,
     ComponentsModule,
     ReactiveFormsModule,
+    DirectivesModule,
   ],
   exports: [
     PassCertificateNumberCatAMod1Component,

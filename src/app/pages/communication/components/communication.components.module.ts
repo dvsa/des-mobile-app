@@ -9,6 +9,7 @@ import { ProvidedEmailComponent } from './provided-email/provided-email';
 import { NewEmailComponent } from './new-email/new-email';
 import { PostalAddressComponent } from './postal-address/postal-address';
 import { PrivacyNoticeComponent } from './privacy-notice/privacy-notice';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PrivacyNoticeComponent } from './privacy-notice/privacy-notice';
     IonicModule,
     TranslateModule,
     ReactiveFormsModule,
+    DirectivesModule,
   ],
   exports: [
     ProvidedEmailComponent,
