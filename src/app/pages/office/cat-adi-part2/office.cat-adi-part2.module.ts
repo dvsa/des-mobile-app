@@ -27,6 +27,7 @@ import {
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routing.module';
 import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-ch
       OfficeEffects,
     ]),
     WaitingRoomToCarComponentsModule,
+    DirectivesModule,
   ],
   providers: [
     FaultSummaryProvider,

@@ -31,7 +31,8 @@
                            aria-label="New email input"
                            [value]="newEmailAddress"
                            (ionChange)="newEmailTextChanged($event.target.value)"
-                           [class.ng-invalid]="invalid">
+                           [class.ng-invalid]="invalid"
+                           emojiBlock>
                 </ion-input>
             </ion-row>
             <ion-row class="validation-message-row ion-align-items-center">

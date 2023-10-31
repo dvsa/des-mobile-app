@@ -34,7 +34,8 @@
                 (ionBlur)="setFocus(null)"
                 [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                 [value]="applicationReference"
-                (ionChange)="applicationReferenceChanged($event.target.value)">
+                (ionChange)="applicationReferenceChanged($event.target.value)"
+                emojiBlock>
               </ion-input>
             </ion-col>
           </ion-row>

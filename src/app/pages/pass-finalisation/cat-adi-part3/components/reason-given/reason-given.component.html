@@ -15,7 +15,8 @@
         [value]="reasonGivenText"
         (change)="adviceReasonChange($event.target.value)"
         (onCharacterCountChanged)="characterCountChanged($event)"
-        id="ordit-reason-for-advice-textarea">
+        id="ordit-reason-for-advice-textarea"
+        emojiBlock>
       </textarea>
       <div class="character-count validation-text">{{getCharacterCountText()}}</div>
     </ion-row>
