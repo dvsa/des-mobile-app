@@ -9,7 +9,7 @@ export enum legalRequirementsLabels {
   hillStart = 'HS / DS (hill or designated start)',
   manoeuvre = 'Manoeuvres',
   eco = 'Eco (control and planning)',
-  vehicleChecks = 'Show me / Tell me',
+  vehicleChecks = 'Show me / tell me',
   uncoupleRecouple = 'Uncouple / Recouple',
   busStop1 = 'BS (bus stop)',
   busStop2 = 'BS (bus stop)',

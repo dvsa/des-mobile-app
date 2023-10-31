@@ -3,7 +3,7 @@
     <ion-buttons id="back-button" slot="start">
       <ion-back-button id="test-centre-journal-back-button"></ion-back-button>
     </ion-buttons>
-    <ion-title id="test-centre-journal-page-title" role="heading" aria-level="1">Test Centre Journal</ion-title>
+    <ion-title id="test-centre-journal-page-title" role="heading" aria-level="1">Test centre journal</ion-title>
     <ion-buttons slot="end">
       <ion-button id="refresh-button" class="refresh-button" (click)="getTestCentreData(true)">
         <div class="line-height-styling">
@@ -41,7 +41,7 @@
             (testCentreChanged)="testCentreChange($event)">
           </candidate-search-card>
         </tab>
-        <tab [tabTitle]="'View Journals'" id="view-journals-tab-title">
+        <tab [tabTitle]="'View journals'" id="view-journals-tab-title">
           <view-journals-card
             #viewJournalsCard
             [testCentreName]="testCentreNames"
