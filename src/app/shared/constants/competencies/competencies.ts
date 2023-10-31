@@ -69,7 +69,7 @@ export enum fullCompetencyLabels {
 
 export enum competencyLabels {
   controlsAccelerator = 'Accelerator',
-  controlsBalanceSlowControl = 'Balance / Slow control',
+  controlsBalanceSlowControl = 'Balance / slow control',
   controlsClutch = 'Clutch',
   controlsGears = 'Gears',
   controlsFootbrake = 'Footbrake',
@@ -124,10 +124,10 @@ export enum competencyLabels {
   pcvDoorExercise = 'PCV Door Exercise',
   emergencyStop = 'Emergency stop',
   avoidance = 'Avoidance ex. C/Stop',
-  clearanceOrObstructions = 'Clearance/obstructions',
+  clearanceOrObstructions = 'Clearance / obstructions',
   rearObservationSignalling = 'Signalling',
-  rearObservationChangeDirection = 'Change Direction',
-  rearObservationChangeSpeed = 'Change Speed',
-  positionNormalRiding = 'Normal Riding',
-  judgementOvertakingFiltering = 'Overtaking / Filtering',
+  rearObservationChangeDirection = 'Change direction',
+  rearObservationChangeSpeed = 'Change speed',
+  positionNormalRiding = 'Normal riding',
+  judgementOvertakingFiltering = 'Overtaking / filtering',
 }

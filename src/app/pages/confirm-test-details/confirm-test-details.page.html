@@ -46,13 +46,13 @@
         <!-- Activity Code -->
         <data-row
           [idPrefix]="idPrefix"
-          [label]="'Activity Code'"
+          [label]="'Activity code'"
           [value]="getActivityCode(pageState.activityCode$ | async)">
         </data-row>
         <!-- Test Category -->
         <data-row
           [idPrefix]="idPrefix"
-          [label]="'Test Category'"
+          [label]="'Test category'"
           [value]="pageState.testCategory$ | async"
           [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)">
         </data-row>
