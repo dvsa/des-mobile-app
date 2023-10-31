@@ -11,11 +11,50 @@ import { TestCentre } from '@dvsa/mes-journal-schema';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 
+export const TestCategories: TestCategory[] = [
+  TestCategory.ADI2,
+  TestCategory.ADI3,
+  TestCategory.B,
+  TestCategory.BE,
+  TestCategory.C,
+  TestCategory.C1,
+  TestCategory.C1E,
+  TestCategory.C1EM,
+  TestCategory.C1M,
+  TestCategory.CCPC,
+  TestCategory.CE,
+  TestCategory.CEM,
+  TestCategory.CM,
+  TestCategory.D,
+  TestCategory.D1,
+  TestCategory.D1E,
+  TestCategory.D1EM,
+  TestCategory.D1M,
+  TestCategory.DCPC,
+  TestCategory.DE,
+  TestCategory.DEM,
+  TestCategory.DM,
+  TestCategory.EUA1M1,
+  TestCategory.EUA1M2,
+  TestCategory.EUA2M1,
+  TestCategory.EUA2M2,
+  TestCategory.EUAM1,
+  TestCategory.EUAM2,
+  TestCategory.EUAMM1,
+  TestCategory.EUAMM2,
+  TestCategory.F,
+  TestCategory.G,
+  TestCategory.H,
+  TestCategory.K,
+  TestCategory.SC,
+];
+
 @Component({
   selector: 'advanced-search',
   templateUrl: 'advanced-search.html',
   styleUrls: ['advanced-search.scss'],
 })
+
 export class AdvancedSearchComponent {
 
   @Input()
@@ -41,44 +80,7 @@ export class AdvancedSearchComponent {
     ...activityCodeModelList,
   ];
 
-  testCategories: string[] = [
-    'All',
-    TestCategory.ADI2,
-    TestCategory.ADI3,
-    TestCategory.B,
-    TestCategory.BE,
-    TestCategory.C,
-    TestCategory.C1,
-    TestCategory.C1E,
-    TestCategory.C1EM,
-    TestCategory.C1M,
-    TestCategory.CCPC,
-    TestCategory.CE,
-    TestCategory.CEM,
-    TestCategory.CM,
-    TestCategory.D,
-    TestCategory.D1,
-    TestCategory.D1E,
-    TestCategory.D1EM,
-    TestCategory.D1M,
-    TestCategory.DCPC,
-    TestCategory.DE,
-    TestCategory.DEM,
-    TestCategory.DM,
-    TestCategory.EUA1M1,
-    TestCategory.EUA1M2,
-    TestCategory.EUA2M1,
-    TestCategory.EUA2M2,
-    TestCategory.EUAM1,
-    TestCategory.EUAM2,
-    TestCategory.EUAMM1,
-    TestCategory.EUAMM2,
-    TestCategory.F,
-    TestCategory.G,
-    TestCategory.H,
-    TestCategory.K,
-    TestCategory.SC,
-  ];
+  testCategories: string[] = ['All'].concat(TestCategories);
 
   selectedActivity: { activityCode: string; description: string; } = this.activityCodes[0];
   selectedCategory: string = this.testCategories[0];
