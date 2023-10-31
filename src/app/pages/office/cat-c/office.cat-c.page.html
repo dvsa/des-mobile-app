@@ -235,6 +235,7 @@
         [outcome]="pageState.testOutcome$ | async"
         faultType="driving"
         header="Driving faults {{isDelegated ? (pageState.drivingFaultCount$ | async) : null}}"
+        badgeLabel="Driving"
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)">
       </fault-comment-card>

@@ -172,7 +172,8 @@
       <fault-comment-card
         id="driving-fault-comment-card"
         faultType="driving"
-        header="Riding faults"
+        header="Riding"
+        badgeLabel="Riding"
         [formGroup]="form"
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
@@ -187,7 +188,7 @@
         [label]="'Riding faults'"
         [testCategory]="(pageState.testCategory$ | async)"
         [faults]="(pageState.drivingFaults$ | async)"
-        header="Riding">
+        badgeLabel="Riding">
       </driving-faults>
     </div>
   </form>

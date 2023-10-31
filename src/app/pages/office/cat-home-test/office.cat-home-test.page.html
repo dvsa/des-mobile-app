@@ -126,7 +126,8 @@
                           [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
                           [outcome]="pageState.testOutcome$ | async"
                           faultType="driving"
-                          header="Driving faults"
+                          header="Driving"
+                          badgeLabel="Driving"
                           [faultCount]="pageState.drivingFaultCount$ | async"
                           [maxFaultCount]="maxFaultCount"
                           (faultCommentsChange)="drivingFaultCommentChanged($event)">
@@ -135,6 +136,7 @@
       <driving-faults
         *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)"
         [label]="'Driving faults'"
+        badgeLabel="Driving"
         [faults]="(pageState.drivingFaults$ | async)">
       </driving-faults>
     </div>

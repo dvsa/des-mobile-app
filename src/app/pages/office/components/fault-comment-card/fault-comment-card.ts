@@ -24,6 +24,9 @@ export class FaultCommentCardComponent {
   header: string;
 
   @Input()
+  badgeLabel: string;
+
+  @Input()
   faultType: string;
 
   @Input()

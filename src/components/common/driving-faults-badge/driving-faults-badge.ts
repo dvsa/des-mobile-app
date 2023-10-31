@@ -16,7 +16,7 @@ export class DrivingFaultsBadgeComponent {
   showOnZero: boolean = false;
 
   @Input()
-  header: string = 'Driving';
+  badgeLabel: string = 'Driving';
 
   shouldDisplay = () => {
     return this.showOnZero || this.count > 0;

@@ -208,13 +208,15 @@
                     (pageState.allowDrivingFaultComment$ | async)"
         [outcome]="pageState.testOutcome$ | async"
         faultType="driving"
-        header="Driving faults"
+        header="Driving"
+        badgeLabel="Driving"
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)">
       </fault-comment-card>
       <driving-faults
         *ngIf="!((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async) && (pageState.allowDrivingFaultComment$ | async)) && (pageState?.drivingFaults$ | async)?.length > 0"
         [label]="'Driving faults'"
+        badgeLabel="Driving"
         [faults]="(pageState.drivingFaults$ | async)">
       </driving-faults>
     </div>
