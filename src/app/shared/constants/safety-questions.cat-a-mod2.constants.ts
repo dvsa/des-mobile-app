@@ -17,7 +17,7 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'M3',
     description: 'Identify where the brake fluid reservoir is and tell me how you would check that you have a safe level of hydraulic fluid.',
-    shortName: 'Brake Fluid',
+    shortName: 'Brake fluid',
   },
   {
     code: 'M4',
@@ -27,7 +27,7 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'M5',
     description: 'Show me how you would check that the brake lights are working.',
-    shortName: 'Brake Lights',
+    shortName: 'Brake lights',
   },
   {
     code: 'M6',
@@ -48,7 +48,7 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'M9',
     description: 'Show me how you would check the operation of the front brake on this machine.',
-    shortName: 'Front Brake',
+    shortName: 'Front brake',
   },
   {
     code: 'M10',
@@ -58,17 +58,17 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'M11',
     description: 'Show me how you would check the operation of the engine cut out switch.',
-    shortName: 'Engine Cut Out Switch',
+    shortName: 'Engine cut out switch',
   },
   {
     code: 'M12',
     description: 'Show me how you would switch on the rear fog light and explain when you would use it (if fitted).',
-    shortName: 'Fog Light',
+    shortName: 'Fog light',
   },
   {
     code: 'M13',
     description: 'Show me how you switch your headlight from dipped to main beam.',
-    shortName: 'Dipped / Main Beam',
+    shortName: 'Dipped / main beam',
   },
 ];
 
