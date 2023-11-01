@@ -14,6 +14,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
+  @Input() public horizontal: boolean = true;
   @Input() public transformOptions: { width: number, height: number } = { width: 300, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
@@ -100,18 +101,33 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       },
       xaxis: {
         labels: {
+          offsetY: this.horizontal ? 10 : 0,
           style: {
+            fontSize: '24px',
             colors: this.labelColour,
           },
-          // formatter: (val) => val,
+          formatter: (val) => {
+            if (this.horizontal) {
+              return Number(val).toFixed(0);
+            }
+            return val.split(/[ ,]+/)[0];
+          },
         },
       },
       yaxis: {
         labels: {
+          offsetY: this.horizontal ? 0 : 10,
           style: {
+            fontSize: '24px',
             colors: this.labelColour,
           },
-          // formatter: (val) => val.toFixed(0),
+          formatter: (val) => {
+            if (this.horizontal) {
+              return val.toString().split(/[ ,]+/)[0];
+            }
+            return val.toFixed(0);
+
+          },
         },
       },
       colors: this.colors,
@@ -135,7 +151,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       plotOptions: {
         bar: {
           distributed: true,
-          horizontal: true,
+          horizontal: this.horizontal,
           dataLabels: {
             position: 'bottom',
           },

@@ -88,6 +88,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     SearchablePicklistModal,
     DataGridComponent,
     ChartComponent,
+    DataRowComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -140,6 +141,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     SearchablePicklistModal,
     DataGridComponent,
     ChartComponent,
+    DataRowComponent,
   ],
 })
 export class ComponentsModule {
