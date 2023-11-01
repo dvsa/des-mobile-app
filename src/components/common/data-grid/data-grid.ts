@@ -15,6 +15,8 @@ export class DataGridComponent implements OnInit {
   @Input() rowCropCount: number = null;
   @Input() colourScheme: string[] = null;
   @Input() displayColour: boolean = false;
+  @Input() showSeparator: boolean = true;
+  @Input() showHeaders: boolean = true;
 
   public finalColourArray: string[] = null;
   public croppedRows: { preCrop: unknown[], postCrop: unknown[] } = null;
@@ -38,7 +40,9 @@ export class DataGridComponent implements OnInit {
       if (this.rowCropCount && this.passedData) {
         this.cropData();
       }
-      this.finalColourArray = this.loopColours();
+      if (this.colourScheme && !this.finalColourArray) {
+        this.finalColourArray = this.loopColours();
+      }
     }
   }
 
