@@ -34,27 +34,34 @@ export const getPassedTestCount = (
   startedTests: StartedTests,
   range: DateRange = null,
   location: number = null,
+  category: string = null,
 ): number =>
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
     .length;
 
 export const getOutcome = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null): ExaminerStatData[] => {
+  location: number = null,
+  category: string = null,
+): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
     // filter for any nulls
     .filter((slotID) => startedTests[slotID].activityCode !== null)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
   // extract route number
     .map((slotID: string) => getTestOutcome(startedTests[slotID] as TestResultCommonSchema));
 
   return uniqBy(data.map((item) => {
-    const count = data.filter((r1) => r1 === item).length;
+    const count = data.filter((val) => val === item).length;
     return {
       item,
       count,
@@ -67,10 +74,13 @@ export const getControlledStopCount = (
   startedTests: StartedTests,
   range: DateRange = null,
   location: number = null,
+  category: string = null,
 ): number =>
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     .map((slotID: string) => get(startedTests[slotID], 'testData.controlledStop', null))
     .filter((controlledStop) => !!controlledStop?.selected)
     .length;
@@ -90,25 +100,37 @@ export const getStartedTestCount = (
   startedTests: StartedTests,
   range: DateRange = null,
   location: number = null,
+  category: string = null,
 ): number =>
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true).length;
+      location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true).length;
 
 export const getRouteNumbers = (
-  startedTests: StartedTests, range: DateRange = null, location: number = null,
+  startedTests: StartedTests,
+  range: DateRange = null,
+  location: number = null,
+  category: string = null,
 ): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     // extract route number
-    .map((slotID: string) => (get(startedTests[slotID], 'testSummary.routeNumber', null)))// filter for any nulls
-    .filter((route) => route !== null);
+    .map((slotID: string) => (
+      {
+        routeNum: get(startedTests[slotID], 'testSummary.routeNumber', null),
+        testCentre: get(startedTests[slotID], 'journalData.testCentre.costCode', null),
+      }))// filter for any nulls
+    .filter((route) => route.routeNum !== null);
 
   return uniqBy(data.map((item) => {
-    const count = data.filter((r1) => r1 === item).length;
+    const count = data.filter((val) => isEqual(val, item)).length;
     return {
-      item: `${item}`,
+      item: `${item.testCentre}: ${item.routeNum}`,
       count,
       percentage: `${((count) / data.length * 100).toFixed(2)}%`,
     };
@@ -119,10 +141,13 @@ export const getSafetyAndBalanceQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
   location: number = null,
+  category: string = null,
 ): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     .map((slotID: string) => [
       ...get(startedTests[slotID], 'testData.safetyQuestions.questions', []) as SafetyQuestionResult[],
       ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.safetyQuestions', []) as QuestionResult[],
@@ -132,9 +157,8 @@ export const getSafetyAndBalanceQuestions = (
     // filter for any empty string/null values
     .filter((question: SafetyQuestionResult | QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
-
   return uniqBy(data.map((item: SafetyQuestionResult | QuestionResult) => {
-    const count = data.filter((r1) => r1 === item).length;
+    const count = data.filter((val) => val === item).length;
     return {
       item: ('code' in item) ? `${item.code} - ${item.description}` : item.description,
       count,
@@ -146,10 +170,13 @@ export const getShowMeQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
   location: number = null,
+  category: string = null,
 ): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     .map((slotID: string) => [
       ...[get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestion', null)] as [QuestionResult],
       ...get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestions', []) as QuestionResult[],
@@ -159,7 +186,7 @@ export const getShowMeQuestions = (
     .filter((question: QuestionResult) => !!question?.code);
 
   return uniqBy(data.map((item) => {
-    const count = data.filter((r1) => isEqual(r1, item)).length;
+    const count = data.filter((val) => isEqual(val, item)).length;
     return {
       item: `${item.code} - ${item.description}`,
       count,
@@ -171,10 +198,14 @@ export const getShowMeQuestions = (
 export const getTellMeQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null): ExaminerStatData[] => {
+  location: number = null,
+  category: string = null,
+): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     .map((slotID: string) => [
       ...[get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestion', null)] as [QuestionResult],
       ...get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestions', []) as QuestionResult[],
@@ -183,7 +214,7 @@ export const getTellMeQuestions = (
     // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
   return uniqBy(data.map((item) => {
-    const count = data.filter((r1) => isEqual(r1, item)).length;
+    const count = data.filter((val) => isEqual(val, item)).length;
     return {
       item: `${item.code} - ${item.description}`,
       count,
@@ -206,12 +237,15 @@ export const getManoeuvresUsed = (
   startedTests: StartedTests,
   range: DateRange = null,
   location: number = null,
+  category: string = null,
 ): ExaminerStatData[] => {
   const faultsEncountered: string[] = [];
 
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
     .forEach((slotID) => {
       const manoeuvres = get(startedTests[slotID], 'testData.manoeuvres');
       if (!manoeuvres) return;

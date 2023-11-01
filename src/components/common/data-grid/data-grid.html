@@ -1,4 +1,4 @@
-<ion-row *ngIf="headers">
+<ion-row *ngIf="headers && showHeaders">
   <ion-col size="auto" *ngIf="displayColour">
     <span class="dot placeholder"></span>
   </ion-col>
@@ -7,24 +7,26 @@
   </ion-col>
 </ion-row>
 
-<br>
+<br *ngIf="headers && showHeaders">
 
-<ion-row *ngIf="headers" class="mes-row-separator"></ion-row>
+<ion-row *ngIf="showSeparator" class="mes-row-separator"></ion-row>
 
-<br>
+<br *ngIf="showSeparator">
 
 <ng-template *ngIf="croppedRows; then showMore else fullData;"></ng-template>
 <ng-template #showMore>
   <ion-row *ngFor="let passedItem of croppedRows.preCrop; index as i; trackBy: trackByIndex;">
-    <ion-col size="auto" *ngIf="displayColour">
+    <ion-col class="text-align-center" size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
-    <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of headers; index as y">
+    <ion-col class="display-flex" *ngFor="let data of headers; index as y">
       <span class="text-align-center mes-data">{{passedItem[y]}}</span>
     </ion-col>
   </ion-row>
 
-  <ion-row class="padding-top-10 display-flex ion-justify-content-center" *ngIf="!showCroppedData && passedData.length > rowCropCount">
+  <ion-row
+    class="padding-top-10 display-flex ion-justify-content-center"
+    *ngIf="!showCroppedData && passedData.length > rowCropCount">
     <ion-button class="mes-grey-button" (click)="showCroppedData = !showCroppedData">Show more</ion-button>
   </ion-row>
 
@@ -33,7 +35,7 @@
       <ion-col size="auto" *ngIf="displayColour">
         <span [style.background-color]="finalColourArray[i+croppedRows.preCrop.length]" class="dot"></span>
       </ion-col>
-      <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of headers; index as y">
+      <ion-col class="display-flex" *ngFor="let data of headers; index as y">
         <span class="text-align-center mes-data">{{passedItem[y]}}</span>
       </ion-col>
     </ion-row>
@@ -50,7 +52,7 @@
     <ion-col size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
-    <ion-col class="ion-justify-content-center display-flex" *ngFor="let data of headers; index as y">
+    <ion-col class="display-flex" *ngFor="let data of headers; index as y">
       <span class="text-align-center mes-data">{{passedItem[y]}}</span>
     </ion-col>
   </ion-row>
