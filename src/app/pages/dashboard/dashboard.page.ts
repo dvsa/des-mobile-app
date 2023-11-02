@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import { ModalController, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
 import { AppLauncher } from '@capacitor/app-launcher';
 
 import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
@@ -9,7 +8,6 @@ import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -65,7 +63,9 @@ interface DashboardPageState {
   templateUrl: 'dashboard.page.html',
   styleUrls: ['dashboard.page.scss'],
 })
-export class DashboardPage extends BasePageComponent {
+export class DashboardPage
+  extends BasePageComponent
+  implements OnInit, ViewDidEnter, ViewWillEnter {
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
@@ -76,7 +76,6 @@ export class DashboardPage extends BasePageComponent {
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
 
   constructor(
-    protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
@@ -84,11 +83,10 @@ export class DashboardPage extends BasePageComponent {
     public deviceProvider: DeviceProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
-    authenticationProvider: AuthenticationProvider,
-    platform: Platform,
-    router: Router,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
+
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');

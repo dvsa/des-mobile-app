@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Component, Injector } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import * as moment from 'moment';
 import { StoreModel } from '@shared/models/store.model';
@@ -23,14 +20,12 @@ export class FakeJournalPage extends BasePageComponent {
   selectedDate: string;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     public orientationMonitorProvider: OrientationMonitorProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
 
     this.selectedDate = this.dateTimeProvider.now()
       .format('YYYY-MM-DD');

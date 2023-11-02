@@ -1,30 +1,20 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 
-import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { PostDebriefHoldingPage } from '../post-debrief-holding.page';
 
 describe('PostDebriefHoldingPage', () => {
   let fixture: ComponentFixture<PostDebriefHoldingPage>;
   let component: PostDebriefHoldingPage;
-  let store$: Store<StoreModel>;
-  let routeByCat: RouteByCategoryProvider;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+  let router: Router;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -39,18 +29,17 @@ describe('PostDebriefHoldingPage', () => {
         StoreModule.forFeature('tests', () => ({})),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
       ],
     });
 
     fixture = TestBed.createComponent(PostDebriefHoldingPage);
     component = fixture.componentInstance;
-    store$ = TestBed.inject(Store);
-    routeByCat = TestBed.inject(RouteByCategoryProvider);
-    spyOn(store$, 'dispatch');
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
   }));
 
   describe('Class', () => {
@@ -61,12 +50,10 @@ describe('PostDebriefHoldingPage', () => {
 
     describe('continueButton', () => {
       it('should call navigateToPage function', fakeAsync(async () => {
-        spyOn(routeByCat, 'navigateToPage');
         await component.continueButton();
         tick();
-        expect(routeByCat.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
-        );
+        expect(router.navigate)
+          .toHaveBeenCalledWith([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
       }));
     });
   });

@@ -1,9 +1,6 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 
-import { StoreModel } from '@shared/models/store.model';
 import {
   getAllPassCerts,
   getCurrentTest,
@@ -13,7 +10,6 @@ import {
   getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
@@ -62,9 +58,11 @@ import {
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { Inject } from '@angular/core';
+import { Inject, Injector } from '@angular/core';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getCompletedPassCerts } from '@store/journal/journal.selector';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -85,18 +83,17 @@ export interface CommonPassFinalisationPageState {
 }
 
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
+  protected routeByCat = this.injector.get(RouteByCategoryProvider);
+  protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
 
   protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
+    injector: Injector,
     @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+    super(injector, loginRequired);
   }
 
   onInitialisation(): void {

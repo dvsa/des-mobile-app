@@ -1,10 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -21,17 +17,12 @@ import {
   getGenderSilhouettePath,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import {
-  catchError,
-  filter,
-  map, switchMap, take, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { CandidateLicenceProvider, CandidateLicenceErr } from '@providers/candidate-licence/candidate-licence';
+import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
 import {
   getApplicationReference,
 } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -74,15 +65,11 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   offlineError: boolean = false;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    private networkStateProvider: NetworkStateProvider,
     private candidateLicenceProvider: CandidateLicenceProvider,
     private domSanitizer: DomSanitizer,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
     this.formGroup = new FormGroup({});
   }
 
@@ -129,7 +116,8 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         select(getJournalData),
         select(getCandidate),
         select(getDateOfBirth),
-        map((dateOfBirth: string) => moment().diff(dateOfBirth, 'years')),
+        map((dateOfBirth: string) => moment()
+          .diff(dateOfBirth, 'years')),
       ),
       candidateData$: currentTest$.pipe(
         select(getJournalData),
@@ -181,7 +169,10 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     if (!img || !this.driverDataReturned || !driverPhotograph) {
       return null;
     }
-    const { image, imageFormat } = driverPhotograph?.photograph;
+    const {
+      image,
+      imageFormat,
+    } = driverPhotograph?.photograph;
     return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`);
   };
 
@@ -194,19 +185,20 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
       return;
     }
 
-    Object.keys(this.formGroup.controls).forEach((controlName) => {
-      if (this.formGroup.controls[controlName].invalid) {
-        this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.formGroup.controls)
+      .forEach((controlName) => {
+        if (this.formGroup.controls[controlName].invalid) {
+          this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   get hasErrored(): boolean {
     return (
       this.offlineError
-        || this.candidateDataError
-        || this.candidateDataUnavailable
-        || this.niLicenceDetected
+      || this.candidateDataError
+      || this.candidateDataUnavailable
+      || this.niLicenceDetected
     );
   }
 

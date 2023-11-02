@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -13,9 +13,6 @@ import { unsubmittedTestSlotsInDateOrder$ } from '@pages/unuploaded-tests/unuplo
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { DeviceProvider } from '@providers/device/device';
@@ -44,11 +41,9 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
     public deviceProvider: DeviceProvider,
-    authenticationProvider: AuthenticationProvider,
-    platform: Platform,
-    router: Router,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit() {

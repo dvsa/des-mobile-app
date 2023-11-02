@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
@@ -10,7 +8,6 @@ import { isEmpty } from 'lodash';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import {
@@ -50,13 +47,11 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
     private store$: Store<StoreModel>,
     private deviceProvider: DeviceProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit(): void {

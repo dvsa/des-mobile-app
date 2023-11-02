@@ -113,7 +113,7 @@ SPEC CHECKSUMS:
   CapawesomeCapacitorManagedConfigurations: 87db7aa30986c411b7a285d273b780acaca9b91a
   CapawesomeCapacitorScreenOrientation: 5b7cfb76348775e4b824bf460e5c52212b94c8d1
   CordovaPlugins: 53ae87ca3ad853cfedd59d32aa64a727ba42fa2f
-  CordovaPluginsResources: 1b3992e05cb6336d2850cd77dd5e3054f2f76f96
+  CordovaPluginsResources: 0c211f770ed91763a179ebcd9b9346e120b70662
   CordovaPluginsStatic: fdf5ebd26a1dccd43167c4740600a76553df0847
   DvsaCapacitorPluginAsam: da3121d4d69fe03f173114a098c0ef57b946d6a2
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
@@ -123,4 +123,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 61573ea5bd18f943e4e59ed5bae05613b2fe01a7
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.2

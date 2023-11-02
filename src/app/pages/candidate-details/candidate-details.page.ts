@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams, ViewDidEnter } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
@@ -18,7 +18,6 @@ import {
 } from '@store/candidate-details/candidate-details.selector';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Router } from '@angular/router';
-import { DateTimeProvider } from '@providers/date-time/date-time';
 import { Observable, Subject } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatus } from '@store/tests/tests.selector';
@@ -49,7 +48,7 @@ interface CandidateDetailsPageState {
   templateUrl: 'candidate-details.page.html',
   styleUrls: ['candidate-details.page.scss'],
 })
-export class CandidateDetailsPage implements OnInit, OnDestroy {
+export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   pageState: CandidateDetailsPageState;
   selectedDate: string;
   slot: TestSlot;
@@ -68,7 +67,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     public navParams: NavParams,
     public store$: Store<StoreModel>,
     public router: Router,
-    public dateTimeProvider: DateTimeProvider,
     public slotProvider: SlotProvider,
   ) {
   }

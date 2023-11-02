@@ -1,9 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {
-  AlertController, ModalController, NavParams, Platform,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { Component, Injector, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 
@@ -21,14 +17,10 @@ export class ErrorPage extends LogoutBasePageComponent {
   displayAsModal: boolean = false;
 
   constructor(
-    public platform: Platform,
-    public alertController: AlertController,
-    public navParams: NavParams,
-    public authenticationProvider: AuthenticationProvider,
-    public router: Router,
     public modalController: ModalController,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, alertController, router);
+    super(injector);
   }
 
   async dismiss(): Promise<void> {

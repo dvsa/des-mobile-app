@@ -1,16 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, Injector, OnInit } from '@angular/core';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -58,15 +52,8 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
   provisionalLicenseIsReceived: boolean;
   testCategory: TestCategory;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public routeByCat: RouteByCategoryProvider,
-    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$);
+  constructor(injector: Injector) {
+    super(injector);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
@@ -91,7 +78,10 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
     };
 
     const {
-      transmission$, code78$, provisionalLicense$, testCategory$,
+      transmission$,
+      code78$,
+      provisionalLicense$,
+      testCategory$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -124,7 +114,7 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
     if (this.shouldShowCode78Banner()) {
       return (
         this.transmission === TransmissionType.Manual
-          || (this.transmission === TransmissionType.Automatic && !this.code78Present)
+        || (this.transmission === TransmissionType.Automatic && !this.code78Present)
       );
     }
     return false;
@@ -142,7 +132,8 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -151,14 +142,15 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+          }
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
         }
-        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+      });
   }
 
 }

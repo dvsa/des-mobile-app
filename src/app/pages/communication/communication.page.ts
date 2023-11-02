@@ -1,11 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Component, Injector, OnInit } from '@angular/core';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { Address, CategoryCode, CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -101,16 +97,13 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   };
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
     private deviceProvider: DeviceProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
     this.form = new UntypedFormGroup(this.getFormValidation());
   }
 

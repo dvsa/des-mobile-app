@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
@@ -9,7 +7,6 @@ import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { isEmpty } from 'lodash';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';
 import { StoreModel } from '@shared/models/store.model';
@@ -50,11 +47,9 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
   constructor(
     private store$: Store<StoreModel>,
     private deviceProvider: DeviceProvider,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    protected router: Router,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit(): void {

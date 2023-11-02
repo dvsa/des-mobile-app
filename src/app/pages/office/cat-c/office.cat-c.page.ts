@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { startsWith } from 'lodash';
@@ -15,12 +11,6 @@ import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-c';
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -52,7 +42,6 @@ import { PassCertificateNumberReceived } from '@store/tests/post-test-declaratio
 import { vehicleChecksExist } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
-import { DeviceProvider } from '@providers/device/device';
 
 interface CatCOfficePageState {
   testCategory$: Observable<CategoryCode>;
@@ -64,6 +53,7 @@ interface CatCOfficePageState {
   displayVehicleChecks$: Observable<boolean>;
   vehicleChecks$: Observable<QuestionResult[]>;
 }
+
 type OfficePageState = CommonOfficePageState & CatCOfficePageState;
 
 @Component({
@@ -86,35 +76,12 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
   conductedLanguage: string;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
-    public deviceProvider: DeviceProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
+    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }
 
   ngOnInit(): void {
@@ -188,7 +155,8 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       testOutcome$.pipe(map((result) => this.testOutcome = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

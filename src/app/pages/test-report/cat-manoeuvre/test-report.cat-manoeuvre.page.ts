@@ -1,17 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { select } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
@@ -50,25 +45,11 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
   manoeuvreSubscription: Subscription;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    modalController: ModalController,
-    testReportValidatorProvider: TestReportValidatorProvider,
-    routeByCategory: RouteByCategoryProvider,
     private testDataByCategory: TestDataByCategoryProvider,
     private toastCtrl: ToastController,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+    super(injector);
     this.displayOverlay = false;
   }
 

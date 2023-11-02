@@ -1,16 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
   trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { select } from '@ngrx/store';
 import { combineLatest, lastValueFrom, Observable, Subscription } from 'rxjs';
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
@@ -79,25 +73,11 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   localSubscription: Subscription;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    modalController: ModalController,
-    testReportValidatorProvider: TestReportValidatorProvider,
-    routeByCategory: RouteByCategoryProvider,
     private cpcQuestionProvider: CPCQuestionProvider,
     private testResultProvider: TestResultProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+    super(injector);
     this.form = new UntypedFormGroup({});
     this.displayOverlay = false;
   }

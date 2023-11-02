@@ -1,10 +1,5 @@
-import {
-  ModalController, NavController, NavParams, Platform, ToastController,
-} from '@ionic/angular';
-import { Component } from '@angular/core';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { Component, Injector } from '@angular/core';
+import { select } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable } from 'rxjs';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
@@ -25,14 +20,9 @@ import {
   getVehicleChecks,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { Router } from '@angular/router';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -49,7 +39,6 @@ import {
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { DeviceProvider } from '@providers/device/device';
 import { behaviourMap } from '../office-behaviour-map';
 
 interface CatBOfficePageState {
@@ -82,34 +71,10 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   activityCodeOptions: ActivityCodeModel[];
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
-    public deviceProvider: DeviceProvider,
-    public navParams: NavParams,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+    super(injector);
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

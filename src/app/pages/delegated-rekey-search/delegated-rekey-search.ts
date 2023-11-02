@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { select, Store } from '@ngrx/store';
 import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
@@ -49,21 +47,22 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   pageState: DelegatedRekeySearchPageState;
   delegatedRekeyForm: UntypedFormGroup;
   hasClickedSearch: boolean = false;
-  maxCallStackHandler = { onlySelf: true, emitEvent: false };
+  maxCallStackHandler = {
+    onlySelf: true,
+    emitEvent: false,
+  };
   applicationReference: string = '';
   subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
     private store$: Store<StoreModel>,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit(): void {
@@ -105,9 +104,11 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
     this.setUpSubscription();
   }
+
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
   }

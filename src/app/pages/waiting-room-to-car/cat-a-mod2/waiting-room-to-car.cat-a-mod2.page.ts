@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -25,7 +20,6 @@ import {
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 
@@ -47,16 +41,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
   form: UntypedFormGroup;
   submitClicked: boolean;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    routeByCat: RouteByCategoryProvider,
-    alertController: AlertController,
-    public faultCountProvider: FaultCountProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+  constructor(injector: Injector) {
+    super(injector);
     this.form = new UntypedFormGroup({});
   }
 

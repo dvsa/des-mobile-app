@@ -1,13 +1,10 @@
-import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProvider } from '@providers/device/device';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -18,6 +15,7 @@ import { getCurrentTestStatus } from '@store/tests/tests.selector';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { getIsLoading } from '../delegated-rekey-search/delegated-rekey-search.selector';
 import { getDelegatedRekeySearchState } from '../delegated-rekey-search/delegated-rekey-search.reducer';
+import { ViewDidEnter } from '@ionic/angular';
 
 interface DelegatedRekeyUploadOutcomePageState {
   testStatus$: Observable<TestStatus>
@@ -29,18 +27,18 @@ interface DelegatedRekeyUploadOutcomePageState {
   templateUrl: 'delegated-rekey-upload-outcome.html',
   styleUrls: ['delegated-rekey-upload-outcome.scss'],
 })
-export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
+export class DelegatedRekeyUploadOutcomePage
+  extends BasePageComponent
+  implements OnInit, ViewDidEnter {
 
   pageState: DelegatedRekeyUploadOutcomePageState;
 
   constructor(
     private store$: Store<StoreModel>,
     private deviceProvider: DeviceProvider,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    protected router: Router,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit(): void {
@@ -68,7 +66,7 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
     this.store$.dispatch(SendCurrentTest());
   }
 
-  isStatusSubmitted(status): boolean {
+  isStatusSubmitted(status: TestStatus): boolean {
     return status === TestStatus.Submitted;
   }
 

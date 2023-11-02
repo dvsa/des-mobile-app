@@ -1,9 +1,5 @@
-import {
-  fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
+import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
@@ -75,9 +71,7 @@ import {
   UNUPLOADED_TESTS_PAGE,
 } from '@pages/page-names.constants';
 import { take } from 'rxjs/operators';
-import {
-  AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { SupervisorAccompanimentToggledCPC } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
@@ -85,19 +79,15 @@ import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 import { OfficeBasePageComponent } from '../office-base-page';
+import { Injector } from '@angular/core';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 
 describe('OfficeBasePageComponent', () => {
-  let platform: Platform;
-  let authenticationProvider: AuthenticationProvider;
+  let injector: Injector;
   let router: Router;
   let store$: Store<StoreModel>;
   let navController: NavController;
-  let toastController: ToastController;
-  let modalController: ModalController;
-  let outcomeBehaviourProvider: OutcomeBehaviourMapProvider;
-  let weatherConditionProvider: WeatherConditionProvider;
-  let faultSummaryProvider: FaultSummaryProvider;
-  let faultCountProvider: FaultCountProvider;
 
   let basePageComponent: OfficeBasePageComponent;
   const initialState = {
@@ -173,54 +163,28 @@ describe('OfficeBasePageComponent', () => {
           provide: FaultCountProvider,
           useClass: FaultCountProvider,
         },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
       ],
     });
 
-    platform = TestBed.inject(Platform);
-    authenticationProvider = TestBed.inject(AuthenticationProvider);
+    injector = TestBed.inject(Injector);
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
     navController = TestBed.inject(NavController);
-    toastController = TestBed.inject(ToastController);
-    modalController = TestBed.inject(ModalController);
-    outcomeBehaviourProvider = TestBed.inject(OutcomeBehaviourMapProvider);
-    weatherConditionProvider = TestBed.inject(WeatherConditionProvider);
-    faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
-    faultCountProvider = TestBed.inject(FaultCountProvider);
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends OfficeBasePageComponent {
-      constructor(
-        plat: Platform,
-        auth: AuthenticationProvider,
-        rout: Router,
-        sto$: Store<StoreModel>,
-        nav: NavController,
-        toa: ToastController,
-        mod: ModalController,
-        beh: OutcomeBehaviourMapProvider,
-        wea: WeatherConditionProvider,
-        fsp: FaultSummaryProvider,
-        fcp: FaultCountProvider,
-      ) {
-        super(plat, auth, rout, sto$, nav, toa, mod, beh, wea, fsp, fcp);
+      constructor(inj: Injector) {
+        super(inj);
       }
     }
 
-    basePageComponent = new BasePageClass(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+    basePageComponent = new BasePageClass(injector);
   }));
+
   describe('onInitialisation', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
