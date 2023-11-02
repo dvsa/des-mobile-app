@@ -5,7 +5,7 @@ import { EmojiBlockDirective } from '@directives/emoji-block.directive';
   selector: '[pasteSanitiser]',
 })
 export class PasteSanitiserDirective {
-  private emojiPattern: RegExp;
+  private readonly emojiPattern: RegExp;
 
   constructor(private el: ElementRef, private emojiBlockDirective: EmojiBlockDirective) {
     this.emojiPattern = this.emojiBlockDirective.emojiPattern;
@@ -14,8 +14,8 @@ export class PasteSanitiserDirective {
   @HostListener('paste', ['$event'])
   onInput(event: ClipboardEvent): void {
     event.preventDefault();
-    const pastedData = event.clipboardData?.getData('text');
     const inputField = this.el.nativeElement;
+    const pastedData = event.clipboardData?.getData('text');
 
     if (pastedData) {
       const maxLength = Number(inputField.getAttribute('maxLength') || inputField.getAttribute('charLimit'));
