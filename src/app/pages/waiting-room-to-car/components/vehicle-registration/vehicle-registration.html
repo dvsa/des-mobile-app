@@ -1,31 +1,31 @@
 <ion-row class="mes-validated-row mes-row-separator" id="registration-card" [formGroup]="formGroup">
-    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <ion-col class="component-label ion-align-self-center" size="32">
-        <label id="vehicle-registration-number-title">Vehicle registration number</label>
-    </ion-col>
-    <ion-col class="ion-align-self-center mes-padding-left">
-        <ion-row class="spacing-row"></ion-row>
-        <ion-row>
-            <ion-col size="32">
-                <ion-input type="text"
-                       id="registration"
-                       aria-labelledby="vehicle-registration-number-title"
-                       formControlName="vehicleRegistration"
-                       class="ion-input-styling increase-width"
-                       [class.ng-invalid]="invalid"
-                       [value]="vehicleRegistration"
-                       (ionInput)="vehicleRegistrationChanged($event)"
-                       (ionBlur)="onBlurEvent(vehicleRegistration)"
-                       [maxlength]="registrationNumberValidator.maxLength"
-                       emojiBlock>
-                </ion-input>
-            </ion-col>
-        </ion-row>
-        <ion-row class="validation-message-row ion-align-items-center">
-            <div class="validation-text" [class.ng-invalid]="invalid"
-                 id="waiting-room-to-car-registration-validation-text">
-                Enter the registration number
-            </div>
-        </ion-row>
-    </ion-col>
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="vehicle-registration-number-title">Vehicle registration number</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="32">
+        <ion-input type="text"
+                   id="registration"
+                   aria-labelledby="vehicle-registration-number-title"
+                   formControlName="vehicleRegistration"
+                   class="ion-input-styling increase-width"
+                   [class.ng-invalid]="invalid"
+                   [value]="vehicleRegistration"
+                   (ionInput)="vehicleRegistrationChanged($event)"
+                   (ionBlur)="onBlurEvent(vehicleRegistration)"
+                   [maxlength]="registrationNumberValidator.maxLength"
+                   emojiBlock>
+        </ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid"
+           id="waiting-room-to-car-registration-validation-text">
+        Enter the registration number
+      </div>
+    </ion-row>
+  </ion-col>
 </ion-row>

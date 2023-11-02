@@ -5,7 +5,8 @@
       (ionInput)="onSearchbarChange($event)"
       [id]="'searchbar' | formatToID: idPrefix"
       [ngModel]="model ? model[displayKey] : searchedValue"
-      [placeholder]="placeholder">
+      [placeholder]="placeholder"
+      emojiBlock>
     </ion-searchbar>
 
     <!-- Check if minimum number of required chars entered or custom template -->
