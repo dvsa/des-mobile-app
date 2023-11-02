@@ -5,7 +5,7 @@ import emojiRegex from 'emoji-regex';
   selector: '[emojiBlock]',
 })
 export class EmojiBlockDirective {
-  private emojiPattern = emojiRegex();
+  emojiPattern = emojiRegex();
 
   constructor(private el: ElementRef) {
   }

@@ -3,6 +3,7 @@ import { InputRestrictionNumbersDirective } from './input-restriction-numbers.di
 import { InputRestrictionUppercaseAlphanumDirective } from './input-restriction-uppercasealphanum.directive';
 import { CharacterCountDirective } from './character-count.directive';
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import { EmojiBlockDirective } from '@directives/emoji-block.directive';
     InputRestrictionUppercaseAlphanumDirective,
     CharacterCountDirective,
     EmojiBlockDirective,
+    PasteSanitiserDirective,
   ],
   imports: [],
   exports: [
@@ -17,6 +19,7 @@ import { EmojiBlockDirective } from '@directives/emoji-block.directive';
     InputRestrictionUppercaseAlphanumDirective,
     CharacterCountDirective,
     EmojiBlockDirective,
+    PasteSanitiserDirective,
   ],
 })
 export class DirectivesModule { }
