@@ -45,8 +45,13 @@ export class Adi3DebriefCard implements OnInit {
   ngOnInit(): void {
     this.lessonThemeValueStr = this.lessonTheme.lessonThemes
       .map((theme) => lessonThemeValues[theme])
+      // Remove 'Other' as LessonTheme from the output if selected
+      .filter((theme) => theme !== lessonThemeValues.other)
+      // Substitute that with the value provided in the 'Other' box or null
       .concat(this.lessonTheme.other || null)
-      .filter((theme) => theme && theme !== 'Other')
+      // Sanitise null or empty string values
+      .filter((theme) => theme)
+      // concatenate selections
       .join(', ');
   }
 
