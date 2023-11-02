@@ -85,6 +85,4 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
     this.formControl.updateValueAndValidity();
     this.passCertificateNumberChange.emit(passCertificateNumber?.toUpperCase());
   }
-
-  protected readonly Number = Number;
 }

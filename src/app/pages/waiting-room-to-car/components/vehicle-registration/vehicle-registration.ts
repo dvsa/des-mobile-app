@@ -66,6 +66,4 @@ export class VehicleRegistrationComponent implements OnChanges {
   onBlurEvent = (vehicleRegistration: string): void => {
     this.vehicleRegistrationBlur.emit(vehicleRegistration);
   };
-
-  protected readonly Number = Number;
 }
