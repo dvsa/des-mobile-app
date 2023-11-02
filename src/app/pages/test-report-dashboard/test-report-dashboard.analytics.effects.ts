@@ -3,9 +3,7 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  concatMap, filter, switchMap, withLatestFrom,
-} from 'rxjs/operators';
+import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
@@ -142,13 +140,13 @@ export class TestReportDashboardAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, feedback]:
+      [, tests]:
       [ReturnType<typeof FeedbackChanged>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT_DASHBOARD, tests),
         formatAnalyticsText(AnalyticsEvents.FEEDBACK_CHANGED, tests),
-        feedback,
+        'Free text entered',
       );
       return of(AnalyticRecorded());
     }),
