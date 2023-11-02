@@ -51,4 +51,6 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
+
+    protected readonly Number = Number;
 }

@@ -67,4 +67,5 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.vehicleRegistrationBlur.emit(vehicleRegistration);
   };
 
+  protected readonly Number = Number;
 }

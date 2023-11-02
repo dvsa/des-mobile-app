@@ -11,14 +11,10 @@ export class EmojiBlockDirective {
   }
 
   @HostListener('input', ['$event'])
-  @HostListener('paste', ['$event'])
-  onInput(event: InputEvent | ClipboardEvent): void {
+  onInput(event: InputEvent): void {
     event.preventDefault();
     const inputField = this.el.nativeElement;
     if (!inputField) return;
-    const isPaste = event.type === 'paste';
-    const pastedData = isPaste ? (event as ClipboardEvent).clipboardData?.getData('text') : null;
-
-    inputField.value = (isPaste ? pastedData : inputField.value).replace(this.emojiPattern, '');
+    inputField.value = inputField.value.replace(this.emojiPattern, '');
   }
 }
