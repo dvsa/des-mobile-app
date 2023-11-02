@@ -21,9 +21,7 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  filter, map, take, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -251,8 +249,13 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
         ),
         map(([themes, otherReason]: [LessonTheme[], string]) => themes
           .map((theme) => lessonThemeValues[theme])
+          // Remove 'Other' as LessonTheme from the output if selected
+          .filter((theme) => theme !== lessonThemeValues.other)
+          // Substitute that with the value provided in the 'Other' box or null
           .concat(otherReason || null)
-          .filter((theme) => theme && theme !== 'Other')
+          // Sanitise null or empty string values
+          .filter((theme) => theme)
+          // concatenate selections
           .join(', ')),
         take(1),
       ),
