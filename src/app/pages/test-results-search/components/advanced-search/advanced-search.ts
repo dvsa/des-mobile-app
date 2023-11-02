@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
@@ -110,7 +108,7 @@ export class AdvancedSearchComponent {
   }
 
   blurElement(event: EventTarget) {
-    if (!((event as HTMLElement).id.includes('input'))) {
+    if (!((event as HTMLElement).id?.includes('input'))) {
       (document.activeElement as HTMLElement).blur();
     }
   }
@@ -124,7 +122,8 @@ export class AdvancedSearchComponent {
     }
 
     if (nonAlphaNumericValues.test(event.value)) {
-      event.value = event.value?.replace(nonAlphaNumericValues, '')
+      event.value = event.value
+        ?.replace(nonAlphaNumericValues, '')
         .toUpperCase();
     }
     event.value = event.value?.toUpperCase();
