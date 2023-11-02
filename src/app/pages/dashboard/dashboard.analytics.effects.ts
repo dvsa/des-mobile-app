@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {
-  concatMap, filter, mergeMap, switchMap, withLatestFrom,
-} from 'rxjs/operators';
+import { concatMap, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
@@ -20,11 +18,13 @@ import {
 } from '@store/app-info/app-info.actions';
 import {
   DashboardViewDidEnter,
+  DetectDeviceTheme,
   PracticeTestReportCard,
   SideMenuClosed,
   SideMenuItemSelected,
   SideMenuOpened,
 } from './dashboard.actions';
+import { isDeviceThemeDarkMode } from '@shared/helpers/is-dark-mode';
 
 @Injectable()
 export class DashboardAnalyticsEffects {
@@ -48,9 +48,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(() => {
       this.analytics.setCurrentPage(AnalyticsScreenNames.DASHBOARD);
       return of(AnalyticRecorded());
@@ -68,9 +65,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.DASHBOARD,
@@ -91,9 +85,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.DASHBOARD,
@@ -115,9 +106,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.DASHBOARD,
@@ -139,9 +127,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([{ item }]) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.DASHBOARD,
@@ -163,9 +148,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     mergeMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.APP_UPDATE_BADGE,
@@ -187,9 +169,6 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     mergeMap(([{ selected }]: [ReturnType<typeof UpdateAvailableOptionClicked>, boolean]) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.APP_UPDATE_BADGE,
@@ -211,13 +190,22 @@ export class DashboardAnalyticsEffects {
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     mergeMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.APP_UPDATE_BADGE,
         'New version badge selected',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  detectDeviceTheme$ = createEffect(() => this.actions$.pipe(
+    ofType(DetectDeviceTheme),
+    switchMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.METADATA,
+        'Device theme',
+        isDeviceThemeDarkMode() ? 'Dark mode' : 'Light mode',
       );
       return of(AnalyticRecorded());
     }),

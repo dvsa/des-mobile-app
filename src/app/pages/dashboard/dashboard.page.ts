@@ -45,7 +45,7 @@ import {
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
-import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { DashboardViewDidEnter, DetectDeviceTheme, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -134,6 +134,7 @@ export class DashboardPage
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(DashboardViewDidEnter());
+    this.store$.dispatch(DetectDeviceTheme());
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
