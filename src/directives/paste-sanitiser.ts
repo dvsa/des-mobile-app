@@ -18,7 +18,7 @@ export class PasteSanitiserDirective {
     const pastedData = event.clipboardData?.getData('text');
 
     if (pastedData) {
-      const maxLength = Number(inputField.getAttribute('maxLength') || inputField.getAttribute('charLimit'));
+      const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
 
       inputField.value = pastedData.replace(this.emojiPattern, '');
 
