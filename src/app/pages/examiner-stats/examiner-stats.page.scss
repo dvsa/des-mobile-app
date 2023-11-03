@@ -2,12 +2,16 @@ ion-menu-button {
   color: white;
 }
 
+.padding-top {
+  padding-top: 40px;
+}
+
 .navy-card {
   background-color: #243673;
 }
 .white-text {
   color: white !important;
-  & ion-text, label, span {
+  & ion-text, label, span, p {
     color: white !important;
   }
 }
