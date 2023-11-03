@@ -12,7 +12,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -58,10 +58,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -72,12 +72,12 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -111,11 +111,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -161,26 +161,25 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 14,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -214,11 +213,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -264,26 +263,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 52,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -317,11 +316,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -367,26 +366,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 12,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -420,11 +419,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -470,26 +469,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 43,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -523,11 +522,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -573,26 +572,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -626,11 +625,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -676,26 +675,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -729,11 +728,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '20',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -779,10 +778,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -793,12 +792,12 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 54,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -832,11 +831,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -882,26 +881,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 25,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -935,11 +934,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -985,26 +984,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 57,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1038,11 +1037,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1088,26 +1087,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 90,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1141,11 +1140,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1191,26 +1190,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1244,11 +1243,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1294,26 +1293,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 14,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1347,11 +1346,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1397,26 +1396,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 70,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1450,11 +1449,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1500,10 +1499,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -1514,12 +1513,12 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 52,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1557,7 +1556,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1603,26 +1602,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 12,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1660,7 +1659,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1706,26 +1705,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 70,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1763,7 +1762,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1809,26 +1808,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1866,7 +1865,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1912,26 +1911,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 52,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -1969,7 +1968,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2015,26 +2014,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 14,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2072,7 +2071,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2118,26 +2117,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 90,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2175,7 +2174,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2221,26 +2220,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 90,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2278,7 +2277,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2324,26 +2323,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2381,7 +2380,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2427,26 +2426,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2484,7 +2483,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2530,26 +2529,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 90,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2587,7 +2586,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2633,26 +2632,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 43,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2690,7 +2689,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2736,8 +2735,8 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
@@ -2750,12 +2749,12 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 43,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2793,7 +2792,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2839,26 +2838,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2896,7 +2895,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2942,8 +2941,8 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
@@ -2956,12 +2955,12 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -2999,7 +2998,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3045,26 +3044,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseManoeuvre': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3102,7 +3101,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3148,26 +3147,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3205,7 +3204,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3251,26 +3250,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3308,7 +3307,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3354,26 +3353,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3411,7 +3410,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3457,26 +3456,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3514,7 +3513,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3561,25 +3560,25 @@ export const mockLocalData: StartedTests = {
       'seriousFaults': {},
       'vehicleChecks': {
         'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3617,7 +3616,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3664,25 +3663,25 @@ export const mockLocalData: StartedTests = {
       'seriousFaults': {},
       'vehicleChecks': {
         'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 57,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3720,7 +3719,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3766,26 +3765,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 90,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3823,7 +3822,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3869,26 +3868,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 12,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -3926,7 +3925,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3972,26 +3971,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 45,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4029,7 +4028,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4075,26 +4074,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4132,7 +4131,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4178,26 +4177,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 73,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4235,7 +4234,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4281,26 +4280,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 12,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4338,7 +4337,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4384,26 +4383,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 12,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4441,7 +4440,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4487,26 +4486,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 5,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4544,7 +4543,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4590,26 +4589,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T13', 'description': 'Engine coolant', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 43,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4647,7 +4646,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4693,26 +4692,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T13', 'description': 'Engine coolant', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 43,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4750,7 +4749,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4796,26 +4795,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T13', 'description': 'Engine coolant', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 22,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4853,7 +4852,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -4899,26 +4898,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'forwardPark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 12,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -4956,7 +4955,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5002,26 +5001,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 90,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5059,7 +5058,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5105,8 +5104,8 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
@@ -5119,12 +5118,12 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 62,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5162,7 +5161,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5208,26 +5207,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 78,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5265,7 +5264,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-20T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5311,26 +5310,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 65,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5368,7 +5367,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5414,26 +5413,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 1,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5471,7 +5470,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5517,26 +5516,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 45,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5574,7 +5573,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5620,26 +5619,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 70,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5677,7 +5676,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5723,26 +5722,26 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
       'routeNumber': 73,
-      'independentDriving': 'Sat nav',
+      'independentDriving': 'Traffic signs',
       'candidateDescription': '1',
       'additionalInformation': null,
       'weatherConditions': ['Snowing'],
@@ -5780,7 +5779,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5826,21 +5825,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -5883,7 +5882,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -5929,21 +5928,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -5986,7 +5985,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6032,21 +6031,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6089,7 +6088,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6135,21 +6134,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6192,7 +6191,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6238,21 +6237,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6295,7 +6294,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6341,21 +6340,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6398,7 +6397,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6444,21 +6443,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6501,7 +6500,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6547,21 +6546,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6604,7 +6603,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6650,21 +6649,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6707,7 +6706,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6753,21 +6752,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6810,7 +6809,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6856,21 +6855,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -6913,7 +6912,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -6959,21 +6958,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7016,7 +7015,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7062,21 +7061,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7119,7 +7118,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7165,21 +7164,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7222,7 +7221,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7268,21 +7267,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7317,7 +7316,7 @@ export const mockLocalData: StartedTests = {
   72: {
     'appVersion': '4.10.0.0',
     'version': '3.42.5',
-    'category': 'B',
+    'category': 'D',
     'activityCode': '11',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
@@ -7325,7 +7324,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7371,21 +7370,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7428,7 +7427,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-11-02T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7474,21 +7473,24 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestions': [
+          { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
+          { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
+        ],
+        'showMeQuestions': [{ 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' }],
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7523,7 +7525,7 @@ export const mockLocalData: StartedTests = {
   74: {
     'appVersion': '4.10.0.0',
     'version': '3.42.5',
-    'category': 'C',
+    'category': 'D',
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
@@ -7531,7 +7533,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7577,8 +7579,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
+      },
+      'safetyQuestions': {
+        'questions': [
+          {
+            'outcome': 'DF',
+            'description': 'Emergency exit',
+          },
+          {
+            'outcome': 'P',
+            'description': 'Fuel cutoff',
+          },
+        ],
+        'faultComments': '',
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
@@ -7591,7 +7606,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7634,7 +7649,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7680,21 +7695,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7737,7 +7752,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7783,21 +7798,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7840,7 +7855,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7886,21 +7901,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -7943,7 +7958,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -7989,21 +8004,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8046,7 +8061,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8092,21 +8107,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8149,7 +8164,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8195,21 +8210,21 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
-      'manoeuvres': { 'reverseRight': { 'selected': true } },
+      'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
       'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
     },
     'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8252,7 +8267,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8298,7 +8313,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8312,7 +8327,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8355,7 +8370,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8401,7 +8416,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8415,7 +8430,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8458,7 +8473,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8504,7 +8519,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8518,7 +8533,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8561,7 +8576,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8607,7 +8622,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8621,7 +8636,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8664,7 +8679,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8710,7 +8725,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8724,7 +8739,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8767,7 +8782,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8813,7 +8828,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8827,7 +8842,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8870,7 +8885,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -8916,7 +8931,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -8930,7 +8945,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -8973,7 +8988,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9019,7 +9034,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -9033,7 +9048,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9076,7 +9091,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9122,7 +9137,7 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
       'controlledStop': { 'selected': true },
@@ -9136,7 +9151,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9179,7 +9194,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9225,10 +9240,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9239,7 +9254,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9282,7 +9297,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9328,10 +9343,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
         'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9342,7 +9357,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9381,11 +9396,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '11',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9431,10 +9446,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9445,7 +9460,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9484,11 +9499,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '11',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9534,10 +9549,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9548,7 +9563,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9587,11 +9602,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '1',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9637,10 +9652,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9651,7 +9666,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9690,11 +9705,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9740,10 +9755,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9754,7 +9769,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9793,11 +9808,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9843,10 +9858,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9857,7 +9872,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9896,11 +9911,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '11',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -9946,10 +9961,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -9960,7 +9975,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -9999,11 +10014,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -10049,10 +10064,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -10063,7 +10078,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -10102,11 +10117,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '11',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -10152,10 +10167,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -10166,7 +10181,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {
@@ -10205,11 +10220,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': '2023-10-11T06:00:00.000Z',
+        'start': '2023-10-27T06:00:00.000Z',
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -10255,10 +10270,10 @@ export const mockLocalData: StartedTests = {
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
+        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
       },
-      'controlledStop': { 'selected': true },
+      'controlledStop': { 'selected': false },
       'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
       'ETA': {},
       'eyesightTest': { 'complete': true, 'seriousFault': false },
@@ -10269,7 +10284,7 @@ export const mockLocalData: StartedTests = {
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
-      // eslint-disable-next-line max-len
+
       'postTestSignature': '',
     },
     'testSummary': {

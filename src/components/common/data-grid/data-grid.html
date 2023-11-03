@@ -8,19 +8,17 @@
 </ion-row>
 
 <br *ngIf="headers && showHeaders">
-
 <ion-row *ngIf="showSeparator" class="mes-row-separator"></ion-row>
-
 <br *ngIf="showSeparator">
 
 <ng-template *ngIf="croppedRows; then showMore else fullData;"></ng-template>
 <ng-template #showMore>
   <ion-row *ngFor="let passedItem of croppedRows.preCrop; index as i; trackBy: trackByIndex;">
-    <ion-col class="text-align-center" size="auto" *ngIf="displayColour">
+    <ion-col [class]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 'padding-top-10' : null" size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
-    <ion-col class="display-flex" *ngFor="let data of headers; index as y">
-      <span class="text-align-center mes-data">{{passedItem[y]}}</span>
+    <ion-col [class]="[y == 0 ? 'ion-justify-content-left' : 'ion-justify-content-center', 'display-flex']" *ngFor="let data of headers; index as y">
+      <span [class]="[y == 0 ? 'text-align-left' : 'text-align-center', 'mes-data']">{{passedItem[y]}}</span>
     </ion-col>
   </ion-row>
 
@@ -32,11 +30,11 @@
 
   <div *ngIf="showCroppedData">
     <ion-row *ngFor="let passedItem of croppedRows.postCrop; index as i; trackBy: trackByIndex;">
-      <ion-col size="auto" *ngIf="displayColour">
+      <ion-col [class]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 'padding-top-10' : null" size="auto" *ngIf="displayColour">
         <span [style.background-color]="finalColourArray[i+croppedRows.preCrop.length]" class="dot"></span>
       </ion-col>
-      <ion-col class="display-flex" *ngFor="let data of headers; index as y">
-        <span class="text-align-center mes-data">{{passedItem[y]}}</span>
+      <ion-col [class]="[y == 0 ? 'ion-justify-content-left' : 'ion-justify-content-center', 'display-flex']" *ngFor="let data of headers; index as y">
+        <span [class]="[y == 0 ? 'text-align-left' : 'text-align-center', 'mes-data']">{{passedItem[y]}}</span>
       </ion-col>
     </ion-row>
   </div>
@@ -49,11 +47,11 @@
 
 <ng-template #fullData>
   <ion-row *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;">
-    <ion-col size="auto" *ngIf="displayColour">
+    <ion-col [class]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 'padding-top-10' : null" size="auto" *ngIf="displayColour">
       <span [style.background-color]="finalColourArray[i]" class="dot"></span>
     </ion-col>
-    <ion-col class="display-flex" *ngFor="let data of headers; index as y">
-      <span class="text-align-center mes-data">{{passedItem[y]}}</span>
+    <ion-col [class]="[y == 0 ? 'ion-justify-content-left' : 'ion-justify-content-center', 'display-flex']" *ngFor="let data of headers; index as y">
+      <span [class]="[y == 0 ? 'text-align-left' : 'text-align-center', 'mes-data']">{{passedItem[y]}}</span>
     </ion-col>
   </ion-row>
 </ng-template>
