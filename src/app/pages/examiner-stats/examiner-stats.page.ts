@@ -8,8 +8,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
 import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
 import {
-  ExaminerStatData,
-  getControlledStopCount,
+  ExaminerStatData, getCategories,
+  getControlledStopCount, getIndependentDrivingStats,
   getLocations,
   getManoeuvresUsed,
   getOutcome,
@@ -24,7 +24,6 @@ import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestCategories } from '@pages/test-results-search/components/advanced-search/advanced-search';
 import { mockLocalData } from '@pages/examiner-stats/test-result.mock';
 
 export enum BaseManoeuvreTypeLabels {
@@ -51,11 +50,13 @@ interface ExaminerStatsState {
   showMeQuestions$: Observable<ExaminerStatData[]>;
   tellMeQuestions$: Observable<ExaminerStatData[]>;
   safetyAndBalanceQuestions$: Observable<ExaminerStatData[]>;
+  independentDriving$: Observable<ExaminerStatData[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
   outcomes$: Observable<ExaminerStatData[]>;
   controlledStopPercentage$: Observable<string>;
-  locationList$: Observable<TestCentre[]>;
+  locationList$: Observable<{ item: TestCentre, count: number }[]>;
+  categoryList$: Observable<{ item: TestCategory, count: number }[]>;
 }
 
 export const enum FilterEnum {
@@ -91,9 +92,11 @@ export class ExaminerStatsPage implements OnInit {
     dvsa: ['#FFD600', '#2187C9', '#E0177D', '#3BAB36', '#ED6926'],
   };
   controlledStopTotal: number;
+  categoryPlaceholder: string;
+  locationPlaceholder: string;
   globalChartType: ChartType;
-  locationFilterOptions: TestCentre[] = [];
-  categoryFilterOptions: string[] = ['All categories'].concat(TestCategories);
+  locationFilterOptions: TestCentre[] = null;
+  categoryFilterOptions: TestCategory[] = null;
   dateFilterOptions: { display: string; val: DateRange }[] = [
     {
       display: 'Today',
@@ -112,11 +115,10 @@ export class ExaminerStatsPage implements OnInit {
     { display: 'Default', val: null },
     { display: 'Bar', val: 'bar' },
     { display: 'Pie', val: 'pie' },
-    { display: 'Donut', val: 'donut' },
   ];
   public dateFilter: string = 'Last 14 days';
-  public locationFilter: string = 'All locations';
-  public categoryFilter: string = 'All categories';
+  public locationFilter: string;
+  public categoryFilter: string;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -144,7 +146,7 @@ export class ExaminerStatsPage implements OnInit {
       this.store$.pipe(
         select(getTests),
         map(getStartedTests),
-        map(value => {
+        map(() => {
           return mockLocalData;
         }),
         take(1),
@@ -164,11 +166,13 @@ export class ExaminerStatsPage implements OnInit {
       routeNumbers$: this.filterByParameters(getRouteNumbers),
       manoeuvres$: this.filterByParameters(getManoeuvresUsed),
       safetyAndBalanceQuestions$: this.filterByParameters(getSafetyAndBalanceQuestions),
+      independentDriving$: this.filterByParameters(getIndependentDrivingStats),
       showMeQuestions$: this.filterByParameters(getShowMeQuestions),
       tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
       testCount$: this.filterByParameters(getStartedTestCount),
       outcomes$: this.filterByParameters(getOutcome),
       locationList$: this.filterByParameters(getLocations),
+      categoryList$: this.filterByParameters(getCategories),
       passPercentage$: this.filterByParameters(getStartedTestCount)
         .pipe(
           withLatestFrom(
@@ -185,36 +189,89 @@ export class ExaminerStatsPage implements OnInit {
           map(this.calculatePercentage),
         ),
     };
-    this.pageState.locationList$.subscribe(value => {
-      this.locationFilterOptions = [{ costCode: null, centreName: 'All locations', centreId: null }];
-      this.locationFilterOptions = this.locationFilterOptions.concat(value);
-    });
+    if (!this.locationFilterOptions) {
+      this.locationFilterOptions = [];
+      let locationList = [];
+
+      this.pageState.locationList$.subscribe(value => {
+        locationList = value;
+      }).unsubscribe();
+
+      let tempArray: TestCentre[] = [];
+      locationList.forEach((val) => {
+        tempArray.push(val.item);
+      });
+
+      this.locationFilterOptions = tempArray;
+      let mostUsed = this.setDefault(locationList);
+      this.locationPlaceholder = mostUsed.item.centreName;
+      this.handleLocationFilter(mostUsed.item);
+    }
+    if (!this.categoryFilterOptions) {
+      this.categoryFilterOptions = [];
+      let tempCatList = [];
+
+      this.pageState.categoryList$.subscribe(value => {
+        tempCatList = value;
+      }).unsubscribe();
+
+      let tempArray: TestCategory[] = [];
+      tempCatList.forEach((val) => {
+        tempArray.push(val.item);
+      });
+
+      this.categoryFilterOptions = tempArray;
+      let mostUsed = this.setDefault(tempCatList);
+      this.categoryPlaceholder = mostUsed.item;
+      this.handleCategoryFilter(mostUsed.item);
+    }
   }
 
   ionViewDidEnter() {
     this.store$.dispatch(ExaminerStatsViewDidEnter());
   }
 
-  handleGrid(object: ExaminerStatData[], indexVal: string = null) {
-    return object.map((val, index) =>
-      [indexVal ? `${indexVal}${index + 1} - ${val.item}` : val.item, val.count, val.percentage]).sort();
+  setDefault( data: { item: any, count: number }[]) {
+    return data.reduce(function (max, obj) {
+      return obj.count > max.count ? obj : max;
+    });
   }
+
+  handleGrid(object: ExaminerStatData[], indexLabel: string = null, useValueAsIndex: boolean = false) {
+    if (indexLabel) {
+      return object.map((val, index) =>
+        [
+          useValueAsIndex ? `${indexLabel} ${val.item}` : `${indexLabel}${index + 1} - ${val.item}`,
+          val.count,
+          val.percentage,
+        ] as [string, number, string])
+        .sort(([item1], [item2]) => this.getIndex(item1) - this.getIndex(item2));
+    } else {
+      return object
+        .map((val) => ([val.item, val.count, val.percentage] as [string, number, string]))
+        .sort(([item1], [item2]) => this.getIndex(item1) - this.getIndex(item2));
+    }
+  }
+
+  private getIndex = (item: string) => {
+    const regex = /[A-Za-z]{0,}(\d+)/;
+    const match = item.match(regex);
+    return match && match[1] ? Number(match[1]) : null;
+  };
 
   handleDateFilter(event: CustomEvent) {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
   }
 
-  handleLocationFilter(event: CustomEvent) {
-    this.locationFilter = event.detail?.value.centreName ?? null;
-    this.locationSubject$.next(event.detail?.value.centreId ?? null);
+  handleLocationFilter(event) {
+    this.locationFilter = event.centreName ?? null;
+    this.locationSubject$.next(event.centreId ?? null);
   }
 
-  handleCategoryFilter(event: CustomEvent) {
-    this.categoryFilter = Object.values(TestCategories).includes(event.detail?.value)
-      ? `Test category: ${event.detail?.value}` : 'All categories';
-    this.categorySubject$.next(
-      Object.values(TestCategories).includes(event.detail?.value) ? event.detail?.value ?? null : null);
+  handleCategoryFilter(event) {
+    this.categoryFilter = `Test category: ${event}`;
+    this.categorySubject$.next(event ?? null);
   }
 
   handleChartFilter($event: any) {
@@ -252,5 +309,9 @@ export class ExaminerStatsPage implements OnInit {
       total += Number(value[1]);
     });
     return total;
+  }
+  calculateGraphHeight(data): number {
+    let finalValue = data.length * 39;
+    return finalValue < 300 ? 300 : finalValue;
   }
 }
