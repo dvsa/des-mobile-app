@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { isEqual } from 'lodash';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 export type PassedData = [string, number, string];
 
@@ -22,6 +23,9 @@ export class DataGridComponent implements OnInit {
   public croppedRows: { preCrop: unknown[], postCrop: unknown[] } = null;
   public showCroppedData: boolean = false;
 
+  constructor(public accessibilityService: AccessibilityService) {
+  }
+
   ngOnInit() {
     if ((this.rowCropCount && this.passedData) && this.croppedRows === null) {
       this.cropData();
@@ -32,7 +36,6 @@ export class DataGridComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-
     const dataChanged = Object.keys(changes)
       .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
 
@@ -40,7 +43,7 @@ export class DataGridComponent implements OnInit {
       if (this.rowCropCount && this.passedData) {
         this.cropData();
       }
-      if (this.colourScheme && !this.finalColourArray) {
+      if (Object.keys(changes).includes('colourScheme')) {
         this.finalColourArray = this.loopColours();
       }
     }
