@@ -15,7 +15,10 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
   @Input() public horizontal: boolean = true;
-  @Input() public transformOptions: { width: number, height: number } = { width: 300, height: 300 };
+  @Input() public splitLabel: boolean = true;
+  @Input() public transformOptions: {
+    width: number | string, height: number | string,
+  } = { width: '100%', height: 'auto' };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
 
@@ -25,7 +28,6 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   getChartType(): string {
     switch (this.chartType) {
-      case 'donut':
       case 'pie':
         return '1Axis';
       case 'bar':
@@ -110,20 +112,20 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
             if (this.horizontal) {
               return Number(val).toFixed(0);
             }
-            return val.split(/[ ,]+/)[0];
+            return this.splitLabel ? val.toString().split(/[ ,]+/)[0] : val;
           },
         },
       },
       yaxis: {
         labels: {
-          offsetY: this.horizontal ? 0 : 10,
+          offsetY: this.horizontal ? 7 : 0,
           style: {
             fontSize: '24px',
             colors: this.labelColour,
           },
           formatter: (val) => {
             if (this.horizontal) {
-              return val.toString().split(/[ ,]+/)[0];
+              return this.splitLabel ? val.toString().split(/[ ,]+/)[0] : val;
             }
             return val.toFixed(0);
 

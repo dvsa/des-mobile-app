@@ -8,11 +8,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="{
-  routeGrid: handleGrid(pageState.routeNumbers$ | async, 'R'),
+  routeGrid: handleGrid(pageState.routeNumbers$ | async, 'Route', true),
   manoeuvresGrid: handleGrid(pageState.manoeuvres$ | async, 'M'),
   showMeQuestionsGrid: handleGrid(pageState.showMeQuestions$ | async),
+  independentDrivingGrid: handleGrid(pageState.independentDriving$ | async, 'I'),
   tellMeQuestionsGrid: handleGrid(pageState.tellMeQuestions$ | async),
-  safetyAndBalanceGrid: handleGrid(pageState.safetyAndBalanceQuestions$ | async),
+  safetyAndBalanceGrid: handleGrid(pageState.safetyAndBalanceQuestions$ | async, 'B'),
   testCount: pageState.testCount$ | async,
   outcomes: handleGrid(pageState.outcomes$ | async),
 } as data">
@@ -31,7 +32,7 @@
         </view-filter-radio>
       </data-row-custom>
       <data-row-custom
-        [shouldHaveSeperator]="false"
+        [shouldHaveSeperator]="true"
         [label]="'Date filter'">
         <ion-select
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
@@ -44,60 +45,60 @@
           </ion-select-option>
         </ion-select>
       </data-row-custom>
+      <data-row-custom
+              [shouldHaveSeperator]="true"
+              [label]="'Location filter'">
+        <ion-select
+                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+                class="input-styling-background black-text"
+                (ionChange)="handleLocationFilter($event?.detail?.value)"
+                labelPlacement="stacked"
+                [placeholder]="locationPlaceholder">
+          <ion-select-option [value]="option" *ngFor="let option of locationFilterOptions;">
+            {{option.centreName}}
+          </ion-select-option>
+        </ion-select>
+      </data-row-custom>
+      <data-row-custom
+              [shouldHaveSeperator]="false"
+              [label]="'Category filter'">
+        <ion-select
+                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+                class="input-styling-background black-text"
+                (ionChange)="handleCategoryFilter($event?.detail?.value)"
+                labelPlacement="stacked"
+                [placeholder]="categoryPlaceholder">
+          <ion-select-option [value]="option" *ngFor="let option of categoryFilterOptions;">
+            {{option}}
+          </ion-select-option>
+        </ion-select>
+      </data-row-custom>
       <ion-accordion-group>
         <ion-accordion value="first">
           <ion-item slot="header">
             <label>Additional Filters</label>
           </ion-item>
           <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
-            <data-row-custom
-              [shouldHaveSeperator]="true"
-              [label]="'Location filter'">
-              <ion-select
-                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-                class="input-styling-background black-text"
-                (ionChange)="handleLocationFilter($event)"
-                labelPlacement="stacked"
-                placeholder="All locations">
-                <ion-select-option [value]="option" *ngFor="let option of locationFilterOptions;">
-                  {{option.centreName}}
-                </ion-select-option>
-              </ion-select>
-            </data-row-custom>
-            <data-row-custom
-              [shouldHaveSeperator]="true"
-              [label]="'Category filter'">
-              <ion-select
-                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-                class="input-styling-background black-text"
-                (ionChange)="handleCategoryFilter($event)"
-                labelPlacement="stacked"
-                placeholder="All categories">
-                <ion-select-option [value]="option" *ngFor="let option of categoryFilterOptions;">
-                  {{option}}
-                </ion-select-option>
-              </ion-select>
-            </data-row-custom>
-            <data-row-custom [label]="'Colour options'">
+            <data-row-custom [shouldHaveSeperator]="false" [label]="'Colour options'">
               <colour-filter-radio
                 [formGroup]="form"
                 (filterChange)="colourOption = $event">
               </colour-filter-radio>
             </data-row-custom>
-            <data-row-custom
-              [shouldHaveSeperator]="false"
-              [label]="'Chart type'">
-              <ion-select
-                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-                class="input-styling-background black-text"
-                (ionChange)="handleChartFilter($event)"
-                labelPlacement="stacked"
-                placeholder="Default">
-                <ion-select-option [value]="option.val" *ngFor="let option of chartFilterOptions;">
-                  {{option.display}}
-                </ion-select-option>
-              </ion-select>
-            </data-row-custom>
+<!--            <data-row-custom-->
+<!--              [shouldHaveSeperator]="false"-->
+<!--              [label]="'Chart type'">-->
+<!--              <ion-select-->
+<!--                [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"-->
+<!--                class="input-styling-background black-text"-->
+<!--                (ionChange)="handleChartFilter($event)"-->
+<!--                labelPlacement="stacked"-->
+<!--                placeholder="Default">-->
+<!--                <ion-select-option [value]="option.val" *ngFor="let option of chartFilterOptions;">-->
+<!--                  {{option.display}}-->
+<!--                </ion-select-option>-->
+<!--              </ion-select>-->
+<!--            </data-row-custom>-->
           </div>
         </ion-accordion>
       </ion-accordion-group>
@@ -113,10 +114,10 @@
         [value]="data.testCount"
         label="Tests started">
       </data-row>
-      <data-row
-        [value]="pageState.passPercentage$ | async"
-        label="Pass rate (%)">
-      </data-row>
+<!--      <data-row-->
+<!--        [value]="pageState.passPercentage$ | async"-->
+<!--        label="Pass rate (%)">-->
+<!--      </data-row>-->
       <data-row
         [value]="controlledStopTotal"
         label="Controlled stop total">
@@ -135,15 +136,13 @@
       <ion-card-title>
         <ion-row>
           <ion-col>
-            <ion-text class="des-header-style-4 fault-heading">Test Routes completed</ion-text>
+            <ion-text class="des-header-style-4 fault-heading">Test routes completed</ion-text>
           </ion-col>
           <ion-col class="display-flex ion-justify-content-end">
             <div class="ion-text-end">
-              <label>{{dateFilter}}</label>
-              <br>
-              <label>{{locationFilter}}</label>
-              <br>
-              <label>{{categoryFilter}}</label>
+              <p class="ion-no-margin">{{dateFilter}}</p>
+              <p class="ion-no-margin">{{locationFilter}}</p>
+              <p class="ion-no-margin"> {{categoryFilter}}</p>
             </div>
           </ion-col>
         </ion-row>
@@ -173,13 +172,14 @@
             </ion-row>
           </div>
         </ion-col>
-        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-justify-content-center ion-align-items-center">
+        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">
           <chart
             [chartId]="'routeNum'"
+            [splitLabel]="false"
             [chartType]="globalChartType ? globalChartType : 'bar'"
             [colors]="colourSelect()"
             [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
-            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 700} : {width: 360, height: 700}"
+            [transformOptions]="filterOption === 'Chart' ? {width: 750, height: calculateGraphHeight(data.routeGrid)} : {width: 380, height: calculateGraphHeight(data.routeGrid)}"
             [passedData]="data.routeGrid">
           </chart>
         </ion-col>
@@ -188,63 +188,61 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card [class]="colourSelect() === colors.dvsa ? ['white-text' , 'navy-card'] : 'mes-black'"
-            *ngIf="data.outcomes?.length">
-    <ion-card-header>
-      <ion-card-title>
-        <ion-row>
-          <ion-col>
-            <ion-text class="des-header-style-4 fault-heading">Test outcomes</ion-text>
-          </ion-col>
-          <ion-col class="display-flex ion-justify-content-end">
-            <div class="ion-text-end">
-              <label>{{dateFilter}}</label>
-              <br>
-              <label>{{locationFilter}}</label>
-              <br>
-              <label>{{categoryFilter}}</label>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-row>
-        <ion-col *ngIf="!(filterOption === 'Chart' && globalChartType === 'bar')">
-          <data-grid
-            [headers]="headerSelect('Test outcome')"
-            [colourScheme]="colourSelect()"
-            [displayColour]="filterOption !== 'Data'"
-            [showSeparator]="filterOption !== 'Chart'"
-            [showHeaders]="filterOption !== 'Chart'"
-            [passedData]="data.outcomes">
-          </data-grid>
-          <div *ngIf="filterOption === 'Data'">
-            <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-            <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-              <ion-col size="10">
-                <label>Total</label>
-              </ion-col>
-              <ion-col size="auto">
-                <span class="mes-data">{{getTotal(data.outcomes)}}</span>
-              </ion-col>
-            </ion-row>
-          </div>
-        </ion-col>
-        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-align-items-center">
-          <chart
-            [chartId]="'outcomes'"
-            [chartType]="globalChartType ? globalChartType : 'pie'"
-            [colors]="colourSelect()"
-            [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
-            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 380, height: 300}"
-            [passedData]="data.outcomes">
-          </chart>
-        </ion-col>
-      </ion-row>
+<!--  <ion-card [class]="colourSelect() === colors.dvsa ? ['white-text' , 'navy-card'] : 'mes-black'"-->
+<!--            *ngIf="data.outcomes?.length">-->
+<!--    <ion-card-header>-->
+<!--      <ion-card-title>-->
+<!--        <ion-row>-->
+<!--          <ion-col>-->
+<!--            <ion-text class="des-header-style-4 fault-heading">Test outcomes</ion-text>-->
+<!--          </ion-col>-->
+<!--          <ion-col class="display-flex ion-justify-content-end">-->
+<!--            <div class="ion-text-end">-->
+<!--              <p class="ion-no-margin">{{dateFilter}}</p>-->
+<!--              <p class="ion-no-margin">{{locationFilter}}</p>-->
+<!--              <p class="ion-no-margin"> {{categoryFilter}}</p>-->
+<!--            </div>-->
+<!--          </ion-col>-->
+<!--        </ion-row>-->
+<!--      </ion-card-title>-->
+<!--    </ion-card-header>-->
+<!--    <ion-card-content>-->
+<!--      <ion-row>-->
+<!--        <ion-col *ngIf="!(filterOption === 'Chart' && globalChartType === 'bar')">-->
+<!--          <data-grid-->
+<!--            [headers]="headerSelect('Test outcome')"-->
+<!--            [colourScheme]="colourSelect()"-->
+<!--            [displayColour]="filterOption !== 'Data'"-->
+<!--            [showSeparator]="filterOption !== 'Chart'"-->
+<!--            [showHeaders]="filterOption !== 'Chart'"-->
+<!--            [passedData]="data.outcomes">-->
+<!--          </data-grid>-->
+<!--          <div *ngIf="filterOption === 'Data'">-->
+<!--            <ion-row class="ion-padding-top mes-row-separator"></ion-row>-->
+<!--            <ion-row class="ion-padding-top display-flex ion-justify-content-center">-->
+<!--              <ion-col size="10">-->
+<!--                <label>Total</label>-->
+<!--              </ion-col>-->
+<!--              <ion-col size="auto">-->
+<!--                <span class="mes-data">{{getTotal(data.outcomes)}}</span>-->
+<!--              </ion-col>-->
+<!--            </ion-row>-->
+<!--          </div>-->
+<!--        </ion-col>-->
+<!--        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">-->
+<!--          <chart-->
+<!--            [chartId]="'outcomes'"-->
+<!--            [chartType]="globalChartType ? globalChartType : 'pie'"-->
+<!--            [colors]="colourSelect()"-->
+<!--            [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"-->
+<!--            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: calculateGraphHeight(data.outcomes)} : {width: 380, height: calculateGraphHeight(data.outcomes)}"-->
+<!--            [passedData]="data.outcomes">-->
+<!--          </chart>-->
+<!--        </ion-col>-->
+<!--      </ion-row>-->
 
-    </ion-card-content>
-  </ion-card>
+<!--    </ion-card-content>-->
+<!--  </ion-card>-->
 
   <ion-card [class]="colourSelect() === colors.dvsa ? ['white-text' , 'navy-card'] : 'mes-black'"
             *ngIf="data.manoeuvresGrid?.length">
@@ -256,11 +254,9 @@
           </ion-col>
           <ion-col class="display-flex ion-justify-content-end">
             <div class="ion-text-end">
-              <label>{{dateFilter}}</label>
-              <br>
-              <label>{{locationFilter}}</label>
-              <br>
-              <label>{{categoryFilter}}</label>
+              <p class="ion-no-margin">{{dateFilter}}</p>
+              <p class="ion-no-margin">{{locationFilter}}</p>
+              <p class="ion-no-margin"> {{categoryFilter}}</p>
             </div>
           </ion-col>
         </ion-row>
@@ -289,13 +285,13 @@
             </ion-row>
           </div>
         </ion-col>
-        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-align-items-center">
+        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">
           <chart
             [chartType]="globalChartType ? globalChartType : 'pie'"
             [chartId]="'manoeuvres'"
             [colors]="colourSelect()"
             [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
-            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 350, height: 300}"
+            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 380, height: 300}"
             [passedData]="data.manoeuvresGrid">
           </chart>
         </ion-col>
@@ -313,11 +309,9 @@
           </ion-col>
           <ion-col class="display-flex ion-justify-content-end">
             <div class="ion-text-end">
-              <label>{{dateFilter}}</label>
-              <br>
-              <label>{{locationFilter}}</label>
-              <br>
-              <label>{{categoryFilter}}</label>
+              <p class="ion-no-margin">{{dateFilter}}</p>
+              <p class="ion-no-margin">{{locationFilter}}</p>
+              <p class="ion-no-margin"> {{categoryFilter}}</p>
             </div>
           </ion-col>
         </ion-row>
@@ -347,13 +341,13 @@
             </ion-row>
           </div>
         </ion-col>
-        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-align-items-center">
+        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">
           <chart
             [chartId]="'showMe'"
-            [chartType]="globalChartType ? globalChartType : 'donut'"
+            [chartType]="globalChartType ? globalChartType : 'pie'"
             [colors]="colourSelect()"
             [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
-            [transformOptions]="filterOption === 'Chart' ? {width: 400, height: 300} : {width: 380, height: 300}"
+            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 380, height: 300}"
             [passedData]="data.showMeQuestionsGrid">
           </chart>
         </ion-col>
@@ -371,11 +365,9 @@
           </ion-col>
           <ion-col class="display-flex ion-justify-content-end">
             <div class="ion-text-end">
-              <label>{{dateFilter}}</label>
-              <br>
-              <label>{{locationFilter}}</label>
-              <br>
-              <label>{{categoryFilter}}</label>
+              <p class="ion-no-margin">{{dateFilter}}</p>
+              <p class="ion-no-margin">{{locationFilter}}</p>
+              <p class="ion-no-margin"> {{categoryFilter}}</p>
             </div>
           </ion-col>
         </ion-row>
@@ -383,7 +375,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-row>
-        <ion-col *ngIf="!(filterOption === 'Chart' && globalChartType === 'bar')">
+        <ion-col *ngIf="filterOption !== 'Chart'">
           <data-grid
             [headers]="headerSelect('Question')"
             [rowCropCount]="3"
@@ -405,13 +397,13 @@
             </ion-row>
           </div>
         </ion-col>
-        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-align-items-center">
+        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">
           <chart
             [chartId]="'tellMe'"
-            [chartType]="globalChartType ? globalChartType : 'pie'"
+            [chartType]="globalChartType ? globalChartType : 'bar'"
             [colors]="colourSelect()"
             [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
-            [transformOptions]="filterOption === 'Chart' ? {width: 400, height: 300} : {width: 380, height: 300}"
+            [transformOptions]="filterOption === 'Chart' ? {width: 750, height: calculateGraphHeight(data.tellMeQuestionsGrid)} : {width: 380, height: calculateGraphHeight(data.tellMeQuestionsGrid)}"
             [passedData]="data.tellMeQuestionsGrid">
           </chart>
         </ion-col>
@@ -426,12 +418,12 @@
         <ion-col>
           <ion-text class="des-header-style-4 fault-heading">Safety and balance questions asked</ion-text>
         </ion-col>
-        <ion-col>
-          <label>{{dateFilter}}</label>
-          <br>
-          <label>{{locationFilter}}</label>
-          <br>
-          <label>{{categoryFilter}}</label>
+        <ion-col class="display-flex ion-justify-content-end">
+          <div class="ion-text-end">
+            <p class="ion-no-margin">{{dateFilter}}</p>
+            <p class="ion-no-margin">{{locationFilter}}</p>
+            <p class="ion-no-margin"> {{categoryFilter}}</p>
+          </div>
         </ion-col>
       </ion-card-title>
     </ion-card-header>
@@ -458,7 +450,7 @@
             </ion-row>
           </div>
         </ion-col>
-        <ion-col *ngIf="filterOption !== 'Data'" class="display-flex ion-align-items-center">
+        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">
           <chart
             [chartId]="'safetyAndBalance'"
             [chartType]="globalChartType ? globalChartType : 'pie'"
@@ -466,6 +458,58 @@
             [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
             [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 380, height: 300}"
             [passedData]="data.safetyAndBalanceGrid">
+          </chart>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card [class]="colourSelect() === colors.dvsa ? ['white-text' , 'navy-card'] : 'mes-black'"
+            *ngIf="data.safetyAndBalanceGrid?.length">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-col>
+          <ion-text class="des-header-style-4 fault-heading">Independent driving</ion-text>
+        </ion-col>
+        <ion-col class="display-flex ion-justify-content-end">
+          <div class="ion-text-end">
+            <p class="ion-no-margin">{{dateFilter}}</p>
+            <p class="ion-no-margin">{{locationFilter}}</p>
+            <p class="ion-no-margin"> {{categoryFilter}}</p>
+          </div>
+        </ion-col>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col *ngIf="!(filterOption === 'Chart' && globalChartType === 'bar')">
+          <data-grid
+            [headers]="headerSelect('Type')"
+            [colourScheme]="colourSelect()"
+            [displayColour]="filterOption !== 'Data'"
+            [showSeparator]="filterOption !== 'Chart'"
+            [showHeaders]="filterOption !== 'Chart'"
+            [passedData]="data.independentDrivingGrid">
+          </data-grid>
+          <div *ngIf="filterOption === 'Data'">
+            <ion-row class="ion-padding-top mes-row-separator"></ion-row>
+            <ion-row class="ion-padding-top display-flex ion-justify-content-center">
+              <ion-col size="10">
+                <label>Total</label>
+              </ion-col>
+              <ion-col size="auto">
+                <span class="mes-data">{{getTotal(data.independentDrivingGrid)}}</span>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-col>
+        <ion-col *ngIf="filterOption !== 'Data'" [class]="[ filterOption !== 'Chart' ? 'padding-top' : null, 'display-flex']">
+          <chart
+            [chartId]="'independentDriving'"
+            [chartType]="globalChartType ? globalChartType : 'pie'"
+            [colors]="colourSelect()"
+            [labelColour]="colourSelect() === colors.dvsa ? '#FFFFFF' : null"
+            [transformOptions]="filterOption === 'Chart' ? {width: 500, height: 300} : {width: 380, height: 300}"
+            [passedData]="data.independentDrivingGrid">
           </chart>
         </ion-col>
       </ion-row>

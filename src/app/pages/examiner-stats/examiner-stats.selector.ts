@@ -15,13 +15,17 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
 
-export type ExaminerStatData = { item: string, count: number, percentage: string };
+export type ExaminerStatData = {
+  item: string,
+  count: number,
+  percentage: string
+};
 
 // add date range filter
 const dateFilter = (test: TestResultSchemasUnion, range: DateRange = null): boolean => (range)
-  // use range when provided
+// use range when provided
   ? new DateTime(get(test, 'journalData.testSlotAttributes.start')).isDuring(range)
-  // return true to get all tests when no range provided
+// return true to get all tests when no range provided
   : true;
 
 export const getEligibleTests = (startedTests: StartedTests, range: DateRange = null) => {
@@ -51,7 +55,7 @@ export const getOutcome = (
   category: string = null,
 ): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
-    // filter for any nulls
+  // filter for any nulls
     .filter((slotID) => startedTests[slotID].activityCode !== null)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
@@ -85,16 +89,66 @@ export const getControlledStopCount = (
     .filter((controlledStop) => !!controlledStop?.selected)
     .length;
 
-export const getLocations = (startedTests: StartedTests, range: DateRange = null): TestCentre[] => {
-  return uniqBy(getEligibleTests(startedTests, range)
+export const getLocations = (
+  startedTests: StartedTests,
+  range: DateRange = null,
+): {
+  item: TestCentre;
+  count: number
+}[] => {
+  const data = (getEligibleTests(startedTests, range)
   // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'journalData.testCentre', null))
   // filter for any nulls
-    .filter((testCentre) => !!testCentre.centreId),
-  'centreId',
-  ) ;
+    .filter((testCentre) => !!testCentre.centreId));
+
+  return uniqBy(data.map((item: TestCentre) => {
+    return {
+      item,
+      count: data.filter((val) => isEqual(val, item)).length,
+    };
+  }), 'item.centreId');
 };
 
+export const getIndependentDrivingStats = (
+  startedTests: StartedTests,
+  range: DateRange = null,
+):ExaminerStatData[] => {
+  const data = (getEligibleTests(startedTests, range)
+  // extract cost codes
+    .map((slotID: string) => get(startedTests[slotID], 'testSummary.independentDriving', null))
+  // filter for any nulls
+    .filter((driving) => !!driving));
+
+  return uniqBy(data.map((item: string) => {
+    const count = data.filter((val) => val === item).length;
+    return {
+      item,
+      count: data.filter((val) => isEqual(val, item)).length,
+      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+    };
+  }), 'item');
+};
+export const getCategories = (
+  startedTests: StartedTests,
+  range: DateRange = null,
+): {
+  item: TestCategory;
+  count: number
+}[] => {
+  const data = (getEligibleTests(startedTests, range)
+  // extract cost codes
+    .map((slotID: string) => get(startedTests[slotID], 'category', null))
+  // filter for any nulls
+    .filter((category) => !!category));
+
+  return uniqBy(data.map((item: TestCategory) => {
+    return {
+      item,
+      count: data.filter((val) => isEqual(val, item)).length,
+    };
+  }), 'item');
+};
 
 export const getStartedTestCount = (
   startedTests: StartedTests,
@@ -119,7 +173,7 @@ export const getRouteNumbers = (
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
     .filter((slotID) =>
       category ? get(startedTests[slotID], 'category') === category : true)
-    // extract route number
+  // extract route number
     .map((slotID: string) => (
       {
         routeNum: get(startedTests[slotID], 'testSummary.routeNumber', null),
@@ -130,7 +184,7 @@ export const getRouteNumbers = (
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => isEqual(val, item)).length;
     return {
-      item: `${item.testCentre}: ${item.routeNum}`,
+      item: item.routeNum,
       count,
       percentage: `${((count) / data.length * 100).toFixed(2)}%`,
     };
@@ -154,7 +208,7 @@ export const getSafetyAndBalanceQuestions = (
       ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.balanceQuestions', []) as QuestionResult[],
     ])
     .flat()
-    // filter for any empty string/null values
+  // filter for any empty string/null values
     .filter((question: SafetyQuestionResult | QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
   return uniqBy(data.map((item: SafetyQuestionResult | QuestionResult) => {
@@ -182,7 +236,7 @@ export const getShowMeQuestions = (
       ...get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestions', []) as QuestionResult[],
     ])
     .flat()
-    // filter for any empty string/null values
+  // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
 
   return uniqBy(data.map((item) => {
@@ -211,7 +265,7 @@ export const getTellMeQuestions = (
       ...get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestions', []) as QuestionResult[],
     ])
     .flat()
-    // filter for any empty string/null values
+  // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => isEqual(val, item)).length;
