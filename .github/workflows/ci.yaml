@@ -103,4 +103,3 @@ jobs:
 
       - name: 🧪️ Publish unit test results to sonarqube
       - uses: sonarsource/sonarqube-scan-action@master
-        run: npm run test
