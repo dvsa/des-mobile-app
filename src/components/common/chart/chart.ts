@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 import { isEqual } from 'lodash';
@@ -9,22 +9,23 @@ import { PassedData } from '@components/common/data-grid/data-grid';
   templateUrl: 'chart.html',
   styleUrls: ['chart.scss'],
 })
-export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
+export class ChartComponent implements OnInit, OnChanges {
   @Input() public chartId: string = '';
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: PassedData[] = null;
   @Input() public showLegend: boolean = false;
-  @Input() public horizontal: boolean = true;
+  @Input() public horizontal: boolean = false;
   @Input() public splitLabel: boolean = true;
   @Input() public transformOptions: {
     width: number | string, height: number | string,
-  } = { width: '100%', height: 'auto' };
+  } = { width: 710, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
   public chart: ApexCharts = null;
+  public chartOptions: ApexOptions;
 
   getChartType(): string {
     switch (this.chartType) {
@@ -37,6 +38,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     this.filterData();
+    this.chartOptions = this.options;
   }
 
   async ngAfterViewInit() {
@@ -99,7 +101,9 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
           enabled: false,
         },
         formatter: (val, opts) =>
-          opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%',
+          this.splitLabel ?
+            opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%' :
+            opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%',
       },
       xaxis: {
         labels: {
@@ -118,7 +122,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       },
       yaxis: {
         labels: {
-          offsetY: this.horizontal ? 7 : 0,
+          offsetY: this.horizontal ? 7 : 6,
           style: {
             fontSize: '24px',
             colors: this.labelColour,
