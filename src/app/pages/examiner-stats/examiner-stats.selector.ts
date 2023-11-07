@@ -69,7 +69,7 @@ export const getOutcome = (
     return {
       item,
       count,
-      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -113,8 +113,14 @@ export const getLocations = (
 export const getIndependentDrivingStats = (
   startedTests: StartedTests,
   range: DateRange = null,
+  location: number,
+  category: string,
 ):ExaminerStatData[] => {
   const data = (getEligibleTests(startedTests, range)
+    .filter((slotID) =>
+      location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+    .filter((slotID) =>
+      category ? get(startedTests[slotID], 'category') === category : true)
   // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'testSummary.independentDriving', null))
   // filter for any nulls
@@ -125,7 +131,7 @@ export const getIndependentDrivingStats = (
     return {
       item,
       count: data.filter((val) => isEqual(val, item)).length,
-      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -186,7 +192,7 @@ export const getRouteNumbers = (
     return {
       item: item.routeNum,
       count,
-      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -216,7 +222,7 @@ export const getSafetyAndBalanceQuestions = (
     return {
       item: ('code' in item) ? `${item.code} - ${item.description}` : item.description,
       count,
-      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -244,7 +250,7 @@ export const getShowMeQuestions = (
     return {
       item: `${item.code} - ${item.description}`,
       count,
-      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -272,7 +278,7 @@ export const getTellMeQuestions = (
     return {
       item: `${item.code} - ${item.description}`,
       count,
-      percentage: `${((count) / data.length * 100).toFixed(2)}%`,
+      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -323,7 +329,7 @@ export const getManoeuvresUsed = (
         return {
           item,
           count,
-          percentage: `${(count / faultsEncountered.length * 100).toFixed(2)}%`,
+          percentage: `${(count / faultsEncountered.length * 100).toFixed(1)}%`,
         };
       }), 'item',
   );

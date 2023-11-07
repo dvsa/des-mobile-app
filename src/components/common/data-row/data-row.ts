@@ -13,6 +13,9 @@ export class DataRowComponent {
   dataStyling?: string;
 
   @Input()
+  labelStyling?: string;
+
+  @Input()
   imgSrc: string;
 
   @Input()
