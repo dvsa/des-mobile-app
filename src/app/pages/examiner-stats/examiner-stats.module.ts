@@ -11,7 +11,6 @@ import { ExaminerStatsRoutingModule } from '@pages/examiner-stats/examiner-stats
 import { ExaminerStatsAnalyticsEffects } from '@pages/examiner-stats/examiner-stats.analytics.effects';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ViewFilterRadioComponent } from '@pages/examiner-stats/components/view-filter-radio/view-filter-radio';
 import { ColourFilterRadioComponent } from '@pages/examiner-stats/components/colour-filter-radio/colour-filter-radio';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { ColourFilterRadioComponent } from '@pages/examiner-stats/components/col
   declarations: [
     ExaminerStatsPage,
     // @TODO: Remove this and create `examiner-stats.components.module.ts` and import above
-    ViewFilterRadioComponent,
     ColourFilterRadioComponent,
   ],
 })
