@@ -189,7 +189,7 @@
                    class="gds-checkbox"
                    (change)="toggleRekeySearch()"
                    [checked]="rekeySearch"
-                   [disabled]="!importStaffNumber && !staffNumber">
+                   [disabled]="!((importStaffNumber || staffNumber) || selectedTestCentre)">
             <label [for]="'rekey-toggle-input'"></label>
           </ion-col>
         </ion-row>
