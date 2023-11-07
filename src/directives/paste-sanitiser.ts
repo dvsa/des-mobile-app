@@ -1,30 +1,23 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { EmojiBlockDirective } from '@directives/emoji-block.directive';
 
 @Directive({
   selector: '[pasteSanitiser]',
 })
 export class PasteSanitiserDirective {
-  private readonly emojiPattern: RegExp;
 
-  constructor(private el: ElementRef, private emojiBlockDirective: EmojiBlockDirective) {
-    this.emojiPattern = this.emojiBlockDirective.emojiPattern;
+  constructor(private el: ElementRef) {
   }
 
-  @HostListener('paste', ['$event'])
-  onInput(event: ClipboardEvent): void {
-    event.preventDefault();
+  @HostListener('paste')
+  onInput(): void {
     const inputField = this.el.nativeElement;
-    const pastedData = event.clipboardData?.getData('text');
+    if (!inputField) return;
 
-    if (pastedData) {
-      const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
+    // Checks input field for either 'maxLength' or 'charLimit' attribute then uses that as the max length value
+    const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
 
-      inputField.value = pastedData.replace(this.emojiPattern, '');
-
-      if (maxLength && inputField.value.length > maxLength) {
-        inputField.value = inputField.value.substring(0, maxLength);
-      }
+    if (maxLength && inputField.value.length > maxLength) {
+      inputField.value = inputField.value.substring(0, maxLength);
     }
   }
 }

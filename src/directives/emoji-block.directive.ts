@@ -11,10 +11,15 @@ export class EmojiBlockDirective {
   }
 
   @HostListener('input', ['$event'])
+  @HostListener('paste')
   onInput(event: InputEvent): void {
-    event.preventDefault();
+    // if (event) event.preventDefault();
+
+    // Grab element
     const inputField = this.el.nativeElement;
     if (!inputField) return;
+
+    // Strip emojis out
     inputField.value = inputField.value.replace(this.emojiPattern, '');
   }
 }
