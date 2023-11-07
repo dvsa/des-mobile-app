@@ -50,9 +50,7 @@ export class DataGridComponent implements OnInit {
   }
 
   loopColours() {
-    const loopCount = !!(this.rowCropCount)
-      ? Math.ceil((this.croppedRows.preCrop.length + this.croppedRows.postCrop.length) / this.colourScheme.length)
-      : Math.ceil((this.passedData.length) / this.colourScheme.length);
+    const loopCount = Math.ceil((this.passedData.length) / this.colourScheme.length);
 
     return Array(loopCount)
       .fill(() => null)
