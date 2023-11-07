@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -7,11 +7,9 @@ import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { ActivatedRoute, Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
+import { select } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
@@ -46,7 +44,6 @@ import {
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-// eslint-disable-next-line object-curly-newline
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
@@ -128,18 +125,15 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   scEndTime: string;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
     private route: ActivatedRoute,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
     this.form = new UntypedFormGroup({});
     const { nonPassData } = this.route.snapshot.data;
     const [behaviourMap, activityCodeList] = nonPassData;

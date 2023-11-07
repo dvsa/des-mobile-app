@@ -1,27 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Platform } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { Router } from '@angular/router';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 import {
-  PassFinalisationViewDidEnter,
-  PassFinalisationValidationError,
   PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
 } from '../pass-finalisation.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 
 type PassFinalisationPageState = CommonPassFinalisationPageState;
+
 @Component({
   selector: 'app-pass-finalisation-cat-home-test',
   templateUrl: './pass-finalisation.cat-home-test.page.html',
@@ -31,15 +25,8 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
   pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public routeByCat: RouteByCategoryProvider,
-    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$);
+  constructor(injector: Injector) {
+    super(injector);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
@@ -55,7 +42,8 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -64,13 +52,14 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+          }
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
         }
-        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+      });
   }
 }

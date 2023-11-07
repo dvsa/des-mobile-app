@@ -1,24 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, take, withLatestFrom } from 'rxjs/operators';
 import { UntypedFormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { startsWith } from 'lodash';
 
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -42,12 +32,12 @@ import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncoup
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { DeviceProvider } from '@providers/device/device';
 
 interface CatManoeuvreOfficePageState {
   delegatedTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
 }
+
 type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
 
 @Component({
@@ -65,35 +55,12 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   isDelegated: boolean;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
-    public deviceProvider: DeviceProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
+    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }
 
   ngOnInit(): void {
@@ -136,13 +103,18 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   setupSubscription(): void {
     super.setupSubscriptions();
 
-    const { testOutcomeText$, conductedLanguage$, delegatedTest$ } = this.pageState;
+    const {
+      testOutcomeText$,
+      conductedLanguage$,
+      delegatedTest$,
+    } = this.pageState;
 
     this.pageSubscription = merge(
       conductedLanguage$.pipe(map((result) => this.conductedLanguage = result)),
       testOutcomeText$.pipe(map((result) => this.testOutcomeText = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

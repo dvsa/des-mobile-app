@@ -1,8 +1,5 @@
-import { Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { select } from '@ngrx/store';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { DebriefViewDidEnter, EndDebrief } from '@pages/debrief/debrief.actions';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -10,7 +7,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
 import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
-import { Component } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
@@ -30,7 +27,6 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
 import { TestOutcome } from '@shared/models/test-outcome';
-import { Router } from '@angular/router';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
@@ -69,6 +65,7 @@ import {
   getSafetyQuestions,
   getSafetyQuestionsCatD,
 } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
+import { ViewDidEnter, ViewDidLeave } from '@ionic/angular';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -111,7 +108,7 @@ interface DebriefPageState {
   templateUrl: 'debrief.page.html',
   styleUrls: ['debrief.page.scss'],
 })
-export class DebriefPage extends PracticeableBasePageComponent {
+export class DebriefPage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
 
   pageState: DebriefPageState;
   subscription: Subscription;
@@ -128,17 +125,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
   public adviceGivenPlanning: boolean = false;
 
   constructor(
-    store$: Store<StoreModel>,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     private translate: TranslateService,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
   }
 
   ngOnInit(): void {

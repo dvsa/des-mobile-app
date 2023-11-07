@@ -2,14 +2,8 @@ import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, Injector, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { firstValueFrom, merge, Observable, Subscription } from 'rxjs';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
@@ -64,25 +58,11 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   merged$: Observable<string | void>;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    modalController: ModalController,
-    testReportValidatorProvider: TestReportValidatorProvider,
-    routeByCategory: RouteByCategoryProvider,
     private testResultProvider: TestResultProvider,
     private adi3AssessmentProvider: ADI3AssessmentProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+    super(injector);
     this.form = new UntypedFormGroup({});
   }
 

@@ -1,25 +1,9 @@
-import {
-  Component, OnDestroy, OnInit, ViewChild,
-} from '@angular/core';
-import { LoadingController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import {
-  merge,
-  Observable,
-  of,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
+import { merge, Observable, of, Subject, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import {
-  catchError,
-  finalize,
-  map,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -29,10 +13,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Log, LogType } from '@shared/models/log.model';
 import { ErrorTypes } from '@shared/models/error-message';
 import { SaveLog } from '@store/logs/logs.actions';
-import {
-  getLastRefreshed,
-  getLastRefreshedTime,
-} from '@store/test-centre-journal/test-centre-journal.selector';
+import { getLastRefreshed, getLastRefreshedTime } from '@store/test-centre-journal/test-centre-journal.selector';
 import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -88,17 +69,15 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public router: Router,
     private networkStateProvider: NetworkStateProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
     private appConfig: AppConfigProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit(): void {
@@ -125,7 +104,8 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.merged$ = merge(
       isOffline$.pipe(map((isOffline) => this.isOffline = isOffline)),
     );
-    this.merged$.pipe(takeUntil(this.destroy$)).subscribe();
+    this.merged$.pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   async ionViewWillEnter(): Promise<void> {
@@ -136,6 +116,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     }
     await this.orientationMonitorProvider.monitorOrientation();
   }
+
   ionViewDidEnter(): void {
     this.store$.dispatch(TestCentreJournalViewDidEnter());
   }
@@ -176,7 +157,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.subscription = this.testCentreJournalProvider.getTestCentreJournal(tcID)
       .pipe(
         takeUntil(this.destroy$),
-        tap(() => { this.hasSearched = true; }),
+        tap(() => {
+          this.hasSearched = true;
+        }),
         map((results: TestCentreDetailResponse) => {
           this.testCentreResults = results;
           this.showSearchSpinner = false;
@@ -204,7 +187,8 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
           return of(this.hasSearched);
         }),
         finalize(async () => loading.dismiss()),
-      ).subscribe();
+      )
+      .subscribe();
   };
 
   private isRecognisedError = (error: string) => {
@@ -226,7 +210,8 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   };
 
   get testCentreNames(): string {
-    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
+    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name)
+      .join(', ');
   }
 
   testCentreChange = async (testCentre: JournalTestCentre): Promise<void> => {

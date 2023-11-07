@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Component, Injector, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
 import {
-  CommonWaitingRoomToCarPageState, WaitingRoomToCarBasePageComponent,
+  CommonWaitingRoomToCarPageState,
+  WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import {
-  QuestionOutcomes, TellMeQuestionCorrect, TellMeQuestionDrivingFault, TellMeQuestionSelected,
+  QuestionOutcomes,
+  TellMeQuestionCorrect,
+  TellMeQuestionDrivingFault,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -23,7 +22,8 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   getTellMeQuestion,
-  getVehicleChecks, isTellMeQuestionSelected,
+  getVehicleChecks,
+  isTellMeQuestionSelected,
   tellMeQuestionOutcome,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
@@ -55,15 +55,10 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
 
   constructor(
     private questionProvider: QuestionProvider,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    routeByCat: RouteByCategoryProvider,
-    alertController: AlertController,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-    this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
+    super(injector);
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }
 
@@ -100,7 +95,8 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -113,15 +109,17 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 

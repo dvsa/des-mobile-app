@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { IonRefresher, ModalController, Platform } from '@ionic/angular';
+import { Component, Injector, OnInit } from '@angular/core';
+import { IonRefresher, ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
 import { BehaviorSubject, merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -33,7 +31,6 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { DeviceProvider } from '@providers/device/device';
 import { LoadingProvider } from '@providers/loader/loader';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
@@ -75,18 +72,16 @@ export class JournalPage extends BasePageComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     public orientationMonitorProvider: OrientationMonitorProvider,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
     private store$: Store<StoreModel>,
     public dateTimeProvider: DateTimeProvider,
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     private deviceProvider: DeviceProvider,
     public loadingProvider: LoadingProvider,
-    public appConfigProvider: AppConfigProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
+
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
       .format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();

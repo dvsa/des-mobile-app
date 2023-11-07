@@ -1,59 +1,34 @@
-import {
-  NavController,
-  Platform,
-  ToastController,
-  ModalController,
-} from '@ionic/angular';
-import { Component } from '@angular/core';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store, select } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { Component, Injector } from '@angular/core';
+import { select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
-import {
-  getCurrentTest,
-  getTestOutcome,
-} from '@store/tests/tests.selector';
+import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import {
-  getModeOfTransport,
-} from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.selector';
+import { getModeOfTransport } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.selector';
 import { getTestSummary } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.reducer';
-import {
-  ModeOfTransportChanged,
-} from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
+import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import {
-  AddDangerousFaultComment,
-} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import {
   AddSafetyAndBalanceComment,
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
   safetyAndBalanceQuestionsExist,
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
-import {
-  getSafetyAndBalanceQuestions,
-} from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
+import { getSafetyAndBalanceQuestions } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { Router } from '@angular/router';
-import { DeviceProvider } from '@providers/device/device';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { behaviourMap } from '../office-behaviour-map.cat-a-mod2';
@@ -81,33 +56,8 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageSubscription: Subscription;
   static readonly maxFaultCount = 10;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
-    public deviceProvider: DeviceProvider,
-  ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+  constructor(injector: Injector) {
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }

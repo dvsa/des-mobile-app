@@ -1,27 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Component, Injector, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  Avoidance, Circuit, EmergencyStop,
-} from '@dvsa/mes-test-schema/categories/AM1';
+import { Avoidance, Circuit, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { QuestionProvider } from '@providers/question/question';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
@@ -45,7 +32,6 @@ import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/eme
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
-import { DeviceProvider } from '@providers/device/device';
 
 interface CatMod1MOfficePageState {
   etaFaults$: Observable<string>;
@@ -72,34 +58,8 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
   pageState: OfficePageState;
   static readonly maxFaultCount: number = 5;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
-    public questionProvider: QuestionProvider,
-    public deviceProvider: DeviceProvider,
-  ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+  constructor(injector: Injector) {
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
-  CommonWaitingRoomToCarPageState, WaitingRoomToCarBasePageComponent,
+  CommonWaitingRoomToCarPageState,
+  WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -18,7 +14,8 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
-  getCandidateDeclarationSignedStatus, getInsuranceDeclarationStatus,
+  getCandidateDeclarationSignedStatus,
+  getInsuranceDeclarationStatus,
   getResidencyDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import {
@@ -26,7 +23,6 @@ import {
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-h.reducer';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
@@ -62,16 +58,8 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
   pageState: WaitingRoomToCarPageState;
   submitClicked: boolean;
 
-  constructor(
-    private faultCountProvider: FaultCountProvider,
-    routeByCat: RouteByCategoryProvider,
-    store$: Store<StoreModel>,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    alertController: AlertController,
-  ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+  constructor(injector: Injector) {
+    super(injector);
     this.form = new UntypedFormGroup({});
   }
 
@@ -112,7 +100,8 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -125,17 +114,19 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
 
     this.submitClicked = true;
   };
 
   eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
+    this.form.get('eyesightCtrl')
+      ?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
 

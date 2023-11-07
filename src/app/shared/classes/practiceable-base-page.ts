@@ -1,12 +1,10 @@
-import { Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest, isPracticeMode, isTestReportPracticeTest } from '@store/tests/tests.selector';
-import { Component, Inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Inject, Injectable, Injector, OnInit } from '@angular/core';
+import { ViewDidLeave } from '@ionic/angular';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { StoreModel } from '../models/store.model';
 import { BasePageComponent } from './base-page';
@@ -17,10 +15,12 @@ interface PracticeableBasePageState {
   isEndToEndPracticeMode$: Observable<boolean>;
 }
 
-@Component({
-  template: '',
-})
-export abstract class PracticeableBasePageComponent extends BasePageComponent implements OnInit {
+@Injectable()
+export abstract class PracticeableBasePageComponent
+  extends BasePageComponent
+  implements OnInit, ViewDidLeave {
+
+  public store$ = this.injector.get<Store<StoreModel>>(Store);
 
   public isPracticeMode: boolean;
   public isTestReportPracticeMode: boolean;
@@ -29,14 +29,11 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   private practiceableBasePageState: PracticeableBasePageState;
   private practiceableBasePageSubscription: Subscription;
 
-  constructor(
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public router: Router,
-    public store$: Store<StoreModel>,
+  protected constructor(
+    injector: Injector,
     @Inject(true) public loginRequired: boolean = true,
   ) {
-    super(platform, authenticationProvider, router, loginRequired);
+    super(injector, loginRequired);
   }
 
   ngOnInit(): void {

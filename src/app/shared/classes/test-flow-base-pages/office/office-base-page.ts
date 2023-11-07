@@ -1,11 +1,6 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
-
-import { StoreModel } from '@shared/models/store.model';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import {
   getActivityCode,
   getCurrentTest,
@@ -16,7 +11,6 @@ import {
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -89,9 +83,7 @@ import {
 } from '@store/tests/test-summary/test-summary.selector';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import {
-  getEco, getEcoFaultText, getETA, getETAFaultText,
-} from '@store/tests/test-data/common/test-data.selector';
+import { getEco, getEcoFaultText, getETA, getETAFaultText } from '@store/tests/test-data/common/test-data.selector';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -149,7 +141,8 @@ import {
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Inject } from '@angular/core';
+import { Inject, Injector } from '@angular/core';
+import { DeviceProvider } from '@providers/device/device';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -203,6 +196,14 @@ export interface CommonOfficePageState {
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
+  public navController = this.injector.get(NavController);
+  protected toastController = this.injector.get(ToastController);
+  public modalController = this.injector.get(ModalController);
+  protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
+  protected weatherConditionProvider = this.injector.get(WeatherConditionProvider);
+  protected faultSummaryProvider = this.injector.get(FaultSummaryProvider);
+  public faultCountProvider = this.injector.get(FaultCountProvider);
+  public deviceProvider = this.injector.get(DeviceProvider);
 
   commonPageState: CommonOfficePageState;
   form: UntypedFormGroup;
@@ -216,20 +217,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   finishTestModal: HTMLIonModalElement;
 
   protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public navController: NavController,
-    public toastController: ToastController,
-    public modalController: ModalController,
-    public outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    public weatherConditionProvider: WeatherConditionProvider,
-    public faultSummaryProvider: FaultSummaryProvider,
-    public faultCountProvider: FaultCountProvider,
+    injector: Injector,
     @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+    super(injector, loginRequired);
     this.form = new UntypedFormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();

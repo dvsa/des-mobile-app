@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
@@ -80,25 +75,11 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   showMissing: boolean = false;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    modalController: ModalController,
-    testReportValidatorProvider: TestReportValidatorProvider,
-    routeByCategory: RouteByCategoryProvider,
     public navController: NavController,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+    super(injector);
     this.form = new UntypedFormGroup({});
   }
 

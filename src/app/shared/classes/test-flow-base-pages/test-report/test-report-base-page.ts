@@ -1,15 +1,12 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { ModalController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
-import { StoreModel } from '@shared/models/store.model';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
@@ -70,7 +67,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
   SpecialLegalRequirementModal,
 } from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
-import { Inject } from '@angular/core';
+import { Inject, Injector } from '@angular/core';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -87,6 +84,9 @@ export interface CommonTestReportPageState {
 export const trDestroy$ = new Subject<{}>();
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
+  public modalController = this.injector.get(ModalController);
+  protected testReportValidatorProvider = this.injector.get(TestReportValidatorProvider);
+  protected routeByCategory = this.injector.get(RouteByCategoryProvider);
 
   commonPageState: CommonTestReportPageState;
   subscription: Subscription;
@@ -108,16 +108,10 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   modal: HTMLIonModalElement;
 
   protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public modalController: ModalController,
-    public testReportValidatorProvider: TestReportValidatorProvider,
-    protected routeByCategory: RouteByCategoryProvider,
+    injector: Injector,
     @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+    super(injector, loginRequired);
   }
 
   getCallback(): OverlayCallback {

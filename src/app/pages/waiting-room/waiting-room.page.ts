@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
@@ -46,7 +44,6 @@ import { DeviceProvider } from '@providers/device/device';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { isEmpty } from 'lodash';
-import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
@@ -109,17 +106,14 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   merged$: Observable<boolean | string | JournalData>;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private deviceProvider: DeviceProvider,
     private translate: TranslateService,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
     this.formGroup = new UntypedFormGroup({});
   }
 

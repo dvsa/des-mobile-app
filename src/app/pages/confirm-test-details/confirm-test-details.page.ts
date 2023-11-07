@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { select } from '@ngrx/store';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
 import {
@@ -36,10 +35,8 @@ import { TestOutcome } from '@store/tests/tests.constants';
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCode78 } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.selector';
-import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { ModalController, NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, ViewDidEnter, ViewDidLeave, ViewWillEnter } from '@ionic/angular';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
@@ -104,7 +101,9 @@ enum D255 {
   templateUrl: 'confirm-test-details.page.html',
   styleUrls: ['confirm-test-details.page.scss'],
 })
-export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
+export class ConfirmTestDetailsPage
+  extends PracticeableBasePageComponent
+  implements OnInit, ViewWillEnter, ViewDidLeave, ViewDidEnter {
 
   pageState: ConfirmTestDetailsPageState;
   category: TestCategory;
@@ -116,16 +115,13 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   idPrefix: string = 'confirm-test-details';
 
   constructor(
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public router: Router,
-    store$: Store<StoreModel>,
     public navController: NavController,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
     private modalController: ModalController,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
   }
 
   ngOnInit(): void {

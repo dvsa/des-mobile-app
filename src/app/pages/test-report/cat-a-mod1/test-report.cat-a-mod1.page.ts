@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { Component, Injector, OnInit } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
-import { Router } from '@angular/router';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { SpeedCheckState } from '@providers/test-report-validator/test-report-validator.constants';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
@@ -33,6 +26,7 @@ import {
 } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
+import { ViewDidLeave } from '@ionic/angular';
 
 type TestReportPageState = CommonTestReportPageState;
 
@@ -41,30 +35,16 @@ type TestReportPageState = CommonTestReportPageState;
   templateUrl: 'test-report.cat-a-mod1.page.html',
   styleUrls: ['test-report.cat-a-mod1.page.scss'],
 })
-export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit {
+export class TestReportCatAMod1Page
+  extends TestReportBasePageComponent
+  implements OnInit, ViewDidLeave {
 
   singleFaultCompetencyNames = SingleFaultCompetencyNames;
   pageState: TestReportPageState;
   speedCheckState: SpeedCheckState;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    modalController: ModalController,
-    testReportValidatorProvider: TestReportValidatorProvider,
-    routeByCategory: RouteByCategoryProvider,
-  ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+  constructor(injector: Injector) {
+    super(injector);
     this.displayOverlay = false;
   }
 

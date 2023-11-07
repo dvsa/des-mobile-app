@@ -1,19 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
+import { Component, Injector, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { QuestionProvider } from '@providers/question/question';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
@@ -40,16 +34,8 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
-  constructor(
-    private questionProvider: QuestionProvider,
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    routeByCat: RouteByCategoryProvider,
-    alertController: AlertController,
-  ) {
-    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
+  constructor(injector: Injector) {
+    super(injector);
     this.form = new UntypedFormGroup({});
   }
 
@@ -79,7 +65,8 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
@@ -92,11 +79,12 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName: string) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
   };
 
 }

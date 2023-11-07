@@ -1,12 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
-import { NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { AppModule } from 'src/app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { DeviceProvider } from '@providers/device/device';
@@ -15,14 +10,13 @@ import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
+import { JOURNAL_PAGE } from '@pages/page-names.constants';
 
 describe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
@@ -30,7 +24,7 @@ describe('BackToOfficePage', () => {
   let modalController: ModalController;
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
-  let router: Router;
+  let routeByCategoryProvider: RouteByCategoryProvider;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -45,14 +39,6 @@ describe('BackToOfficePage', () => {
       ],
       providers: [
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
         },
@@ -64,14 +50,6 @@ describe('BackToOfficePage', () => {
           provide: ModalController,
           useClass: ModalControllerMock,
         },
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
-        },
-        {
-          provide: DateTimeProvider,
-          useClass: DateTimeProviderMock,
-        },
       ],
     });
 
@@ -80,11 +58,11 @@ describe('BackToOfficePage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
-    router = TestBed.inject(Router);
+    routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
-    spyOn(router, 'navigate')
+    spyOn(routeByCategoryProvider, 'navigateToPage')
       .and
-      .returnValue(Promise.resolve(true));
+      .returnValue(Promise.resolve());
     spyOn(BasePageComponent.prototype, 'isIos')
       .and
       .returnValue(true);
@@ -162,10 +140,10 @@ describe('BackToOfficePage', () => {
     });
 
     describe('goToJournal', () => {
-      it('should call the popTo method in the navcontroller if not in practice mode', () => {
-        component.goToJournal();
-        expect(router.navigate)
-          .toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
+      it('should call through to navigateToPage with replaceUrl', async () => {
+        await component.goToJournal();
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(JOURNAL_PAGE, null, { replaceUrl: true });
       });
       it('should call the popTo method in the navcontroller if in practice mode', async () => {
         component.isEndToEndPracticeMode = true;

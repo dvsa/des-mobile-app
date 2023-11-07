@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ModalController, ViewDidEnter, ViewDidLeave, ViewWillEnter } from '@ionic/angular';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
 import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { select } from '@ngrx/store';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import {
   ContinueFromDeclaration,
   HealthDeclarationValidationError,
@@ -73,7 +69,9 @@ interface HealthDeclarationPageState {
   templateUrl: './health-declaration.page.html',
   styleUrls: ['./health-declaration.page.scss'],
 })
-export class HealthDeclarationPage extends PracticeableBasePageComponent implements OnInit {
+export class HealthDeclarationPage
+  extends PracticeableBasePageComponent
+  implements OnInit, ViewDidEnter, ViewWillEnter, ViewDidLeave {
 
   static readonly fieldName: string = 'healthCheckbox';
   pageState: HealthDeclarationPageState;
@@ -86,16 +84,12 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   showHealthDec: boolean = true;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
     public modalController: ModalController,
-    public routeByCat: RouteByCategoryProvider,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
     this.formGroup = new UntypedFormGroup({});
   }
 

@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ModalController, Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
+import { select } from '@ngrx/store';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -10,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { merge, Observable, Subscription } from 'rxjs';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { StoreModel } from '@shared/models/store.model';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
@@ -47,7 +44,10 @@ export enum NavigationTarget {
   templateUrl: 'back-to-office.page.html',
   styleUrls: ['back-to-office.page.scss'],
 })
-export class BackToOfficePage extends PracticeableBasePageComponent {
+export class BackToOfficePage
+  extends PracticeableBasePageComponent
+  implements OnInit, ViewDidEnter, ViewDidLeave {
+
   pageState: BackToOfficePageState;
   testCategory: TestCategory;
   isRekey: boolean;
@@ -58,15 +58,12 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   journal: string = NavigationTarget.JOURNAL;
 
   constructor(
-    store$: Store<StoreModel>,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router, store$, false);
+    super(injector, false);
   }
 
   async ngOnInit(): Promise<void> {
@@ -164,7 +161,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       return;
     }
     this.store$.dispatch(DeferWriteUp());
-    await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
+    await this.routeByCategoryProvider.navigateToPage(JOURNAL_PAGE, null, { replaceUrl: true });
   }
 
   async goToOfficePage() {

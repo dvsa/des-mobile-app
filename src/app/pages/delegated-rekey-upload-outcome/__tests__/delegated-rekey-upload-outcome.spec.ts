@@ -102,12 +102,12 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     });
     describe('isStatusSubmitted', () => {
       it('should return false when a value other then Submitted is passed in', () => {
-        const submitted = component.isStatusSubmitted('Booked');
+        const submitted = component.isStatusSubmitted(TestStatus.Booked);
         expect(submitted)
           .toEqual(false);
       });
       it('should return true when a value of Submitted is passed in', () => {
-        const submitted = component.isStatusSubmitted('Submitted');
+        const submitted = component.isStatusSubmitted(TestStatus.Submitted);
         expect(submitted)
           .toEqual(true);
       });

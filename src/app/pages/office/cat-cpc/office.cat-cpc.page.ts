@@ -1,19 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { select } from '@ngrx/store';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
@@ -32,7 +22,9 @@ import {
   getCombination,
   getQuestion1,
   getQuestion2,
-  getQuestion3, getQuestion4, getQuestion5,
+  getQuestion3,
+  getQuestion4,
+  getQuestion5,
   getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
@@ -43,7 +35,6 @@ import { getReceiptDeclarationStatus } from '@store/tests/post-test-declarations
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import { map } from 'rxjs/operators';
 import { UntypedFormGroup } from '@angular/forms';
-import { DeviceProvider } from '@providers/device/device';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
 
 interface CatCPCOfficePageState {
@@ -59,6 +50,7 @@ interface CatCPCOfficePageState {
   combination$: Observable<CombinationCodes>;
   passCertificateNumberReceived$: Observable<boolean>;
 }
+
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
 
 @Component({
@@ -77,35 +69,12 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   activityCodeOptions: ActivityCodeModel[];
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
-    public deviceProvider: DeviceProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
+    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }
 
   ngOnInit(): void {
@@ -178,7 +147,8 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
       testResult$.pipe(map((result) => this.outcome = result as TestOutcome)),
       testOutcome$.pipe(map((result) => this.testOutcome = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

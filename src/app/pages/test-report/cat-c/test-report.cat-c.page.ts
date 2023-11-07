@@ -1,17 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { Observable } from 'rxjs';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 type TestReportPageState = CommonTestReportPageState;
@@ -25,24 +18,8 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
 
   pageState: TestReportPageState;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    modalController: ModalController,
-    testReportValidatorProvider: TestReportValidatorProvider,
-    routeByCategory: RouteByCategoryProvider,
-  ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+  constructor(injector: Injector) {
+    super(injector);
     this.displayOverlay = false;
   }
 

@@ -1,12 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { Component, Injector, OnInit } from '@angular/core';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'app-post-debrief-holding',
@@ -15,22 +9,12 @@ import { StoreModel } from '@shared/models/store.model';
 })
 export class PostDebriefHoldingPage extends PracticeableBasePageComponent implements OnInit {
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public routeByCat: RouteByCategoryProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$, false);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
+  constructor(injector: Injector) {
+    super(injector, false);
   }
 
   async continueButton(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
+    await this.router.navigate([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
   }
 
 }

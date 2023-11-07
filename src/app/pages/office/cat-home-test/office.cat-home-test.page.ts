@@ -1,8 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Injector, OnInit } from '@angular/core';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
@@ -11,13 +7,7 @@ import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { getTests } from '@store/tests/tests.reducer';
@@ -44,7 +34,6 @@ import {
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { DeviceProvider } from '@providers/device/device';
 
 interface CatHomeOfficePageState {
   testCategory$: Observable<CategoryCode>;
@@ -72,33 +61,8 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
   pageSubscription: Subscription;
   readonly maxFaultCount = 15;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
-    public deviceProvider: DeviceProvider,
-  ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+  constructor(injector: Injector) {
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }
@@ -150,7 +114,8 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
 
     this.pageSubscription = merge(
       testCategory$.pipe(map((result) => this.testCategory = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   async ionViewWillEnter() {

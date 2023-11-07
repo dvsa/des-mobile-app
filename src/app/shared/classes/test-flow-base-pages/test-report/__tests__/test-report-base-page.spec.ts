@@ -1,9 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -11,22 +10,17 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { StoreModel } from '@shared/models/store.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { Subscription } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Injector } from '@angular/core';
 import { TestReportBasePageComponent } from '../test-report-base-page';
+import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
+import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 
 describe('TestReportBasePageComponent', () => {
-  let platform: Platform;
-  let authenticationProvider: AuthenticationProvider;
-  let router: Router;
-  let store$: Store<StoreModel>;
-  let modalController: ModalController;
-  let testReportValidatorProvider: TestReportValidatorProvider;
-  let routeByCategory: RouteByCategoryProvider;
-
+  let injector: Injector;
   let basePageComponent: TestReportBasePageComponent;
   const initialState = {
     tests: {
@@ -67,38 +61,27 @@ describe('TestReportBasePageComponent', () => {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
         },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
 
-    platform = TestBed.inject(Platform);
-    authenticationProvider = TestBed.inject(AuthenticationProvider);
-    router = TestBed.inject(Router);
-    store$ = TestBed.inject(MockStore);
-    routeByCategory = TestBed.inject(RouteByCategoryProvider);
+    injector = TestBed.inject(Injector);
 
     class BasePageClass extends TestReportBasePageComponent {
-      constructor(
-        plat: Platform,
-        auth: AuthenticationProvider,
-        rout: Router,
-        sto$: Store<StoreModel>,
-        modal: ModalController,
-        trValidator: TestReportValidatorProvider,
-        routeByCat: RouteByCategoryProvider,
-      ) {
-        super(plat, auth, rout, sto$, modal, trValidator, routeByCat);
+      constructor(inj: Injector) {
+        super(inj);
       }
     }
 
-    basePageComponent = new BasePageClass(
-      platform,
-      authenticationProvider,
-      router, store$,
-      modalController,
-      testReportValidatorProvider,
-      routeByCategory,
-    );
+    basePageComponent = new BasePageClass(injector);
   }));
 
   describe('onInitialisation', () => {

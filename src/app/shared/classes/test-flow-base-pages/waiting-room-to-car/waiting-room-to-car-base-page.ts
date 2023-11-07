@@ -1,24 +1,20 @@
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { AlertController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { StoreModel } from '@shared/models/store.model';
 import { JournalDataUnion } from '@shared/unions/journal-union';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
   GetMotStatus,
   WaitingRoomToCarBikeCategoryChanged,
@@ -66,14 +62,17 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import {
-  OrditTrainedChanged, TrainerRegistrationNumberChanged,
+  OrditTrainedChanged,
+  TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
 import {
   InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
-import { Inject } from '@angular/core';
+import { Inject, Injector } from '@angular/core';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -94,6 +93,9 @@ export interface CommonWaitingRoomToCarPageState {
 export const wrtcDestroy$ = new Subject<{}>();
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
+  protected alertController = this.injector.get(AlertController);
+  protected routeByCategoryProvider = this.injector.get(RouteByCategoryProvider);
+  protected faultCountProvider = this.injector.get(FaultCountProvider);
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -109,15 +111,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   ];
 
   protected constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    protected routeByCategoryProvider: RouteByCategoryProvider,
-    public alertController: AlertController,
+    injector: Injector,
     @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$, loginRequired);
+    super(injector, loginRequired);
   }
 
   onInitialisation(): void {
@@ -282,7 +279,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   generateDelegatedQuestionResults(number: number, outcome: CompetencyOutcome): QuestionResult[] {
-    return Array(number).fill(null).map(() => ({ outcome, code: 'DEL' }));
+    return Array(number)
+      .fill(null)
+      .map(() => ({
+        outcome,
+        code: 'DEL',
+      }));
   }
 
   closeVehicleChecksModal(): void {

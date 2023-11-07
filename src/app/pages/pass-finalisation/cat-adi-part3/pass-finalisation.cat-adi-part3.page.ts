@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { select } from '@ngrx/store';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
@@ -31,7 +26,6 @@ import {
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -72,15 +66,8 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   scStartTime: string;
   scEndTime: string;
 
-  constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    public routeByCat: RouteByCategoryProvider,
-    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-  ) {
-    super(platform, authenticationProvider, router, store$);
+  constructor(injector: Injector) {
+    super(injector);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

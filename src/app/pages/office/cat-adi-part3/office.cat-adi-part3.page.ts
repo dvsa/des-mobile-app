@@ -1,15 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { Component, Injector, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -17,7 +7,6 @@ import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { DeviceProvider } from '@providers/device/device';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
@@ -49,36 +38,13 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
   pageState: OfficePageState;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    store$: Store<StoreModel>,
-    navController: NavController,
-    toastController: ToastController,
-    modalController: ModalController,
-    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    weatherConditionProvider: WeatherConditionProvider,
-    faultSummaryProvider: FaultSummaryProvider,
-    faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
-    public deviceProvider: DeviceProvider,
+    injector: Injector,
   ) {
-    super(
-      platform,
-      authenticationProvider,
-      router,
-      store$,
-      navController,
-      toastController,
-      modalController,
-      outcomeBehaviourProvider,
-      weatherConditionProvider,
-      faultSummaryProvider,
-      faultCountProvider,
-    );
+    super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(
-      this.appConfig.getAppConfig().role === ExaminerRole.DLG,
+      this.appConfig.getAppConfig()?.role === ExaminerRole.DLG,
       true,
     );
   }

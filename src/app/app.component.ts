@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { AlertController, MenuController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { StoreModel } from '@shared/models/store.model';
@@ -76,9 +74,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
     protected accessibilityService: AccessibilityService,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected alertController: AlertController,
     protected menuController: MenuController,
     protected secureStorage: SecureStorage,
     protected dataStore: DataStoreProvider,
@@ -87,9 +82,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
     protected deviceProvider: DeviceProvider,
-    router: Router,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, alertController, router);
+    super(injector);
   }
 
   async ngOnInit() {

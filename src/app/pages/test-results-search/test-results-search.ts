@@ -1,7 +1,6 @@
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { merge, Observable, of, Subscription } from 'rxjs';
@@ -13,7 +12,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
 import { MesError } from '@shared/models/mes-error.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -62,16 +60,14 @@ export class TestResultsSearchPage extends BasePageComponent {
 
   constructor(
     public modalController: ModalController,
-    public router: Router,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
     public searchProvider: SearchProvider,
     private appConfig: AppConfigProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private accessibilityService: AccessibilityService,
+    injector: Injector,
   ) {
-    super(platform, authenticationProvider, router);
+    super(injector);
   }
 
   ngOnInit(): void {
