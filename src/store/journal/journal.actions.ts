@@ -114,7 +114,10 @@ export const ResumingWriteUp = createAction(
 
 export const JournalRefreshError = createAction(
   '[JournalPage] Journal Refresh Error',
-  (errorDescription: string, errorMessage: string) => ({ errorDescription, errorMessage }),
+  (errorDescription: string, errorMessage: string) => ({
+    errorDescription,
+    errorMessage,
+  }),
 );
 
 export const JournalRefresh = createAction(

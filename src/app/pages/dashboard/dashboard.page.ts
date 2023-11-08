@@ -36,7 +36,6 @@ import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
-import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
@@ -138,7 +137,6 @@ export class DashboardPage extends BasePageComponent {
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
-    this.store$.dispatch(StoreUnuploadedSlotsInTests());
     this.store$.dispatch(journalActions.LoadJournalSilent());
 
     if (super.isIos()) {

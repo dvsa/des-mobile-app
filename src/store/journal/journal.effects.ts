@@ -168,14 +168,14 @@ export class JournalEffects {
   pollingSetup$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SetupPolling),
     switchMap(() => {
-      // Switch map the manual refreshes so they restart the timer.
+      // Switch map the manual refreshes, so they restart the timer.
       const manualRefreshes$ = this.actions$.pipe(
         ofType(journalActions.LoadJournal),
         // Initial emission so poll doesn't wait until the first manual refresh
         startWith(null),
       );
       const pollTimer$ = manualRefreshes$.pipe(
-        switchMap(() => interval(this.appConfig.getAppConfig().journal.autoRefreshInterval)),
+        switchMap(() => interval(this.appConfig.getAppConfig()?.journal.autoRefreshInterval)),
       );
 
       const pollsWhileOnline$ = pollTimer$
@@ -211,8 +211,10 @@ export class JournalEffects {
         ),
       ),
     )),
-    filter(([action, , hasStarted, completedTests]:
-    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
+    filter((
+      [action, , hasStarted, completedTests]:
+      [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]],
+    ) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
         return false;
