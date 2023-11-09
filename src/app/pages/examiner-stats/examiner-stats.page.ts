@@ -89,16 +89,6 @@ export class ExaminerStatsPage implements OnInit {
       '#FEB019',
       '#FF4560',
       '#775DD0',
-      '#00A7E1',
-      '#00CDAC',
-      '#F79F1F',
-      '#FF82AB',
-      '#3D5AFE',
-      '#00BFFF',
-      '#00FF00',
-      '#FFFF00',
-      '#FF0000',
-      '#800080',
     ],
     monochrome: { pie: ['#616161', '#757575', '#898989', '#bdbdbd', '#e0e0e0'], bar: ['#777777'] },
     dvsa: [
@@ -107,16 +97,7 @@ export class ExaminerStatsPage implements OnInit {
       '#E0177D',
       '#3BAB36',
       '#ED6926',
-      '#FF7F00',
-      '#40E0D0',
-      '#EE82EE',
-      '#006400',
-      '#8B0000',
-      '#FFFFE0',
-      '#FFB6C1',
-      '#ADD8E6',
-      '#E6E6FA',
-      '#90EE90'],
+    ],
     generated: [],
   };
   controlledStopTotal: number;
@@ -160,24 +141,24 @@ export class ExaminerStatsPage implements OnInit {
     }
   }
 
-  calculateColourScheme(colourNum: number, seed: number) {
+  calculateColourScheme(colourNum: number, seed: number, scheme: 'light' | 'dark' = 'light') {
     let division = 360 / colourNum;
     let degreeVal = 0;
     let colourArray = [];
     for (let i = 0; i < colourNum; i = i + 1) {
-      // let currentColour = [degreeVal, 100, Math.floor(Math.random() * (70 - 40 + 1) + 40)];
       let currentColour = [degreeVal, 100, 55];
 
       if (this.contrast(this.hslToRgb(
         currentColour[0] / 360, currentColour[1] / 100, currentColour[2] / 100),
-      [255, 255, 255]) > 3) {
+      scheme === 'dark' ? [36, 54, 115] : [255, 255, 255]) > 3) {
         colourArray.push(`hsl(${currentColour[0]}, ${currentColour[1]}%, ${currentColour[2]}%)`);
       } else {
-        let newColour = [currentColour[0], currentColour[1], currentColour[2] * 0.52];
-        if (this.contrast(this.hslToRgb(
-          newColour[0] / 360, (newColour[1]) / 100, (newColour[2]) / 100),
-        [255, 255, 255]) <= 3) {
-        }
+        let newColour = [currentColour[0], currentColour[1], currentColour[2] * (scheme === 'dark' ? 1.52 : 0.52)];
+        // if (this.contrast(this.hslToRgb(
+        //   newColour[0] / 360, (newColour[1]) / 100, (newColour[2]) / 100),
+        // scheme === 'dark' ? [36, 54, 115] : [255, 255, 255]) <= 3) {
+        //   console.log(`colour ${i} fails contrast`);
+        // }
         colourArray.push(`hsl(${newColour[0]}, ${newColour[1]}%, ${newColour[2]}%)`);
       }
 
@@ -268,6 +249,12 @@ export class ExaminerStatsPage implements OnInit {
         ),
     };
     this.colors.generated = this.calculateColourScheme(this.findLargestValue(), 0);
+    this.colors.dvsa = this.colors.dvsa.concat(
+      this.calculateColourScheme(this.findLargestValue() - 5, 0, 'dark'),
+    );
+    this.colors.default = this.colors.default.concat(
+      this.calculateColourScheme(this.findLargestValue() - 5, 0),
+    );
 
     if (!this.locationFilterOptions) {
       this.locationFilterOptions = [];
@@ -399,6 +386,26 @@ export class ExaminerStatsPage implements OnInit {
     ]);
   }
 
+  findLargestValue() {
+    let lengthValue = [];
+
+    let values = [
+      this.pageState.independentDriving$,
+      this.pageState.safetyAndBalanceQuestions$,
+      this.pageState.showMeQuestions$,
+      this.pageState.tellMeQuestions$,
+      this.pageState.manoeuvres$,
+      this.pageState.routeNumbers$,
+    ];
+
+    for (let i = 0; i < values.length; i = i + 1) {
+      values[i].subscribe((val) => {
+        lengthValue.push(val.length);
+      });
+    }
+    return Math.max(...lengthValue);
+  }
+
   relativeLuminance(value: number): number {
     const ratio = value / 255;
 
@@ -417,7 +424,6 @@ export class ExaminerStatsPage implements OnInit {
 
     return Number((l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05)).toFixed(2));
   }
-
   hslToRgb(h: number, s: number, l: number): [number, number, number] {
     let r: number, g: number, b: number;
 
@@ -442,25 +448,5 @@ export class ExaminerStatsPage implements OnInit {
     }
 
     return [ Math.ceil(r * 255), Math.ceil(g * 255), Math.ceil(b * 255) ];
-  }
-
-  findLargestValue() {
-    let lengthValue = [];
-
-    let values = [
-      this.pageState.independentDriving$,
-      this.pageState.safetyAndBalanceQuestions$,
-      this.pageState.showMeQuestions$,
-      this.pageState.tellMeQuestions$,
-      this.pageState.manoeuvres$,
-      this.pageState.routeNumbers$,
-    ];
-
-    for (let i = 0; i < values.length; i = i + 1) {
-      values[i].subscribe((val) => {
-        lengthValue.push(val.length);
-      });
-    }
-    return Math.max(...lengthValue);
   }
 }
