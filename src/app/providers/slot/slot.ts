@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DeepDiff } from 'deep-diff';
-import {
-  flatten, times, isEmpty, get, groupBy,
-} from 'lodash';
+import DeepDiff from 'deep-diff';
+import { flatten, get, groupBy, isEmpty, times } from 'lodash';
 import { Store } from '@ngrx/store';
-import {
-  ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot,
-} from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -37,40 +33,47 @@ export class SlotProvider {
 
     const oldJournalSlots: SlotItem[] = flatten(Object.values(slots));
 
-    newSlots.sort((slotA, slotB) => (slotA.slotDetail.start < slotB.slotDetail.start ? -1 : 1));
+    return newSlots
+      .sort((slotA, slotB) => (slotA.slotDetail.start < slotB.slotDetail.start ? -1 : 1))
+      .map((newSlot) => {
+        const newSlotId = newSlot.slotDetail.slotId;
 
-    return newSlots.map((newSlot) => {
-      const newSlotId = newSlot.slotDetail.slotId;
-
-      const replacedJournalSlot = oldJournalSlots.find((oldSlot) => oldSlot.slotData.slotDetail.slotId === newSlotId);
-
-      let differenceFound = false;
-      let hasSeenCandidateDetails = false;
-      if (replacedJournalSlot) {
-        differenceFound = replacedJournalSlot.hasSlotChanged;
-        hasSeenCandidateDetails = replacedJournalSlot.hasSeenCandidateDetails;
-        const differenceToSlot = DeepDiff(replacedJournalSlot.slotData, newSlot);
-        if (Array.isArray(differenceToSlot) && differenceToSlot.some((change) => change.kind === 'E')) {
-          this.store$.dispatch(SlotHasChanged(newSlotId));
-          differenceFound = true;
-        }
-      }
-
-      let personalCommitment: PersonalCommitment[] = null;
-      if (!isEmpty(newJournal.personalCommitments)) {
-        personalCommitment = newJournal.personalCommitments.filter(
-          (commitment) => Number(commitment.slotId) === Number(newSlotId),
+        const replacedJournalSlot = oldJournalSlots.find(
+          (oldSlot) => oldSlot.slotData.slotDetail.slotId === newSlotId,
         );
-      }
 
-      // add personalCommitment information to SlotItem, component and activityCode set to null
-      // as they are not constructed at this stage.
-      return new SlotItem(newSlot, differenceFound, hasSeenCandidateDetails, null, null, personalCommitment);
-    });
+        let differenceFound = false;
+        let hasSeenCandidateDetails = false;
+
+        if (replacedJournalSlot) {
+          differenceFound = replacedJournalSlot.hasSlotChanged;
+          hasSeenCandidateDetails = replacedJournalSlot.hasSeenCandidateDetails;
+
+          const differenceToSlot = DeepDiff(replacedJournalSlot.slotData, newSlot);
+
+          // 'E' - indicated a property was edited
+          if (Array.isArray(differenceToSlot) && differenceToSlot.some((change) => change.kind === 'E')) {
+            this.store$.dispatch(SlotHasChanged(newSlotId));
+            differenceFound = true;
+          }
+        }
+
+        let personalCommitment: PersonalCommitment[] = null;
+
+        if (!isEmpty(newJournal.personalCommitments)) {
+          personalCommitment = newJournal.personalCommitments.filter(
+            (commitment) => Number(commitment.slotId) === Number(newSlotId),
+          );
+        }
+
+        // add personalCommitment information to SlotItem, component and activityCode set to null
+        // as they are not constructed at this stage.
+        return new SlotItem(newSlot, differenceFound, hasSeenCandidateDetails, null, null, personalCommitment);
+      });
   }
 
   /**
-   * Extends the journal with empty days where there was no slots defined in the next 7 days
+   * Extends the journal with empty days when there were no slots defined in the next 7 days
    * @param slots Journal slots
    * @returns Slots with additional empty days
    */
@@ -79,10 +82,15 @@ export class SlotProvider {
 
     const days = times(
       numberOfDaysToView,
-      (d: number): string => this.dateTimeProvider.now().add(d, Duration.DAY).format('YYYY-MM-DD'),
+      (d: number): string => this.dateTimeProvider.now()
+        .add(d, Duration.DAY)
+        .format('YYYY-MM-DD'),
     );
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    const emptyDays = days.reduce((days: { [k: string]: SlotItem[] }, day: string) => ({ ...days, [day]: [] }), {});
+
+    const emptyDays = days.reduce((d: { [k: string]: SlotItem[] }, day: string) => ({
+      ...d,
+      [day]: [],
+    }), {});
 
     return {
       ...emptyDays,
@@ -105,7 +113,8 @@ export class SlotProvider {
       );
   };
 
-  getSlotDate = (slot: SlotItem): string => DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
+  getSlotDate = (slot: SlotItem): string => DateTime.at(slot.slotData.slotDetail.start)
+    .format('YYYY-MM-DD');
 
   canStartTest(testSlot: TestSlot): boolean {
     const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
@@ -175,7 +184,8 @@ export class SlotProvider {
   getLatestViewableSlotDateTime(): Date {
     const today = moment();
     // add 3 days if current day is friday, 2 if saturday, else add 1
-    let daysToAdd;
+    let daysToAdd: moment.DurationInputArg1;
+
     if (today.isoWeekday() === 5) {
       daysToAdd = 3;
     } else {

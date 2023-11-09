@@ -72,6 +72,12 @@ ion-col {
   align-items: center;
 }
 
+.align-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .vertical-align-center {
   display: flex;
   align-items: center;

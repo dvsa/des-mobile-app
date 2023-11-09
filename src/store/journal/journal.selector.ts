@@ -1,4 +1,4 @@
-import { flatten, isNil } from 'lodash';
+import { flatten, get, isNil } from 'lodash';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
@@ -11,7 +11,30 @@ import { JournalModel } from './journal.model';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 
-export const getSlotsOnSelectedDate = (journal: JournalModel) => journal.slots[journal.selectedDate] || [];
+export const getSlotsOnSelectedDate = (
+  journal: JournalModel,
+): SlotItem[] => journal.slots[journal.selectedDate] || [];
+
+export const getSlotBySlotID = (
+  slotItems: SlotItem[],
+  slotId: number,
+): SlotItem => slotItems.find(
+  (slotItem) => get(slotItem, 'slotData.slotDetail.slotId') === slotId,
+);
+
+export const getAppRefFromSlot = (
+  slotItem: SlotItem,
+): ApplicationReference | null => {
+  if (!slotItem || !('booking' in slotItem?.slotData)) {
+    return null;
+  }
+
+  return {
+    applicationId: get(slotItem, 'slotData.booking.application.applicationId'),
+    bookingSequence: get(slotItem, 'slotData.booking.application.bookingSequence'),
+    checkDigit: get(slotItem, 'slotData.booking.application.checkDigit'),
+  };
+};
 
 export const getSlotsOnDate = (
   journal: JournalModel,

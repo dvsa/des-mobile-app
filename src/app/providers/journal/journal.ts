@@ -46,9 +46,12 @@ export class JournalProvider {
     const options = {
       headers: new HttpHeaders().set('If-Modified-Since', modifiedSinceValue),
     };
+
     if (!this.authProvider.isInUnAuthenticatedMode() && networkStatus === ConnectionStatus.ONLINE) {
       return this.http.get(journalUrl, options)
-        .pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
+        .pipe(
+          timeout(this.appConfigProvider.getAppConfig()?.requestTimeout),
+        );
     }
     return this.getOfflineJournal();
   }
@@ -92,9 +95,10 @@ export class JournalProvider {
           .format('YYYY/MM/DD'),
         data: journalData,
       };
-      this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore))
-        .then(() => {
-        });
+
+      this.dataStore
+        .setItem('JOURNAL', JSON.stringify(journalDataToStore))
+        .catch((error) => error);
     }
   };
 
@@ -116,14 +120,17 @@ export class JournalProvider {
 
   emptyCachedData = () => {
     const emptyJournalData: ExaminerWorkSchedule = {};
+
     const journalDataToStore: JournalCache = {
       dateStored: this.dateTimeProvider.now()
         .format('YYYY/MM/DD'),
       data: emptyJournalData,
     };
-    this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore))
-      .then(() => {
-      });
+
+    this.dataStore
+      .setItem('JOURNAL', JSON.stringify(journalDataToStore))
+      .catch((error) => error);
+
     return emptyJournalData;
   };
 
