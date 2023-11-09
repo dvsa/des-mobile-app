@@ -198,10 +198,12 @@ export class TestsAnalyticsEffects {
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
 
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-        formatApplicationReference(applicationReference),
-      );
+      if (applicationReference) {
+        this.analytics.addCustomDimension(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          formatApplicationReference(applicationReference),
+        );
+      }
 
       this.analytics.logEvent(category, AnalyticsEvents.START_TEST);
 
