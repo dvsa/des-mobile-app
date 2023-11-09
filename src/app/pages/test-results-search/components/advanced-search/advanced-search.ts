@@ -117,8 +117,7 @@ export class AdvancedSearchComponent {
     if (typeof event.value !== 'string') return;
 
     // Added logic here as it is used on the (ionInput) attribute of the staffNo. input field, sets toggle to unchecked
-    if ((event.value === '' && (field === 'staffId') &&
-      (this.selectedTestCentre === undefined || this.selectedTestCentre === null))) {
+    if (event.value === '' && field === 'staffId' && !this.selectedTestCentre) {
       this.rekeySearch = false;
     }
 
@@ -186,7 +185,7 @@ export class AdvancedSearchComponent {
   }
 
   selectTestCentre($event: TestCentre) {
-    if (($event === undefined || $event === null) && !(this.importStaffNumber || this.staffNumber)) {
+    if (!$event && !(this.importStaffNumber || this.staffNumber)) {
       this.rekeySearch = false;
     }
     this.selectedTestCentre = $event;
