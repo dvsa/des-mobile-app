@@ -128,6 +128,15 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   }
 
+  getColSize(): string {
+    switch (this.accessibilityService.getTextZoomClass()) {
+      case 'text-zoom-x-large':
+        return '40';
+      default:
+        return '44';
+    }
+  }
+
   isIndicatorNeededForSlot(): boolean {
     const specialNeeds: boolean = this.isSpecialNeedsSlot();
     const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
