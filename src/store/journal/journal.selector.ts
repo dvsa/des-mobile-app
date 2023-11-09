@@ -29,6 +29,8 @@ export const getAppRefFromSlot = (
     return null;
   }
 
+  console.log(slotItem);
+
   return {
     applicationId: get(slotItem, 'slotData.booking.application.applicationId'),
     bookingSequence: get(slotItem, 'slotData.booking.application.bookingSequence'),

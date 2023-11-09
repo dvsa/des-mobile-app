@@ -31,6 +31,10 @@ import * as applicationReferenceActions
 import { candidateMock } from '../__mocks__/tests.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { journalReducer } from '@store/journal/journal.reducer';
+import * as journalActions from '@store/journal/journal.actions';
+import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
+import { ConnectionStatus } from '@providers/network-state/network-state';
 
 describe('TestsAnalyticsEffects', () => {
   let effects: TestsAnalyticsEffects;
@@ -48,6 +52,7 @@ describe('TestsAnalyticsEffects', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
+          journal: journalReducer,
           tests: testsReducer,
         }),
       ],
@@ -184,6 +189,22 @@ describe('TestsAnalyticsEffects', () => {
     });
   });
   describe('startTestAnalyticsEffect', () => {
+    beforeEach(() => {
+      store$.dispatch(
+        journalActions.LoadJournalSuccess(
+          {
+            examiner: {
+              staffNumber: '123',
+              individualId: 456,
+            },
+            slotItemsByDate: journalSlotsDataMock,
+          },
+          ConnectionStatus.ONLINE,
+          false,
+          new Date(),
+        ),
+      ); // Load in mock journal state
+    });
     it('should log the correct event if it triggered from the journal page', (done) => {
       // ARRANGE
       spyOn(navigationStateProviderMock, 'isRekeySearch')
