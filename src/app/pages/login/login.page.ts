@@ -91,9 +91,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     try {
       await this.platform.ready();
 
-      this.store$.dispatch(StartSendingLogs());
-
       await this.appConfigProvider.initialiseAppConfig();
+
+      this.store$.dispatch(StartSendingLogs());
 
       this.appInitializedLog();
 
