@@ -20,7 +20,6 @@ import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
-  GetMotStatus,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -66,7 +65,8 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import {
-  OrditTrainedChanged, TrainerRegistrationNumberChanged,
+  OrditTrainedChanged,
+  TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
 import {
@@ -240,7 +240,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   getMOTStatus(): void {
-    this.store$.dispatch(GetMotStatus());
+    // Temporarily disable the call to the MOT endpoint as it's not being used.
+    // this.store$.dispatch(GetMotStatus());
   }
 
   schoolCarToggled(): void {
@@ -282,7 +283,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   generateDelegatedQuestionResults(number: number, outcome: CompetencyOutcome): QuestionResult[] {
-    return Array(number).fill(null).map(() => ({ outcome, code: 'DEL' }));
+    return Array(number)
+      .fill(null)
+      .map(() => ({
+        outcome,
+        code: 'DEL',
+      }));
   }
 
   closeVehicleChecksModal(): void {

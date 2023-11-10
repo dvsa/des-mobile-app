@@ -25,10 +25,6 @@ export class PostDebriefHoldingPage extends PracticeableBasePageComponent implem
     super(platform, authenticationProvider, router, store$, false);
   }
 
-  ngOnInit(): void {
-    super.ngOnInit();
-  }
-
   async continueButton(): Promise<void> {
     await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
   }

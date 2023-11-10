@@ -8,6 +8,7 @@ import { from, merge } from 'rxjs';
 import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId, selectVersionNumber } from '@store/app-info/app-info.selectors';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 
 @Injectable()
 export class LogHelper {
@@ -18,7 +19,11 @@ export class LogHelper {
   private deviceInfo: DeviceInfo;
   private battery: number;
 
-  constructor(private store$: Store<StoreModel>) {
+  constructor(
+    private store$: Store<StoreModel>,
+    private networkStateProvider: NetworkStateProvider,
+  ) {
+
     const versionNumber$ = this.store$.pipe(
       select(selectVersionNumber),
       map((appVersion) => {
@@ -64,6 +69,7 @@ export class LogHelper {
       deviceId: this.deviceId,
       drivingExaminerId: this.employeeId,
       metaData: {
+        online: this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE,
         batteryLevel: this.battery,
         memUsed: this.deviceInfo?.memUsed,
         realDiskFree: this.deviceInfo?.realDiskFree,
