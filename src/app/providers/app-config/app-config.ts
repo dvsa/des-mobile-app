@@ -113,7 +113,28 @@ export class AppConfigProvider {
 
   public getAppConfig = (): AppConfig => {
     if (!this.appConfig) {
-      this.initialiseAppConfig();
+      this.getAppConfigAsync();
+    }
+    return this.appConfig;
+  };
+
+  public getAppConfigAsync = async (): Promise<AppConfig> => {
+    if (!this.appConfig) {
+      try {
+        // Use env/xml file to create base config
+        await this.initialiseAppConfig();
+
+        // Get remote config from storage or env file
+        const remoteConfig = (this.environmentFile.isRemote)
+          ? await this.getCachedRemoteConfig()
+          : this.environmentFile as LocalEnvironmentFile;
+
+        // Re-bind local and remote configs
+        if (!!remoteConfig) this.mapRemoteConfig(remoteConfig);
+
+      } catch (err) {
+        this.logError('Get app config async has thrown an error', err);
+      }
     }
     return this.appConfig;
   };
@@ -187,7 +208,8 @@ export class AppConfigProvider {
         return Promise.reject(AppConfigError.UNKNOWN_ERROR);
       }
 
-      const configError: string = (error || []).map((err: ValidationError) => err.message)
+      const configError: string = (error || [])
+        .map((err: ValidationError) => err.message)
         .join(', ');
 
       this.store$.dispatch(SaveLog({
@@ -246,7 +268,7 @@ export class AppConfigProvider {
       const response = await this.dataStoreProvider.getItem('CONFIG');
       return JSON.parse(response);
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 

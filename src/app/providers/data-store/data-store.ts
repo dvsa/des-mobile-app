@@ -34,18 +34,23 @@ export class DataStoreProvider {
   getSecureContainer(): SecureStorageObject {
     return this.secureContainer;
   }
+
   /**
    * Get all stored keys
    * NOTE: secureContainer guard clause allows app to run in browser
    * @returns Promise
    */
-  getKeys(): Promise<string[]> {
+  async getKeys(): Promise<string[]> {
     if (!this.secureContainer) {
       return Promise.resolve(['']);
     }
-    return this.secureContainer.keys().then((response: string[]) => {
-      return response;
-    });
+
+    try {
+      return await this.secureContainer.keys();
+    } catch (err) {
+      this.reportLog('getting keys', '', err);
+      throw err;
+    }
   }
 
   /**
@@ -55,28 +60,34 @@ export class DataStoreProvider {
    * @param value - value to pair with key
    * @returns Promise
    */
-  setItem(key: string, value: any): Promise<string> {
+  async setItem(key: string, value: any): Promise<string> {
     if (!this.secureContainer) {
       return Promise.resolve('');
     }
-    return this.secureContainer.set(key, value).then((response: string) => {
-      return response;
-    }).catch((error) => {
-      return error;
-    });
+
+    try {
+      return await this.secureContainer.set(key, value);
+    } catch (err) {
+      this.reportLog('setting', key, err);
+      throw err;
+    }
   }
 
   /**
    * interrogate storage for specific key
    * @param key - identifier
    */
-  getItem(key: string): Promise<string> {
+  async getItem(key: string): Promise<string> {
     if (!this.secureContainer) {
       return Promise.resolve('');
     }
-    return this.secureContainer.get(key).then((response: string) => {
-      return response;
-    });
+
+    try {
+      return await this.secureContainer.get(key);
+    } catch (err) {
+      this.reportLog('getting', key, err);
+      throw err;
+    }
   }
 
   /**
@@ -85,15 +96,26 @@ export class DataStoreProvider {
    * @param key - identifier to remove
    * @returns Promise
    */
-  removeItem(key: string): Promise<string> {
+  async removeItem(key: string): Promise<string> {
     if (!this.secureContainer) {
       return Promise.resolve('');
     }
-    return this.secureContainer.remove(key).catch((error) => {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, `DataStoreProvider error removing ${key}`, error.message),
-      }));
+
+    try {
+      return await this.secureContainer.remove(key);
+    } catch (err) {
+      this.reportLog('removing', key, err);
       return Promise.resolve('');
-    });
+    }
   }
+
+  private reportLog = (action: string, key: string, error: Error | unknown) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.ERROR,
+        `DataStoreProvider error ${action} ${key}`,
+        (error instanceof Error) ? error.message : JSON.stringify(error),
+      ),
+    }));
+  };
 }

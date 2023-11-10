@@ -46,6 +46,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { AppConfig } from '@providers/app-config/app-config.model';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -74,6 +75,7 @@ export class DashboardPage
   subscription: Subscription;
   private merged$: Observable<void | string>;
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
+  private appConf: AppConfig;
 
   constructor(
     private appConfigProvider: AppConfigProvider,
@@ -155,6 +157,9 @@ export class DashboardPage
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');
+
+    this.appConf = await this.appConfigProvider.getAppConfigAsync();
+
     return true;
   }
 
@@ -166,14 +171,11 @@ export class DashboardPage
     }
   }
 
-  showTestReportPracticeMode = (): boolean =>
-    this.appConfigProvider.getAppConfig()?.journal.enableTestReportPracticeMode;
+  showTestReportPracticeMode = (): boolean => this.appConf?.journal.enableTestReportPracticeMode;
 
-  showEndToEndPracticeMode = (): boolean =>
-    this.appConfigProvider.getAppConfig()?.journal.enableEndToEndPracticeMode;
+  showEndToEndPracticeMode = (): boolean => this.appConf?.journal.enableEndToEndPracticeMode;
 
-  showDelegatedExaminerRekey = (): boolean =>
-    this.appConfigProvider.getAppConfig()?.role === ExaminerRole.DLG;
+  showDelegatedExaminerRekey = (): boolean => this.appConf?.role === ExaminerRole.DLG;
 
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
 

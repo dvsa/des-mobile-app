@@ -16,7 +16,6 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-de
 import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
-  GetMotStatus,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -237,7 +236,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   getMOTStatus(): void {
-    this.store$.dispatch(GetMotStatus());
+    // Temporarily disable the call to the MOT endpoint as it's not being used.
+    // this.store$.dispatch(GetMotStatus());
   }
 
   schoolCarToggled(): void {
