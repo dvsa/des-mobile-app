@@ -26,6 +26,7 @@ import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { mockLocalData } from '@pages/examiner-stats/test-result.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { ColourContrastService } from '@providers/colour-contrast/colour-contrast.service';
 
 export enum BaseManoeuvreTypeLabels {
   reverseLeft = 'Reverse left',
@@ -64,7 +65,6 @@ export const enum ColourEnum {
   Default = 'Default',
   Monochrome = 'Monochrome',
   DVSA = 'DVSA',
-  Generated = 'Generated',
 }
 
 @Component({
@@ -82,13 +82,28 @@ export class ExaminerStatsPage implements OnInit {
   pageState: ExaminerStatsState;
   hideChart: boolean = false;
   colourOption: ColourEnum = ColourEnum.Default;
-  colors: { default: string[], monochrome: { bar: string[], pie: string[] }, dvsa: string[], generated: string[] } = {
+  colors: { default: string[], monochrome: { bar: string[], pie: string[] }, dvsa: string[] } = {
     default: [
-      '#008FFB',
-      '#00E396',
-      '#FEB019',
-      '#FF4560',
-      '#775DD0',
+      '#FF0000',
+      '#FF8000',
+      '#FFFF00',
+      '#80FF00',
+      '#00FF00',
+      '#00FF80',
+      '#00FFFF',
+      '#0080FF',
+      '#0000FF',
+      '#8000FF',
+      '#FF00FF',
+      '#FF0080',
+      '#FF8080',
+      '#FFC080',
+      '#FFFF80',
+      '#80FF80',
+      '#80FFFF',
+      '#8080FF',
+      '#C080FF',
+      '#FF80FF',
     ],
     monochrome: { pie: ['#616161', '#757575', '#898989', '#bdbdbd', '#e0e0e0'], bar: ['#777777'] },
     dvsa: [
@@ -98,7 +113,6 @@ export class ExaminerStatsPage implements OnInit {
       '#3BAB36',
       '#ED6926',
     ],
-    generated: [],
   };
   controlledStopTotal: number;
   categoryPlaceholder: string;
@@ -132,6 +146,7 @@ export class ExaminerStatsPage implements OnInit {
 
   constructor(
     public store$: Store<StoreModel>,
+    public colourContrastService: ColourContrastService,
   ) {
   }
 
@@ -139,56 +154,6 @@ export class ExaminerStatsPage implements OnInit {
     if (!((event as HTMLElement).id.includes('input'))) {
       (document.activeElement as HTMLElement).blur();
     }
-  }
-
-  calculateColourScheme(colourNum: number, seed: number, scheme: 'light' | 'dark' = 'light') {
-    let division = 360 / colourNum;
-    let degreeVal = 0;
-    let colourArray = [];
-    for (let i = 0; i < colourNum; i = i + 1) {
-      let currentColour = [degreeVal, 100, 55];
-
-      if (this.contrast(this.hslToRgb(
-        currentColour[0] / 360, currentColour[1] / 100, currentColour[2] / 100),
-      scheme === 'dark' ? [36, 54, 115] : [255, 255, 255]) > 3) {
-        colourArray.push(`hsl(${currentColour[0]}, ${currentColour[1]}%, ${currentColour[2]}%)`);
-      } else {
-        let newColour = [currentColour[0], currentColour[1], currentColour[2] * (scheme === 'dark' ? 1.52 : 0.52)];
-        // if (this.contrast(this.hslToRgb(
-        //   newColour[0] / 360, (newColour[1]) / 100, (newColour[2]) / 100),
-        // scheme === 'dark' ? [36, 54, 115] : [255, 255, 255]) <= 3) {
-        //   console.log(`colour ${i} fails contrast`);
-        // }
-        colourArray.push(`hsl(${newColour[0]}, ${newColour[1]}%, ${newColour[2]}%)`);
-      }
-
-      degreeVal += division;
-    }
-    return this.shuffle(colourArray, seed);
-  }
-
-  shuffle(array: any[], seed: number) {
-    let m = array.length, t: any, i: number;
-
-    // While there remain elements to shuffle…
-    while (m) {
-
-      // Pick a remaining element…
-      i = Math.floor(this.random(seed) * m--);
-
-      // And swap it with the current element.
-      t = array[m];
-      array[m] = array[i];
-      array[i] = t;
-      ++seed;
-    }
-
-    return array;
-  }
-
-  random(seed: number) {
-    let x = Math.sin(seed++) * 10000;
-    return x - Math.floor(x);
   }
 
   private calculatePercentage = (
@@ -248,13 +213,6 @@ export class ExaminerStatsPage implements OnInit {
           map(this.calculatePercentage),
         ),
     };
-    this.colors.generated = this.calculateColourScheme(this.findLargestValue(), 0);
-    this.colors.dvsa = this.colors.dvsa.concat(
-      this.calculateColourScheme(this.findLargestValue() - 5, 0, 'dark'),
-    );
-    this.colors.default = this.colors.default.concat(
-      this.calculateColourScheme(this.findLargestValue() - 5, 0),
-    );
 
     if (!this.locationFilterOptions) {
       this.locationFilterOptions = [];
@@ -293,6 +251,7 @@ export class ExaminerStatsPage implements OnInit {
       this.handleCategoryFilter(mostUsed.item);
     }
   }
+
 
   ionViewDidEnter() {
     this.store$.dispatch(ExaminerStatsViewDidEnter());
@@ -358,8 +317,6 @@ export class ExaminerStatsPage implements OnInit {
         return this.colors.monochrome.pie;
       case 'DVSA':
         return this.colors.dvsa;
-      case 'Generated':
-        return this.colors.generated;
     }
   }
 
@@ -384,69 +341,5 @@ export class ExaminerStatsPage implements OnInit {
       TestCategory.H,
       TestCategory.K,
     ]);
-  }
-
-  findLargestValue() {
-    let lengthValue = [];
-
-    let values = [
-      this.pageState.independentDriving$,
-      this.pageState.safetyAndBalanceQuestions$,
-      this.pageState.showMeQuestions$,
-      this.pageState.tellMeQuestions$,
-      this.pageState.manoeuvres$,
-      this.pageState.routeNumbers$,
-    ];
-
-    for (let i = 0; i < values.length; i = i + 1) {
-      values[i].subscribe((val) => {
-        lengthValue.push(val.length);
-      });
-    }
-    return Math.max(...lengthValue);
-  }
-
-  relativeLuminance(value: number): number {
-    const ratio = value / 255;
-
-    return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
-  }
-  luminance(color: [number, number, number]): number {
-    const r = this.relativeLuminance(color[0]);
-    const g = this.relativeLuminance(color[1]);
-    const b = this.relativeLuminance(color[2]);
-
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  }
-  contrast(c1: [number, number, number], c2: [number, number, number] = [255, 255, 255]): number {
-    const l1 = this.luminance(c1);
-    const l2 = this.luminance(c2);
-
-    return Number((l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05)).toFixed(2));
-  }
-  hslToRgb(h: number, s: number, l: number): [number, number, number] {
-    let r: number, g: number, b: number;
-
-    if (s == 0) {
-      r = g = b = l; // achromatic
-    } else {
-      function hue2rgb(p: number, q: number, t: number) {
-        if (t < 0) t += 1;
-        if (t > 1) t -= 1;
-        if (t < 1 / 6) return p + (q - p) * 6 * t;
-        if (t < 1 / 2) return q;
-        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-        return p;
-      }
-
-      let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-      let p = 2 * l - q;
-
-      r = hue2rgb(p, q, h + 1 / 3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1 / 3);
-    }
-
-    return [ Math.ceil(r * 255), Math.ceil(g * 255), Math.ceil(b * 255) ];
   }
 }
