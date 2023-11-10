@@ -31,7 +31,14 @@ export abstract class BasePageComponent {
         .hasValidToken()
         .then(async (hasValidToken) => {
           if (this.loginRequired && !hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
-            await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
+            const navigationExtras: NavigationExtras = {
+              replaceUrl: true,
+              state: {
+                hasLoggedOut: false,
+                invalidToken: true,
+              },
+            };
+            await this.router.navigate([LOGIN_PAGE], navigationExtras);
           }
         });
     }

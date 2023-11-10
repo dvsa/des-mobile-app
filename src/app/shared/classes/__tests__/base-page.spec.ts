@@ -1,6 +1,4 @@
-import {
-  waitForAsync, fakeAsync, flushMicrotasks, TestBed,
-} from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -19,16 +17,27 @@ describe('BasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Router, useClass: RouterMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
       ],
     });
 
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);
-    router.navigate = jasmine.createSpy().and.returnValue(Promise.resolve(true));
+    router.navigate = jasmine.createSpy()
+      .and
+      .returnValue(Promise.resolve(true));
 
     class BasePageClass extends BasePageComponent {
       constructor(
@@ -47,14 +56,20 @@ describe('BasePageComponent', () => {
     it('should allow user access if authentication is not required', fakeAsync(() => {
       basePageComponent.loginRequired = false;
       basePageComponent.ionViewWillEnter();
-      expect(router.navigate).not.toHaveBeenCalled();
+      expect(router.navigate)
+        .not
+        .toHaveBeenCalled();
       flushMicrotasks();
     }));
 
     it('should allow user access if authentication is required and device is not ios', fakeAsync(() => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
+      basePageComponent.isIos = jasmine.createSpy()
+        .and
+        .returnValue(false);
       basePageComponent.ionViewWillEnter();
-      expect(router.navigate).not.toHaveBeenCalled();
+      expect(router.navigate)
+        .not
+        .toHaveBeenCalled();
       flushMicrotasks();
     }));
 
@@ -62,59 +77,88 @@ describe('BasePageComponent', () => {
       authenticationProvider.hasValidToken = jasmine.createSpy(
         'authenticationProvider.hasValidToken',
       )
-        .and.returnValue(Promise.resolve(false));
+        .and
+        .returnValue(Promise.resolve(false));
       basePageComponent.ionViewWillEnter();
-      expect(router.navigate).not.toHaveBeenCalled();
+      expect(router.navigate)
+        .not
+        .toHaveBeenCalled();
       flushMicrotasks();
     }));
     it('should not allow access if user is not authd, auth is required and is ios', fakeAsync(() => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = jasmine.createSpy()
+        .and
+        .returnValue(true);
       authenticationProvider.hasValidToken = jasmine.createSpy('authenticationProvider.hasValidToken')
-        .and.returnValue(Promise.resolve(false));
+        .and
+        .returnValue(Promise.resolve(false));
       authenticationProvider.isInUnAuthenticatedMode = jasmine
         .createSpy('authenticationProvider.isInUnAuthenticatedMode')
-        .and.returnValue(false);
+        .and
+        .returnValue(false);
 
       basePageComponent.loginRequired = true;
       basePageComponent.ionViewWillEnter();
       flushMicrotasks();
-      expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
+      expect(router.navigate)
+        .toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true,
+          state: {
+            hasLoggedOut: false,
+            invalidToken: true,
+          },
+        });
     }));
 
   });
 
   describe('isIos()', () => {
     it('should return true if platform is ios', () => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
-      expect(basePageComponent.isIos()).toBe(true);
+      platform.is = jasmine.createSpy('platform.is')
+        .and
+        .returnValue(true);
+      expect(basePageComponent.isIos())
+        .toBe(true);
     });
     it('should return false if platform is not ios', () => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
-      expect(basePageComponent.isIos()).toBe(false);
+      platform.is = jasmine.createSpy('platform.is')
+        .and
+        .returnValue(false);
+      expect(basePageComponent.isIos())
+        .toBe(false);
     });
   });
 
   describe('logout()', () => {
     it('should try to logout when platform is ios', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = jasmine.createSpy()
+        .and
+        .returnValue(true);
       authenticationProvider.logout = jasmine.createSpy('authenticationProvider.logout')
-        .and.returnValue(Promise.resolve());
+        .and
+        .returnValue(Promise.resolve());
       await basePageComponent.logout();
-      expect(authenticationProvider.logout).toHaveBeenCalledTimes(1);
-      expect(router.navigate).toHaveBeenCalledTimes(1);
-      expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], {
-        replaceUrl: true,
-        state: {
-          hasLoggedOut: true,
-        },
-      });
+      expect(authenticationProvider.logout)
+        .toHaveBeenCalledTimes(1);
+      expect(router.navigate)
+        .toHaveBeenCalledTimes(1);
+      expect(router.navigate)
+        .toHaveBeenCalledWith([LOGIN_PAGE], {
+          replaceUrl: true,
+          state: {
+            hasLoggedOut: true,
+          },
+        });
     });
     // @TODO MES-7133 fix intermittently failing test
     xit('should not try to logout when platform is not ios', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
+      basePageComponent.isIos = jasmine.createSpy()
+        .and
+        .returnValue(false);
       await basePageComponent.logout();
-      expect(authenticationProvider.logout).toHaveBeenCalledTimes(0);
-      expect(router.navigate).toHaveBeenCalledTimes(0);
+      expect(authenticationProvider.logout)
+        .toHaveBeenCalledTimes(0);
+      expect(router.navigate)
+        .toHaveBeenCalledTimes(0);
     });
   });
 

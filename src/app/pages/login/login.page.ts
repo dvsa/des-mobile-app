@@ -39,11 +39,14 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
-  private static loadingOptions = {
-    id: 'app_init_spinner',
-    spinner: 'circles',
-    message: 'App initialising...',
-  } as LoadingOptions;
+
+  get loadingOptions(): LoadingOptions {
+    return {
+      id: 'app_init_spinner',
+      spinner: 'circles',
+      message: 'App initialising...',
+    };
+  }
 
   constructor(
     platform: Platform,
@@ -257,7 +260,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
-    await this.loadingProvider.handleUILoading(isLoading, LoginPage.loadingOptions);
+    await this.loadingProvider.handleUILoading(isLoading, this.loadingOptions);
   }
 
 }

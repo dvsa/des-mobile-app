@@ -129,11 +129,14 @@ export class AppConfigProvider {
           ? await this.getCachedRemoteConfig()
           : this.environmentFile as LocalEnvironmentFile;
 
-        // Re-bind local and remote configs
-        if (!!remoteConfig) this.mapRemoteConfig(remoteConfig);
+        // Validate the config
+        const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(remoteConfig);
+
+        // Re-bind local and remote configs if valid
+        if (!!remoteConfig && result?.errors?.length === 0) this.mapRemoteConfig(remoteConfig);
 
       } catch (err) {
-        this.logError('Get app config async has thrown an error', err);
+        this.logError('Get app config async', err);
       }
     }
     return this.appConfig;
