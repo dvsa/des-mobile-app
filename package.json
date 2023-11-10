@@ -132,6 +132,7 @@
     "@ionic/angular-toolkit": "^10.0.0",
     "@ionic/cli": "^7.1.1",
     "@sentry/cli": "^2.21.2",
+    "@types/deep-diff": "^1.0.5",
     "@types/hammerjs": "^2.0.42",
     "@types/jasmine": "~5.1.0",
     "@types/lodash": "^4.14.199",

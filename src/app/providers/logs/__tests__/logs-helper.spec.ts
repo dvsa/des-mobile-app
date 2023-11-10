@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '../logs-helper';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 
 describe('LogHelper', () => {
   let logHelper: LogHelper;
@@ -18,6 +20,10 @@ describe('LogHelper', () => {
       providers: [
         LogHelper,
         Store,
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
       ],
     });
 

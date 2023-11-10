@@ -16,6 +16,8 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 
 export enum Token {
   ID = 'idToken',
@@ -191,11 +193,13 @@ export class AuthenticationProvider {
   };
 
   private setStoreSubscription = (): void => {
-    this.subscription = this.store$.select(selectEmployeeId).pipe(
-      tap((employeeId: string) => {
-        if (employeeId) this.employeeId = employeeId;
-      }),
-    ).subscribe();
+    this.subscription = this.store$.select(selectEmployeeId)
+      .pipe(
+        tap((employeeId: string) => {
+          if (employeeId) this.employeeId = employeeId;
+        }),
+      )
+      .subscribe();
   };
 
   public loadEmployeeName = async (): Promise<string> => {
@@ -215,29 +219,34 @@ export class AuthenticationProvider {
 
   public async logout(): Promise<void> {
     try {
-      await this.testPersistenceProvider.clearPersistedTests();
-      await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+      this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
 
-      this.store$.dispatch(UnloadJournal());
-      this.store$.dispatch(UnloadTests());
-      this.store$.dispatch(ClearTestCentresRefData());
+      if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
+        await this.testPersistenceProvider.clearPersistedTests();
+        await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+      }
+      // If the user is temporarily unauthorised, we don't want to dump the data in the store as that could be for a
+      // genuine reason i.e. poor connectivity so can't re-auth.
+
+      if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
+        this.store$.dispatch(UnloadJournal());
+        this.store$.dispatch(UnloadTests());
+        this.store$.dispatch(ClearTestCentresRefData());
+      }
 
       await this.clearTokens();
+
       this.appConfig.shutDownStoreSubscription();
+
       this.subscription?.unsubscribe();
+
       await this.ionicAuth.logout();
+
+      this.logEvent(LogType.DEBUG, 'Logout', 'Finished logout flow');
     } catch (err) {
       this.onLogoutError(err, 'Authentication provider');
     }
   }
-
-  public onLogoutError = (err: any, prefix?: string): void => {
-    const basicDesc = 'Logout error';
-    const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, desc, err),
-    }));
-  };
 
   public async setEmployeeId() {
     const idToken = await this.ionicAuth.getIdToken();
@@ -246,5 +255,17 @@ export class AuthenticationProvider {
     const numericEmployeeId = Number.parseInt(employeeIdClaim, 10);
     this.employeeId = numericEmployeeId.toString();
   }
+
+  private logEvent = (logType: LogType, desc: string, msg: string) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(logType, desc, msg),
+    }));
+  };
+
+  public onLogoutError = (err: any, prefix?: string): void => {
+    const basicDesc = 'Logout error';
+    const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
+    this.logEvent(LogType.ERROR, desc, err);
+  };
 
 }

@@ -68,22 +68,13 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult: boolean = false;
 
   @Input()
-  derivedTestStatus: TestStatus | null = null;
-
-  @Input()
-  derivedActivityCode: ActivityCode | null = null;
-
-  @Input()
-  derivedPassCertificate?: string;
-
-  @Input()
   examinerName: string = null;
 
   @Input()
   isTeamJournal: boolean = false;
 
   @Input()
-  isPracticeMode?: boolean = false;
+  isPracticeMode: boolean = false;
 
   @Input()
   isPortrait: boolean = false;
@@ -114,22 +105,23 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   ngOnInit(): void {
     const { slotId } = this.slot.slotDetail;
+
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
+        select((tests) => getTestStatus(tests, slotId)),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
-        map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
+        map((tests) => getActivityCodeBySlotId(tests, slotId)),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
-        map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId)),
+        map((tests) => getPassCertificateBySlotId(tests, slotId)),
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
-        map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
+        map((tests) => getTestById(tests, slotId?.toString())),
         filter((test) => test !== undefined),
         select(getRekeyIndicator),
         select(isRekey),
@@ -141,7 +133,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
       this.slot, this.isTeamJournal,
     );
-
   }
 
   getColSize(): string {
