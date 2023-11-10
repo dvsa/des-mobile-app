@@ -3,7 +3,7 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
@@ -15,22 +15,18 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { Router } from '@angular/router';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import {
-  getApplicationNumber,
-} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import {
-  getApplicationReference,
-} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import * as testActions from '@store/tests/tests.actions';
 import { TestsModel } from './tests.model';
 import { SendCompletedTestsFailure, SendPartialTestsFailure, StartTest, TestOutcomeChanged } from './tests.actions';
-import { getCurrentTest, getJournalData, getTestById } from './tests.selector';
+import { getCurrentTest, getTestById } from './tests.selector';
 import { getTests } from './tests.reducer';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
 import { DeviceProvider } from '@providers/device/device';
 import { BatteryInfo, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 
 @Injectable()
 export class TestsAnalyticsEffects {
@@ -175,11 +171,15 @@ export class TestsAnalyticsEffects {
       .pipe(
         withLatestFrom(
           this.store$.pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getJournalData),
-            select(getApplicationReference),
-            select(getApplicationNumber),
+            // Can't use getTests as this is creating a race condition between the state being populated
+            // and the analytic firing, therefore use the Journal
+            select(getJournalState),
+            // Grab the days slots
+            select(getSlotsOnSelectedDate),
+            // Grab the slot where the action slotId matches
+            map((slotItems) => getSlotBySlotID(slotItems, action.slotId)),
+            // If the slot is returned, then retrieve the app ref data
+            select(getAppRefFromSlot),
           ),
         ),
       )),
@@ -198,7 +198,12 @@ export class TestsAnalyticsEffects {
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
 
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      if (applicationReference) {
+        this.analytics.addCustomDimension(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          formatApplicationReference(applicationReference),
+        );
+      }
 
       this.analytics.logEvent(category, AnalyticsEvents.START_TEST);
 
