@@ -14,7 +14,7 @@ if (os) {
   console.log('Total number of CPU\'s available:', os.cpus().length);
 
   if (os.cpus().length <= 2) {
-    executors = 1;
+    executors = os.cpus().length;
   }
 }
 
