@@ -111,15 +111,26 @@ export class AuthenticationProvider {
   };
 
   public async isAuthenticated(): Promise<boolean> {
-    if (this.isInUnAuthenticatedMode()) {
-      return Promise.resolve(true);
-    }
-
     try {
-      if (await this.ionicAuth.isAccessTokenAvailable() && await this.ionicAuth.isAccessTokenExpired()) {
-        await this.ionicAuth.refreshSession();
+      // if in un-authenticated mode, allow user to continue locally
+      if (this.isInUnAuthenticatedMode()) return true;
+
+      // check to see if there is an access token to interrogate
+      const available = await this.ionicAuth.isAccessTokenAvailable();
+
+      if (available) {
+        // determine if the existing token is expired
+        const expired = await this.ionicAuth.isAccessTokenExpired();
+
+        // attempt a token refresh
+        if (expired) {
+          this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Attempting to refresh session');
+          await this.ionicAuth.refreshSession();
+        }
+        // token should have refreshed if previously expired, and method returns true
         return true;
       }
+      // return false if no token available
       return false;
     } catch (err) {
       this.store$.dispatch(SaveLog({
