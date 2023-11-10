@@ -3,7 +3,7 @@ import { IonRefresher, ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
 import { merge, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -99,6 +99,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       error$: this.store$.pipe(
         select(getJournalState),
         map(getError),
+        take(1),
       ),
       isLoading$: this.store$.pipe(
         select(getJournalState),
@@ -134,7 +135,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     } = this.pageState;
 
     this.merged$ = merge(
-      error$.pipe(map(this.showError)),
+      error$.pipe(switchMap(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
   }
@@ -220,6 +221,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       component: ErrorPage,
       componentProps: {
         errorType: ErrorTypes.JOURNAL_REFRESH,
+        displayAsModal: true,
       },
       cssClass: zoomClass,
     });

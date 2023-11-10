@@ -139,11 +139,14 @@ export class AuthenticationProvider {
   };
 
   async hasValidToken(): Promise<boolean> {
-    if (this.isInUnAuthenticatedMode()) {
-      return Promise.resolve(true);
-    }
-    // refresh token if required
     try {
+      // evaluate network status before trying to interact with auth connect methods;
+      this.determineAuthenticationMode();
+      // if in un-authenticated mode, allow user to continue locally
+      if (this.isInUnAuthenticatedMode()) {
+        return true;
+      }
+      // refresh token when required
       await this.ionicAuth.isAuthenticated();
       await this.refreshTokenIfExpired();
       const token = await this.ionicAuth.getIdToken();
@@ -166,6 +169,7 @@ export class AuthenticationProvider {
       this.store$.dispatch(SaveLog({
         payload: this.logHelper.createLog(LogType.ERROR, 'refreshTokenIfExpired error', error),
       }));
+      throw error;
     }
   }
 
