@@ -60,8 +60,7 @@
         <data-row
           *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
           [idPrefix]="idPrefix"
-          [label]="'Provisional licence'"
-          [label2]="'received'"
+          [label]="'Provisional licence received'"
           [value]="getProvisionalText(pageState.provisionalLicense$ | async)">
         </data-row>
         <!-- Transmission -->

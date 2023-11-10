@@ -194,6 +194,7 @@ describe('JournalPage', () => {
           component: ErrorPage,
           componentProps: {
             errorType: ErrorTypes.JOURNAL_REFRESH,
+            displayAsModal: true,
           },
           cssClass: 'modal-fullscreen text-zoom-regular',
         });
