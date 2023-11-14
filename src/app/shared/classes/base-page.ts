@@ -25,13 +25,18 @@ export abstract class BasePageComponent {
    */
   ionViewWillEnter() {
     if (this.isIos()) {
-      // evaluate network status before trying to interact with auth connect methods;
-      this.authenticationProvider.determineAuthenticationMode();
       this.authenticationProvider
         .hasValidToken()
         .then(async (hasValidToken) => {
           if (this.loginRequired && !hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
-            await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
+            const navigationExtras: NavigationExtras = {
+              replaceUrl: true,
+              state: {
+                hasLoggedOut: false,
+                invalidToken: true,
+              },
+            };
+            await this.router.navigate([LOGIN_PAGE], navigationExtras);
           }
         });
     }

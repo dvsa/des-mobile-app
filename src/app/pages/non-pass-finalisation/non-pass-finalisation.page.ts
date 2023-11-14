@@ -89,7 +89,6 @@ interface NonPassFinalisationPageState {
   d255$: Observable<boolean>;
   isWelshTest$: Observable<boolean>;
   testData$: Observable<CatBUniqueTypes.TestData>;
-  slotId$: Observable<string>;
   eyesightTestFailed$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
   showADIWarning$: Observable<boolean>;
@@ -116,7 +115,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   pageState: NonPassFinalisationPageState;
   form: UntypedFormGroup;
   activityCodeOptions: ActivityCodeModel[];
-  slotId: string;
   testData: CatBUniqueTypes.TestData;
   activityCode: ActivityCodeModel;
   subscription: Subscription;
@@ -156,10 +154,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.pageState = {
-      slotId$: this.store$.pipe(
-        select(getTests),
-        map((tests) => tests.currentTest.slotId),
-      ),
       candidateName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
@@ -313,7 +307,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
     const {
       testData$,
-      slotId$,
       activityCode$,
       testCategory$,
       testStartTime$,
@@ -321,7 +314,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     } = this.pageState;
 
     this.subscription = merge(
-      slotId$.pipe(map((slotId) => this.slotId = slotId)),
       testData$.pipe(map((testData) => this.testData = testData)),
       activityCode$.pipe(map((activityCode) => this.activityCode = activityCode)),
       testCategory$.pipe(map((result) => this.testCategory = result)),

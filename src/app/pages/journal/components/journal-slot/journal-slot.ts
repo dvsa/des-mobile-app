@@ -66,7 +66,7 @@ export class JournalSlotComponent {
   };
 
   getSlots() {
-    return this.slots.map((data) => data.slotData);
+    return (this.slots || []).map((data) => data.slotData);
   }
 
   showLocation = (

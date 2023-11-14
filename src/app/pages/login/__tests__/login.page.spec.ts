@@ -1,7 +1,6 @@
 import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, LoadingController, MenuController, Platform } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
@@ -26,19 +25,19 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
+import { LoadingProvider } from '@providers/loader/loader';
+import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'getCurrentNavigation']);
-  // eslint-disable-next-line rxjs/finnish
-  const mockActivateRoute = { queryParams: of({}) } as ActivatedRoute;
   let authenticationProvider: AuthenticationProvider;
   let appConfigProvider: AppConfigProvider;
   let platform: Platform;
   let store$: MockStore;
   let alertController: AlertController;
-  let loadingController: LoadingController;
+  let loadingProvider: LoadingProvider;
   let menuController: MenuController;
   let logHelper: LogHelper;
   let analytics: AnalyticsProvider;
@@ -84,10 +83,6 @@ describe('LoginPage', () => {
           useClass: AppConfigProviderMock,
         },
         {
-          provide: ActivatedRoute,
-          useValue: mockActivateRoute,
-        },
-        {
           provide: MenuController,
           useClass: MenuControllerMock,
         },
@@ -107,6 +102,10 @@ describe('LoginPage', () => {
           provide: NetworkStateProvider,
           useClass: NetworkStateProviderMock,
         },
+        {
+          provide: LoadingProvider,
+          useClass: LoaderProviderMock,
+        },
         provideMockStore({ ...{} }),
       ],
     });
@@ -120,7 +119,7 @@ describe('LoginPage', () => {
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
     alertController = TestBed.inject(AlertController);
-    loadingController = TestBed.inject(LoadingController);
+    loadingProvider = TestBed.inject(LoadingProvider);
     menuController = TestBed.inject(MenuController);
     logHelper = TestBed.inject(LogHelper);
     analytics = TestBed.inject(AnalyticsProvider);
@@ -455,32 +454,19 @@ describe('LoginPage', () => {
   });
   describe('handleLoadingUI', () => {
     beforeEach(() => {
-      spyOn(loadingController, 'create')
-        .and
-        .callThrough();
-      spyOn(loadingController, 'dismiss');
+      spyOn(loadingProvider, 'handleUILoading');
     });
-    it('should create spinner and not run dismiss', fakeAsync(() => {
+    it('should call through to provider with loading status of true', fakeAsync(() => {
       component.handleLoadingUI(true);
       flushMicrotasks();
-      expect(loadingController.create)
-        .toHaveBeenCalledWith({
-          id: 'app_init_spinner',
-          spinner: 'circles',
-          message: 'App initialising...',
-        });
-      expect(loadingController.dismiss)
-        .not
-        .toHaveBeenCalled();
+      expect(loadingProvider.handleUILoading)
+        .toHaveBeenCalledWith(true, component.loadingOptions);
     }));
-    it('should not create loader and run the dismiss', fakeAsync(() => {
+    it('should call through to provider with loading status of false', fakeAsync(() => {
       component.handleLoadingUI(false);
       flushMicrotasks();
-      expect(loadingController.create)
-        .not
-        .toHaveBeenCalled();
-      expect(loadingController.dismiss)
-        .toHaveBeenCalled();
+      expect(loadingProvider.handleUILoading)
+        .toHaveBeenCalledWith(false, component.loadingOptions);
     }));
   });
   describe('hideSplashscreen', () => {

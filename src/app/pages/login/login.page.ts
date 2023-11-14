@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, MenuController, Platform } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, MenuController, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -24,6 +24,8 @@ import { Subscription } from 'rxjs';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import { LoadingProvider } from '@providers/loader/loader';
+import { LoadingOptions } from '@ionic/core';
 
 @Component({
   selector: 'app-login',
@@ -38,15 +40,22 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
 
+  get loadingOptions(): LoadingOptions {
+    return {
+      id: 'app_init_spinner',
+      spinner: 'circles',
+      message: 'App initialising...',
+    };
+  }
+
   constructor(
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
     private store$: Store<StoreModel>,
-    private loadingController: LoadingController,
+    private loadingProvider: LoadingProvider,
     protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
-    private route: ActivatedRoute,
     private menuController: MenuController,
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
@@ -82,7 +91,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async ionViewDidEnter(): Promise<void> {
-    if (this.platform.is('cordova')) {
+    if (this.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
   }
@@ -92,9 +101,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   login = async (): Promise<any> => {
-    await this.handleLoadingUI(true);
-
     try {
+      await this.handleLoadingUI(true);
+
       await this.platform.ready();
 
       await this.appConfigProvider.initialiseAppConfig();
@@ -251,19 +260,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
-    if (isLoading) {
-      const loading = await this.loadingController.create({
-        id: 'app_init_spinner',
-        spinner: 'circles',
-        message: 'App initialising...',
-      });
-      await loading.present();
-      return;
-    }
-
-    if (await this.loadingController.getTop()) {
-      await this.loadingController.dismiss();
-    }
+    await this.loadingProvider.handleUILoading(isLoading, this.loadingOptions);
   }
 
 }

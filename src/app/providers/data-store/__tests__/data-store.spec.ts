@@ -113,8 +113,12 @@ describe('DataStoreProvider', () => {
         .and
         .returnValue(Promise.reject('error'));
 
-      expect(await provider.setItem(null, null))
-        .toEqual('error');
+      try {
+        await provider.setItem(null, null);
+      } catch (err) {
+        expect(err)
+          .toEqual('error');
+      }
     });
   });
   describe('removeItem', () => {
