@@ -9,76 +9,98 @@
         [value]="accompaniedBy">
       </data-row>
 
-      <data-row
-        *ngIf="shouldDisplayLicenceProvided()"
+      @if (shouldDisplayLicenceProvided()) {
+<data-row
+       
         [label]="'Licence provided'"
         [value]="provisionalLicenceProvided">
       </data-row>
+}
 
-      <data-row
-        *ngIf="code78 != null"
+      @if (code78 != null) {
+<data-row
+       
         [label]="'Code 78'"
         [value]="code78">
       </data-row>
+}
 
-      <data-row
-        *ngIf="passCertificateNumber"
+      @if (passCertificateNumber) {
+<data-row
+       
         [label]="'Certificate number'"
         [value]="passCertificateNumber">
       </data-row>
+}
 
-      <data-row
-        *ngIf="!isADI3() && !isSC()"
+      @if (!isADI3() && !isSC()) {
+<data-row
+       
         [label]="'Route number'"
         [value]="routeNumber">
       </data-row>
+}
 
-      <data-row
-        *ngIf="shouldDisplayTestConductedOn()"
+      @if (shouldDisplayTestConductedOn()) {
+<data-row
+       
         [label]="'Test conducted on'"
         [value]="testConductedOn">
       </data-row>
+}
 
-      <data-row
-        *ngIf="!isADI3() && !isSC()"
+      @if (!isADI3() && !isSC()) {
+<data-row
+       
         [label]="'Independent driving'"
         [value]="independentDriving">
       </data-row>
+}
 
-      <data-row
-        *ngIf="!isADI3() && !isSC()"
+      @if (!isADI3() && !isSC()) {
+<data-row
+       
         [label]="'Candidate appearance true likeness to photo'"
         [value]="trueLikenessToPhoto ? 'Yes' : 'No'">
       </data-row>
+}
 
-      <data-row
-        *ngIf="!isADI3() && !isSC()"
+      @if (!isADI3() && !isSC()) {
+<data-row
+       
         [label]="'Distinguishing features'"
         [value]="candidateDescription">
       </data-row>
+}
 
-      <data-row
-        *ngIf="isSC()"
+      @if (isSC()) {
+<data-row
+       
         [label]="'Valid certificate'"
         [value]="validCertificate">
       </data-row>
+}
 
       <data-row
         [label]="'Debrief witnessed'"
         [value]="debriefWitnessed">
       </data-row>
 
-      <data-row
-        *ngIf="!isADI3() && !isSC()"
+      @if (!isADI3() && !isSC()) {
+<data-row
+       
         [label]="'Weather conditions'"
         [value]="weatherConditions">
       </data-row>
+}
 
-      <data-row
-        *ngIf="!isADI3() && !isSC()"
+      @if (!isADI3() && !isSC()) {
+<data-row
+       
         [label]="'D255'"
         [value]="d255">
       </data-row>
+}
 
       <data-row
         [label]="'Conducted Language'"

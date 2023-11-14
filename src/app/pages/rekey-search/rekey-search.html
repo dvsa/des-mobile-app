@@ -66,31 +66,38 @@
                 Search booked tests
               </ion-text>
             </ion-button>
-            <ion-spinner
+            @if ((pageState.isLoading$ | async)) {
+<ion-spinner
               class="search-spinner"
               name="bubbles"
-              *ngIf="(pageState.isLoading$ | async)"
+             
               id="rekey-search-page-spinner">
             </ion-spinner>
+}
           </ion-row>
         </ion-grid>
       </tab>
     </tabs>
 
-    <div class="results-error"
-         *ngIf="(pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))">
+    @if ((pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+<div class="results-error"
+        >
       <p class="error-text" id="rekey-search-error-text-no-results">There were no results found for your search.</p>
       <p class="error-text" id="rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
     </div>
+}
 
-    <div class="results-error"
-         *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))">
+    @if ((pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+<div class="results-error"
+        >
       <p class="error-text" id="rekey-search-error-text-already-submitted">You can't rekey this test as it has already
         been submitted.</p>
       <p class="error-text" id="rekey-search-error-text-already-pls-try-again">Please check and try again.</p>
     </div>
+}
 
-    <p class="results-message" *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)">
+    @if (!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)) {
+<p class="results-message">
       <test-slot
         [slot]="(pageState.bookedTestSlot$ | async)"
         [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
@@ -99,5 +106,6 @@
         [showLocation]="false">
       </test-slot>
     </p>
+}
   </div>
 </ion-content>

@@ -1,4 +1,5 @@
-<ion-row *ngIf="display" class="mes-validated-row" [formGroup]="formGroup">
+@if (display) {
+<ion-row class="mes-validated-row" [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="further-development-label">Was advice given to seek further development from an ORDIT trainer?</label>
@@ -36,4 +37,5 @@
     </ion-row>
   </ion-col>
 </ion-row>
+}
 

@@ -1,4 +1,5 @@
-<ion-row *ngIf="startTime && endTime">
+@if (startTime && endTime) {
+<ion-row>
   <ion-col>
     <ion-card class="ion-padding">
       <ion-row class="tr-standard-text">Test start - end time</ion-row>
@@ -9,3 +10,4 @@
     </ion-card>
   </ion-col>
 </ion-row>
+}

@@ -5,21 +5,29 @@
     <ion-col class="ion-no-padding" size="80">
       <div class="modal-alert-message mes-data">
         <div class="mes-data">To end this test, complete:</div>
-        <ul id="legal-requirements-list" *ngIf="legalRequirements.length > 0" class="ion-padding-top">
-          <li *ngFor="let requirement of legalRequirements;">{{requirement}}</li>
+        @if (legalRequirements.length > 0) {
+<ul id="legal-requirements-list" class="ion-padding-top">
+          @for (requirement of legalRequirements; track requirement) {
+  <li>{{requirement}}</li>
+}
         </ul>
+}
       </div>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
-    <ion-col class="ion-no-padding" size="72" *ngIf="!isDelegated">
+    @if (!isDelegated) {
+<ion-col class="ion-no-padding" size="72">
       <modal-return-button (onClick)="onCancel()">Return to test</modal-return-button>
     </ion-col>
-    <ion-col class="ion-no-padding" size="84" *ngIf="isDelegated">
+}
+    @if (isDelegated) {
+<ion-col class="ion-no-padding" size="84">
       <ion-button id="legal-requirements-continue-button" class="mes-primary-button" (click)="onContinue()">
         <ion-text class="des-header-style-3">Continue to test summary</ion-text>
       </ion-button>
     </ion-col>
+}
   </ion-row>
   <ion-row>
     <ion-col class="column-border-top ion-no-padding" [ngClass]="{'column-border-right' : isDelegated}">
@@ -27,10 +35,12 @@
                   (click)="onTerminate()">Terminate test
       </ion-button>
     </ion-col>
-    <ion-col class="column-border-top ion-no-padding" *ngIf="isDelegated">
+    @if (isDelegated) {
+<ion-col class="column-border-top ion-no-padding">
       <ion-button id="legal-requirements-return-button" fill="clear" class="return-button" (click)="onCancel()">Return
         to test
       </ion-button>
     </ion-col>
+}
   </ion-row>
 </ion-card>

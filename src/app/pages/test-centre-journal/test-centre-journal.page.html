@@ -22,12 +22,15 @@
 <ion-content>
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-  <ng-template [ngIf]="didError" [ngIfElse]="noError">
+  @if (didError) {
+<ng-template [ngIfElse]="noError">
     <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
   </ng-template>
+}
 
   <ng-template #noError>
-    <div class="search-inputs" *ngIf="isLDTM || testCentreResults">
+    @if (isLDTM || testCentreResults) {
+<div class="search-inputs">
       <tabs (tabChanged)="tabChanged($event?.title)">
         <tab [tabTitle]="'Candidate search'">
           <candidate-search-card
@@ -55,5 +58,6 @@
         </tab>
       </tabs>
     </div>
+}
   </ng-template>
 </ion-content>

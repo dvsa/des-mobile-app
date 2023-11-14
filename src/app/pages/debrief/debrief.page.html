@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -11,12 +13,14 @@
 </ion-header>
 
 <ion-content>
-  <speed-check-debrief-card
-    *ngIf="pageState.showSpeedCheck$ | async"
+  @if (pageState.showSpeedCheck$ | async) {
+<speed-check-debrief-card
+   
     [emergencyStop]="pageState.emergencyStop$ | async"
     [avoidance]="pageState.avoidance$ | async"
     [avoidanceAttempted]="pageState.avoidanceAttempted$ | async">
   </speed-check-debrief-card>
+}
 
   <eta-debrief-card
     [hasPhysicalEta]="hasPhysicalEta"
@@ -37,24 +41,31 @@
     [testCategory]="testCategory">
   </driving-faults-debrief-card>
 
-  <eco-debrief-card
-    *ngIf="pageState.showEco$ | async"
+  @if (pageState.showEco$ | async) {
+<eco-debrief-card
+   
     [adviceGivenControl]="adviceGivenControl"
     [adviceGivenPlanning]="adviceGivenPlanning">
   </eco-debrief-card>
+}
 
-  <vehicle-checks-card-cat-b
-    *ngIf="isCategoryBTest()">
+  @if (isCategoryBTest()) {
+<vehicle-checks-card-cat-b
+   >
   </vehicle-checks-card-cat-b>
+}
 
-  <vehicle-checks-card
-    *ngIf="showVehicleChecksArrayCard()"
+  @if (showVehicleChecksArrayCard()) {
+<vehicle-checks-card
+   
     [category]="pageState.category$ | async"
     [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async">
   </vehicle-checks-card>
+}
 
-  <cpc-debrief-card
-    *ngIf="!isTerminated() && showCPCDebriefCard()"
+  @if (!isTerminated() && showCPCDebriefCard()) {
+<cpc-debrief-card
+   
     [overallScore]="pageState.overallScore$ | async"
     [question1]="pageState.question1$ | async"
     [question2]="pageState.question2$ | async"
@@ -63,18 +74,24 @@
     [question5]="pageState.question5$ | async"
     [testOutcome]="outcome">
   </cpc-debrief-card>
+}
 
-  <safety-questions-card
-    *ngIf="isCatD() && pageState.showSafetyQuestions$ | async"
+  @if (isCatD() && pageState.showSafetyQuestions$ | async) {
+<safety-questions-card
+   
     [data]="pageState.safetyQuestions$ | async">
   </safety-questions-card>
+}
 
-  <safety-and-balance-card-cat-a-mod2
-    *ngIf="pageState.showSafetyAndBalance$ | async">
+  @if (pageState.showSafetyAndBalance$ | async) {
+<safety-and-balance-card-cat-a-mod2
+   >
   </safety-and-balance-card-cat-a-mod2>
+}
 
-  <adi3-debrief-card
-    *ngIf="showADI3DebriefCard()"
+  @if (showADI3DebriefCard()) {
+<adi3-debrief-card
+   
     [testCategory]="testCategory"
     [totalScore]="pageState.totalScore$ | async"
     [lessonTheme]="pageState.lessonTheme$ | async"
@@ -84,6 +101,7 @@
     [grade]="pageState.grade$ | async"
     [review]="pageState.review$ | async">
   </adi3-debrief-card>
+}
 </ion-content>
 
 <ion-footer>

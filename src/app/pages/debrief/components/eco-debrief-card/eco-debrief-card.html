@@ -1,4 +1,5 @@
-<ion-card id="eco" *ngIf="adviceGivenControl || adviceGivenPlanning">
+@if (adviceGivenControl || adviceGivenPlanning) {
+<ion-card id="eco">
   <ion-card-content>
     <ion-grid>
       <ion-row class="mes-data ion-align-items-start">
@@ -7,17 +8,24 @@
           <ion-text class="des-header-style-4 fault-heading">{{ 'debrief.ecoHeader' | translate }}</ion-text>
         </ion-col>
         <ion-col class="down-padding ion-align-self-start">
-          <div id="ecoFaults-adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">
+          @if (adviceGivenControl && !adviceGivenPlanning) {
+<div id="ecoFaults-adviceGivenControl">
             {{ 'debrief.ecoControl' | translate }}
           </div>
-          <div id="ecoFaults-adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
+}
+          @if (!adviceGivenControl && adviceGivenPlanning) {
+<div id="ecoFaults-adviceGivenPlanning">
             {{ 'debrief.ecoPlanning' | translate }}
           </div>
-          <div id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning" *ngIf="adviceGivenControl && adviceGivenPlanning">
+}
+          @if (adviceGivenControl && adviceGivenPlanning) {
+<div id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning">
             {{ 'debrief.ecoBoth' | translate }}
           </div>
+}
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
 </ion-card>
+}

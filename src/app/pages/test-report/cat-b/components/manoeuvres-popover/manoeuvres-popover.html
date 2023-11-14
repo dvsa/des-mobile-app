@@ -1,6 +1,7 @@
-<ng-container *ngIf="{
+@if ({
     manoeuvres: manoeuvres$ | async
-  } as asyncData">
+  }; as asyncData) {
+
   <ion-grid class="popover-content">
     <ion-row>
       <ion-col size="36">
@@ -50,7 +51,8 @@
         </ion-row>
       </ion-col>
 
-      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.reverseRight?.selected">
+      @if (asyncData.manoeuvres.reverseRight?.selected) {
+<ion-col class="manoeuvre-competencies-container-column" size="8">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.reverseRight"
           [competency]="competencies.controlFault"
@@ -62,7 +64,9 @@
           [competency]="competencies.observationFault"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.forwardPark?.selected">
+}
+      @if (asyncData.manoeuvres.forwardPark?.selected) {
+<ion-col class="manoeuvre-competencies-container-column" size="8">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.forwardPark"
           [competency]="competencies.controlFault"
@@ -74,7 +78,9 @@
           [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected">
+}
+      @if (asyncData.manoeuvres.reverseParkCarpark?.selected) {
+<ion-col class="manoeuvre-competencies-container-column" size="8">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
           [competency]="competencies.controlFault"
@@ -86,7 +92,9 @@
           [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected">
+}
+      @if (asyncData.manoeuvres.reverseParkRoad?.selected) {
+<ion-col class="manoeuvre-competencies-container-column" size="8">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.reverseParkRoad"
           [competency]="competencies.controlFault"
@@ -98,6 +106,8 @@
           [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
+}
     </ion-row>
   </ion-grid>
-</ng-container>
+
+}

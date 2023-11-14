@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
@@ -17,10 +19,12 @@
 
 <ion-content force-overscroll="false">
   <div>
-    <warning-banner
-      *ngIf="shouldDisplayEyesightBanner()"
+    @if (shouldDisplayEyesightBanner()) {
+<warning-banner
+     
       warningText="The eyesight test should be conducted at a distance of 12m or 12.3m">
     </warning-banner>
+}
 
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -31,11 +35,13 @@
           [formGroup]="form">
         </eyesight-test>
 
-        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
+        @if (pageState.eyesightTestFailed$ | async) {
+<ion-row>
           <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled"
                                          [nextPageOnFail]="getDebriefPage()">
           </eyesight-failure-confirmation>
         </ion-row>
+}
 
         <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
                  id="post-eyesight-form-content">

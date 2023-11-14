@@ -1,5 +1,6 @@
+@if (isLDTM) {
 <searchable-picklist-wrapper
-  *ngIf="isLDTM; else isDE;"
+ 
   #testCentrePicklist
   [dataList]="testCentres"
   [model]="selectedTestCentre"
@@ -13,6 +14,9 @@
   [placeholder]="'Select a test centre'"
   (outputChanged)="onTestCentreDidChange($event)">
 </searchable-picklist-wrapper>
+} @else {
+#isDE;|
+}
 <ng-template #isDE>
   <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
 </ng-template>
@@ -39,7 +43,8 @@
   </ion-button>
 </ion-row>
 
-<section *ngIf="shouldShowCandidateResults">
+@if (shouldShowCandidateResults) {
+<section>
   <!--TODAY'S SLOTS-->
   <div>
     <ion-grid>
@@ -52,13 +57,16 @@
     </ion-grid>
   </div>
   <div>
-    <p *ngIf="!todaySlots || todaySlots.length === 0"
+    @if (!todaySlots || todaySlots.length === 0) {
+<p
        id="candidate-no-booking-at-test-centre-today-message"
        class="ion-padding-top ion-text-center no-results">
       This candidate does not have a booking at {{slashSeperatedTestCentres}} for today.
     </p>
+}
   </div>
-  <ion-list *ngFor="let candidateSlot of todaySlots">
+  @for (candidateSlot of todaySlots; track candidateSlot) {
+  <ion-list>
     <test-slot
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slot]="candidateSlot.slot"
@@ -67,6 +75,7 @@
       [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
+}
 
   <!--TOMORROW'S SLOTS-->
   <div>
@@ -80,13 +89,16 @@
     </ion-grid>
   </div>
   <div class="no-results">
-    <p *ngIf="!tomorrowSlots || tomorrowSlots.length === 0"
+    @if (!tomorrowSlots || tomorrowSlots.length === 0) {
+<p
        id="candidate-no-booking-at-test-centre-tomorrow-message"
        class="ion-padding-top ion-text-center no-results">
       This candidate does not have a booking at {{slashSeperatedTestCentres}} for tomorrow.
     </p>
+}
   </div>
-  <ion-list *ngFor="let candidateSlot of tomorrowSlots">
+  @for (candidateSlot of tomorrowSlots; track candidateSlot) {
+  <ion-list>
     <test-slot
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slot]="candidateSlot.slot"
@@ -95,5 +107,7 @@
       [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
+}
 
 </section>
+}

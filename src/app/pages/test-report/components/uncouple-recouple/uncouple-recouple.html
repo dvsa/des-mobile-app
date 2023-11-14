@@ -1,4 +1,5 @@
-<ion-grid *ngIf="buttonFloatAbove">
+@if (buttonFloatAbove) {
+<ion-grid>
     <ion-row>
         <ion-col size="20" class="ion-no-padding ion-padding-bottom">
             <competency-button class="uncouple-recouple-tick-centred"
@@ -36,8 +37,10 @@
         </ion-col>
     </ion-row>
 </ion-grid>
+}
 
-<ion-row *ngIf="!buttonFloatAbove">
+@if (!buttonFloatAbove) {
+<ion-row>
     <ion-col size="20" class="ion-no-padding">
         <competency-button class="uncouple-recouple-tick"
                            [onTap]="toggleUncoupleRecouple"
@@ -74,3 +77,4 @@
         </competency-button>
     </ion-col>
 </ion-row>
+}

@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
@@ -23,13 +25,15 @@
         <ion-row class="ion-no-padding" id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
 
-            <candidate-declaration-signed
+            @if (pageState.delegatedTest$ | async) {
+<candidate-declaration-signed
               (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-              *ngIf="pageState.delegatedTest$ | async"
+             
               [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
               [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
               [formGroup]="form">
             </candidate-declaration-signed>
+}
 
             <vehicle-registration
               (vehicleRegistrationBlur)="getMOTStatus()"
@@ -40,9 +44,10 @@
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
-            <vehicle-checks-vocational
+            @if (!(pageState.delegatedTest$ | async)) {
+<vehicle-checks-vocational
               (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-              *ngIf="!(pageState.delegatedTest$ | async)"
+             
               [category]="pageState.category$ | async"
               [formGroup]="form"
               [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
@@ -50,24 +55,29 @@
               [vehicleChecks]="pageState.vehicleChecks$ | async"
               [submitClicked]="submitClicked">
             </vehicle-checks-vocational>
+}
 
-            <full-licence-held-toggle
+            @if ((pageState.delegatedTest$ | async) && showFullLicenceHeld()) {
+<full-licence-held-toggle
               (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
-              *ngIf="(pageState.delegatedTest$ | async) && showFullLicenceHeld()"
+             
               [formGroup]="form"
               [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
               [required]="true"
               [testCategory]="testCategory">
             </full-licence-held-toggle>
+}
 
-            <vehicle-checks-completed
+            @if (pageState.delegatedTest$ | async) {
+<vehicle-checks-completed
               (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
               (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
-              *ngIf="pageState.delegatedTest$ | async"
+             
               [formGroup]="form"
               [testCategory]="pageState.category$ | async"
               [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async">
             </vehicle-checks-completed>
+}
 
             <accompaniment-card
               (instructorAccompanimentChange)="instructorAccompanimentToggled()"
@@ -83,10 +93,12 @@
           </ion-col>
         </ion-row>
 
-        <div *ngIf="!(pageState.delegatedTest$ | async)">
+        @if (!(pageState.delegatedTest$ | async)) {
+<div>
           <warning-banner class="banner-space" warningText="Is cab locked down? (if applicable)"></warning-banner>
           <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
         </div>
+}
       </ion-grid>
     </form>
   </div>
@@ -94,7 +106,8 @@
 
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="45">
+    @if (!isDelegated) {
+<ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
@@ -102,7 +115,10 @@
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col *ngIf="!isDelegated" size="6"></ion-col>
+}
+    @if (!isDelegated) {
+<ion-col size="6"></ion-col>
+}
     <ion-col [size]="isDelegated ? 96 : 45" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"

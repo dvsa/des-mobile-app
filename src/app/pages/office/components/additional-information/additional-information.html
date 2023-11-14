@@ -1,26 +1,29 @@
-<ion-row *ngIf="display" class="mes-component-row mes-row-separator" id="additional-information-row"
-  [formGroup]="formGroup">
+@if (display) {
+  <ion-row class="mes-component-row mes-row-separator"
+           id="additional-information-row"
+           [formGroup]="formGroup">
 
-  <ion-col class="component-label ion-align-self-start" size="32">
-    <ion-row class="spacing-row"></ion-row>
-    <label id="additional-information-label">Additional information (optional)</label>
-  </ion-col>
+    <ion-col class="component-label ion-align-self-start" size="32">
+      <ion-row class="spacing-row"></ion-row>
+      <label id="additional-information-label">Additional information (optional)</label>
+    </ion-col>
 
-  <ion-col class="ion-align-self-center ion-padding-start" size="58">
-    <ion-row class="spacing-row"></ion-row>
-    <ion-row>
-      <ion-col class="textarea-input">
-        <textarea id="additional-information-text"
-                  class="mes-data input-styling-background"
-                  name="additionalInformation"
-                  formControlName="additionalInformation"
-                  [value]="additionalInformation"
-                  (change)="additionalInformationChanged($event.target.value)"
-                  emojiBlock>
-      </textarea>
-      </ion-col>
-    </ion-row>
-    <ion-row class="spacing-row"></ion-row>
-  </ion-col>
-
-</ion-row>
+    <ion-col class="ion-align-self-center ion-padding-start" size="58">
+      <ion-row class="spacing-row"></ion-row>
+      <ion-row>
+        <ion-col class="textarea-input">
+          <textarea
+            id="additional-information-text"
+            class="mes-data input-styling-background"
+            name="additionalInformation"
+            formControlName="additionalInformation"
+            [value]="additionalInformation"
+            (change)="additionalInformationChanged($event.target.value)"
+            emojiBlock>
+          </textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row class="spacing-row"></ion-row>
+    </ion-col>
+  </ion-row>
+}

@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-title role="heading" aria-level="1">Office</ion-title>
   </ion-toolbar>
@@ -24,12 +26,14 @@
       <ion-card-content class="card-content-ios no-padding">
         <ion-grid class="grid">
           <div class="ion-no-padding">
-            <date-of-test
-              *ngIf="(pageState.isRekey$ | async)"
+            @if ((pageState.isRekey$ | async)) {
+<date-of-test
+             
               [dateOfTest]="pageState.startDate$ | async"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)">
             </date-of-test>
+}
 
             <activity-code id="activity-code-card" [formGroup]="form"
                            [activityCodeModel]="pageState.activityCode$ | async"
@@ -52,11 +56,13 @@
                                  (independentDrivingChange)="independentDrivingChanged($event)">
             </independent-driving>
 
-            <true-likeness *ngIf="pageState.displayCandidateDescription$ | async"
+            @if (pageState.displayCandidateDescription$ | async) {
+<true-likeness
                            [formGroup]="form"
                            [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                            (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
             </true-likeness>
+}
 
             <candidate-description [display]="pageState.displayCandidateDescription$ | async"
                                    [formGroup]="form"
@@ -72,7 +78,8 @@
                             (identificationChange)="identificationChanged($event)">
             </identification>
 
-            <ion-row *ngIf="pageState.displayTellMeQuestion$ | async"
+            @if (pageState.displayTellMeQuestion$ | async) {
+<ion-row
                      class="mes-validated-row mes-row-separator"
                      id="tell-me-question-card">
               <div class="validation-bar"></div>
@@ -89,6 +96,7 @@
                 <ion-row class="spacing-row"></ion-row>
               </ion-col>
             </ion-row>
+}
 
             <show-me-question [display]="pageState.displayShowMeQuestion$ | async" [formGroup]="form"
                               [showMeQuestion]="pageState.showMeQuestion$ | async"
@@ -134,14 +142,18 @@
 
     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
 
-      <eta-card
-        *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
+      @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
+<eta-card
+       
         [faults]="pageState.etaFaults$ | async">
       </eta-card>
+}
 
-      <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
+      @if ((pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)) {
+<eco-card
                 [ecoFaults]="pageState.ecoFaults$ | async"
       ></eco-card>
+}
 
       <fault-comment-card id="dangerous-fault-comment-card" [formGroup]="form"
                           [faultComments]="pageState.dangerousFaults$ | async"
@@ -172,12 +184,14 @@
                           (faultCommentsChange)="drivingFaultCommentChanged($event)">
       </fault-comment-card>
 
-      <driving-faults
-        *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
+      @if (!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) {
+<driving-faults
+       
         [label]="'Driving faults'"
         badgeLabel="Driving"
         [faults]="(pageState.drivingFaults$ | async)">
       </driving-faults>
+}
     </div>
   </form>
 </ion-content>

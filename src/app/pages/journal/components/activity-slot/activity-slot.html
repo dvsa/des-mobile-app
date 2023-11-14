@@ -1,6 +1,6 @@
-<location *ngIf="showLocation"
-  [location]="slot.testCentre.centreName">
-</location>
+@if (showLocation) {
+  <location [location]="slot.testCentre.centreName"></location>
+}
 <ion-card class="activity-slot" [ngClass]="{ 'travel-slot': isTravelSlot() }">
   <ion-row class="slot-row">
     <ion-col class="time-column">
@@ -13,10 +13,10 @@
       </div>
     </ion-col>
     <ion-col class="title-column">
-      <ion-text class="des-header-style-3 title">{{getTitle()}}</ion-text>
+      <ion-text class="des-header-style-3 title">{{ getTitle() }}</ion-text>
     </ion-col>
     <ion-col class="activity-code-column">
-      <ion-text class="des-header-style-2 activity-code">{{formatActivityCode()}}</ion-text>
+      <ion-text class="des-header-style-2 activity-code">{{ formatActivityCode() }}</ion-text>
     </ion-col>
   </ion-row>
 </ion-card>

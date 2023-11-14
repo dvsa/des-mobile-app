@@ -1,6 +1,8 @@
 <div>
-  <div class="counter-background" *ngIf="shouldDisplay()">
+  @if (shouldDisplay()) {
+<div class="counter-background">
     <span aria-labelledby="drf-desc" aria-hidden="true" class="count" id="{{competencyDisplayName}}-count">{{count}}</span>
     <div id="drf-desc" class="screen-reader-only">{{count}} {{badgeLabel}} {{count > 1 ? 'faults' : 'fault'}}</div>
   </div>
+}
 </div>

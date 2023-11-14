@@ -42,11 +42,13 @@
       <label [for]="card + '-' + questionNumber + 'assessment-input-3'" class="assessment-label">3</label>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="hasBeenMissed()">
+  @if (hasBeenMissed()) {
+<ion-row>
     <div class="validation-text"
          [class.ng-invalid]="true"
          [id]="card + '-' + questionNumber + 'assessment-validation-text'">
       Select a score for this competency
     </div>
   </ion-row>
+}
 </ion-grid>

@@ -36,7 +36,8 @@
   </ion-col>
 </ion-row>
 
-<div class="reverse-left-popover" *ngIf="displayPopover">
+@if (displayPopover) {
+<div class="reverse-left-popover">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -45,3 +46,4 @@
     </ion-row>
   </ion-grid>
 </div>
+}

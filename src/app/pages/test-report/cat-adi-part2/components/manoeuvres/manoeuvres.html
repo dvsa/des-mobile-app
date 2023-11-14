@@ -26,7 +26,8 @@
   </ion-col>
 </ion-row>
 
-<div class="adi-manoeuvres-popover" *ngIf="displayPopover">
+@if (displayPopover) {
+<div class="adi-manoeuvres-popover">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -35,3 +36,4 @@
     </ion-row>
   </ion-grid>
 </div>
+}

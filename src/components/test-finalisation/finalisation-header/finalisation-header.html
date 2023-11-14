@@ -10,17 +10,25 @@
     </ion-col>
     <ion-col class="align-col-right">
       <ion-text class="des-header-style-3">Test outcome:
-        <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
-          <ion-text class="des-header-style-3 pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
+        <div id="finalisation-header-test-outcome-text">
+@switch (outcomeText) {
+          @case ('Passed') {
+  <ion-text class="des-header-style-3 pass" id="pass-outcome-text">
             {{grade ? outcomeText + ' - Grade ' + grade : outcomeText}}
           </ion-text>
-          <ion-text class="des-header-style-3 fail" *ngSwitchCase="'Unsuccessful'" id="unsuccessful-outcome-text">
+}
+          @case ('Unsuccessful') {
+  <ion-text class="des-header-style-3 fail" id="unsuccessful-outcome-text">
             {{outcomeText}}
           </ion-text>
-          <ion-text class="des-header-style-3 terminated" *ngSwitchCase="'Terminated'" id="terminated-outcome-text">
+}
+          @case ('Terminated') {
+  <ion-text class="des-header-style-3 terminated" id="terminated-outcome-text">
             {{outcomeText}}
           </ion-text>
-        </div>
+}
+        }
+</div>
       </ion-text>
     </ion-col>
   </ion-row>

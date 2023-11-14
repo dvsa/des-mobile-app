@@ -2,23 +2,27 @@
   <ion-toolbar mode="ios">
     <ion-buttons id="dashboard-burger-menu-btn" slot="start">
       <ion-menu-button id="dashboard-menu-button"></ion-menu-button>
-      <ion-badge
-        *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
+      @if ((pageState.notificationCount$ | async); as notificationCount;) {
+<ion-badge
+       
         color="danger"
         id="dashboard-notification-count-badge">
         {{notificationCount}}
       </ion-badge>
+}
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="page-title">My dashboard</ion-title>
     <ion-buttons slot="end">
       <ion-text class="des-header-style-6 version-number">Version {{pageState.appVersion$ | async}}</ion-text>
       &nbsp;
-      <ion-badge
-        *ngIf="pageState.showUpdatesAvailable$ | async"
+      @if (pageState.showUpdatesAvailable$ | async) {
+<ion-badge
+       
         color="danger"
         (click)="showUpdateAvailableModal(true)">
         Version {{pageState.liveAppVersion$ | async}} available
       </ion-badge>
+}
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -41,7 +45,8 @@
     <h2 class="date des-header-style-4" id="date-field">{{todaysDateFormatted}}</h2>
 
     <ion-grid class="dashboard-grid">
-      <ion-row *ngIf="!showDelegatedExaminerRekey()">
+      @if (!showDelegatedExaminerRekey()) {
+<ion-row>
         <ion-col size="48">
           <go-to-journal-card></go-to-journal-card>
         </ion-col>
@@ -49,11 +54,14 @@
           <test-centre-journal-card></test-centre-journal-card>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="showDelegatedExaminerRekey()">
+}
+      @if (showDelegatedExaminerRekey()) {
+<ion-row>
         <ion-col>
           <delegated-examiner-rekey></delegated-examiner-rekey>
         </ion-col>
       </ion-row>
+}
       <ion-row>
         <ion-col>
           <test-results-search-card></test-results-search-card>
@@ -64,18 +72,24 @@
       </ion-row>
     </ion-grid>
 
-    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())" />
+    @if ((showEndToEndPracticeMode() || showTestReportPracticeMode())) {
+<hr />
+}
 
-    <practice-test-report-card
+    @if (showTestReportPracticeMode()) {
+<practice-test-report-card
       (click)="practiceTestReportCardClicked()"
-      *ngIf="showTestReportPracticeMode()"
+     
       id="testReportPracticeMode">
     </practice-test-report-card>
+}
 
-    <practice-end-to-end-card
-      *ngIf="showEndToEndPracticeMode()"
+    @if (showEndToEndPracticeMode()) {
+<practice-end-to-end-card
+     
       id="endToendPracticeMode">
     </practice-end-to-end-card>
+}
   </div>
 
 </ion-content>

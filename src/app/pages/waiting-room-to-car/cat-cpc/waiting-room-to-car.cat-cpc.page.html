@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title>{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
@@ -23,13 +25,15 @@
         <ion-row class="ion-no-padding">
           <ion-col class="ion-no-padding">
 
-            <candidate-declaration-signed
+            @if (pageState.delegatedTest$ | async) {
+<candidate-declaration-signed
               (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-              *ngIf="pageState.delegatedTest$ | async"
+             
               [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
               [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
               [formGroup]="form">
             </candidate-declaration-signed>
+}
 
             <vehicle-registration
               (vehicleRegistrationBlur)="getMOTStatus()"
@@ -38,12 +42,14 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async">
             </vehicle-registration>
 
-            <vehicle-details-cat-cpc
+            @if (showVehicleDetails() && !(pageState.delegatedTest$ | async)) {
+<vehicle-details-cat-cpc
               (vehicleDetailsChange)="vehicleConfiguration($event)"
-              *ngIf="showVehicleDetails() && !(pageState.delegatedTest$ | async)"
+             
               [configuration]="pageState?.configuration$ | async"
               [formGroup]="form">
             </vehicle-details-cat-cpc>
+}
 
             <combination
               (combinationChange)="combinationSelected($event)"
@@ -68,7 +74,8 @@
 
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="45">
+    @if (!isDelegated) {
+<ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
@@ -76,7 +83,10 @@
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col *ngIf="!isDelegated" size="6"></ion-col>
+}
+    @if (!isDelegated) {
+<ion-col size="6"></ion-col>
+}
     <ion-col [size]="isDelegated ? 96 : 45" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"

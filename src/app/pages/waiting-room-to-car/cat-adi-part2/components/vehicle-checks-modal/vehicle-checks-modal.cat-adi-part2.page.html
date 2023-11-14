@@ -22,8 +22,9 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <vehicle-checks-question
-        *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
+      @for (question of tellMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
+  <vehicle-checks-question
+       
         [formGroup]="formGroup"
         [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
         [questions]="tellMeQuestions"
@@ -33,6 +34,7 @@
         (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
         (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
       ></vehicle-checks-question>
+}
     </ion-card-content>
   </ion-card>
 </ion-content>

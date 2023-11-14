@@ -3,14 +3,18 @@
         <label id="test-centre-label">Test centre(s):</label>
     </ion-col>
     <ion-col class="component-value" size="72">
-        <div *ngFor="let testCentre of testCentreResults?.testCentres">
-            <ion-icon *ngIf="testCentre === testCentreResults?.testCentres[0]"
+        @for (testCentre of testCentreResults?.testCentres; track testCentre) {
+  <div>
+            @if (testCentre === testCentreResults?.testCentres[0]) {
+<ion-icon
                       name="location-sharp"
                       class="test-centre-location-icon"
                         id="test-centre-icon"></ion-icon>
+}
             <label [ngClass]="{'test-centre-padding': testCentre !== testCentreResults?.testCentres[0]}" id="test-centre-location">
                 {{testCentre.name}}
             </label><br>
         </div>
+}
     </ion-col>
 </ion-row>

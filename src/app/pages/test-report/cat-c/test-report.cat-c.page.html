@@ -1,9 +1,13 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-buttons id="tr-back-button" slot="start" *ngIf="pageState.delegatedTest$ | async">
+    @if (pageState.delegatedTest$ | async) {
+<ion-buttons id="tr-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+}
     <ion-title id="test-report-page-title" role="heading" aria-level="1">
       Test report - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
@@ -76,7 +80,8 @@
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="pageState.delegatedTest$ | async">
+        @if (pageState.delegatedTest$ | async) {
+<ion-row>
           <ion-col>
             <reverse-left
               [completed]="manoeuvresCompleted"
@@ -90,11 +95,14 @@
             </reverse-left>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="pageState.delegatedTest$ | async">
+}
+        @if (pageState.delegatedTest$ | async) {
+<ion-row>
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
+}
         <ion-row>
           <ion-col>
             <eco></eco>
@@ -128,11 +136,13 @@
             </uncouple-recouple>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="showUncoupleRecouple()">
+        @if (showUncoupleRecouple()) {
+<ion-row>
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
+}
         <ion-row>
           <ion-col>
             <eta [eta]="eta.verbal"></eta>

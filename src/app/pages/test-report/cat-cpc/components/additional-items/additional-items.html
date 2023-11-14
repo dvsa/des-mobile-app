@@ -1,7 +1,11 @@
-<div *ngIf="showAdditionalItems(additionalItems)"
-     id="question-card-additional-items">
-    <div *ngFor="let item of additionalItems;">
-        {{item}}
-    </div>
-</div>
+@if (showAdditionalItems(additionalItems)) {
+  <div
+    id="question-card-additional-items">
+    @for (item of additionalItems;track item) {
+      <div>
+        {{ item }}
+      </div>
+    }
+  </div>
+}
 <br>

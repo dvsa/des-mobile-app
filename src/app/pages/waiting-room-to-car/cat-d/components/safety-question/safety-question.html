@@ -1,7 +1,9 @@
 <ion-row [formGroup]="formGroup"
          [ngClass]="!isLastSafetyQuestion && 'mes-row-separator'"
          class="mes-validated-row ion-nowrap" id="safety-question-row">
-  <div *ngIf="isInvalid()" class="validation-bar ng-invalid"></div>
+  @if (isInvalid()) {
+<div class="validation-bar ng-invalid"></div>
+}
   <ion-col class="display-flex ion-justify-content-center direction-column">
     <ion-row>
       <ion-col size="40" class="ion-align-self-center">
@@ -37,7 +39,8 @@
         </ion-row>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="isInvalid()" class="validation-message-row">
+    @if (isInvalid()) {
+<ion-row class="validation-message-row">
       <ion-col size="40"></ion-col>
       <ion-col>
         <div class="validation-text ion-no-padding ng-invalid">
@@ -45,5 +48,6 @@
         </div>
       </ion-col>
     </ion-row>
+}
   </ion-col>
 </ion-row>

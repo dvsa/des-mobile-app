@@ -11,13 +11,19 @@
       <data-row [label]="'Booking email'" [value]="oldEmailAddress"></data-row>
       <data-row [label]="'Confirmed email'" [value]="newEmailAddress"></data-row>
 
-      <data-row-custom *ngIf="reEnterEmail?.emailRegenerationDetails" [label]="'Re-sent email(s)'">
-        <div class="mes-data" *ngFor="let email of reEnterEmail.emailRegenerationDetails">{{email.newEmail}}</div>
+      @if (reEnterEmail?.emailRegenerationDetails) {
+<data-row-custom [label]="'Re-sent email(s)'">
+        @for (email of reEnterEmail.emailRegenerationDetails; track email) {
+  <div class="mes-data">{{email.newEmail}}</div>
+}
       </data-row-custom>
+}
 
       <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
         <display-address [address]="address"></display-address>
-        <span class="mes-data" *ngIf="!address">None</span>
+        @if (!address) {
+<span class="mes-data">None</span>
+}
       </data-row-custom>
     </ion-grid>
   </ion-card-content>

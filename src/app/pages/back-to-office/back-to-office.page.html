@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-title id="back-to-office-title" role="heading" aria-level="1">Back to office</ion-title>
 </ion-header>
 
@@ -20,12 +22,14 @@
       Continue to write up
     </ion-button>
   </div>
-  <div class="container" *ngIf="!(pageState.isRekey$ | async)">
-    <ion-button
-      class="mes-neutral-button office-button bottom-button"
-      (click)="navigateForward(journal)"
-      id="return-to-journal">
-      Return to journal
-    </ion-button>
-  </div>
+  @if (!(pageState.isRekey$ | async)) {
+    <div class="container">
+      <ion-button
+        class="mes-neutral-button office-button bottom-button"
+        (click)="navigateForward(journal)"
+        id="return-to-journal">
+        Return to journal
+      </ion-button>
+    </div>
+  }
 </ion-content>

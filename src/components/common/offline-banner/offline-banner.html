@@ -1,9 +1,15 @@
-<div *ngIf="isOffline; else isOnline;" id="unauthenticated-mode-indicator">
+@if (isOffline) {
+<div id="unauthenticated-mode-indicator">
   <label role="alert" id="unauth-text">You are offline. Some features may be unavailable.</label>
 </div>
+} @else {
+#isOnline;|
+}
 
 <ng-template #isOnline>
-  <div *ngIf="hasBeenOffline" class="screen-reader-only">
+  @if (hasBeenOffline) {
+<div class="screen-reader-only">
     <label role="alert">Your device has re-connected</label>
   </div>
+}
 </ng-template>

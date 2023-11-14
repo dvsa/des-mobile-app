@@ -1,7 +1,8 @@
+@if (isLDTM) {
 <searchable-picklist-wrapper
   #testCentrePicklistJournals
   (outputChanged)="onTestCentreDidChange($event)"
-  *ngIf="isLDTM; else isDE;"
+ 
   [dataList]="testCentres"
   [differentDisplay]="true"
   [displayKey]="'centreName'"
@@ -13,6 +14,9 @@
   [placeholder]="'Select a test centre'"
   [primaryKey]="'centreId'">
 </searchable-picklist-wrapper>
+} @else {
+#isDE;|
+}
 <ng-template #isDE>
   <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
 </ng-template>
@@ -33,10 +37,12 @@
                 labelPlacement="stacked"
                 okText="Select"
                 placeholder="Select examiner">
-      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
+      @for (examiner of testCentreResults?.examiners; track examiner) {
+  <ion-select-option
                          [value]="examiner.staffNumber">
         {{examiner.name}}
       </ion-select-option>
+}
     </ion-select>
   </ion-col>
 </ion-row>
@@ -51,22 +57,28 @@
   </ion-button>
 </ion-row>
 
-<section *ngIf="hasSelectedExaminer">
-  <div *ngIf="journal; else noJournal">
-    <journal-navigation
+@if (hasSelectedExaminer) {
+<section>
+  @if (journal) {
+<div>
+    @if (hasClickedShowJournal) {
+<journal-navigation
       (nextDayClicked)="onNextDayClick()"
       (previousDayClicked)="onPreviousDayClick()"
-      *ngIf="hasClickedShowJournal"
+     
       [canNavigateToNextDay]="canNavigateToNextDay()"
       [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
       [fromTestCentreJournal]="true"
       [isSelectedDateToday]="isSelectedDateToday()"
       [selectedDate]="currentSelectedDate">
     </journal-navigation>
+}
 
-    <div *ngIf="shouldShowBanner() && hasClickedShowJournal" class="no-results">
+    @if (shouldShowBanner() && hasClickedShowJournal) {
+<div class="no-results">
       <p class="no-results-text">{{warningText}}</p>
     </div>
+}
 
     <ion-list>
       <journal-slots
@@ -76,12 +88,17 @@
       </journal-slots>
     </ion-list>
   </div>
+} @else {
 
-  <ng-template #noJournal>
-    <div *ngIf="hasClickedShowJournal" class="no-results">
+    @if (hasClickedShowJournal) {
+<div class="no-results">
       <p class="no-results-text" id="examiner-no-journal-to-display-message">
         This examiner does not have any journal information to display
       </p>
     </div>
-  </ng-template>
-</section>
+}
+  
+}
+
+  </section>
+}

@@ -1,12 +1,15 @@
+@if (showStartTimerButton) {
 <ion-button tappable="true"
         strong="true"
         fill="clear"
         id="start-timer-button"
         (click)="toggleTimer()"
-        *ngIf="showStartTimerButton"
+       
 >
   Start Timer
 </ion-button>
+}
+@if (!showStartTimerButton) {
 <div
   id="timer-text"
   tappable="true"
@@ -14,7 +17,8 @@
   [ngClass]="{
     'paused': isPaused
   }"
-  *ngIf="!showStartTimerButton"
+ 
 >
   {{ timerString }}
 </div>
+}

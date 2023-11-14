@@ -16,15 +16,18 @@
                       labelPlacement="stacked"
                       okText="Submit"
                       placeholder="Select a question">
-            <ion-select-option *ngFor="let question of questions"
+            @for (question of questions; track question) {
+  <ion-select-option
                                [disabled]="isOptionDisabled(question)"
                                [value]="question">
               {{question.code}} - {{question.shortName}}
             </ion-select-option>
+}
           </ion-select>
         </ion-row>
       </ion-col>
-      <ion-col *ngIf="shouldShowOutcomeFields()" size="28" class="ion-align-self-center">
+      @if (shouldShowOutcomeFields()) {
+<ion-col size="28" class="ion-align-self-center">
         <ion-row>
           <input (change)="vehicleChecksPassSelected()"
                  [attr.id]="'vehicleChecksCorrect_'+questionId"
@@ -37,7 +40,9 @@
                  id="vehicle-checks-correct-{{questionId}}">Correct</label>
         </ion-row>
       </ion-col>
-      <ion-col *ngIf="shouldShowOutcomeFields()" size="28" class="ion-align-self-center">
+}
+      @if (shouldShowOutcomeFields()) {
+<ion-col size="28" class="ion-align-self-center">
         <ion-row>
           <input (change)="vehicleChecksDrivingFaultSelected()"
                  [attr.id]="'vehicleChecksFault_'+questionId"
@@ -51,8 +56,10 @@
           </label>
         </ion-row>
       </ion-col>
+}
     </ion-row>
-    <ion-row *ngIf="displayErrorMessage()" class="validation-message-row">
+    @if (displayErrorMessage()) {
+<ion-row class="validation-message-row">
       <ion-col size="40"></ion-col>
       <ion-col>
         <div class="validation-text ion-no-padding ng-invalid">
@@ -60,5 +67,6 @@
         </div>
       </ion-col>
     </ion-row>
+}
   </ion-col>
 </ion-row>

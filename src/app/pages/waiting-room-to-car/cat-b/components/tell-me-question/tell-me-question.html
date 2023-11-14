@@ -10,10 +10,12 @@
                 okText="Submit"
                 placeholder="Select a question"
                 value="tellMeQuestion">
-      <ion-select-option *ngFor="let currentTellMeQuestion of tellMeQuestions"
+      @for (currentTellMeQuestion of tellMeQuestions; track currentTellMeQuestion) {
+  <ion-select-option
                          [value]="currentTellMeQuestion">
         {{currentTellMeQuestion.code}} - {{currentTellMeQuestion.shortName}}
       </ion-select-option>
+}
     </ion-select>
   </ion-col>
 </ion-row>

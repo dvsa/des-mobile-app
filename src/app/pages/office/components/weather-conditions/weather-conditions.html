@@ -1,35 +1,39 @@
-<ion-row *ngIf="display" [formGroup]="formGroup" class="mes-validated-row mes-row-separator ion-nowrap"
-         id="weather-conditions-row">
-  <div [class.ng-invalid]="invalid" class="validation-bar"></div>
-  <ion-col class="component-label ion-align-self-center" size="32">
-    <label id="weather-conditions-label">Weather conditions</label>
-  </ion-col>
-  <ion-col class="ion-align-self-center ion-padding-start" size="63">
-    <ion-row class="spacing-row"></ion-row>
-    <ion-row>
-      <ion-select (ionChange)="weatherConditionsChanged($event.target.value)"
-                  [class.ng-invalid]="invalid"
-                  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
-                  aria-label="Weather conditions"
-                  cancelText="Cancel"
-                  class="select-padding"
-                  formControlName="weatherConditions"
-                  labelPlacement="stacked"
-                  multiple="true"
-                  okText="Submit"
-                  placeholder="Select weather conditions"
-                  value="weather">
-        <ion-select-option *ngFor="let weatherCondition of weatherConditionsOptions" [value]="weatherCondition.weatherConditionDescription"
-                           class="option-spacing"
-                           id="weather-conditions-{{weatherCondition.weatherConditionNumber}}">
-          {{weatherCondition.weatherConditionNumber}} - {{weatherCondition.weatherConditionDescription}}
-        </ion-select-option>
-      </ion-select>
-    </ion-row>
-    <ion-row class="validation-message-row ion-align-items-center">
-      <div [class.ng-invalid]="invalid" class="validation-text" id="weather-conditions-validation-text">
-        Select weather conditions
-      </div>
-    </ion-row>
-  </ion-col>
-</ion-row>
+@if (display) {
+  <ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator ion-nowrap"
+           id="weather-conditions-row">
+    <div [class.ng-invalid]="invalid" class="validation-bar"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+      <label id="weather-conditions-label">Weather conditions</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start" size="63">
+      <ion-row class="spacing-row"></ion-row>
+      <ion-row>
+        <ion-select (ionChange)="weatherConditionsChanged($event.target.value)"
+                    [class.ng-invalid]="invalid"
+                    [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+                    aria-label="Weather conditions"
+                    cancelText="Cancel"
+                    class="select-padding"
+                    formControlName="weatherConditions"
+                    labelPlacement="stacked"
+                    multiple="true"
+                    okText="Submit"
+                    placeholder="Select weather conditions"
+                    value="weather">
+          @for (weatherCondition of weatherConditionsOptions;track weatherCondition) {
+            <ion-select-option [value]="weatherCondition.weatherConditionDescription"
+                               class="option-spacing"
+                               id="weather-conditions-{{weatherCondition.weatherConditionNumber}}">
+              {{ weatherCondition.weatherConditionNumber }} - {{ weatherCondition.weatherConditionDescription }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-row>
+      <ion-row class="validation-message-row ion-align-items-center">
+        <div [class.ng-invalid]="invalid" class="validation-text" id="weather-conditions-validation-text">
+          Select weather conditions
+        </div>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+}

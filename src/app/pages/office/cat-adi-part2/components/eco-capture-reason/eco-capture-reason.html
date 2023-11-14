@@ -1,4 +1,5 @@
-<ion-row [formGroup]="formGroup" class="mes-validated-row" id="eco-capture-reason-row" *ngIf="fuelEfficientDriving">
+@if (fuelEfficientDriving) {
+<ion-row [formGroup]="formGroup" class="mes-validated-row" id="eco-capture-reason-row">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-start" size="32">
         <ion-row class="spacing-row"></ion-row>
@@ -20,12 +21,15 @@
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">
-            <div class="validation-text"
+            @if (invalid) {
+<div class="validation-text"
                  [class.ng-invalid]="invalid"
-                 *ngIf="invalid"
+                
                  id="eco-capture-reason-validation-text">Please provide a reason for ECO capture
             </div>
+}
         </ion-row>
     </ion-col>
 </ion-row>
+}
 

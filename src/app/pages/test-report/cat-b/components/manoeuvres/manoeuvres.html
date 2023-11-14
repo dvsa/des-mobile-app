@@ -20,7 +20,8 @@
     <dangerous-fault-badge id="manoeuvers-dangerous-faults" [showBadge]="hasDangerousFault"></dangerous-fault-badge>
   </div>
 </button>
-<div class="manoeuvres-popover" *ngIf="displayPopover">
+@if (displayPopover) {
+<div class="manoeuvres-popover">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -29,3 +30,4 @@
     </ion-row>
   </ion-grid>
 </div>
+}

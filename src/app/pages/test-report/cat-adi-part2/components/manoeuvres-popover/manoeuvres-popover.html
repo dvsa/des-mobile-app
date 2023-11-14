@@ -1,6 +1,7 @@
-<ng-container *ngIf="{
+@if ({
   manoeuvres: (manoeuvres$ | async)![0]
-} as asyncData1">
+}; as asyncData1) {
+
   <h3 class="popover-title des-header-style-3">Manoeuvre 1</h3>
   <ion-grid class="popover-content">
     <ion-row>
@@ -58,10 +59,11 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col
+      @if (asyncData1.manoeuvres.reverseRight?.selected) {
+<ion-col
         class="manoeuvre-competencies-container manoeuvre-competency-button"
         size="8"
-        *ngIf="asyncData1.manoeuvres.reverseRight?.selected">
+       >
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.reverseRight"
           [competency]="competencies.controlFault"
@@ -76,10 +78,12 @@
           index="0"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
-      <ion-col
+}
+      @if (asyncData1.manoeuvres.forwardPark?.selected) {
+<ion-col
         class="manoeuvre-competencies-container"
         size="8"
-        *ngIf="asyncData1.manoeuvres.forwardPark?.selected">
+       >
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.forwardPark"
           [competency]="competencies.controlFault"
@@ -94,10 +98,12 @@
           index="0"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
-      <ion-col
+}
+      @if (asyncData1.manoeuvres.reverseParkCarpark?.selected) {
+<ion-col
         class="manoeuvre-competencies-container"
         size="8"
-        *ngIf="asyncData1.manoeuvres.reverseParkCarpark?.selected">
+       >
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
           [competency]="competencies.controlFault"
@@ -112,10 +118,12 @@
           index="0"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
-      <ion-col
+}
+      @if (asyncData1.manoeuvres.reverseParkRoad?.selected) {
+<ion-col
         class="manoeuvre-competencies-container"
         size="8"
-        *ngIf="asyncData1.manoeuvres.reverseParkRoad?.selected">
+       >
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.reverseParkRoad"
           [competency]="competencies.controlFault"
@@ -130,13 +138,16 @@
           index="0"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
+}
     </ion-row>
   </ion-grid>
-</ng-container>
 
-<ng-container *ngIf="{
+}
+
+@if ({
   manoeuvres: (manoeuvres$ | async)![1]
-} as asyncData2">
+}; as asyncData2) {
+
   <h3 class="popover-title des-header-style-3">Manoeuvre 2</h3>
   <ion-grid class="popover-content">
     <ion-row>
@@ -194,7 +205,8 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData2.manoeuvres.reverseRight?.selected">
+      @if (asyncData2.manoeuvres.reverseRight?.selected) {
+<ion-col class="manoeuvre-competencies-container" size="8">
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.reverseRight"
           [competency]="competencies.controlFault"
@@ -209,7 +221,9 @@
           index="1"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData2.manoeuvres.forwardPark?.selected">
+}
+      @if (asyncData2.manoeuvres.forwardPark?.selected) {
+<ion-col class="manoeuvre-competencies-container" size="8">
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.forwardPark"
           [competency]="competencies.controlFault"
@@ -224,10 +238,12 @@
           index="1"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
-      <ion-col
+}
+      @if (asyncData2.manoeuvres.reverseParkCarpark?.selected) {
+<ion-col
         class="manoeuvre-competencies-container"
         size="8"
-        *ngIf="asyncData2.manoeuvres.reverseParkCarpark?.selected">
+       >
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
           [competency]="competencies.controlFault"
@@ -242,10 +258,12 @@
           index="1"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
-      <ion-col
+}
+      @if (asyncData2.manoeuvres.reverseParkRoad?.selected) {
+<ion-col
         class="manoeuvre-competencies-container"
         size="8"
-        *ngIf="asyncData2.manoeuvres.reverseParkRoad?.selected">
+       >
         <manoeuvre-competency-adi-part2
           [manoeuvre]="manoeuvreTypes.reverseParkRoad"
           [competency]="competencies.controlFault"
@@ -260,6 +278,8 @@
           index="1"
         ></manoeuvre-competency-adi-part2>
       </ion-col>
+}
     </ion-row>
   </ion-grid>
-</ng-container>
+
+}

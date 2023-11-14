@@ -53,11 +53,13 @@
                     labelPlacement="stacked"
                     okText="Submit"
                     placeholder="Driving faults">
-          <ion-select-option *ngFor="let number of (componentState.drivingFaultsNumberOptions$ | async)"
+          @for (number of (componentState.drivingFaultsNumberOptions$ | async); track number) {
+  <ion-select-option
                              [id]="'driving-fault-' + number"
                              [value]="number">
             {{number}} {{number === 1 ? 'driving fault' : 'driving faults'}}
           </ion-select-option>
+}
         </ion-select>
       </ion-col>
     </ion-row>

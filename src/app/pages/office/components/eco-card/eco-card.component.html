@@ -1,4 +1,5 @@
-<ion-card id="eco" *ngIf="!isADI2">
+@if (!isADI2) {
+<ion-card id="eco">
     <ion-card-content>
         <ion-grid>
             <ion-row class="ion-padding-start mes-data">
@@ -12,9 +13,11 @@
         </ion-grid>
     </ion-card-content>
 </ion-card>
+}
 
+@if (isADI2) {
 <ion-row
-        *ngIf="isADI2"
+       
         [class.mes-row-separator]="displaySeperator"
         class="ion-padding-start mes-data">
     <ion-col size="32">
@@ -24,3 +27,4 @@
         <div id="ecoFaults-adi2">{{ecoFaults}}</div>
     </ion-col>
 </ion-row>
+}

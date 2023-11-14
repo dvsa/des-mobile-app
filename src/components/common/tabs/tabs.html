@@ -1,8 +1,10 @@
 <div>
   <ul class="nav nav-tabs">
-    <li *ngFor="let tab of tabs" (click)="selectTab(tab, true)" [class.active]="tab.active">
+    @for (tab of tabs; track tab) {
+  <li (click)="selectTab(tab, true)" [class.active]="tab.active">
       <ion-text class="title des-header-style-3" id="test-title">{{tab.title}}</ion-text>
     </li>
+}
   </ul>
   <div id="content">
     <ng-content></ng-content>

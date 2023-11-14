@@ -4,7 +4,8 @@
             <h2 class="des-header-style-4" [id]="header | formatToID: idPrefix">{{header}}</h2>
         </ion-card-header>
         <ion-card-content>
-            <ion-row class="mes-validated-row mes-row-separator" *ngFor="let faultComment of faultComments; trackBy: trackByIndex">
+            @for (faultComment of faultComments; track trackByIndex($index, faultComment)) {
+  <ion-row class="mes-validated-row mes-row-separator">
                 <fault-comment
                         [parentForm]="formGroup"
                         [faultComment]="faultComment"
@@ -19,6 +20,7 @@
                         [badgeLabel]="header"
                 ></fault-comment>
             </ion-row>
+}
         </ion-card-content>
     </ion-card>
 </div>

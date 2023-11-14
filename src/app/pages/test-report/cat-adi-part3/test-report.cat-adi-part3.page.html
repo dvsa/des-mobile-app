@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
     <ion-buttons id="tr-back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -11,7 +13,8 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="page === 'lessonTheme'">
+  @if (page === 'lessonTheme') {
+
     <ion-row class="mes-full-width-card-small-top ion-nowrap">
       <ion-col size="60">
         <h2 id="adi-pt3-assessment-lesson-theme-title" class="normal-font-weight ion-padding-start des-header-style-2">
@@ -38,9 +41,11 @@
       (lessonThemeChange)="lessonThemeChanged($event)"
       (otherReasoningChange)="otherReasonChanged($event)">
     </lesson-theme>
-  </ng-container>
+  
+}
 
-  <ng-container *ngIf="page === 'testReport'">
+  @if (page === 'testReport') {
+
     <ion-row class="mes-full-width-card-small-top ion-nowrap">
       <ion-col size="60">
         <h2 id="adi-pt3-assessment-test-report-title" class="normal-font-weight ion-padding-start des-header-style-2">
@@ -78,24 +83,29 @@
       [sectionData]="pageState.teachingLearningStrategies$ | async"
       (answerChange)="teachingLearningStrategyChanged($event)">
     </tr-assessment-card>
-  </ng-container>
+  
+}
 
-  <question-score
-    *ngIf="page === 'testReport'"
+  @if (page === 'testReport') {
+<question-score
+   
     [score]="adi3AssessmentProvider.countScoreIfTouched(pageState.adi3TestData$ | async)"
     [displayPercentage]="false"
     [label]="'Total Score:'">
   </question-score>
+}
 
   <ion-row class="mes-full-width-card box-shadow button-row-colour">
     <ion-col class="ion-text-center">
-      <ion-button *ngIf="{ score: pageState.totalScore$ | async } as data"
+      @if ({ score: pageState.totalScore$ | async }; as data) {
+<ion-button
                   (click)="onContinueClick(data.score)"
                   id="adi-pt3-continue-tr-button"
                   shape="round"
                   class="mes-primary-button wrtc-footer-btn">
         <ion-text id="adi-pt3-continue-tr-label" class="des-header-style-3">Continue</ion-text>
       </ion-button>
+}
     </ion-col>
   </ion-row>
 </ion-content>

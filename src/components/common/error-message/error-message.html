@@ -1,26 +1,38 @@
 <div class="container">
-  <div *ngIf="displayAsModal">
+  @if (displayAsModal) {
+<div>
     <ion-text class="error-message des-header-style-2">Sorry, something went wrong</ion-text>
     <br>
     <div>
       <div class="link error-details-link" (click)="dismiss()">
         Return to {{redirectLinkText}}
       </div>
-      <ion-text class="error-details des-header-style-3" *ngIf="additionalText">&nbsp;{{additionalText}}</ion-text>
+      @if (additionalText) {
+<ion-text class="error-details des-header-style-3">&nbsp;{{additionalText}}</ion-text>
+}
     </div>
-    <ion-text class="additional-error-details des-header-style-3" *ngIf="adviceToUsePaperTest">
+    @if (adviceToUsePaperTest) {
+<ion-text class="additional-error-details des-header-style-3">
       Use the paper form if the problem persists.
     </ion-text>
+}
   </div>
+}
 
-  <div *ngIf="!displayAsModal">
+  @if (!displayAsModal) {
+<div>
     <ion-text class="error-message des-header-style-2"
               id="default-validation-error-message">{{defaultErrorStatement}}</ion-text>
     <div>
-      <div *ngIf="redirectLinkText" class="link error-details-link" (click)="navigateBack()">
+      @if (redirectLinkText) {
+<div class="link error-details-link" (click)="navigateBack()">
         Return to {{redirectLinkText}}
       </div>
-      <ion-text class="error-details des-header-style-3" *ngIf="additionalText">&nbsp;{{additionalText}}</ion-text>
+}
+      @if (additionalText) {
+<ion-text class="error-details des-header-style-3">&nbsp;{{additionalText}}</ion-text>
+}
     </div>
   </div>
+}
 </div>

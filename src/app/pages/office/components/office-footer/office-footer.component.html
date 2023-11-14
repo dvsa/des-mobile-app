@@ -1,25 +1,33 @@
 <ion-row class="mes-full-width-card box-shadow">
-  <ion-col col="40" *ngIf="!isRekey && !isDelegated" class="ion-no-padding ion-text-left">
+  @if (!isRekey && !isDelegated) {
+<ion-col col="40" class="ion-no-padding ion-text-left">
     <ion-button id="office-save-button" class="mes-grey-button office-button" (click)="saveClick()">
       <ion-text class="des-header-style-3">Save and continue later</ion-text>
     </ion-button>
   </ion-col>
-  <ion-col *ngIf="!isRekey && !isDelegated" class="ion-no-padding ion-text-end">
+}
+  @if (!isRekey && !isDelegated) {
+<ion-col class="ion-no-padding ion-text-end">
     <ion-button id="office-complete-button" class="mes-primary-button office-button" (click)="submitClick()">
       <ion-text class="des-header-style-3">Mark as complete</ion-text>
     </ion-button>
   </ion-col>
-  <ion-col *ngIf="isRekey && !isDelegated">
+}
+  @if (isRekey && !isDelegated) {
+<ion-col>
     <ion-button id="reason-for-rekey" class="mes-primary-button padding-x-5 full-width"
                 (click)="continueClick()" [disabled]="!isValidStartDateTime">
       <ion-text class="des-header-style-3">Continue</ion-text>
     </ion-button>
   </ion-col>
-  <ion-col *ngIf="isDelegated">
+}
+  @if (isDelegated) {
+<ion-col>
     <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width"
                 [disabled]="!isValidStartDateTime"
                 (click)="submitClick()">
       <ion-text class="des-header-style-3">Submit</ion-text>
     </ion-button>
   </ion-col>
+}
 </ion-row>

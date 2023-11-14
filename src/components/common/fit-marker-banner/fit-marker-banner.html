@@ -4,13 +4,15 @@
   </ion-card-header>
   <ion-card-content>
     <label class="ion-padding-start regular-weight">
-      <div *ngIf="!isTestResult">
+      @if (!isTestResult) {
+<div>
         This candidate has a Fraud Integrity Marker against their name. Please be vigilant when checking candidate ID
         and conducting the test.
         <br><br>
-        If you wish to request further information, please contact IntelligenceUnit@dvsa.gov.uk to get more details.
+        If you wish to request further information, please contact IntelligenceUnit&#64;dvsa.gov.uk to get more details.
         <br><br>
       </div>
+}
       <label>
         Integrity case number:
       </label>

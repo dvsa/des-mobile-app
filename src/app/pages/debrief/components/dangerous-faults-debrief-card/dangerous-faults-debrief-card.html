@@ -1,4 +1,5 @@
-<ion-card id="dangerous-fault" *ngIf="dangerousFaults?.length > 0">
+@if (dangerousFaults?.length > 0) {
+<ion-card id="dangerous-fault">
   <ion-card-title class="title-padding">
     <ion-text id="dangerous-fault-count" class="des-header-style-1 fault-heading">{{dangerousFaults.length}}</ion-text>
     <ion-text id="dangerous-fault-title"
@@ -6,7 +7,8 @@
   </ion-card-title>
   <ion-card-content>
     <ion-grid>
-      <ion-row *ngFor="let dangerousFault of dangerousFaults" class="row-padding mes-data ion-align-items-center">
+      @for (dangerousFault of dangerousFaults; track dangerousFault) {
+  <ion-row class="row-padding mes-data ion-align-items-center">
         <ion-col size="26" class="ion-no-padding"></ion-col>
         <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
           <div>
@@ -24,6 +26,8 @@
             id="{{dangerousFaults}}-driving-text">{{'debrief.competencies.' + dangerousFault | translate | modifyCompetencyLabel:testCategory:dangerousFault}}</div>
         </ion-col>
       </ion-row>
+}
     </ion-grid>
   </ion-card-content>
 </ion-card>
+}

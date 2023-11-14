@@ -1,4 +1,6 @@
-<warning-banner *ngIf="licenceProvided === true || licenceProvided === false"
+@if (licenceProvided === true || licenceProvided === false) {
+<warning-banner
                 [warningText]="licenceProvided ? yesText : noText"
                 [warningIdentifier]="'licence-provided-'">
 </warning-banner>
+}

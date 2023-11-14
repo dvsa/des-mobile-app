@@ -51,24 +51,29 @@
   </modal-result-item>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84">
-      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated; else missingSections" class="mes-primary-button"
+      @if (!!isValidDashboard || isTestReportPopulated) {
+<ion-button class="mes-primary-button"
                   (click)="onContinue()" id="continue-to-debrief-button">
         <ion-text class="des-header-style-3" id="continue-to-debrief-text">Continue to debrief</ion-text>
       </ion-button>
-      <ng-template #missingSections>
+} @else {
+
         <p class="ion-padding ion-justify-content-center" id="complete-all-sections-text">Please complete all sections
           to continue to debrief</p>
-      </ng-template>
-    </ion-col>
+      
+}
+          </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col *ngIf="!riskToPublicSafety" class="column-border-top column-border-right ion-no-padding">
+    @if (!riskToPublicSafety) {
+<ion-col class="column-border-top column-border-right ion-no-padding">
       <ion-button fill="clear"
                   class="terminate-button"
                   (click)="onTerminate()"
                   id="terminate-test-button">Terminate test
       </ion-button>
     </ion-col>
+}
     <ion-col class="column-border-top ion-no-padding">
       <ion-button fill="clear"
                   class="return-button"

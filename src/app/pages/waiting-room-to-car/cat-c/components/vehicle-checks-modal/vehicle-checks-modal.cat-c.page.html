@@ -14,16 +14,19 @@
 
 <ion-content class="ion-padding">
   <ion-card>
-    <full-licence-held-toggle
-      *ngIf="showFullLicenceHeld()"
+    @if (showFullLicenceHeld()) {
+<full-licence-held-toggle
+     
       [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
       [testCategory]="category"
       [formGroup]="formGroup"
       (fullLicenceHeldChange)="fullLicenceHeldChange($event)">
     </full-licence-held-toggle>
+}
   </ion-card>
 
-  <div *ngIf="pageState.showFullLicenceHeld$ | async">
+  @if (pageState.showFullLicenceHeld$ | async) {
+<div>
     <ion-card>
       <ion-card-header>
         <ion-card-title>
@@ -33,7 +36,8 @@
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <vehicle-checks-question *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last"
+        @for (question of showMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
+  <vehicle-checks-question
                                  [formGroup]="formGroup"
                                  [questionResult]="(pageState.showMeQuestions$ | async)![i]"
                                  [questions]="showMeQuestions"
@@ -43,6 +47,7 @@
                                  (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
                                  (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)">
         </vehicle-checks-question>
+}
       </ion-card-content>
     </ion-card>
     <ion-card>
@@ -55,7 +60,8 @@
       </ion-card-header>
 
       <ion-card-content>
-        <vehicle-checks-question *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
+        @for (question of tellMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
+  <vehicle-checks-question
                                  [formGroup]="formGroup"
                                  [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
                                  [questions]="tellMeQuestions"
@@ -65,13 +71,17 @@
                                  (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
                                  (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)">
         </vehicle-checks-question>
+}
       </ion-card-content>
     </ion-card>
-    <warning-banner
-      *ngIf="shouldDisplayBanner()"
+    @if (shouldDisplayBanner()) {
+<warning-banner
+     
       warningText="This will result in {{vehicleChecksScore.drivingFaults}} driving faults and {{vehicleChecksScore.seriousFaults}} serious fault">
     </warning-banner>
+}
   </div>
+}
 </ion-content>
 
 <ion-footer>

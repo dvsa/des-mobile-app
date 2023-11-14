@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title role="heading" aria-level="1" id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons id="back-button" slot="start">
@@ -23,35 +25,43 @@
           [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
-        <license-provided
+        @if (!isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+<license-provided
           (licenseNotReceived)="provisionalLicenseNotReceived()"
           (licenseReceived)="provisionalLicenseReceived()"
-          *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+         
           [form]="form"
           [licenseReceivedLabel]="'Provisional licence received'"
           [license]="pageState.provisionalLicense$ | async">
         </license-provided>
+}
 
-        <licence-provided-warning-banner
-          *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+        @if (!isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+<licence-provided-warning-banner
+         
           [licenceProvided]="pageState.provisionalLicense$ | async">
         </licence-provided-warning-banner>
+}
 
-        <danger-banner
-          *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+        @if (isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+<danger-banner
+         
           [dangerText]="niMessage">
         </danger-banner>
+}
 
         <transmission
           (transmissionChange)="transmissionChanged($event)"
           [formGroup]="form">
         </transmission>
 
-        <warning-banner
-          *ngIf="displayTransmissionBanner()"
+        @if (displayTransmissionBanner()) {
+<warning-banner
+         
           [warningIdentifier]="'transmission-'"
           warningText="An automatic licence will be issued.">
         </warning-banner>
+}
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
@@ -69,11 +79,13 @@
           [outcome]="testOutcome">
         </d255>
 
-        <warning-banner
-          *ngIf="pageState.d255$ | async"
+        @if (pageState.d255$ | async) {
+<warning-banner
+         
           [warningIdentifier]="'d255-'"
           warningText="DVLA will not process the result until a D255 is received.">
         </warning-banner>
+}
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"

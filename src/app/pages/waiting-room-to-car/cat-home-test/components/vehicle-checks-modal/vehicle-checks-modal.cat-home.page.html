@@ -22,7 +22,8 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <vehicle-checks-question *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last" [formGroup]="formGroup"
+      @for (question of showMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
+  <vehicle-checks-question [formGroup]="formGroup"
                                [questionResult]="(pageState.showMeQuestions$ | async)[i]"
                                [questions]="showMeQuestions"
                                [questionsToDisable]="pageState.showMeQuestions$ | async"
@@ -31,6 +32,7 @@
                                (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
                                (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)">
       </vehicle-checks-question>
+}
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -42,7 +44,8 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <vehicle-checks-question *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last" [formGroup]="formGroup"
+      @for (question of tellMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
+  <vehicle-checks-question [formGroup]="formGroup"
                                [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
                                [questions]="tellMeQuestions"
                                [questionsToDisable]="pageState.tellMeQuestions$ | async"
@@ -51,6 +54,7 @@
                                (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
                                (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)">
       </vehicle-checks-question>
+}
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -24,7 +24,8 @@
                 </label>
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="isInvalid()">
+        @if (isInvalid()) {
+<ion-row>
             <ion-col>
                 <div id="waiting-room-residency-validation-text"
                      class="validation-text-with-row-spacing"
@@ -33,5 +34,6 @@
                 </div>
             </ion-col>
         </ion-row>
+}
     </ion-col>
 </ion-row>

@@ -10,7 +10,8 @@
     <label for="otherSelected" id="other-specify-reason">Other (specify reason)</label>
   </ion-col>
   <ion-col class="ion-padding-start">
-    <div class="selected-border" id="reasonSection" *ngIf="selected">
+    @if (selected) {
+<div class="selected-border" id="reasonSection">
             <textarea id="otherReason"
                       class="mes-data input-styling-background"
                       formControlName="reason"
@@ -29,11 +30,14 @@
         {{getCharacterCountText()}}
       </div>
 
-      <ion-row class="validation-message-row" *ngIf="invalid && !charactersExceeded()">
+      @if (invalid && !charactersExceeded()) {
+<ion-row class="validation-message-row">
         <div class="validation-text" [class.ng-invalid]="invalid" id="other-reason-invalid-label">
           Enter the reason for rekey
         </div>
       </ion-row>
+}
     </div>
+}
   </ion-col>
 </ion-row>

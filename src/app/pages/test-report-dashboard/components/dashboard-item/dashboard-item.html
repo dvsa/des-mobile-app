@@ -3,27 +3,35 @@
     <ion-row>
       <ion-col size="82">
         <h3 id="{{idSelector}}-card-header" class="des-header-style-2">{{title}}</h3>
-        <p *ngIf="isInvalid || showCompleted" id="{{idSelector}}-score">{{score}}/{{maxScore}} completed</p>
+        @if (isInvalid || showCompleted) {
+<p id="{{idSelector}}-score">{{score}}/{{maxScore}} completed</p>
+}
       </ion-col>
       <ion-col size="14">
-        <ion-icon
-          *ngIf="!isInvalid && !showCompleted"
+        @if (!isInvalid && !showCompleted) {
+<ion-icon
+         
           class="chevron-icon"
           name="chevron-forward-outline"
           id="{{idSelector}}-chevron">
         </ion-icon>
-        <ion-icon
-          *ngIf="isInvalid"
+}
+        @if (isInvalid) {
+<ion-icon
+         
           class="invalid-icon"
           name="close-circle"
           id="{{idSelector}}-invalid-icon">
         </ion-icon>
-        <ion-icon
-          *ngIf="isValid"
+}
+        @if (isValid) {
+<ion-icon
+         
           class="valid-icon"
           name="checkmark-circle"
           id="{{idSelector}}-valid-icon">
         </ion-icon>
+}
       </ion-col>
     </ion-row>
   </ion-card-content>

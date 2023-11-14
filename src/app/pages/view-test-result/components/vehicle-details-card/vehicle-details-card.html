@@ -1,25 +1,31 @@
-<ion-card *ngIf="!shouldHideCard()">
+@if (!shouldHideCard()) {
+<ion-card>
   <ion-card-header>
     <h2 class="des-header-style-4" id="view-test-result-vehicle-details-title">Vehicle details</h2>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
-      <data-row
-        *ngIf="transmission && !showTransmissionWithCode78"
+      @if (transmission && !showTransmissionWithCode78) {
+<data-row
+       
         [label]="'Transmission'"
         [value]="transmission">
       </data-row>
+}
 
-      <transmission-display
-        *ngIf="transmission && showTransmissionWithCode78"
+      @if (transmission && showTransmissionWithCode78) {
+<transmission-display
+       
         [category]="category"
         [transmission]="data.gearboxCategory"
         [code78]="passCompletion?.code78Present"
         [isTestSubmitted]="true">
       </transmission-display>
+}
 
-      <data-row
-        *ngIf="registrationNumber"
+      @if (registrationNumber) {
+<data-row
+       
         [shouldHaveSeperator]="!!((isADI2() || isADI3()) ||
          (!isADI3() && trainerPRN) ||
          schoolBike ||
@@ -28,17 +34,23 @@
         [label]="'Vehicle registration number'"
         [value]="registrationNumber">
       </data-row>
+}
 
-      <data-row-custom
-        *ngIf="vehicleDetails"
+      @if (vehicleDetails) {
+<data-row-custom
+       
         [label]="'Vehicle details'"
         [shouldHaveSeperator]="!!instructorRegistrationNumber || shouldShowDimensions">
-        <span class="mes-data" *ngIf="vehicleDetails?.length === 0">None</span>
+        @if (vehicleDetails?.length === 0) {
+<span class="mes-data">None</span>
+}
         <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
       </data-row-custom>
+}
 
-      <data-row
-        *ngIf="instructorRegistrationNumber"
+      @if (instructorRegistrationNumber) {
+<data-row
+       
         [label]="'Instructor registration number'"
         [value]="instructorRegistrationNumber"
         [shouldHaveSeperator]="!!(shouldShowDimensions ||
@@ -47,9 +59,11 @@
         isADI3() ||
         (!isADI3() && trainerPRN))">
       </data-row>
+}
 
-      <data-row-custom
-        *ngIf="shouldShowDimensions"
+      @if (shouldShowDimensions) {
+<data-row-custom
+       
         [shouldHaveSeperator]="!!(isADI2() ||
         schoolBike ||
         isADI3() ||
@@ -63,56 +77,74 @@
             <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
               <span class="mes-data"><span class="mes-data bold">W:</span> {{ vehicleWidth }}</span>
             </ion-col>
-            <ion-col *ngIf="shouldShowExtraDimensions" size="20">
+            @if (shouldShowExtraDimensions) {
+<ion-col size="20">
               <span class="mes-data"><span class="mes-data bold">H:</span> {{ vehicleHeight }}</span>
             </ion-col>
-            <ion-col *ngIf="shouldShowExtraDimensions" size="34">
+}
+            @if (shouldShowExtraDimensions) {
+<ion-col size="34">
               <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
             </ion-col>
+}
           </ion-row>
         </ion-grid>
       </data-row-custom>
+}
 
-      <data-row
-        *ngIf="schoolBike"
+      @if (schoolBike) {
+<data-row
+       
         [label]="'School Bike'"
         [shouldHaveSeperator]="!!(isADI2() || isADI3() || (!isADI3() && trainerPRN))"
         [value]="schoolBike">
       </data-row>
+}
 
-      <data-row
-        *ngIf="!isADI3() && trainerPRN"
+      @if (!isADI3() && trainerPRN) {
+<data-row
+       
         [label]="'Trainer PRN'"
         [value]="trainerPRN">
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI2() || isADI3()"
+      @if (isADI2() || isADI3()) {
+<data-row
+       
         [label]="'ORDIT'"
         [value]="ordit">
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI2()"
+      @if (isADI2()) {
+<data-row
+       
         [label]="'Training Records'"
         [shouldHaveSeperator]="(displayVehicleDetails && !isADI3()) || isADI3()"
         [value]="trainingRecords">
       </data-row>
+}
 
-      <data-row
-        *ngIf="displayVehicleDetails && !isADI3()"
+      @if (displayVehicleDetails && !isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="false"
         [label]="'Vehicle Details'"
         [value]="schoolCarDualControls">
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI3()"
+      @if (isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="false"
         [label]="'Dual Controls'"
         [value]="dualControls">
       </data-row>
+}
 
     </ion-grid>
   </ion-card-content>
 </ion-card>
+}

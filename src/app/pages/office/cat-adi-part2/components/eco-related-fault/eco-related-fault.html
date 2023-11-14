@@ -1,4 +1,5 @@
-<div *ngIf="fuelEfficientDriving">
+@if (fuelEfficientDriving) {
+<div>
   <ion-row class="mes-row-separator"></ion-row>
   <ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator">
     <div [class.ng-invalid]="invalid" class="validation-bar"></div>
@@ -20,10 +21,12 @@
                     labelPlacement="stacked"
                     okText="Submit"
                     placeholder="Select fault">
-          <ion-select-option *ngFor="let fault of drivingFaults; trackBy: trackByIndex"
+          @for (fault of drivingFaults; track trackByIndex($index, fault)) {
+  <ion-select-option
                              [value]="fault.competencyIdentifier">
             {{fault.competencyDisplayName}}
           </ion-select-option>
+}
         </ion-select>
       </ion-row>
       <ion-row class="validation-message-row ion-align-items-center">
@@ -34,3 +37,4 @@
     </ion-col>
   </ion-row>
 </div>
+}

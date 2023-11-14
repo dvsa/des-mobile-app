@@ -16,8 +16,9 @@
     mode="ios"
     [backdropDismiss]="false">
     <ng-template>
-      <ion-datetime
-        *ngIf="displayType === 'date'"
+      @if (displayType === 'date') {
+<ion-datetime
+       
         #date
         id="{{pickerId}}"
         [showDefaultButtons]=!emitButtonEvents
@@ -28,25 +29,31 @@
         [max]="maxValue"
         [min]="minValue"
         (ionChange)="onSelected(date, displayType)">
-        <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
+        @if (emitButtonEvents) {
+<ion-buttons slot="buttons">
           <ion-button
             color="primary"
             (click)="date.cancel();
              buttonEmit(date, 'cancel')">
             Cancel
           </ion-button>
-          <ion-button
-            *ngIf="showClearButton"
+          @if (showClearButton) {
+<ion-button
+           
             color="primary"
             (click)="date.reset();
              buttonEmit(date, 'clear')">
             Clear
           </ion-button>
+}
           <ion-button color="primary" (click)="date.confirm(); buttonEmit(date, 'done')">Done</ion-button>
         </ion-buttons>
+}
       </ion-datetime>
-      <ion-datetime
-        *ngIf="displayType === 'time'"
+}
+      @if (displayType === 'time') {
+<ion-datetime
+       
         class="time-modal-content"
         #time
         id="{{pickerId}}"
@@ -58,13 +65,18 @@
         [max]="maxValue"
         [min]="minValue"
         (ionChange)="onSelected(time, displayType)">
-        <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
+        @if (emitButtonEvents) {
+<ion-buttons slot="buttons">
           <ion-button color="primary" (click)="time.cancel(); buttonEmit(time, 'cancel')">Cancel</ion-button>
-          <ion-button *ngIf="showClearButton" color="primary" (click)="time.reset(); buttonEmit(time, 'clear')">Clear
+          @if (showClearButton) {
+<ion-button color="primary" (click)="time.reset(); buttonEmit(time, 'clear')">Clear
           </ion-button>
+}
           <ion-button color="primary" (click)="time.confirm(); buttonEmit(time, 'done')">Done</ion-button>
         </ion-buttons>
+}
       </ion-datetime>
+}
     </ng-template>
   </ion-modal>
 </div>

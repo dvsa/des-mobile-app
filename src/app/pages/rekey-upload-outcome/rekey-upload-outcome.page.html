@@ -6,7 +6,8 @@
 
 <ion-content [scrollY]="false" id="rekey-upload-outcome-page">
   <ion-grid>
-    <ion-row class="message-wrapper ion-align-items-center" *ngIf="!(pageState.duplicateUpload$ | async)">
+    @if (!(pageState.duplicateUpload$ | async)) {
+<ion-row class="message-wrapper ion-align-items-center">
       <ion-col class="ion-no-padding">
         <ion-row class="ion-justify-content-center">
           <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
@@ -16,7 +17,9 @@
         </ion-row>
       </ion-col>
     </ion-row>
-    <ion-row class="message-wrapper ion-align-items-center" *ngIf="pageState.duplicateUpload$ | async">
+}
+    @if (pageState.duplicateUpload$ | async) {
+<ion-row class="message-wrapper ion-align-items-center">
       <ion-col class="ion-no-padding">
         <ion-row class="ion-justify-content-center">
           <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
@@ -26,6 +29,7 @@
         </ion-row>
       </ion-col>
     </ion-row>
+}
   </ion-grid>
 </ion-content>
 

@@ -3,16 +3,23 @@
         <label>{{ label }}</label>
     </ion-col>
     <ion-col size="56">
-        <span class="mes-data" *ngIf="data.length === 0">None</span>
+        @if (data.length === 0) {
+<span class="mes-data">None</span>
+}
 
         <ion-grid>
-            <ion-row *ngFor="let item of data" class="mes-data ion-align-items-center">
+            @for (item of data; track item) {
+  <ion-row class="mes-data ion-align-items-center">
                 <ion-col size="9" class="ion-no-padding ion-align-self-start">
                     <div class="counter-icon">
-                        <img *ngIf="!shouldShowFault(item.outcome)" src="assets/imgs/greenCorrectAnswer.png"
+                        @if (!shouldShowFault(item.outcome)) {
+<img src="assets/imgs/greenCorrectAnswer.png"
                              alt="Correct Answer" class="correct-icon"/>
-                        <img *ngIf="shouldShowFault(item.outcome)" src="assets/imgs/redWrongAnswer.png"
+}
+                        @if (shouldShowFault(item.outcome)) {
+<img src="assets/imgs/redWrongAnswer.png"
                              alt="Wrong Answer" class="wrong-icon"/>
+}
                     </div>
                 </ion-col>
                 <ion-col no-padding>
@@ -20,6 +27,7 @@
                         - {{item.description}}</div>
                 </ion-col>
             </ion-row>
+}
         </ion-grid>
     </ion-col>
 </ion-row>

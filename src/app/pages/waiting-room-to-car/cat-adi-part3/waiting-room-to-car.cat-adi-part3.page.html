@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
@@ -42,19 +44,23 @@
               [transmission]="pageState.transmission$ | async">
             </transmission>
 
-            <pdi-logbook
+            @if (notSC(pageState.category$ | async)) {
+<pdi-logbook
               (pdiLogbookChange)="pdiLogbookChanged($event)"
-              *ngIf="notSC(pageState.category$ | async)"
+             
               [formGroup]="form"
               [pdiLogbook]="pageState.pdiLogbook$ | async">
             </pdi-logbook>
+}
 
-            <trainee-licence
+            @if (notSC(pageState.category$ | async)) {
+<trainee-licence
               (traineeLicenceChange)="traineeLicenceChanged($event)"
-              *ngIf="notSC(pageState.category$ | async)"
+             
               [formGroup]="form"
               [traineeLicence]="pageState.traineeLicence$ | async">
             </trainee-licence>
+}
 
             <ordit-trainer-cat-adi-part2
               (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"

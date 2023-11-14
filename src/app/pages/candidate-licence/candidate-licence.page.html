@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-buttons id="candidate-licence-back-button" slot="start">
       <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
@@ -19,7 +21,8 @@
 <ion-content>
   <offline-banner [isOffline]="!!offlineError"></offline-banner>
 
-  <ion-grid *ngIf="{ candidateLicence: pageState.candidateData$ | async } as data">
+  @if ({ candidateLicence: pageState.candidateData$ | async }; as data) {
+<ion-grid>
     <inappropriate-use-banner></inappropriate-use-banner>
 
     <licence-photo
@@ -27,13 +30,15 @@
       [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)">
     </licence-photo>
 
-    <licence-data-error
-      *ngIf="!isPracticeMode && hasErrored"
+    @if (!isPracticeMode && hasErrored) {
+<licence-data-error
+     
       [candidateDataError]="candidateDataError"
       [candidateDataUnavailable]="candidateDataUnavailable"
       [isOfflineError]="offlineError"
       [niLicenceDetected]="niLicenceDetected">
     </licence-data-error>
+}
 
     <true-likeness
       [colSize]="37"
@@ -52,6 +57,7 @@
       [isPracticeMode]="isPracticeMode">
     </licence-information>
   </ion-grid>
+}
 </ion-content>
 
 <ion-footer>

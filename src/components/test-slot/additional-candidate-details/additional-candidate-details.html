@@ -4,20 +4,20 @@
       <abbr
         aria-label="Approved Driving Instructor"
         title="Approved Driving Instructor"
-        >ADI </abbr
+      >ADI </abbr
       >
       <abbr
         aria-label="Personal Reference Number"
         title="Personal Reference Number"
-        >PRN</abbr
+      >PRN</abbr
       >:
     </dt>
     <dd class="additional-candidate-details__value">
       {{ prn }}
     </dd>
-    <dt *ngIf="!isCompleted()" class="additional-candidate-details__key">Attempt number:</dt>
-    <dd *ngIf="!isCompleted()" class="additional-candidate-details__value">
-      {{ attempts }}
-    </dd>
+    @if (!isCompleted()) {
+      <dt class="additional-candidate-details__key">Attempt number:</dt>
+      <dd class="additional-candidate-details__value">{{ attempts }}</dd>
+    }
   </dl>
 </div>

@@ -1,4 +1,5 @@
-<ion-card id="speed-check" *ngIf="emergencyStop.firstAttempt !== undefined || avoidance.firstAttempt !== undefined">
+@if (emergencyStop.firstAttempt !== undefined || avoidance.firstAttempt !== undefined) {
+<ion-card id="speed-check">
   <ion-card-header>
     <ion-card-title>
       <ion-text class="des-header-style-4">
@@ -13,7 +14,8 @@
           <label>{{ 'debrief.emergencyStopHeader' | translate }}</label>
         </ion-col>
 
-        <ion-col size="20" class="ion-no-padding" *ngIf="emergencyStop.firstAttempt !== undefined">
+        @if (emergencyStop.firstAttempt !== undefined) {
+<ion-col size="20" class="ion-no-padding">
           <ion-row class="ion-no-padding">
             <ion-col size="25" class="ion-no-padding">
               <div class="black-text">1st:</div>
@@ -25,8 +27,10 @@
             </ion-col>
           </ion-row>
         </ion-col>
+}
 
-        <ion-col size="25" class="ion-no-padding" *ngIf="emergencyStop.secondAttempt !== undefined">
+        @if (emergencyStop.secondAttempt !== undefined) {
+<ion-col size="25" class="ion-no-padding">
           <ion-row class="ion-no-padding">
             <ion-col size="25" class="ion-no-padding">
               <div class="black-text">2nd: </div>
@@ -38,40 +42,51 @@
             </ion-col>
           </ion-row>
         </ion-col>
+}
 
         <ion-col size="4" class="ion-no-padding ion-align-self-start">
           <div class="counter-icon icon-centre">
-            <img
-              *ngIf="!emergencyStop.outcome"
+            @if (!emergencyStop.outcome) {
+<img
+             
               src="assets/imgs/greenCorrectAnswer.png"
               alt="Speed Met"
               class="tick-icon"
             />
-            <img
-              *ngIf="emergencyStop.outcome"
+}
+            @if (emergencyStop.outcome) {
+<img
+             
               src="assets/imgs/redWrongAnswer.png"
               alt="Speed Not Met"
               class="cross-icon"
             />
+}
           </div>
         </ion-col>
 
         <ion-col size="11" class="ion-no-padding">
-          <div class="counter-label black-text ion-nowrap" *ngIf="!emergencyStop.outcome">
+          @if (!emergencyStop.outcome) {
+<div class="counter-label black-text ion-nowrap">
             {{ 'debrief.speedRequirementMet' | translate }}
           </div>
-          <div class="counter-label black-text ion-nowrap" *ngIf="emergencyStop.outcome">
+}
+          @if (emergencyStop.outcome) {
+<div class="counter-label black-text ion-nowrap">
             {{ 'debrief.speedRequirementNotMet' | translate }}
           </div>
+}
         </ion-col>
       </ion-row>
 
-      <ion-row class="ion-padding no-padding-right" *ngIf="avoidanceAttempted">
+      @if (avoidanceAttempted) {
+<ion-row class="ion-padding no-padding-right">
         <ion-col size="36" class="ion-no-padding">
           <label>{{ 'debrief.avoidanceHeader' | translate }}</label>
         </ion-col>
 
-        <ion-col size="20" class="ion-no-padding" *ngIf="avoidance.firstAttempt !== undefined">
+        @if (avoidance.firstAttempt !== undefined) {
+<ion-col size="20" class="ion-no-padding">
           <ion-row class="ion-no-padding">
             <ion-col size="25" class="ion-no-padding">
               <div class="black-text">1st:</div>
@@ -85,8 +100,10 @@
             </ion-col>
           </ion-row>
         </ion-col>
+}
 
-        <ion-col size="25" class="ion-no-padding" *ngIf="avoidance.secondAttempt !== undefined">
+        @if (avoidance.secondAttempt !== undefined) {
+<ion-col size="25" class="ion-no-padding">
           <ion-row class="ion-no-padding">
             <ion-col size="25" class="ion-no-padding">
               <div class="black-text">2nd: </div>
@@ -98,43 +115,58 @@
             </ion-col>
           </ion-row>
         </ion-col>
+}
 
         <ion-col size="4" class="ion-no-padding ion-align-self-start">
           <div class="counter-icon icon-centre">
-            <img
-                    *ngIf="!avoidance.outcome"
+            @if (!avoidance.outcome) {
+<img
+                   
                     src="assets/imgs/greenCorrectAnswer.png"
                     alt="Speed Met"
                     class="tick-icon"
             />
-            <img
-                    *ngIf="avoidance.outcome"
+}
+            @if (avoidance.outcome) {
+<img
+                   
                     src="assets/imgs/redWrongAnswer.png"
                     alt="Speed Not Met"
                     class="cross-icon"
             />
+}
           </div>
         </ion-col>
 
         <ion-col size="11" class="ion-no-padding">
-          <div class="counter-label black-text ion-nowrap" *ngIf="!avoidance.outcome">
+          @if (!avoidance.outcome) {
+<div class="counter-label black-text ion-nowrap">
             {{ 'debrief.speedRequirementMet' | translate }}
           </div>
-          <div class="counter-label black-text ion-nowrap" *ngIf="avoidance.outcome">
+}
+          @if (avoidance.outcome) {
+<div class="counter-label black-text ion-nowrap">
             {{ 'debrief.speedRequirementNotMet' | translate }}
           </div>
+}
         </ion-col>
 
       </ion-row>
+}
       <ion-row class="spacing-row"></ion-row>
     </ion-grid>
   </ion-card-content>
 </ion-card>
+}
 
 <ng-template #SpeedFormat let-speed="speed">
-  <ng-container *ngIf="speed != 0; else Aborted;">
+  @if (speed != 0) {
+
     <span class="black-text">{{speed}}km/h</span>
-  </ng-container>
+  
+} @else {
+#Aborted;|
+}
 </ng-template>
 
 <ng-template #Aborted>

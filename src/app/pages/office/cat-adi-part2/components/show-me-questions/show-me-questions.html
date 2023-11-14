@@ -20,11 +20,13 @@
                     labelPlacement="stacked"
                     okText="Submit"
                     placeholder="Select questions">
-          <ion-select-option *ngFor="let showMeQuestion of questions;"
+          @for (showMeQuestion of questions; track showMeQuestion) {
+  <ion-select-option
                              [disabled]="isOptionDisabled(showMeQuestion)"
                              [value]="showMeQuestion">
             {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
           </ion-select-option>
+}
         </ion-select>
       </ion-col>
       <ion-col size="4"></ion-col>

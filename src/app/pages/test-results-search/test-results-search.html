@@ -45,8 +45,9 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col size="96">
-              <ion-input
-                *ngIf="searchBy !== 'appReference'"
+              @if (searchBy !== 'appReference') {
+<ion-input
+               
                 id="test-result-search-{{searchBy}}-input"
                 [placeholder]="'Enter a driver number'"
                 aria-label="Driver number"
@@ -61,8 +62,10 @@
                 (ionInput)="candidateInfoChanged($event.target.value)"
                 emojiBlock>
               </ion-input>
-              <ion-input
-                *ngIf="searchBy === 'appReference'"
+}
+              @if (searchBy === 'appReference') {
+<ion-input
+               
                 id="test-result-search-{{searchBy}}-input"
                 [placeholder]="'Enter an application reference'"
                 aria-label="Application reference"
@@ -76,6 +79,7 @@
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
                 (ionInput)="candidateInfoChanged($event.target.value)">
               </ion-input>
+}
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
@@ -88,7 +92,9 @@
                 Search
               </ion-text>
             </ion-button>
-            <ion-spinner class="search-spinner" name="bubbles" *ngIf="showSearchSpinner"></ion-spinner>
+            @if (showSearchSpinner) {
+<ion-spinner class="search-spinner" name="bubbles"></ion-spinner>
+}
           </ion-row>
         </ion-grid>
       </tab>
@@ -102,19 +108,25 @@
       </tab>
     </tabs>
 
-    <div class="results-error" *ngIf="hasSearched && searchResults.length === 0">
+    @if (hasSearched && searchResults.length === 0) {
+<div class="results-error">
       <p class="error-text" id="test-result-search-no-results-message">There were no results found for your search.</p>
       <p class="error-text" id="test-result-search-please-check-try-again-message">Please check and try again.</p>
     </div>
+}
 
-    <p class="results-message" *ngIf="searchResults.length > 0" id="displaying-results-label">
+    @if (searchResults.length > 0) {
+<p class="results-message" id="displaying-results-label">
       Displaying <span>{{searchResults.length}}</span> results
     </p>
+}
 
-    <search-result
-      *ngFor="let searchResult of searchResults;"
+    @for (searchResult of searchResults; track searchResult) {
+  <search-result
+     
       [searchResult]=searchResult>
     </search-result>
+}
   </div>
 
 </ion-content>

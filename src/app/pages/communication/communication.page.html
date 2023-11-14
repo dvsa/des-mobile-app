@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-buttons id="communication-back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -28,12 +30,14 @@
                          [showVRNButton]="pageState.showVrnBtn$ | async">
       </candidate-section>
 
-      <valid-certificate
+      @if (pageState.isStandardsCheck$ | async) {
+<valid-certificate
         (validCertificateChange)="validCertificateChanged($event)"
-        *ngIf="pageState.isStandardsCheck$ | async"
+       
         [formGroup]="form"
         [validCertificate]="pageState.validCertificate$ | async"
       ></valid-certificate>
+}
 
       <div class="mes-full-width-card-separator"></div>
 

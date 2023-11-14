@@ -5,52 +5,64 @@
   <ion-card-content>
     <ion-grid>
 
-      <data-row
-        *ngIf="isADI3()"
+      @if (isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="true"
         [label]="'PDI logbook'"
         [value]="trainerData.pdiLogbook ? 'Yes' : 'No'"
       >
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI3()"
+      @if (isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="true"
         [label]="'Did candidate receive training from an ORDIT trainer?'"
         [value]="trainerData.orditTrainedCandidate ? 'Yes' : 'No'"
       >
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI3()"
+      @if (isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="true"
         [label]="'Was advice given to seek further development from an ORDIT trainer?'"
         [value]="reviewData.seekFurtherDevelopment ? 'Yes' : 'No'"
       >
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI3() && reasonForNoAdviceGiven"
+      @if (isADI3() && reasonForNoAdviceGiven) {
+<data-row
+       
         [shouldHaveSeperator]="true"
         [label]="'Reason for no advice given'"
         [value]="reasonForNoAdviceGiven"
       >
       </data-row>
+}
 
-      <data-row
-        *ngIf="isADI3()"
+      @if (isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="true"
         [label]="'Trainee licence'"
         [value]="trainerData.traineeLicence ? 'Yes' : 'No'"
       >
       </data-row>
-      <data-row
-        *ngIf="isADI3()"
+}
+      @if (isADI3()) {
+<data-row
+       
         [shouldHaveSeperator]="false"
         [label]="'Trainer PRN'"
         [value]="trainerData.trainerRegistrationNumber ? trainerData.trainerRegistrationNumber : 'None'"
       >
       </data-row>
+}
     </ion-grid>
   </ion-card-content>
 </ion-card>

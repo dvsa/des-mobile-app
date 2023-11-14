@@ -1,4 +1,5 @@
-<div id="candidate-licence-info-card" class="ion-padding" *ngIf="candidateData || isPracticeMode">
+@if (candidateData || isPracticeMode) {
+<div id="candidate-licence-info-card" class="ion-padding">
     <ion-text class="des-header-style-4" id="candidate-licence-info-card-title">Licence information</ion-text>
     <ion-grid>
       <data-row
@@ -39,3 +40,4 @@
       </data-row>
     </ion-grid>
 </div>
+}

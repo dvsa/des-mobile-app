@@ -3,34 +3,41 @@
     <ion-row class="tr-standard-text">Total Score</ion-row>
     <br>
     <ion-row>
-      <ion-col class="tr-standard-text total-score-positioning" id="total-score-text" size="10">{{totalScore}}</ion-col>
+      <ion-col class="tr-standard-text total-score-positioning" id="total-score-text" size="10">{{ totalScore }}
+      </ion-col>
       <ion-col>
-        <ion-row *ngIf="review.immediateDanger">
-          <p id="terminated-public-safety-text">Terminated in the interest of public safety</p>
-        </ion-row>
+        @if (review.immediateDanger) {
+          <ion-row>
+            <p id="terminated-public-safety-text">Terminated in the interest of public safety</p>
+          </ion-row>
+        }
         <ion-row>
-          <p id="grade-description-text">{{displayGradeDescription()}}</p>
+          <p id="grade-description-text">{{ displayGradeDescription() }}</p>
         </ion-row>
-        <ion-row *ngIf="riskManagement.score <= 7">
-          <p id="scored-less-than-7-in-rm-text">Scored 7 or less in Risk Management section</p>
-        </ion-row>
+        @if (riskManagement.score <= 7) {
+          <ion-row>
+            <p id="scored-less-than-7-in-rm-text">Scored 7 or less in Risk Management section</p>
+          </ion-row>
+        }
       </ion-col>
     </ion-row>
   </ion-card>
 
-  <ion-card *ngIf="(lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel"
-            class="ion-padding">
-    <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
-    <br>
-    <ion-row>
-      <ion-col class="tr-standard-text" size="20">Student</ion-col>
-      <ion-col><p id="student-value-text">{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="tr-standard-text" size="20">Theme</ion-col>
-      <ion-col><p id="theme-value-text">{{lessonThemeValueStr}}</p></ion-col>
-    </ion-row>
-  </ion-card>
+  @if ((lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel) {
+    <ion-card
+      class="ion-padding">
+      <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
+      <br>
+      <ion-row>
+        <ion-col class="tr-standard-text" size="20">Student</ion-col>
+        <ion-col><p id="student-value-text">{{ studentValueConst[lessonTheme.studentLevel] }}</p></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="tr-standard-text" size="20">Theme</ion-col>
+        <ion-col><p id="theme-value-text">{{ lessonThemeValueStr }}</p></ion-col>
+      </ion-row>
+    </ion-card>
+  }
 
   <ion-row class="scoring-text">
     <ion-col size="14">
@@ -83,15 +90,17 @@
       </adi3-debrief-card-box>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="review?.feedback">
-    <ion-col>
-      <ion-card class="ion-padding">
-        <ion-row class="tr-standard-text">Feedback</ion-row>
-        <br>
-        <ion-row>
-          <p id="review-feedback-text">{{review?.feedback}}</p>
-        </ion-row>
-      </ion-card>
-    </ion-col>
-  </ion-row>
+  @if (review?.feedback) {
+    <ion-row>
+      <ion-col>
+        <ion-card class="ion-padding">
+          <ion-row class="tr-standard-text">Feedback</ion-row>
+          <br>
+          <ion-row>
+            <p id="review-feedback-text">{{ review?.feedback }}</p>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  }
 </ion-grid>

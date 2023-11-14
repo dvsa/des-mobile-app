@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-title id="confirm-test-details-title" role="heading" aria-level="1">
       Confirm test details - {{pageState.candidateUntitledName$ | async}}
@@ -31,18 +33,22 @@
           [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'">
         </data-row>
         <!-- Test outcome -->
-        <data-row
-          *ngIf="!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))"
+        @if (!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))) {
+<data-row
+         
           [idPrefix]="idPrefix"
           [label]="'Test outcome'"
           [value]="pageState.testOutcomeText$ | async">
         </data-row>
-        <data-row
-          *ngIf="isADI3(category) && isPassed(pageState.testOutcomeText$ | async)"
+}
+        @if (isADI3(category) && isPassed(pageState.testOutcomeText$ | async)) {
+<data-row
+         
           [idPrefix]="idPrefix"
           [label]="'Test outcome'"
           [value]="pageState.testOutcomeFullResult$ | async">
         </data-row>
+}
         <!-- Activity Code -->
         <data-row
           [idPrefix]="idPrefix"
@@ -57,46 +63,57 @@
           [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)">
         </data-row>
         <!-- Provisional licence received -->
-        <data-row
-          *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
+        @if (isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)) {
+<data-row
+         
           [idPrefix]="idPrefix"
           [label]="'Provisional licence received'"
           [value]="getProvisionalText(pageState.provisionalLicense$ | async)">
         </data-row>
+}
         <!-- Transmission -->
-        <transmission-display
-          *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
+        @if (isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)) {
+<transmission-display
+         
           [category]="category"
           [transmission]="pageState.transmission$ | async"
           [code78]="pageState.code78$ | async"
           [isTestSubmitted]="false">
         </transmission-display>
+}
         <!-- D255 -->
-        <data-row
-          *ngIf="!displayD255(category)"
+        @if (!displayD255(category)) {
+<data-row
+         
           [idPrefix]="idPrefix"
           [label]="'D255'"
           [value]="getD255Text(pageState.d255$ | async)"
           [shouldHaveSeperator]="false">
         </data-row>
+}
 
-        <div *ngIf="isADI3(category)">
+        @if (isADI3(category)) {
+<div>
           <!-- Student -->
-          <data-row
-            *ngIf="pageState.studentLevel$ | async"
+          @if (pageState.studentLevel$ | async) {
+<data-row
+           
             [idPrefix]="idPrefix"
             [label]="'Student'"
             [value]="pageState.studentLevel$ | async"
             [shouldHaveSeperator]="true">
           </data-row>
+}
           <!-- Lesson theme -->
-          <data-row
-            *ngIf="(pageState.lessonTheme$ | async)?.length"
+          @if ((pageState.lessonTheme$ | async)?.length) {
+<data-row
+           
             [idPrefix]="idPrefix"
             [label]="'Lesson theme'"
             [value]="pageState.lessonTheme$ | async"
             [shouldHaveSeperator]="true">
           </data-row>
+}
           <!-- Lesson planning -->
           <data-row
             [idPrefix]="idPrefix"
@@ -126,6 +143,7 @@
             [shouldHaveSeperator]="false">
           </data-row>
         </div>
+}
       </ion-grid>
     </ion-card-content>
   </ion-card>

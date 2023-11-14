@@ -1,4 +1,5 @@
-<div *ngIf="shouldRender" [formGroup]="formGroup">
+@if (shouldRender) {
+<div [formGroup]="formGroup">
         <ion-row class="communication-option">
             <div class="validation-bar communication-validation-bar"></div>
             <input type="radio"
@@ -13,7 +14,8 @@
                 {{ 'communication.byEmailLabel' | translate }}
             </label>
         </ion-row>
-        <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
+        @if (isProvidedEmailAddressChosen) {
+<ion-row class="communication-box">
             <ion-col size="6"></ion-col>
             <ion-col>
                 <ion-row>
@@ -30,4 +32,6 @@
                 </ion-row>
             </ion-col>
         </ion-row>
+}
 </div>
+}

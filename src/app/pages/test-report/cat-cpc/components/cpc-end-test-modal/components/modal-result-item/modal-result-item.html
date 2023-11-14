@@ -1,4 +1,5 @@
-<ion-row *ngIf="!adi3" class="result-row">
+@if (!adi3) {
+<ion-row class="result-row">
   <ion-col size="84" class="result-item">
     <div class="row">
       <div class="col question-code">{{label}}</div>
@@ -13,22 +14,29 @@
     </div>
   </ion-col>
 </ion-row>
+}
 
-<ion-grid *ngIf="adi3" class="grid-padding">
+@if (adi3) {
+<ion-grid class="grid-padding">
   <ion-row class="result-item-adi3">
     <ion-col size="{{showIcon ? 63 : 75}}">
       <div class="col black-text" id="{{idSelector}}-text">{{label}}</div>
     </ion-col>
     <ion-col size="17">
-      <div *ngIf="showScore" class="col black-text" id="{{idSelector}}-score">{{displayScore(score)}}</div>
+      @if (showScore) {
+<div class="col black-text" id="{{idSelector}}-score">{{displayScore(score)}}</div>
+}
     </ion-col>
     <ion-col size="{{showIcon ? 12 : 0}}">
-      <img *ngIf="showIcon"
+      @if (showIcon) {
+<img
            class="outcome-icon"
            [ngSrc]="getOutcomeIcon()"
            [height]="46"
            [width]="46"
            [alt]="isPass ? 'Pass outcome icon' : 'Fail outcome icon'">
+}
     </ion-col>
   </ion-row>
 </ion-grid>
+}

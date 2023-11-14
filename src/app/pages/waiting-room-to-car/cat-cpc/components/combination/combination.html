@@ -17,11 +17,15 @@
                   labelPlacement="stacked"
                   okText="Submit"
                   placeholder="Select a combination">
-        <ion-select-option *ngFor="let combination of combinations"
+        @for (combination of combinations; track combination) {
+  <ion-select-option
                            [value]="combination.code">
           {{combination.code}}
-          <span *ngIf="combination.additionalText"> - {{combination.additionalText}}</span>
+          @if (combination.additionalText) {
+<span> - {{combination.additionalText}}</span>
+}
         </ion-select-option>
+}
       </ion-select>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">

@@ -1,4 +1,5 @@
-<ion-card id="ETA" *ngIf="hasPhysicalEta || hasVerbalEta">
+@if (hasPhysicalEta || hasVerbalEta) {
+<ion-card id="ETA">
   <ion-card-content>
     <ion-grid>
       <ion-row class="mes-data ion-align-items-start">
@@ -7,14 +8,21 @@
           <ion-text class="des-header-style-4 fault-heading">{{ 'debrief.etaHeader' | translate }}</ion-text>
         </ion-col>
         <ion-col class="down-padding ion-align-self-start">
-          <span id="etaFaultsPhysical" class="hasPhysicalEta" *ngIf="hasPhysicalEta && !hasVerbalEta">{{ 'debrief.etaPhysical'
+          @if (hasPhysicalEta && !hasVerbalEta) {
+<span id="etaFaultsPhysical" class="hasPhysicalEta">{{ 'debrief.etaPhysical'
             | translate }}</span>
-          <span id="etaFaultsVerbal" class="hasVerbalEta" *ngIf="!hasPhysicalEta && hasVerbalEta">{{ 'debrief.etaVerbal' |
+}
+          @if (!hasPhysicalEta && hasVerbalEta) {
+<span id="etaFaultsVerbal" class="hasVerbalEta">{{ 'debrief.etaVerbal' |
             translate }}</span>
-          <span id="etaFaultsBoth" class="hasVerbalAndPhysicalEta" *ngIf="hasPhysicalEta && hasVerbalEta">{{
+}
+          @if (hasPhysicalEta && hasVerbalEta) {
+<span id="etaFaultsBoth" class="hasVerbalAndPhysicalEta">{{
             'debrief.etaBoth' | translate }}</span>
+}
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
 </ion-card>
+}

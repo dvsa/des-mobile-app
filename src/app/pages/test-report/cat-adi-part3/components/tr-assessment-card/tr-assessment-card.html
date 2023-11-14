@@ -51,8 +51,9 @@
         (answerChanged)="trAssessmentAnswerChange(4, $event)">
       </tr-assessment-answer>
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q5']"
+      @if (sectionData['q5']) {
+<tr-assessment-answer
+       
         [showMissing]="showMissing"
         [questionNumber]="5"
         [card]="assessmentCard"
@@ -60,9 +61,11 @@
         [answer]="sectionData['q5'].score"
         (answerChanged)="trAssessmentAnswerChange(5, $event)">
       </tr-assessment-answer>
+}
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q6']"
+      @if (sectionData['q6']) {
+<tr-assessment-answer
+       
         [showMissing]="showMissing"
         [questionNumber]="6"
         [card]="assessmentCard"
@@ -70,9 +73,11 @@
         [answer]="sectionData['q6'].score"
         (answerChanged)="trAssessmentAnswerChange(6, $event)">
       </tr-assessment-answer>
+}
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q7']"
+      @if (sectionData['q7']) {
+<tr-assessment-answer
+       
         [showMissing]="showMissing"
         [questionNumber]="7"
         [card]="assessmentCard"
@@ -80,9 +85,11 @@
         [answer]="sectionData['q7'].score"
         (answerChanged)="trAssessmentAnswerChange(7, $event)">
       </tr-assessment-answer>
+}
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q8']"
+      @if (sectionData['q8']) {
+<tr-assessment-answer
+       
         [showMissing]="showMissing"
         [questionNumber]="8"
         [card]="assessmentCard"
@@ -90,6 +97,7 @@
         [answer]="sectionData['q8'].score"
         (answerChanged)="trAssessmentAnswerChange(8, $event)">
       </tr-assessment-answer>
+}
     </ion-grid>
   </ion-card-content>
 </ion-card>

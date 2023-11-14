@@ -5,7 +5,8 @@
             <ion-row [formGroup]="formGroup">
                 <div class="validation-bar" [class.ng-invalid]="invalid"></div>
                 <ion-col size="2"></ion-col>
-                <ion-col *ngFor="let answers of answerArray">
+                @for (answers of answerArray; track answers) {
+  <ion-col>
                     <input
                             type="radio"
                             id="question{{questionNumber}}answer{{answers}}"
@@ -18,13 +19,16 @@
                     />
                     <label for="question{{questionNumber}}answer{{answers}}" class="radio-label">{{answers}}%</label>
                 </ion-col>
+}
             </ion-row>
-            <ion-row class="validation-message-row ion-align-items-center" *ngIf="invalid">
+            @if (invalid) {
+<ion-row class="validation-message-row ion-align-items-center">
                 <div class="validation-text" [class.ng-invalid]="invalid"
                      id="question{{questionNumber}}-validation-text">
                     Please select a score
                 </div>
             </ion-row>
+}
         </ion-grid>
     </ion-card-content>
 </ion-card>

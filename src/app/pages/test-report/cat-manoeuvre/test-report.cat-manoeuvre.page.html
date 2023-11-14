@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
     <ion-buttons slot="start">
       <ion-back-button id="test-report-back-button"></ion-back-button>
@@ -68,7 +70,8 @@
             </reverse-manoeuvres>
           </ion-col>
         </ion-row>
-        <div *ngIf="pageState.showUncoupleRecouple$ | async">
+        @if (pageState.showUncoupleRecouple$ | async) {
+<div>
           <ion-row>
             <ion-col class="padding-top-18 only-top-padding">
               <div class="dark-divider"></div>
@@ -90,6 +93,7 @@
             </ion-col>
           </ion-row>
         </div>
+}
       </ion-col>
       <!-- Column 2-->
       <ion-col size="6"></ion-col>

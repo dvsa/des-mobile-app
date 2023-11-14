@@ -1,17 +1,23 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-title role="heading" aria-level="1" id="non-pass-page-title">Finalise outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button
-        *ngIf="isADI3() && !didTestComplete()"
+      @if (isADI3() && !didTestComplete()) {
+<ion-back-button
+       
         id="non-pass-back-button-adi3-terminated">
       </ion-back-button>
-      <ion-back-button
-        *ngIf="!isADI3() || (isADI3() && didTestComplete())"
+}
+      @if (!isADI3() || (isADI3() && didTestComplete())) {
+<ion-back-button
+       
         id="non-pass-back-button"
         (click)="navigateToDebrief()">
       </ion-back-button>
+}
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -39,8 +45,9 @@
       </activity-code>
 
       <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-        <d255
-          *ngIf="showD255()"
+        @if (showD255()) {
+<d255
+         
           [display]="pageState.displayD255$ | async"
           [d255]="pageState.d255$ | async"
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
@@ -48,18 +55,23 @@
           [formGroup]="form"
           (d255Change)="d255Changed($event)">
         </d255>
+}
 
-        <warning-banner
-          *ngIf="pageState.d255$ | async"
+        @if (pageState.d255$ | async) {
+<warning-banner
+         
           warningText="DVLA will not process the result until a D255 is received.">
         </warning-banner>
+}
 
-        <language-preferences
-          *ngIf="showLanguage()"
+        @if (showLanguage()) {
+<language-preferences
+         
           [formGroup]="form"
           [isWelsh]="pageState.isWelshTest$ | async"
           (welshChanged)="isWelshChanged($event)">
         </language-preferences>
+}
 
         <debrief-witnessed
           [display]="pageState.displayDebriefWitnessed$ | async"
@@ -69,10 +81,12 @@
           (debriefWitnessedChange)="debriefWitnessedChanged($event)">
         </debrief-witnessed>
 
-        <warning-banner
-          *ngIf="pageState.showADIWarning$ | async"
+        @if (pageState.showADIWarning$ | async) {
+<warning-banner
+         
           warningText="Advise PDI to seek further development from an ORDIT trainer">
         </warning-banner>
+}
 
         <further-development
           [display]="pageState.displayFurtherDevelopment$ | async"
@@ -82,10 +96,12 @@
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
 
-        <div
-          *ngIf="(pageState.displayFurtherDevelopment$ | async) && ((pageState.furtherDevelopment$ | async) !== false)"
+        @if ((pageState.displayFurtherDevelopment$ | async) && ((pageState.furtherDevelopment$ | async) !== false)) {
+<div
+         
           class="mes-row-separator padding-top-10">
         </div>
+}
 
         <reason-given
           [display]="pageState.displayAdviceReasonGiven$ | async"
@@ -96,14 +112,16 @@
           (adviceReason)="adviceReasonChanged($event)">
         </reason-given>
 
-        <test-start-end-times
-          *ngIf="pageState.isStandardsCheck$ | async"
+        @if (pageState.isStandardsCheck$ | async) {
+<test-start-end-times
+         
           [formGroup]="form"
           [startTime]="pageState.testStartTime$ | async"
           [endTime]="pageState.testEndTime$ | async"
           (testStartTimeChange)="testStartTimeChanged($event)"
           (testEndTimeChange)="testEndTimeChanged($event)">
         </test-start-end-times>
+}
       </div>
     </ion-grid>
   </form>

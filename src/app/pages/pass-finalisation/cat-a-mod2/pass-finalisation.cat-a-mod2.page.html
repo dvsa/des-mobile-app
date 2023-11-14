@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons id="back-button" slot="start">
@@ -48,10 +50,12 @@
           [formGroup]="form">
         </transmission>
 
-        <warning-banner
-          *ngIf="displayTransmissionBanner()"
+        @if (displayTransmissionBanner()) {
+<warning-banner
+         
           warningText="An automatic licence will be issued.">
         </warning-banner>
+}
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
@@ -69,10 +73,12 @@
           [outcome]="testOutcome">
         </d255>
 
-        <warning-banner
-          *ngIf="pageState.d255$ | async"
+        @if (pageState.d255$ | async) {
+<warning-banner
+         
           warningText="DVLA will not process the result until a D255 is received.">
         </warning-banner>
+}
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"

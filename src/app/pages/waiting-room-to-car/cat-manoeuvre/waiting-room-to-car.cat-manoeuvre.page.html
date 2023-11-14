@@ -1,7 +1,9 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title id="waiting-room-to-car-page-title">{{ pageState.candidateName$ | async }}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -61,26 +63,32 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="{
+@if ({
   delegatedTest: pageState.delegatedTest$ | async
-} as data">
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-col *ngIf="!data?.delegatedTest" class="ion-text-center" size="45">
-      <ion-button
-        (click)="onViewTestCentreJournal()"
-        class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" shape="round">
-        <ion-text class="des-header-style-3">View test centre journal</ion-text>
-      </ion-button>
-    </ion-col>
-    <ion-col *ngIf="!data?.delegatedTest" size="6"></ion-col>
-    <ion-col [size]="data?.delegatedTest ? 96 : 45" class="ion-text-center">
-      <ion-button
-        (click)="onSubmit()"
-        class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" shape="round">
-        <ion-text class="des-header-style-3">Continue to test report</ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-footer>
+}; as data) {
+  <ion-footer>
+    <ion-row class="mes-full-width-card box-shadow">
+      @if (!data?.delegatedTest) {
+        <ion-col class="ion-text-center" size="45">
+          <ion-button
+            (click)="onViewTestCentreJournal()"
+            class="mes-grey-button wrtc-footer-btn"
+            id="view-test-centre-journal-button" shape="round">
+            <ion-text class="des-header-style-3">View test centre journal</ion-text>
+          </ion-button>
+        </ion-col>
+      }
+      @if (!data?.delegatedTest) {
+        <ion-col size="6"></ion-col>
+      }
+      <ion-col [size]="data?.delegatedTest ? 96 : 45" class="ion-text-center">
+        <ion-button
+          (click)="onSubmit()"
+          class="mes-primary-button wrtc-footer-btn"
+          id="continue-to-test-report-button" shape="round">
+          <ion-text class="des-header-style-3">Continue to test report</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+}

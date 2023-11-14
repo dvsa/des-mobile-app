@@ -1,38 +1,53 @@
-<div class="activity-alignment outcome" *ngIf="showOutcome()">
+@if (showOutcome()) {
+<div class="activity-alignment outcome">
     <ion-grid>
         <ion-row class="flex-center">
             <ion-text id="activity-code-{{applicationId}}" class="des-header-style-2 activity-code">{{activityCode}}</ion-text>
         </ion-row>
     </ion-grid>
 </div>
-<div *ngIf="showTestActionButton && !showOutcome()">
-    <ion-col class="flex-center" *ngIf="showRekeyButton(); else nonRekey">
+}
+@if (showTestActionButton && !showOutcome()) {
+<div>
+    @if (showRekeyButton()) {
+<ion-col class="flex-center">
         <ion-button id="rekey-button-{{applicationId}}" class="generic-button mes-rekey-button" (click)="rekeyTest()"
                     [disabled]="!canStartTest">
             <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
         </ion-button>
     </ion-col>
-    <ng-template #nonRekey>
-        <ion-col class="flex-center" *ngIf="showDelegatedExaminerRekeyButton()">
+} @else {
+
+        @if (showDelegatedExaminerRekeyButton()) {
+<ion-col class="flex-center">
             <ion-button id="write-up-rekey-button-{{applicationId}}" class="generic-button mes-rekey-button" (click)="rekeyDelegatedTest()">
                 <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
             </ion-button>
         </ion-col>
-        <ion-col class="flex-center" *ngIf="showResumeButton()">
+}
+        @if (showResumeButton()) {
+<ion-col class="flex-center">
             <ion-button id="resume-button-{{applicationId}}" class="generic-button mes-warning-button" (click)="clickStartOrResumeTest()">
                 <ion-text class="des-header-style-3 write-up-label">Resume</ion-text>
             </ion-button>
         </ion-col>
-        <ion-col class="flex-center" *ngIf="showStartTestButton()">
+}
+        @if (showStartTestButton()) {
+<ion-col class="flex-center">
             <ion-button id="start-test-button-{{applicationId}}" class="mes-primary-button" (click)="clickStartOrResumeTest()"
                         [disabled]="!canStartTest">
               <ion-text class="des-header-style-3">Start test</ion-text>
             </ion-button>
         </ion-col>
-        <ion-col class="display-flex" *ngIf="showWriteUpButton()">
+}
+        @if (showWriteUpButton()) {
+<ion-col class="display-flex">
             <ion-button class="mes-secondary-button mes-warning-button" (click)="writeUpTest()" id="write-up-button-{{applicationId}}">
                 <ion-text class="des-header-style-3 write-up-label">Write-up</ion-text>
             </ion-button>
         </ion-col>
-    </ng-template>
-</div>
+}
+    
+}
+    </div>
+}

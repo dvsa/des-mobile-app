@@ -12,23 +12,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="restrictDetails; else candidateDetails">
-  <ion-grid>
-    <ion-row class="navigation-row">
-      <candidate-detail-navigation
-        [name]="'ADI Enforcement Activities'"
-        [date]="selectedDate | date:'EEEE d MMMM y'"
-        [time]="pageState.time | date: 'HH:mm'"
-        [canNavigateToPreviousCandidate]="!!prevSlot"
-        [canNavigateToNextCandidate]="!!nextSlot"
-        (nextCandidateClicked)="changeCandidate('next')"
-        (previousCandidateClicked)="changeCandidate('prev')"
-      ></candidate-detail-navigation>
-    </ion-row>
-  </ion-grid>
-</ion-content>
-
-<ng-template #candidateDetails>
+@if (restrictDetails) {
+  <ion-content>
+    <ion-grid>
+      <ion-row class="navigation-row">
+        <candidate-detail-navigation
+          [name]="'ADI Enforcement Activities'"
+          [date]="selectedDate | date:'EEEE d MMMM y'"
+          [time]="pageState.time | date: 'HH:mm'"
+          [canNavigateToPreviousCandidate]="!!prevSlot"
+          [canNavigateToNextCandidate]="!!nextSlot"
+          (nextCandidateClicked)="changeCandidate('next')"
+          (previousCandidateClicked)="changeCandidate('prev')">
+        </candidate-detail-navigation>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+} @else {
   <ion-content>
     <ion-grid>
       <ion-row class="navigation-row">
@@ -39,12 +39,14 @@
           [canNavigateToPreviousCandidate]="!!prevSlot"
           [canNavigateToNextCandidate]="!!nextSlot"
           (nextCandidateClicked)="changeCandidate('next')"
-          (previousCandidateClicked)="changeCandidate('prev')"
-        ></candidate-detail-navigation>
+          (previousCandidateClicked)="changeCandidate('prev')">
+        </candidate-detail-navigation>
       </ion-row>
     </ion-grid>
 
-    <fit-marker-banner *ngIf="pageState.fitMarker" [fitCaseNumber]="pageState.fitCaseNumber"></fit-marker-banner>
+    @if (pageState.fitMarker) {
+      <fit-marker-banner [fitCaseNumber]="pageState.fitCaseNumber"></fit-marker-banner>
+    }
 
     <ion-card>
       <ion-card-header>
@@ -64,12 +66,13 @@
             [value]="pageState.details.slotType"
             [shouldShowIndicator]="pageState.details.slotType !== 'Standard Test'">
           </data-row>
-          <data-row
-            [idPrefix]="idPrefix"
-            *ngIf="pageState.details.meetingPlace"
-            [label]="'Meeting place'"
-            [value]="pageState.details.meetingPlace">
-          </data-row>
+          @if (pageState.details.meetingPlace) {
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Meeting place'"
+              [value]="pageState.details.meetingPlace">
+            </data-row>
+          }
           <data-row
             [idPrefix]="idPrefix"
             [label]="'Driver number'"
@@ -80,19 +83,22 @@
             [label]="'Application number'"
             [value]="pageState.details.applicationRef">
           </data-row>
-          <data-row
-            [idPrefix]="idPrefix"
-            [label]="'Personal reference number (PRN)'"
-            *ngIf="slot.booking.candidate.prn"
-            [dataStyling]="'position: relative;  top: 18px;'"
-            [value]="slot.booking.candidate.prn">
-          </data-row>
-          <data-row
-            [idPrefix]="idPrefix"
-            [label]="'Attempt number'"
-            *ngIf="slot.booking.candidate.previousADITests && !isCompleted(pageState.testStatus$ | async, pageState.completedTestOutcome$ | async)"
-            [value]="slot.booking.candidate.previousADITests+1">
-          </data-row>
+          @if (slot.booking.candidate.prn) {
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Personal reference number (PRN)'"
+              [dataStyling]="'position: relative;  top: 18px;'"
+              [value]="slot.booking.candidate.prn">
+            </data-row>
+          }
+          @if (slot.booking.candidate.previousADITests
+          && !isCompleted(pageState.testStatus$ | async, pageState.completedTestOutcome$ | async)) {
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Attempt number'"
+              [value]="slot.booking.candidate.previousADITests+1">
+            </data-row>
+          }
           <data-row-custom
             [label]="'Additional requirements'"
             [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)"
@@ -100,52 +106,67 @@
             [centeredLabel]="pageState.details.specialNeeds?.length <= 1"
             [centeredIcon]="pageState.details.specialNeeds?.length <= 1"
             [centredData]="pageState.details.specialNeeds?.length <= 1">
-            <ng-container class="mes-data" *ngIf="pageState.details.specialNeeds?.length > 1; else oneItem">
-              <ul *ngFor="let specialNeed of pageState.details.specialNeeds;" class="mes-data">
-                <li>{{specialNeed}}</li>
-              </ul>
-            </ng-container>
-            <ng-template #oneItem>
-              <div class="mes-data">{{pageState.details.specialNeeds[0]}}</div>
-            </ng-template>
+            @if (pageState.details.specialNeeds?.length > 1) {
+              <ng-container class="mes-data">
+                @for (specialNeed of pageState.details.specialNeeds;track specialNeed) {
+                  <ul class="mes-data">
+                    <li>{{ specialNeed }}</li>
+                  </ul>
+                }
+              </ng-container>
+            } @else {
+              <div class="mes-data">{{ pageState.details.specialNeeds[0] }}</div>
+            }
           </data-row-custom>
-          <data-row-custom
-            [idPrefix]="idPrefix"
-            [label]="'Entitlement check'"
-            [shouldShowIndicator]="true"
-            [centeredLabel]="!pageState.candidateEntitlementCheck || !pageState.categoryEntitlementCheck"
-            [centeredIcon]="!(pageState.candidateEntitlementCheck && pageState.categoryEntitlementCheck)"
-            [centredData]="!pageState.candidateEntitlementCheck || !pageState.categoryEntitlementCheck"
-            *ngIf="pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck">
-            <ion-row class="mes-data">
-              <ion-col>
-                <ul *ngIf="pageState.candidateEntitlementCheck && pageState.categoryEntitlementCheck">
-                  <li size="85">Entitlement check is required.</li>
-                  <li size="85" class="entitlement-check-padding">{{ pageState.categoryEntitlementCheckText }}</li>
-                </ul>
-                <ion-row *ngIf="pageState.candidateEntitlementCheck &&
-                !pageState.categoryEntitlementCheck">Entitlement check is required.</ion-row>
-                <ion-row *ngIf="pageState.categoryEntitlementCheck &&
-                !pageState.candidateEntitlementCheck">{{ pageState.categoryEntitlementCheckText }}</ion-row>
-              </ion-col>
-            </ion-row>
-          </data-row-custom>
+          @if (pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck) {
+            <data-row-custom
+              [idPrefix]="idPrefix"
+              [label]="'Entitlement check'"
+              [shouldShowIndicator]="true"
+              [centeredLabel]="!pageState.candidateEntitlementCheck || !pageState.categoryEntitlementCheck"
+              [centeredIcon]="!(pageState.candidateEntitlementCheck && pageState.categoryEntitlementCheck)"
+              [centredData]="!pageState.candidateEntitlementCheck || !pageState.categoryEntitlementCheck">
+              <ion-row class="mes-data">
+                <ion-col>
+                  @if (pageState.candidateEntitlementCheck && pageState.categoryEntitlementCheck) {
+                    <ul>
+                      <li size="85">Entitlement check is required.</li>
+                      <li size="85" class="entitlement-check-padding">{{ pageState.categoryEntitlementCheckText }}</li>
+                    </ul>
+                  }
+                  @if (pageState.candidateEntitlementCheck && !pageState.categoryEntitlementCheck) {
+                    <ion-row>Entitlement check is required.</ion-row>
+                  }
+                  @if (pageState.categoryEntitlementCheck && !pageState.candidateEntitlementCheck) {
+                    <ion-row>{{ pageState.categoryEntitlementCheckText }}</ion-row>
+                  }
+                </ion-col>
+              </ion-row>
+            </data-row-custom>
+          }
           <data-row-custom
             [idPrefix]="idPrefix"
             [label]="'Additional information'"
             [shouldHaveSeperator]="false">
-            <div class="mes-data" *ngIf="pageState.details.candidateComments.isSectionEmpty">None</div>
-            <div *ngIf="!pageState.details.candidateComments.isSectionEmpty">
-              <div *ngIf="pageState.details.candidateComments.previousCancellations?.length > 0">
-                <div class="mes-data previous-cancellation-padding">Previous cancellations:</div>
-                <ul *ngFor="let previousCancellation of pageState.details.candidateComments.previousCancellations;"
-                    class="mes-data">
-                  <li>
-                    {{previousCancellation}}
-                  </li>
-                </ul>
+            @if (pageState.details.candidateComments.isSectionEmpty) {
+              <div class="mes-data">None</div>
+            }
+            @if (!pageState.details.candidateComments.isSectionEmpty) {
+              <div>
+                @if (pageState.details.candidateComments.previousCancellations?.length > 0) {
+                  <div>
+                    <div class="mes-data previous-cancellation-padding">Previous cancellations:</div>
+                    @for (previousCancellation of pageState.details.candidateComments.previousCancellations;track previousCancellation) {
+                      <ul class="mes-data">
+                        <li>
+                          {{ previousCancellation }}
+                        </li>
+                      </ul>
+                    }
+                  </div>
+                }
               </div>
-            </div>
+            }
           </data-row-custom>
         </ion-grid>
       </ion-card-content>
@@ -172,33 +193,33 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="pageState.business">
-      <ion-card-header>
-        <h2 class="des-header-style-4">Business contact details</h2>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <data-row
-            [idPrefix]="idPrefix"
-            *ngIf="pageState.business.businessName"
-            [label]="'Business name'"
-            [value]="pageState.business.businessName">
-          </data-row>
-          <data-row
-            [idPrefix]="idPrefix"
-            *ngIf="pageState.business.telephone"
-            [label]="'Phone number'"
-            [value]="pageState.business.telephone">
-          </data-row>
-          <data-row-custom
-            [idPrefix]="idPrefix"
-            [label]="'Address'"
-            [shouldHaveSeperator]="false"
-            *ngIf="pageState.business.businessAddress">
-            <display-address [address]="pageState.business.businessAddress"></display-address>
-          </data-row-custom>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    @if (pageState.business) {
+      <ion-card>
+        <ion-card-header>
+          <h2 class="des-header-style-4">Business contact details</h2>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            @if (pageState.business.businessName) {
+              <data-row
+                [idPrefix]="idPrefix"
+                [label]="'Business name'"
+                [value]="pageState.business.businessName">
+              </data-row>
+            }
+            @if (pageState.business.telephone) {
+              <data-row [idPrefix]="idPrefix" [label]="'Phone number'" [value]="pageState.business.telephone">
+              </data-row>
+            }
+            @if (pageState.business.businessAddress) {
+              <data-row-custom [idPrefix]="idPrefix" [label]="'Address'" [shouldHaveSeperator]="false">
+                <display-address [address]="pageState.business.businessAddress"></display-address>
+              </data-row-custom>
+            }
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    }
   </ion-content>
-</ng-template>
+
+}

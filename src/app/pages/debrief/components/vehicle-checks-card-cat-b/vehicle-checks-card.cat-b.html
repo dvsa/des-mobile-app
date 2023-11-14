@@ -1,4 +1,5 @@
-<ion-card id="vehicle-checks" *ngIf="componentState.hasVehicleChecksFault$ | async">
+@if (componentState.hasVehicleChecksFault$ | async) {
+<ion-card id="vehicle-checks">
   <ion-card-content>
     <ion-grid>
       <ion-row class="mes-data ion-align-items-start">
@@ -7,22 +8,35 @@
           <ion-text class="des-header-style-4 fault-heading">{{ 'debrief.vehicleChecks' | translate }}</ion-text>
         </ion-col>
         <ion-col class="down-padding ion-align-items-start">
-          <div id="tell-me-question" *ngIf="componentState.tellMeQuestionHasFault$ | async">
+          @if (componentState.tellMeQuestionHasFault$ | async) {
+<div id="tell-me-question">
             {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.drivingFault' | translate }}
           </div>
-          <div id="show-me-question" *ngIf="componentState.hasShowMeFault$ | async" [ngSwitch]="componentState.showMeQuestionOutcome$ | async">
-            <span *ngSwitchCase="'DF'" id="show-me-question-outcome-df">
+}
+          @if (componentState.hasShowMeFault$ | async) {
+<div id="show-me-question">
+@switch (componentState.showMeQuestionOutcome$ | async) {
+            @case ('DF') {
+  <span id="show-me-question-outcome-df">
               {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.drivingFault' | translate }}
             </span>
-            <span *ngSwitchCase="'S'" id="show-me-question-outcome-s">
+}
+            @case ('S') {
+  <span id="show-me-question-outcome-s">
               {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.seriousFault' | translate }}
             </span>
-            <span *ngSwitchCase="'D'" id="show-me-question-outcome-d">
+}
+            @case ('D') {
+  <span id="show-me-question-outcome-d">
               {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.dangerousFault' | translate }}
             </span>
-          </div>
+}
+          }
+</div>
+}
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
 </ion-card>
+}

@@ -1,11 +1,16 @@
-<ion-row *ngIf="!hasError" class="row-border-top">
+@if (!hasError) {
+<ion-row class="row-border-top">
   <ion-col>
-    <ion-spinner
-      *ngIf="!imageSrc; else showImage;"
+    @if (!imageSrc) {
+<ion-spinner
+     
       class="driver-photograph-spinner"
       id="driver-photograph-spinner"
       name="bubbles">
     </ion-spinner>
+} @else {
+#showImage;|
+}
 
     <ng-template #showImage>
       <ion-row>
@@ -27,3 +32,4 @@
     </ng-template>
   </ion-col>
 </ion-row>
+}

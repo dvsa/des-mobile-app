@@ -1,4 +1,5 @@
-<ion-row *ngIf="display" [formGroup]="formGroup" class="mes-validated-row mes-row-separator" id="show-me-question-row">
+@if (display) {
+<ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator" id="show-me-question-row">
   <div [class.ng-invalid]="invalid" class="validation-bar"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="show-me-question-label">Show me question</label>
@@ -16,11 +17,13 @@
                   labelPlacement="stacked"
                   okText="Submit"
                   placeholder="Select a question">
-        <ion-select-option *ngFor="let showMeQuestion of showMeQuestionOptions"
+        @for (showMeQuestion of showMeQuestionOptions; track showMeQuestion) {
+  <ion-select-option
                            [value]="showMeQuestion"
                            id="show-me-question-{{showMeQuestion.code}}">
           {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
         </ion-select-option>
+}
       </ion-select>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
@@ -30,3 +33,4 @@
     </ion-row>
   </ion-col>
 </ion-row>
+}

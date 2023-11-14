@@ -2,25 +2,32 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-text
-          *ngIf="canNavigateToPreviousDay"
+        @if (canNavigateToPreviousDay) {
+<ion-text
+         
           (click)="onPreviousDayClick()"
           class="des-header-style-5 navigation-button"
           id="previous-day-container">
           <ion-icon class="navigation-arrow" name="chevron-back-outline" aria-labelledby="previous-day"></ion-icon>
           <span id="previous-day" aria-labelledby="previous-day">{{previousDayLabel}}</span>
         </ion-text>
+}
       </ion-col>
       <ion-col>
         <div id="date-container">
-          <div *ngIf="isSelectedDateToday; else notToday;">
+          @if (isSelectedDateToday) {
+<div>
             <h2 class="des-header-style-1" id="date-today-header">Today</h2>
             <h3 class="des-header-style-3" id="today-date" aria-labelledby="date-today-header today-date">
               {{ selectedDate | date:'EEEE d MMMM y' }}
             </h3>
           </div>
+} @else {
+#notToday;|
+}
           <ng-template #notToday>
-            <div *ngIf="fromTestCentreJournal; else journalView">
+            @if (fromTestCentreJournal) {
+<div>
               <ion-text class="des-header-style-1" id="date-tomorrow-header">Tomorrow</ion-text>
               <br>
               <ion-text
@@ -30,7 +37,8 @@
                 {{ selectedDate | date:'EEEE d MMMM y' }}
               </ion-text>
             </div>
-            <ng-template #journalView>
+} @else {
+
               <ion-text class="des-header-style-1" id="date-day-header" aria-labelledby="date-day-header">
                 {{ selectedDate | date:'EEEE' }}
               </ion-text>
@@ -38,13 +46,15 @@
               <ion-text class="des-header-style-3" id="date-subheader" aria-labelledby="date-day-header date-subheader">
                 {{ selectedDate | date:'d MMMM y' }}
               </ion-text>
-            </ng-template>
-          </ng-template>
+            
+}
+                      </ng-template>
         </div>
       </ion-col>
       <ion-col>
-        <ion-text
-          *ngIf="canNavigateToNextDay"
+        @if (canNavigateToNextDay) {
+<ion-text
+         
           (click)="onNextDayClick()"
           id="next-day-container"
           class="des-header-style-5 next-navigation-button"
@@ -56,6 +66,7 @@
             aria-labelledby="next-day"
           ></ion-icon>
         </ion-text>
+}
       </ion-col>
     </ion-row>
   </ion-grid>

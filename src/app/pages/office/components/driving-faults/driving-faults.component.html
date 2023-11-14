@@ -3,8 +3,9 @@
         <h2 class="des-header-style-4" id="driving-faults-summary-header">{{label}}</h2>
     </ion-card-header>
     <ion-card-content>
-        <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
-                 *ngFor="let drivingFault of faults">
+        @for (drivingFault of faults; track drivingFault) {
+  <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
+                >
             <ion-col size="2.2"></ion-col>
             <ion-col class="fault-badge ion-align-self-center" size="4">
                 <div class="counter-icon">
@@ -18,9 +19,14 @@
             </ion-col>
             <ion-col size="1"></ion-col>
             <ion-col class="component-label ion-align-self-center">
-                <label *ngIf="testCategory" class="fault-label" id="driving-faults-label">{{drivingFault.competencyDisplayName | modifyCompetencyLabel:(testCategory):drivingFault.competencyDisplayName}}</label>
-                <label *ngIf="!testCategory" class="fault-label" id="driving-faults-label-{{drivingFault.competencyIdentifier}}">{{drivingFault.competencyDisplayName}}</label>
+                @if (testCategory) {
+<label class="fault-label" id="driving-faults-label">{{drivingFault.competencyDisplayName | modifyCompetencyLabel:(testCategory):drivingFault.competencyDisplayName}}</label>
+}
+                @if (!testCategory) {
+<label class="fault-label" id="driving-faults-label-{{drivingFault.competencyIdentifier}}">{{drivingFault.competencyDisplayName}}</label>
+}
             </ion-col>
         </ion-row>
+}
     </ion-card-content>
 </ion-card>

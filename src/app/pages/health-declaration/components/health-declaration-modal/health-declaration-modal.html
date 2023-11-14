@@ -4,7 +4,9 @@
         <ion-col class="ion-no-padding" size="5"></ion-col>
         <ion-col class="ion-no-padding" size="89">
             <div class="modal-alert-message mes-data">
-                <div *ngIf="licenseProvided" id='model-text-long' class="mes-data-small">You need to give the provisional licence back to the candidate.<br/>The field 'Driver licence received' will be automatically changed to 'no'.</div>
+                @if (licenseProvided) {
+<div id='model-text-long' class="mes-data-small">You need to give the provisional licence back to the candidate.<br/>The field 'Driver licence received' will be automatically changed to 'no'.</div>
+}
                 <div id='model-text-short' class="mes-data-small">Remind the candidate to contact DVLA</div>
             </div>
         </ion-col>

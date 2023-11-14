@@ -1,5 +1,6 @@
+@if (tellMeQuestionSelected) {
 <ion-row class="ion-align-items-center ion-justify-content-start"
-         *ngIf="tellMeQuestionSelected" [formGroup]="formGroup">
+         [formGroup]="formGroup">
     <ion-col size="48">
         <input type="radio"
                id="tellme-correct"
@@ -23,3 +24,4 @@
         <label for="tellme-fault" class="radio-label" id="tell-me-df-label">1 Driving fault</label>
     </ion-col>
 </ion-row>
+}

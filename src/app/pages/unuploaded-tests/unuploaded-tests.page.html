@@ -7,9 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="{
+@if ({
    slots: pageState.unSubmittedTestSlots$ | async
-} as state">
+}; as state) {
+<ion-content class="ion-padding">
 
   <div>
     <profile-header
@@ -25,11 +26,14 @@
     You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
   </ion-text>
 
+  @for (slot of state.slots; track slot; let count = $count) {
   <test-slot
-    *ngFor="let slot of state.slots; let count = count;"
+   
     [slots]="pageState.unSubmittedTestSlotData$ | async"
     [slot]="slot?.slotData"
     [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
     [isUnSubmittedTestSlotView]="true">
   </test-slot>
+}
 </ion-content>
+}

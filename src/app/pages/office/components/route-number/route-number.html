@@ -1,4 +1,5 @@
-<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="route-number-row" [formGroup]="formGroup">
+@if (display) {
+<ion-row class="mes-validated-row mes-row-separator" id="route-number-row" [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="route-number-label">Route number</label>
@@ -26,3 +27,4 @@
     </ion-row>
   </ion-col>
 </ion-row>
+}

@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
@@ -19,20 +21,24 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-        <eyesight-test
+        @if (pageState.showEyesight$ | async) {
+<eyesight-test
           (eyesightTestResultChange)="eyesightTestResultChanged($event)"
-          *ngIf="pageState.showEyesight$ | async"
+         
           [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
           [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
           [formGroup]="form">
         </eyesight-test>
+}
 
-        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
+        @if (pageState.eyesightTestFailed$ | async) {
+<ion-row>
           <eyesight-failure-confirmation
             [cancelFn]="eyesightFailCancelled"
             [nextPageOnFail]="getDebriefPage()">
           </eyesight-failure-confirmation>
         </ion-row>
+}
 
         <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
                  id="post-eyesight-form-content">

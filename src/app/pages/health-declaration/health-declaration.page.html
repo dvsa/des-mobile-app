@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -32,12 +34,14 @@
         </ion-col>
       </ion-row>
 
-      <health-declaration
-        *ngIf="pageState.showHealthDec$ | async"
+      @if (pageState.showHealthDec$ | async) {
+<health-declaration
+       
         [formGroup]="formGroup"
         [selected]="pageState.healthDeclarationAccepted$ | async"
         (healthDeclarationChange)="healthDeclarationChanged()">
       </health-declaration>
+}
 
       <receipt-declaration
         [formGroup]="formGroup"
@@ -46,7 +50,9 @@
         [certificateNumber]="pageState.passCertificateNumber$ | async">
       </receipt-declaration>
 
-      <div *ngIf="!(pageState.showHealthDec$ | async)" class="signature-area-padding"></div>
+      @if (!(pageState.showHealthDec$ | async)) {
+<div class="signature-area-padding"></div>
+}
 
       <signature
         [formGroup]="formGroup"

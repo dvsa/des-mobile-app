@@ -6,13 +6,16 @@
     <ion-row [class.spacing-row]="!isInvalid" [class.date-spacing-row]="isInvalid" class="spacing-row"></ion-row>
     <ion-row>
       <ion-col>
-        <span *ngIf="!editMode"
+        @if (!editMode) {
+<span
           class="mes-data"
           (touchstart)="onTouchStart()"
           (touchend)="onTouchEnd()">{{dateOfTest}}
         </span>
-        <datetime-input
-                *ngIf="editMode"
+}
+        @if (editMode) {
+<datetime-input
+               
                 [minValue]="minDate"
                 [maxValue]="maxDate"
                 [initialValue]="customTestDate"
@@ -25,14 +28,17 @@
                 (customButtonEvent)="handleEvents($event.data, $event.buttonType)"
                 [displayType]="'date'"
         ></datetime-input>
+}
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div *ngIf="isInvalid"
+      @if (isInvalid) {
+<div
            class="validation-text ng-invalid date-error-message"
            id="date-of-test-validation-text">
         Please enter a date in the past, and no more than 12 months ago
       </div>
+}
     </ion-row>
   </ion-col>
 </ion-row>

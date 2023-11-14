@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+<practice-mode-banner></practice-mode-banner>
+}
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-page-title">
       {{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
@@ -27,19 +29,23 @@
       [showVRNButton]="pageState.showVrnBtn$ | async">
     </candidate-section>
 
-    <manoeuvres-pass-cert
+    @if (pageState.showManoeuvresPassCertNumber$ | async) {
+<manoeuvres-pass-cert
       (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
-      *ngIf="pageState.showManoeuvresPassCertNumber$ | async"
+     
       [formGroup]="formGroup"
       [manoeuvresPassCertificateNumber]="pageState.manoeuvresPassCertNumber$ | async">
     </manoeuvres-pass-cert>
+}
 
-    <cbt-number
+    @if (pageState.showCbtNumber$ | async) {
+<cbt-number
       (cbtNumberChange)="cbtNumberChanged($event)"
-      *ngIf="pageState.showCbtNumber$ | async"
+     
       [cbtNumber]="pageState.cbtNumber$ | async"
       [formGroup]="formGroup">
     </cbt-number>
+}
 
     <div class="mes-full-width-card-separator"></div>
 
@@ -70,15 +76,19 @@
           [selected]="pageState.insuranceDeclarationAccepted$ | async">
         </insurance-declaration>
 
-        <residency-declaration
-          *ngIf="pageState.showResidencyDec$ | async"
+        @if (pageState.showResidencyDec$ | async) {
+<residency-declaration
+         
           (residencyDeclarationChange)="residencyDeclarationChanged()"
           [formGroup]="formGroup"
           [selected]="pageState.residencyDeclarationAccepted$ | async">
         </residency-declaration>
+}
       </div>
 
-      <div *ngIf="!(pageState.showResidencyDec$ | async)" class="signature-area-padding"></div>
+      @if (!(pageState.showResidencyDec$ | async)) {
+<div class="signature-area-padding"></div>
+}
 
       <signature
         (signatureCleared)="signatureCleared()"

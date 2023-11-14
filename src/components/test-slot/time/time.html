@@ -1,7 +1,11 @@
 <div>
-  <ion-text class="des-header-style-3" *ngIf="isUnSubmittedTestSlotView; else showTime;" id="date-test-un-submitted">
+  @if (isUnSubmittedTestSlotView) {
+<ion-text class="des-header-style-3" id="date-test-un-submitted">
     <strong>{{time | date: "dd/MM/yy" }}</strong>
   </ion-text>
+} @else {
+#showTime;|
+}
   <ng-template #showTime>
     <ion-text class="des-header-style-2" [ngClass]="{'time-test-complete-text': testComplete}">{{time | date: "HH:mm" }}</ion-text>
   </ng-template>

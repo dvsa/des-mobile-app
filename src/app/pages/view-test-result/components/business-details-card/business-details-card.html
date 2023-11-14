@@ -1,17 +1,21 @@
-<ion-card *ngIf="!shouldHideCard()">
-  <ion-card-header>
-    <h2 class="des-header-style-4" id="view-test-result-business-details-title">Business details</h2>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-grid>
-      <data-row [label]="'Business name'" [value]="businessName"></data-row>
+@if (!shouldHideCard()) {
+  <ion-card>
+    <ion-card-header>
+      <h2 class="des-header-style-4" id="view-test-result-business-details-title">Business details</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <data-row [label]="'Business name'" [value]="businessName"></data-row>
 
-      <data-row [label]="'Phone number'" [value]="phoneNumber"></data-row>
+        <data-row [label]="'Phone number'" [value]="phoneNumber"></data-row>
 
-      <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
-        <display-address [address]="address"></display-address>
-        <span class="mes-data" *ngIf="!address">Not Supplied</span>
-      </data-row-custom>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+        <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
+          <display-address [address]="address"></display-address>
+          @if (!address) {
+            <span class="mes-data">Not Supplied</span>
+          }
+        </data-row-custom>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+}

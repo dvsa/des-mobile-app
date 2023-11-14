@@ -1,4 +1,5 @@
-<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="independent-driving-row"
+@if (display) {
+<ion-row class="mes-validated-row mes-row-separator" id="independent-driving-row"
   [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid">
   </div>
@@ -66,3 +67,4 @@
     </ion-row>
   </ion-col>
 </ion-row>
+}

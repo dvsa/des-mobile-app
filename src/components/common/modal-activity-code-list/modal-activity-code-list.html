@@ -1,6 +1,7 @@
 <ion-content class="content-background">
     <ion-grid>
-        <ion-row *ngFor="let activityCode of activityCodeOptions; trackBy: trackByActivityCode;"
+        @for (activityCode of activityCodeOptions; track trackByActivityCode($index, activityCode)) {
+  <ion-row
                  [id]="activityCode.activityCode + ' ' + activityCode.description | formatToID: idPrefix"
                  (click)="selectActivityCode(activityCode)">
             <ion-col size="6" [ngClass]="conditionalStyles(activityCode)">
@@ -13,13 +14,16 @@
                 {{activityCode.description}}
             </ion-col>
             <ion-col class="button-style" size="6">
-                <ion-icon *ngIf="isActiveActivityCode(activityCode.activityCode)"
+                @if (isActiveActivityCode(activityCode.activityCode)) {
+<ion-icon
                           [id]="idPrefix + '-checkmark'"
                           name="checkmark-sharp"
                           class="checkmark">
                 </ion-icon>
+}
             </ion-col>
         </ion-row>
+}
     </ion-grid>
 </ion-content>
 

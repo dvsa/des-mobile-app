@@ -3,11 +3,13 @@
         <label [id]="label | formatToID: idPrefix">{{ label }}</label>
     </ion-col>
     <ion-col size="6" [class]="centeredIcon ? 'vertical-align-center' : 'top-align-padding'">
-        <img alt="Exclamation Indicator"
+        @if (shouldShowIndicator) {
+<img alt="Exclamation Indicator"
              src="assets/imgs/journal/exclamation-indicator.png"
              class="exclamation-indicator"
-             *ngIf="shouldShowIndicator"
+            
         />
+}
     </ion-col>
     <ion-col [size]="shouldShowIndicator ? 50 : 56" [class]="centredData ? 'ion-align-items-center display-flex' : null">
         <ng-content></ng-content>

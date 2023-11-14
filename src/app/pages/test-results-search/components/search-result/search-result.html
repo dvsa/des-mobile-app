@@ -32,12 +32,16 @@
         <div id="search-result-driver-number-label">Driver no: {{searchResult.driverNumber}}</div>
       </ion-col>
       <ion-col size="8" class="ion-no-padding"></ion-col>
-      <ion-col *ngIf="searchResult.passCertificateNumber" size="24">
+      @if (searchResult.passCertificateNumber) {
+<ion-col size="24">
         <div class="ion-float-right" id="search-result-pass-cert">{{searchResult.passCertificateNumber}}</div>
       </ion-col>
-      <ion-col *ngIf="searchResult.grade" size="24">
+}
+      @if (searchResult.grade) {
+<ion-col size="24">
         <div class="ion-float-right" id="search-result-grade"> Grade {{searchResult.grade}}</div>
       </ion-col>
+}
     </ion-row>
   </ion-grid>
 </ion-card>

@@ -3,18 +3,24 @@
     <label [id]="label | formatToID: idPrefix">{{ label }}</label>
   </ion-col>
   <ion-col size="6" class="ion-align-items-center display-flex">
-    <img *ngIf="shouldShowIndicator"
+    @if (shouldShowIndicator) {
+<img
          alt="Exclamation Indicator"
          src="assets/imgs/journal/exclamation-indicator.png"
          class="exclamation-indicator"/>
+}
   </ion-col>
-  <ion-col size="40" *ngIf="imgSrc; else notImage;">
+  @if (imgSrc) {
+<ion-col size="40">
     <img
       [src]="imgSrc"
       [id]="label | formatToID: idPrefix: true"
       [style]="dataStyling"
       [alt]="label + ' image'"/>
   </ion-col>
+} @else {
+#notImage;|
+}
   <ng-template #notImage>
     <ion-col [size]="shouldShowIndicator ? 50 : 56" class="ion-align-items-center display-flex">
       <span [style]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>

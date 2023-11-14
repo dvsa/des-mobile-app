@@ -12,7 +12,8 @@
         </label>
     </ion-col>
     <ion-col class="ion-padding-start">
-        <div class="selected-border" id="transferSection" *ngIf="selected">
+        @if (selected) {
+<div class="selected-border" id="transferSection">
             <ion-row>
                 <div class="transferInfo" id="staff-num-examiner-who-conducted">
                     Enter staff number of examiner<br/>who conducted the test
@@ -39,16 +40,21 @@
                     </ion-input>
                 </ion-item>
             </ion-row>
-            <ion-row class="validation-message-row" *ngIf="empty && invalid">
+            @if (empty && invalid) {
+<ion-row class="validation-message-row">
                 <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-required-label">
                     Staff number is required
                 </div>
             </ion-row>
-            <ion-row class="validation-message-row" *ngIf="!empty && invalid">
+}
+            @if (!empty && invalid) {
+<ion-row class="validation-message-row">
                 <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-invalid-label">
                     Staff number is invalid
                 </div>
             </ion-row>
+}
         </div>
+}
     </ion-col>
 </ion-row>

@@ -11,14 +11,17 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <error-message
-    *ngIf="!isLoading && showErrorMessage"
+  @if (!isLoading && showErrorMessage) {
+<error-message
+   
     class="error"
     returnTo="{{errorLink}}"
     (exitModal)="onClose()">
   </error-message>
+}
 
-  <div *ngIf="!isLoading && !showErrorMessage && testResult">
+  @if (!isLoading && !showErrorMessage && testResult) {
+<div>
     <view-test-header
       [data]="getHeaderDetails()"
       [appVersion]="testResult.appVersion"
@@ -33,11 +36,13 @@
       [data]="getTestDetails()">
     </test-details-card>
 
-    <fit-marker-banner
-      *ngIf="testResult.journalData.testSlotAttributes.fitMarker"
+    @if (testResult.journalData.testSlotAttributes.fitMarker) {
+<fit-marker-banner
+     
       [isTestResult]="true"
       [fitCaseNumber]="testResult.journalData.testSlotAttributes.fitCaseNumber">
     </fit-marker-banner>
+}
 
     <contact-details-card
       [candidateData]="testResult.journalData.candidate"
@@ -47,15 +52,18 @@
 
     <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
 
-    <div *ngIf="testResult.rekey">
+    @if (testResult.rekey) {
+<div>
       <rekey-details-card [data]="testResult"></rekey-details-card>
       <rekey-reason-card [data]="testResult.rekeyReason"></rekey-reason-card>
     </div>
+}
 
     <examiner-details-card [data]="getExaminerDetails()"></examiner-details-card>
 
-    <vehicle-details-card
-      *ngIf="showVehicleDetailsCommonCard()"
+    @if (showVehicleDetailsCommonCard()) {
+<vehicle-details-card
+     
       [trainerData]="getTrainerData()"
       [vehicleDetails]="getVehicleDetails()"
       [instructorDetails]="getInstructorData()"
@@ -63,17 +71,21 @@
       [category]="testResult.category"
       [passCompletion]="testResult.passCompletion">
     </vehicle-details-card>
+}
 
-    <trainer-details-card
-      *ngIf="testResult.category == 'ADI3'"
+    @if (testResult.category == 'ADI3') {
+<trainer-details-card
+     
       [category]="testResult.category"
       [reasonForNoAdviceGiven]="getReason()"
       [trainerData]="getTrainerData()"
       [reviewData]="getReviewData()">
     </trainer-details-card>
+}
 
-    <debrief-card
-      *ngIf="showDebriefCommonCard()"
+    @if (showDebriefCommonCard()) {
+<debrief-card
+     
       [drivingFaultCount]="getDrivingFaultSumCount()"
       [drivingFaults]="getDrivingFaults()"
       [seriousFaults]="getSeriousFaults()"
@@ -82,9 +94,11 @@
       [category]="testResult.category"
       [delegatedTest]="testResult['delegatedTest']">
     </debrief-card>
+}
 
-    <cpc-debrief-card
-      *ngIf="testResult.testData && testResult.testData['combination'] && showCPCDebriefCommonCard()"
+    @if (testResult.testData && testResult.testData['combination'] && showCPCDebriefCommonCard()) {
+<cpc-debrief-card
+     
       [isDetailedTestView]="true"
       [testOutcome]="getHeaderDetails()?.testOutcome"
       [question1]="testResult.testData['question1']"
@@ -95,9 +109,11 @@
       [overallScore]="testResult.testData['totalPercent']"
       [combination]="testResult.testData['combination']">
     </cpc-debrief-card>
+}
 
-    <adi3-debrief-card
-      *ngIf="(isCategoryADI3() || isCategorySC()) && !didTestTerminate()"
+    @if ((isCategoryADI3() || isCategorySC()) && !didTestTerminate()) {
+<adi3-debrief-card
+     
       [testCategory]="testCategory"
       [totalScore]="totalScore"
       [lessonTheme]="testResult.testData['lessonAndTheme']"
@@ -107,12 +123,15 @@
       [grade]="testResult.testData['review']?.grade"
       [review]="testResult.testData['review']">
     </adi3-debrief-card>
+}
 
-    <sc-debrief-card
-      *ngIf="isCategorySC()"
+    @if (isCategorySC()) {
+<sc-debrief-card
+     
       [startTime]="testResult.testData['startTime']"
       [endTime]="testResult.testData['endTime']">
     </sc-debrief-card>
+}
 
     <test-summary-card
       [category]="testResult.category"
@@ -123,4 +142,5 @@
       [validCertificate]="getValidCertificate()">
     </test-summary-card>
   </div>
+}
 </ion-content>
