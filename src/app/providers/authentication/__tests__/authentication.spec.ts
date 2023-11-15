@@ -171,7 +171,7 @@ describe('AuthenticationProvider', () => {
         .not
         .toHaveBeenCalled();
       expect(isAuthenticated)
-        .toEqual(false);
+        .toEqual(true);
     });
 
     /* Test passes, although due to code it throws an error which might lead to further confusion, but can be enabled

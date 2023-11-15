@@ -152,17 +152,6 @@ describe('JournalPage', () => {
     });
   });
 
-  describe('logout', () => {
-    it('should dispatch an UnloadJournal action and call base page logout', () => {
-      spyOn(BasePageComponent.prototype, 'logout');
-      component.logout();
-      expect(store$.dispatch)
-        .toHaveBeenCalledWith(journalActions.UnloadJournal());
-      expect(BasePageComponent.prototype.logout)
-        .toHaveBeenCalled();
-    });
-  });
-
   describe('loadJournalManually', () => {
     it('should dispatch a LoadJournal action', async () => {
       await component.loadJournalManually();
@@ -205,6 +194,7 @@ describe('JournalPage', () => {
           component: ErrorPage,
           componentProps: {
             errorType: ErrorTypes.JOURNAL_REFRESH,
+            displayAsModal: true,
           },
           cssClass: 'modal-fullscreen text-zoom-regular',
         });

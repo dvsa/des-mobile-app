@@ -55,4 +55,8 @@ export class DeviceProviderMock implements IDeviceProvider {
   is8thGenDevice = jasmine.createSpy('is8thGenDevice')
     .and
     .returnValue(true);
+
+  isSAMEnabled = jasmine.createSpy('isSAMEnabled')
+    .and
+    .returnValue(Promise.resolve(true));
 }

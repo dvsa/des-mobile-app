@@ -66,8 +66,9 @@ export class BackToOfficePage
     super(injector, false);
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     super.ngOnInit();
+
     this.pageState = {
       isRekey$: this.store$.pipe(
         select(getTests),
@@ -92,8 +93,6 @@ export class BackToOfficePage
       isRekey$.pipe(map((value) => this.isRekey = value)),
     );
 
-    this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.isSAMEnabled() : false;
-
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
   }
@@ -101,6 +100,10 @@ export class BackToOfficePage
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(BackToOfficeViewDidEnter());
     this.store$.dispatch(ClearVehicleData());
+
+    this.singleAppModeEnabled = (super.isIos())
+      ? await this.deviceProvider.isSAMEnabled()
+      : false;
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();

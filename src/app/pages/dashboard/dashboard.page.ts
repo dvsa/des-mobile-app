@@ -155,6 +155,9 @@ export class DashboardPage
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');
+
+    await this.appConfigProvider.getAppConfigAsync();
+
     return true;
   }
 

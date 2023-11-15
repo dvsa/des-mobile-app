@@ -100,7 +100,12 @@ describe('BasePageComponent', () => {
       basePageComponent.ionViewWillEnter();
       flushMicrotasks();
       expect(router.navigate)
-        .toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
+        .toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true,
+          state: {
+            hasLoggedOut: false,
+            invalidToken: true,
+          },
+        });
     }));
 
   });

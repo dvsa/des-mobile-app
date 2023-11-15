@@ -2,8 +2,8 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { IonRefresher, ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
-import { BehaviorSubject, merge, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { merge, Observable, of, Subscription } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -67,7 +67,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   merged$: Observable<any>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
-  isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     public modalController: ModalController,
@@ -100,6 +99,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       error$: this.store$.pipe(
         select(getJournalState),
         map(getError),
+        take(1),
       ),
       isLoading$: this.store$.pipe(
         select(getJournalState),
@@ -135,7 +135,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     } = this.pageState;
 
     this.merged$ = merge(
-      error$.pipe(map(this.showError)),
+      error$.pipe(switchMap(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
   }
@@ -210,23 +210,23 @@ export class JournalPage extends BasePageComponent implements OnInit {
     return null;
   };
 
-  showError = (error: MesError): void => {
+  showError = async (error: MesError) => {
     if (error === undefined || error.message === '') return;
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
     const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
 
-    this.modalController.create({
+    const modal = await this.modalController.create({
       component: ErrorPage,
       componentProps: {
         errorType: ErrorTypes.JOURNAL_REFRESH,
+        displayAsModal: true,
       },
       cssClass: zoomClass,
-    })
-      .then((modal) => {
-        modal.present();
-      });
+    });
+
+    await modal.present();
   };
 
   public pullRefreshJournal = async (refresher: IonRefresher) => {
@@ -237,11 +237,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   public refreshJournal = async () => {
     await this.loadJournalManually();
   };
-
-  async logout() {
-    this.store$.dispatch(journalActions.UnloadJournal());
-    await super.logout();
-  }
 
   onPreviousDayClick(): void {
     this.store$.dispatch(journalActions.SelectPreviousDay());
