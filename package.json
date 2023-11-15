@@ -82,7 +82,7 @@
     "@dvsa/mes-test-schema": "3.42.5",
     "@ionic-enterprise/auth": "3.9.5",
     "@ionic/angular": "~7.5.1",
-    "@ionic/core": "~7.5.1",
+    "@ionic/core": "~7.5.2",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "@ngrx/effects": "^16.3.0",
     "@ngrx/store": "^16.3.0",
