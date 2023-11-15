@@ -32,7 +32,8 @@
               [value]="feedback"
               (onCharacterCountChanged)="characterCountChanged($event)"
               (change)="feedbackChanged($event.target.value)"
-              emojiBlock>
+              emojiBlock
+              pasteSanitiser>
             </textarea>
             <div
               class="character-count validation-text"

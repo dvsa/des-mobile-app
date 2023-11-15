@@ -150,7 +150,8 @@
                 (change)="otherReasoningChanged($event.target.value)"
                 formControlName="otherReason"
                 class="mes-data input-styling-background"
-                emojiBlock>
+                emojiBlock
+                pasteSanitiser>
               </textarea>
               <div class="character-count-standard validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
                 {{getCharacterCountText()}}

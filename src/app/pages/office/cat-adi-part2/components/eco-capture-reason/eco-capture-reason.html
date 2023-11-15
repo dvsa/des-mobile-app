@@ -15,7 +15,8 @@
                   [value]="ecoCaptureReason"
                   [maxLength]="1000"
                   (change)="ecoCaptureReasonChanged($event.target.value)"
-                  emojiBlock>
+                  emojiBlock
+                  pasteSanitiser>
         </textarea>
             </ion-col>
         </ion-row>

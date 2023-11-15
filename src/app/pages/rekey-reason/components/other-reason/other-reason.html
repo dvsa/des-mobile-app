@@ -20,7 +20,8 @@
                       [value]="reason"
                       [class.ng-invalid]="invalid"
                       (change)="reasonTextChanged($event.target.value)"
-                      emojiBlock>
+                      emojiBlock
+                      pasteSanitiser>
             </textarea>
 
       <div class="character-count validation-text"

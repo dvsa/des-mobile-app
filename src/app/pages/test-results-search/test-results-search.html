@@ -59,7 +59,8 @@
                 [value]="candidateInfo"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
                 (ionInput)="candidateInfoChanged($event.target.value)"
-                emojiBlock>
+                emojiBlock
+                pasteSanitiser>
               </ion-input>
               <ion-input
                 *ngIf="searchBy === 'appReference'"

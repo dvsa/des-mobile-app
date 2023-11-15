@@ -32,7 +32,8 @@
                            [value]="newEmailAddress"
                            (ionChange)="newEmailTextChanged($event.target.value)"
                            [class.ng-invalid]="invalid"
-                           emojiBlock>
+                           emojiBlock
+                           pasteSanitiser>
                 </ion-input>
             </ion-row>
             <ion-row class="validation-message-row ion-align-items-center">

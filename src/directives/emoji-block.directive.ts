@@ -12,8 +12,7 @@ export class EmojiBlockDirective {
 
   @HostListener('input', ['$event'])
   @HostListener('paste')
-  onInput(event: InputEvent): void {
-    // if (event) event.preventDefault();
+  onInput(): void {
 
     // Grab element
     const inputField = this.el.nativeElement;
