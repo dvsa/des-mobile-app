@@ -26,7 +26,6 @@ describe('EmojiBlockDirective', () => {
   });
 
   it('should remove emojis from input on input event', () => {
-    fixture.detectChanges();
 
     inputElement.nativeElement.value = 'Hello 😀 World 🌎';
     inputElement.triggerEventHandler('input', {});
@@ -36,7 +35,6 @@ describe('EmojiBlockDirective', () => {
   });
 
   it('should remove emojis from input on paste event', () => {
-    fixture.detectChanges();
 
     inputElement.nativeElement.value = 'Hello 😀 World 🌎';
     inputElement.triggerEventHandler('paste', {});

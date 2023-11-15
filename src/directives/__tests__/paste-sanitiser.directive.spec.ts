@@ -27,7 +27,6 @@ describe('PasteSanitiserDirective', () => {
 
   it('should limit input length based on maxLength attribute', () => {
     inputElement.nativeElement.setAttribute('maxLength', '5');
-    fixture.detectChanges();
 
     inputElement.nativeElement.value = '123456';
     inputElement.triggerEventHandler('paste', { clipboardData: { getData: () => '1234567890' } });
@@ -38,7 +37,6 @@ describe('PasteSanitiserDirective', () => {
 
   it('should limit input length based on charLimit attribute', () => {
     inputElement.nativeElement.setAttribute('charLimit', '3');
-    fixture.detectChanges();
 
     inputElement.nativeElement.value = 'abcde';
     inputElement.triggerEventHandler('paste', { clipboardData: { getData: () => 'abcdef' } });
@@ -48,8 +46,6 @@ describe('PasteSanitiserDirective', () => {
   });
 
   it('should not limit input length if neither maxLength nor charLimit attribute is set', () => {
-    fixture.detectChanges();
-
     inputElement.nativeElement.value = '123456';
     inputElement.triggerEventHandler('paste', { clipboardData: { getData: () => '123456' } });
     fixture.detectChanges();
