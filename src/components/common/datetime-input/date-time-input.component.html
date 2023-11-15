@@ -7,7 +7,8 @@
     [(ngModel)]="displayValue"
     [disabled]="disabled"
     [placeholder]="displayType === 'date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)"
-    emojiBlock>
+    emojiBlock
+    pasteSanitiser>
   </ion-input>
   <ion-modal
     class="{{displayType}}-modal"

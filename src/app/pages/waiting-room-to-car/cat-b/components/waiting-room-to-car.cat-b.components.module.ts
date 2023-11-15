@@ -8,7 +8,7 @@ import { TellMeQuestionCardComponent } from './tell-me-question-card/tell-me-que
 import { TellMeQuestionComponent } from './tell-me-question/tell-me-question';
 import { TellMeQuestionOutcomeComponent } from './tell-me-question-outcome/tell-me-question-outcome';
 import { InstructorRegistrationComponent } from './instructor-registration/instructor-registration';
-import { DirectivesModule } from '../../../../../directives/directives.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [

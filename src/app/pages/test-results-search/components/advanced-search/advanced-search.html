@@ -20,7 +20,8 @@
         class="ion-input-styling custom-font-size"
         id="advanced-search-staff-id-input"
         type="text"
-        emojiBlock>
+        emojiBlock
+        pasteSanitiser>
       </ion-input>
       <label *ngIf="importStaffNumber">{{importStaffNumber}}</label>
     </ion-col>
@@ -170,7 +171,8 @@
               class="ion-input-styling custom-font-size"
               id="advanced-search-pass-certificate-input"
               type="text"
-              emojiBlock>
+              emojiBlock
+              pasteSanitiser>
             </ion-input>
           </ion-col>
         </ion-row>

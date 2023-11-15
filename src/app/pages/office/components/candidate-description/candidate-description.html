@@ -20,7 +20,8 @@
                   [value]="candidateDescription"
                   (onCharacterCountChanged)="characterCountChanged($event)"
                   (change)="candidateDescriptionChanged($event.target.value)"
-                  emojiBlock>
+                  emojiBlock
+                  pasteSanitiser>
         </textarea>
                 <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
                     {{getCharacterCountText()}}

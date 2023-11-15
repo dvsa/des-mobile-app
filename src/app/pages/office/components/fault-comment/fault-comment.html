@@ -39,7 +39,8 @@
                               charCount (onCharacterCountChanged)="characterCountChanged($event)"
                               [value]="faultComment.comment"
                               (change)="faultCommentChanged($event.target.value)"
-                              emojiBlock>
+                              emojiBlock
+                              pasteSanitiser>
                     </textarea>
                     <div class="character-count validation-text"
                          [ngClass]="{'ng-invalid': charactersExceeded()}"

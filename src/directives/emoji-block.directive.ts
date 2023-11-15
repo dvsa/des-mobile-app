@@ -5,16 +5,20 @@ import emojiRegex from 'emoji-regex';
   selector: '[emojiBlock]',
 })
 export class EmojiBlockDirective {
-  private emojiPattern = emojiRegex();
+  emojiPattern = emojiRegex();
 
   constructor(private el: ElementRef) {
   }
 
   @HostListener('input', ['$event'])
-  onInput(event: InputEvent): void {
-    event.preventDefault();
+  @HostListener('paste')
+  onInput(): void {
+
+    // Grab element
     const inputField = this.el.nativeElement;
     if (!inputField) return;
+
+    // Strip emojis out
     inputField.value = inputField.value.replace(this.emojiPattern, '');
   }
 }
