@@ -2,8 +2,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { SimpleChange } from '@angular/core';
 
-fdescribe('DataGridComponent', () => {
+describe('DataGridComponent', () => {
   let fixture: ComponentFixture<DataGridComponent>;
   let component: DataGridComponent;
 
@@ -53,14 +54,33 @@ fdescribe('DataGridComponent', () => {
       });
     });
     describe('ngOnChanges', () => {
-      it('should correctly crop an array into 2 depending on the parameter', () => {
-        component.croppedRows = null;
-        component.rowCropCount = 3;
-        component.passedData = [[1], [2], [3], [4], [5], [6]];
+      it('should set finalColourArray to loopColours if the changes include colourScheme', () => {
+        spyOn(component, 'loopColours').and.returnValue(['1', '2']);
 
-        // component.ngOnChanges();
+        component.finalColourArray = null;
+        component.ngOnChanges({ colourScheme: null });
 
-        expect(component.croppedRows).toEqual( { preCrop: [[1], [2], [3]], postCrop: [[4], [5], [6]] });
+        expect(component.finalColourArray).toEqual(['1', '2']);
+      });
+      it('should set finalColourArray to loopColours if dataChanged is true', () => {
+
+        spyOn(component, 'loopColours').and.returnValue(['1', '2']);
+
+        component.finalColourArray = null;
+        component.ngOnChanges({ data: { previousValue: '1', currentValue: '2' } as SimpleChange });
+
+        expect(component.finalColourArray).toEqual(['1', '2']);
+      });
+      it('should run cropData if rowCropCount and passedData are present', () => {
+        spyOn(component, 'loopColours').and.returnValue(['1', '2']);
+        spyOn(component, 'cropData');
+
+        component.rowCropCount = 1;
+        component.passedData = [['1']];
+
+        component.ngOnChanges({ data: { previousValue: '1', currentValue: '2' } as SimpleChange });
+
+        expect(component.cropData).toHaveBeenCalled();
       });
     });
     describe('cropData', () => {
@@ -81,6 +101,11 @@ fdescribe('DataGridComponent', () => {
         component.colourScheme = ['1', '2', '3', '4'];
 
         expect(component.loopColours()).toEqual( ['1', '2', '3', '4', '1', '2', '3', '4']);
+      });
+    });
+    describe('trackByIndex', () => {
+      it('should return passed indes', () => {
+        expect(component.trackByIndex(1)).toEqual(1);
       });
     });
   });
