@@ -28,24 +28,6 @@ import { mockLocalData } from '@pages/examiner-stats/test-result.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ColourContrastService } from '@providers/colour-contrast/colour-contrast.service';
 
-export enum BaseManoeuvreTypeLabels {
-  reverseLeft = 'Reverse left',
-  reverseRight = 'Reverse right',
-  reverseParkRoad = 'Reverse park (road)',
-  reverseParkCarpark = 'Reverse park (car park)',
-  forwardPark = 'Forward park',
-  reverseManoeuvre = 'Reverse',
-}
-
-export enum AlternativeManoeuvreTypeLabels {
-  reverseLeft = 'Reverse',
-  reverseRight = 'Reverse right',
-  reverseParkRoad = 'Reverse park (road)',
-  reverseParkCarpark = 'Reverse park (car park)',
-  forwardPark = 'Forward park',
-  reverseManoeuvre = 'Reverse',
-}
-
 interface ExaminerStatsState {
   routeNumbers$: Observable<ExaminerStatData[]>;
   manoeuvres$: Observable<ExaminerStatData[]>;
@@ -64,7 +46,8 @@ interface ExaminerStatsState {
 export const enum ColourEnum {
   Default = 'Default',
   Monochrome = 'Monochrome',
-  DVSA = 'DVSA',
+  Navy = 'Navy',
+  Amethyst = 'Amethyst',
 }
 
 @Component({
@@ -82,36 +65,42 @@ export class ExaminerStatsPage implements OnInit {
   pageState: ExaminerStatsState;
   hideChart: boolean = false;
   colourOption: ColourEnum = ColourEnum.Default;
-  colors: { default: string[], monochrome: { bar: string[], pie: string[] }, dvsa: string[] } = {
-    default: [
-      '#FF0000',
-      '#FF8000',
-      '#FFFF00',
-      '#80FF00',
-      '#00FF00',
-      '#00FF80',
-      '#00FFFF',
-      '#0080FF',
-      '#0000FF',
-      '#8000FF',
-      '#FF00FF',
-      '#FF0080',
-      '#FF8080',
-      '#FFC080',
-      '#FFFF80',
-      '#80FF80',
-      '#80FFFF',
-      '#8080FF',
-      '#C080FF',
-      '#FF80FF',
+  colors: {
+    default: { bar: string[], pie: string[] },
+    monochrome: { bar: string[], pie: string[] },
+    navy: string[],
+    amethyst: string[],
+  } = {
+    default: {
+      pie: [
+        '#008FFB',
+        '#ED6926',
+        '#FF526F',
+        '#007C42',
+        '#a05195',
+      ], bar: ['#008FFB'],
+    },
+    monochrome: {
+      pie: ['#616161',
+        '#757575',
+        '#898989',
+        '#bdbdbd',
+        '#e0e0e0',
+      ], bar: ['#777777'],
+    },
+    amethyst: [
+      '#f95d6a',
+      '#d45087',
+      '#665191',
+      '#2f4b7c',
+      '#003f5c',
     ],
-    monochrome: { pie: ['#616161', '#757575', '#898989', '#bdbdbd', '#e0e0e0'], bar: ['#777777'] },
-    dvsa: [
-      '#FFD600',
-      '#2187C9',
-      '#E0177D',
-      '#3BAB36',
-      '#ED6926',
+    navy: [
+      '#008FFB',
+      '#00E396',
+      '#FEB019',
+      '#FF4560',
+      '#9070ff',
     ],
   };
   controlledStopTotal: number;
@@ -146,7 +135,7 @@ export class ExaminerStatsPage implements OnInit {
 
   constructor(
     public store$: Store<StoreModel>,
-    public colourContrastService: ColourContrastService,
+    public colourContrast: ColourContrastService,
   ) {
   }
 
@@ -186,6 +175,7 @@ export class ExaminerStatsPage implements OnInit {
     );
 
   ngOnInit(): void {
+
     this.pageState = {
       routeNumbers$: this.filterByParameters(getRouteNumbers),
       manoeuvres$: this.filterByParameters(getManoeuvresUsed),
@@ -214,6 +204,15 @@ export class ExaminerStatsPage implements OnInit {
         ),
     };
 
+    this.setFilterLists();
+  }
+
+
+  ionViewDidEnter() {
+    this.store$.dispatch(ExaminerStatsViewDidEnter());
+  }
+
+  setFilterLists() {
     if (!this.locationFilterOptions) {
       this.locationFilterOptions = [];
       let locationList = [];
@@ -250,11 +249,6 @@ export class ExaminerStatsPage implements OnInit {
       this.categoryPlaceholder = mostUsed.item;
       this.handleCategoryFilter(mostUsed.item);
     }
-  }
-
-
-  ionViewDidEnter() {
-    this.store$.dispatch(ExaminerStatsViewDidEnter());
   }
 
   setDefault(data: { item: any, count: number }[]) {
@@ -309,14 +303,19 @@ export class ExaminerStatsPage implements OnInit {
     switch (this.colourOption) {
       default:
       case 'Default':
-        return this.colors.default;
+        if (chartType === 'bar') {
+          return this.colors.default.bar;
+        }
+        return this.colors.default.pie;
       case 'Monochrome':
         if (chartType === 'bar') {
           return this.colors.monochrome.bar;
         }
         return this.colors.monochrome.pie;
-      case 'DVSA':
-        return this.colors.dvsa;
+      case 'Amethyst':
+        return this.colors.amethyst;
+      case 'Navy':
+        return this.colors.navy;
     }
   }
 
@@ -330,6 +329,18 @@ export class ExaminerStatsPage implements OnInit {
 
   toggleChart() {
     this.hideChart = !this.hideChart;
+  }
+
+  getLabelColour(value: string[], type: 'bar' | 'pie') {
+    if (value === this.colors.navy) {
+      if (type === 'bar') {
+        return '#FFFFFF';
+      } else {
+        return '#000000';
+      }
+    } else {
+      return '#000000';
+    }
   }
 
   showControlledStop() {
