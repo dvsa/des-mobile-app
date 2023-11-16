@@ -1,47 +1,53 @@
 <ion-row id="view-filter-row" [formGroup]="formGroup">
-    <div class="validation-bar"></div>
-    <ion-col class="ion-align-self-center ion-padding-start">
-        <ion-row class="spacing-row"></ion-row>
-        <ion-row>
-            <ion-col class="ion-align-self-center">
-                <input type="radio"
-                       id="value-filter-default"
-                       class="gds-radio-button"
-                       name="colourFilter"
-                       formControlName="colourFilter"
-                       value="Default"
-                       (change)="viewFilterChanged($event.target.value)">
-                <label for="value-filter-default" class="radio-label" id="value-filter-default-label">
-                  Default
-                </label>
-            </ion-col>
-            <ion-col class="ion-align-self-center">
-                <input type="radio"
-                       id="value-filter-monochrome"
-                       class="gds-radio-button"
-                       name="colourFilter"
-                       formControlName="colourFilter"
-                       value="Monochrome"
-                       (change)="viewFilterChanged($event.target.value)">
-                <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label">
-                  Monochrome
-                </label>
-            </ion-col>
-            <ion-col class="ion-align-self-center">
-                <input type="radio"
-                       id="value-filter-dvsa"
-                       class="gds-radio-button"
-                       name="colourFilter"
-                       formControlName="colourFilter"
-                       value="DVSA"
-                       (change)="viewFilterChanged($event.target.value)">
-                <label for="value-filter-dvsa" class="radio-label" id="value-filter-dvsa-label">
-                  DVSA
-                </label>
-            </ion-col>
-        </ion-row>
-        <ion-row class="validation-message-row ion-align-items-center">
-            <div class="validation-text"></div>
-        </ion-row>
-    </ion-col>
+  <ion-col class="ion-align-self-center">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row size="50" class="ion-align-self-center">
+      <input type="radio"
+             id="value-filter-default"
+             class="gds-radio-button"
+             name="colourFilter"
+             formControlName="colourFilter"
+             value="Default"
+             (change)="viewFilterChanged($event.target.value)">
+      <label for="value-filter-default" class="radio-label" id="value-filter-default-label">
+        Default
+      </label>
+    </ion-row>
+    <ion-row size="50" class="padding-top-10 ion-align-self-center">
+      <input type="radio"
+             id="value-filter-amethyst"
+             class="gds-radio-button"
+             name="colourFilter"
+             formControlName="colourFilter"
+             value="Amethyst"
+             (change)="viewFilterChanged($event.target.value)">
+      <label for="value-filter-amethyst" class="radio-label" id="value-filter-amethyst-label">
+        Amethyst
+      </label>
+    </ion-row>
+    <ion-row size="50" class="padding-top-10 ion-align-self-center">
+      <input type="radio"
+             id="value-filter-navy"
+             class="gds-radio-button"
+             name="colourFilter"
+             formControlName="colourFilter"
+             value="Navy"
+             (change)="viewFilterChanged($event.target.value)">
+      <label for="value-filter-navy" class="radio-label" id="value-filter-navy-label">
+        Navy
+      </label>
+    </ion-row>
+    <ion-row size="50" class="padding-top-10 ion-align-self-center">
+      <input type="radio"
+             id="value-filter-monochrome"
+             class="gds-radio-button"
+             name="colourFilter"
+             formControlName="colourFilter"
+             value="Monochrome"
+             (change)="viewFilterChanged($event.target.value)">
+      <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label">
+        Monochrome
+      </label>
+    </ion-row>
+  </ion-col>
 </ion-row>
