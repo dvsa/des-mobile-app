@@ -70,7 +70,7 @@
       <ion-accordion-group>
         <ion-accordion value="first">
           <ion-item slot="header">
-            <label>Additional Filters</label>
+            <label>Additional filters</label>
           </ion-item>
           <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
             <data-row-custom [centeredLabel]="false" [shouldHaveSeperator]="false" [label]="'Colour options'">
@@ -101,7 +101,7 @@
   <ion-card [class]="colourSelect() === colors.navy ? ['white-text' , 'navy-card'] : 'mes-black'"
             *ngIf="data.testCount">
     <ion-card-header>
-      <ion-text class="des-header-style-4 fault-heading">Test Stats</ion-text>
+      <ion-text class="des-header-style-4 fault-heading">Test stats</ion-text>
     </ion-card-header>
     <ion-card-content>
       <ion-row *ngIf="showControlledStop()">
