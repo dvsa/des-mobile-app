@@ -8,8 +8,10 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
 import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
 import {
-  ExaminerStatData, getCategories,
-  getControlledStopCount, getIndependentDrivingStats,
+  ExaminerStatData,
+  getCategories,
+  getControlledStopCount,
+  getIndependentDrivingStats,
   getLocations,
   getManoeuvresUsed,
   getOutcome,
@@ -26,18 +28,17 @@ import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { mockLocalData } from '@pages/examiner-stats/test-result.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { ColourContrastService } from '@providers/colour-contrast/colour-contrast.service';
 
 interface ExaminerStatsState {
-  routeNumbers$: Observable<ExaminerStatData[]>;
-  manoeuvres$: Observable<ExaminerStatData[]>;
-  showMeQuestions$: Observable<ExaminerStatData[]>;
-  tellMeQuestions$: Observable<ExaminerStatData[]>;
-  safetyAndBalanceQuestions$: Observable<ExaminerStatData[]>;
-  independentDriving$: Observable<ExaminerStatData[]>;
+  routeNumbers$: Observable<ExaminerStatData<string>[]>;
+  manoeuvres$: Observable<ExaminerStatData<string>[]>;
+  showMeQuestions$: Observable<ExaminerStatData<string>[]>;
+  tellMeQuestions$: Observable<ExaminerStatData<string>[]>;
+  safetyAndBalanceQuestions$: Observable<ExaminerStatData<string>[]>;
+  independentDriving$: Observable<ExaminerStatData<string>[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
-  outcomes$: Observable<ExaminerStatData[]>;
+  outcomes$: Observable<ExaminerStatData<string>[]>;
   controlledStopPercentage$: Observable<string>;
   locationList$: Observable<{ item: TestCentre, count: number }[]>;
   categoryList$: Observable<{ item: TestCategory, count: number }[]>;
@@ -78,7 +79,8 @@ export class ExaminerStatsPage implements OnInit {
         '#FF526F',
         '#007C42',
         '#a05195',
-      ], bar: ['#008FFB'],
+      ],
+      bar: ['#008FFB'],
     },
     monochrome: {
       pie: ['#616161',
@@ -86,7 +88,8 @@ export class ExaminerStatsPage implements OnInit {
         '#898989',
         '#bdbdbd',
         '#e0e0e0',
-      ], bar: ['#777777'],
+      ],
+      bar: ['#777777'],
     },
     amethyst: [
       '#f95d6a',
@@ -124,9 +127,18 @@ export class ExaminerStatsPage implements OnInit {
     },
   ];
   chartFilterOptions: { display: string, val: ChartType }[] = [
-    { display: 'Default', val: null },
-    { display: 'Bar', val: 'bar' },
-    { display: 'Pie', val: 'pie' },
+    {
+      display: 'Default',
+      val: null,
+    },
+    {
+      display: 'Bar',
+      val: 'bar',
+    },
+    {
+      display: 'Pie',
+      val: 'pie',
+    },
   ];
   public dateFilter: string = 'Last 14 days';
   public locationFilter: string;
@@ -135,7 +147,6 @@ export class ExaminerStatsPage implements OnInit {
 
   constructor(
     public store$: Store<StoreModel>,
-    public colourContrast: ColourContrastService,
   ) {
   }
 
@@ -207,7 +218,6 @@ export class ExaminerStatsPage implements OnInit {
     this.setFilterLists();
   }
 
-
   ionViewDidEnter() {
     this.store$.dispatch(ExaminerStatsViewDidEnter());
   }
@@ -219,7 +229,8 @@ export class ExaminerStatsPage implements OnInit {
 
       this.pageState.locationList$.subscribe(value => {
         locationList = value;
-      }).unsubscribe();
+      })
+        .unsubscribe();
 
       let tempArray: TestCentre[] = [];
       locationList.forEach((val) => {
@@ -237,7 +248,8 @@ export class ExaminerStatsPage implements OnInit {
 
       this.pageState.categoryList$.subscribe(value => {
         tempCatList = value;
-      }).unsubscribe();
+      })
+        .unsubscribe();
 
       let tempArray: TestCategory[] = [];
       tempCatList.forEach((val) => {
@@ -257,7 +269,7 @@ export class ExaminerStatsPage implements OnInit {
     });
   }
 
-  handleGrid(object: ExaminerStatData[], indexLabel: string = null, useValueAsIndex: boolean = false) {
+  handleGrid<T>(object: ExaminerStatData<T>[], indexLabel: string = null, useValueAsIndex: boolean = false) {
     if (indexLabel) {
       return object.map((val, index) =>
         [
@@ -274,7 +286,7 @@ export class ExaminerStatsPage implements OnInit {
   }
 
   private getIndex = (item: string) => {
-    const regex = /[A-Za-z]{0,}(\d+)/;
+    const regex = /[A-Za-z]*(\d+)/;
     const match = item.match(regex);
     return match && match[1] ? Number(match[1]) : null;
   };

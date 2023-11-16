@@ -103,10 +103,14 @@ export class ChartComponent implements OnInit, OnChanges {
           enabled: false,
         },
         offsetY: this.chartType === 'bar' ? -30 : 0,
-        formatter: (val, opts) =>
-          this.chartType === 'bar' ? val : this.splitLabel ?
+        formatter: (val, opts) => {
+          if (this.chartType === 'bar') {
+            return val;
+          }
+          return this.splitLabel ?
             opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%' :
-            opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%',
+            opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%';
+        },
       },
       stroke: { show: true, colors: [this.strokeColour] },
       xaxis: {
