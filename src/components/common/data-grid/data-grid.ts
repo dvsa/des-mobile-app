@@ -14,7 +14,7 @@ export class DataGridComponent implements OnInit {
   @Input() headers: string[] = null;
   @Input() passedData: any[][] = null;
   @Input() rowCropCount: number = null;
-  @Input() readonly colourScheme: string[] = null;
+  @Input() colourScheme: string[] = null;
   @Input() displayColour: boolean = false;
   @Input() showSeparator: boolean = true;
   @Input() showHeaders: boolean = true;
