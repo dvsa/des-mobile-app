@@ -1,4 +1,4 @@
-import { forOwn, get, isEqual, transform, uniqBy } from 'lodash';
+import { forOwn, get, isEmpty, isEqual, transform, uniqBy } from 'lodash';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   Manoeuvre,
@@ -7,13 +7,17 @@ import {
   TestResultCommonSchema,
 } from '@dvsa/mes-test-schema/categories/common';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { AlternativeManoeuvreTypeLabels, BaseManoeuvreTypeLabels } from '@pages/examiner-stats/examiner-stats.page';
 import { StartedTests } from '@store/tests/tests.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
+import { QuestionProvider } from '@providers/question/question';
+import { manoeuvreTypeLabelsCatD } from '@shared/constants/competencies/catd-manoeuvres';
+import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatB } from '@shared/constants/competencies/catb-manoeuvres';
+import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constants/competencies/catbe-manoeuvres';
+import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/constants/competencies/catadi2-manoeuvres';
 
 export type ExaminerStatData = {
   item: string,
@@ -23,9 +27,9 @@ export type ExaminerStatData = {
 
 // add date range filter
 const dateFilter = (test: TestResultSchemasUnion, range: DateRange = null): boolean => (range)
-// use range when provided
+  // use range when provided
   ? new DateTime(get(test, 'journalData.testSlotAttributes.start')).isDuring(range)
-// return true to get all tests when no range provided
+  // return true to get all tests when no range provided
   : true;
 
 export const getEligibleTests = (startedTests: StartedTests, range: DateRange = null) => {
@@ -55,13 +59,13 @@ export const getOutcome = (
   category: string = null,
 ): ExaminerStatData[] => {
   const data = getEligibleTests(startedTests, range)
-  // filter for any nulls
+    // filter for any nulls
     .filter((slotID) => startedTests[slotID].activityCode !== null)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
     .filter((slotID) =>
       category ? get(startedTests[slotID], 'category') === category : true)
-  // extract route number
+    // extract route number
     .map((slotID: string) => getTestOutcome(startedTests[slotID] as TestResultCommonSchema));
 
   return uniqBy(data.map((item) => {
@@ -97,9 +101,9 @@ export const getLocations = (
   count: number
 }[] => {
   const data = (getEligibleTests(startedTests, range)
-  // extract cost codes
+    // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'journalData.testCentre', null))
-  // filter for any nulls
+    // filter for any nulls
     .filter((testCentre) => !!testCentre.centreId));
 
   return uniqBy(data.map((item: TestCentre) => {
@@ -115,23 +119,30 @@ export const getIndependentDrivingStats = (
   range: DateRange = null,
   location: number,
   category: string,
-):ExaminerStatData[] => {
-  const data = (getEligibleTests(startedTests, range)
+): ExaminerStatData[] => {
+  let data = (getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
     .filter((slotID) =>
-      category ? get(startedTests[slotID], 'category') === category : true)
-  // extract cost codes
+      get(startedTests[slotID], 'category') === category)
+    // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'testSummary.independentDriving', null))
-  // filter for any nulls
+    // filter for any nulls
     .filter((driving) => !!driving));
 
+  if (!isEmpty(data)) {
+    data = data.concat(...['Traffic signs', 'Sat nav']);
+  }
+
+  console.log(data);
+
   return uniqBy(data.map((item: string) => {
-    const count = data.filter((val) => val === item).length;
+    const count = data.filter((val) => val === item).length - 1;
+    console.log(count);
     return {
       item,
-      count: data.filter((val) => isEqual(val, item)).length,
-      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
+      count,
+      percentage: `${((count) / (data.length - 2) * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -143,9 +154,9 @@ export const getCategories = (
   count: number
 }[] => {
   const data = (getEligibleTests(startedTests, range)
-  // extract cost codes
+    // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'category', null))
-  // filter for any nulls
+    // filter for any nulls
     .filter((category) => !!category));
 
   return uniqBy(data.map((item: TestCategory) => {
@@ -179,7 +190,7 @@ export const getRouteNumbers = (
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
     .filter((slotID) =>
       category ? get(startedTests[slotID], 'category') === category : true)
-  // extract route number
+    // extract route number
     .map((slotID: string) => (
       {
         routeNum: get(startedTests[slotID], 'testSummary.routeNumber', null),
@@ -203,7 +214,8 @@ export const getSafetyAndBalanceQuestions = (
   location: number = null,
   category: string = null,
 ): ExaminerStatData[] => {
-  const data = getEligibleTests(startedTests, range)
+  const questionProvider: QuestionProvider = new QuestionProvider();
+  let data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
     .filter((slotID) =>
@@ -214,15 +226,26 @@ export const getSafetyAndBalanceQuestions = (
       ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.balanceQuestions', []) as QuestionResult[],
     ])
     .flat()
-  // filter for any empty string/null values
+    // filter for any empty string/null values
     .filter((question: SafetyQuestionResult | QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
+
+  data = data.concat(...questionProvider.getSafetyQuestions(category as TestCategory).map(value => {
+    return { code: value.code, description: value.shortName };
+  }));
+  data = data.concat(...questionProvider.getBalanceQuestions(category as TestCategory).map(value => {
+    return { code: value.code, description: value.shortName };
+  }));
+  data = data.concat(...questionProvider.getVocationalSafetyQuestions(category as TestCategory).map(value => {
+    return { description: value.description };
+  }));
+
   return uniqBy(data.map((item: SafetyQuestionResult | QuestionResult) => {
-    const count = data.filter((val) => val === item).length;
+    const count = data.filter((val) => val.description === item.description).length;
     return {
       item: ('code' in item) ? `${item.code} - ${item.description}` : item.description,
-      count,
-      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
+      count: count - 1,
+      percentage: `${((count - 1) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -232,7 +255,8 @@ export const getShowMeQuestions = (
   location: number = null,
   category: string = null,
 ): ExaminerStatData[] => {
-  const data = getEligibleTests(startedTests, range)
+  const questionProvider: QuestionProvider = new QuestionProvider();
+  let data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
     .filter((slotID) =>
@@ -242,15 +266,19 @@ export const getShowMeQuestions = (
       ...get(startedTests[slotID], 'testData.vehicleChecks.showMeQuestions', []) as QuestionResult[],
     ])
     .flat()
-  // filter for any empty string/null values
+    // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
 
+  data = data.concat(...questionProvider.getShowMeQuestions(category as TestCategory).map(value => {
+    return { code: value.code, description: value.shortName };
+  }));
+
   return uniqBy(data.map((item) => {
-    const count = data.filter((val) => isEqual(val, item)).length;
+    const count = data.filter((val) => isEqual(val.code, item.code)).length;
     return {
       item: `${item.code} - ${item.description}`,
-      count,
-      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
+      count: count - 1,
+      percentage: `${((count - 1) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
@@ -261,7 +289,8 @@ export const getTellMeQuestions = (
   location: number = null,
   category: string = null,
 ): ExaminerStatData[] => {
-  const data = getEligibleTests(startedTests, range)
+  const questionProvider: QuestionProvider = new QuestionProvider();
+  let data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       location ? get(startedTests[slotID], 'journalData.testCentre.centreId') === location : true)
     .filter((slotID) =>
@@ -271,25 +300,46 @@ export const getTellMeQuestions = (
       ...get(startedTests[slotID], 'testData.vehicleChecks.tellMeQuestions', []) as QuestionResult[],
     ])
     .flat()
-  // filter for any empty string/null values
+    // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
+
+  data = data.concat(...questionProvider.getTellMeQuestions(category as TestCategory).map(value => {
+    return { code: value.code, description: value.shortName };
+  }));
+
   return uniqBy(data.map((item) => {
-    const count = data.filter((val) => isEqual(val, item)).length;
+    const count = data.filter((val) => isEqual(val.code, item.code)).length;
     return {
       item: `${item.code} - ${item.description}`,
-      count,
-      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
+      count: count - 1,
+      percentage: `${((count - 1) / data.length * 100).toFixed(1)}%`,
     };
   }), 'item');
 };
 
-export const getManoeuvreTypeLabels = (category: TestCategory, type: ManoeuvreTypes) => {
-  if ([TestCategory.BE, TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreTypes) => {
+  if ([ TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
   ].includes(category)) {
-    return AlternativeManoeuvreTypeLabels[type];
+    enum left {
+      reverseManoeuvre = 'Reverse',
+    }
+    return type ? left[type] : left;
+  } else if ([TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E].includes(category)) {
+    enum man {
+      reverseLeft = 'Reverse',
+    }
+    return type ? man[type] : man;
+  } else if ([TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E].includes(category)) {
+    return type ? manoeuvreTypeLabelsCatD[type] : manoeuvreTypeLabelsCatD;
+  } else if ([TestCategory.B, TestCategory.B1].includes(category)) {
+    return type ? manoeuvreTypeLabelsCatB[type] : manoeuvreTypeLabelsCatB;
+  } else if ([TestCategory.BE].includes(category)) {
+    return type ? manoeuvreTypeLabelsCatBE[type] : manoeuvreTypeLabelsCatBE;
+  } else if ([TestCategory.ADI2].includes(category)) {
+    return type ? manoeuvreTypeLabelsCatADI2[type] : manoeuvreTypeLabelsCatADI2;
   } else {
-    return BaseManoeuvreTypeLabels[type];
+    return null;
   }
 };
 
@@ -321,6 +371,11 @@ export const getManoeuvresUsed = (
       });
     });
 
+  Object.values(getManoeuvreTypeLabels(category as TestCategory)).forEach((value: string) => {
+    faultsEncountered.push(value);
+  });
+  let nullDataLength = (getManoeuvreTypeLabels(category as TestCategory)).length;
+
   return uniqBy(
     faultsEncountered
       .filter((fault) => !!fault)
@@ -328,8 +383,8 @@ export const getManoeuvresUsed = (
         const count = faultsEncountered.filter((f) => f === item).length;
         return {
           item,
-          count,
-          percentage: `${(count / faultsEncountered.length * 100).toFixed(1)}%`,
+          count: count - 1,
+          percentage: `${((count - 1) / (faultsEncountered.length - nullDataLength) * 100).toFixed(1)}%`,
         };
       }), 'item',
   );

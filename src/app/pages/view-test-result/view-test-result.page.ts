@@ -106,7 +106,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
           return of();
         }),
       )
-      .subscribe();
+      .subscribe((value) => {
+        console.log((value));
+      });
   }
 
   ionViewDidEnter(): void {
