@@ -12,7 +12,7 @@ export type PassedData = [string, number, string];
 export class DataGridComponent implements OnInit {
 
   @Input() headers: string[] = null;
-  @Input() passedData: unknown[][] = null;
+  @Input() passedData: any[][] = null;
   @Input() rowCropCount: number = null;
   @Input() readonly colourScheme: string[] = null;
   @Input() displayColour: boolean = false;
