@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import ApexCharts from 'apexcharts';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 import { isEqual } from 'lodash';
-import { PassedData } from '@components/common/data-grid/data-grid';
+import { ExaminerStatData } from '@pages/examiner-stats/examiner-stats.selector';
 
 @Component({
   selector: 'chart',
@@ -12,10 +12,11 @@ import { PassedData } from '@components/common/data-grid/data-grid';
 export class ChartComponent implements OnInit, OnChanges {
   @Input() public chartId: string = '';
   @Input() public chartType: ChartType = 'pie';
-  @Input() public passedData: PassedData[] = null;
+  @Input() public passedData: ExaminerStatData<any>[] = null;
   @Input() public showLegend: boolean = false;
   @Input() public horizontal: boolean = false;
   @Input() public splitLabel: boolean = true;
+  @Input() public calculatePercentages: boolean = false;
   @Input() public transformOptions: {
     width: number | string, height: number | string,
   } = { width: 710, height: 300 };
@@ -107,9 +108,18 @@ export class ChartComponent implements OnInit, OnChanges {
           if (this.chartType === 'bar') {
             return val;
           }
-          return this.splitLabel ?
-            opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%' :
-            opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%';
+          if (this.splitLabel) {
+            return this.calculatePercentages ?
+              opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
+                Number(val).toFixed(1) + '%' :
+              opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
+                this.passedData[opts.seriesIndex].percentage;
+          }
+          return this.calculatePercentages ?
+            opts.w.globals.labels[opts.seriesIndex] + ':  ' +
+              Number(val).toFixed(1) + '%' :
+            opts.w.globals.labels[opts.seriesIndex] + ':  ' +
+              this.passedData[opts.seriesIndex].percentage;
         },
       },
       stroke: { show: true, colors: [this.strokeColour] },
@@ -190,9 +200,8 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   filterData() {
-    this.labels = this.passedData.map(([label]) => label);
-
-    const values: number[] = this.passedData.map(([, value]) => value);
+    this.labels = this.passedData.map((val) => val.item);
+    const values: number[] = this.passedData.map((val) => val.count);
 
     this.dataValues = (this.getChartType() === '1Axis')
       ? values as ApexNonAxisChartSeries
