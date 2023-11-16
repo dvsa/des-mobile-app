@@ -8,14 +8,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="{
-  routeGrid: handleGrid(pageState.routeNumbers$ | async, 'Route', true),
-  manoeuvresGrid: handleGrid(pageState.manoeuvres$ | async, 'M'),
-  showMeQuestionsGrid: handleGrid(pageState.showMeQuestions$ | async),
-  independentDrivingGrid: handleGrid(pageState.independentDriving$ | async, 'I'),
-  tellMeQuestionsGrid: handleGrid(pageState.tellMeQuestions$ | async),
-  safetyAndBalanceGrid: handleGrid(pageState.safetyAndBalanceQuestions$ | async, 'B'),
+  routeGrid: pageState.routeNumbers$ | async,
+  manoeuvresGrid: (pageState.manoeuvres$ | async),
+  showMeQuestionsGrid: (pageState.showMeQuestions$ | async),
+  independentDrivingGrid: (pageState.independentDriving$ | async),
+  tellMeQuestionsGrid: (pageState.tellMeQuestions$ | async),
+  safetyAndBalanceGrid: (pageState.safetyAndBalanceQuestions$ | async),
   testCount: pageState.testCount$ | async,
-  outcomes: handleGrid(pageState.outcomes$ | async),
+  outcomes: (pageState.outcomes$ | async),
 } as data">
 
   <ion-card>
@@ -114,7 +114,7 @@
             [colors]="colourSelect('pie')"
             [strokeColour]="colourSelect() === colors.navy ? '#243673' : '#FFFFFF'"
             [labelColour]="getLabelColour(colourSelect(), 'pie')"
-            [passedData]="[['Controlled stop', controlledStopTotal, ''], ['No controlled stop', data.testCount - controlledStopTotal, '']]">
+            [passedData]="getControlledStopData()">
           </chart>
         </ion-col>
       </ion-row>
@@ -181,7 +181,7 @@
               [headers]="['Route', 'Amount', 'Percentage of total']"
               [colourScheme]="colourSelect('bar')"
               [displayColour]="!hideChart && (colourSelect('bar') !== colors.monochrome.bar && colourSelect('bar') !== colors.default.bar)"
-              [passedData]="data.routeGrid">
+              [passedData]="filterDataForGrid(data.routeGrid)">
             </data-grid>
             <div>
               <ion-row class="ion-padding-top mes-row-separator"></ion-row>
@@ -243,7 +243,7 @@
               [headers]="['Manoeuvre', 'Amount', 'Percentage of total']"
               [colourScheme]="colourSelect('bar')"
               [displayColour]="!hideChart && (colourSelect('bar') !== colors.monochrome.bar && colourSelect('bar') !== colors.default.bar)"
-              [passedData]="data.manoeuvresGrid">
+              [passedData]="filterDataForGrid(data.manoeuvresGrid)">
             </data-grid>
             <div>
               <ion-row class="ion-padding-top mes-row-separator"></ion-row>
@@ -305,7 +305,7 @@
               [headers]="['Question', 'Amount', 'Percentage of total']"
               [colourScheme]="colourSelect('bar')"
               [displayColour]="!hideChart && (colourSelect('bar') !== colors.monochrome.bar && colourSelect('bar') !== colors.default.bar)"
-              [passedData]="data.showMeQuestionsGrid">
+              [passedData]="filterDataForGrid(data.showMeQuestionsGrid)">
             </data-grid>
             <div>
               <ion-row class="ion-padding-top mes-row-separator"></ion-row>
@@ -367,7 +367,7 @@
               [headers]="['Question', 'Amount', 'Percentage of total']"
               [colourScheme]="colourSelect('bar')"
               [displayColour]="!hideChart && (colourSelect('bar') !== colors.monochrome.bar && colourSelect('bar') !== colors.default.bar)"
-              [passedData]="data.tellMeQuestionsGrid">
+              [passedData]="filterDataForGrid(data.tellMeQuestionsGrid)">
             </data-grid>
             <div>
               <ion-row class="ion-padding-top mes-row-separator"></ion-row>
@@ -429,7 +429,7 @@
               [headers]="['Question', 'Amount', 'Percentage of total']"
               [colourScheme]="colourSelect('pie')"
               [displayColour]="!hideChart"
-              [passedData]="data.safetyAndBalanceGrid">
+              [passedData]="filterDataForGrid(data.safetyAndBalanceGrid)">
             </data-grid>
             <div>
               <ion-row class="ion-padding-top mes-row-separator"></ion-row>
@@ -491,7 +491,7 @@
               [headers]="['Question', 'Amount', 'Percentage of total']"
               [colourScheme]="colourSelect('pie')"
               [displayColour]="!hideChart"
-              [passedData]="data.independentDrivingGrid">
+              [passedData]="filterDataForGrid(data.independentDrivingGrid)">
             </data-grid>
             <div>
               <ion-row class="ion-padding-top mes-row-separator"></ion-row>

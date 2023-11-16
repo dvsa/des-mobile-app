@@ -34,6 +34,12 @@ const dateFilter = (test: TestResultSchemasUnion, range: DateRange = null): bool
   // return true to get all tests when no range provided
   : true;
 
+const getIndex = (item: string) => {
+  const regex = /[A-Za-z]*(\d+)/;
+  const match = item.match(regex);
+  return match && match[1] ? Number(match[1]) : null;
+};
+
 export const getEligibleTests = (startedTests: StartedTests, range: DateRange = null) => {
   return Object.keys(startedTests)
     .filter((slotID: string) => !slotID.includes('practice'))
@@ -77,7 +83,9 @@ export const getOutcome = (
       count,
       percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
-  }), 'item');
+  }), 'item')
+    .sort((item1, item2) =>
+      (item1.item as string) > (item2.item as string) ? 1 : - 1);
 };
 
 export const getControlledStopCount = (
@@ -111,7 +119,9 @@ export const getLocations = (
       item,
       count: data.filter((val) => isEqual(val, item)).length,
     };
-  }), 'item.centreId');
+  }), 'item.centreId')
+    .sort((item1, item2) =>
+      (item1.item.centreName) > (item2.item.centreName) ? 1 : - 1);
 };
 
 export const getIndependentDrivingStats = (
@@ -141,14 +151,16 @@ export const getIndependentDrivingStats = (
     // filter for any nulls
     .filter((driving) => !!driving);
 
-  return indDrivingOptions.map((item: string) => {
+  return indDrivingOptions.map((item: string, index) => {
     const count = data.filter((val) => val === item).length;
     return {
-      item,
+      item: `I${index + 1} - ${item}`,
       count,
       percentage: `${(count / data.length * 100).toFixed(1)}%`,
     };
-  });
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 export const getCategories = (
@@ -169,7 +181,9 @@ export const getCategories = (
       item,
       count: data.filter((val) => isEqual(val, item)).length,
     };
-  }), 'item');
+  }), 'item')
+    .sort((item1, item2) =>
+      (item1.item as string) > (item2.item as string) ? 1 : - 1);
 };
 
 export const getStartedTestCount = (
@@ -206,11 +220,13 @@ export const getRouteNumbers = (
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => isEqual(val, item)).length;
     return {
-      item: item.routeNum,
+      item: `Route ${item.routeNum}`,
       count,
       percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
-  }), 'item');
+  }), 'item')
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 export const getSafetyAndBalanceQuestions = (
@@ -250,15 +266,17 @@ export const getSafetyAndBalanceQuestions = (
     .filter((question: SafetyQuestionResult | QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
 
-  return questions.map((q) => {
+  return questions.map((q, index) => {
     const count = data.filter((val) => val.description === q.description).length;
 
     return {
-      item: ('code' in q) ? `${q.code} - ${q.description}` : q.description,
+      item: ('code' in q) ? `${q.code} - ${q.description}` : `B${index + 1} - ${q.description}`,
       count,
       percentage: `${((count / data.length) * 100).toFixed(1)}%`,
     };
-  });
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 export const getShowMeQuestions = (
@@ -291,7 +309,9 @@ export const getShowMeQuestions = (
       count,
       percentage: `${((count / data.length) * 100).toFixed(1)}%`,
     };
-  });
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 export const getTellMeQuestions = (
@@ -322,7 +342,9 @@ export const getTellMeQuestions = (
       count,
       percentage: `${((count / data.length) * 100).toFixed(1)}%`,
     };
-  });
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreTypes) => {
@@ -382,12 +404,14 @@ export const getManoeuvresUsed = (
       faultsEncountered = faultsEncountered.filter((fault) => !!fault);
     });
 
-  return manoeuvreTypeLabels.map((q) => {
+  return manoeuvreTypeLabels.map((q, index) => {
     const count = faultsEncountered.filter((val) => val === q).length;
     return {
-      item: q,
+      item: `M${index + 1} - ${q}`,
       count,
       percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
     };
-  });
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
 };
