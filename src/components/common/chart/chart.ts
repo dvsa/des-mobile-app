@@ -21,6 +21,7 @@ export class ChartComponent implements OnInit, OnChanges {
   } = { width: 710, height: 300 };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
+  @Input() public strokeColour: string = '#FFFFFF';
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
@@ -72,6 +73,7 @@ export class ChartComponent implements OnInit, OnChanges {
           },
         },
       },
+      fill: { opacity: 1 },
       chart: {
         toolbar: {
           show: false,
@@ -92,19 +94,21 @@ export class ChartComponent implements OnInit, OnChanges {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
           fontSize: '18px',
           fontWeight: 'bold',
-          colors: ['#000000'],
+          colors: [this.labelColour],
         },
         background: {
-          enabled: true,
+          enabled: this.chartType !== 'bar',
         },
         dropShadow: {
           enabled: false,
         },
+        offsetY: this.chartType === 'bar' ? -30 : 0,
         formatter: (val, opts) =>
-          this.splitLabel ?
+          this.chartType === 'bar' ? val : this.splitLabel ?
             opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%' :
             opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%',
       },
+      stroke: { show: true, colors: [this.strokeColour] },
       xaxis: {
         labels: {
           offsetY: this.horizontal ? 10 : 0,
@@ -156,10 +160,11 @@ export class ChartComponent implements OnInit, OnChanges {
       ],
       plotOptions: {
         bar: {
+          borderRadius: 10,
           distributed: true,
           horizontal: this.horizontal,
           dataLabels: {
-            position: 'bottom',
+            position: 'top',
           },
         },
         pie: {
