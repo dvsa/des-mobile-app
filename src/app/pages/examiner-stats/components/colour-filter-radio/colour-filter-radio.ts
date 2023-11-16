@@ -18,7 +18,7 @@ export class ColourFilterRadioComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl('Both');
+      this.formControl = new UntypedFormControl('Default');
       this.formGroup.addControl('colourFilter', this.formControl);
     }
     this.formControl.patchValue('Default');

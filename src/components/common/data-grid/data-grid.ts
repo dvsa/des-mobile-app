@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { isEqual } from 'lodash';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
@@ -14,7 +14,7 @@ export class DataGridComponent implements OnInit {
   @Input() headers: string[] = null;
   @Input() passedData: unknown[][] = null;
   @Input() rowCropCount: number = null;
-  @Input() colourScheme: string[] = null;
+  @Input() readonly colourScheme: string[] = null;
   @Input() displayColour: boolean = false;
   @Input() showSeparator: boolean = true;
   @Input() showHeaders: boolean = true;
@@ -27,28 +27,31 @@ export class DataGridComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if ((this.rowCropCount && this.passedData) && this.croppedRows === null) {
       this.cropData();
     }
+
     if (this.colourScheme && !this.finalColourArray) {
       this.finalColourArray = this.loopColours();
     }
+
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
     const dataChanged = Object.keys(changes)
       .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
+
+    if (Object.keys(changes).includes('colourScheme') || dataChanged) {
+      this.finalColourArray = this.loopColours();
+    }
 
     if (dataChanged) {
       if (this.rowCropCount && this.passedData) {
         this.cropData();
       }
-      if (Object.keys(changes).includes('colourScheme')) {
-        this.finalColourArray = this.loopColours();
-      }
     }
   }
-
   loopColours() {
     const loopCount = Math.ceil((this.passedData.length) / this.colourScheme.length);
 
