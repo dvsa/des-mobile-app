@@ -9,13 +9,14 @@
 
 <ion-content [fullscreen]="true" *ngIf="{
   routeGrid: pageState.routeNumbers$ | async,
-  manoeuvresGrid: (pageState.manoeuvres$ | async),
-  showMeQuestionsGrid: (pageState.showMeQuestions$ | async),
-  independentDrivingGrid: (pageState.independentDriving$ | async),
-  tellMeQuestionsGrid: (pageState.tellMeQuestions$ | async),
-  safetyAndBalanceGrid: (pageState.safetyAndBalanceQuestions$ | async),
+  manoeuvresGrid: pageState.manoeuvres$ | async,
+  showMeQuestionsGrid: pageState.showMeQuestions$ | async,
+  independentDrivingGrid: pageState.independentDriving$ | async,
+  tellMeQuestionsGrid: pageState.tellMeQuestions$ | async,
+  safetyAndBalanceGrid: pageState.safetyAndBalanceQuestions$ | async,
   testCount: pageState.testCount$ | async,
-  outcomes: (pageState.outcomes$ | async),
+  controlledStops: pageState.controlledStops$ | async,
+  outcomes: pageState.outcomes$ | async,
 } as data">
 
   <ion-card>
@@ -114,7 +115,7 @@
             [colors]="colourSelect('pie')"
             [strokeColour]="colourSelect() === colors.navy ? '#243673' : '#FFFFFF'"
             [labelColour]="getLabelColour(colourSelect(), 'pie')"
-            [passedData]="getControlledStopData()">
+            [passedData]="data.controlledStops">
           </chart>
         </ion-col>
       </ion-row>
@@ -128,14 +129,14 @@
       <data-row *ngIf="showControlledStop()"
                 [labelStyling]="colourSelect() === colors.navy ? 'color: white' : null"
                 [dataStyling]="colourSelect() === colors.navy ? 'color: white' : null"
-                [value]="controlledStopTotal"
+                [value]="data.controlledStops[0].count"
                 label="Controlled stop total">
       </data-row>
       <data-row *ngIf="showControlledStop()"
                 [labelStyling]="colourSelect() === colors.navy ? 'color: white' : null"
                 [dataStyling]="colourSelect() === colors.navy ? 'color: white' : null"
                 [shouldHaveSeperator]="false"
-                [value]="pageState.controlledStopPercentage$ | async"
+                [value]="data.controlledStops[0].percentage"
                 label="Controlled stop (%)">
       </data-row>
     </ion-card-content>
