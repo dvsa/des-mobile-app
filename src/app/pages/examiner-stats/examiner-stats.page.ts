@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
@@ -39,9 +39,9 @@ interface ExaminerStatsState {
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
   outcomes$: Observable<ExaminerStatData<string>[]>;
-  controlledStopPercentage$: Observable<string>;
   locationList$: Observable<{ item: TestCentre, count: number }[]>;
   categoryList$: Observable<{ item: TestCategory, count: number }[]>;
+  controlledStops$: Observable<ExaminerStatData<string>[]>;
 }
 
 export const enum ColourEnum {
@@ -198,19 +198,26 @@ export class ExaminerStatsPage implements OnInit {
         outcomes$: this.filterByParameters(getOutcome),
         locationList$: this.filterByParameters(getLocations),
         categoryList$: this.filterByParameters(getCategories),
-        passPercentage$: this.filterByParameters(getStartedTestCount)
+        controlledStops$: this.filterByParameters(getStartedTestCount)
+          .pipe(
+            withLatestFrom(this.filterByParameters(getControlledStopCount)),
+            map(([testCount, controllerStopCount]) => ([
+              {
+                item: 'Controlled stop',
+                count: controllerStopCount,
+                percentage: `${((controllerStopCount / testCount) * 100).toFixed(1)}%`,
+              },
+              {
+                item: 'No controlled stop',
+                count: testCount - controllerStopCount,
+                percentage: `${(((testCount - controllerStopCount) / testCount) * 100).toFixed(1)}%`,
+              },
+            ])),
+          ),        passPercentage$: this.filterByParameters(getStartedTestCount)
           .pipe(
             withLatestFrom(
               this.filterByParameters(getPassedTestCount),
             ),
-            map(this.calculatePercentage),
-          ),
-        controlledStopPercentage$: this.filterByParameters(getStartedTestCount)
-          .pipe(
-            withLatestFrom(
-              this.filterByParameters(getControlledStopCount),
-            ),
-            tap(([, controlledStop]) => this.controlledStopTotal = controlledStop),
             map(this.calculatePercentage),
           ),
       };
