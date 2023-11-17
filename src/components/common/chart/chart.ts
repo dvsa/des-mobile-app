@@ -147,9 +147,9 @@ export class ChartComponent implements OnInit, OnChanges {
           },
           formatter: (val) => {
             if (this.horizontal) {
-              return this.splitLabel ? val.toString().split(/[ ,]+/)[0] : val;
+              return this.splitLabel ? val.toString().split(/[ ,]+/)[0] : val.toString();
             }
-            return val.toFixed(0);
+            return val.toFixed(0).toString();
 
           },
         },
