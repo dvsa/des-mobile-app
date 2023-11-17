@@ -3,7 +3,7 @@
     <ion-buttons id="pass-cert-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title id="page-title">Examiner stats</ion-title>
+    <ion-title role="heading" aria-level="1" id="page-title">Examiner stats</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -70,14 +70,14 @@
       </data-row-custom>
       <ion-accordion-group>
         <ion-accordion value="first">
-          <ion-item slot="header">
+          <ion-item (click)="accordionSelect()" slot="header">
             <label>Additional filters</label>
           </ion-item>
           <div (click)="blurElement($event.target)" class="ion-padding" slot="content">
             <data-row-custom [centeredLabel]="false" [shouldHaveSeperator]="false" [label]="'Colour options'">
               <colour-filter-radio
                 [formGroup]="form"
-                (filterChange)="colourOption = $event">
+                (filterChange)="colourFilterChanged($event)">
               </colour-filter-radio>
             </data-row-custom>
             <ion-row>
