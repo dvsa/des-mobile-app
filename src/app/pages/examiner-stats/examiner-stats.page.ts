@@ -6,7 +6,13 @@ import { map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
-import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
+import {
+  AccordionClosed,
+  AccordionOpened,
+  ColourFilterChanged, DateRangeChanged,
+  ExaminerStatsViewDidEnter, HideChartsActivated, HideChartsDeactivated,
+  LocationChanged, TestCategoryChanged,
+} from '@pages/examiner-stats/examiner-stats.actions';
 import {
   ExaminerStatData,
   getCategories,
@@ -144,6 +150,7 @@ export class ExaminerStatsPage implements OnInit {
     public locationFilter: string;
     public categoryDisplay: string;
     private currentCategory: string;
+    private accordionOpen: boolean = false;
 
     constructor(
       public store$: Store<StoreModel>,
@@ -279,17 +286,37 @@ export class ExaminerStatsPage implements OnInit {
     handleDateFilter(event: CustomEvent) {
       this.dateFilter = event.detail?.value.display ?? null;
       this.rangeSubject$.next(event.detail?.value.val ?? null);
+
+      this.store$.dispatch(DateRangeChanged(this.dateFilter));
     }
 
-    handleLocationFilter(event) {
+    handleLocationFilter(event: TestCentre) {
       this.locationFilter = event.centreName ?? null;
       this.locationSubject$.next(event.centreId ?? null);
+
+      this.store$.dispatch(LocationChanged(this.locationFilter));
     }
 
-    handleCategoryFilter(event) {
+    handleCategoryFilter(event: TestCategory) {
       this.categoryDisplay = `Test category: ${event}`;
       this.currentCategory = event;
       this.categorySubject$.next(event ?? null);
+
+      this.store$.dispatch(TestCategoryChanged(event));
+    }
+
+    colourFilterChanged(colour: ColourEnum) {
+      this.colourOption = colour;
+      this.store$.dispatch(ColourFilterChanged(colour));
+    }
+
+    toggleChart() {
+      this.hideChart = !this.hideChart;
+      if (this.hideChart) {
+        this.store$.dispatch(HideChartsActivated());
+      } else {
+        this.store$.dispatch(HideChartsDeactivated());
+      }
     }
 
     handleChartFilter($event: any) {
@@ -330,10 +357,6 @@ export class ExaminerStatsPage implements OnInit {
       return total;
     }
 
-    toggleChart() {
-      this.hideChart = !this.hideChart;
-    }
-
     getLabelColour(value: string[], type: 'bar' | 'pie') {
       if (value === this.colors.navy) {
         if (type === 'bar') {
@@ -357,23 +380,12 @@ export class ExaminerStatsPage implements OnInit {
       ]);
     }
 
-    getControlledStopData(): ExaminerStatData<string>[] {
-      let testCount = 0;
-      this.pageState.testCount$.subscribe(value => {
-        testCount = value;
-      });
-
-      return [
-        {
-          item: 'Controlled stop',
-          count: this.controlledStopTotal,
-          percentage: `${((this.controlledStopTotal / testCount) * 100).toFixed(1)}%`,
-        },
-        {
-          item: 'No controlled stop',
-          count: testCount - this.controlledStopTotal,
-          percentage: `${(((testCount - this.controlledStopTotal) / testCount) * 100).toFixed(1)}%`,
-        },
-      ];
+    accordionSelect() {
+      this.accordionOpen = !this.accordionOpen;
+      if (this.accordionOpen) {
+        this.store$.dispatch(AccordionOpened());
+      } else {
+        this.store$.dispatch(AccordionClosed());
+      }
     }
 }
