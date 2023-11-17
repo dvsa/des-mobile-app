@@ -4,7 +4,7 @@ import { ChartComponent } from '@components/common/chart/chart';
 import { SimpleChange } from '@angular/core';
 import { ApexOptions } from 'ng-apexcharts';
 
-fdescribe('ChartComponent', () => {
+describe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
 
@@ -197,7 +197,7 @@ fdescribe('ChartComponent', () => {
       component.horizontal = true;
       component.splitLabel = false;
       if ('labels' in component.options.yaxis) {
-        // expect(component.options.yaxis.labels.formatter(2)).toEqual(Number('2'));
+        expect(component.options.yaxis.labels.formatter(2)).toEqual('2');
       }
     });
     it('should return yaxis value if horizontal is false', () => {

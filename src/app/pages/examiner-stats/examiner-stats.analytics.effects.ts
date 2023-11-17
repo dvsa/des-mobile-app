@@ -10,7 +10,9 @@ import {
   AccordionOpened,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerStatsViewDidEnter, HideChartsActivated,
+  ExaminerStatsViewDidEnter,
+  HideChartsActivated,
+  HideChartsDeactivated,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-stats/examiner-stats.actions';
@@ -115,7 +117,7 @@ export class ExaminerStatsAnalyticsEffects {
     }),
   ));
   hideChartsDisabled$ = createEffect(() => this.actions$.pipe(
-    ofType(HideChartsActivated),
+    ofType(HideChartsDeactivated),
     switchMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
