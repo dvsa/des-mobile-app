@@ -7,7 +7,6 @@ import { ExaminerStatData } from '@pages/examiner-stats/examiner-stats.selector'
 @Component({
   selector: 'chart',
   templateUrl: 'chart.html',
-  styleUrls: ['chart.scss'],
 })
 export class ChartComponent implements OnInit, OnChanges {
   @Input() public chartId: string = '';
