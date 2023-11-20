@@ -7,10 +7,9 @@ import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
 import {
-  AccordionClosed,
-  AccordionOpened,
+  AccordionChanged,
   ColourFilterChanged, DateRangeChanged,
-  ExaminerStatsViewDidEnter, HideChartsActivated, HideChartsDeactivated,
+  ExaminerStatsViewDidEnter, HideChartsChanged,
   LocationChanged, TestCategoryChanged,
 } from '@pages/examiner-stats/examiner-stats.actions';
 import {
@@ -150,7 +149,7 @@ export class ExaminerStatsPage implements OnInit {
     public locationFilter: string;
     public categoryDisplay: string;
     private currentCategory: string;
-    private accordionOpen: boolean = false;
+    accordionOpen: boolean = false;
 
     constructor(
       public store$: Store<StoreModel>,
@@ -312,11 +311,7 @@ export class ExaminerStatsPage implements OnInit {
 
     toggleChart() {
       this.hideChart = !this.hideChart;
-      if (this.hideChart) {
-        this.store$.dispatch(HideChartsActivated());
-      } else {
-        this.store$.dispatch(HideChartsDeactivated());
-      }
+      this.store$.dispatch(HideChartsChanged(this.hideChart));
     }
 
     handleChartFilter($event: any) {
@@ -382,10 +377,6 @@ export class ExaminerStatsPage implements OnInit {
 
     accordionSelect() {
       this.accordionOpen = !this.accordionOpen;
-      if (this.accordionOpen) {
-        this.store$.dispatch(AccordionOpened());
-      } else {
-        this.store$.dispatch(AccordionClosed());
-      }
+      this.store$.dispatch(AccordionChanged(this.accordionOpen));
     }
 }

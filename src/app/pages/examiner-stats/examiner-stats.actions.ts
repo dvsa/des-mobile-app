@@ -26,15 +26,11 @@ export const ColourFilterChanged = createAction(
   (colour: ColourEnum) => ({ colour }),
 );
 
-export const HideChartsActivated = createAction(
-  '[ExaminerStatsPage] Hide charts activated',
+export const HideChartsChanged = createAction(
+  '[ExaminerStatsPage] Hide charts changed',
+  (hideChart: boolean) => ({ hideChart }),
 );
-export const HideChartsDeactivated = createAction(
-  '[ExaminerStatsPage] Hide charts deactivated',
-);
-export const AccordionOpened = createAction(
-  '[ExaminerStatsPage] Accordion opened',
-);
-export const AccordionClosed = createAction(
-  '[ExaminerStatsPage] Accordion closed',
+export const AccordionChanged = createAction(
+  '[ExaminerStatsPage] Accordion toggled',
+  (isOpen: boolean) => ({ isOpen }),
 );
