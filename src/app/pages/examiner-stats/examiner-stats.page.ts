@@ -252,8 +252,10 @@ export class ExaminerStatsPage implements OnInit {
 
         this.locationFilterOptions = tempArray;
         let mostUsed = this.setDefault(locationList);
-        this.locationPlaceholder = mostUsed.item.centreName;
-        this.handleLocationFilter(mostUsed.item);
+        if (!!mostUsed) {
+          this.locationPlaceholder = mostUsed.item.centreName;
+          this.handleLocationFilter(mostUsed.item);
+        }
       }
       if (!this.categoryFilterOptions) {
         this.categoryFilterOptions = [];
@@ -271,15 +273,20 @@ export class ExaminerStatsPage implements OnInit {
 
         this.categoryFilterOptions = tempArray;
         let mostUsed = this.setDefault(tempCatList);
-        this.categoryPlaceholder = mostUsed.item;
-        this.handleCategoryFilter(mostUsed.item);
+        if (!!mostUsed) {
+          this.categoryPlaceholder = mostUsed.item;
+          this.handleCategoryFilter(mostUsed.item);
+        }
       }
     }
 
     setDefault(data: { item: any, count: number }[]) {
-      return data.reduce(function (max, obj) {
-        return obj.count > max.count ? obj : max;
-      });
+      if (data.length > 0) {
+        return data.reduce(function (max, obj) {
+          return obj.count > max.count ? obj : max;
+        });
+      }
+      return null;
     }
 
     handleDateFilter(event: CustomEvent) {
@@ -339,9 +346,12 @@ export class ExaminerStatsPage implements OnInit {
     }
 
     filterDataForGrid(examinerStatData: ExaminerStatData<any>[]) {
-      return examinerStatData.map(obj => {
-        return Object.values(obj);
-      });
+      if (!!examinerStatData) {
+        return examinerStatData.map(obj => {
+          return Object.values(obj);
+        });
+      }
+      return [[]];
     }
 
     getTotal(value: ExaminerStatData<any>[]) {
