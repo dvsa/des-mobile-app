@@ -3,7 +3,10 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
 import { ExaminerStatsPage } from '../examiner-stats.page';
-import { ExaminerStatsViewDidEnter } from '@pages/examiner-stats/examiner-stats.actions';
+import {
+  AccordionChanged,
+  ExaminerStatsViewDidEnter,
+} from '@pages/examiner-stats/examiner-stats.actions';
 
 describe('ExaminerStatsPage', () => {
   let component: ExaminerStatsPage;
@@ -158,6 +161,55 @@ describe('ExaminerStatsPage', () => {
 
       component.ionViewDidEnter();
       expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerStatsViewDidEnter());
+    });
+  });
+
+  describe('getLabelColour', () => {
+    it('should return #FFFFFF if type is bar and the passed value is colors.navy', () => {
+      expect(component.getLabelColour(component.colors.navy, 'bar')).toEqual('#FFFFFF');
+    });
+    it('should return #000000 if type is not bar and the passed value is colors.navy', () => {
+      expect(component.getLabelColour(component.colors.navy, 'pie')).toEqual('#000000');
+    });
+    it('should return #000000 if the passed value is not colors.navy', () => {
+      expect(component.getLabelColour(component.colors.amethyst, 'pie')).toEqual('#000000');
+    });
+  });
+
+  describe('blurElement', () => {
+    it('should run blur on the active Element if the id does not contain input', () => {
+      document.getElementById('chart-toggle-input').focus();
+      spyOn(document.activeElement as HTMLElement, 'blur');
+      component.blurElement({ id: 'string' } as HTMLElement);
+      expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
+    });
+    it('should run blur on the active Element if the id contains input', () => {
+      document.getElementById('chart-toggle-input').focus();
+      spyOn(document.activeElement as HTMLElement, 'blur');
+      component.blurElement({ id: 'input' } as HTMLElement);
+      expect((document.activeElement as HTMLElement).blur).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('accordionSelect', () => {
+    it('should flip accordionOpen', () => {
+      component.accordionOpen = true;
+      component.accordionSelect();
+      expect(component.accordionOpen).toEqual(false);
+    });
+    it('should dispatch the store with AccordionChanged(true) if accordionOpen is true after being flipped', () => {
+      spyOn(component.store$, 'dispatch');
+      component.accordionOpen = false;
+
+      component.accordionSelect();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(true));
+    });
+    it('should dispatch the store with AccordionChanged(false) if accordionOpen is false after being flipped', () => {
+      spyOn(component.store$, 'dispatch');
+      component.accordionOpen = true;
+
+      component.accordionSelect();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(false));
     });
   });
 });
