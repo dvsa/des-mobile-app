@@ -81,7 +81,7 @@ export class ExaminerStatsAnalyticsEffects {
 
   accordionChanged$ = createEffect(() => this.actions$.pipe(
     ofType(AccordionChanged),
-    switchMap((isOpen) => {
+    switchMap(({ isOpen }) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
         AnalyticsEvents.ADDITIONAL_FILTERS_TOGGLED,
@@ -93,11 +93,11 @@ export class ExaminerStatsAnalyticsEffects {
 
   hideChartsChanged$ = createEffect(() => this.actions$.pipe(
     ofType(HideChartsChanged),
-    switchMap((hideCharts) => {
+    switchMap(({ hideChart }) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
         AnalyticsEvents.HIDE_CHARTS_CHANGED,
-        hideCharts ? 'Charts hidden' : 'Charts unhidden',
+        hideChart ? 'Charts hidden' : 'Charts unhidden',
       );
       return of(AnalyticRecorded());
     }),
