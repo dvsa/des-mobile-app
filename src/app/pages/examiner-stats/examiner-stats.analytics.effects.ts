@@ -6,13 +6,10 @@ import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from 
 import { of } from 'rxjs';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AccordionClosed,
-  AccordionOpened,
+  AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerStatsViewDidEnter,
-  HideChartsActivated,
-  HideChartsDeactivated,
+  ExaminerStatsViewDidEnter, HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-stats/examiner-stats.actions';
@@ -82,47 +79,25 @@ export class ExaminerStatsAnalyticsEffects {
     }),
   ));
 
-  accordionOpened$ = createEffect(() => this.actions$.pipe(
-    ofType(AccordionOpened),
-    switchMap(() => {
+  accordionChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(AccordionChanged),
+    switchMap((isOpen) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
         AnalyticsEvents.ADDITIONAL_FILTERS_TOGGLED,
-        'Additional filters opened',
-      );
-      return of(AnalyticRecorded());
-    }),
-  ));
-  accordionClosed$ = createEffect(() => this.actions$.pipe(
-    ofType(AccordionClosed),
-    switchMap(() => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.ADDITIONAL_FILTERS_TOGGLED,
-        'Additional filters closed',
+        isOpen ? 'Additional filters opened' : 'Additional filters closed',
       );
       return of(AnalyticRecorded());
     }),
   ));
 
-  hideChartsEnabled$ = createEffect(() => this.actions$.pipe(
-    ofType(HideChartsActivated),
-    switchMap(() => {
+  hideChartsChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(HideChartsChanged),
+    switchMap((hideCharts) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
         AnalyticsEvents.HIDE_CHARTS_CHANGED,
-        'Charts hidden',
-      );
-      return of(AnalyticRecorded());
-    }),
-  ));
-  hideChartsDisabled$ = createEffect(() => this.actions$.pipe(
-    ofType(HideChartsDeactivated),
-    switchMap(() => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.HIDE_CHARTS_CHANGED,
-        'Charts unhidden',
+        hideCharts ? 'Charts hidden' : 'Charts unhidden',
       );
       return of(AnalyticRecorded());
     }),
