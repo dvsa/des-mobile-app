@@ -19,6 +19,9 @@
   outcomes: pageState.outcomes$ | async,
 } as data">
 
+  <div
+    *ngIf="(pageState.categoryList$ | async).length > 0 &&
+    (pageState.locationList$ | async).length > 0">
   <ion-card>
     <ion-card-header>
       <ion-card-title>
@@ -513,4 +516,14 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
+  </div>
+
+  <div class="position-relative top-50 text-align-center"
+       *ngIf="(pageState.categoryList$ | async).length === 0 ||
+       (pageState.locationList$ | async).length === 0">
+    <ion-text class="mes-data">
+      No driving test data available.<br>Try again when more tests have been completed.
+    </ion-text>
+  </div>
+
 </ion-content>
