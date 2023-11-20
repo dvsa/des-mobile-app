@@ -8,13 +8,11 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AccordionClosed,
-  AccordionOpened,
+  AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerStatsViewDidEnter,
-  HideChartsActivated,
-  HideChartsDeactivated,
+  HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-stats/examiner-stats.actions';
@@ -132,12 +130,28 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       });
     });
   });
-  describe('hideChartsEnabled$', () => {
-    it('should log an event', (done) => {
+  describe('hideChartsChanged$', () => {
+    it('should log Charts unhidden if called with false', (done) => {
       // ACT
-      actions$.next(HideChartsActivated());
+      actions$.next(HideChartsChanged(false));
       // ASSERT
-      effects.hideChartsEnabled$.subscribe((result) => {
+      effects.hideChartsChanged$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.EXAMINER_STATS,
+            AnalyticsEvents.HIDE_CHARTS_CHANGED,
+            'Charts unhidden',
+          );
+        done();
+      });
+    });
+    it('should log Charts hidden if called with true', (done) => {
+      // ACT
+      actions$.next(HideChartsChanged(true));
+      // ASSERT
+      effects.hideChartsChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent)
@@ -150,30 +164,12 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       });
     });
   });
-  describe('hideChartsDisabled$', () => {
-    it('should log an event', (done) => {
+  describe('accordionChanged$', () => {
+    it('should log Additional filters opened when called with true', (done) => {
       // ACT
-      actions$.next(HideChartsDeactivated());
+      actions$.next(AccordionChanged(true));
       // ASSERT
-      effects.hideChartsDisabled$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.HIDE_CHARTS_CHANGED,
-            'Charts unhidden',
-          );
-        done();
-      });
-    });
-  });
-  describe('accordionOpened$', () => {
-    it('should log an event', (done) => {
-      // ACT
-      actions$.next(AccordionOpened());
-      // ASSERT
-      effects.accordionOpened$.subscribe((result) => {
+      effects.accordionChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent)
@@ -185,13 +181,11 @@ describe('ExaminerStatsAnalyticsEffects', () => {
         done();
       });
     });
-  });
-  describe('accordionClosed$', () => {
-    it('should log an event', (done) => {
+    it('should log Additional filters closed when called with false', (done) => {
       // ACT
-      actions$.next(AccordionClosed());
+      actions$.next(AccordionChanged(false));
       // ASSERT
-      effects.accordionClosed$.subscribe((result) => {
+      effects.accordionChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent)
