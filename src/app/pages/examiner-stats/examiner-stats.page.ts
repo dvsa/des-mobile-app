@@ -31,7 +31,7 @@ import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { mockLocalData } from '@pages/examiner-stats/test-result.mock';
+import { mockLocalData } from '@pages/examiner-stats/__mocks__/test-result.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface ExaminerStatsState {
