@@ -238,20 +238,16 @@ export class ExaminerStatsPage implements OnInit {
     setFilterLists() {
       if (!this.locationFilterOptions) {
         this.locationFilterOptions = [];
-        let locationList = [];
+        let mostUsed = null;
 
         this.pageState.locationList$.subscribe(value => {
-          locationList = value;
+          value.forEach((val) => {
+            this.locationFilterOptions.push(val.item);
+          });
+          mostUsed = this.setDefault(value);
         })
           .unsubscribe();
 
-        let tempArray: TestCentre[] = [];
-        locationList.forEach((val) => {
-          tempArray.push(val.item);
-        });
-
-        this.locationFilterOptions = tempArray;
-        let mostUsed = this.setDefault(locationList);
         if (!!mostUsed) {
           this.locationPlaceholder = mostUsed.item.centreName;
           this.handleLocationFilter(mostUsed.item);
@@ -259,20 +255,16 @@ export class ExaminerStatsPage implements OnInit {
       }
       if (!this.categoryFilterOptions) {
         this.categoryFilterOptions = [];
-        let tempCatList = [];
+        let mostUsed = null;
 
         this.pageState.categoryList$.subscribe(value => {
-          tempCatList = value;
+          value.forEach((val) => {
+            this.categoryFilterOptions.push(val.item);
+          });
+          mostUsed = this.setDefault(value);
         })
           .unsubscribe();
 
-        let tempArray: TestCategory[] = [];
-        tempCatList.forEach((val) => {
-          tempArray.push(val.item);
-        });
-
-        this.categoryFilterOptions = tempArray;
-        let mostUsed = this.setDefault(tempCatList);
         if (!!mostUsed) {
           this.categoryPlaceholder = mostUsed.item;
           this.handleCategoryFilter(mostUsed.item);

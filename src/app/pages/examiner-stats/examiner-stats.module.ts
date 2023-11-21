@@ -11,13 +11,14 @@ import { ExaminerStatsRoutingModule } from '@pages/examiner-stats/examiner-stats
 import { ExaminerStatsAnalyticsEffects } from '@pages/examiner-stats/examiner-stats.analytics.effects';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ColourFilterRadioComponent } from '@pages/examiner-stats/components/colour-filter-radio/colour-filter-radio';
+import { ExaminerStatsComponentsModule } from '@pages/examiner-stats/examiner-stats-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ExaminerStatsComponentsModule,
     ExaminerStatsRoutingModule,
     EffectsModule.forFeature([
       ExaminerStatsAnalyticsEffects,
@@ -28,8 +29,6 @@ import { ColourFilterRadioComponent } from '@pages/examiner-stats/components/col
   ],
   declarations: [
     ExaminerStatsPage,
-    // @TODO: Remove this and create `examiner-stats.components.module.ts` and import above
-    ColourFilterRadioComponent,
   ],
 })
 export class ExaminerStatsPageModule {

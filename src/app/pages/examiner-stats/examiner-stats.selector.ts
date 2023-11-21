@@ -131,7 +131,7 @@ export const getIndependentDrivingStats = (
   category: TestCategory,
 ): ExaminerStatData<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
-  if (isAnyOf(category, [
+  if (isAnyOf(category, [undefined, null,
     TestCategory.ADI3,
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
     TestCategory.CCPC, TestCategory.DCPC,
@@ -364,7 +364,7 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
     return type ? man[type] : man;
   } else if ([TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E].includes(category)) {
     return type ? manoeuvreTypeLabelsCatD[type] : manoeuvreTypeLabelsCatD;
-  } else if ([TestCategory.B, TestCategory.B1].includes(category)) {
+  } else if ([TestCategory.B].includes(category)) {
     return type ? manoeuvreTypeLabelsCatB[type] : manoeuvreTypeLabelsCatB;
   } else if ([TestCategory.BE].includes(category)) {
     return type ? manoeuvreTypeLabelsCatBE[type] : manoeuvreTypeLabelsCatBE;
