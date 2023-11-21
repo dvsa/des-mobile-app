@@ -15,7 +15,7 @@ import {
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { of } from 'rxjs';
 
-fdescribe('ExaminerStatsPage', () => {
+describe('ExaminerStatsPage', () => {
   let component: ExaminerStatsPage;
   let fixture: ComponentFixture<ExaminerStatsPage>;
   let store$: MockStore;
@@ -208,7 +208,7 @@ fdescribe('ExaminerStatsPage', () => {
     });
   });
 
-  xdescribe('setFilterLists', () => {
+  describe('setFilterLists', () => {
     it('should set locationFilterOptions to the item property of each object in locationList$', () => {
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
