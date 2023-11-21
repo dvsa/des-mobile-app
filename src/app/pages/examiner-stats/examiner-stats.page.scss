@@ -6,12 +6,20 @@ ion-menu-button {
   text-align: center;
 }
 
+.direction-column {
+  flex-direction: column;
+}
+
 .padding-top {
   padding-top: 40px;
 }
 
 .input-padding {
   padding-left: 24px;
+}
+
+.ion-padding-20 {
+  padding-top: 20px;
 }
 
 .navy-card {
