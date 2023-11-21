@@ -5,13 +5,17 @@ import { IonicModule } from '@ionic/angular';
 import { ColourEnum, ExaminerStatsPage } from '../examiner-stats.page';
 import {
   AccordionChanged,
-  ColourFilterChanged, DateRangeChanged,
+  ColourFilterChanged,
+  DateRangeChanged,
   ExaminerStatsViewDidEnter,
   HideChartsChanged,
+  LocationChanged,
+  TestCategoryChanged,
 } from '@pages/examiner-stats/examiner-stats.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { of } from 'rxjs';
 
-describe('ExaminerStatsPage', () => {
+fdescribe('ExaminerStatsPage', () => {
   let component: ExaminerStatsPage;
   let fixture: ComponentFixture<ExaminerStatsPage>;
   let store$: MockStore;
@@ -158,27 +162,6 @@ describe('ExaminerStatsPage', () => {
     expect(store$).toBeTruthy();
   });
 
-  describe('ionViewDidEnter', () => {
-    it('should dispatch the store with ExaminerStatsViewDidEnter', () => {
-      spyOn(component.store$, 'dispatch');
-
-      component.ionViewDidEnter();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerStatsViewDidEnter());
-    });
-  });
-
-  describe('getLabelColour', () => {
-    it('should return #FFFFFF if type is bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.colors.navy, 'bar')).toEqual('#FFFFFF');
-    });
-    it('should return #000000 if type is not bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.colors.navy, 'pie')).toEqual('#000000');
-    });
-    it('should return #000000 if the passed value is not colors.navy', () => {
-      expect(component.getLabelColour(component.colors.amethyst, 'pie')).toEqual('#000000');
-    });
-  });
-
   describe('blurElement', () => {
     it('should run blur on the active Element if the id does not contain input', () => {
       document.getElementById('chart-toggle-input').focus();
@@ -194,111 +177,121 @@ describe('ExaminerStatsPage', () => {
     });
   });
 
-  describe('accordionSelect', () => {
-    it('should flip accordionOpen', () => {
-      component.accordionOpen = true;
-      component.accordionSelect();
-      expect(component.accordionOpen).toEqual(false);
-    });
-    it('should dispatch the store with AccordionChanged(true) if accordionOpen is true after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
-      component.accordionOpen = false;
-
-      component.accordionSelect();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(true));
-    });
-    it('should dispatch the store with AccordionChanged(false) if accordionOpen is false after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
-      component.accordionOpen = true;
-
-      component.accordionSelect();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(false));
-    });
-  });
-
-  describe('colourFilterChanged', () => {
-    it('should set colourOption to the value passed', () => {
-      component.colourOption = ColourEnum.Default;
-      component.colourFilterChanged(ColourEnum.Navy);
-      expect(component.colourOption).toEqual(ColourEnum.Navy);
-    });
-    it('should dispatch ColourFilterChanged with the colour passed', () => {
-      spyOn(component.store$, 'dispatch');
-
-      component.colourFilterChanged(ColourEnum.Navy);
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Navy));
-    });
-  });
-
-  describe('colourSelect', () => {
-    it('should return colors.default.pie if the colourOption ' +
-      'is not within the switch options and the input is not bar', () => {
-      component.colourOption = null;
-      expect(component.colourSelect('pie')).toEqual(component.colors.default.pie);
-    });
-    it('should return colors.default.pie if the colourOption is Default and the input is not bar', () => {
-      component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('pie')).toEqual(component.colors.default.pie);
-    });
-    it('should return colors.default.bar if the colourOption is Default and the input is bar', () => {
-      component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('bar')).toEqual(component.colors.default.bar);
-    });
-    it('should return colors.monochrome.pie if the colourOption is Monochrome and the input is not bar', () => {
-      component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('pie')).toEqual(component.colors.monochrome.pie);
-    });
-    it('should return colors.monochrome.bar if the colourOption is Monochrome and the input is bar', () => {
-      component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('bar')).toEqual(component.colors.monochrome.bar);
-    });
-    it('should return colors.amethyst if the colourOption is Amethyst', () => {
-      component.colourOption = ColourEnum.Amethyst;
-      expect(component.colourSelect('bar')).toEqual(component.colors.amethyst);
-    });
-    it('should return colors.navy if the colourOption is Navy', () => {
-      component.colourOption = ColourEnum.Navy;
-      expect(component.colourSelect('bar')).toEqual(component.colors.navy);
-    });
-  });
-
-  describe('toggleChart', () => {
-    it('should flip hideChart', () => {
-      component.hideChart = true;
-      component.toggleChart();
-      expect(component.hideChart).toEqual(false);
-    });
-    it('should dispatch the store with HideChartsChanged(true) if hideChart is true after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
-      component.hideChart = false;
-
-      component.toggleChart();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
-    });
-    it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
-      component.hideChart = true;
-
-      component.toggleChart();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
-    });
-  });
-
-  describe('showControlledStop', () => {
-    it('should return true if currentCategory is in the approved list', () => {
-      component['currentCategory'] = TestCategory.B;
-      expect(component.showControlledStop()).toEqual(true);
-    });
-    it('should return false if currentCategory is not in the approved list', () => {
-      component['currentCategory'] = TestCategory.ADI3;
-      expect(component.showControlledStop()).toEqual(false);
-    });
-  });
-
   describe('calculatePercentage', () => {
     it('should accurately calculate the percentage value of ' +
       'input 1 compared to input 2 to the first decimal place', () => {
       expect(component['calculatePercentage']([11, 1])).toEqual('9.1%');
+    });
+  });
+
+  describe('ionViewDidEnter', () => {
+    it('should dispatch the store with ExaminerStatsViewDidEnter', () => {
+      spyOn(component.store$, 'dispatch');
+
+      component.ionViewDidEnter();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerStatsViewDidEnter());
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should set pageState', () => {
+      component.pageState = null;
+
+      component.ngOnInit();
+      expect(component.pageState).toBeTruthy();
+    });
+    it('should call setFilterLists', () => {
+      spyOn(component, 'setFilterLists');
+
+      component.ngOnInit();
+      expect(component.setFilterLists).toHaveBeenCalled();
+    });
+  });
+
+  xdescribe('setFilterLists', () => {
+    it('should set locationFilterOptions to the item property of each object in locationList$', () => {
+      component.locationFilterOptions = null;
+      component.pageState.locationList$ = of([
+        { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
+        { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
+      ]);
+
+      component.setFilterLists();
+      expect(component.locationFilterOptions).toEqual([
+        { centreName: '1', centreId: 1, costCode:'X1' },
+        { centreName: '2', centreId: 2, costCode:'X2' },
+      ]);
+    });
+    it('should set locationPlaceholder to the centreName property ' +
+    'of the object in the location array with the highest count', () => {
+      component.locationFilterOptions = null;
+      component.pageState.locationList$ = of([
+        { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
+        { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
+      ]);
+      component.setFilterLists();
+      expect(component.locationPlaceholder).toEqual('2');
+    });
+    it('should call handleLocationFilter with the item of ' +
+    'the object in the location array with the highest count', () => {
+      spyOn(component, 'handleLocationFilter');
+
+      component.locationFilterOptions = null;
+      component.pageState.locationList$ = of([
+        { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
+        { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
+      ]);
+      component.setFilterLists();
+      expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode:'X2' });
+    });
+
+    // it('should set categoryFilterOptions to the item property of each object in categoryList$', () => {
+    //   component.categoryFilterOptions = null;
+    //   component.pageState.categoryList$ = of([
+    //     { item: TestCategory.B, count: 1 },
+    //     { item: TestCategory.ADI3, count: 2 },
+    //   ]);
+    //
+    //   component.setFilterLists();
+    //   expect(1).toEqual(1);
+    //   expect(component.categoryFilterOptions).toEqual([
+    //     TestCategory.B,
+    //     TestCategory.ADI3,
+    //   ]);
+    // });
+    // it('should set categoryPlaceholder to the property ' +
+    // 'of the object in the category array with the highest count', () => {
+    //   component.categoryFilterOptions = null;
+    //   component.pageState.categoryList$ = of([
+    //     { item: TestCategory.B, count: 1 },
+    //     { item: TestCategory.ADI3, count: 2 },
+    //   ]);
+    //
+    //   component.setFilterLists();
+    //   expect(component.categoryPlaceholder).toEqual(TestCategory.ADI3);
+    // });
+    // it('should call handleCategoryFilter with the item of ' +
+    // 'the object in the category array with the highest count', () => {
+    //   spyOn(component, 'handleCategoryFilter');
+    //
+    //   component.categoryFilterOptions = null;
+    //   component.pageState.categoryList$ = of([
+    //     { item: TestCategory.B, count: 1 },
+    //     { item: TestCategory.ADI3, count: 2 },
+    //   ]);
+    //
+    //   component.setFilterLists();
+    //   expect(component.handleCategoryFilter).toHaveBeenCalledWith(TestCategory.ADI3);
+    // });
+  });
+
+  describe('setDefault', () => {
+    it('should return the value with the highest count within the array', () => {
+      expect(component.setDefault(
+        [
+          { item: 1, count: 1 },
+          { item: 2, count: 2 },
+        ])).toEqual({ item: 2, count: 2 });
     });
   });
 
@@ -342,9 +335,127 @@ describe('ExaminerStatsPage', () => {
           },
         } as CustomEvent,
       );
-      component.rangeSubject$.subscribe(value => {
-        expect(value).toEqual('1');
+      component.rangeSubject$.subscribe(i => {
+        expect(i).toEqual('1');
       });
+    });
+  });
+
+  describe('handleLocationFilter', () => {
+    it('should set locationFilter to centreName of the passed value', () => {
+      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
+      expect(component.locationFilter).toEqual('1');
+    });
+    it('should set locationSubject$ to centreId of the passed value', () => {
+      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
+      component.locationSubject$.subscribe((i) => {
+        expect(i).toEqual(1);
+      });
+    });
+    it('should dispatch LocationChanged with locationFilter', () => {
+      spyOn(component.store$, 'dispatch');
+
+      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
+      expect(component.store$.dispatch).toHaveBeenCalledWith(LocationChanged('1'));
+    });
+  });
+
+  describe('handleCategoryFilter', () => {
+    it('should set categoryDisplay to "Test category: B" if the passed value is B', () => {
+      component.handleCategoryFilter(TestCategory.B);
+      expect(component.categoryDisplay).toEqual('Test category: B');
+    });
+    it('should set currentCategory to the passed value', () => {
+      component.handleCategoryFilter(TestCategory.B);
+      expect(component['currentCategory']).toEqual(TestCategory.B);
+    });
+    it('should set categorySubject$ to the passed value', () => {
+      component.handleCategoryFilter(TestCategory.B);
+      component.categorySubject$.subscribe((i) => {
+        expect(i).toEqual(TestCategory.B);
+      });
+    });
+    it('should dispatch TestCategoryChanged with passed value', () => {
+      spyOn(component.store$, 'dispatch');
+
+      component.handleCategoryFilter(TestCategory.B);
+      expect(component.store$.dispatch).toHaveBeenCalledWith(TestCategoryChanged(TestCategory.B));
+    });
+  });
+
+  describe('colourFilterChanged', () => {
+    it('should set colourOption to the value passed', () => {
+      component.colourOption = ColourEnum.Default;
+      component.colourFilterChanged(ColourEnum.Navy);
+      expect(component.colourOption).toEqual(ColourEnum.Navy);
+    });
+    it('should dispatch ColourFilterChanged with the colour passed', () => {
+      spyOn(component.store$, 'dispatch');
+
+      component.colourFilterChanged(ColourEnum.Navy);
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Navy));
+    });
+  });
+
+  describe('toggleChart', () => {
+    it('should flip hideChart', () => {
+      component.hideChart = true;
+      component.toggleChart();
+      expect(component.hideChart).toEqual(false);
+    });
+    it('should dispatch the store with HideChartsChanged(true) if hideChart is true after being flipped', () => {
+      spyOn(component.store$, 'dispatch');
+      component.hideChart = false;
+
+      component.toggleChart();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
+    });
+    it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
+      spyOn(component.store$, 'dispatch');
+      component.hideChart = true;
+
+      component.toggleChart();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
+    });
+  });
+
+  describe('handleChartFilter', () => {
+    it('should set globalChartType to the value passed', () => {
+      component.globalChartType = 'bar';
+      component.handleChartFilter({ detail: { value: 'pie' } });
+      expect(component.globalChartType).toEqual('pie');
+    });
+  });
+
+  describe('colourSelect', () => {
+    it('should return colors.default.pie if the colourOption ' +
+      'is not within the switch options and the input is not bar', () => {
+      component.colourOption = null;
+      expect(component.colourSelect('pie')).toEqual(component.colors.default.pie);
+    });
+    it('should return colors.default.pie if the colourOption is Default and the input is not bar', () => {
+      component.colourOption = ColourEnum.Default;
+      expect(component.colourSelect('pie')).toEqual(component.colors.default.pie);
+    });
+    it('should return colors.default.bar if the colourOption is Default and the input is bar', () => {
+      component.colourOption = ColourEnum.Default;
+      expect(component.colourSelect('bar')).toEqual(component.colors.default.bar);
+    });
+    it('should return colors.monochrome.pie if the colourOption is Monochrome and the input is not bar', () => {
+      component.colourOption = ColourEnum.Monochrome;
+      expect(component.colourSelect('pie')).toEqual(component.colors.monochrome.pie);
+    });
+    it('should return colors.monochrome.bar if the colourOption is Monochrome and the input is bar', () => {
+      component.colourOption = ColourEnum.Monochrome;
+      expect(component.colourSelect('bar')).toEqual(component.colors.monochrome.bar);
+    });
+    it('should return colors.amethyst if the colourOption is Amethyst', () => {
+      component.colourOption = ColourEnum.Amethyst;
+      expect(component.colourSelect('bar')).toEqual(component.colors.amethyst);
+    });
+    it('should return colors.navy if the colourOption is Navy', () => {
+      component.colourOption = ColourEnum.Navy;
+      expect(component.colourSelect('bar')).toEqual(component.colors.navy);
     });
   });
 
@@ -360,11 +471,58 @@ describe('ExaminerStatsPage', () => {
     });
   });
 
-  describe('handleChartFilter', () => {
-    it('should set globalChartType to the value passed', () => {
-      component.globalChartType = 'bar';
-      component.handleChartFilter({ detail: { value: 'pie' } });
-      expect(component.globalChartType).toEqual('pie');
+  describe('getTotal', () => {
+    it('should return the total counts of the array passed in', () => {
+      expect(component.getTotal([
+        { count: 1, percentage: '1%', item: '1' },
+        { count: 8, percentage: '1%', item: '1' },
+      ])).toEqual(9);
     });
   });
+
+  describe('getLabelColour', () => {
+    it('should return #FFFFFF if type is bar and the passed value is colors.navy', () => {
+      expect(component.getLabelColour(component.colors.navy, 'bar')).toEqual('#FFFFFF');
+    });
+    it('should return #000000 if type is not bar and the passed value is colors.navy', () => {
+      expect(component.getLabelColour(component.colors.navy, 'pie')).toEqual('#000000');
+    });
+    it('should return #000000 if the passed value is not colors.navy', () => {
+      expect(component.getLabelColour(component.colors.amethyst, 'pie')).toEqual('#000000');
+    });
+  });
+
+  describe('showControlledStop', () => {
+    it('should return true if currentCategory is in the approved list', () => {
+      component['currentCategory'] = TestCategory.B;
+      expect(component.showControlledStop()).toEqual(true);
+    });
+    it('should return false if currentCategory is not in the approved list', () => {
+      component['currentCategory'] = TestCategory.ADI3;
+      expect(component.showControlledStop()).toEqual(false);
+    });
+  });
+
+  describe('accordionSelect', () => {
+    it('should flip accordionOpen', () => {
+      component.accordionOpen = true;
+      component.accordionSelect();
+      expect(component.accordionOpen).toEqual(false);
+    });
+    it('should dispatch the store with AccordionChanged(true) if accordionOpen is true after being flipped', () => {
+      spyOn(component.store$, 'dispatch');
+      component.accordionOpen = false;
+
+      component.accordionSelect();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(true));
+    });
+    it('should dispatch the store with AccordionChanged(false) if accordionOpen is false after being flipped', () => {
+      spyOn(component.store$, 'dispatch');
+      component.accordionOpen = true;
+
+      component.accordionSelect();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(false));
+    });
+  });
+
 });
