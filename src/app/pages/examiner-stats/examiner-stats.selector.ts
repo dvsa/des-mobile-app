@@ -1,11 +1,6 @@
-import { forOwn, get, isEqual, transform, uniqBy } from 'lodash';
+import { get, isEqual, uniqBy } from 'lodash';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  Manoeuvre,
-  SafetyQuestionResult,
-  TestCentre,
-  TestResultCommonSchema,
-} from '@dvsa/mes-test-schema/categories/common';
+import { SafetyQuestionResult, TestCentre, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { StartedTests } from '@store/tests/tests.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -85,7 +80,7 @@ export const getOutcome = (
     };
   }), 'item')
     .sort((item1, item2) =>
-      (item1.item as string) > (item2.item as string) ? 1 : - 1);
+      (item1.item as string) > (item2.item as string) ? 1 : -1);
 };
 
 export const getControlledStopCount = (
@@ -121,7 +116,7 @@ export const getLocations = (
     };
   }), 'item.centreId')
     .sort((item1, item2) =>
-      (item1.item.centreName) > (item2.item.centreName) ? 1 : - 1);
+      (item1.item.centreName) > (item2.item.centreName) ? 1 : -1);
 };
 
 export const getIndependentDrivingStats = (
@@ -166,11 +161,13 @@ export const getIndependentDrivingStats = (
 export const getCategories = (
   startedTests: StartedTests,
   range: DateRange = null,
+  centreId: number,
 ): {
   item: TestCategory;
   count: number
 }[] => {
   const data = (getEligibleTests(startedTests, range)
+    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'category', null))
     // filter for any nulls
@@ -183,7 +180,7 @@ export const getCategories = (
     };
   }), 'item')
     .sort((item1, item2) =>
-      (item1.item as string) > (item2.item as string) ? 1 : - 1);
+      (item1.item as string) > (item2.item as string) ? 1 : -1);
 };
 
 export const getStartedTestCount = (
@@ -383,35 +380,37 @@ export const getManoeuvresUsed = (
 ): ExaminerStatData<string>[] => {
   let faultsEncountered: string[] = [];
 
-  const manoeuvreTypeLabels: string[] = Object.values(getManoeuvreTypeLabels(category));
+  return [];
 
-  getEligibleTests(startedTests, range)
-    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
-    .filter((slotID) => get(startedTests[slotID], 'category') === category)
-    .forEach((slotID) => {
-      const manoeuvres = get(startedTests[slotID], 'testData.manoeuvres');
-      if (!manoeuvres) return;
-      const testCategory = get(startedTests[slotID], 'category') as TestCategory;
-      const mans = testCategory === TestCategory.ADI2 ? manoeuvres : [manoeuvres];
-      mans.forEach((manoeuvre) => {
-        forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
-          const faults = !man.selected ? [] : transform(man, (result) => {
-            result.push(getManoeuvreTypeLabels(testCategory, type));
-          }, []);
-          faultsEncountered.push(...faults);
-        });
-      });
-      faultsEncountered = faultsEncountered.filter((fault) => !!fault);
-    });
-
-  return manoeuvreTypeLabels.map((q, index) => {
-    const count = faultsEncountered.filter((val) => val === q).length;
-    return {
-      item: `M${index + 1} - ${q}`,
-      count,
-      percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+//   const manoeuvreTypeLabels: string[] = Object.values(getManoeuvreTypeLabels(category));
+//
+//   getEligibleTests(startedTests, range)
+//     .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+//     .filter((slotID) => get(startedTests[slotID], 'category') === category)
+//     .forEach((slotID) => {
+//       const manoeuvres = get(startedTests[slotID], 'testData.manoeuvres');
+//       if (!manoeuvres) return;
+//       const testCategory = get(startedTests[slotID], 'category') as TestCategory;
+//       const mans = testCategory === TestCategory.ADI2 ? manoeuvres : [manoeuvres];
+//       mans.forEach((manoeuvre) => {
+//         forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
+//           const faults = !man.selected ? [] : transform(man, (result) => {
+//             result.push(getManoeuvreTypeLabels(testCategory, type));
+//           }, []);
+//           faultsEncountered.push(...faults);
+//         });
+//       });
+//       faultsEncountered = faultsEncountered.filter((fault) => !!fault);
+//     });
+//
+//   return manoeuvreTypeLabels.map((q, index) => {
+//     const count = faultsEncountered.filter((val) => val === q).length;
+//     return {
+//       item: `M${index + 1} - ${q}`,
+//       count,
+//       percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
+//     };
+//   })
+//     .sort((item1, item2) =>
+//       getIndex(item1.item as string) - getIndex(item2.item as string));
 };

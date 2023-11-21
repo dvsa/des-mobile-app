@@ -8,8 +8,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -34,7 +41,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -43,7 +54,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -52,24 +67,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
+        'tellMeQuestion': {
+          'code': 'T6',
+          'description': 'Antilock braking system',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S1',
+          'description': 'Rear windscreen',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -87,7 +132,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -97,7 +146,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -111,8 +165,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 1,
+        'costCode': 'EXTC2',
+        'centreName': 'Example Test Centre 2',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -137,7 +198,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -146,7 +211,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -155,24 +224,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
+        'tellMeQuestion': {
+          'code': 'T6',
+          'description': 'Antilock braking system',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S1',
+          'description': 'Rear windscreen',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -189,7 +288,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -199,7 +302,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -213,8 +321,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 1,
+        'costCode': 'EXTC2',
+        'centreName': 'Example Test Centre 2',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -239,7 +354,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -248,7 +367,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -257,24 +380,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
+        'tellMeQuestion': {
+          'code': 'T7',
+          'description': 'Direction indicators',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S1',
+          'description': 'Rear windscreen',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -292,7 +445,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -302,7 +459,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -316,8 +478,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 1,
+        'costCode': 'EXTC2',
+        'centreName': 'Example Test Centre 2',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -342,7 +511,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -351,7 +524,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -360,24 +537,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
+        'tellMeQuestion': {
+          'code': 'T7',
+          'description': 'Direction indicators',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S3',
+          'description': 'Dipped headlights',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -395,7 +602,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -405,7 +616,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -419,8 +635,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 1,
+        'costCode': 'EXTC2',
+        'centreName': 'Example Test Centre 2',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -445,7 +668,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -454,7 +681,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -463,24 +694,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T7', 'description': 'Direction indicators', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
+        'tellMeQuestion': {
+          'code': 'T7',
+          'description': 'Direction indicators',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S3',
+          'description': 'Dipped headlights',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -498,7 +759,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -508,7 +773,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -522,8 +792,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -548,7 +825,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -557,7 +838,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -566,24 +851,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'DF' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
+        'tellMeQuestion': {
+          'code': 'T8',
+          'description': 'Brake lights',
+          'outcome': 'DF',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S3',
+          'description': 'Dipped headlights',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -601,7 +916,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -611,7 +930,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -625,8 +949,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -651,7 +982,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -660,7 +995,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -669,24 +1008,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T8', 'description': 'Brake lights', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
+        'tellMeQuestion': {
+          'code': 'T8',
+          'description': 'Brake lights',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S3',
+          'description': 'Dipped headlights',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -704,7 +1073,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -714,7 +1087,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -728,8 +1106,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -754,7 +1139,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -763,7 +1152,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -772,24 +1165,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
+        'tellMeQuestion': {
+          'code': 'T9',
+          'description': 'Power assisted steering',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S3',
+          'description': 'Dipped headlights',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -807,7 +1230,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -817,7 +1244,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -831,8 +1263,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -857,7 +1296,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -866,7 +1309,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -875,24 +1322,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T9', 'description': 'Power assisted steering', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S3', 'description': 'Dipped headlights' },
+        'tellMeQuestion': {
+          'code': 'T9',
+          'description': 'Power assisted steering',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S3',
+          'description': 'Dipped headlights',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -910,7 +1387,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -920,7 +1401,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -934,8 +1420,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -960,7 +1453,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -969,7 +1466,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -978,24 +1479,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
+        'tellMeQuestion': {
+          'code': 'T10',
+          'description': 'Rear fog light(s)',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S7',
+          'description': 'Side window',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1013,7 +1544,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1023,7 +1558,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1037,8 +1577,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1063,7 +1610,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1072,7 +1623,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1081,24 +1636,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T10', 'description': 'Rear fog light(s)', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
+        'tellMeQuestion': {
+          'code': 'T10',
+          'description': 'Rear fog light(s)',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S7',
+          'description': 'Side window',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1116,7 +1701,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1126,7 +1715,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1303,8 +1897,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1329,7 +1930,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1338,7 +1943,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1347,24 +1956,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T4', 'description': 'Sufficient tread', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S7', 'description': 'Side window' },
+        'tellMeQuestion': {
+          'code': 'T4',
+          'description': 'Sufficient tread',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S7',
+          'description': 'Side window',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1382,7 +2021,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1392,7 +2035,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1406,8 +2054,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1432,7 +2087,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1441,7 +2100,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1450,24 +2113,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
+        'tellMeQuestion': {
+          'code': 'T12',
+          'description': 'Engine has sufficient oil',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S4',
+          'description': 'Rear demister',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1485,7 +2178,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1495,7 +2192,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1509,8 +2211,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1535,7 +2244,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1544,7 +2257,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1553,24 +2270,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T12', 'description': 'Engine has sufficient oil', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
+        'tellMeQuestion': {
+          'code': 'T12',
+          'description': 'Engine has sufficient oil',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S4',
+          'description': 'Rear demister',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1588,7 +2335,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1598,7 +2349,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1612,8 +2368,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1638,7 +2401,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1647,7 +2414,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1656,24 +2427,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T13', 'description': 'Engine coolant', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S4', 'description': 'Rear demister' },
+        'tellMeQuestion': {
+          'code': 'T13',
+          'description': 'Engine coolant',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S4',
+          'description': 'Rear demister',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'forwardPark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1691,7 +2492,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1701,7 +2506,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1715,8 +2525,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1741,7 +2558,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1750,7 +2571,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1759,24 +2584,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
+        'tellMeQuestion': {
+          'code': 'T1',
+          'description': 'Brakes',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S5',
+          'description': 'Horn',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1794,7 +2649,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1804,7 +2663,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1818,8 +2682,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1844,7 +2715,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1853,7 +2728,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1862,24 +2741,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T1', 'description': 'Brakes', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
+        'tellMeQuestion': {
+          'code': 'T1',
+          'description': 'Brakes',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S5',
+          'description': 'Horn',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -1897,7 +2806,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1907,7 +2820,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -1921,8 +2839,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -1947,7 +2872,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -1956,7 +2885,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1965,24 +2898,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
+        'tellMeQuestion': {
+          'code': 'T2',
+          'description': 'Tyre pressures',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S5',
+          'description': 'Horn',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2000,7 +2963,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2010,7 +2977,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2024,8 +2996,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2050,7 +3029,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2059,7 +3042,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2068,24 +3055,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
+        'tellMeQuestion': {
+          'code': 'T2',
+          'description': 'Tyre pressures',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S5',
+          'description': 'Horn',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2103,7 +3120,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2113,7 +3134,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2127,8 +3153,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2153,7 +3186,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2162,7 +3199,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2171,24 +3212,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
+        'tellMeQuestion': {
+          'code': 'T2',
+          'description': 'Tyre pressures',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S5',
+          'description': 'Horn',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2206,7 +3277,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2216,7 +3291,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2230,8 +3310,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2256,7 +3343,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2265,7 +3356,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2274,24 +3369,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T2', 'description': 'Tyre pressures', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S5', 'description': 'Horn' },
+        'tellMeQuestion': {
+          'code': 'T2',
+          'description': 'Tyre pressures',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S5',
+          'description': 'Horn',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2309,7 +3434,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2319,7 +3448,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2333,8 +3467,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2359,7 +3500,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2368,7 +3513,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2377,24 +3526,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T11', 'description': 'Dipped to main beam', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
+        'tellMeQuestion': {
+          'code': 'T11',
+          'description': 'Dipped to main beam',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S6',
+          'description': 'Demist front windscreen',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2412,7 +3591,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2422,7 +3605,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2436,8 +3624,15 @@ export const mockLocalData: StartedTests = {
     'category': 'D',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2462,7 +3657,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2471,7 +3670,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2480,24 +3683,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'Q4', 'description': 'Reflectors condition', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'DF', 'code': 'Q6', 'description': 'Mudguards condition' },
+        'tellMeQuestion': {
+          'code': 'Q4',
+          'description': 'Reflectors condition',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'DF',
+          'code': 'Q6',
+          'description': 'Mudguards condition',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkRoad': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2515,7 +3748,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2525,7 +3762,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2539,8 +3781,15 @@ export const mockLocalData: StartedTests = {
     'category': 'D',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2565,7 +3814,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2574,7 +3827,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2583,15 +3840,30 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'Q8', 'description': 'Windscreen wipers condition', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'Q2', 'description': 'Air leaks' },
+        'tellMeQuestion': {
+          'code': 'Q8',
+          'description': 'Windscreen wipers condition',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'Q2',
+          'description': 'Air leaks',
+        },
       },
       'safetyQuestions': {
         'questions': [
@@ -2607,13 +3879,28 @@ export const mockLocalData: StartedTests = {
         'faultComments': '',
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2631,7 +3918,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2641,7 +3932,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2655,8 +3951,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2681,7 +3984,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2690,7 +3997,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2699,24 +4010,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S6', 'description': 'Demist front windscreen' },
+        'tellMeQuestion': {
+          'code': 'T3',
+          'description': 'Head restraint',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S6',
+          'description': 'Demist front windscreen',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseParkCarpark': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2734,7 +4075,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2744,7 +4089,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2758,8 +4108,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2784,7 +4141,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2793,7 +4154,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2802,24 +4167,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T3', 'description': 'Head restraint', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': {
+          'code': 'T3',
+          'description': 'Head restraint',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S2',
+          'description': 'Front windscreen',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2837,7 +4232,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2847,7 +4246,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2861,8 +4265,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '1',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2887,7 +4298,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2896,7 +4311,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2905,24 +4324,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': {
+          'code': 'T14',
+          'description': 'Brake fluid',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S2',
+          'description': 'Front windscreen',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -2940,7 +4389,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -2950,7 +4403,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -2964,8 +4422,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -2990,7 +4455,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -2999,7 +4468,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3008,24 +4481,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T14', 'description': 'Brake fluid', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': {
+          'code': 'T14',
+          'description': 'Brake fluid',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S2',
+          'description': 'Front windscreen',
+        },
       },
       'controlledStop': { 'selected': true },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -3043,7 +4546,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -3053,7 +4560,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -3067,8 +4579,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -3093,7 +4612,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -3102,7 +4625,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3111,24 +4638,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S2', 'description': 'Front windscreen' },
+        'tellMeQuestion': {
+          'code': 'T5',
+          'description': 'Headlights & tail lights',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S2',
+          'description': 'Front windscreen',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -3146,7 +4703,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -3156,7 +4717,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -3170,8 +4736,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 1,
+        'costCode': 'EXTC2',
+        'centreName': 'Example Test Centre 2',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -3196,7 +4769,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -3205,7 +4782,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3214,24 +4795,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T5', 'description': 'Headlights & tail lights', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
+        'tellMeQuestion': {
+          'code': 'T5',
+          'description': 'Headlights & tail lights',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S1',
+          'description': 'Rear windscreen',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -3249,7 +4860,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -3259,7 +4874,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -3273,8 +4893,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '2',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 1,
+        'costCode': 'EXTC2',
+        'centreName': 'Example Test Centre 2',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -3299,7 +4926,11 @@ export const mockLocalData: StartedTests = {
           'postcode': 'AB12 3CD',
         },
         'candidateId': 126,
-        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'candidateName': {
+          'firstName': 'test',
+          'lastName': 'data',
+          'title': 'Mr',
+        },
         'driverNumber': 'COOPE015220A99HC',
         'mobileTelephone': '07654 123456',
         'primaryTelephone': '01234 567890',
@@ -3308,7 +4939,11 @@ export const mockLocalData: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': {
+        'applicationId': 20654332,
+        'bookingSequence': 3,
+        'checkDigit': 1,
+      },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3317,24 +4952,54 @@ export const mockLocalData: StartedTests = {
       'candidateDeclarationSigned': false,
     },
     'accompaniment': {},
-    'vehicleDetails': { 'registrationNumber': '1', 'gearboxCategory': 'Manual', 'motStatus': 'No details found' },
+    'vehicleDetails': {
+      'registrationNumber': '1',
+      'gearboxCategory': 'Manual',
+      'motStatus': 'No details found',
+    },
     'instructorDetails': {},
     'testData': {
-      'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
+      'drivingFaults': {
+        'moveOffSafety': 1,
+        'moveOffControl': 1,
+      },
       'dangerousFaults': {},
       'seriousFaults': {},
       'vehicleChecks': {
-        'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
-        'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
+        'tellMeQuestion': {
+          'code': 'T6',
+          'description': 'Antilock braking system',
+          'outcome': 'P',
+        },
+        'showMeQuestion': {
+          'outcome': 'P',
+          'code': 'S1',
+          'description': 'Rear windscreen',
+        },
       },
       'controlledStop': { 'selected': false },
-      'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+      'eco': {
+        'completed': true,
+        'adviceGivenControl': true,
+        'adviceGivenPlanning': true,
+      },
       'ETA': {},
-      'eyesightTest': { 'complete': true, 'seriousFault': false },
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false,
+      },
       'manoeuvres': { 'reverseRight': { 'selected': true } },
-      'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+      'testRequirements': {
+        'normalStart1': true,
+        'normalStart2': true,
+        'hillStart': true,
+        'angledStart': true,
+      },
     },
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': true,
+    },
     'postTestDeclarations': {
       'healthDeclarationAccepted': true,
       'passCertificateNumberReceived': true,
@@ -3352,7 +5017,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -3362,7 +5031,12 @@ export const mockLocalData: StartedTests = {
         'lost': false,
         'technicalFault': false,
         'stolen': false,
-      }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+      },
+      'other': {
+        'selected': false,
+        'reason': '',
+      },
+      'transfer': { 'selected': false },
     },
     'delegatedTest': false,
     'examinerBooked': 1234567,
@@ -3779,16 +5453,26 @@ export const mockLocalData: StartedTests = {
     },
     'appVersion': '4.10.0.0',
     'journalData': {
-      'examiner': { 'staffNumber': '10000014', 'individualId': 10000014 },
+      'examiner': {
+        'staffNumber': '10000014',
+        'individualId': 10000014,
+      },
       'candidate': {
         'gender': 'M',
         'candidateId': 4441,
         'dateOfBirth': '1982-06-25',
         'businessName': 'name',
         'driverNumber': '11111111',
-        'candidateName': { 'title': 'Mr', 'lastName': 'name', 'firstName': 'name' },
+        'candidateName': {
+          'title': 'Mr',
+          'lastName': 'name',
+          'firstName': 'name',
+        },
         'ethnicityCode': 'D',
-        'businessAddress': { 'postcode': '111222', 'addressLine1': '111 1 1' },
+        'businessAddress': {
+          'postcode': '111222',
+          'addressLine1': '111 1 1',
+        },
         'mobileTelephone': '(951) 401-3627',
         'candidateAddress': {
           'postcode': '111222',
@@ -3803,7 +5487,7 @@ export const mockLocalData: StartedTests = {
         'secondaryTelephone': '(979) 526-2534',
       },
       'testCentre': {
-        'centreId': 54322,
+        'centreId': 1,
         'costCode': 'EXTC1',
         'centreName': 'Example Test Centre',
       },
@@ -3822,12 +5506,25 @@ export const mockLocalData: StartedTests = {
         'specialNeedsArray': ['None'],
         'categoryEntitlementCheck': true,
       },
-      'applicationReference': { 'checkDigit': 4, 'applicationId': 55512301, 'bookingSequence': 1 },
+      'applicationReference': {
+        'checkDigit': 4,
+        'applicationId': 55512301,
+        'bookingSequence': 1,
+      },
     },
     'rekeyReason': {
-      'other': { 'reason': '', 'selected': false },
+      'other': {
+        'reason': '',
+        'selected': false,
+      },
       'transfer': { 'selected': false },
-      'ipadIssue': { 'lost': false, 'broken': false, 'stolen': false, 'selected': false, 'technicalFault': false },
+      'ipadIssue': {
+        'lost': false,
+        'broken': false,
+        'stolen': false,
+        'selected': false,
+        'technicalFault': false,
+      },
     },
     'testSummary': {
       'D255': false,
@@ -3843,7 +5540,10 @@ export const mockLocalData: StartedTests = {
     'delegatedTest': false,
     'examinerKeyed': 10000014,
     'examinerBooked': 10000014,
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': false },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': false,
+    },
     'vehicleDetails': {
       'motStatus': 'No details found',
       'vehicleWidth': 14,
@@ -3864,6 +5564,10 @@ export const mockLocalData: StartedTests = {
       'healthDeclarationAccepted': false,
       'passCertificateNumberReceived': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'conductedLanguage': 'English', 'communicationMethod': 'Post' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'conductedLanguage': 'English',
+      'communicationMethod': 'Post',
+    },
   },
 };
