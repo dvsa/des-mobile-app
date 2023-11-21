@@ -517,13 +517,31 @@
     </ion-card-content>
   </ion-card>
   </div>
-
-  <div class="position-relative top-50 text-align-center"
+  <div class="position-relative
+  top-50
+  text-align-center
+  ion-justify-content-center
+  ion-align-items-center
+  display-flex
+  direction-column"
        *ngIf="(pageState.categoryList$ | async).length === 0 ||
        (pageState.locationList$ | async).length === 0">
-    <ion-text class="mes-data">
-      No driving test data available.<br>Try again when more tests have been completed.
-    </ion-text>
+    <ion-row>
+      <ion-text class="mes-data">
+        No driving test data available.<br>Try again when more tests have been completed.
+      </ion-text>
+    </ion-row>
+    <ion-row class="padding-top">
+      <ion-col class="ion-no-padding ion-text-left">
+        <ion-button
+          id="dlg-return-to-dashboard-btn"
+          class="mes-primary-button"
+          (click)="goToDashboard()">
+          <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
   </div>
 
 </ion-content>
