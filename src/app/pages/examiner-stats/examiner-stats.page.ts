@@ -33,6 +33,8 @@ import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { mockLocalData } from '@pages/examiner-stats/__mocks__/test-result.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import { Router } from '@angular/router';
 
 interface ExaminerStatsState {
   routeNumbers$: Observable<ExaminerStatData<string>[]>;
@@ -153,6 +155,7 @@ export class ExaminerStatsPage implements OnInit {
 
     constructor(
       public store$: Store<StoreModel>,
+      public router: Router,
     ) {
     }
 
@@ -380,5 +383,9 @@ export class ExaminerStatsPage implements OnInit {
     accordionSelect() {
       this.accordionOpen = !this.accordionOpen;
       this.store$.dispatch(AccordionChanged(this.accordionOpen));
+    }
+
+    async goToDashboard(): Promise<void> {
+      await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
 }
