@@ -36,6 +36,7 @@ import {
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import {
   HasSeenUpdateAvailablePopup,
+  LoadExaminerStatsPreferences,
   UpdateAvailableBadgeClicked,
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
@@ -129,6 +130,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
     this.store$.dispatch(journalActions.LoadJournalSilent());
+    this.store$.dispatch(LoadExaminerStatsPreferences());
 
     await super.unlockDevice();
 

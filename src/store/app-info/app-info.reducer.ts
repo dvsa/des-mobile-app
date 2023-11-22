@@ -9,6 +9,8 @@ import {
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';
+import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourFilterChanged, HideChartsChanged } from '@pages/examiner-stats/examiner-stats.actions';
 
 export const appInfoFeatureKey = 'appInfo';
 
@@ -17,6 +19,10 @@ export const initialState: AppInfoStateModel = {
   employeeId: null,
   employeeName: 'Unknown Name',
   updateAvailablePresented: null,
+  examinerStats: {
+    hideCharts: false,
+    colourScheme: ColourEnum.Default,
+  },
 };
 
 export const appInfoReducer = createReducer(
@@ -44,6 +50,20 @@ export const appInfoReducer = createReducer(
   on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
     ...state,
     updateAvailablePresented: hasSeen,
+  })),
+  on(ColourFilterChanged, (state: AppInfoStateModel, { colour }) => ({
+    ...state,
+    examinerStats: {
+      ...state.examinerStats,
+      colourScheme: colour,
+    },
+  })),
+  on(HideChartsChanged, (state: AppInfoStateModel, { hideChart }) => ({
+    ...state,
+    examinerStats: {
+      ...state.examinerStats,
+      hideCharts: hideChart,
+    },
   })),
 );
 
