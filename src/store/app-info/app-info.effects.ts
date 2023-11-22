@@ -2,9 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  catchError, concatMap, filter, map, switchMap, withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 
@@ -22,13 +20,18 @@ import {
   LoadConfigSuccess,
   LoadEmployeeName,
   LoadEmployeeNameSuccess,
+  LoadExaminerStatsFailure,
+  LoadExaminerStatsPreferences,
   RestartApp,
   SetDateConfigLoaded,
 } from './app-info.actions';
-import { selectDateConfigLoaded } from './app-info.selectors';
+import { selectDateConfigLoaded, selectExaminerStats } from './app-info.selectors';
+import { ColourFilterChanged, HideChartsChanged } from '@pages/examiner-stats/examiner-stats.actions';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 
 @Injectable()
 export class AppInfoEffects {
+  private static readonly EXAMINER_STATS_KEY: string = 'EXAMINER_STAT_PREFERENCES';
 
   constructor(
     private actions$: Actions,
@@ -37,6 +40,7 @@ export class AppInfoEffects {
     private appInfoProvider: AppInfoProvider,
     private dateTimeProvider: DateTimeProvider,
     private authenticationProvider: AuthenticationProvider,
+    private dataStore: DataStoreProvider,
   ) {
   }
 
@@ -94,6 +98,42 @@ export class AppInfoEffects {
     switchMap(async () => {
       const employeeName = await this.authenticationProvider.loadEmployeeName();
       return LoadEmployeeNameSuccess({ employeeName });
+    }),
+  ));
+
+  persistExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      ColourFilterChanged,
+      HideChartsChanged,
+    ),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.select(selectExaminerStats),
+        ),
+      )),
+    switchMap(async (
+      [, examinerStatPreferences],
+    ) => this.dataStore.setItem(AppInfoEffects.EXAMINER_STATS_KEY, examinerStatPreferences)),
+  ), { dispatch: false });
+
+  loadExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
+    ofType(LoadExaminerStatsPreferences),
+    switchMap(() => this.dataStore.getItem(AppInfoEffects.EXAMINER_STATS_KEY)),
+    concatMap((examinerStats) => {
+      if (!examinerStats) {
+        return [LoadExaminerStatsFailure('Examiner stats preferences not found')];
+      }
+
+      const {
+        hideCharts,
+        colourScheme,
+      } = JSON.parse(examinerStats);
+
+      return [
+        (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
+        (!!hideCharts) ? HideChartsChanged(hideCharts) : null,
+      ];
     }),
   ));
 }

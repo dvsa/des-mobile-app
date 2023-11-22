@@ -41,6 +41,7 @@ import {
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import {
   HasSeenUpdateAvailablePopup,
+  LoadExaminerStatsPreferences,
   UpdateAvailableBadgeClicked,
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
@@ -138,6 +139,7 @@ export class DashboardPage
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
     this.store$.dispatch(journalActions.LoadJournalSilent());
+    this.store$.dispatch(LoadExaminerStatsPreferences());
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();

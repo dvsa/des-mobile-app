@@ -38,6 +38,9 @@ import { mockLocalData } from '@pages/examiner-stats/__mocks__/test-result.mock'
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
+import { selectColourScheme, selectHideCharts } from '@store/app-info/app-info.selectors';
+
+type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
 interface ExaminerStatsState {
   routeNumbers$: Observable<ExaminerStatData<string>[]>;
@@ -68,14 +71,17 @@ export const enum ColourEnum {
 })
 export class ExaminerStatsPage implements OnInit {
 
+  private static readonly BLACK = '#000000';
+  private static readonly WHITE = '#FFFFFF';
+
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerStatsState;
-  hideChart: boolean = false;
-  colourOption: ColourEnum = ColourEnum.Default;
+  hideChart = this.store$.selectSignal(selectHideCharts)();
+  colourOption = this.store$.selectSignal(selectColourScheme)();
   colors: {
     default: { bar: string[], pie: string[] },
     monochrome: { bar: string[], pie: string[] },
@@ -116,7 +122,6 @@ export class ExaminerStatsPage implements OnInit {
       '#9070ff',
     ],
   };
-  controlledStopTotal: number;
   categoryPlaceholder: string;
   locationPlaceholder: string;
   globalChartType: ChartType;
@@ -136,20 +141,6 @@ export class ExaminerStatsPage implements OnInit {
       val: 'fortnight',
     },
   ];
-  chartFilterOptions: { display: string, val: ChartType }[] = [
-    {
-      display: 'Default',
-      val: null,
-    },
-    {
-      display: 'Bar',
-      val: 'bar',
-    },
-    {
-      display: 'Pie',
-      val: 'pie',
-    },
-  ];
   public dateFilter: string = 'Last 14 days';
   public locationFilter: string;
   public categoryDisplay: string;
@@ -163,8 +154,8 @@ export class ExaminerStatsPage implements OnInit {
   }
 
   blurElement(event: EventTarget) {
-    if (!((event as HTMLElement).id.includes('input'))) {
-      (document.activeElement as HTMLElement).blur();
+    if (!((event as HTMLElement).id?.includes('input'))) {
+      (document.activeElement as HTMLElement)?.blur();
     }
   }
 
@@ -213,16 +204,15 @@ export class ExaminerStatsPage implements OnInit {
       outcomes$: this.filterByParameters(getOutcome),
       locationList$: this.filterByParameters(getLocations)
         .pipe(
-          tap(value => {
+          tap((value) => {
             this.locationFilterOptions = [];
 
             value.forEach((val) => {
               this.locationFilterOptions.push(val.item);
             });
 
-            console.log(this.locationFilterOptions.map(item => item.centreId));
-            console.log(this.locationSubject$.value);
-            if (!this.locationFilterOptions.map(item => item.centreId).includes(this.locationSubject$.value)) {
+            if (!this.locationFilterOptions.map(({ centreId }) => centreId)
+              .includes(this.locationSubject$.value)) {
               const mostUsed = this.setDefault(value);
 
               if (!!mostUsed) {
@@ -234,7 +224,7 @@ export class ExaminerStatsPage implements OnInit {
         ),
       categoryList$: this.filterByParameters(getCategories)
         .pipe(
-          tap((value) => {
+          tap((value: Omit<ExaminerStatData<TestCategory>, 'percentage'>[]) => {
             this.categoryFilterOptions = [];
 
             value.forEach((val) => {
@@ -269,9 +259,7 @@ export class ExaminerStatsPage implements OnInit {
         ),
       passPercentage$: this.filterByParameters(getStartedTestCount)
         .pipe(
-          withLatestFrom(
-            this.filterByParameters(getPassedTestCount),
-          ),
+          withLatestFrom(this.filterByParameters(getPassedTestCount)),
           map(this.calculatePercentage),
         ),
     };
@@ -320,33 +308,30 @@ export class ExaminerStatsPage implements OnInit {
     // }
   }
 
-  setDefault(data: { item: any, count: number }[]) {
-    if (data.length > 0) {
-      return data.reduce(function (max, obj) {
-        return obj.count > max.count ? obj : max;
-      });
+  setDefault<T>(data: Omit<ExaminerStatData<T>, 'percentage'>[]): Omit<ExaminerStatData<T>, 'percentage'> {
+    if (!data || data?.length === 0) {
+      return null;
     }
-    return null;
+    return data.reduce((max, obj) => (obj.count > max.count) ? obj : max);
   }
 
-  handleDateFilter(event: CustomEvent) {
+  handleDateFilter(event: CustomEvent): void {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
 
     this.store$.dispatch(DateRangeChanged(this.dateFilter));
   }
 
-  handleLocationFilter(event: TestCentre) {
+  handleLocationFilter(event: TestCentre): void {
     if (event.centreName !== this.locationFilter) {
       this.locationFilter = event.centreName ?? null;
       this.locationSubject$.next(event.centreId ?? null);
 
       this.store$.dispatch(LocationChanged(this.locationFilter));
     }
-
   }
 
-  handleCategoryFilter(event: TestCategory) {
+  handleCategoryFilter(event: TestCategory): void {
     if (this.categorySubject$.value !== event) {
       this.categoryDisplay = `Test category: ${event}`;
       this.currentCategory = event;
@@ -356,67 +341,52 @@ export class ExaminerStatsPage implements OnInit {
     }
   }
 
-  colourFilterChanged(colour: ColourEnum) {
+  colourFilterChanged(colour: ColourEnum): void {
     this.colourOption = colour;
     this.store$.dispatch(ColourFilterChanged(colour));
   }
 
-  toggleChart() {
+  toggleChart(): void {
     this.hideChart = !this.hideChart;
     this.store$.dispatch(HideChartsChanged(this.hideChart));
   }
 
-  handleChartFilter($event: any) {
+  // @TODO: Appears unused expect in spec - remove if not needed
+  handleChartFilter($event: CustomEvent) {
     this.globalChartType = $event.detail.value;
   }
 
-  colourSelect(chartType?: ChartType) {
+  colourSelect(chartType?: ChartType): string[] {
+    const charType: DESChartTypes = (chartType === 'bar') ? 'bar' : 'pie';
+
     switch (this.colourOption) {
-      default:
-      case 'Default':
-        if (chartType === 'bar') {
-          return this.colors.default.bar;
-        }
-        return this.colors.default.pie;
-      case 'Monochrome':
-        if (chartType === 'bar') {
-          return this.colors.monochrome.bar;
-        }
-        return this.colors.monochrome.pie;
-      case 'Amethyst':
+      case ColourEnum.Monochrome:
+        return this.colors.monochrome[charType];
+      case ColourEnum.Amethyst:
         return this.colors.amethyst;
-      case 'Navy':
+      case ColourEnum.Navy:
         return this.colors.navy;
+      default:
+        return this.colors.default[charType];
     }
   }
 
-  filterDataForGrid(examinerStatData: ExaminerStatData<any>[]) {
+  filterDataForGrid<T>(examinerStatData: ExaminerStatData<T>[]): T[][] {
     if (!!examinerStatData) {
-      return examinerStatData.map(obj => {
-        return Object.values(obj);
-      });
+      return examinerStatData.map((obj) => Object.values(obj) as T[]);
     }
     return [[]];
   }
 
-  getTotal(value: ExaminerStatData<any>[]) {
-    let total: number = 0;
-    value.forEach((val) => {
-      total += Number(val.count);
-    });
-    return total;
-  }
+  getTotal = <T>(
+    value: ExaminerStatData<T>[],
+  ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
-  getLabelColour(value: string[], type: 'bar' | 'pie') {
+  getLabelColour(value: string[], type: DESChartTypes) {
     if (value === this.colors.navy) {
-      if (type === 'bar') {
-        return '#FFFFFF';
-      } else {
-        return '#000000';
-      }
-    } else {
-      return '#000000';
+      return (type === 'bar') ? ExaminerStatsPage.WHITE : ExaminerStatsPage.BLACK;
     }
+    return ExaminerStatsPage.BLACK;
   }
 
   showControlledStop() {
