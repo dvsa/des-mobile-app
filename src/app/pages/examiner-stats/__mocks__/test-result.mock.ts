@@ -1224,7 +1224,7 @@ export const mockLocalData: StartedTests = {
         'centreName': 'Example Test Centre',
       },
       'testSlotAttributes': {
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'slotId': 2423,
         'slotType': 'Extra Time Needed',
         'fitMarker': false,
@@ -1937,7 +1937,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2040,7 +2040,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2143,7 +2143,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2246,7 +2246,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2349,7 +2349,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2452,7 +2452,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
