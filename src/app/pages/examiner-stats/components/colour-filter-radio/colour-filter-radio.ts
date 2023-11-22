@@ -11,6 +11,9 @@ export class ColourFilterRadioComponent implements OnChanges {
   @Input()
   formGroup: UntypedFormGroup;
 
+  @Input()
+  colourScheme: ColourEnum = ColourEnum.Default;
+
   @Output()
   filterChange = new EventEmitter<ColourEnum>();
 
@@ -18,10 +21,10 @@ export class ColourFilterRadioComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl('Default');
+      this.formControl = new UntypedFormControl(this.colourScheme);
       this.formGroup.addControl('colourFilter', this.formControl);
     }
-    this.formControl.patchValue('Default');
+    this.formControl.patchValue(this.colourScheme);
   }
 
   viewFilterChanged(viewFilter: ColourEnum): void {

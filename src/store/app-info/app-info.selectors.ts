@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
+import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
 
 export const selectAppInfo = (state: StoreModel): AppInfoStateModel => state.appInfo;
 
@@ -27,4 +28,21 @@ export const selectDateConfigLoaded = createSelector(
 export const selectUpdateAvailablePresented = createSelector(
   selectAppInfo,
   (appInfo: AppInfoStateModel): boolean => appInfo.updateAvailablePresented,
+);
+
+export const selectExaminerStats = createSelector(
+  selectAppInfo,
+  (appInfo: AppInfoStateModel) => appInfo.examinerStats,
+);
+
+export const selectColourScheme = createSelector(
+  selectAppInfo,
+  selectExaminerStats,
+  (_, examinerStats): ColourEnum => examinerStats.colourScheme,
+);
+
+export const selectHideCharts = createSelector(
+  selectAppInfo,
+  selectExaminerStats,
+  (_, examinerStats): boolean => examinerStats.hideCharts,
 );

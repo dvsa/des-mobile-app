@@ -5,6 +5,15 @@ export const LoadAppVersion = createAction(
   '[AppComponent] Load App Version',
 );
 
+export const LoadExaminerStatsPreferences = createAction(
+  '[AppComponent] Load examiner stats preferences',
+);
+
+export const LoadExaminerStatsFailure = createAction(
+  '[AppComponent] Load examiner stats failed',
+  (reason: string) => ({ reason }),
+);
+
 export const LoadAppVersionSuccess = createAction(
   '[AppInfoEffects] Load App Version Success',
   props<{ versionNumber: string }>(),

@@ -38,6 +38,7 @@ import {
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import {
   HasSeenUpdateAvailablePopup,
+  LoadExaminerStatsPreferences,
   UpdateAvailableBadgeClicked,
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
