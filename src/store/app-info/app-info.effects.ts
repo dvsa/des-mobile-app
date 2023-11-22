@@ -20,14 +20,22 @@ import {
   LoadConfigSuccess,
   LoadEmployeeName,
   LoadEmployeeNameSuccess,
+  LoadExaminerStatsFailure,
+  LoadExaminerStatsPreferences,
   RestartApp,
   SetDateConfigLoaded,
 } from './app-info.actions';
-import { selectDateConfigLoaded } from './app-info.selectors';
+import { selectDateConfigLoaded, selectExaminerStats } from './app-info.selectors';
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
+import {
+  ColourFilterChanged,
+  HideChartsChanged,
+} from '@pages/examiner-stats/examiner-stats.actions';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 
 @Injectable()
 export class AppInfoEffects {
+  private static readonly EXAMINER_STATS_KEY: string = 'EXAMINER_STAT_PREFERENCES';
 
   constructor(
     private actions$: Actions,
@@ -36,6 +44,7 @@ export class AppInfoEffects {
     private appInfoProvider: AppInfoProvider,
     private dateTimeProvider: DateTimeProvider,
     private authenticationProvider: AuthenticationProvider,
+    private dataStore: DataStoreProvider,
   ) {
   }
 
@@ -98,6 +107,42 @@ export class AppInfoEffects {
     switchMap(async () => {
       const employeeName = await this.authenticationProvider.loadEmployeeName();
       return LoadEmployeeNameSuccess({ employeeName });
+    }),
+  ));
+
+  persistExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      ColourFilterChanged,
+      HideChartsChanged,
+    ),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.select(selectExaminerStats),
+        ),
+      )),
+    switchMap(async (
+      [, examinerStatPreferences],
+    ) => this.dataStore.setItem(AppInfoEffects.EXAMINER_STATS_KEY, examinerStatPreferences)),
+  ), { dispatch: false });
+
+  loadExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
+    ofType(LoadExaminerStatsPreferences),
+    switchMap(() => this.dataStore.getItem(AppInfoEffects.EXAMINER_STATS_KEY)),
+    concatMap((examinerStats) => {
+      if (!examinerStats) {
+        return [LoadExaminerStatsFailure('Examiner stats preferences not found')];
+      }
+
+      const {
+        hideCharts,
+        colourScheme,
+      } = JSON.parse(examinerStats);
+
+      return [
+        (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
+        (!!hideCharts) ? HideChartsChanged(hideCharts) : null,
+      ];
     }),
   ));
 }
