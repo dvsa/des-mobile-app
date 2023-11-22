@@ -49,12 +49,12 @@ export const getEligibleTests = (startedTests: StartedTests, range: DateRange = 
 export const getPassedTestCount = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): number =>
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     .filter((slotID: string) => startedTests[slotID]?.activityCode === ActivityCodes.PASS)
@@ -63,14 +63,14 @@ export const getPassedTestCount = (
 export const getOutcome = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerStatData<string>[] => {
   const data = getEligibleTests(startedTests, range)
     // filter for any nulls
     .filter((slotID) => startedTests[slotID].activityCode !== null)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     // extract route number
@@ -85,18 +85,18 @@ export const getOutcome = (
     };
   }), 'item')
     .sort((item1, item2) =>
-      (item1.item as string) > (item2.item as string) ? 1 : - 1);
+      (item1.item as string) > (item2.item as string) ? 1 : -1);
 };
 
 export const getControlledStopCount = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): number =>
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     .map((slotID: string) => get(startedTests[slotID], 'testData.controlledStop', null))
@@ -108,6 +108,7 @@ export const getLocations = (
   range: DateRange = null,
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerStatData<TestCentre>, 'percentage'>[] => {
+
   const data = (getEligibleTests(startedTests, range)
     // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'journalData.testCentre', null))
@@ -121,13 +122,13 @@ export const getLocations = (
     };
   }), 'item.centreId')
     .sort((item1, item2) =>
-      (item1.item.centreName) > (item2.item.centreName) ? 1 : - 1);
+      (item1.item.centreName) > (item2.item.centreName) ? 1 : -1);
 };
 
 export const getIndependentDrivingStats = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number,
+  centreId: number,
   category: TestCategory,
 ): ExaminerStatData<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
@@ -144,7 +145,7 @@ export const getIndependentDrivingStats = (
   const indDrivingOptions = ['Traffic signs', 'Sat nav', 'N/A'];
 
   const data: string[] = getEligibleTests(startedTests, range)
-    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) => get(startedTests[slotID], 'category') === category)
     // extract cost codes
     .map((slotID: string) => get(startedTests[slotID], 'testSummary.independentDriving', null))
@@ -166,12 +167,15 @@ export const getIndependentDrivingStats = (
 export const getCategories = (
   startedTests: StartedTests,
   range: DateRange = null,
+  centreId: number,
 ): {
   item: TestCategory;
   count: number
 }[] => {
+
   const data = (getEligibleTests(startedTests, range)
-    // extract cost codes
+    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
+    // extract categories
     .map((slotID: string) => get(startedTests[slotID], 'category', null))
     // filter for any nulls
     .filter((category) => !!category));
@@ -183,30 +187,30 @@ export const getCategories = (
     };
   }), 'item')
     .sort((item1, item2) =>
-      (item1.item as string) > (item2.item as string) ? 1 : - 1);
+      (item1.item as string) > (item2.item as string) ? 1 : -1);
 };
 
 export const getStartedTestCount = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: string = null,
 ): number =>
   getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category).length;
 
 export const getRouteNumbers = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerStatData<string>[] => {
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     // extract route number
@@ -232,7 +236,7 @@ export const getRouteNumbers = (
 export const getSafetyAndBalanceQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerStatData<string>[] => {
   const qp = new QuestionProvider();
@@ -253,7 +257,7 @@ export const getSafetyAndBalanceQuestions = (
 
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     .map((slotID: string) => [
@@ -282,7 +286,7 @@ export const getSafetyAndBalanceQuestions = (
 export const getShowMeQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerStatData<string>[] => {
   const qp = new QuestionProvider();
@@ -291,7 +295,7 @@ export const getShowMeQuestions = (
 
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     .map((slotID: string) => [
@@ -317,14 +321,14 @@ export const getShowMeQuestions = (
 export const getTellMeQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerStatData<string>[] => {
   const qp = new QuestionProvider();
   const questions = qp.getTellMeQuestions(category);
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
-      get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     .map((slotID: string) => [
@@ -378,15 +382,17 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
 export const getManoeuvresUsed = (
   startedTests: StartedTests,
   range: DateRange = null,
-  location: number = null,
+  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerStatData<string>[] => {
   let faultsEncountered: string[] = [];
-
-  const manoeuvreTypeLabels: string[] = Object.values(getManoeuvreTypeLabels(category));
+  let manoeuvreTypeLabels: string[] = [];
+  if (category) {
+    manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
+  }
 
   getEligibleTests(startedTests, range)
-    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === location)
+    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
     .filter((slotID) => get(startedTests[slotID], 'category') === category)
     .forEach((slotID) => {
       const manoeuvres = get(startedTests[slotID], 'testData.manoeuvres');
