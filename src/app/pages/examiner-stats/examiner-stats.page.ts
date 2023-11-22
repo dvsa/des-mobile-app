@@ -220,8 +220,6 @@ export class ExaminerStatsPage implements OnInit {
               this.locationFilterOptions.push(val.item);
             });
 
-            console.log(this.locationFilterOptions.map(item => item.centreId));
-            console.log(this.locationSubject$.value);
             if (!this.locationFilterOptions.map(item => item.centreId).includes(this.locationSubject$.value)) {
               const mostUsed = this.setDefault(value);
 
@@ -301,23 +299,6 @@ export class ExaminerStatsPage implements OnInit {
         this.handleLocationFilter(mostUsed.item);
       }
     }
-    // if (!this.categoryFilterOptions) {
-    //   this.categoryFilterOptions = [];
-    //   let mostUsed = null;
-    //
-    //   this.pageState.categoryList$.subscribe(value => {
-    //     value.forEach((val) => {
-    //       this.categoryFilterOptions.push(val.item);
-    //     });
-    //     mostUsed = this.setDefault(value);
-    //   })
-    //     .unsubscribe();
-    //
-    //   if (!!mostUsed) {
-    //     this.categoryPlaceholder = mostUsed.item;
-    //     this.handleCategoryFilter(mostUsed.item);
-    //   }
-    // }
   }
 
   setDefault(data: { item: any, count: number }[]) {
