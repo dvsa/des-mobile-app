@@ -8,8 +8,15 @@ export const mockLocalData: StartedTests = {
     'category': 'B',
     'activityCode': '11',
     'journalData': {
-      'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001,
+      },
+      'testCentre': {
+        'centreId': 54322,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre',
+      },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -527,7 +534,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -630,7 +637,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -733,7 +740,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -836,7 +843,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -939,7 +946,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1042,7 +1049,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1411,7 +1418,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1514,7 +1521,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1617,7 +1624,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1691,7 +1698,11 @@ export const mockLocalData: StartedTests = {
       'identification': 'Licence',
       'trueLikenessToPhoto': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'communicationMethod': 'Post', 'conductedLanguage': 'English' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'communicationMethod': 'Post',
+      'conductedLanguage': 'English',
+    },
     'rekey': false,
     'rekeyDate': null,
     'rekeyReason': {
@@ -1720,7 +1731,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1823,7 +1834,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -2437,7 +2448,7 @@ export const mockLocalData: StartedTests = {
     'activityCode': '11',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
@@ -3587,7 +3598,7 @@ export const mockLocalData: StartedTests = {
         'q4': {
           'score': 3,
           'title': 'Was the lesson plan adapted, when appropriate, ' +
-            'to help the pupil work towards their learning goals?',
+                        'to help the pupil work towards their learning goals?',
         },
         'score': 12,
       },
@@ -3595,7 +3606,7 @@ export const mockLocalData: StartedTests = {
         'q1': {
           'score': 3,
           'title': 'Did the trainer ensure that the pupil fully understood ' +
-            'how the responsibility for risk would be shared?',
+                        'how the responsibility for risk would be shared?',
         },
         'q2': {
           'score': 3,
@@ -3612,7 +3623,7 @@ export const mockLocalData: StartedTests = {
         'q5': {
           'score': 3,
           'title': 'Was sufficient feedback given to help the pupil ' +
-            'understand any potential safety critical incidents?',
+                        'understand any potential safety critical incidents?',
         },
         'score': 15,
       },
@@ -3802,13 +3813,9 @@ export const mockLocalData: StartedTests = {
         'businessTelephone': '07777777777',
         'secondaryTelephone': '(979) 526-2534',
       },
-      'testCentre': {
-        'centreId': 54322,
-        'costCode': 'EXTC1',
-        'centreName': 'Example Test Centre',
-      },
+      'testCentre': { 'centreId': 1, 'costCode': 'EXTC2', 'centreName': 'Example Test Centre 2' },
       'testSlotAttributes': {
-        'start': '2023-10-13T07:00:00',
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'slotId': 5551,
         'slotType': 'Standard Test',
         'fitMarker': false,
@@ -3822,12 +3829,25 @@ export const mockLocalData: StartedTests = {
         'specialNeedsArray': ['None'],
         'categoryEntitlementCheck': true,
       },
-      'applicationReference': { 'checkDigit': 4, 'applicationId': 55512301, 'bookingSequence': 1 },
+      'applicationReference': {
+        'checkDigit': 4,
+        'applicationId': 55512301,
+        'bookingSequence': 1,
+      },
     },
     'rekeyReason': {
-      'other': { 'reason': '', 'selected': false },
+      'other': {
+        'reason': '',
+        'selected': false,
+      },
       'transfer': { 'selected': false },
-      'ipadIssue': { 'lost': false, 'broken': false, 'stolen': false, 'selected': false, 'technicalFault': false },
+      'ipadIssue': {
+        'lost': false,
+        'broken': false,
+        'stolen': false,
+        'selected': false,
+        'technicalFault': false,
+      },
     },
     'testSummary': {
       'D255': false,
@@ -3843,7 +3863,10 @@ export const mockLocalData: StartedTests = {
     'delegatedTest': false,
     'examinerKeyed': 10000014,
     'examinerBooked': 10000014,
-    'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': false },
+    'passCompletion': {
+      'passCertificateNumber': 'A123456X',
+      'provisionalLicenceProvided': false,
+    },
     'vehicleDetails': {
       'motStatus': 'No details found',
       'vehicleWidth': 14,
@@ -3864,6 +3887,10 @@ export const mockLocalData: StartedTests = {
       'healthDeclarationAccepted': false,
       'passCertificateNumberReceived': true,
     },
-    'communicationPreferences': { 'updatedEmail': '', 'conductedLanguage': 'English', 'communicationMethod': 'Post' },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'conductedLanguage': 'English',
+      'communicationMethod': 'Post',
+    },
   },
 };

@@ -204,7 +204,7 @@ describe('ExaminerStatsPage', () => {
       spyOn(component, 'setFilterLists');
 
       component.ngOnInit();
-      expect(component.setFilterLists).toHaveBeenCalled();
+      expect(component.setLocationFilter).toHaveBeenCalled();
     });
   });
 
@@ -216,7 +216,7 @@ describe('ExaminerStatsPage', () => {
         { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
       ]);
 
-      component.setFilterLists();
+      component.setLocationFilter();
       expect(component.locationFilterOptions).toEqual([
         { centreName: '1', centreId: 1, costCode:'X1' },
         { centreName: '2', centreId: 2, costCode:'X2' },
@@ -229,7 +229,7 @@ describe('ExaminerStatsPage', () => {
         { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
         { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
       ]);
-      component.setFilterLists();
+      component.setLocationFilter();
       expect(component.locationPlaceholder).toEqual('2');
     });
     it('should call handleLocationFilter with the item of ' +
@@ -241,7 +241,7 @@ describe('ExaminerStatsPage', () => {
         { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
         { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
       ]);
-      component.setFilterLists();
+      component.setLocationFilter();
       expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode:'X2' });
     });
 
