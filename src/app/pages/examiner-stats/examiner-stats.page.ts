@@ -148,6 +148,8 @@ export class ExaminerStatsPage implements OnInit {
   public currentCategory: string;
   accordionOpen: boolean = false;
   categorySelectPristine: boolean = true;
+  currentTestCentre: TestCentre;
+  locationSelectPristine: boolean = true;
 
 
   constructor(
@@ -223,6 +225,7 @@ export class ExaminerStatsPage implements OnInit {
                 this.locationPlaceholder = mostUsed.item.centreName;
                 this.handleLocationFilter(mostUsed.item);
               }
+              this.locationSelectPristine = true;
             }
           }),
         ),
@@ -293,6 +296,7 @@ export class ExaminerStatsPage implements OnInit {
         this.locationPlaceholder = mostUsed.item.centreName;
         this.handleLocationFilter(mostUsed.item);
       }
+      this.locationSelectPristine = true;
     }
   }
 
@@ -310,10 +314,15 @@ export class ExaminerStatsPage implements OnInit {
     this.store$.dispatch(DateRangeChanged(this.dateFilter));
   }
 
-  handleLocationFilter(event: TestCentre): void {
-    if (event.centreName !== this.locationFilter) {
+  handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false): void {
+    if (ionSelectTriggered) {
+      this.locationSelectPristine = false;
+    }
+
+    if (event && (event.centreName !== this.locationFilter)) {
       this.locationFilter = event.centreName ?? null;
       this.locationSubject$.next(event.centreId ?? null);
+      this.currentTestCentre = event;
 
       this.store$.dispatch(LocationChanged(this.locationFilter));
     }

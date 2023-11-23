@@ -1315,7 +1315,7 @@ export const mockLocalData: StartedTests = {
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],

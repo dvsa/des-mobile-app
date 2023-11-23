@@ -49,8 +49,9 @@
           <ion-select
             [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
             class="input-styling-background black-text"
-            (ionChange)="handleLocationFilter($event?.detail?.value)"
+            (ionChange)="handleLocationFilter($event?.detail?.value, true)"
             labelPlacement="stacked"
+            [value]="locationSelectPristine ? null : currentTestCentre"
             [placeholder]="locationPlaceholder">
             <ion-select-option [value]="option" *ngFor="let option of locationFilterOptions;">
               {{option.centreName}}
