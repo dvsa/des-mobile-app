@@ -19,9 +19,6 @@
   outcomes: pageState.outcomes$ | async,
 } as data">
 
-  <div
-    *ngIf="(pageState.categoryList$ | async).length > 0 &&
-    (pageState.locationList$ | async).length > 0">
     <ion-card>
       <ion-card-header>
         <ion-card-title>
@@ -47,6 +44,7 @@
           [shouldHaveSeperator]="true"
           [label]="'Location filter'">
           <ion-select
+            *ngIf="(pageState.locationList$ | async).length > 0"
             [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
             class="input-styling-background black-text"
             (ionChange)="handleLocationFilter($event?.detail?.value, true)"
@@ -57,11 +55,13 @@
               {{option.centreName}}
             </ion-select-option>
           </ion-select>
+          <ion-text *ngIf="(pageState.locationList$ | async).length == 0" class="mes-data">No locations available</ion-text>
         </data-row-custom>
         <data-row-custom
           [shouldHaveSeperator]="false"
           [label]="'Category filter'">
           <ion-select
+            *ngIf="(pageState.categoryList$ | async).length > 0"
             [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
             class="input-styling-background black-text"
             (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
@@ -72,6 +72,7 @@
               {{option}}
             </ion-select-option>
           </ion-select>
+          <ion-text *ngIf="(pageState.categoryList$ | async).length == 0" class="mes-data">No categories available</ion-text>
         </data-row-custom>
         <ion-accordion-group>
           <ion-accordion value="first">
@@ -104,8 +105,10 @@
         </ion-accordion-group>
       </ion-card-content>
     </ion-card>
-
-    <ion-card [class]="colourSelect() === colors.navy ? ['white-text' , 'navy-card'] : 'mes-black'"
+  <div
+    *ngIf="(pageState.categoryList$ | async).length > 0 &&
+    (pageState.locationList$ | async).length > 0">
+  <ion-card [class]="colourSelect() === colors.navy ? ['white-text' , 'navy-card'] : 'mes-black'"
               *ngIf="data.testCount">
       <ion-card-header>
         <ion-text class="des-header-style-4 fault-heading">Test stats</ion-text>
@@ -519,10 +522,11 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
+
   </div>
-  <div class="position-relative
-  top-50
-  text-align-center
+
+  <div class="text-align-center
+  padding-top-22
   ion-justify-content-center
   ion-align-items-center
   display-flex
