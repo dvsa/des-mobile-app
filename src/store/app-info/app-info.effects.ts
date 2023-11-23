@@ -123,13 +123,13 @@ export class AppInfoEffects {
       )),
     switchMap(async (
       [, examinerStatPreferences],
-    ) => this.dataStore.setItem(AppInfoEffects.EXAMINER_STATS_KEY, examinerStatPreferences)),
+    ) => this.dataStore.setItem(AppInfoEffects.EXAMINER_STATS_KEY, JSON.stringify(examinerStatPreferences))),
   ), { dispatch: false });
 
   loadExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
     ofType(LoadExaminerStatsPreferences),
-    switchMap(() => this.dataStore.getItem(AppInfoEffects.EXAMINER_STATS_KEY)),
-    concatMap((examinerStats) => {
+    concatMap(() => this.dataStore.getItem(AppInfoEffects.EXAMINER_STATS_KEY)),
+    switchMap((examinerStats) => {
       if (!examinerStats) {
         return [LoadExaminerStatsFailure('Examiner stats preferences not found')];
       }
