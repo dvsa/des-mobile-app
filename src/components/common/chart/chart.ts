@@ -156,6 +156,9 @@ export class ChartComponent implements OnInit, OnChanges {
       colors: this.colors,
       series: this.dataValues,
       labels: this.labels,
+      legend: {
+        show: this.showLegend,
+      },
       tooltip: {
         enabled: false,
       },
