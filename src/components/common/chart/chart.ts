@@ -13,12 +13,17 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: ExaminerStatData<any>[] = null;
   @Input() public showLegend: boolean = false;
+  @Input() public isPortrait: boolean = false;
   @Input() public horizontal: boolean = false;
   @Input() public splitLabel: boolean = true;
   @Input() public calculatePercentages: boolean = false;
-  @Input() public transformOptions: {
+  @Input() public transformOptions: { portrait: {
     width: number | string, height: number | string,
-  } = { width: 710, height: 300 };
+  },
+  landscape: {
+    width: number | string, height: number | string,
+  }
+  } = { portrait: { width: 730, height: 300 }, landscape: { width: 990, height: 300 } };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
   @Input() public strokeColour: string = '#FFFFFF';
@@ -84,8 +89,8 @@ export class ChartComponent implements OnInit, OnChanges {
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
         fontSize: '24px',
         foreColor: this.labelColour,
-        width: this.transformOptions.width,
-        height: this.transformOptions.height,
+        width: this.isPortrait ? this.transformOptions.portrait.width : this.transformOptions.landscape.width,
+        height: this.isPortrait ? this.transformOptions.portrait.height : this.transformOptions.landscape.height,
         type: this.chartType,
       },
       dataLabels: {
