@@ -2551,11 +2551,11 @@ export const mockLocalData: StartedTests = {
     'activityCode': '2',
     'journalData': {
       'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-      'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
+      'testCentre': { 'centreId': 2, 'costCode': 'EXTC3', 'centreName': 'Example Test Centre 3' },
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -3472,12 +3472,12 @@ export const mockLocalData: StartedTests = {
         'secondaryTelephone': '04321 098765',
       },
       'testCentre': {
-        'centreId': 54322,
-        'costCode': 'EXTC1',
-        'centreName': 'Example Test Centre',
+        'centreId': 2,
+        'costCode': 'EXTC3',
+        'centreName': 'Example Test Centre 3',
       },
       'testSlotAttributes': {
-        'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
+        'start': new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toString(),
         'slotId': 2283,
         'slotType': 'Single Slot (Additional Needs)',
         'fitMarker': false,
