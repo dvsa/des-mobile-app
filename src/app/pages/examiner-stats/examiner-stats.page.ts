@@ -39,6 +39,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import { selectColourScheme, selectHideCharts } from '@store/app-info/app-info.selectors';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -155,6 +156,7 @@ export class ExaminerStatsPage implements OnInit {
   constructor(
     public store$: Store<StoreModel>,
     public router: Router,
+    public orientationProvider: OrientationMonitorProvider,
   ) {
   }
 
@@ -278,7 +280,8 @@ export class ExaminerStatsPage implements OnInit {
     this.setLocationFilter();
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
+    await this.orientationProvider.monitorOrientation();
     this.store$.dispatch(ExaminerStatsViewDidEnter());
   }
 
