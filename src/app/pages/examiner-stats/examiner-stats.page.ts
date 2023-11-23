@@ -193,7 +193,11 @@ export class ExaminerStatsPage implements OnInit {
     ])
     .pipe(
       // return an observable using the generic `fn`
-      switchMap(([tests, range, location, category]) => of(fn(tests, range, location, category))),
+      switchMap(([tests]) => of(fn(
+        tests,
+        this.rangeSubject$.value,
+        this.locationSubject$.value,
+        this.categorySubject$.value))),
     );
 
   ngOnInit(): void {
@@ -220,12 +224,11 @@ export class ExaminerStatsPage implements OnInit {
             if (!this.locationFilterOptions.map(({ centreId }) => centreId)
               .includes(this.locationSubject$.value)) {
               const mostUsed = this.setDefault(value);
-
               if (!!mostUsed) {
                 this.locationPlaceholder = mostUsed.item.centreName;
                 this.handleLocationFilter(mostUsed.item);
+                this.locationSelectPristine = true;
               }
-              this.locationSelectPristine = true;
             }
           }),
         ),
@@ -244,8 +247,8 @@ export class ExaminerStatsPage implements OnInit {
               if (!!mostUsed) {
                 this.categoryPlaceholder = mostUsed.item;
                 this.handleCategoryFilter(mostUsed.item);
+                this.categorySelectPristine = true;
               }
-              this.categorySelectPristine = true;
             }
           }),
         ),
@@ -296,7 +299,6 @@ export class ExaminerStatsPage implements OnInit {
         this.locationPlaceholder = mostUsed.item.centreName;
         this.handleLocationFilter(mostUsed.item);
       }
-      this.locationSelectPristine = true;
     }
   }
 
