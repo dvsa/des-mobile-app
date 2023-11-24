@@ -201,14 +201,14 @@ describe('ExaminerStatsPage', () => {
       expect(component.pageState).toBeTruthy();
     });
     it('should call setFilterLists', () => {
-      spyOn(component, 'setFilterLists');
+      spyOn(component, 'setLocationFilter');
 
       component.ngOnInit();
       expect(component.setLocationFilter).toHaveBeenCalled();
     });
   });
 
-  describe('setFilterLists', () => {
+  describe('setLocationFilter', () => {
     it('should set locationFilterOptions to the item property of each object in locationList$', () => {
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
@@ -244,45 +244,6 @@ describe('ExaminerStatsPage', () => {
       component.setLocationFilter();
       expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode:'X2' });
     });
-
-    // it('should set categoryFilterOptions to the item property of each object in categoryList$', () => {
-    //   component.categoryFilterOptions = null;
-    //   component.pageState.categoryList$ = of([
-    //     { item: TestCategory.B, count: 1 },
-    //     { item: TestCategory.ADI3, count: 2 },
-    //   ]);
-    //
-    //   component.setFilterLists();
-    //   expect(1).toEqual(1);
-    //   expect(component.categoryFilterOptions).toEqual([
-    //     TestCategory.B,
-    //     TestCategory.ADI3,
-    //   ]);
-    // });
-    // it('should set categoryPlaceholder to the property ' +
-    // 'of the object in the category array with the highest count', () => {
-    //   component.categoryFilterOptions = null;
-    //   component.pageState.categoryList$ = of([
-    //     { item: TestCategory.B, count: 1 },
-    //     { item: TestCategory.ADI3, count: 2 },
-    //   ]);
-    //
-    //   component.setFilterLists();
-    //   expect(component.categoryPlaceholder).toEqual(TestCategory.ADI3);
-    // });
-    // it('should call handleCategoryFilter with the item of ' +
-    // 'the object in the category array with the highest count', () => {
-    //   spyOn(component, 'handleCategoryFilter');
-    //
-    //   component.categoryFilterOptions = null;
-    //   component.pageState.categoryList$ = of([
-    //     { item: TestCategory.B, count: 1 },
-    //     { item: TestCategory.ADI3, count: 2 },
-    //   ]);
-    //
-    //   component.setFilterLists();
-    //   expect(component.handleCategoryFilter).toHaveBeenCalledWith(TestCategory.ADI3);
-    // });
   });
 
   describe('setDefault', () => {
@@ -419,14 +380,6 @@ describe('ExaminerStatsPage', () => {
     });
   });
 
-  describe('handleChartFilter', () => {
-    it('should set globalChartType to the value passed', () => {
-      component.globalChartType = 'bar';
-      component.handleChartFilter({ detail: { value: 'pie' } });
-      expect(component.globalChartType).toEqual('pie');
-    });
-  });
-
   describe('colourSelect', () => {
     it('should return colors.default.pie if the colourOption ' +
       'is not within the switch options and the input is not bar', () => {
@@ -462,7 +415,7 @@ describe('ExaminerStatsPage', () => {
   describe('filterDataForGrid', () => {
     it('should return an array filled with object values of the object passed in', () => {
       component['currentCategory'] = TestCategory.B;
-      expect(component.filterDataForGrid([
+      expect(component.filterDataForGrid<any>([
         { item: 'value1', count: 1, percentage: '1' },
         { item: 'value2', count: 2, percentage: '2' }])).toEqual([['value1', 1, '1'], ['value2', 2, '2']]);
     });

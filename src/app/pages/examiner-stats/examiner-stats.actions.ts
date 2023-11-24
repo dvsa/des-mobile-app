@@ -1,6 +1,7 @@
 import { createAction } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum, SelectableDateRange } from '@pages/examiner-stats/examiner-stats.page';
+import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 
 export const ExaminerStatsViewDidEnter = createAction(
   '[ExaminerStatsPage] Page Entered',
@@ -8,12 +9,12 @@ export const ExaminerStatsViewDidEnter = createAction(
 
 export const DateRangeChanged = createAction(
   '[ExaminerStatsPage] Date range changed',
-  (range: string) => ({ range }),
+  (selectedDate: SelectableDateRange) => ({ selectedDate }),
 );
 
 export const LocationChanged = createAction(
   '[ExaminerStatsPage] Location changed',
-  (location: string) => ({ location }),
+  (location: TestCentre) => ({ location }),
 );
 
 export const TestCategoryChanged = createAction(

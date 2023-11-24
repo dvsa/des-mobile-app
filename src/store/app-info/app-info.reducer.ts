@@ -10,7 +10,12 @@ import {
 
 import { AppInfoStateModel } from './app-info.model';
 import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
-import { ColourFilterChanged, HideChartsChanged } from '@pages/examiner-stats/examiner-stats.actions';
+import {
+  ColourFilterChanged,
+  DateRangeChanged,
+  HideChartsChanged,
+  LocationChanged, TestCategoryChanged,
+} from '@pages/examiner-stats/examiner-stats.actions';
 
 export const appInfoFeatureKey = 'appInfo';
 
@@ -22,6 +27,9 @@ export const initialState: AppInfoStateModel = {
   examinerStats: {
     hideCharts: false,
     colourScheme: ColourEnum.Default,
+    dateFilter: null,
+    locationFilter: null,
+    categoryFilter: null,
   },
 };
 
@@ -56,6 +64,27 @@ export const appInfoReducer = createReducer(
     examinerStats: {
       ...state.examinerStats,
       colourScheme: colour,
+    },
+  })),
+  on(DateRangeChanged, (state: AppInfoStateModel, { selectedDate }) => ({
+    ...state,
+    examinerStats: {
+      ...state.examinerStats,
+      dateFilter: selectedDate,
+    },
+  })),
+  on(LocationChanged, (state: AppInfoStateModel, { location }) => ({
+    ...state,
+    examinerStats: {
+      ...state.examinerStats,
+      locationFilter: location.centreId,
+    },
+  })),
+  on(TestCategoryChanged, (state: AppInfoStateModel, { testCategory }) => ({
+    ...state,
+    examinerStats: {
+      ...state.examinerStats,
+      categoryFilter: testCategory,
     },
   })),
   on(HideChartsChanged, (state: AppInfoStateModel, { hideChart }) => ({

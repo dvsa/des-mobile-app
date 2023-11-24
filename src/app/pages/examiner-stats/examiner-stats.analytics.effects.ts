@@ -33,11 +33,11 @@ export class ExaminerStatsAnalyticsEffects {
 
   dateRangeChanged$ = createEffect(() => this.actions$.pipe(
     ofType(DateRangeChanged),
-    switchMap(({ range }) => {
+    switchMap(({ selectedDate }) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
         AnalyticsEvents.DATE_RANGE_CHANGED,
-        range,
+        selectedDate.val,
       );
       return of(AnalyticRecorded());
     }),
@@ -49,7 +49,7 @@ export class ExaminerStatsAnalyticsEffects {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
         AnalyticsEvents.LOCATION_CHANGED,
-        location,
+        location.centreName,
       );
       return of(AnalyticRecorded());
     }),
