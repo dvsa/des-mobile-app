@@ -31,9 +31,15 @@
                     <label class="dimensions-labels">Length:</label>
                   </ion-col>
                   <ion-col size="50">
-                    <input type="number" step="0.01" id="vehicleLength" class="vehicle-length-input"
+                    <input type="number"
+                           step="0.01"
+                           id="vehicleLength"
+                           class="vehicle-length-input"
                            [value]="vehicleLength"
-                           (keyup)="onLengthKeyup($event.target.value)">
+                           (keyup)="onLengthKeyup($event.target.value)"
+                           numbersOnly
+                           emojiBlock
+                           pasteSanitiser>
                   </ion-col>
                 </ion-row>
               </ion-col>
@@ -43,9 +49,15 @@
                     <label class="dimensions-labels">Width:</label>
                   </ion-col>
                   <ion-col size="44">
-                    <input type="number" step="0.01" id="vehicleWidth" class="vehicle-width-input"
+                    <input type="number"
+                           step="0.01"
+                           id="vehicleWidth"
+                           class="vehicle-width-input"
                            [value]="vehicleWidth"
-                           (keyup)="onWidthKeyup($event.target.value)">
+                           (keyup)="onWidthKeyup($event.target.value)"
+                           numbersOnly
+                           emojiBlock
+                           pasteSanitiser>
                   </ion-col>
                 </ion-row>
               </ion-col>

@@ -56,9 +56,9 @@
                 uppercaseAlphanumOnly
                 (ionFocus)="setFocus('field')"
                 (ionBlur)="setFocus(null)"
-                [value]="candidateInfo"
+                [value]="candidateInfoDriverNumber"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)"
+                (ionInput)="driverNumberChanged($event.target.value)"
                 emojiBlock
                 pasteSanitiser>
               </ion-input>
@@ -73,16 +73,19 @@
                 numbersOnly
                 (ionFocus)="setFocus('field')"
                 (ionBlur)="setFocus(null)"
-                [value]="candidateInfo"
+                [value]="candidateInfoAppReference"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)">
+                (ionInput)="appRefChanged($event.target.value)"
+                emojiBlock
+                pasteSanitiser>
               </ion-input>
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-button
               id="test-result-search-button"
-              [attr.disabled]="showSearchSpinner ? 'true' : isEmpty(candidateInfo)"
+              [attr.disabled]="showSearchSpinner ? 'true' :
+              isEmpty(candidateInfoDriverNumber) && isEmpty(candidateInfoAppReference)"
               class="mes-primary-button search-tests" (click)="searchTests()">
               <ion-text id="test-result-search-button-text" class="des-header-style-3">
                 <ion-icon name="search" class="search-icon"></ion-icon>
