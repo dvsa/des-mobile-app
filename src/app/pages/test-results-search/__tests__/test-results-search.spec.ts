@@ -158,15 +158,23 @@ describe('TestResultsSearchPage', () => {
       });
     });
 
-    describe('candidateInfoChanged', () => {
-      it('should set candidateInfo to the passed parameter', () => {
-        component.candidateInfoChanged('test');
-        expect(component.candidateInfo)
+    describe('driverNumberChanged', () => {
+      it('should set candidateInfoDriverNumber to the passed parameter', () => {
+        component.driverNumberChanged('test');
+        expect(component.driverNumberChanged)
           .toEqual('test');
       });
     });
 
-    describe('showError', () => {
+    describe('appRefChanged', () => {
+      it('should set candidateInfoAppReference to the passed parameter', () => {
+        component.appRefChanged('test');
+        expect(component.appRefChanged)
+          .toEqual('test');
+      });
+
+
+      describe('showError', () => {
       it('should display a modal on error', async () => {
         spyOn(modalController, 'create').and.returnValue(Promise.resolve({
           present: async () => {},
