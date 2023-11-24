@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
-import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum, SelectableDateRange } from '@pages/examiner-stats/examiner-stats.page';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 export const selectAppInfo = (state: StoreModel): AppInfoStateModel => state.appInfo;
 
@@ -45,4 +46,19 @@ export const selectHideCharts = createSelector(
   selectAppInfo,
   selectExaminerStats,
   (_, examinerStats): boolean => examinerStats.hideCharts,
+);
+export const selectDateFilter = createSelector(
+  selectAppInfo,
+  selectExaminerStats,
+  (_, examinerStats): SelectableDateRange => examinerStats.dateFilter,
+);
+export const selectCategoryFilter = createSelector(
+  selectAppInfo,
+  selectExaminerStats,
+  (_, examinerStats): TestCategory => examinerStats.categoryFilter,
+);
+export const selectLocationFilter = createSelector(
+  selectAppInfo,
+  selectExaminerStats,
+  (_, examinerStats): number => examinerStats.locationFilter,
 );

@@ -38,7 +38,13 @@ import { mockLocalData } from '@pages/examiner-stats/__mocks__/test-result.mock'
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
-import { selectColourScheme, selectHideCharts } from '@store/app-info/app-info.selectors';
+import {
+  selectCategoryFilter,
+  selectColourScheme,
+  selectDateFilter,
+  selectHideCharts,
+  selectLocationFilter,
+} from '@store/app-info/app-info.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
@@ -65,6 +71,11 @@ export const enum ColourEnum {
   Amethyst = 'Amethyst',
 }
 
+export interface SelectableDateRange {
+  display: string;
+  val: DateRange;
+}
+
 @Component({
   selector: 'examiner-stats',
   templateUrl: './examiner-stats.page.html',
@@ -77,9 +88,12 @@ export class ExaminerStatsPage implements OnInit {
 
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
-  rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
-  locationSubject$ = new BehaviorSubject<number | null>(null);
-  categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
+  rangeSubject$ = new BehaviorSubject<DateRange | null>(
+    this.store$.selectSignal(selectDateFilter)().val);
+  locationSubject$ = new BehaviorSubject<number | null>(
+    this.store$.selectSignal(selectLocationFilter)());
+  categorySubject$ = new BehaviorSubject<TestCategory | null>(
+    this.store$.selectSignal(selectCategoryFilter)());
   pageState: ExaminerStatsState;
   hideChart = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
@@ -128,7 +142,7 @@ export class ExaminerStatsPage implements OnInit {
   globalChartType: ChartType;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
-  dateFilterOptions: { display: string; val: DateRange }[] = [
+  dateFilterOptions: SelectableDateRange[] = [
     {
       display: 'Today',
       val: 'today',
@@ -204,6 +218,9 @@ export class ExaminerStatsPage implements OnInit {
 
   ngOnInit(): void {
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
+    if (!!this.categorySubject$.value) {
+      this.categorySelectPristine = false;
+    }
 
     this.pageState = {
       routeNumbers$: this.filterByParameters(getRouteNumbers),
@@ -320,7 +337,7 @@ export class ExaminerStatsPage implements OnInit {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
 
-    this.store$.dispatch(DateRangeChanged(this.dateFilter));
+    this.store$.dispatch(DateRangeChanged(event.detail?.value));
   }
 
   handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false): void {
@@ -333,7 +350,7 @@ export class ExaminerStatsPage implements OnInit {
       this.locationSubject$.next(event.centreId ?? null);
       this.currentTestCentre = event;
 
-      this.store$.dispatch(LocationChanged(this.locationFilter));
+      this.store$.dispatch(LocationChanged(event));
     }
   }
 
