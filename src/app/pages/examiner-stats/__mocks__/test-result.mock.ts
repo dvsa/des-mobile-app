@@ -3893,4 +3893,163 @@ export const mockLocalData: StartedTests = {
       'communicationMethod': 'Post',
     },
   },
+  37: {
+    'rekey': false,
+    'version': '3.42.5',
+    'category': 'EUAMM1',
+    'testData': {
+      'ETA': {
+        'verbal': true,
+        'physical': true,
+      },
+      'avoidance': {
+        'firstAttempt': 87,
+      },
+      'drivingFaults': {
+        'precautions': 1,
+      },
+      'emergencyStop': {
+        'outcome': 'S',
+        'comments': 'Jhgfds',
+        'firstAttempt': 98,
+        'secondAttempt': 87,
+      },
+      'seriousFaults': {
+        'precautions': true,
+        'moveOffSafety': true,
+        'precautionsComments': 'Ghj',
+        'moveOffSafetyComments': 'Iuy',
+      },
+      'dangerousFaults': {
+        'precautions': true,
+        'moveOffControl': true,
+        'precautionsComments': '6789',
+        'moveOffControlComments': '8765',
+      },
+      'singleFaultCompetencies': {
+        'manualHandling': 'DF',
+      },
+    },
+    'appVersion': '4.10.0.0',
+    'journalData': {
+      'examiner': {
+        'staffNumber': '10000000',
+        'individualId': 10000000,
+      },
+      'candidate': {
+        'gender': 'M',
+        'candidateId': 100,
+        'dateOfBirth': '1982-06-25',
+        'driverNumber': 'test',
+        'emailAddress': 'test',
+        'candidateName': {
+          'title': 'Ms',
+          'lastName': 'test',
+          'firstName': 'test',
+        },
+        'ethnicityCode': 'D',
+        'mobileTelephone': 'test',
+        'candidateAddress': {
+          'postcode': 'test',
+          'addressLine1': 'test',
+          'addressLine2': 'test',
+          'addressLine3': 'test',
+          'addressLine4': 'test',
+          'addressLine5': 'test',
+        },
+        'primaryTelephone': 'test',
+      },
+      'testCentre': {
+        'centreId': 2,
+        'costCode': 'EXTC3',
+        'centreName': 'Example Test Centre 3',
+      },
+      'testSlotAttributes': {
+        'start': new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toString(),
+        'slotId': 1000,
+        'slotType': 'Standard Test',
+        'fitMarker': false,
+        'welshTest': false,
+        'extendedTest': false,
+        'specialNeeds': false,
+        'vehicleTypeCode': 'C',
+        'entitlementCheck': false,
+        'examinerVisiting': false,
+        'specialNeedsCode': 'NONE',
+        'specialNeedsArray': [
+          'None',
+        ],
+        'previousCancellation': [
+          'Act of nature',
+        ],
+        'categoryEntitlementCheck': false,
+      },
+      'applicationReference': {
+        'checkDigit': 1,
+        'applicationId': 10123400,
+        'bookingSequence': 1,
+      },
+    },
+    'rekeyReason': {
+      'other': {
+        'reason': '',
+        'selected': false,
+      },
+      'transfer': {
+        'selected': false,
+      },
+      'ipadIssue': {
+        'lost': false,
+        'broken': false,
+        'stolen': false,
+        'selected': false,
+        'technicalFault': false,
+      },
+    },
+    'testSummary': {
+      'D255': false,
+      'circuit': 'Left',
+      'routeNumber': 88,
+      'identification': 'Passport',
+      'debriefWitnessed': true,
+      'weatherConditions': [
+        'Foggy / misty',
+        'Dull / dry roads',
+        'Icy',
+      ],
+      'trueLikenessToPhoto': false,
+      'candidateDescription': '9876543',
+    },
+    'activityCode': '4',
+    'changeMarker': false,
+    'accompaniment': {
+      'ADI': true,
+      'interpreter': true,
+    },
+    'examinerKeyed': 10000000,
+    'examinerBooked': 10000000,
+    'vehicleDetails': {
+      'motStatus': 'No details found',
+      'schoolBike': true,
+      'gearboxCategory': 'Manual',
+      'registrationNumber': 'VGHGJHG',
+    },
+    'examinerConducted': 10000000,
+    'preTestDeclarations': {
+      'preTestSignature': '',
+      'DL196CBTCertNumber': '',
+      'insuranceDeclarationAccepted': true,
+      'residencyDeclarationAccepted': true,
+    },
+    'postTestDeclarations': {
+      'postTestSignature': '',
+      'healthDeclarationAccepted': false,
+      'passCertificateNumberReceived': false,
+    },
+    'communicationPreferences': {
+      'updatedEmail': 'test.test@dvsa.gov.uk',
+      'conductedLanguage': 'English',
+      'communicationMethod': 'Email',
+    },
+  },
 };
