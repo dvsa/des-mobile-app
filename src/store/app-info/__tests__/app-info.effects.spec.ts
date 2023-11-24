@@ -28,6 +28,10 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { DateTime } from '@shared/helpers/date-time';
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 describe('AppInfoEffects', () => {
   let effects: AppInfoEffects;
@@ -46,6 +50,10 @@ describe('AppInfoEffects', () => {
       ],
       providers: [
         AppInfoEffects,
+        DataStoreProvider,
+        LogHelper,
+        NetworkStateProvider,
+        Network,
         provideMockActions(() => actions$),
         {
           provide: Router,
