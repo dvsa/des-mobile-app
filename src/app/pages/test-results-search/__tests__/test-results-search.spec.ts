@@ -175,12 +175,14 @@ describe('TestResultsSearchPage', () => {
 
 
       describe('showError', () => {
-      it('should display a modal on error', async () => {
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-        } as HTMLIonModalElement));
-        await component.showError({ status: 500, statusText: 'error', message: 'error' });
-        expect(modalController.create).toHaveBeenCalled();
+        it('should display a modal on error', async () => {
+          spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+            present: async () => {
+            },
+          } as HTMLIonModalElement));
+          await component.showError({ status: 500, statusText: 'error', message: 'error' });
+          expect(modalController.create).toHaveBeenCalled();
+        });
       });
     });
   });
