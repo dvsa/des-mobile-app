@@ -230,6 +230,10 @@ export class ExaminerStatsPage implements OnInit {
                 this.locationPlaceholder = mostUsed.item.centreName;
                 this.handleLocationFilter(mostUsed.item);
                 this.locationSelectPristine = true;
+              } else if (value.length === 0) {
+                this.locationPlaceholder = '';
+                this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+                this.locationSelectPristine = true;
               }
             }
           }),
