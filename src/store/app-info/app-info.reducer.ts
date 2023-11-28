@@ -77,7 +77,7 @@ export const appInfoReducer = createReducer(
     ...state,
     examinerStats: {
       ...state.examinerStats,
-      locationFilter: location.centreId,
+      locationFilter: location?.centreId,
     },
   })),
   on(TestCategoryChanged, (state: AppInfoStateModel, { testCategory }) => ({
