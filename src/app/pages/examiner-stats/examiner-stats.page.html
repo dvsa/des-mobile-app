@@ -17,6 +17,7 @@
   testCount: pageState.testCount$ | async,
   controlledStops: pageState.controlledStops$ | async,
   outcomes: pageState.outcomes$ | async,
+  circuits: pageState.circuits$ | async,
 } as data">
 
     <ion-card>
@@ -47,6 +48,7 @@
             *ngIf="(pageState.locationList$ | async).length > 0"
             [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
             class="input-styling-background black-text"
+            id="locationSelect"
             (ionChange)="handleLocationFilter($event?.detail?.value, true)"
             labelPlacement="stacked"
             [value]="locationSelectPristine ? null : currentTestCentre"
@@ -66,6 +68,7 @@
             class="input-styling-background black-text"
             (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
             labelPlacement="stacked"
+            id="categorySelect"
             [value]="categorySelectPristine ? null : categorySubject$.value"
             [placeholder]="categoryPlaceholder">
             <ion-select-option [value]="option" *ngFor="let option of categoryFilterOptions;">
@@ -530,6 +533,68 @@
       </ion-card-content>
     </ion-card>
 
+    <ion-card [class]="colourSelect() === colors.navy ? ['white-text' , 'navy-card'] : 'mes-black'"
+              *ngIf="data.circuits?.length">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-row>
+            <ion-col>
+              <ion-text class="des-header-style-4 fault-heading">Circuits</ion-text>
+            </ion-col>
+            <ion-col class="display-flex ion-justify-content-end">
+              <div class="ion-text-end">
+                <p class="ion-no-margin">{{dateFilter}}</p>
+                <p class="ion-no-margin">{{locationFilter}}</p>
+                <p class="ion-no-margin"> {{categoryDisplay}}</p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf="getTotal(data.circuits)">
+          <ion-row *ngIf="!hideChart">
+            <ion-col [class.ion-no-padding]="hideChart" class="ion-justify-content-center display-flex">
+              <chart
+                *ngIf="!hideChart"
+                [chartId]="'circuit'"
+                [splitLabel]="true"
+                [isPortrait]="orientationProvider.isPortraitMode$ | async"
+                [chartType]="globalChartType ? globalChartType : 'pie'"
+                [colors]="colourSelect('pie')"
+                [strokeColour]="colourSelect() === colors.navy ? '#243673' : '#FFFFFF'"
+                [labelColour]="getLabelColour(colourSelect(), 'pie')"
+                [passedData]="data.circuits">
+              </chart>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <data-grid
+                [headers]="['Circuit', 'Amount', 'Percentage of total']"
+                [colourScheme]="colourSelect('pie')"
+                [displayColour]="!hideChart"
+                [passedData]="filterDataForGrid(data.circuits)">
+              </data-grid>
+              <div>
+                <ion-row class="ion-padding-top mes-row-separator"></ion-row>
+                <ion-row class="ion-padding-top display-flex ion-justify-content-center">
+                  <ion-col size="10">
+                    <label>Total:</label>
+                  </ion-col>
+                  <ion-col size="auto">
+                    <span class="mes-data">{{getTotal(data.circuits)}}</span>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+        <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.circuits)">
+          <ion-text class="des-header-style-3">No data to display</ion-text>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
   </div>
 
   <div class="text-align-center
