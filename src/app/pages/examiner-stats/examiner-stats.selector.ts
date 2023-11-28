@@ -142,7 +142,14 @@ export const getIndependentDrivingStats = (
   ])) {
     return [];
   }
-  const indDrivingOptions = ['Traffic signs', 'Sat nav', 'N/A'];
+  let indDrivingOptions = [];
+  if (isAnyOf(category, [
+    TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
+  ])) {
+    indDrivingOptions = ['Traffic signs', 'Diagram', 'N/A'];
+  } else {
+    indDrivingOptions = ['Traffic signs', 'Sat nav', 'N/A'];
+  }
 
   const data: string[] = getEligibleTests(startedTests, range)
     .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
@@ -153,6 +160,40 @@ export const getIndependentDrivingStats = (
     .filter((driving) => !!driving);
 
   return indDrivingOptions.map((item: string, index) => {
+    const count = data.filter((val) => val === item).length;
+    return {
+      item: `I${index + 1} - ${item}`,
+      count,
+      percentage: `${(count / data.length * 100).toFixed(1)}%`,
+    };
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
+};
+
+export const getCircuits = (
+  startedTests: StartedTests,
+  range: DateRange = null,
+  centreId: number,
+  category: TestCategory,
+): ExaminerStatData<string>[] => {
+  //getCircuits is only applicable to the following categories, and so we can avoid the entire function
+  if (!isAnyOf(category, [undefined, null,
+    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
+  ])) {
+    return [];
+  }
+  const circuitOptions = ['Left', 'Right'];
+
+  const data: string[] = getEligibleTests(startedTests, range)
+    .filter((slotID) => get(startedTests[slotID], 'journalData.testCentre.centreId' ) === centreId)
+    .filter((slotID) => get(startedTests[slotID], 'category') === category)
+    // extract cost codes
+    .map((slotID: string) => get(startedTests[slotID], 'testSummary.circuit', null))
+    // filter for any nulls
+    .filter((driving) => !!driving);
+
+  return circuitOptions.map((item: string, index) => {
     const count = data.filter((val) => val === item).length;
     return {
       item: `I${index + 1} - ${item}`,
@@ -252,8 +293,10 @@ export const getSafetyAndBalanceQuestions = (
         code: q.code,
         description: q.shortName,
       })),
-    ...qp.getVocationalSafetyQuestions(category),
+    //disable graph for cat D
+    // ...qp.getVocationalSafetyQuestions(category),
   ];
+
 
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
@@ -261,7 +304,8 @@ export const getSafetyAndBalanceQuestions = (
     .filter((slotID) =>
       get(startedTests[slotID], 'category') === category)
     .map((slotID: string) => [
-      ...get(startedTests[slotID], 'testData.safetyQuestions.questions', []) as SafetyQuestionResult[],
+      //disable graph for cat D
+      // ...get(startedTests[slotID], 'testData.safetyQuestions.questions', []) as SafetyQuestionResult[],
       ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.safetyQuestions', []) as QuestionResult[],
       ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.balanceQuestions', []) as QuestionResult[],
     ])
@@ -270,11 +314,11 @@ export const getSafetyAndBalanceQuestions = (
     .filter((question: SafetyQuestionResult | QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
 
-  return questions.map((q, index) => {
-    const count = data.filter((val) => val.description === q.description).length;
-
+  return questions.map((q) => {
+    const count = data.filter((val) => val.code === q.code).length;
     return {
-      item: ('code' in q) ? `${q.code} - ${q.description}` : `B${index + 1} - ${q.description}`,
+      // item: (('code' in q) ? `${q.code} - ${q.description}` : `B${index + 1} - ${q.description}`),
+      item: `${q.code} - ${q.description}`,
       count,
       percentage: `${((count / data.length) * 100).toFixed(1)}%`,
     };
@@ -375,7 +419,7 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
   } else if ([TestCategory.ADI2].includes(category)) {
     return type ? manoeuvreTypeLabelsCatADI2[type] : manoeuvreTypeLabelsCatADI2;
   } else {
-    return null;
+    return {};
   }
 };
 
@@ -389,6 +433,9 @@ export const getManoeuvresUsed = (
   let manoeuvreTypeLabels: string[] = [];
   if (category) {
     manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
+  }
+  if (manoeuvreTypeLabels.length == 0) {
+    return [];
   }
 
   getEligibleTests(startedTests, range)

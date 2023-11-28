@@ -17,7 +17,7 @@ import {
 } from '@pages/examiner-stats/examiner-stats.actions';
 import {
   ExaminerStatData,
-  getCategories,
+  getCategories, getCircuits,
   getControlledStopCount,
   getIndependentDrivingStats,
   getLocations,
@@ -34,18 +34,15 @@ import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { mockLocalData } from '@pages/examiner-stats/__mocks__/test-result.mock';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import {
-  selectCategoryFilter,
   selectColourScheme,
-  selectDateFilter,
   selectHideCharts,
-  selectLocationFilter,
 } from '@store/app-info/app-info.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { demonstrationMock } from '@pages/examiner-stats/__mocks__/test-result.mock2';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -62,6 +59,7 @@ interface ExaminerStatsState {
   locationList$: Observable<{ item: TestCentre, count: number }[]>;
   categoryList$: Observable<{ item: TestCategory, count: number }[]>;
   controlledStops$: Observable<ExaminerStatData<string>[]>;
+  circuits$: Observable<ExaminerStatData<string>[]>;
 }
 
 export const enum ColourEnum {
@@ -88,12 +86,9 @@ export class ExaminerStatsPage implements OnInit {
 
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
-  rangeSubject$ = new BehaviorSubject<DateRange | null>(
-    this.store$.selectSignal(selectDateFilter)().val);
-  locationSubject$ = new BehaviorSubject<number | null>(
-    this.store$.selectSignal(selectLocationFilter)());
-  categorySubject$ = new BehaviorSubject<TestCategory | null>(
-    this.store$.selectSignal(selectCategoryFilter)());
+  rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
+  locationSubject$ = new BehaviorSubject<number | null>(null);
+  categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerStatsState;
   hideChart = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
@@ -198,7 +193,7 @@ export class ExaminerStatsPage implements OnInit {
         select(getTests),
         map(getStartedTests),
         map(() => {
-          return mockLocalData;
+          return demonstrationMock;
         }),
         take(1),
       ),
@@ -221,6 +216,9 @@ export class ExaminerStatsPage implements OnInit {
     if (!!this.categorySubject$.value) {
       this.categorySelectPristine = false;
     }
+    if (!!this.locationSubject$.value) {
+      this.locationSelectPristine = false;
+    }
 
     this.pageState = {
       routeNumbers$: this.filterByParameters(getRouteNumbers),
@@ -231,6 +229,7 @@ export class ExaminerStatsPage implements OnInit {
       tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
       testCount$: this.filterByParameters(getStartedTestCount),
       outcomes$: this.filterByParameters(getOutcome),
+      circuits$: this.filterByParameters(getCircuits),
       locationList$: this.filterByParameters(getLocations)
         .pipe(
           tap((value) => {
@@ -253,6 +252,7 @@ export class ExaminerStatsPage implements OnInit {
                 this.locationSelectPristine = true;
               }
             }
+
           }),
         ),
       categoryList$: this.filterByParameters(getCategories)

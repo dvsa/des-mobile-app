@@ -29,7 +29,10 @@ import { selectDateConfigLoaded, selectExaminerStats } from './app-info.selector
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 import {
   ColourFilterChanged,
+  DateRangeChanged,
   HideChartsChanged,
+  LocationChanged,
+  TestCategoryChanged,
 } from '@pages/examiner-stats/examiner-stats.actions';
 import { DataStoreProvider } from '@providers/data-store/data-store';
 
@@ -114,6 +117,9 @@ export class AppInfoEffects {
     ofType(
       ColourFilterChanged,
       HideChartsChanged,
+      TestCategoryChanged,
+      DateRangeChanged,
+      LocationChanged,
     ),
     concatMap((action) => of(action)
       .pipe(
@@ -133,15 +139,20 @@ export class AppInfoEffects {
       if (!examinerStats) {
         return [LoadExaminerStatsFailure('Examiner stats preferences not found')];
       }
-
       const {
         hideCharts,
         colourScheme,
+        dateFilter,
+        locationFilter,
+        categoryFilter,
       } = JSON.parse(examinerStats);
 
       return [
         (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
         (!!hideCharts) ? HideChartsChanged(hideCharts) : null,
+        (!!dateFilter) ? DateRangeChanged(dateFilter) : null,
+        (!!locationFilter) ? LocationChanged(locationFilter) : null,
+        (!!categoryFilter) ? TestCategoryChanged(categoryFilter) : null,
       ];
     }),
   ));
