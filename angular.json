@@ -199,29 +199,29 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "app:build"
+            "buildTarget": "app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
+              "buildTarget": "app:build:production"
             },
             "development": {
-              "browserTarget": "app:build:development"
+              "buildTarget": "app:build:development"
             },
             "local": {
-              "browserTarget": "app:build:local"
+              "buildTarget": "app:build:local"
             },
             "testing": {
-              "browserTarget": "app:build:testing"
+              "buildTarget": "app:build:testing"
             },
             "livereload": {
-              "browserTarget": "app:build:livereload"
+              "buildTarget": "app:build:livereload"
             },
             "dev-tools": {
-              "browserTarget": "app:build:dev-tools"
+              "buildTarget": "app:build:dev-tools"
             },
             "uat": {
-              "browserTarget": "app:build:uat"
+              "buildTarget": "app:build:uat"
             },
             "ci": {}
           },
@@ -230,7 +230,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "app:build"
+            "buildTarget": "app:build"
           }
         },
         "test": {
