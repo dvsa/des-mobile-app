@@ -23,7 +23,7 @@ jobs:
       node-version: ${{ steps.nvm.outputs.NVMRC }}
     steps:
       - name: 📨 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🔍 Read .nvmrc
         id: nvm
@@ -44,7 +44,7 @@ jobs:
     needs: [ setup ]
     steps:
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ needs.setup.outputs.node-version }}
 
@@ -54,12 +54,12 @@ jobs:
       - name: 🕵️‍♀️ Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
-  build:
+  ci-checks:
     runs-on: mito-2
     needs: [ setup ]
     steps:
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ needs.setup.outputs.node-version }}
 
@@ -69,32 +69,8 @@ jobs:
       - name: ⚒️ Build project
         run: npm run build:ci
 
-  lint:
-    runs-on: mito-2
-    needs: [ setup, build ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
-
       - name: 📝 Lint codebase
         run: npm run lint
-
-  test:
-    runs-on: mito-2
-    needs: [ setup, build ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
 
       - name: 🧪️ Execute unit tests
         run: npm run test
