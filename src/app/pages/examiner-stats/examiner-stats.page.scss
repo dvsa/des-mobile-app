@@ -2,6 +2,19 @@ ion-menu-button {
   color: white;
 }
 
+.padding-bottom {
+  padding-bottom: 30px;
+}
+
+.dashed-line {
+  border: none;
+  border-top: 5px dashed #f00;
+  color: #fff;
+  background-color: #fff;
+  height: 1px;
+  width: 40px;
+}
+
 .text-align-center {
   text-align: center;
 }

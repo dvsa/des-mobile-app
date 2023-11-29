@@ -30,6 +30,7 @@ export class ChartComponent implements OnInit, OnChanges {
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
+  public average: number = 0;
   public chart: ApexCharts = null;
   public chartOptions: ApexOptions;
 
@@ -77,6 +78,16 @@ export class ChartComponent implements OnInit, OnChanges {
             value: 1,
           },
         },
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: this.average,
+            borderColor: '#ff0000',
+            borderWidth: 4,
+            strokeDashArray: 4,
+          },
+        ],
       },
       fill: { opacity: 1 },
       chart: {
@@ -209,6 +220,7 @@ export class ChartComponent implements OnInit, OnChanges {
   filterData() {
     this.labels = this.passedData.map((val) => val.item);
     const values: number[] = this.passedData.map((val) => val.count);
+    this.average = ((values.reduce((a, b) => a + b, 0)) / values.length) || 0;
 
     this.dataValues = (this.getChartType() === '1Axis')
       ? values as ApexNonAxisChartSeries

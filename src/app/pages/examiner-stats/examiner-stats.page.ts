@@ -17,7 +17,9 @@ import {
 } from '@pages/examiner-stats/examiner-stats.actions';
 import {
   ExaminerStatData,
-  getCategories, getCircuits,
+  getBalanceQuestions,
+  getCategories,
+  getCircuits,
   getControlledStopCount,
   getIndependentDrivingStats,
   getLocations,
@@ -25,7 +27,7 @@ import {
   getOutcome,
   getPassedTestCount,
   getRouteNumbers,
-  getSafetyAndBalanceQuestions,
+  getSafetyQuestions,
   getShowMeQuestions,
   getStartedTestCount,
   getTellMeQuestions,
@@ -51,7 +53,8 @@ interface ExaminerStatsState {
   manoeuvres$: Observable<ExaminerStatData<string>[]>;
   showMeQuestions$: Observable<ExaminerStatData<string>[]>;
   tellMeQuestions$: Observable<ExaminerStatData<string>[]>;
-  safetyAndBalanceQuestions$: Observable<ExaminerStatData<string>[]>;
+  safetyQuestions$: Observable<ExaminerStatData<string>[]>;
+  balanceQuestions$: Observable<ExaminerStatData<string>[]>;
   independentDriving$: Observable<ExaminerStatData<string>[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
@@ -223,7 +226,8 @@ export class ExaminerStatsPage implements OnInit {
     this.pageState = {
       routeNumbers$: this.filterByParameters(getRouteNumbers),
       manoeuvres$: this.filterByParameters(getManoeuvresUsed),
-      safetyAndBalanceQuestions$: this.filterByParameters(getSafetyAndBalanceQuestions),
+      balanceQuestions$: this.filterByParameters(getBalanceQuestions),
+      safetyQuestions$: this.filterByParameters(getSafetyQuestions),
       independentDriving$: this.filterByParameters(getIndependentDrivingStats),
       showMeQuestions$: this.filterByParameters(getShowMeQuestions),
       tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
