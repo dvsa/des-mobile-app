@@ -274,7 +274,7 @@ export const getRouteNumbers = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
-export const getSafetyAndBalanceQuestions = (
+export const getSafetyQuestions = (
   startedTests: StartedTests,
   range: DateRange = null,
   centreId: number = null,
@@ -288,6 +288,58 @@ export const getSafetyAndBalanceQuestions = (
         code: q.code,
         description: q.shortName,
       })),
+    // ...qp.getBalanceQuestions(category)
+    //   .map((q) => ({
+    //     code: q.code,
+    //     description: q.shortName,
+    //   })),
+    //disable graph for cat D
+    // ...qp.getVocationalSafetyQuestions(category),
+  ];
+
+
+  const data = getEligibleTests(startedTests, range)
+    .filter((slotID) =>
+      get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
+    .filter((slotID) =>
+      get(startedTests[slotID], 'category') === category)
+    .map((slotID: string) => [
+      //disable graph for cat D
+      // ...get(startedTests[slotID], 'testData.safetyQuestions.questions', []) as SafetyQuestionResult[],
+      ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.safetyQuestions', []) as QuestionResult[],
+    ])
+    .flat()
+    // filter for any empty string/null values
+    .filter((question: SafetyQuestionResult | QuestionResult) =>
+      ('code' in question) ? !!question?.code : !!question?.description);
+
+  return questions.map((q) => {
+    const count = data.filter((val) => val.code === q.code).length;
+    return {
+      // item: (('code' in q) ? `${q.code} - ${q.description}` : `B${index + 1} - ${q.description}`),
+      item: `${q.code} - ${q.description}`,
+      count,
+      percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+    };
+  })
+    .sort((item1, item2) =>
+      getIndex(item1.item as string) - getIndex(item2.item as string));
+};
+
+export const getBalanceQuestions = (
+  startedTests: StartedTests,
+  range: DateRange = null,
+  centreId: number = null,
+  category: TestCategory = null,
+): ExaminerStatData<string>[] => {
+  const qp = new QuestionProvider();
+
+  const questions = [
+    // ...qp.getSafetyQuestions(category)
+    //   .map((q) => ({
+    //     code: q.code,
+    //     description: q.shortName,
+    //   })),
     ...qp.getBalanceQuestions(category)
       .map((q) => ({
         code: q.code,
@@ -306,7 +358,6 @@ export const getSafetyAndBalanceQuestions = (
     .map((slotID: string) => [
       //disable graph for cat D
       // ...get(startedTests[slotID], 'testData.safetyQuestions.questions', []) as SafetyQuestionResult[],
-      ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.safetyQuestions', []) as QuestionResult[],
       ...get(startedTests[slotID], 'testData.safetyAndBalanceQuestions.balanceQuestions', []) as QuestionResult[],
     ])
     .flat()

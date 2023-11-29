@@ -37,14 +37,14 @@ export const demonstrationMock: StartedTests = {
       'safetyAndBalanceQuestions': {
         'safetyQuestions': [
           {
-            'code': 'M13',
+            'code': 'M10',
             'outcome': 'P',
-            'description': 'Dipped / Main Beam',
+            'description': 'Brakes',
           },
           {
-            'code': 'M5',
+            'code': 'M1',
             'outcome': 'P',
-            'description': 'Brake Lights',
+            'description': 'Oil level',
           },
         ],
         'balanceQuestions': [
@@ -6876,14 +6876,14 @@ export const demonstrationMock: StartedTests = {
       'safetyAndBalanceQuestions': {
         'safetyQuestions': [
           {
-            'code': 'M13',
+            'code': 'M8',
             'outcome': 'P',
-            'description': 'Dipped / Main Beam',
+            'description': 'Tyres',
           },
           {
-            'code': 'M5',
+            'code': 'M1',
             'outcome': 'P',
-            'description': 'Brake Lights',
+            'description': 'Oil level',
           },
         ],
         'balanceQuestions': [
@@ -7048,14 +7048,14 @@ export const demonstrationMock: StartedTests = {
       'safetyAndBalanceQuestions': {
         'safetyQuestions': [
           {
-            'code': 'M13',
+            'code': 'M8',
             'outcome': 'P',
-            'description': 'Dipped / Main Beam',
+            'description': 'Tyres',
           },
           {
-            'code': 'M5',
+            'code': 'M2',
             'outcome': 'P',
-            'description': 'Brake Lights',
+            'description': 'Horn working',
           },
         ],
         'balanceQuestions': [
@@ -7225,9 +7225,9 @@ export const demonstrationMock: StartedTests = {
             'description': 'Dipped / Main Beam',
           },
           {
-            'code': 'M5',
+            'code': 'M2',
             'outcome': 'P',
-            'description': 'Brake Lights',
+            'description': 'Horn working',
           },
         ],
         'balanceQuestions': [
@@ -7564,9 +7564,9 @@ export const demonstrationMock: StartedTests = {
       'safetyAndBalanceQuestions': {
         'safetyQuestions': [
           {
-            'code': 'M13',
+            'code': 'M10',
             'outcome': 'P',
-            'description': 'Dipped / Main Beam',
+            'description': 'Brakes',
           },
           {
             'code': 'M5',
@@ -7736,9 +7736,9 @@ export const demonstrationMock: StartedTests = {
       'safetyAndBalanceQuestions': {
         'safetyQuestions': [
           {
-            'code': 'M13',
+            'code': 'M10',
             'outcome': 'P',
-            'description': 'Dipped / Main Beam',
+            'description': 'Brakes',
           },
           {
             'code': 'M5',
