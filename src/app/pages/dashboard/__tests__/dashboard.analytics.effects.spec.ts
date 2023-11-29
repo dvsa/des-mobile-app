@@ -20,6 +20,7 @@ import {
 import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
 import * as dashboardActions from '../dashboard.actions';
+import { DetectDeviceTheme } from '../dashboard.actions';
 
 describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
@@ -175,6 +176,22 @@ describe('DashboardAnalyticsEffects', () => {
             'New version badge selected',
           );
         done();
+      });
+    });
+    describe('detectDeviceTheme$', () => {
+      it('should log an event', (done) => {
+        actions$.next(DetectDeviceTheme());
+        effects.detectDeviceTheme$.subscribe((result) => {
+          expect(result.type === AnalyticRecorded.type)
+            .toBe(true);
+          expect(analyticsProviderMock.logEvent)
+            .toHaveBeenCalledWith(
+              AnalyticsEventCategories.METADATA,
+              'Device theme',
+              'Light mode',
+            );
+          done();
+        });
       });
     });
   });

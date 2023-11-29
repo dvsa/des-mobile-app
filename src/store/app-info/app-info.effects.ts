@@ -2,9 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  catchError, concatMap, filter, map, switchMap, withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 
@@ -26,6 +24,7 @@ import {
   SetDateConfigLoaded,
 } from './app-info.actions';
 import { selectDateConfigLoaded } from './app-info.selectors';
+import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 
 @Injectable()
 export class AppInfoEffects {
@@ -80,12 +79,17 @@ export class AppInfoEffects {
           this.store$.select(selectDateConfigLoaded),
         ),
       )),
-    filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now()
+    filter((
+      [, dateConfigLoaded],
+    ) => dateConfigLoaded !== this.dateTimeProvider.now()
       .format('YYYY-MM-DD')),
+    concatMap(() => this.router.navigate([LOGIN_PAGE])),
     switchMap(() => {
       console.log('App resumed after being suspended. Config was not loaded today... app will refresh');
-      this.router.navigate([LOGIN_PAGE]);
-      return of(RestartApp());
+      return [
+        RestartApp(),
+        DetectDeviceTheme(),
+      ];
     }),
   ));
 

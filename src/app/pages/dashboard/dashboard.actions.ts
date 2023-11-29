@@ -20,3 +20,7 @@ export const SideMenuItemSelected = createAction(
   '[DashboardPage] Side menu item selected',
   (item: string) => ({ item }),
 );
+
+export const DetectDeviceTheme = createAction(
+  '[DashboardPage] Device theme',
+);

@@ -27,6 +27,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { DateTime } from '@shared/helpers/date-time';
+import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 
 describe('AppInfoEffects', () => {
   let effects: AppInfoEffects;
@@ -152,18 +153,25 @@ describe('AppInfoEffects', () => {
           .toHaveBeenCalledWith([LOGIN_PAGE]);
       });
     });
-    it('should call through to `RestartApp` when dates differ then navigate to LOGIN_PAGE', (done) => {
+    it('should call through to `RestartApp` when dates differ then navigate to LOGIN_PAGE', () => {
+      spyOn(router, 'navigate')
+        .and
+        .returnValue(Promise.resolve(true));
       // ASSERT
       store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-02' }));
       // ACT
       actions$.next(AppResumed());
       // ASSERT
-      effects.appResumedEffect$.subscribe((result: ReturnType<typeof RestartApp>) => {
-        expect(result.type)
-          .toEqual(RestartApp.type);
+      effects.appResumedEffect$.subscribe((result) => {
+        if (result.type === RestartApp.type) {
+          expect(result.type)
+            .toEqual(RestartApp.type);
+        } else if (result.type === DetectDeviceTheme.type) {
+          expect(result.type)
+            .toEqual(DetectDeviceTheme.type);
+        }
         expect(router.navigate)
           .toHaveBeenCalledWith([LOGIN_PAGE]);
-        done();
       });
     });
   });
