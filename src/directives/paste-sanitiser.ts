@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import {Directive, ElementRef, HostListener, NgZone} from '@angular/core';
 import emojiRegex from 'emoji-regex';
 
 @Directive({
@@ -6,12 +6,11 @@ import emojiRegex from 'emoji-regex';
 })
 export class PasteSanitiserDirective {
   emojiPattern = emojiRegex();
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef, private ngZone: NgZone) {
   }
 
   @HostListener('paste', ['$event'])
   onInput(event: ClipboardEvent): void {
-    event.preventDefault();
     const inputField = this.el.nativeElement;
     if (!inputField) return;
 
@@ -19,25 +18,29 @@ export class PasteSanitiserDirective {
     const pastedData = event.clipboardData?.getData('text');
 
     if (pastedData) {
-      let sanitisedData = pastedData;
+      setTimeout(() => {
+        let sanitisedData = pastedData;
 
-      // Check if numbersOnly attribute is true
-      if (numbersOnly) {
-        // Replace non-numeric characters
-        sanitisedData = sanitisedData.replace(/\D/g, '');
-      }
+        // Check if numbersOnly attribute is true
+        if (numbersOnly) {
+          // Replace non-numeric characters
+          sanitisedData = sanitisedData.replace(/\D/g, '');
+        }
 
-      // Strip emojis from string
-      sanitisedData = sanitisedData.replace(this.emojiPattern, '');
+        // Strip emojis from string
+        sanitisedData = sanitisedData.replace(this.emojiPattern, '');
 
-      const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
-      // Apply maxLength check after sanitizing
-      if (maxLength && sanitisedData.length > maxLength) {
-        sanitisedData = sanitisedData.substring(0, maxLength);
-      }
+        const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
+        // Apply maxLength or charLimit check after sanitizing
+        if (maxLength && sanitisedData.length > maxLength) {
+          sanitisedData = sanitisedData.substring(0, maxLength);
+        }
 
-      // Cast sanitisedData as a number if numbersOnly attribute is present, otherwise just use sanitisedData
-      inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
+        // Cast sanitisedData as a number if numbersOnly attribute is present, otherwise just use sanitisedData
+        this.ngZone.run(() => {
+          inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
+        });
+      });
     }
   }
 }
