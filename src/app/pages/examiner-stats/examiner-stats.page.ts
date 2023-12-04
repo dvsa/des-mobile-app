@@ -20,7 +20,7 @@ import {
   getBalanceQuestions,
   getCategories,
   getCircuits,
-  getControlledStopCount,
+  getEmergencyStopCount,
   getIndependentDrivingStats,
   getLocations,
   getManoeuvresUsed,
@@ -61,7 +61,7 @@ interface ExaminerStatsState {
   outcomes$: Observable<ExaminerStatData<string>[]>;
   locationList$: Observable<{ item: TestCentre, count: number }[]>;
   categoryList$: Observable<{ item: TestCategory, count: number }[]>;
-  controlledStops$: Observable<ExaminerStatData<string>[]>;
+  emergencyStops$: Observable<ExaminerStatData<string>[]>;
   circuits$: Observable<ExaminerStatData<string>[]>;
 }
 
@@ -96,10 +96,10 @@ export class ExaminerStatsPage implements OnInit {
   hideChart = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
   colors: {
-    default: { bar: string[], pie: string[] },
-    monochrome: { bar: string[], pie: string[] },
-    navy: string[],
-    amethyst: string[],
+    default: { bar: string[], pie: string[], average: string },
+    monochrome: { bar: string[], pie: string[], average: string },
+    navy: { colours: string[], average: string },
+    amethyst: { colours: string[], average: string },
   } = {
     default: {
       pie: [
@@ -110,6 +110,7 @@ export class ExaminerStatsPage implements OnInit {
         '#a05195',
       ],
       bar: ['#008FFB'],
+      average: '#FF0000',
     },
     monochrome: {
       pie: ['#616161',
@@ -119,21 +120,28 @@ export class ExaminerStatsPage implements OnInit {
         '#e0e0e0',
       ],
       bar: ['#777777'],
+      average: '#000000',
     },
-    amethyst: [
-      '#f95d6a',
-      '#d45087',
-      '#665191',
-      '#2f4b7c',
-      '#003f5c',
-    ],
-    navy: [
-      '#008FFB',
-      '#00E396',
-      '#FEB019',
-      '#FF4560',
-      '#9070ff',
-    ],
+    amethyst: {
+      colours: [
+        '#f95d6a',
+        '#d45087',
+        '#665191',
+        '#2f4b7c',
+        '#003f5c',
+      ],
+      average: '#00FF00',
+    },
+    navy: {
+      colours: [
+        '#008FFB',
+        '#00E396',
+        '#FEB019',
+        '#FF4560',
+        '#9070ff',
+      ],
+      average: '#FF0000',
+    },
   };
   categoryPlaceholder: string;
   locationPlaceholder: string;
@@ -279,19 +287,19 @@ export class ExaminerStatsPage implements OnInit {
             }
           }),
         ),
-      controlledStops$: this.filterByParameters(getStartedTestCount)
+      emergencyStops$: this.filterByParameters(getStartedTestCount)
         .pipe(
-          withLatestFrom(this.filterByParameters(getControlledStopCount)),
-          map(([testCount, controllerStopCount]) => ([
+          withLatestFrom(this.filterByParameters(getEmergencyStopCount)),
+          map(([testCount, emergencyStopCount]) => ([
             {
-              item: 'Controlled stop',
-              count: controllerStopCount,
-              percentage: `${((controllerStopCount / testCount) * 100).toFixed(1)}%`,
+              item: 'Emergency stop',
+              count: emergencyStopCount,
+              percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
             },
             {
-              item: 'No controlled stop',
-              count: testCount - controllerStopCount,
-              percentage: `${(((testCount - controllerStopCount) / testCount) * 100).toFixed(1)}%`,
+              item: 'No emergency stop',
+              count: testCount - emergencyStopCount,
+              percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
             },
           ])),
         ),
@@ -388,11 +396,24 @@ export class ExaminerStatsPage implements OnInit {
       case ColourEnum.Monochrome:
         return this.colors.monochrome[charType];
       case ColourEnum.Amethyst:
-        return this.colors.amethyst;
+        return this.colors.amethyst.colours;
       case ColourEnum.Navy:
-        return this.colors.navy;
+        return this.colors.navy.colours;
       default:
         return this.colors.default[charType];
+    }
+  }
+
+  averageSelect(): string {
+    switch (this.colourOption) {
+      case ColourEnum.Monochrome:
+        return this.colors.monochrome.average;
+      case ColourEnum.Amethyst:
+        return this.colors.amethyst.average;
+      case ColourEnum.Navy:
+        return this.colors.navy.average;
+      default:
+        return this.colors.default.average;
     }
   }
 
@@ -408,16 +429,15 @@ export class ExaminerStatsPage implements OnInit {
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   getLabelColour(value: string[], type: DESChartTypes) {
-    if (value === this.colors.navy) {
+    if (value === this.colors.navy.colours) {
       return (type === 'bar') ? ExaminerStatsPage.WHITE : ExaminerStatsPage.BLACK;
     }
     return ExaminerStatsPage.BLACK;
   }
 
-  showControlledStop() {
+  showEmergencyStop() {
     return isAnyOf(this.currentCategory, [
       TestCategory.B,
-      TestCategory.ADI2,
       TestCategory.F,
       TestCategory.G,
       TestCategory.H,

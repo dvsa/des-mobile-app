@@ -448,11 +448,11 @@ describe('ExaminerStatsPage', () => {
   describe('showControlledStop', () => {
     it('should return true if currentCategory is in the approved list', () => {
       component['currentCategory'] = TestCategory.B;
-      expect(component.showControlledStop()).toEqual(true);
+      expect(component.showEmergencyStop()).toEqual(true);
     });
     it('should return false if currentCategory is not in the approved list', () => {
       component['currentCategory'] = TestCategory.ADI3;
-      expect(component.showControlledStop()).toEqual(false);
+      expect(component.showEmergencyStop()).toEqual(false);
     });
   });
 

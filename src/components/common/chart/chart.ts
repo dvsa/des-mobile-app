@@ -27,6 +27,7 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
   @Input() public strokeColour: string = '#FFFFFF';
+  @Input() public averageColour: string = '#FF0000';
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
@@ -83,7 +84,7 @@ export class ChartComponent implements OnInit, OnChanges {
         yaxis: [
           {
             y: this.average,
-            borderColor: '#ff0000',
+            borderColor: this.averageColour,
             borderWidth: 4,
             strokeDashArray: 4,
           },
