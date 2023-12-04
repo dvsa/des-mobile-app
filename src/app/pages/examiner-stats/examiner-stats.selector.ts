@@ -88,7 +88,7 @@ export const getOutcome = (
       (item1.item as string) > (item2.item as string) ? 1 : -1);
 };
 
-export const getControlledStopCount = (
+export const getEmergencyStopCount = (
   startedTests: StartedTests,
   range: DateRange = null,
   centreId: number = null,
@@ -142,7 +142,7 @@ export const getIndependentDrivingStats = (
   ])) {
     return [];
   }
-  let indDrivingOptions = [];
+  let indDrivingOptions: string[];
   if (isAnyOf(category, [
     TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
   ])) {
