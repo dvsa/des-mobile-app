@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
+import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -10,15 +10,18 @@ import { LogHelper } from '../logs/logs-helper';
 @Injectable()
 export class DataStoreProvider {
 
-  defaultStoreName = 'DES';
+  private static readonly defaultStoreName = 'DES';
   secureContainer: SecureStorageObject = null;
 
   constructor(
     public platform: Platform,
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
+    private secureStorage: SecureStorage,
   ) {
   }
+
+  isIos = () => this.platform.is('cordova');
 
   /**
    * set storage container
@@ -35,13 +38,29 @@ export class DataStoreProvider {
     return this.secureContainer;
   }
 
+  async createContainer(): Promise<void> {
+    try {
+      const container: SecureStorageObject = await this.secureStorage.create(DataStoreProvider.defaultStoreName);
+      this.setSecureContainer(container);
+    } catch (err) {
+      this.reportLog('createContainer', '', err, LogType.ERROR);
+      throw err;
+    }
+  }
+
   /**
    * Get all stored keys
    * NOTE: secureContainer guard clause allows app to run in browser
    * @returns Promise
    */
   async getKeys(): Promise<string[]> {
+    if (!this.isIos()) {
+      return Promise.resolve(['']);
+    }
+
     if (!this.secureContainer) {
+      await this.createContainer();
+      this.reportLog('Checking container', 'getKeys', 'No container found', LogType.ERROR);
       return Promise.resolve(['']);
     }
 
@@ -61,7 +80,13 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async setItem(key: string, value: any): Promise<string> {
+    if (!this.isIos()) {
+      return Promise.resolve('');
+    }
+
     if (!this.secureContainer) {
+      await this.createContainer();
+      this.reportLog('Checking container', 'setItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
     }
 
@@ -78,7 +103,13 @@ export class DataStoreProvider {
    * @param key - identifier
    */
   async getItem(key: string): Promise<string> {
+    if (!this.isIos()) {
+      return Promise.resolve('');
+    }
+
     if (!this.secureContainer) {
+      await this.createContainer();
+      this.reportLog('Checking container', 'getItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
     }
 
@@ -97,7 +128,13 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async removeItem(key: string): Promise<string> {
+    if (!this.isIos()) {
+      return Promise.resolve('');
+    }
+
     if (!this.secureContainer) {
+      await this.createContainer();
+      this.reportLog('Checking container', 'removeItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
     }
 
@@ -109,11 +146,11 @@ export class DataStoreProvider {
     }
   }
 
-  private reportLog = (action: string, key: string, error: Error | unknown) => {
+  private reportLog = (action: string, key: string, error: Error | unknown, level: LogType = LogType.ERROR): void => {
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(
-        LogType.ERROR,
-        `DataStoreProvider error ${action} ${key}`,
+        level,
+        `${DataStoreProvider.name} ${level} ${action} ${key}`,
         (error instanceof Error) ? error.message : JSON.stringify(error),
       ),
     }));

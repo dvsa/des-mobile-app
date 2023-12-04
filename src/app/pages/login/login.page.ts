@@ -66,8 +66,14 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if (this.router.getCurrentNavigation()?.extras.state) {
-      this.hasUserLoggedOut = !!(this.router.getCurrentNavigation().extras.state.hasLoggedOut);
+    const navState = this.router.getCurrentNavigation()?.extras.state;
+
+    if (!!navState) {
+      this.hasUserLoggedOut = !!(navState?.hasLoggedOut);
+
+      if (!!(navState?.invalidToken)) {
+        this.dispatchLog('Nav state => Invalid token');
+      }
 
       if (this.hasUserLoggedOut) {
         await this.closeSideMenuIfOpen();
@@ -170,7 +176,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.logout();
       }
       this.appInitError = error;
-      console.log(error);
       this.dispatchLog(JSON.stringify(this.appInitError));
     }
     this.hasUserLoggedOut = false;
@@ -189,7 +194,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   dispatchLog = (message: string): void => {
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, 'User login', message),
+      payload: this.logHelper.createLog(LogType.ERROR, `${LoginPage.name} => User login`, message),
     }));
     this.store$.dispatch(SendLogs());
   };

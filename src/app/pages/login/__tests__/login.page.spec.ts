@@ -343,7 +343,7 @@ describe('LoginPage', () => {
       expect(store$.dispatch)
         .toHaveBeenCalledWith(SendLogs());
       expect(logHelper.createLog)
-        .toHaveBeenCalledWith(LogType.ERROR, 'User login', 'msg');
+        .toHaveBeenCalledWith(LogType.ERROR, 'LoginPage => User login', 'msg');
     });
   });
   describe('appInitializedLog', () => {

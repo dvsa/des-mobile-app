@@ -1,18 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
-import {
-  AlertControllerMock,
-  MenuControllerMock,
-  PlatformMock,
-  RouterMock,
-  SecureStorageMock,
-} from '@mocks/index.mock';
+import { AlertControllerMock, MenuControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -50,7 +41,6 @@ describe('AppComponent', () => {
   let platform: Platform;
   let menuController: MenuController;
   let store$: Store;
-  let secureStorage: SecureStorage;
   let dataStore: DataStoreProvider;
   let networkStateProvider: NetworkStateProvider;
   let translate: TranslateService;
@@ -86,10 +76,6 @@ describe('AppComponent', () => {
         {
           provide: AlertController,
           useClass: AlertControllerMock,
-        },
-        {
-          provide: SecureStorage,
-          useClass: SecureStorageMock,
         },
         {
           provide: DataStoreProvider,
@@ -138,7 +124,6 @@ describe('AppComponent', () => {
     menuController = TestBed.inject(MenuController);
     store$ = TestBed.inject(Store);
     dataStore = TestBed.inject(DataStoreProvider);
-    secureStorage = TestBed.inject(SecureStorage);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     translate = TestBed.inject(TranslateService);
     appConfigProvider = TestBed.inject(AppConfigProvider);
@@ -237,25 +222,20 @@ describe('AppComponent', () => {
   });
 
   describe('initialisePersistentStorage', () => {
-    beforeEach(() => {
-      spyOn(dataStore, 'setSecureContainer');
-    });
     it('should call setSecureContainer when in ios', fakeAsync(() => {
-      spyOn(secureStorage, 'create')
+      spyOn(dataStore, 'createContainer')
         .and
-        .returnValue(Promise.resolve({} as SecureStorageObject));
+        .returnValue(Promise.resolve());
       spyOn(component, 'isIos')
         .and
         .returnValue(true);
       component.initialisePersistentStorage();
       flushMicrotasks();
-      expect(secureStorage.create)
-        .toHaveBeenCalledWith('DES');
-      expect(dataStore.setSecureContainer)
-        .toHaveBeenCalledWith({} as SecureStorageObject);
+      expect(dataStore.createContainer)
+        .toHaveBeenCalledWith();
     }));
     it('should resolve to error message', () => {
-      spyOn(secureStorage, 'create')
+      spyOn(dataStore, 'createContainer')
         .and
         // eslint-disable-next-line prefer-promise-reject-errors
         .returnValue(Promise.reject('Failed to create container'));
