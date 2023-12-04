@@ -20,6 +20,8 @@ export class DataStoreProvider {
   ) {
   }
 
+  isIos = () => this.platform.is('cordova');
+
   /**
    * set storage container
    * @param container - container to set
@@ -41,6 +43,10 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async getKeys(): Promise<string[]> {
+    if (!this.isIos()) {
+      return Promise.resolve(['']);
+    }
+
     if (!this.secureContainer) {
       this.reportLog('Checking container', 'getKeys', 'No container found', LogType.ERROR);
       return Promise.resolve(['']);
@@ -62,6 +68,10 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async setItem(key: string, value: any): Promise<string> {
+    if (!this.isIos()) {
+      return Promise.resolve('');
+    }
+
     if (!this.secureContainer) {
       this.reportLog('Checking container', 'setItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
@@ -80,6 +90,10 @@ export class DataStoreProvider {
    * @param key - identifier
    */
   async getItem(key: string): Promise<string> {
+    if (!this.isIos()) {
+      return Promise.resolve('');
+    }
+
     if (!this.secureContainer) {
       this.reportLog('Checking container', 'getItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
@@ -100,6 +114,10 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async removeItem(key: string): Promise<string> {
+    if (!this.isIos()) {
+      return Promise.resolve('');
+    }
+
     if (!this.secureContainer) {
       this.reportLog('Checking container', 'removeItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');

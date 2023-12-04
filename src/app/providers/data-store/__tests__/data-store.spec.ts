@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
   let store$: Store<StoreModel>;
+  let platform: Platform;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,7 +35,11 @@ describe('DataStoreProvider', () => {
 
     provider = TestBed.inject(DataStoreProvider);
     store$ = TestBed.inject(Store);
+    platform = TestBed.inject(Platform);
     spyOn(store$, 'dispatch');
+    spyOn(platform, 'is')
+      .and
+      .returnValue(true);
   });
 
   describe('setSecureContainer', () => {
