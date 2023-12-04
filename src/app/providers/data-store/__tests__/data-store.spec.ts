@@ -11,11 +11,16 @@ import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
+import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 
 describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
   let store$: Store<StoreModel>;
   let platform: Platform;
+  let secureStorage: SecureStorage;
+  let secureStorageMock: jasmine.SpyObj<SecureStorage> = jasmine.createSpyObj('SecureStorage', {
+    create: Promise.resolve({} as SecureStorageObject),
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,6 +34,10 @@ describe('DataStoreProvider', () => {
           provide: Platform,
           useClass: PlatformMock,
         },
+        {
+          provide: SecureStorage,
+          useValue: secureStorageMock,
+        },
         provideMockStore(),
       ],
     });
@@ -36,10 +45,39 @@ describe('DataStoreProvider', () => {
     provider = TestBed.inject(DataStoreProvider);
     store$ = TestBed.inject(Store);
     platform = TestBed.inject(Platform);
+    secureStorage = TestBed.inject(SecureStorage);
     spyOn(store$, 'dispatch');
     spyOn(platform, 'is')
       .and
       .returnValue(true);
+    secureStorage.create = jasmine.createSpy()
+      .and
+      .returnValue(Promise.resolve({} as SecureStorageObject));
+  });
+
+  describe('createContainer', () => {
+    it('should create container named DES', async () => {
+      spyOn(provider, 'setSecureContainer');
+      await provider.createContainer();
+      expect(provider.setSecureContainer)
+        .toHaveBeenCalledWith({} as SecureStorageObject);
+      expect(secureStorage.create)
+        .toHaveBeenCalledWith('DES');
+    });
+    it('should not call set container on thrown error', async () => {
+      secureStorage.create = jasmine.createSpy()
+        .and
+        .returnValue(Promise.reject('Failed to create container'));
+      spyOn(provider, 'setSecureContainer');
+
+      try {
+        await provider.createContainer();
+      } catch (err) {
+        expect(provider.setSecureContainer)
+          .not
+          .toHaveBeenCalled();
+      }
+    });
   });
 
   describe('setSecureContainer', () => {

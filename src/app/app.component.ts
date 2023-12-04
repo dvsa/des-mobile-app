@@ -5,10 +5,7 @@ import { Store } from '@ngrx/store';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import {
-  combineLatest, merge, Observable, Subscription,
-} from 'rxjs';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
@@ -25,9 +22,7 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
-import {
-  DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE,
-} from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -84,7 +79,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
     protected menuController: MenuController,
-    protected secureStorage: SecureStorage,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
     protected translate: TranslateService,
@@ -147,9 +141,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async initialisePersistentStorage(): Promise<void> {
     if (this.isIos()) {
       try {
-        const storage = await this.secureStorage.create('DES');
-        this.dataStore.setSecureContainer(storage);
-
+        await this.dataStore.createContainer();
         return await Promise.resolve();
       } catch (err) {
         return Promise.reject(err);
