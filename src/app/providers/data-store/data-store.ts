@@ -42,6 +42,7 @@ export class DataStoreProvider {
    */
   async getKeys(): Promise<string[]> {
     if (!this.secureContainer) {
+      this.reportLog('Checking container', 'getKeys', 'No container found', LogType.ERROR);
       return Promise.resolve(['']);
     }
 
@@ -62,6 +63,7 @@ export class DataStoreProvider {
    */
   async setItem(key: string, value: any): Promise<string> {
     if (!this.secureContainer) {
+      this.reportLog('Checking container', 'setItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
     }
 
@@ -79,6 +81,7 @@ export class DataStoreProvider {
    */
   async getItem(key: string): Promise<string> {
     if (!this.secureContainer) {
+      this.reportLog('Checking container', 'getItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
     }
 
@@ -98,6 +101,7 @@ export class DataStoreProvider {
    */
   async removeItem(key: string): Promise<string> {
     if (!this.secureContainer) {
+      this.reportLog('Checking container', 'removeItem', 'No container found', LogType.ERROR);
       return Promise.resolve('');
     }
 
@@ -109,11 +113,11 @@ export class DataStoreProvider {
     }
   }
 
-  private reportLog = (action: string, key: string, error: Error | unknown) => {
+  private reportLog = (action: string, key: string, error: Error | unknown, level: LogType = LogType.ERROR): void => {
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(
-        LogType.ERROR,
-        `DataStoreProvider error ${action} ${key}`,
+        level,
+        `${DataStoreProvider.name} ${level} ${action} ${key}`,
         (error instanceof Error) ? error.message : JSON.stringify(error),
       ),
     }));
