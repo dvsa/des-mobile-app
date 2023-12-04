@@ -160,17 +160,17 @@ describe('TestResultsSearchPage', () => {
 
     describe('driverNumberChanged', () => {
       it('should set candidateInfoDriverNumber to the passed parameter', () => {
-        component.driverNumberChanged('test');
-        expect(component.driverNumberChanged)
-          .toEqual('test');
+        component.driverNumberChanged('test1');
+        expect(component.candidateInfoDriverNumber)
+          .toEqual('test1');
       });
     });
 
     describe('appRefChanged', () => {
       it('should set candidateInfoAppReference to the passed parameter', () => {
-        component.appRefChanged('test');
-        expect(component.appRefChanged)
-          .toEqual('test');
+        component.appRefChanged('test2');
+        expect(component.candidateInfoAppReference)
+          .toEqual('test2');
       });
 
 

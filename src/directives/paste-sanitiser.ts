@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, NgZone} from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import emojiRegex from 'emoji-regex';
 
 @Directive({
@@ -6,7 +6,8 @@ import emojiRegex from 'emoji-regex';
 })
 export class PasteSanitiserDirective {
   emojiPattern = emojiRegex();
-  constructor(private el: ElementRef, private ngZone: NgZone) {
+
+  constructor(private el: ElementRef) {
   }
 
   @HostListener('paste', ['$event'])
@@ -37,9 +38,7 @@ export class PasteSanitiserDirective {
         }
 
         // Cast sanitisedData as a number if numbersOnly attribute is present, otherwise just use sanitisedData
-        this.ngZone.run(() => {
-          inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
-        });
+        inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
       });
     }
   }
