@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { combineLatest, merge, Observable, Subscription } from 'rxjs';
+import {  combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
@@ -75,7 +74,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     private dateTimeProvider: DateTimeProvider,
     protected accessibilityService: AccessibilityService,
     protected menuController: MenuController,
-    protected secureStorage: SecureStorage,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
     protected translate: TranslateService,
@@ -138,9 +136,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async initialisePersistentStorage(): Promise<void> {
     if (this.isIos()) {
       try {
-        const storage = await this.secureStorage.create('DES');
-        this.dataStore.setSecureContainer(storage);
-
+        await this.dataStore.createContainer();
         return await Promise.resolve();
       } catch (err) {
         return Promise.reject(err);
