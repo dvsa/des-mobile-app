@@ -74,9 +74,7 @@ export class AuthenticationProvider {
     try {
       await this.ionicAuth.expire();
     } catch (error) {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'expireTokens error', error),
-      }));
+      this.logEvent(LogType.ERROR, 'expireTokens error', error);
     }
   }
 
@@ -115,6 +113,8 @@ export class AuthenticationProvider {
       // if in un-authenticated mode, allow user to continue locally
       if (this.isInUnAuthenticatedMode()) return true;
 
+      this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Checking for access token');
+
       // check to see if there is an access token to interrogate
       const available = await this.ionicAuth.isAccessTokenAvailable();
 
@@ -127,15 +127,17 @@ export class AuthenticationProvider {
           this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Attempting to refresh session');
           await this.ionicAuth.refreshSession();
         }
+
+        this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning true');
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
+
+      this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning false');
       // return false if no token available
       return false;
     } catch (err) {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'isAuthenticated error', err),
-      }));
+      this.logEvent(LogType.ERROR, 'isAuthenticated error', err);
       return false;
     }
   }
@@ -163,9 +165,7 @@ export class AuthenticationProvider {
       const token = await this.ionicAuth.getIdToken();
       return !!token && token.exp && new Date(token.exp * 1000) > new Date();
     } catch (err) {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'hasValidToken error', err),
-      }));
+      this.logEvent(LogType.ERROR, 'hasValidToken error', err);
       return false;
     }
   }
@@ -177,9 +177,7 @@ export class AuthenticationProvider {
         await this.ionicAuth.refreshSession();
       }
     } catch (error) {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'refreshTokenIfExpired error', error),
-      }));
+      this.logEvent(LogType.ERROR, 'refreshTokenIfExpired error', error);
       throw error;
     }
   }
@@ -229,6 +227,7 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
+    this.logEvent(LogType.DEBUG, 'Login', 'Started login flow');
     return this.ionicAuth.login();
   }
 
@@ -273,7 +272,7 @@ export class AuthenticationProvider {
 
   private logEvent = (logType: LogType, desc: string, msg: string) => {
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(logType, desc, msg),
+      payload: this.logHelper.createLog(logType, desc, `${AuthenticationProvider.name} => ${msg}`),
     }));
   };
 
