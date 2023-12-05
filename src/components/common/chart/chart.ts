@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import ApexCharts from 'apexcharts';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 import { isEqual } from 'lodash';
-import { ExaminerStatData } from '@pages/examiner-stats/examiner-stats.selector';
+import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.selector';
 
 @Component({
   selector: 'chart',
@@ -11,7 +11,7 @@ import { ExaminerStatData } from '@pages/examiner-stats/examiner-stats.selector'
 export class ChartComponent implements OnInit, OnChanges {
   @Input() public chartId: string = '';
   @Input() public chartType: ChartType = 'pie';
-  @Input() public passedData: ExaminerStatData<any>[] = null;
+  @Input() public passedData: ExaminerRecordData<any>[] = null;
   @Input() public showLegend: boolean = false;
   @Input() public isPortrait: boolean = false;
   @Input() public horizontal: boolean = false;
@@ -23,7 +23,7 @@ export class ChartComponent implements OnInit, OnChanges {
   landscape: {
     width: number | string, height: number | string,
   }
-  } = { portrait: { width: 730, height: 300 }, landscape: { width: 990, height: 300 } };
+  } = { portrait: { width: 730, height: 300 }, landscape: { width: 450, height: 300 } };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
   @Input() public strokeColour: string = '#FFFFFF';

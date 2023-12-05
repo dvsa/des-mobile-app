@@ -2,27 +2,27 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
-import { ColourEnum, ExaminerStatsPage } from '../examiner-stats.page';
+import { ColourEnum, ExaminerRecordsPage } from '../examiner-records.page';
 import {
   AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerStatsViewDidEnter,
+  ExaminerRecordsViewDidEnter,
   HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
-} from '@pages/examiner-stats/examiner-stats.actions';
+} from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { of } from 'rxjs';
 
 describe('ExaminerStatsPage', () => {
-  let component: ExaminerStatsPage;
-  let fixture: ComponentFixture<ExaminerStatsPage>;
+  let component: ExaminerRecordsPage;
+  let fixture: ComponentFixture<ExaminerRecordsPage>;
   let store$: MockStore;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExaminerStatsPage],
+      declarations: [ExaminerRecordsPage],
       imports: [IonicModule],
       providers: [
         { provide: Store, useClass: MockStore },
@@ -152,7 +152,7 @@ describe('ExaminerStatsPage', () => {
         }),
       ],
     });
-    fixture = TestBed.createComponent(ExaminerStatsPage);
+    fixture = TestBed.createComponent(ExaminerRecordsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
     store$ = TestBed.inject(MockStore);
@@ -189,7 +189,7 @@ describe('ExaminerStatsPage', () => {
       spyOn(component.store$, 'dispatch');
 
       component.ionViewDidEnter();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerStatsViewDidEnter());
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerRecordsViewDidEnter());
     });
   });
 

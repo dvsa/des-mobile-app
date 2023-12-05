@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ColourFilterRadioComponent } from '@pages/examiner-stats/components/colour-filter-radio/colour-filter-radio';
+import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -19,4 +19,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     ColourFilterRadioComponent,
   ],
 })
-export class ExaminerStatsComponentsModule { }
+export class ExaminerRecordsComponentsModule { }

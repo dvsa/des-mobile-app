@@ -21,7 +21,7 @@ import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/const
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 // Generic `T` is the configurable type of the item
-export interface ExaminerStatData<T> {
+export interface ExaminerRecordData<T> {
   item: T;
   count: number;
   percentage: string;
@@ -65,7 +65,7 @@ export const getOutcome = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   const data = getEligibleTests(startedTests, range)
     // filter for any nulls
     .filter((slotID) => startedTests[slotID].activityCode !== null)
@@ -107,7 +107,7 @@ export const getLocations = (
   startedTests: StartedTests,
   range: DateRange = null,
   // Omit is a TS type, to remove a property from an interface
-): Omit<ExaminerStatData<TestCentre>, 'percentage'>[] => {
+): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
 
   const data = (getEligibleTests(startedTests, range)
     // extract cost codes
@@ -130,7 +130,7 @@ export const getIndependentDrivingStats = (
   range: DateRange = null,
   centreId: number,
   category: TestCategory,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
   if (isAnyOf(category, [undefined, null,
     TestCategory.ADI3,
@@ -176,7 +176,7 @@ export const getCircuits = (
   range: DateRange = null,
   centreId: number,
   category: TestCategory,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   //getCircuits is only applicable to the following categories, and so we can avoid the entire function
   if (!isAnyOf(category, [undefined, null,
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
@@ -248,7 +248,7 @@ export const getRouteNumbers = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   const data = getEligibleTests(startedTests, range)
     .filter((slotID) =>
       get(startedTests[slotID], 'journalData.testCentre.centreId') === centreId)
@@ -279,7 +279,7 @@ export const getSafetyQuestions = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
   const questions = [
@@ -331,7 +331,7 @@ export const getBalanceQuestions = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
   const questions = [
@@ -383,7 +383,7 @@ export const getShowMeQuestions = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
   const questions = qp.getShowMeQuestions(category);
@@ -418,7 +418,7 @@ export const getTellMeQuestions = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
   const questions = qp.getTellMeQuestions(category);
   const data = getEligibleTests(startedTests, range)
@@ -479,7 +479,7 @@ export const getManoeuvresUsed = (
   range: DateRange = null,
   centreId: number = null,
   category: TestCategory = null,
-): ExaminerStatData<string>[] => {
+): ExaminerRecordData<string>[] => {
   let faultsEncountered: string[] = [];
   let manoeuvreTypeLabels: string[] = [];
   if (category) {

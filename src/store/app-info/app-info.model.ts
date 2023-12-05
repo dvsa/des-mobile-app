@@ -1,4 +1,4 @@
-import { ColourEnum, SelectableDateRange } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum, SelectableDateRange } from '@pages/examiner-records/examiner-records.page';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 export type AppInfoStateModel = {
@@ -8,7 +8,7 @@ export type AppInfoStateModel = {
   error?: unknown;
   dateConfigLoaded?: string;
   updateAvailablePresented: boolean;
-  examinerStats: {
+  examinerRecords: {
     hideCharts: boolean;
     colourScheme: ColourEnum;
     dateFilter: SelectableDateRange;

@@ -5,12 +5,12 @@ export const LoadAppVersion = createAction(
   '[AppComponent] Load App Version',
 );
 
-export const LoadExaminerStatsPreferences = createAction(
-  '[AppComponent] Load examiner stats preferences',
+export const LoadExaminerRecordsPreferences = createAction(
+  '[AppComponent] Load examiner records preferences',
 );
 
-export const LoadExaminerStatsFailure = createAction(
-  '[AppComponent] Load examiner stats failed',
+export const LoadExaminerRecordsFailure = createAction(
+  '[AppComponent] Load examiner records failed',
   (reason: string) => ({ reason }),
 );
 

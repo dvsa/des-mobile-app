@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
-import { ColourEnum, SelectableDateRange } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum, SelectableDateRange } from '@pages/examiner-records/examiner-records.page';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 export const selectAppInfo = (state: StoreModel): AppInfoStateModel => state.appInfo;
@@ -31,34 +31,34 @@ export const selectUpdateAvailablePresented = createSelector(
   (appInfo: AppInfoStateModel): boolean => appInfo.updateAvailablePresented,
 );
 
-export const selectExaminerStats = createSelector(
+export const selectExaminerRecords = createSelector(
   selectAppInfo,
-  (appInfo: AppInfoStateModel) => appInfo.examinerStats,
+  (appInfo: AppInfoStateModel) => appInfo.examinerRecords,
 );
 
 export const selectColourScheme = createSelector(
   selectAppInfo,
-  selectExaminerStats,
-  (_, examinerStats): ColourEnum => examinerStats.colourScheme,
+  selectExaminerRecords,
+  (_, examinerRecords): ColourEnum => examinerRecords.colourScheme,
 );
 
 export const selectHideCharts = createSelector(
   selectAppInfo,
-  selectExaminerStats,
-  (_, examinerStats): boolean => examinerStats.hideCharts,
+  selectExaminerRecords,
+  (_, examinerRecords): boolean => examinerRecords.hideCharts,
 );
 export const selectDateFilter = createSelector(
   selectAppInfo,
-  selectExaminerStats,
-  (_, examinerStats): SelectableDateRange => examinerStats.dateFilter,
+  selectExaminerRecords,
+  (_, examinerRecords): SelectableDateRange => examinerRecords.dateFilter,
 );
 export const selectCategoryFilter = createSelector(
   selectAppInfo,
-  selectExaminerStats,
-  (_, examinerStats): TestCategory => examinerStats.categoryFilter,
+  selectExaminerRecords,
+  (_, examinerRecords): TestCategory => examinerRecords.categoryFilter,
 );
 export const selectLocationFilter = createSelector(
   selectAppInfo,
-  selectExaminerStats,
-  (_, examinerStats): number => examinerStats.locationFilter,
+  selectExaminerRecords,
+  (_, examinerRecords): number => examinerRecords.locationFilter,
 );

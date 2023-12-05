@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 
 @Component({
   selector: 'colour-filter-radio',
