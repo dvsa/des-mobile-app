@@ -177,7 +177,14 @@ export class ChartComponent implements OnInit, OnChanges {
         show: this.showLegend,
       },
       tooltip: {
-        enabled: false,
+        enabled: this.chartType === 'bar',
+        custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+          return '<div class="ion-padding">' +
+            '<ion-text class="mes-data">' +
+            '' + w.globals.labels[dataPointIndex] + ': ' + series[seriesIndex][dataPointIndex] + '' +
+            '</ion-text>' +
+            '</div>';
+        },
       },
       responsive: [
         {
