@@ -1,4 +1,4 @@
-import { ExaminerStatsAnalyticsEffects } from '@pages/examiner-stats/examiner-stats.analytics.effects';
+import { ExaminerRecordsAnalyticsEffects } from '@pages/examiner-records/examiner-records.analytics.effects';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -11,16 +11,16 @@ import {
   AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerStatsViewDidEnter,
+  ExaminerRecordsViewDidEnter,
   HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
-} from '@pages/examiner-stats/examiner-stats.actions';
+} from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 
 describe('ExaminerStatsAnalyticsEffects', () => {
-  let effects: ExaminerStatsAnalyticsEffects;
+  let effects: ExaminerRecordsAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.EXAMINER_STATS;
@@ -28,7 +28,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        ExaminerStatsAnalyticsEffects,
+        ExaminerRecordsAnalyticsEffects,
         {
           provide: AnalyticsProvider,
           useClass: AnalyticsProviderMock,
@@ -39,7 +39,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
     });
 
     actions$ = new ReplaySubject(1);
-    effects = TestBed.inject(ExaminerStatsAnalyticsEffects);
+    effects = TestBed.inject(ExaminerRecordsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     spyOn(analyticsProviderMock, 'logEvent');
   }));
@@ -47,7 +47,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   describe('examinerStatsViewDidEnter$', () => {
     it('should call setCurrentPage', (done) => {
       // ACT
-      actions$.next(ExaminerStatsViewDidEnter());
+      actions$.next(ExaminerRecordsViewDidEnter());
       // ASSERT
       effects.examinerStatsViewDidEnter$.subscribe((result) => {
         expect(result.type)

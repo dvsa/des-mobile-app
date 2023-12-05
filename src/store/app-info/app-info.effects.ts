@@ -20,12 +20,12 @@ import {
   LoadConfigSuccess,
   LoadEmployeeName,
   LoadEmployeeNameSuccess,
-  LoadExaminerStatsFailure,
-  LoadExaminerStatsPreferences,
+  LoadExaminerRecordsFailure,
+  LoadExaminerRecordsPreferences,
   RestartApp,
   SetDateConfigLoaded,
 } from './app-info.actions';
-import { selectDateConfigLoaded, selectExaminerStats } from './app-info.selectors';
+import { selectDateConfigLoaded, selectExaminerRecords } from './app-info.selectors';
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 import {
   ColourFilterChanged,
@@ -33,7 +33,7 @@ import {
   HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
-} from '@pages/examiner-stats/examiner-stats.actions';
+} from '@pages/examiner-records/examiner-records.actions';
 import { DataStoreProvider } from '@providers/data-store/data-store';
 
 @Injectable()
@@ -113,7 +113,7 @@ export class AppInfoEffects {
     }),
   ));
 
-  persistExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
+  persistExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
     ofType(
       ColourFilterChanged,
       HideChartsChanged,
@@ -124,7 +124,7 @@ export class AppInfoEffects {
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
-          this.store$.select(selectExaminerStats),
+          this.store$.select(selectExaminerRecords),
         ),
       )),
     switchMap(async (
@@ -132,12 +132,12 @@ export class AppInfoEffects {
     ) => this.dataStore.setItem(AppInfoEffects.EXAMINER_STATS_KEY, JSON.stringify(examinerStatPreferences))),
   ), { dispatch: false });
 
-  loadExaminerStatsPreferences$ = createEffect(() => this.actions$.pipe(
-    ofType(LoadExaminerStatsPreferences),
+  loadExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
+    ofType(LoadExaminerRecordsPreferences),
     concatMap(() => this.dataStore.getItem(AppInfoEffects.EXAMINER_STATS_KEY)),
-    switchMap((examinerStats) => {
-      if (!examinerStats) {
-        return [LoadExaminerStatsFailure('Examiner stats preferences not found')];
+    switchMap((examinerRecords) => {
+      if (!examinerRecords) {
+        return [LoadExaminerRecordsFailure('Examiner stats preferences not found')];
       }
       const {
         hideCharts,
@@ -145,7 +145,7 @@ export class AppInfoEffects {
         dateFilter,
         locationFilter,
         categoryFilter,
-      } = JSON.parse(examinerStats);
+      } = JSON.parse(examinerRecords);
 
       return [
         (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
