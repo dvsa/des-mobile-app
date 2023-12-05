@@ -3,8 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { ColourFilterRadioComponent } from '@pages/examiner-stats/components/colour-filter-radio/colour-filter-radio';
-import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
+import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 
 describe('ColourFilterRadioComponent', () => {
   let fixture: ComponentFixture<ColourFilterRadioComponent>;

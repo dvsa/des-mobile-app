@@ -6,30 +6,30 @@ import { IonicModule } from '@ionic/angular';
 
 import { EffectsModule } from '@ngrx/effects';
 
-import { ExaminerStatsPage } from './examiner-stats.page';
-import { ExaminerStatsRoutingModule } from '@pages/examiner-stats/examiner-stats-routing.module';
-import { ExaminerStatsAnalyticsEffects } from '@pages/examiner-stats/examiner-stats.analytics.effects';
+import { ExaminerRecordsPage } from './examiner-records.page';
+import { ExaminerRecordsRoutingModule } from '@pages/examiner-records/examiner-records-routing.module';
+import { ExaminerRecordsAnalyticsEffects } from '@pages/examiner-records/examiner-records.analytics.effects';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ExaminerStatsComponentsModule } from '@pages/examiner-stats/examiner-stats-components.module';
+import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/examiner-records-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ExaminerStatsComponentsModule,
-    ExaminerStatsRoutingModule,
+    ExaminerRecordsComponentsModule,
+    ExaminerRecordsRoutingModule,
     EffectsModule.forFeature([
-      ExaminerStatsAnalyticsEffects,
+      ExaminerRecordsAnalyticsEffects,
     ]),
     TranslateModule,
     ComponentsModule,
     ReactiveFormsModule,
   ],
   declarations: [
-    ExaminerStatsPage,
+    ExaminerRecordsPage,
   ],
 })
-export class ExaminerStatsPageModule {
+export class ExaminerRecordsPageModule {
 }

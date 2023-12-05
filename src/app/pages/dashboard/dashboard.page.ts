@@ -38,7 +38,7 @@ import {
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import {
   HasSeenUpdateAvailablePopup,
-  LoadExaminerStatsPreferences,
+  LoadExaminerRecordsPreferences,
   UpdateAvailableBadgeClicked,
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
@@ -133,7 +133,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
-
+    this.store$.dispatch(LoadExaminerRecordsPreferences());
     //guard against calling various services if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());

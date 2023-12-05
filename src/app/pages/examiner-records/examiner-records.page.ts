@@ -10,13 +10,13 @@ import {
   AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerStatsViewDidEnter,
+  ExaminerRecordsViewDidEnter,
   HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
-} from '@pages/examiner-stats/examiner-stats.actions';
+} from '@pages/examiner-records/examiner-records.actions';
 import {
-  ExaminerStatData,
+  ExaminerRecordData,
   getBalanceQuestions,
   getCategories,
   getCircuits,
@@ -31,7 +31,7 @@ import {
   getShowMeQuestions,
   getStartedTestCount,
   getTellMeQuestions,
-} from '@pages/examiner-stats/examiner-stats.selector';
+} from '@pages/examiner-records/examiner-records.selector';
 import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
@@ -44,25 +44,25 @@ import {
   selectHideCharts,
 } from '@store/app-info/app-info.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { demonstrationMock } from '@pages/examiner-stats/__mocks__/test-result.mock2';
+import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock2';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
-interface ExaminerStatsState {
-  routeNumbers$: Observable<ExaminerStatData<string>[]>;
-  manoeuvres$: Observable<ExaminerStatData<string>[]>;
-  showMeQuestions$: Observable<ExaminerStatData<string>[]>;
-  tellMeQuestions$: Observable<ExaminerStatData<string>[]>;
-  safetyQuestions$: Observable<ExaminerStatData<string>[]>;
-  balanceQuestions$: Observable<ExaminerStatData<string>[]>;
-  independentDriving$: Observable<ExaminerStatData<string>[]>;
+interface ExaminerRecordsState {
+  routeNumbers$: Observable<ExaminerRecordData<string>[]>;
+  manoeuvres$: Observable<ExaminerRecordData<string>[]>;
+  showMeQuestions$: Observable<ExaminerRecordData<string>[]>;
+  tellMeQuestions$: Observable<ExaminerRecordData<string>[]>;
+  safetyQuestions$: Observable<ExaminerRecordData<string>[]>;
+  balanceQuestions$: Observable<ExaminerRecordData<string>[]>;
+  independentDriving$: Observable<ExaminerRecordData<string>[]>;
   testCount$: Observable<number>;
   passPercentage$: Observable<string>;
-  outcomes$: Observable<ExaminerStatData<string>[]>;
+  outcomes$: Observable<ExaminerRecordData<string>[]>;
   locationList$: Observable<{ item: TestCentre, count: number }[]>;
   categoryList$: Observable<{ item: TestCategory, count: number }[]>;
-  emergencyStops$: Observable<ExaminerStatData<string>[]>;
-  circuits$: Observable<ExaminerStatData<string>[]>;
+  emergencyStops$: Observable<ExaminerRecordData<string>[]>;
+  circuits$: Observable<ExaminerRecordData<string>[]>;
 }
 
 export const enum ColourEnum {
@@ -78,11 +78,11 @@ export interface SelectableDateRange {
 }
 
 @Component({
-  selector: 'examiner-stats',
-  templateUrl: './examiner-stats.page.html',
-  styleUrls: ['./examiner-stats.page.scss'],
+  selector: 'examiner-records',
+  templateUrl: './examiner-records.page.html',
+  styleUrls: ['./examiner-records.page.scss'],
 })
-export class ExaminerStatsPage implements OnInit {
+export class ExaminerRecordsPage implements OnInit {
 
   private static readonly BLACK = '#000000';
   private static readonly WHITE = '#FFFFFF';
@@ -92,7 +92,7 @@ export class ExaminerStatsPage implements OnInit {
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
-  pageState: ExaminerStatsState;
+  pageState: ExaminerRecordsState;
   hideChart = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
   colors: {
@@ -269,7 +269,7 @@ export class ExaminerStatsPage implements OnInit {
         ),
       categoryList$: this.filterByParameters(getCategories)
         .pipe(
-          tap((value: Omit<ExaminerStatData<TestCategory>, 'percentage'>[]) => {
+          tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
             this.categoryFilterOptions = [];
 
             value.forEach((val) => {
@@ -315,7 +315,7 @@ export class ExaminerStatsPage implements OnInit {
 
   async ionViewDidEnter() {
     await this.orientationProvider.monitorOrientation();
-    this.store$.dispatch(ExaminerStatsViewDidEnter());
+    this.store$.dispatch(ExaminerRecordsViewDidEnter());
   }
 
   setLocationFilter() {
@@ -338,7 +338,7 @@ export class ExaminerStatsPage implements OnInit {
     }
   }
 
-  setDefault<T>(data: Omit<ExaminerStatData<T>, 'percentage'>[]): Omit<ExaminerStatData<T>, 'percentage'> {
+  setDefault<T>(data: Omit<ExaminerRecordData<T>, 'percentage'>[]): Omit<ExaminerRecordData<T>, 'percentage'> {
     if (!data || data?.length === 0) {
       return null;
     }
@@ -417,22 +417,22 @@ export class ExaminerStatsPage implements OnInit {
     }
   }
 
-  filterDataForGrid<T>(examinerStatData: ExaminerStatData<T>[]): T[][] {
-    if (!!examinerStatData) {
-      return examinerStatData.map((obj) => Object.values(obj) as T[]);
+  filterDataForGrid<T>(examinerRecordData: ExaminerRecordData<T>[]): T[][] {
+    if (!!examinerRecordData) {
+      return examinerRecordData.map((obj) => Object.values(obj) as T[]);
     }
     return [[]];
   }
 
   getTotal = <T>(
-    value: ExaminerStatData<T>[],
+    value: ExaminerRecordData<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   getLabelColour(value: string[], type: DESChartTypes) {
     if (value === this.colors.navy.colours) {
-      return (type === 'bar') ? ExaminerStatsPage.WHITE : ExaminerStatsPage.BLACK;
+      return (type === 'bar') ? ExaminerRecordsPage.WHITE : ExaminerRecordsPage.BLACK;
     }
-    return ExaminerStatsPage.BLACK;
+    return ExaminerRecordsPage.BLACK;
   }
 
   showEmergencyStop() {
