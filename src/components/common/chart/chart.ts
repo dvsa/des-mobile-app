@@ -73,14 +73,16 @@ export class ChartComponent implements OnInit, OnChanges {
   get options() {
     return {
       states: {
+        //disable chart section darkening on click if the chart is a pie
         active: {
           filter: {
-            type: 'none',
-            value: 1,
+            type: this.chartType === 'pie' ? 'none' : 'darken',
+            value: 0.35,
           },
         },
       },
       annotations: {
+        //draw a line across the y-axis depicting the average value
         yaxis: [
           {
             y: this.average,
@@ -140,6 +142,10 @@ export class ChartComponent implements OnInit, OnChanges {
       },
       stroke: { show: true, colors: [this.strokeColour] },
       xaxis: {
+        //disable the x-axis from darkening when the user clicks on it
+        crosshairs: {
+          show: false,
+        },
         labels: {
           offsetY: this.horizontal ? 10 : 0,
           style: {
@@ -155,6 +161,10 @@ export class ChartComponent implements OnInit, OnChanges {
         },
       },
       yaxis: {
+        //disable the y-axis from darkening when the user clicks on it
+        crosshairs: {
+          show: false,
+        },
         labels: {
           offsetY: this.horizontal ? 7 : 6,
           style: {
@@ -177,6 +187,7 @@ export class ChartComponent implements OnInit, OnChanges {
         show: this.showLegend,
       },
       tooltip: {
+        followCursor: false,
         enabled: this.chartType === 'bar',
         custom: function ({ series, seriesIndex, dataPointIndex, w }) {
           return '<div class="ion-padding">' +
