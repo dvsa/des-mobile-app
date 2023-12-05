@@ -9,13 +9,13 @@ import {
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';
-import { ColourEnum } from '@pages/examiner-stats/examiner-stats.page';
+import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 import {
   ColourFilterChanged,
   DateRangeChanged,
   HideChartsChanged,
   LocationChanged, TestCategoryChanged,
-} from '@pages/examiner-stats/examiner-stats.actions';
+} from '@pages/examiner-records/examiner-records.actions';
 
 export const appInfoFeatureKey = 'appInfo';
 
@@ -24,7 +24,7 @@ export const initialState: AppInfoStateModel = {
   employeeId: null,
   employeeName: 'Unknown Name',
   updateAvailablePresented: null,
-  examinerStats: {
+  examinerRecords: {
     hideCharts: false,
     colourScheme: ColourEnum.Default,
     dateFilter: null,
@@ -61,36 +61,36 @@ export const appInfoReducer = createReducer(
   })),
   on(ColourFilterChanged, (state: AppInfoStateModel, { colour }) => ({
     ...state,
-    examinerStats: {
-      ...state.examinerStats,
+    examinerRecords: {
+      ...state.examinerRecords,
       colourScheme: colour,
     },
   })),
   on(DateRangeChanged, (state: AppInfoStateModel, { selectedDate }) => ({
     ...state,
-    examinerStats: {
-      ...state.examinerStats,
+    examinerRecords: {
+      ...state.examinerRecords,
       dateFilter: selectedDate,
     },
   })),
   on(LocationChanged, (state: AppInfoStateModel, { location }) => ({
     ...state,
-    examinerStats: {
-      ...state.examinerStats,
+    examinerRecords: {
+      ...state.examinerRecords,
       locationFilter: location?.centreId,
     },
   })),
   on(TestCategoryChanged, (state: AppInfoStateModel, { testCategory }) => ({
     ...state,
-    examinerStats: {
-      ...state.examinerStats,
+    examinerRecords: {
+      ...state.examinerRecords,
       categoryFilter: testCategory,
     },
   })),
   on(HideChartsChanged, (state: AppInfoStateModel, { hideChart }) => ({
     ...state,
-    examinerStats: {
-      ...state.examinerStats,
+    examinerRecords: {
+      ...state.examinerRecords,
       hideCharts: hideChart,
     },
   })),

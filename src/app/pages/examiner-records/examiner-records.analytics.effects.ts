@@ -9,13 +9,13 @@ import {
   AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerStatsViewDidEnter, HideChartsChanged,
+  ExaminerRecordsViewDidEnter, HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
-} from '@pages/examiner-stats/examiner-stats.actions';
+} from '@pages/examiner-records/examiner-records.actions';
 
 @Injectable()
-export class ExaminerStatsAnalyticsEffects {
+export class ExaminerRecordsAnalyticsEffects {
 
   constructor(
     private analytics: AnalyticsProvider,
@@ -24,7 +24,7 @@ export class ExaminerStatsAnalyticsEffects {
   }
 
   examinerStatsViewDidEnter$ = createEffect(() => this.actions$.pipe(
-    ofType(ExaminerStatsViewDidEnter),
+    ofType(ExaminerRecordsViewDidEnter),
     switchMap(() => {
       this.analytics.setCurrentPage(AnalyticsScreenNames.EXAMINER_STATS);
       return of(AnalyticRecorded());
