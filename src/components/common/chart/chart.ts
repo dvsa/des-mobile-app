@@ -23,7 +23,7 @@ export class ChartComponent implements OnInit, OnChanges {
   landscape: {
     width: number | string, height: number | string,
   }
-  } = { portrait: { width: 730, height: 300 }, landscape: { width: 450, height: 300 } };
+  } = { portrait: { width: 740, height: 300 }, landscape: { width: 1020, height: 300 } };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
   @Input() public strokeColour: string = '#FFFFFF';
@@ -77,7 +77,7 @@ export class ChartComponent implements OnInit, OnChanges {
         active: {
           filter: {
             type: this.chartType === 'pie' ? 'none' : 'darken',
-            value: 0.35,
+            value: 0.6,
           },
         },
       },
