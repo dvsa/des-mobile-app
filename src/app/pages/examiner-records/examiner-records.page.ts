@@ -95,7 +95,7 @@ export class ExaminerRecordsPage implements OnInit {
   pageState: ExaminerRecordsState;
   hideChart = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
-  colors: {
+  colours: {
     default: { bar: string[], pie: string[], average: string },
     monochrome: { bar: string[], pie: string[], average: string },
     navy: { colours: string[], average: string },
@@ -110,7 +110,7 @@ export class ExaminerRecordsPage implements OnInit {
         '#a05195',
       ],
       bar: ['#008FFB'],
-      average: '#FF0000',
+      average: '#000000',
     },
     monochrome: {
       pie: ['#616161',
@@ -394,26 +394,26 @@ export class ExaminerRecordsPage implements OnInit {
 
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
-        return this.colors.monochrome[charType];
+        return this.colours.monochrome[charType];
       case ColourEnum.Amethyst:
-        return this.colors.amethyst.colours;
+        return this.colours.amethyst.colours;
       case ColourEnum.Navy:
-        return this.colors.navy.colours;
+        return this.colours.navy.colours;
       default:
-        return this.colors.default[charType];
+        return this.colours.default[charType];
     }
   }
 
   averageSelect(): string {
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
-        return this.colors.monochrome.average;
+        return this.colours.monochrome.average;
       case ColourEnum.Amethyst:
-        return this.colors.amethyst.average;
+        return this.colours.amethyst.average;
       case ColourEnum.Navy:
-        return this.colors.navy.average;
+        return this.colours.navy.average;
       default:
-        return this.colors.default.average;
+        return this.colours.default.average;
     }
   }
 
@@ -429,7 +429,7 @@ export class ExaminerRecordsPage implements OnInit {
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   getLabelColour(value: string[], type: DESChartTypes) {
-    if (value === this.colors.navy.colours) {
+    if (value === this.colours.navy.colours) {
       return (type === 'bar') ? ExaminerRecordsPage.WHITE : ExaminerRecordsPage.BLACK;
     }
     return ExaminerRecordsPage.BLACK;
