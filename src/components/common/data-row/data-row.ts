@@ -29,4 +29,7 @@ export class DataRowComponent {
 
   @Input()
   idPrefix?: string;
+
+  @Input()
+  centreData: boolean = false;
 }
