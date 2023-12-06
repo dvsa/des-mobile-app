@@ -6,7 +6,7 @@ import { timeout } from 'rxjs/operators';
 import { DateTime } from '@shared/helpers/date-time';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { UrlProvider } from '../url/url';
-import { DataStoreProvider } from '../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DateTimeProvider } from '../date-time/date-time';
@@ -68,7 +68,7 @@ export class JournalProvider {
    * and returns empty collection if cached data is too old
    * @returns Promise<ExaminerWorkSchedule>
    */
-  getAndConvertOfflineJournal = (): Promise<ExaminerWorkSchedule> => this.dataStore.getItem('JOURNAL')
+  getAndConvertOfflineJournal = (): Promise<ExaminerWorkSchedule> => this.dataStore.getItem(LocalStorageKey.JOURNAL)
     .then((data) => {
       const journalCache: JournalCache = JSON.parse(data);
       const cachedDate = DateTime.at(journalCache.dateStored);
@@ -92,7 +92,7 @@ export class JournalProvider {
           .format('YYYY/MM/DD'),
         data: journalData,
       };
-      this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore))
+      this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore))
         .then(() => {
         });
     }
@@ -121,7 +121,7 @@ export class JournalProvider {
         .format('YYYY/MM/DD'),
       data: emptyJournalData,
     };
-    this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore))
+    this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore))
       .then(() => {
       });
     return emptyJournalData;

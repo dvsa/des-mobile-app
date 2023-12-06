@@ -8,6 +8,7 @@ import {  combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
+import { Storage } from '@ionic/storage-angular';
 
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -80,6 +81,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
     protected deviceProvider: DeviceProvider,
+    private storage: Storage,
     injector: Injector,
   ) {
     super(injector);
@@ -88,6 +90,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.platform.ready();
+
+      await this.storage.create();
+
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
@@ -137,6 +142,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if (this.isIos()) {
       try {
         await this.dataStore.createContainer();
+        // once the container exists, if there's any data in the old storage, migrate it to the new one
+        await this.dataStore.migrateAllKeys();
         return await Promise.resolve();
       } catch (err) {
         return Promise.reject(err);
