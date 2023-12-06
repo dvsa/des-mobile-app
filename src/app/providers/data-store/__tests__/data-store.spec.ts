@@ -15,7 +15,7 @@ import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
 import { SaveLog } from '@store/logs/logs.actions';
 import { Log, LogType } from '@shared/models/log.model';
 
-fdescribe('DataStoreProvider', () => {
+describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
   let store$: Store<StoreModel>;
   let platform: Platform;
