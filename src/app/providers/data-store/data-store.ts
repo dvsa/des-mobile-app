@@ -15,6 +15,7 @@ export enum LocalStorageKey {
   CONFIG = 'CONFIG',
   JOURNAL = 'JOURNAL',
   LOGS = 'LOGS',
+  STORAGE_MIGRATED = 'STORAGE_MIGRATED',
   TESTS = 'TESTS',
 }
 
@@ -131,6 +132,16 @@ export class DataStoreProvider {
     }
   }
 
+  async hasStorageBeenMigrated(): Promise<boolean> {
+    try {
+      const migrated = await this.storage.get(LocalStorageKey.STORAGE_MIGRATED);
+      return migrated === 'true';
+    } catch (err) {
+      this.reportLog('hasStorageBeenMigrated', '', err, LogType.ERROR);
+      return false;
+    }
+  }
+
   async migrateAllKeys(): Promise<void> {
     try {
       if (!this.secureContainer) {
@@ -138,13 +149,22 @@ export class DataStoreProvider {
         return;
       }
 
+      this.reportLog('migrateAllKeys', '', 'Attempting to migrate keys', LogType.INFO);
+
       const keys: string[] = await this.secureContainer.keys();
 
       await Promise.all(
         keys.map((key) => this.migrateKey(key)),
       );
-    } catch {
-      // don't return error as if not found, this is fine it might mean it's already been migrated
+
+      await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'true');
+
+      this.reportLog('migrateAllKeys', '', 'All keys migrated', LogType.DEBUG);
+
+    } catch (err) {
+      await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'false');
+
+      this.reportLog('migrateAllKeys', '', err, LogType.ERROR);
     }
   }
 
@@ -158,8 +178,8 @@ export class DataStoreProvider {
         await this.storage.set(key, keyChainItem);
         await this.secureContainer.remove(key);
       }
-    } catch {
-      // don't return error if not found, this will be the case once the migration occurs
+    } catch (err) {
+      this.reportLog('migrateKey', key, err, LogType.ERROR);
     }
   }
 
