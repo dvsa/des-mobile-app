@@ -46,6 +46,8 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -74,6 +76,7 @@ export class DashboardPage
   subscription: Subscription;
   private merged$: Observable<void | string>;
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
+  testKey: string;
 
   constructor(
     private appConfigProvider: AppConfigProvider,
@@ -84,6 +87,8 @@ export class DashboardPage
     private slotProvider: SlotProvider,
     private modalController: ModalController,
     injector: Injector,
+    private secureStorage: SecureStorage,
+    private dataStoreProvider: DataStoreProvider,
   ) {
     super(injector);
 
@@ -130,6 +135,17 @@ export class DashboardPage
         switchMap(() => from(this.showUpdateAvailableModal())),
       ),
     );
+  }
+
+  async pollStorage() {
+    for (let i = 0; i < 10000; i++) {
+      try {
+        await this.dataStoreProvider.setItem('testKey', `testKey${i}`);
+        this.testKey = await this.dataStoreProvider.getItem('testKey');
+      } catch (err) {
+        alert(JSON.stringify(err));
+      }
+    }
   }
 
   async ionViewDidEnter(): Promise<void> {
