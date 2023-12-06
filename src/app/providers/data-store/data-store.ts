@@ -1,11 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
+
 import { Store } from '@ngrx/store';
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogHelper } from '../logs/logs-helper';
+import { Token } from '@providers/authentication/authentication';
+
+export enum LocalStorageKey {
+  COMPLETED_TESTS = 'COMPLETED_TESTS',
+  CONFIG = 'CONFIG',
+  JOURNAL = 'JOURNAL',
+  LOGS = 'LOGS',
+  TESTS = 'TESTS',
+}
+
+export type StorageKey = LocalStorageKey | Token;
 
 @Injectable()
 export class DataStoreProvider {
@@ -18,6 +31,7 @@ export class DataStoreProvider {
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
     private secureStorage: SecureStorage,
+    private storage: Storage,
   ) {
   }
 
@@ -54,18 +68,11 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async getKeys(): Promise<string[]> {
-    if (!this.isIos()) {
-      return Promise.resolve(['']);
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'getKeys', 'No container found', LogType.ERROR);
-      return Promise.resolve(['']);
-    }
-
     try {
-      return await this.secureContainer.keys();
+      if (!this.isIos()) {
+        return [''];
+      }
+      return await this.storage.keys();
     } catch (err) {
       this.reportLog('getting keys', '', err);
       throw err;
@@ -79,21 +86,14 @@ export class DataStoreProvider {
    * @param value - value to pair with key
    * @returns Promise
    */
-  async setItem(key: string, value: any): Promise<string> {
-    if (!this.isIos()) {
-      return Promise.resolve('');
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'setItem', 'No container found', LogType.ERROR);
-      return Promise.resolve('');
-    }
-
+  async setItem(key: StorageKey, value: unknown): Promise<string> {
     try {
-      return await this.secureContainer.set(key, value);
+      if (!this.isIos()) {
+        return '';
+      }
+      return await this.storage.set(key, value);
     } catch (err) {
-      this.reportLog('setting', key, err);
+      this.reportLog('setting storage', key, err);
       throw err;
     }
   }
@@ -102,21 +102,14 @@ export class DataStoreProvider {
    * interrogate storage for specific key
    * @param key - identifier
    */
-  async getItem(key: string): Promise<string> {
-    if (!this.isIos()) {
-      return Promise.resolve('');
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'getItem', 'No container found', LogType.ERROR);
-      return Promise.resolve('');
-    }
-
+  async getItem(key: StorageKey): Promise<string> {
     try {
-      return await this.secureContainer.get(key);
+      if (!this.isIos()) {
+        return '';
+      }
+      return await this.storage.get(key);
     } catch (err) {
-      this.reportLog('getting', key, err);
+      this.reportLog('getting storage', key, err);
       throw err;
     }
   }
@@ -127,22 +120,46 @@ export class DataStoreProvider {
    * @param key - identifier to remove
    * @returns Promise
    */
-  async removeItem(key: string): Promise<string> {
-    if (!this.isIos()) {
-      return Promise.resolve('');
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'removeItem', 'No container found', LogType.ERROR);
-      return Promise.resolve('');
-    }
-
+  async removeItem(key: StorageKey): Promise<string> {
     try {
-      return await this.secureContainer.remove(key);
+      if (!this.isIos()) return '';
+
+      return await this.storage.remove(key);
     } catch (err) {
       this.reportLog('removing', key, err);
       return Promise.resolve('');
+    }
+  }
+
+  async migrateAllKeys(): Promise<void> {
+    try {
+      if (!this.secureContainer) {
+        this.reportLog('migrateAllKeys', '', 'secureContainer not defined', LogType.ERROR);
+        return;
+      }
+
+      const keys: string[] = await this.secureContainer.keys();
+
+      await Promise.all(
+        keys.map((key) => this.migrateKey(key)),
+      );
+    } catch {
+      // don't return error as if not found, this is fine it might mean it's already been migrated
+    }
+  }
+
+  async migrateKey(key: string): Promise<void> {
+    try {
+      // look to see if the key exists in keychain
+      const keyChainItem = await this.secureContainer.get(key);
+
+      // if found, then add that key/value to ionic storage and remove from keychain
+      if (!!keyChainItem) {
+        await this.storage.set(key, keyChainItem);
+        await this.secureContainer.remove(key);
+      }
+    } catch {
+      // don't return error if not found, this will be the case once the migration occurs
     }
   }
 
@@ -150,7 +167,7 @@ export class DataStoreProvider {
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(
         level,
-        `${DataStoreProvider.name} ${level} ${action} ${key}`,
+        `DataStoreProvider ${level} ${action} ${key}`,
         (error instanceof Error) ? error.message : JSON.stringify(error),
       ),
     }));

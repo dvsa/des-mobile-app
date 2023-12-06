@@ -25,7 +25,7 @@ import { AuthenticationError } from '../authentication/authentication.constants'
 import { AppConfigError } from './app-config.constants';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { AppInfoProvider } from '../app-info/app-info';
-import { DataStoreProvider } from '../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 
 /**
  *  How Loading Config Works
@@ -237,7 +237,7 @@ export class AppConfigProvider {
           .pipe(timeout(30000))
           .subscribe(
             (data: RemoteConfig) => {
-              this.dataStoreProvider.setItem('CONFIG', JSON.stringify(data));
+              this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
               resolve(data);
             },
             (error: HttpErrorResponse) => {
@@ -268,7 +268,7 @@ export class AppConfigProvider {
 
   private getCachedRemoteConfig = async (): Promise<RemoteConfig> => {
     try {
-      const response = await this.dataStoreProvider.getItem('CONFIG');
+      const response = await this.dataStoreProvider.getItem(LocalStorageKey.CONFIG);
       return JSON.parse(response);
     } catch (error) {
       throw error;

@@ -10,7 +10,7 @@ import { AuthenticationProvider } from '../../authentication/authentication';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
-import { DataStoreProvider } from '../../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -280,7 +280,7 @@ describe('JournalProvider', () => {
       expect(networkStateProviderMock.getNetworkState)
         .toHaveBeenCalled();
       expect(dataStoreMock.setItem)
-        .toHaveBeenCalledWith('JOURNAL', JSON.stringify(journalDataToStore));
+        .toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore));
     });
   });
 

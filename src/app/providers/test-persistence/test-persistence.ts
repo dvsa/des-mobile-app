@@ -5,13 +5,13 @@ import { DateTime } from '@shared/helpers/date-time';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { DataStoreProvider } from '../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()
 export class TestPersistenceProvider {
 
-  private testKeychainKey = 'TESTS';
+  private testKeychainKey = LocalStorageKey.TESTS;
 
   constructor(
     private dataStoreProvider: DataStoreProvider,
