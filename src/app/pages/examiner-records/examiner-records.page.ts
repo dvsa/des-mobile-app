@@ -93,7 +93,7 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
-  hideChart = this.store$.selectSignal(selectHideCharts)();
+  showData = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
   colours: {
     default: { bar: string[], pie: string[], average: string },
@@ -292,12 +292,12 @@ export class ExaminerRecordsPage implements OnInit {
           withLatestFrom(this.filterByParameters(getEmergencyStopCount)),
           map(([testCount, emergencyStopCount]) => ([
             {
-              item: 'Emergency stop',
+              item: 'Stop',
               count: emergencyStopCount,
               percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
             },
             {
-              item: 'No emergency stop',
+              item: 'No stop',
               count: testCount - emergencyStopCount,
               percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
             },
@@ -384,9 +384,9 @@ export class ExaminerRecordsPage implements OnInit {
     this.store$.dispatch(ColourFilterChanged(colour));
   }
 
-  toggleChart(): void {
-    this.hideChart = !this.hideChart;
-    this.store$.dispatch(HideChartsChanged(this.hideChart));
+  toggleData(): void {
+    this.showData = !this.showData;
+    this.store$.dispatch(HideChartsChanged(this.showData));
   }
 
   colourSelect(chartType?: ChartType): string[] {

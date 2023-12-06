@@ -360,22 +360,22 @@ describe('ExaminerStatsPage', () => {
 
   describe('toggleChart', () => {
     it('should flip hideChart', () => {
-      component.hideChart = true;
-      component.toggleChart();
-      expect(component.hideChart).toEqual(false);
+      component.showData = true;
+      component.toggleData();
+      expect(component.showData).toEqual(false);
     });
     it('should dispatch the store with HideChartsChanged(true) if hideChart is true after being flipped', () => {
       spyOn(component.store$, 'dispatch');
-      component.hideChart = false;
+      component.showData = false;
 
-      component.toggleChart();
+      component.toggleData();
       expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
     });
     it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
       spyOn(component.store$, 'dispatch');
-      component.hideChart = true;
+      component.showData = true;
 
-      component.toggleChart();
+      component.toggleData();
       expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
     });
   });
