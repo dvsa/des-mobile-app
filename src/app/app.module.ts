@@ -4,6 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
@@ -124,6 +125,7 @@ if (enableRehydrationPlugin) {
     }),
     AppRoutingModule,
     HttpClientModule,
+    IonicStorageModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),

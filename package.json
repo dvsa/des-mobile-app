@@ -83,6 +83,7 @@
     "@ionic-enterprise/auth": "3.9.5",
     "@ionic/angular": "~7.3.3",
     "@ionic/core": "~7.3.3",
+    "@ionic/storage-angular": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "@ngrx/effects": "^16.2.0",
     "@ngrx/store": "^16.2.0",

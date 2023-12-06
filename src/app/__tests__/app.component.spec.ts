@@ -26,12 +26,14 @@ import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 
+import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AppComponent } from '../app.component';
+import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -46,6 +48,7 @@ describe('AppComponent', () => {
   let translate: TranslateService;
   let appConfigProvider: AppConfigProvider;
   let deviceProvider: DeviceProvider;
+  let storage: Storage;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -113,6 +116,10 @@ describe('AppComponent', () => {
           provide: AccessibilityService,
           useClass: AccessibilityServiceMock,
         },
+        {
+          provide: Storage,
+          useClass: StorageMock,
+        },
       ],
     });
 
@@ -129,6 +136,7 @@ describe('AppComponent', () => {
     appConfigProvider = TestBed.inject(AppConfigProvider);
     deviceProvider = TestBed.inject(DeviceProvider);
     router = TestBed.inject(Router);
+    storage = TestBed.inject(Storage);
     spyOn(store$, 'dispatch');
   }));
 
@@ -172,6 +180,8 @@ describe('AppComponent', () => {
         .returnValue(Promise.resolve(true));
       component.ngOnInit();
       flushMicrotasks();
+      expect(storage.create)
+        .toHaveBeenCalled();
       expect(deviceProvider.disableSingleAppMode)
         .toHaveBeenCalled();
       expect(appConfigProvider.initialiseAppConfig)
@@ -233,6 +243,8 @@ describe('AppComponent', () => {
       flushMicrotasks();
       expect(dataStore.createContainer)
         .toHaveBeenCalledWith();
+      expect(dataStore.migrateAllKeys)
+        .toHaveBeenCalled();
     }));
     it('should resolve to error message', () => {
       spyOn(dataStore, 'createContainer')
