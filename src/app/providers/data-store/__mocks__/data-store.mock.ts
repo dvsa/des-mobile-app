@@ -28,4 +28,8 @@ export class DataStoreProviderMock {
   migrateAllKeys = jasmine.createSpy('migrateAllKeys')
     .and
     .returnValue(Promise.resolve());
+
+  hasStorageBeenMigrated = jasmine.createSpy('hasStorageBeenMigrated')
+    .and
+    .returnValue(Promise.resolve(false));
 }
