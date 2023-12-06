@@ -384,31 +384,31 @@ describe('ExaminerStatsPage', () => {
     it('should return colors.default.pie if the colourOption ' +
       'is not within the switch options and the input is not bar', () => {
       component.colourOption = null;
-      expect(component.colourSelect('pie')).toEqual(component.colors.default.pie);
+      expect(component.colourSelect('pie')).toEqual(component.colours.default.pie);
     });
     it('should return colors.default.pie if the colourOption is Default and the input is not bar', () => {
       component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('pie')).toEqual(component.colors.default.pie);
+      expect(component.colourSelect('pie')).toEqual(component.colours.default.pie);
     });
     it('should return colors.default.bar if the colourOption is Default and the input is bar', () => {
       component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('bar')).toEqual(component.colors.default.bar);
+      expect(component.colourSelect('bar')).toEqual(component.colours.default.bar);
     });
     it('should return colors.monochrome.pie if the colourOption is Monochrome and the input is not bar', () => {
       component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('pie')).toEqual(component.colors.monochrome.pie);
+      expect(component.colourSelect('pie')).toEqual(component.colours.monochrome.pie);
     });
     it('should return colors.monochrome.bar if the colourOption is Monochrome and the input is bar', () => {
       component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('bar')).toEqual(component.colors.monochrome.bar);
+      expect(component.colourSelect('bar')).toEqual(component.colours.monochrome.bar);
     });
     it('should return colors.amethyst if the colourOption is Amethyst', () => {
       component.colourOption = ColourEnum.Amethyst;
-      expect(component.colourSelect('bar')).toEqual(component.colors.amethyst);
+      expect(component.colourSelect('bar')).toEqual(component.colours.amethyst);
     });
     it('should return colors.navy if the colourOption is Navy', () => {
       component.colourOption = ColourEnum.Navy;
-      expect(component.colourSelect('bar')).toEqual(component.colors.navy);
+      expect(component.colourSelect('bar')).toEqual(component.colours.navy);
     });
   });
 
@@ -435,13 +435,13 @@ describe('ExaminerStatsPage', () => {
 
   describe('getLabelColour', () => {
     it('should return #FFFFFF if type is bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.colors.navy, 'bar')).toEqual('#FFFFFF');
+      expect(component.getLabelColour(component.colours.navy, 'bar')).toEqual('#FFFFFF');
     });
     it('should return #000000 if type is not bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.colors.navy, 'pie')).toEqual('#000000');
+      expect(component.getLabelColour(component.colours.navy, 'pie')).toEqual('#000000');
     });
     it('should return #000000 if the passed value is not colors.navy', () => {
-      expect(component.getLabelColour(component.colors.amethyst, 'pie')).toEqual('#000000');
+      expect(component.getLabelColour(component.colours.amethyst, 'pie')).toEqual('#000000');
     });
   });
 
