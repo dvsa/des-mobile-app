@@ -48,7 +48,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
-import { OrientationType } from '../../../../ios/App/App/public/assets/mock/@capawesome/capacitor-screen-orientation';
+import { OrientationType } from '@mocks/@capawesome/capacitor-screen-orientation';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
