@@ -29,7 +29,6 @@ import {
   PerformLDTMSearch,
   TestResultSearchViewDidEnter,
 } from './test-results-search.actions';
-import emojiRegex from 'emoji-regex';
 
 enum SearchBy {
   DriverNumber = 'driverNumber',
@@ -47,10 +46,8 @@ interface TestResultPageState {
 })
 export class TestResultsSearchPage extends BasePageComponent {
 
-  emojiPattern = emojiRegex();
   searchBy: SearchBy = SearchBy.ApplicationReference;
-  candidateInfoDriverNumber: string = '';
-  candidateInfoAppReference: string = '';
+  candidateInfo: string = '';
   focusedElement: string = null;
   searchResults: SearchResultTestSchema[] = [];
   hasSearched: boolean = false;
@@ -115,12 +112,8 @@ export class TestResultsSearchPage extends BasePageComponent {
     return this.authenticationProvider.getEmployeeId();
   }
 
-  driverNumberChanged(val: string): void {
-    this.candidateInfoDriverNumber = val.replace(this.emojiPattern, '');
-  }
-
-  appRefChanged(val: string): void {
-    this.candidateInfoAppReference = val.replace(this.emojiPattern, '');
+  candidateInfoChanged(val: string): void {
+    this.candidateInfo = val;
   }
 
   searchTests(): void {
@@ -128,7 +121,7 @@ export class TestResultsSearchPage extends BasePageComponent {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformDriverNumberSearch());
       this.showSearchSpinner = true;
-      this.subscription = this.searchProvider.driverNumberSearch(this.candidateInfoDriverNumber)
+      this.subscription = this.searchProvider.driverNumberSearch(this.candidateInfo)
         .pipe(
           tap(() => this.hasSearched = true),
           map((results) => {
@@ -160,7 +153,7 @@ export class TestResultsSearchPage extends BasePageComponent {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformApplicationReferenceSearch());
       this.showSearchSpinner = true;
-      this.subscription = this.searchProvider.applicationReferenceSearch(this.candidateInfoAppReference)
+      this.subscription = this.searchProvider.applicationReferenceSearch(this.candidateInfo)
         .pipe(
           tap(() => this.hasSearched = true),
           map((results) => {
@@ -170,7 +163,7 @@ export class TestResultsSearchPage extends BasePageComponent {
           catchError(async (err: HttpErrorResponse) => {
             this.store$.dispatch(SaveLog({
               payload: this.logHelper.createLog(
-                LogType.ERROR, `Searching tests by app ref (${this.candidateInfoAppReference})`, err.message,
+                LogType.ERROR, `Searching tests by app ref (${this.candidateInfo})`, err.message,
               ),
             }));
             this.searchResults = [];
