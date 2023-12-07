@@ -35,7 +35,8 @@ export const StartTest = createAction(
     category: TestCategory,
     rekey: boolean = false,
     delegatedTest: boolean = false,
-    startDate: string = null) => ({
+    startDate: string = null,
+  ) => ({
     slotId,
     category,
     rekey,
@@ -68,6 +69,10 @@ export const StartSendingCompletedTests = createAction(
 
 export const SendCompletedTests = createAction(
   '[TestsEffects] Send Completed Tests',
+);
+
+export const StopSendingCompletedTests = createAction(
+  '[TestsEffects] Stop Sending Completed Tests',
 );
 
 export const SendCompletedTestSuccess = createAction(

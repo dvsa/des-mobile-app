@@ -28,7 +28,6 @@ export enum Token {
 @Injectable()
 export class AuthenticationProvider {
 
-  public authenticationSettings: any;
   private subscription: Subscription;
   private employeeIdKey: string;
   private employeeId: string;
@@ -45,6 +44,16 @@ export class AuthenticationProvider {
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
   ) {
     this.setStoreSubscription();
+  }
+
+  get authConnect() {
+    // if the context of `ionicAuth` is lost, the re-initialise
+    if (!this.ionicAuth) this.initialiseAuthentication();
+
+    // update value of `inUnAuthenticatedMode` before trying to interact with auth connect methods
+    this.determineAuthenticationMode();
+
+    return this.ionicAuth;
   }
 
   private getAuthOptions = (): IonicAuthOptions => {
@@ -72,7 +81,7 @@ export class AuthenticationProvider {
 
   public async expireTokens(): Promise<void> {
     try {
-      await this.ionicAuth.expire();
+      await this.authConnect.expire();
     } catch (error) {
       this.logEvent(LogType.ERROR, 'expireTokens error', error);
     }
@@ -98,8 +107,8 @@ export class AuthenticationProvider {
   }
 
   public initialiseAuthentication = (): void => {
-    this.authenticationSettings = this.appConfig.getAppConfig()?.authentication;
-    this.employeeIdKey = this.appConfig.getAppConfig()?.authentication.employeeIdKey;
+    const auth = this.appConfig.getAppConfig()?.authentication;
+    this.employeeIdKey = auth.employeeIdKey;
     this.inUnAuthenticatedMode = false;
     this.ionicAuth = new IonicAuth(this.getAuthOptions());
   };
@@ -116,16 +125,16 @@ export class AuthenticationProvider {
       this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Checking for access token');
 
       // check to see if there is an access token to interrogate
-      const available = await this.ionicAuth.isAccessTokenAvailable();
+      const available = await this.authConnect.isAccessTokenAvailable();
 
       if (available) {
         // determine if the existing token is expired
-        const expired = await this.ionicAuth.isAccessTokenExpired();
+        const expired = await this.authConnect.isAccessTokenExpired();
 
         // attempt a token refresh
         if (expired) {
           this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Attempting to refresh session');
-          await this.ionicAuth.refreshSession();
+          await this.authConnect.refreshSession();
         }
 
         this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning true');
@@ -153,16 +162,15 @@ export class AuthenticationProvider {
 
   async hasValidToken(): Promise<boolean> {
     try {
-      // evaluate network status before trying to interact with auth connect methods;
-      this.determineAuthenticationMode();
       // if in un-authenticated mode, allow user to continue locally
-      if (this.isInUnAuthenticatedMode()) {
-        return true;
-      }
+      if (this.isInUnAuthenticatedMode()) return true;
+
       // refresh token when required
-      await this.ionicAuth.isAuthenticated();
+      await this.authConnect.isAuthenticated();
+
       await this.refreshTokenIfExpired();
-      const token = await this.ionicAuth.getIdToken();
+
+      const token = await this.authConnect.getIdToken();
       return !!token && token.exp && new Date(token.exp * 1000) > new Date();
     } catch (err) {
       this.logEvent(LogType.ERROR, 'hasValidToken error', err);
@@ -172,9 +180,9 @@ export class AuthenticationProvider {
 
   async refreshTokenIfExpired(): Promise<void> {
     try {
-      const token = await this.ionicAuth.getIdToken();
+      const token = await this.authConnect.getIdToken();
       if (token && this.isTokenExpired(token)) {
-        await this.ionicAuth.refreshSession();
+        await this.authConnect.refreshSession();
       }
     } catch (error) {
       this.logEvent(LogType.ERROR, 'refreshTokenIfExpired error', error);
@@ -216,7 +224,7 @@ export class AuthenticationProvider {
   };
 
   public loadEmployeeName = async (): Promise<string> => {
-    const idToken = await this.ionicAuth.getIdToken();
+    const idToken = await this.authConnect.getIdToken();
     if (idToken) {
       return idToken[this.appConfig.getAppConfig()?.authentication.employeeNameKey];
     }
@@ -228,7 +236,7 @@ export class AuthenticationProvider {
       return Promise.resolve();
     }
     this.logEvent(LogType.DEBUG, 'Login', 'Started login flow');
-    return this.ionicAuth.login();
+    return this.authConnect.login();
   }
 
   public async logout(): Promise<void> {
@@ -254,7 +262,7 @@ export class AuthenticationProvider {
 
       this.subscription?.unsubscribe();
 
-      await this.ionicAuth.logout();
+      await this.authConnect.logout();
 
       this.logEvent(LogType.DEBUG, 'Logout', 'Finished logout flow');
     } catch (err) {
@@ -263,7 +271,7 @@ export class AuthenticationProvider {
   }
 
   public async setEmployeeId() {
-    const idToken = await this.ionicAuth.getIdToken();
+    const idToken = await this.authConnect.getIdToken();
     const employeeId = idToken[this.employeeIdKey];
     const employeeIdClaim = Array.isArray(employeeId) ? employeeId[0] : employeeId;
     const numericEmployeeId = Number.parseInt(employeeIdClaim, 10);

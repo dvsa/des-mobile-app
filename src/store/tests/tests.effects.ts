@@ -12,7 +12,7 @@ import {
   Examiner,
   TestSlotAttributes,
 } from '@dvsa/mes-test-schema/categories/common';
-import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -45,7 +45,7 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import * as testActions from './tests.actions';
-import { SendCompletedTests, StartTest } from './tests.actions';
+import { SendCompletedTests, StartTest, StopSendingCompletedTests } from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
   PopulateApplicationReference,
@@ -92,6 +92,9 @@ import {
 
 @Injectable()
 export class TestsEffects {
+  // every 2 minutes
+  private static readonly interval = 120000;
+
   constructor(
     private actions$: Actions,
     private testPersistenceProvider: TestPersistenceProvider,
@@ -345,8 +348,9 @@ export class TestsEffects {
   startSendingCompletedTestsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.StartSendingCompletedTests),
     switchMap(() => {
-      return interval(this.appConfigProvider.getAppConfig().tests.autoSendInterval)
+      return interval(this.appConfigProvider.getAppConfig()?.tests.autoSendInterval || TestsEffects.interval)
         .pipe(
+          takeUntil(this.actions$.pipe(ofType(StopSendingCompletedTests))),
           map(() => testActions.SendCompletedTests()),
         );
     }),

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { catchError, concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { from, interval, Observable, of } from 'rxjs';
 
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -14,6 +14,7 @@ import { Log } from '@shared/models/log.model';
 import { DateTime } from '@shared/helpers/date-time';
 
 import * as logsActions from './logs.actions';
+import { StopLogPolling } from './logs.actions';
 import { getLogsState } from './logs.reducer';
 
 type LogCache = {
@@ -23,6 +24,9 @@ type LogCache = {
 
 @Injectable()
 export class LogsEffects {
+  // every 1 minute
+  private static readonly fallBackInterval = 60000;
+
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
@@ -37,8 +41,9 @@ export class LogsEffects {
   startSendingLogsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.StartSendingLogs.type),
     switchMap(() => {
-      return interval(this.appConfigProvider.getAppConfig().logsAutoSendInterval)
+      return interval(this.appConfigProvider.getAppConfig()?.logsAutoSendInterval || LogsEffects.fallBackInterval)
         .pipe(
+          takeUntil(this.actions$.pipe(ofType(StopLogPolling))),
           map(() => logsActions.SendLogs()),
         );
     }),
