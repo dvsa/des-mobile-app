@@ -56,6 +56,9 @@ import {
 
 @Injectable()
 export class JournalEffects {
+  // every 5 minutes
+  private static readonly interval = 300000;
+
   constructor(
     private actions$: Actions,
     private journalProvider: JournalProvider,
@@ -176,8 +179,11 @@ export class JournalEffects {
         // Initial emission so poll doesn't wait until the first manual refresh
         startWith(null),
       );
+
       const pollTimer$ = manualRefreshes$.pipe(
-        switchMap(() => interval(this.appConfig.getAppConfig().journal.autoRefreshInterval)),
+        switchMap(() =>
+          interval(this.appConfig.getAppConfig()?.journal.autoRefreshInterval || JournalEffects.interval),
+        ),
       );
 
       const pollsWhileOnline$ = pollTimer$

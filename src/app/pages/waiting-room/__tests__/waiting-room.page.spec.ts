@@ -292,7 +292,9 @@ describe('WaitingRoomPage', () => {
 
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
-        spyOn(Insomnia, 'keepAwake');
+        spyOn(Insomnia, 'keepAwake')
+          .and
+          .returnValue(Promise.resolve());
         spyOn(ScreenOrientation, 'lock')
           .and
           .returnValue(Promise.resolve());

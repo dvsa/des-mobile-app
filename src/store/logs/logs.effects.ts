@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
-import {
-  switchMap, map, catchError, withLatestFrom, concatMap,
-} from 'rxjs/operators';
-import {
-  of, interval, Observable, from,
-} from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+import { catchError, concatMap, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { from, interval, Observable, of } from 'rxjs';
 
-import { NetworkStateProvider, ConnectionStatus } from '@providers/network-state/network-state';
-import { DataStoreProvider } from '@providers/data-store/data-store';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogsProvider } from '@providers/logs/logs';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -18,6 +14,7 @@ import { Log } from '@shared/models/log.model';
 import { DateTime } from '@shared/helpers/date-time';
 
 import * as logsActions from './logs.actions';
+import { StopLogPolling } from './logs.actions';
 import { getLogsState } from './logs.reducer';
 
 type LogCache = {
@@ -27,6 +24,9 @@ type LogCache = {
 
 @Injectable()
 export class LogsEffects {
+  // every 1 minute
+  private static readonly fallBackInterval = 60000;
+
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
@@ -35,13 +35,15 @@ export class LogsEffects {
     private dataStore: DataStoreProvider,
     private networkStateProvider: NetworkStateProvider,
     private dateTimeProvider: DateTimeProvider,
-  ) { }
+  ) {
+  }
 
   startSendingLogsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.StartSendingLogs.type),
     switchMap(() => {
-      return interval(this.appConfigProvider.getAppConfig().logsAutoSendInterval)
+      return interval(this.appConfigProvider.getAppConfig()?.logsAutoSendInterval || LogsEffects.fallBackInterval)
         .pipe(
+          takeUntil(this.actions$.pipe(ofType(StopLogPolling))),
           map(() => logsActions.SendLogs()),
         );
     }),
@@ -49,13 +51,14 @@ export class LogsEffects {
 
   persistLogEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.PersistLog.type),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getLogsState),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getLogsState),
+          ),
         ),
-      ),
-    )),
+      )),
     switchMap(([, logs]) => {
       this.saveLogs(logs);
       return of({ type: '[LogsEffects] Persist Log Finished' });
@@ -88,13 +91,14 @@ export class LogsEffects {
 
   sendLogsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.SendLogs),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getLogsState),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getLogsState),
+          ),
         ),
-      ),
-    )),
+      )),
     switchMap(([, logs]) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         return of({ type: '[LogsEffects] Connection Status OFFLINE' });
@@ -119,7 +123,7 @@ export class LogsEffects {
     return from(this.getAndConvertPersistedLogs());
   };
 
-  getAndConvertPersistedLogs = (): Promise<Log[]> => this.dataStore.getItem('LOGS')
+  getAndConvertPersistedLogs = (): Promise<Log[]> => this.dataStore.getItem(LocalStorageKey.LOGS)
     .then((data) => {
       const logCache: LogCache = JSON.parse(data);
       const cachedDate = DateTime.at(logCache.dateStored);
@@ -135,10 +139,11 @@ export class LogsEffects {
 
   saveLogs = (logData: Log[]) => {
     const logDataToStore: LogCache = {
-      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+      dateStored: this.dateTimeProvider.now()
+        .format('YYYY/MM/DD'),
       data: logData,
     };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore));
+    this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
   };
 
   isCacheTooOld = (dateStored: DateTime, now: DateTime): boolean => {
@@ -148,10 +153,13 @@ export class LogsEffects {
   emptyCachedData = () => {
     const emptyLogData: Log[] = [];
     const logDataToStore: LogCache = {
-      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+      dateStored: this.dateTimeProvider.now()
+        .format('YYYY/MM/DD'),
       data: emptyLogData,
     };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then(() => { });
+    this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore))
+      .then(() => {
+      });
     return emptyLogData;
   };
 

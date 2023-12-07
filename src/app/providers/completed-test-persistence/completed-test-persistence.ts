@@ -3,7 +3,7 @@ import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { Store } from '@ngrx/store';
 import { LoadCompletedTestsSuccess } from '@store/journal/journal.actions';
 import { StoreModel } from '@shared/models/store.model';
-import { DataStoreProvider } from '../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 
 @Injectable()
 export class CompletedTestPersistenceProvider {
@@ -11,9 +11,10 @@ export class CompletedTestPersistenceProvider {
   constructor(
     private dataStoreProvider: DataStoreProvider,
     private store$: Store<StoreModel>,
-  ) {}
+  ) {
+  }
 
-  private completedTestKeychainKey = 'COMPLETED_TESTS';
+  private completedTestKeychainKey = LocalStorageKey.COMPLETED_TESTS;
 
   async persistCompletedTests(completedTests: SearchResultTestSchema[]): Promise<void> {
     await this.dataStoreProvider.setItem(this.completedTestKeychainKey, JSON.stringify(completedTests));
