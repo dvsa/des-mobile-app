@@ -25,6 +25,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-button (click)="pollStorage()">test Key: {{testKey}}</ion-button>
+  <ion-button (click)="expireTokens()">expire tokens</ion-button>
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>

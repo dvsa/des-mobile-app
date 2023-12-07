@@ -173,9 +173,9 @@ export class AuthenticationProvider {
   async refreshTokenIfExpired(): Promise<void> {
     try {
       const token = await this.ionicAuth.getIdToken();
-      if (token && this.isTokenExpired(token)) {
+      // if (token && this.isTokenExpired(token)) {
         await this.ionicAuth.refreshSession();
-      }
+      // }
     } catch (error) {
       this.logEvent(LogType.ERROR, 'refreshTokenIfExpired error', error);
       throw error;

@@ -14,10 +14,10 @@ export class LogsProvider {
   }
 
   public sendLogs = (logs: Log[]): Observable<Object> => {
-    if (logs.length > 0) {
+    // if (true) {
       const logsServiceUrl = this.urlProvider.getLogsServiceUrl();
       return this.http.post(logsServiceUrl, logs);
-    }
-    return of();
+    // }
+    // return of();
   };
 }

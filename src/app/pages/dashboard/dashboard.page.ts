@@ -137,13 +137,18 @@ export class DashboardPage
     );
   }
 
+  async expireTokens() {
+    await this.authenticationProvider.expireTokens();
+  }
+
   async pollStorage() {
     for (let i = 0; i < 10000; i++) {
       try {
         await this.dataStoreProvider.setItem('testKey', `testKey${i}`);
         this.testKey = await this.dataStoreProvider.getItem('testKey');
       } catch (err) {
-        alert(JSON.stringify(err));
+        console.log(err);
+        // alert(JSON.stringify(err));
       }
     }
   }
