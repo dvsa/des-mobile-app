@@ -158,31 +158,21 @@ describe('TestResultsSearchPage', () => {
       });
     });
 
-    describe('driverNumberChanged', () => {
-      it('should set candidateInfoDriverNumber to the passed parameter', () => {
-        component.driverNumberChanged('test1');
-        expect(component.candidateInfoDriverNumber)
-          .toEqual('test1');
+    describe('candidateInfoChanged', () => {
+      it('should set candidateInfo to the passed parameter', () => {
+        component.candidateInfoChanged('test');
+        expect(component.candidateInfo)
+          .toEqual('test');
       });
     });
 
-    describe('appRefChanged', () => {
-      it('should set candidateInfoAppReference to the passed parameter', () => {
-        component.appRefChanged('test2');
-        expect(component.candidateInfoAppReference)
-          .toEqual('test2');
-      });
-
-
-      describe('showError', () => {
-        it('should display a modal on error', async () => {
-          spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-            present: async () => {
-            },
-          } as HTMLIonModalElement));
-          await component.showError({ status: 500, statusText: 'error', message: 'error' });
-          expect(modalController.create).toHaveBeenCalled();
-        });
+    describe('showError', () => {
+      it('should display a modal on error', async () => {
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+          present: async () => {},
+        } as HTMLIonModalElement));
+        await component.showError({ status: 500, statusText: 'error', message: 'error' });
+        expect(modalController.create).toHaveBeenCalled();
       });
     });
   });
