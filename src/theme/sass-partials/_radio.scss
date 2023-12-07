@@ -17,6 +17,7 @@
     content: '';
     border: 2px solid black;
     border-radius: 100%;
+    box-shadow: inset 0 0 0 30px white;
     min-width: $radio-width;
     height: $radio-height;
     margin-right: 0.6em;

@@ -1,0 +1,63 @@
+<ion-card [class]="darkColours ? ['white-text' , 'navy-card'] : 'mes-black'">
+  <ion-card-header>
+    <ion-card-title>
+      <ion-row>
+        <ion-col>
+          <ion-text class="des-header-style-4 fault-heading">{{cardTitle}}</ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div *ngIf="getTotal(passedData)">
+      <ion-row>
+        <ion-col class="ion-justify-content-center display-flex">
+          <chart
+            [chartId]="chartID"
+            [splitLabel]="splitChartLabel"
+            [isPortrait]="isPortrait"
+            [chartType]="chartType"
+            [colors]="colourScheme"
+            [transformOptions]="chartTransform"
+            [averageColour]="averageColour"
+            [strokeColour]="strokeColour"
+            [labelColour]="labelColour"
+            [passedData]="passedData">
+          </chart>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="chartType === 'bar'">
+        <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
+          <div [style.border-top-color]="averageColour" class="dashed-line"></div>
+        </ion-col>
+        <ion-col>
+          <ion-text class="mes-data">Average</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-padding-top" *ngIf="showData">
+        <ion-col class="ion-no-padding">
+          <data-grid
+            [headers]="gridHeaders"
+            [colourScheme]="colourScheme"
+            [displayColour]="displayColoursOnDataGrid"
+            [passedData]="filterDataForGrid(passedData)">
+          </data-grid>
+          <div>
+            <ion-row class="ion-padding-top mes-row-separator"></ion-row>
+            <ion-row class="ion-padding-top display-flex ion-justify-content-center">
+              <ion-col class="display-flex ion-justify-content-center">
+                <span class="mes-data"><label>Total:</label> {{getTotal(passedData)}}</span>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="showCustomContent" class="display-flex direction-column ion-padding-top">
+        <ng-content></ng-content>
+      </ion-row>
+    </div>
+    <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(passedData)">
+      <ion-text class="des-header-style-3">No data to display</ion-text>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

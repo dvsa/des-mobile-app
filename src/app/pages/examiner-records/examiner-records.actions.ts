@@ -27,9 +27,9 @@ export const ColourFilterChanged = createAction(
   (colour: ColourEnum) => ({ colour }),
 );
 
-export const HideChartsChanged = createAction(
-  '[ExaminerRecordsPage] Hide charts changed',
-  (hideChart: boolean) => ({ hideChart }),
+export const ShowDataChanged = createAction(
+  '[ExaminerRecordsPage] Show data grids changed',
+  (showData: boolean) => ({ hideChart: showData }),
 );
 export const AccordionChanged = createAction(
   '[ExaminerRecordsPage] Accordion toggled',
