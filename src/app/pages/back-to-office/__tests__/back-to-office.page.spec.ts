@@ -71,8 +71,12 @@ describe('BackToOfficePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async () => {
-        spyOn(ScreenOrientation, 'unlock');
-        spyOn(Insomnia, 'allowSleep');
+        spyOn(ScreenOrientation, 'unlock')
+          .and
+          .returnValue(Promise.resolve());
+        spyOn(Insomnia, 'allowSleep')
+          .and
+          .returnValue(Promise.resolve());
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode)
           .not
