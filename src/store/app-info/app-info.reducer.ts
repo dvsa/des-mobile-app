@@ -13,7 +13,7 @@ import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 import {
   ColourFilterChanged,
   DateRangeChanged,
-  HideChartsChanged,
+  ShowDataChanged,
   LocationChanged, TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 
@@ -25,7 +25,7 @@ export const initialState: AppInfoStateModel = {
   employeeName: 'Unknown Name',
   updateAvailablePresented: null,
   examinerRecords: {
-    hideCharts: false,
+    showData: false,
     colourScheme: ColourEnum.Default,
     dateFilter: null,
     locationFilter: null,
@@ -87,11 +87,11 @@ export const appInfoReducer = createReducer(
       categoryFilter: testCategory,
     },
   })),
-  on(HideChartsChanged, (state: AppInfoStateModel, { hideChart }) => ({
+  on(ShowDataChanged, (state: AppInfoStateModel, { hideChart: showData }) => ({
     ...state,
     examinerRecords: {
       ...state.examinerRecords,
-      hideCharts: hideChart,
+      showData: showData,
     },
   })),
 );
