@@ -108,15 +108,20 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     this.store$.dispatch(BackToOfficeViewDidEnter());
     this.store$.dispatch(ClearVehicleData());
 
-    this.singleAppModeEnabled = (super.isIos())
-      ? await this.deviceProvider.isSAMEnabled()
-      : false;
-
     if (super.isIos()) {
-      await ScreenOrientation.unlock()
-        .catch((err) => this.reportLog('ScreenOrientation.unlock', err));
-      await Insomnia.allowSleep()
-        .catch((err) => this.reportLog('Insomnia.allowSleep', err));
+      try {
+        await this.deviceProvider.disableSingleAppMode();
+
+        this.singleAppModeEnabled = await this.deviceProvider.isSAMEnabled();
+
+        if (!this.singleAppModeEnabled) {
+          await ScreenOrientation.unlock();
+          await Insomnia.allowSleep();
+        }
+
+      } catch (err) {
+        this.reportLog('ionViewDidEnter', err);
+      }
     }
   }
 

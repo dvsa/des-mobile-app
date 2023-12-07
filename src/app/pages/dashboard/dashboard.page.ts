@@ -48,6 +48,9 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { LogHelper } from '@providers/logs/logs-helper';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -84,6 +87,7 @@ export class DashboardPage extends BasePageComponent {
     public deviceProvider: DeviceProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
+    private logHelper: LogHelper,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
     router: Router,
@@ -142,9 +146,19 @@ export class DashboardPage extends BasePageComponent {
     this.store$.dispatch(journalActions.LoadJournalSilent());
 
     if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
+      try {
+        await this.deviceProvider.disableSingleAppMode();
+
+        const isEnabled = await this.deviceProvider.isSAMEnabled();
+
+        if (!isEnabled) {
+          await ScreenOrientation.unlock();
+          await Insomnia.allowSleep();
+        }
+
+      } catch (err) {
+        this.reportLog('ionViewDidEnter', err);
+      }
     }
 
     if (this.merged$) {
@@ -186,6 +200,16 @@ export class DashboardPage extends BasePageComponent {
 
   practiceTestReportCardClicked = (): void => {
     this.store$.dispatch(PracticeTestReportCard());
+  };
+
+  private reportLog = (method: string, error: unknown) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.ERROR,
+        `DashboardPage ${method}`,
+        JSON.stringify(error),
+      ),
+    }));
   };
 
   async showUpdateAvailableModal(manualClick: boolean = false): Promise<void> {

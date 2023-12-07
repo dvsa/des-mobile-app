@@ -37,6 +37,9 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { LogHelper } from '@providers/logs/logs-helper';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -84,6 +87,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private deviceProvider: DeviceProvider,
     public loadingProvider: LoadingProvider,
     public appConfigProvider: AppConfigProvider,
+    public logHelper: LogHelper,
   ) {
     super(platform, authenticationProvider, router);
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
@@ -179,9 +183,19 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
 
     if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
+      try {
+        await this.deviceProvider.disableSingleAppMode();
+
+        const isEnabled = await this.deviceProvider.isSAMEnabled();
+
+        if (!isEnabled) {
+          await ScreenOrientation.unlock();
+          await Insomnia.allowSleep();
+        }
+
+      } catch (err) {
+        this.reportLog('ionViewDidEnter', err);
+      }
     }
   }
 
@@ -250,4 +264,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
+
+  // @TODO: Migrate to the Base Page so all pages have access to this, extend to pass in page name as a param
+  private reportLog = (method: string, error: unknown) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.ERROR,
+        `JournalPage ${method}`,
+        JSON.stringify(error),
+      ),
+    }));
+  };
 }
