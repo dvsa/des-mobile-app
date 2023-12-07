@@ -1,0 +1,23 @@
+.dashed-line {
+  border: none;
+  border-top: 5px dashed;
+  color: #fff;
+  background-color: transparent;
+  height: 1px;
+  width: 40px;
+}
+
+.navy-card {
+  background-color: #243673;
+}
+
+.direction-column {
+  flex-direction: column;
+}
+
+.white-text {
+  color: white !important;
+  & ion-text, label, span, p {
+    color: white !important;
+  }
+}

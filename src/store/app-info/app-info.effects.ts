@@ -30,7 +30,7 @@ import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 import {
   ColourFilterChanged,
   DateRangeChanged,
-  HideChartsChanged,
+  ShowDataChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -116,7 +116,7 @@ export class AppInfoEffects {
   persistExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
     ofType(
       ColourFilterChanged,
-      HideChartsChanged,
+      ShowDataChanged,
       TestCategoryChanged,
       DateRangeChanged,
       LocationChanged,
@@ -149,7 +149,7 @@ export class AppInfoEffects {
 
       return [
         (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
-        (!!hideCharts) ? HideChartsChanged(hideCharts) : null,
+        (!!hideCharts) ? ShowDataChanged(hideCharts) : null,
         (!!dateFilter) ? DateRangeChanged(dateFilter) : null,
         (!!locationFilter) ? LocationChanged(locationFilter) : null,
         (!!categoryFilter) ? TestCategoryChanged(categoryFilter) : null,

@@ -9,7 +9,7 @@ export type AppInfoStateModel = {
   dateConfigLoaded?: string;
   updateAvailablePresented: boolean;
   examinerRecords: {
-    hideCharts: boolean;
+    showData: boolean;
     colourScheme: ColourEnum;
     dateFilter: SelectableDateRange;
     locationFilter: number;

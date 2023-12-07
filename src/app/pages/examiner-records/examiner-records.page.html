@@ -5,6 +5,7 @@
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="{
@@ -22,7 +23,7 @@
 } as data">
 
   <ion-row class="ion-padding">
-    <ion-col size="48">
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>
         <label>Location</label>
       </ion-row>
@@ -42,11 +43,12 @@
         </ion-select>
         <ion-text
           *ngIf="(pageState.locationList$ | async).length == 0"
-          class="mes-data">No locations available</ion-text>
+          class="mes-data">No locations available
+        </ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
-    <ion-col size="20">
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 23 : 20">
       <ion-row>
         <label>Test category</label>
       </ion-row>
@@ -66,7 +68,8 @@
         </ion-select>
         <ion-text
           *ngIf="(pageState.categoryList$ | async).length == 0"
-          class="mes-data">No categories available</ion-text>
+          class="mes-data">No categories available
+        </ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -89,14 +92,15 @@
     </ion-col>
   </ion-row>
   <ion-row class="mes-padding-left">
-    <ion-col size="64">
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 59 : 64">
       <colour-filter-radio
         [formGroup]="form"
         [colourScheme]="colourOption"
         (filterChange)="colourFilterChanged($event)">
       </colour-filter-radio>
     </ion-col>
-    <ion-col class="ion-align-items-center display-flex" size="23">
+    <ion-col class="ion-align-items-center display-flex"
+             [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 28 : 23">
       <label>Show data tables</label>
     </ion-col>
     <ion-col size="7" class="display-flex ion-align-items-center">
@@ -115,547 +119,198 @@
 
     <ion-row class="ion-justify-content-center display-flex">
 
-      <ion-col class="ion-no-padding" size="auto">
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.routeGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Test routes completed</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.routeGrid)">
-              <ion-row>
-                <ion-col class="display-flex">
-                  <chart
-                    [chartId]="'routeNum'"
-                    [splitLabel]="false"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'bar'"
-                    [colors]="colourSelect('bar')"
-                    [averageColour]="averageSelect()"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'bar')"
-                    [passedData]="data.routeGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
-                  <div [style.border-top-color]="averageSelect()" class="dashed-line"></div>
-                </ion-col>
-                <ion-col>
-                  <ion-text class="mes-data">Average</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Route', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('bar')"
-                    [displayColour]="(colourSelect('bar') !== colours.monochrome.bar &&
-                colourSelect('bar') !== colours.default.bar)"
-                    [passedData]="filterDataForGrid(data.routeGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.routeGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.routeGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
+      <ion-col *ngIf="data.routeGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [cardTitle]="'Test routes completed'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Route', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartID]="'testRoutes'"
+          [splitChartLabel]="false"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.routeGrid">
+        </examiner-reports-card>
       </ion-col>
-      <ion-col class="ion-no-padding" size="48">
-
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.independentDrivingGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Independent driving</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.independentDrivingGrid)">
-              <ion-row>
-                <ion-col class="ion-justify-content-center display-flex">
-                  <chart
-                    [chartId]="'independentDriving'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'pie'"
-                    [colors]="colourSelect('pie')"
-                    [averageColour]="averageSelect()"
-                    [transformOptions]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'pie')"
-                    [passedData]="data.independentDrivingGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Question', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('pie')"
-                    [passedData]="filterDataForGrid(data.independentDrivingGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.independentDrivingGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.independentDrivingGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
+      <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [cardTitle]="'Independent driving'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Type', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="true"
+          [showData]="showData"
+          [chartID]="'independentDriving'"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.independentDrivingGrid">
+        </examiner-reports-card>
 
       </ion-col>
-      <ion-col class="ion-no-padding" size="48">
-
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.emergencyStops && showEmergencyStop()">
-          <ion-card-header>
-            <ion-row>
-              <ion-col>
-                <ion-text class="des-header-style-4 fault-heading">Emergency stops</ion-text>
-              </ion-col>
-            </ion-row>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-row>
-              <ion-col [class.ion-no-padding]="showData" class="display-flex ion-justify-content-center">
-                <chart
-                  [chartId]="'emergencyStop'"
-                  [splitLabel]="false"
-                  [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                  [chartType]="globalChartType ? globalChartType : 'pie'"
-                  [colors]="colourSelect('pie')"
-                  [averageColour]="averageSelect()"
-                  [transformOptions]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-                  [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                  [labelColour]="getLabelColour(colourSelect(), 'pie')"
-                  [passedData]="data.emergencyStops">
-                </chart>
-              </ion-col>
-            </ion-row>
-            <data-row *ngIf="showData"
-                      [labelStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                      [dataStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                      [value]="data.emergencyStops[0].count"
-                      [centreData]="true"
-                      label="Emergency stop total">
-            </data-row>
-            <data-row *ngIf="showData"
-                      [labelStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                      [dataStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                      [shouldHaveSeperator]="false"
-                      [centreData]="true"
-                      [value]="data.emergencyStops[0].percentage"
-                      label="Emergency stop (%)">
-            </data-row>
-          </ion-card-content>
-        </ion-card>
+      <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [cardTitle]="'Emergency stops'"
+          [showCustomContent]="showData"
+          [averageColour]="averageSelect()"
+          [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Type', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="true"
+          [showData]="false"
+          [chartID]="'emergencyStop'"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [splitChartLabel]="false"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.emergencyStops">
+          <data-row
+                    [labelStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
+                    [dataStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
+                    [value]="data.emergencyStops[0].count"
+                    [centreData]="true"
+                    label="Emergency stop total">
+          </data-row>
+          <data-row
+                    [labelStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
+                    [dataStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
+                    [shouldHaveSeperator]="false"
+                    [centreData]="true"
+                    [value]="data.emergencyStops[0].percentage"
+                    label="Emergency stop (%)">
+          </data-row>
+        </examiner-reports-card>
       </ion-col>
-      <ion-col class="ion-no-padding" size="auto">
-
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.manoeuvresGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Manoeuvres completed</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.manoeuvresGrid)">
-              <ion-row>
-                <ion-col class="display-flex">
-                  <chart
-                    [chartId]="'manoeuvresChart'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'bar'"
-                    [colors]="colourSelect('bar')"
-                    [averageColour]="averageSelect()"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'bar')"
-                    [passedData]="data.manoeuvresGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
-                  <div [style.border-top-color]="averageSelect()" class="dashed-line"></div>
-                </ion-col>
-                <ion-col>
-                  <ion-text class="mes-data">Average</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Manoeuvre', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('bar')"
-                    [displayColour]="(colourSelect('bar') !== colours.monochrome.bar &&
-                colourSelect('bar') !== colours.default.bar)"
-                    [passedData]="filterDataForGrid(data.manoeuvresGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.manoeuvresGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.manoeuvresGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-
+      <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [cardTitle]="'Manoeuvres completed'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Manoeuvre', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartID]="'manoeuvresChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.manoeuvresGrid">
+        </examiner-reports-card>
       </ion-col>
-      <ion-col class="ion-no-padding" size="auto">
-
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.showMeQuestionsGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Show me questions asked</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.showMeQuestionsGrid)">
-              <ion-row>
-                <ion-col class="display-flex">
-                  <chart
-                    [chartId]="'showMeChart'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'bar'"
-                    [colors]="colourSelect('bar')"
-                    [averageColour]="averageSelect()"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'bar')"
-                    [passedData]="data.showMeQuestionsGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
-                  <div [style.border-top-color]="averageSelect()" class="dashed-line"></div>
-                </ion-col>
-                <ion-col>
-                  <ion-text class="mes-data">Average</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Question', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('bar')"
-                    [displayColour]="(colourSelect('bar') !== colours.monochrome.bar &&
-                colourSelect('bar') !== colours.default.bar)"
-                    [passedData]="filterDataForGrid(data.showMeQuestionsGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.showMeQuestionsGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.showMeQuestionsGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
+      <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [cardTitle]="'Show me questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartID]="'showMeChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.showMeQuestionsGrid">
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.tellMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [cardTitle]="'Tell me questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartID]="'tellMeChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.tellMeQuestionsGrid">
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.balanceGrid?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [cardTitle]="'Balance questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'balanceChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.balanceGrid">
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.safetyGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [cardTitle]="'Safety questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', 'Percentage of total']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartID]="'safetyChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.safetyGrid">
+        </examiner-reports-card>
 
       </ion-col>
-      <ion-col class="ion-no-padding" size="auto">
-
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.tellMeQuestionsGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Tell me questions asked</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.showMeQuestionsGrid)">
-              <ion-row>
-                <ion-col class="display-flex">
-                  <chart
-                    [chartId]="'tellMeChart'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'bar'"
-                    [colors]="colourSelect('bar')"
-                    [averageColour]="averageSelect()"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'bar')"
-                    [passedData]="data.tellMeQuestionsGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
-                  <div [style.border-top-color]="averageSelect()" class="dashed-line"></div>
-                </ion-col>
-                <ion-col>
-                  <ion-text class="mes-data">Average</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Question', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('bar')"
-                    [displayColour]="(colourSelect('bar') !== colours.monochrome.bar &&
-                colourSelect('bar') !== colours.default.bar)"
-                    [passedData]="filterDataForGrid(data.tellMeQuestionsGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.tellMeQuestionsGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.showMeQuestionsGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-
-      </ion-col>
-      <ion-col class="ion-no-padding" size="auto">
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.balanceGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Balance questions asked</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.balanceGrid)">
-              <ion-row>
-                <ion-col class="ion-justify-content-center display-flex">
-                  <chart
-                    [chartId]="'balanceChart'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'pie'"
-                    [colors]="colourSelect('pie')"
-                    [transformOptions]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-                    [averageColour]="averageSelect()"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'pie')"
-                    [passedData]="data.balanceGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Question', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('pie')"
-                    [passedData]="filterDataForGrid(data.balanceGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.balanceGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.balanceGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col class="ion-no-padding" size="auto">
-
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.safetyGrid?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Safety questions asked</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.safetyGrid)">
-              <ion-row>
-                <ion-col class="ion-justify-content-center display-flex">
-                  <chart
-                    [chartId]="'safetyChart'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'bar'"
-                    [colors]="colourSelect('bar')"
-                    [averageColour]="averageSelect()"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'bar')"
-                    [passedData]="data.safetyGrid">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
-                  <div [style.border-top-color]="averageSelect()" class="dashed-line"></div>
-                </ion-col>
-                <ion-col>
-                  <ion-text class="mes-data">Average</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Question', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('bar')"
-                    [displayColour]="(colourSelect('bar') !== colours.monochrome.bar &&
-                colourSelect('bar') !== colours.default.bar)"
-                    [passedData]="filterDataForGrid(data.safetyGrid)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.safetyGrid)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.safetyGrid)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-
-      </ion-col>
-      <ion-col class="ion-no-padding" size="auto">
-        <ion-card [class]="colourSelect() === colours.navy.colours ? ['white-text' , 'navy-card'] : 'mes-black'"
-                  *ngIf="data.circuits?.length">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-row>
-                <ion-col>
-                  <ion-text class="des-header-style-4 fault-heading">Circuits</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div *ngIf="getTotal(data.circuits)">
-              <ion-row>
-                <ion-col class="ion-justify-content-center display-flex">
-                  <chart
-                    [chartId]="'circuit'"
-                    [splitLabel]="true"
-                    [isPortrait]="orientationProvider.isPortraitMode$ | async"
-                    [chartType]="globalChartType ? globalChartType : 'pie'"
-                    [colors]="colourSelect('pie')"
-                    [averageColour]="averageSelect()"
-                    [transformOptions]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-                    [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
-                    [labelColour]="getLabelColour(colourSelect(), 'pie')"
-                    [passedData]="data.circuits">
-                  </chart>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="showData">
-                <ion-col class="ion-no-padding">
-                  <data-grid
-                    [headers]="['Circuit', 'Amount', 'Percentage of total']"
-                    [colourScheme]="colourSelect('pie')"
-                    [passedData]="filterDataForGrid(data.circuits)">
-                  </data-grid>
-                  <div>
-                    <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-                    <ion-row class="ion-padding-top display-flex ion-justify-content-center">
-                      <ion-col class="display-flex ion-justify-content-center">
-                        <span class="mes-data"><label>Total:</label> {{getTotal(data.circuits)}}</span>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </div>
-            <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(data.circuits)">
-              <ion-text class="des-header-style-3">No data to display</ion-text>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
+      <ion-col *ngIf="data.circuits?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [cardTitle]="'Circuits'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Circuit', 'Amount', 'total %']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [showData]="showData"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'circuit'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.circuits">
+        </examiner-reports-card>
       </ion-col>
     </ion-row>
   </div>
 
   <div class="text-align-center
-  padding-top-22
   ion-justify-content-center
   ion-align-items-center
   display-flex
+  height-65-percent
   direction-column"
        *ngIf="(pageState.categoryList$ | async).length === 0 ||
        (pageState.locationList$ | async).length === 0">
@@ -664,16 +319,19 @@
         No driving test data available.<br>Try again when more tests have been completed.
       </ion-text>
     </ion-row>
-    <ion-row class="padding-top">
-      <ion-col class="ion-no-padding ion-text-left">
-        <ion-button
-          id="dlg-return-to-dashboard-btn"
-          class="mes-primary-button"
-          (click)="goToDashboard()">
-          <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
-        </ion-button>
-      </ion-col>
-    </ion-row>
   </div>
 
 </ion-content>
+
+<ion-footer class="footer-styling">
+  <ion-row class="ion-padding-top mes-full-width-card-half-padding box-shadow">
+    <ion-col class="ion-text-center">
+      <ion-button
+        id="dlg-return-to-dashboard-btn"
+        class="mes-primary-button width-80-percent"
+        (click)="goToDashboard()">
+        <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
