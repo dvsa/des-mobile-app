@@ -48,6 +48,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { OrientationType } from '../../../../ios/App/App/public/assets/mock/@capawesome/capacitor-screen-orientation';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -94,6 +95,35 @@ export class DashboardPage extends BasePageComponent {
       .format('dddd Do MMMM YYYY');
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
       .format('YYYY-MM-DD')));
+  }
+
+  async toggleASAM() {
+    const isEnabled = await this.deviceProvider.isSAMEnabled();
+    await this.deviceProvider.setSingleAppMode(!isEnabled);
+  }
+
+  async setPortrait() {
+    await ScreenOrientation.lock({
+      type: OrientationType.PORTRAIT,
+    });
+  }
+
+  async setLandscape() {
+    await ScreenOrientation.lock({
+      type: OrientationType.LANDSCAPE,
+    });
+  }
+
+  async unlockOrientation() {
+    await ScreenOrientation.unlock();
+  }
+
+  async keepAwake() {
+    await Insomnia.keepAwake();
+  }
+
+  async allowSleep() {
+    await Insomnia.allowSleep();
   }
 
   ngOnInit() {

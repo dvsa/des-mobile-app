@@ -24,6 +24,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-button (click)="toggleASAM()">Toggle ASAM</ion-button>
+  <ion-button (click)="setLandscape()">Set Landscape</ion-button>
+  <ion-button (click)="setPortrait()">Set Portrait</ion-button>
+  <ion-button (click)="keepAwake()">Keep Awake</ion-button>
+  <ion-button (click)="allowSleep()">Allow Sleep</ion-button>
+  <ion-button (click)="unlockOrientation()">Unlock Orientation</ion-button>
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
