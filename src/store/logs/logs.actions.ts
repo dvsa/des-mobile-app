@@ -32,6 +32,10 @@ export const LoadLog = createAction(
   '[GLOBAL] Load Logs',
 );
 
+export const StopLogPolling = createAction(
+  '[LogsEffects] Stop Log Polling',
+);
+
 export const LoadLogState = createAction(
   '[GLOBAL] Load Log State',
   props<{ payload: Log[] }>(),
