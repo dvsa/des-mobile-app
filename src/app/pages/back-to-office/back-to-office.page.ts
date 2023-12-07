@@ -31,6 +31,9 @@ import { DeviceProvider } from '@providers/device/device';
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -65,6 +68,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public routeByCategoryProvider: RouteByCategoryProvider,
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
+    public logHelper: LogHelper,
   ) {
     super(platform, authenticationProvider, router, store$, false);
   }
@@ -109,8 +113,10 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       : false;
 
     if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
+      await ScreenOrientation.unlock()
+        .catch((err) => this.reportLog('ScreenOrientation.unlock', err));
+      await Insomnia.allowSleep()
+        .catch((err) => this.reportLog('Insomnia.allowSleep', err));
     }
   }
 
@@ -173,6 +179,16 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   async goToOfficePage() {
     await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
+
+  private reportLog = (method: string, error: unknown) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.ERROR,
+        `BackToOfficePage ${method}`,
+        JSON.stringify(error),
+      ),
+    }));
+  };
 
   private destroyTestSubs = (): void => {
     // At this point in a test, you can not go back at all in the journey - therefore shutdown any subscriptions

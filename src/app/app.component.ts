@@ -31,6 +31,9 @@ import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-t
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
+import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
+import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -172,12 +175,18 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   onAppResumed = async (): Promise<void> => {
-    this.store$.dispatch(AppResumed());
     await this.accessibilityService.afterAppResume();
+    this.store$.dispatch(AppResumed());
+    this.store$.dispatch(SetupPolling());
+    this.store$.dispatch(StartSendingLogs());
+    this.store$.dispatch(StartSendingCompletedTests());
   };
 
   onAppSuspended = (): void => {
     this.store$.dispatch(AppSuspended());
+    this.store$.dispatch(StopPolling());
+    this.store$.dispatch(StopLogPolling());
+    this.store$.dispatch(StopSendingCompletedTests());
   };
 
   configureStatusBar = async (): Promise<void> => {
