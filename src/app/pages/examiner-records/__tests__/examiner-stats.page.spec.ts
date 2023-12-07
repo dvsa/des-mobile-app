@@ -8,7 +8,7 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
-  HideChartsChanged,
+  ShowDataChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -369,14 +369,14 @@ describe('ExaminerStatsPage', () => {
       component.showData = false;
 
       component.toggleData();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ShowDataChanged(true));
     });
     it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
       spyOn(component.store$, 'dispatch');
       component.showData = true;
 
       component.toggleData();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ShowDataChanged(false));
     });
   });
 

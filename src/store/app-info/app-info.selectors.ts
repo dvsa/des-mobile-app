@@ -45,7 +45,7 @@ export const selectColourScheme = createSelector(
 export const selectHideCharts = createSelector(
   selectAppInfo,
   selectExaminerRecords,
-  (_, examinerRecords): boolean => examinerRecords.hideCharts,
+  (_, examinerRecords): boolean => examinerRecords.showData,
 );
 export const selectDateFilter = createSelector(
   selectAppInfo,

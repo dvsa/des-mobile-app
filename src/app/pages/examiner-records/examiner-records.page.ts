@@ -11,7 +11,7 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
-  HideChartsChanged,
+  ShowDataChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -45,6 +45,7 @@ import {
 } from '@store/app-info/app-info.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock2';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -77,6 +78,8 @@ export interface SelectableDateRange {
   val: DateRange;
 }
 
+export interface StaticColourScheme { colours: string[], average: string }
+export interface VariableColourScheme { bar: string[], pie: string[], average: string }
 @Component({
   selector: 'examiner-records',
   templateUrl: './examiner-records.page.html',
@@ -96,10 +99,10 @@ export class ExaminerRecordsPage implements OnInit {
   showData = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
   colours: {
-    default: { bar: string[], pie: string[], average: string },
-    monochrome: { bar: string[], pie: string[], average: string },
-    navy: { colours: string[], average: string },
-    amethyst: { colours: string[], average: string },
+    default: VariableColourScheme,
+    monochrome: VariableColourScheme,
+    navy: StaticColourScheme,
+    amethyst: StaticColourScheme,
   } = {
     default: {
       pie: [
@@ -145,7 +148,6 @@ export class ExaminerRecordsPage implements OnInit {
   };
   categoryPlaceholder: string;
   locationPlaceholder: string;
-  globalChartType: ChartType;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
   dateFilterOptions: SelectableDateRange[] = [
@@ -177,6 +179,7 @@ export class ExaminerRecordsPage implements OnInit {
     public store$: Store<StoreModel>,
     public router: Router,
     public orientationProvider: OrientationMonitorProvider,
+    public accessibilityService: AccessibilityService,
   ) {
   }
 
@@ -386,7 +389,7 @@ export class ExaminerRecordsPage implements OnInit {
 
   toggleData(): void {
     this.showData = !this.showData;
-    this.store$.dispatch(HideChartsChanged(this.showData));
+    this.store$.dispatch(ShowDataChanged(this.showData));
   }
 
   colourSelect(chartType?: ChartType): string[] {
@@ -401,6 +404,19 @@ export class ExaminerRecordsPage implements OnInit {
         return this.colours.navy.colours;
       default:
         return this.colours.default[charType];
+    }
+  }
+
+  getColour(): { bar: string[], pie: string[], average: string } | { colours: string[], average: string } {
+    switch (this.colourOption) {
+      case ColourEnum.Monochrome:
+        return this.colours.monochrome;
+      case ColourEnum.Amethyst:
+        return this.colours.amethyst;
+      case ColourEnum.Navy:
+        return this.colours.navy;
+      default:
+        return this.colours.default;
     }
   }
 
@@ -428,8 +444,8 @@ export class ExaminerRecordsPage implements OnInit {
     value: ExaminerRecordData<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
-  getLabelColour(value: string[], type: DESChartTypes) {
-    if (value === this.colours.navy.colours) {
+  getLabelColour(value: VariableColourScheme | StaticColourScheme, type: DESChartTypes) {
+    if (value === this.colours.navy) {
       return (type === 'bar') ? ExaminerRecordsPage.WHITE : ExaminerRecordsPage.BLACK;
     }
     return ExaminerRecordsPage.BLACK;
