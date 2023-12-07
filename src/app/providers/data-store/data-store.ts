@@ -54,17 +54,12 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async getKeys(): Promise<string[]> {
-    if (!this.isIos()) {
-      return Promise.resolve(['']);
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'getKeys', 'No container found', LogType.ERROR);
-      return Promise.resolve(['']);
-    }
-
     try {
+      if (!this.isIos()) return [''];
+
+      // create container if context is lost
+      if (!this.secureContainer) await this.createContainer();
+
       return await this.secureContainer.keys();
     } catch (err) {
       this.reportLog('getting keys', '', err);
@@ -80,17 +75,12 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async setItem(key: string, value: any): Promise<string> {
-    if (!this.isIos()) {
-      return Promise.resolve('');
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'setItem', 'No container found', LogType.ERROR);
-      return Promise.resolve('');
-    }
-
     try {
+      if (!this.isIos()) return '';
+
+      // create container if context is lost
+      if (!this.secureContainer) await this.createContainer();
+
       return await this.secureContainer.set(key, value);
     } catch (err) {
       this.reportLog('setting', key, err);
@@ -103,17 +93,12 @@ export class DataStoreProvider {
    * @param key - identifier
    */
   async getItem(key: string): Promise<string> {
-    if (!this.isIos()) {
-      return Promise.resolve('');
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'getItem', 'No container found', LogType.ERROR);
-      return Promise.resolve('');
-    }
-
     try {
+      if (!this.isIos()) return '';
+
+      // create container if context is lost
+      if (!this.secureContainer) await this.createContainer();
+
       return await this.secureContainer.get(key);
     } catch (err) {
       this.reportLog('getting', key, err);
@@ -128,17 +113,12 @@ export class DataStoreProvider {
    * @returns Promise
    */
   async removeItem(key: string): Promise<string> {
-    if (!this.isIos()) {
-      return Promise.resolve('');
-    }
-
-    if (!this.secureContainer) {
-      await this.createContainer();
-      this.reportLog('Checking container', 'removeItem', 'No container found', LogType.ERROR);
-      return Promise.resolve('');
-    }
-
     try {
+      if (!this.isIos()) return '';
+
+      // create container if context is lost
+      if (!this.secureContainer) await this.createContainer();
+
       return await this.secureContainer.remove(key);
     } catch (err) {
       this.reportLog('removing', key, err);
