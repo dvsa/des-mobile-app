@@ -136,7 +136,8 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         .lock({ type: OrientationType.PORTRAIT_PRIMARY })
         .catch((err) => this.reportLog('ScreenOrientation.lock', err));
 
-      await Insomnia.keepAwake()
+      await Insomnia
+        .keepAwake()
         .catch((err) => this.reportLog('Insomnia.keepAwake', err));
 
       if (!this.isEndToEndPracticeMode) {
