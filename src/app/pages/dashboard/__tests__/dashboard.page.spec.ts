@@ -54,6 +54,8 @@ import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -147,6 +149,10 @@ describe('DashboardPage', () => {
           provide: ModalController,
           useClass: ModalControllerMock,
         },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -200,6 +206,12 @@ describe('DashboardPage', () => {
     });
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
+        spyOn(deviceProvider, 'disableSingleAppMode')
+          .and
+          .returnValue(Promise.resolve(true));
+        spyOn(deviceProvider, 'isSAMEnabled')
+          .and
+          .returnValue(Promise.resolve(false));
         spyOn(ScreenOrientation, 'unlock');
         spyOn(Insomnia, 'allowSleep');
       });

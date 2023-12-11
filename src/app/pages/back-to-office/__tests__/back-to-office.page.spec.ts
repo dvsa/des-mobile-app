@@ -23,6 +23,8 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
@@ -72,6 +74,10 @@ describe('BackToOfficePage', () => {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
         },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
       ],
     });
 
@@ -93,6 +99,12 @@ describe('BackToOfficePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async () => {
+        spyOn(deviceProvider, 'disableSingleAppMode')
+          .and
+          .returnValue(Promise.resolve(true));
+        spyOn(deviceProvider, 'isSAMEnabled')
+          .and
+          .returnValue(Promise.resolve(false));
         spyOn(ScreenOrientation, 'unlock')
           .and
           .returnValue(Promise.resolve());
@@ -101,7 +113,6 @@ describe('BackToOfficePage', () => {
           .returnValue(Promise.resolve());
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode)
-          .not
           .toHaveBeenCalled();
         expect(ScreenOrientation.unlock)
           .toHaveBeenCalled();

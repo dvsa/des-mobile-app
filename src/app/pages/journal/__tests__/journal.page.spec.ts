@@ -46,6 +46,8 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -128,6 +130,10 @@ describe('JournalPage', () => {
           provide: AccessibilityService,
           useClass: AccessibilityServiceMock,
         },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
       ],
     });
 
@@ -199,19 +205,25 @@ describe('JournalPage', () => {
           cssClass: 'modal-fullscreen text-zoom-regular',
         });
     });
+  });
 
-    describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions', async () => {
-        spyOn(ScreenOrientation, 'unlock');
-        spyOn(Insomnia, 'allowSleep');
-        await component.ionViewDidEnter();
-        expect(deviceProvider.disableSingleAppMode)
-          .toHaveBeenCalled();
-        expect(ScreenOrientation.unlock)
-          .toHaveBeenCalled();
-        expect(Insomnia.allowSleep)
-          .toHaveBeenCalled();
-      });
+  describe('ionViewDidEnter', () => {
+    it('should disable test inhibitions', async () => {
+      spyOn(ScreenOrientation, 'unlock');
+      spyOn(Insomnia, 'allowSleep');
+      spyOn(deviceProvider, 'disableSingleAppMode')
+        .and
+        .returnValue(Promise.resolve(true));
+      spyOn(deviceProvider, 'isSAMEnabled')
+        .and
+        .returnValue(Promise.resolve(false));
+      await component.ionViewDidEnter();
+      expect(deviceProvider.disableSingleAppMode)
+        .toHaveBeenCalled();
+      expect(ScreenOrientation.unlock)
+        .toHaveBeenCalled();
+      expect(Insomnia.allowSleep)
+        .toHaveBeenCalled();
     });
   });
 
