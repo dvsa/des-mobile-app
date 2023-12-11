@@ -515,7 +515,7 @@ export class DebriefCardComponent implements OnInit {
 
   cropVehicleCheck(drivingFaults: FaultSummary[]) {
     if (this.displayIncorrectText) {
-      return this.drivingFaults.filter(fault => fault.source !== 'vehicleChecks');
+      return drivingFaults.filter(fault => fault.source !== 'vehicleChecks');
     }
     return drivingFaults;
   }
