@@ -110,11 +110,16 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
 
     if (super.isIos()) {
       try {
-        await this.deviceProvider.disableSingleAppMode();
-
+        // check if SAM was enabled before disabling it which would suggest it failed before & needs device restart
         this.singleAppModeEnabled = await this.deviceProvider.isSAMEnabled();
 
-        if (!this.singleAppModeEnabled) {
+        // attempt to disable SAM
+        await this.deviceProvider.disableSingleAppMode();
+
+        // if SAM is now disabled, unlock the screen and allow sleep
+        const isEnabled = await this.deviceProvider.isSAMEnabled();
+
+        if (!isEnabled) {
           await ScreenOrientation.unlock();
           await Insomnia.allowSleep();
         }
