@@ -81,7 +81,7 @@
         [minDrivingFaultCount]="getMinDrivingFaultCount()"
         [isRider]="isRider()"
         [testCategory]="category"
-        [drivingFaults]="drivingFaults"
+        [drivingFaults]="cropVehicleCheck(drivingFaults)"
         [seriousFaults]="seriousFaults"
         [dangerousFaults]="dangerousFaults"
         [drivingFaultCount]="drivingFaultCount">
@@ -95,6 +95,7 @@
 
       <vehicle-checks-data-row
         *ngIf="!delegatedTest && !isMod1() && !isMod2()"
+        [shouldDisplayIncorrect]="displayIncorrectText"
         [label]="'Tell me question(s)'"
         [data]="tellMeQuestions">
       </vehicle-checks-data-row>

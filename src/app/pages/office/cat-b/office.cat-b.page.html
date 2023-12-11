@@ -176,7 +176,7 @@
         *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
         [label]="'Driving faults'"
         badgeLabel="Driving"
-        [faults]="(pageState.drivingFaults$ | async)">
+        [faults]="cropVehicleCheck(pageState.drivingFaults$ | async, pageState.seriousFaults$ | async, pageState.dangerousFaults$ | async)">
       </driving-faults>
     </div>
   </form>

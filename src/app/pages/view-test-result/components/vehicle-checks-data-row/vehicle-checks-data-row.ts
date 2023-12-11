@@ -17,6 +17,9 @@ export class VehicleChecksDataRowComponent {
   @Input()
   shouldHaveSeperator: boolean = true;
 
+  @Input()
+  shouldDisplayIncorrect: boolean = false;
+
   isEmptyVehicleChecks = (data: QuestionResult[] = []) => data.every((question) => question.outcome === undefined);
 
   public shouldShowFault(outcome: QuestionOutcome): boolean {

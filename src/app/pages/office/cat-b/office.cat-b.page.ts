@@ -210,6 +210,15 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     }
   }
 
+  cropVehicleCheck(drivingFaults: FaultSummary[], seriousFaults: FaultSummary[], dangerousFaults: FaultSummary[]) {
+    if (((seriousFaults.filter(fault => fault.source === 'vehicleChecks').length > 0 ||
+          dangerousFaults.filter(fault => fault.source === 'vehicleChecks').length > 0) &&
+        drivingFaults.filter(fault => fault.source === 'vehicleChecks').length > 0)) {
+      return drivingFaults.filter(fault => fault.source !== 'vehicleChecks');
+    }
+    return drivingFaults;
+  }
+
   drivingFaultCommentChanged(drivingFaultComment: FaultSummary) {
     if (drivingFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
