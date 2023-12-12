@@ -146,12 +146,10 @@ export class FaultSummaryProvider {
   }
 
   public shouldShowIncorrect(data: CatBUniqueTypes.TestData): boolean {
-    if ((data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
+    return (data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
         data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
-        && data.vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF) {
-      return true;
-    }
-    return false;
+      && data.vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF;
+
   }
 
   public getSeriousFaultsList(data: object, category: TestCategory): FaultSummary[] {

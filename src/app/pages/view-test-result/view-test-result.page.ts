@@ -113,7 +113,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
         }),
       )
       .subscribe((value: TestResultSchemasUnion) => {
-        console.log(value);
         if (value.category === TestCategory.B) {
           this.displayIncorrectText = this.faultSummaryProvider
             .shouldShowIncorrect(value.testData as CatBUniqueTypes.TestData);
