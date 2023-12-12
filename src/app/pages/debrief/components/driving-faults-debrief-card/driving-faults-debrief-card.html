@@ -1,4 +1,4 @@
-<ion-card id="driving-fault" *ngIf="drivingFaultCount > 0">
+<ion-card id="driving-fault" *ngIf="drivingFaultCount > 0 || drivingFaults?.length > 0">
   <ion-card-title class="title-padding">
     <ion-text id="driving-fault-count" class="des-header-style-1 fault-heading">{{ drivingFaultCount }}</ion-text>
     <ion-text id="driving-fault-title"
