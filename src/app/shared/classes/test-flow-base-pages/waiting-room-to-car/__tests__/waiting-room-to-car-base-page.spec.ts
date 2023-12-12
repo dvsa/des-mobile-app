@@ -1,8 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { AlertControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { ActivatedRouteMock, AlertControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subscription } from 'rxjs';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -59,6 +59,10 @@ import {
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 import { Injector } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
   let router: Router;
@@ -127,6 +131,18 @@ describe('WaitingRoomToCarBasePageComponent', () => {
         {
           provide: AlertController,
           useClass: AlertControllerMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
         FaultCountProvider,
         provideMockStore({ initialState }),

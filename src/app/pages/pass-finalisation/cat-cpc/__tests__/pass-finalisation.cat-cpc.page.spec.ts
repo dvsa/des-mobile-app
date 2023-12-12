@@ -1,10 +1,5 @@
-import {
-  ComponentFixture, TestBed, waitForAsync, fakeAsync, tick,
-} from '@angular/core/testing';
-import {
-  NavControllerMock,
-  PlatformMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
@@ -19,16 +14,14 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import {
   PassCertificateNumberComponent,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
-import {
-  NavController, Platform,
-} from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
@@ -39,7 +32,6 @@ describe('PassFinalisationCatCPCPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatCPCPage>;
   let component: PassFinalisationCatCPCPage;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -58,10 +50,22 @@ describe('PassFinalisationCatCPCPage', () => {
         AppModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavController, useClass: NavControllerMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
         OutcomeBehaviourMapProvider,
       ],
     });
@@ -79,7 +83,8 @@ describe('PassFinalisationCatCPCPage', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
       });
     });
     describe('ionViewWillEnter', () => {
@@ -87,13 +92,15 @@ describe('PassFinalisationCatCPCPage', () => {
         component.merged$ = new Observable<string | boolean>();
         component.ionViewWillEnter();
 
-        expect(component.subscription).toBeDefined();
+        expect(component.subscription)
+          .toBeDefined();
       });
     });
     describe('onSubmit', () => {
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PersistTests());
       });
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
         component.form = new UntypedFormGroup({
@@ -105,8 +112,10 @@ describe('PassFinalisationCatCPCPage', () => {
 
         component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .toHaveBeenCalledWith(PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`));
         expect(store$.dispatch)

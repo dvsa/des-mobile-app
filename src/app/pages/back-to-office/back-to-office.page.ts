@@ -3,7 +3,6 @@ import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { map } from 'rxjs/operators';
 import { merge, Observable, Subscription } from 'rxjs';
 
@@ -14,7 +13,6 @@ import {
   ClearVehicleData,
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
@@ -24,13 +22,9 @@ import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { DeviceProvider } from '@providers/device/device';
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -62,9 +56,7 @@ export class BackToOfficePage
 
   constructor(
     public routeByCategoryProvider: RouteByCategoryProvider,
-    public deviceProvider: DeviceProvider,
     public modalController: ModalController,
-    public logHelper: LogHelper,
     injector: Injector,
   ) {
     super(injector, false);
@@ -109,12 +101,7 @@ export class BackToOfficePage
       ? await this.deviceProvider.isSAMEnabled()
       : false;
 
-    if (super.isIos()) {
-      await ScreenOrientation.unlock()
-        .catch((err) => this.reportLog('ScreenOrientation.unlock', err));
-      await Insomnia.allowSleep()
-        .catch((err) => this.reportLog('Insomnia.allowSleep', err));
-    }
+    await super.unlockDevice();
   }
 
   ionViewDidLeave() {
@@ -176,16 +163,6 @@ export class BackToOfficePage
   async goToOfficePage() {
     await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
-
-  private reportLog = (method: string, error: unknown) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        LogType.ERROR,
-        `BackToOfficePage ${method}`,
-        JSON.stringify(error),
-      ),
-    }));
-  };
 
   private destroyTestSubs = (): void => {
     // At this point in a test, you can not go back at all in the journey - therefore shutdown any subscriptions

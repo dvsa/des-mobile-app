@@ -1,15 +1,13 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
-import { LogHelper } from '@providers/logs/logs-helper';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
-import { StoreModel } from '@shared/models/store.model';
 import { Log, LogType } from '@shared/models/log.model';
 import { ErrorTypes } from '@shared/models/error-message';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -70,8 +68,6 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
     private networkStateProvider: NetworkStateProvider,
-    private store$: Store<StoreModel>,
-    private logHelper: LogHelper,
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
     private appConfig: AppConfigProvider,

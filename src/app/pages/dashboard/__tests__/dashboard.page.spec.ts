@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, ModalController, Platform } from '@ionic/angular';
-import { AlertControllerMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { AlertControllerMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, Subscription } from 'rxjs';
@@ -42,7 +41,6 @@ import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slo
 import { By } from '@angular/platform-browser';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import {
   HasSeenUpdateAvailablePopup,
   LoadAppVersionSuccess,
@@ -54,13 +52,13 @@ import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
   let appConfigProvider: AppConfigProvider;
-  let deviceProvider: DeviceProvider;
   let store$: MockStore;
   let modalController: ModalController;
 
@@ -121,7 +119,7 @@ describe('DashboardPage', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
         {
           provide: CompletedTestPersistenceProvider,
@@ -147,6 +145,10 @@ describe('DashboardPage', () => {
           provide: ModalController,
           useClass: ModalControllerMock,
         },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -156,7 +158,6 @@ describe('DashboardPage', () => {
     fixture.detectChanges();
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
-    deviceProvider = TestBed.inject(DeviceProvider);
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
     store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
@@ -200,8 +201,7 @@ describe('DashboardPage', () => {
     });
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
-        spyOn(ScreenOrientation, 'unlock');
-        spyOn(Insomnia, 'allowSleep');
+        spyOn(BasePageComponent.prototype, 'unlockDevice');
       });
       it('should dispatch the actions but not the native features', async () => {
         spyOn(BasePageComponent.prototype, 'isIos')
@@ -210,14 +210,7 @@ describe('DashboardPage', () => {
         await component.ionViewDidEnter();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(DashboardViewDidEnter());
-        expect(ScreenOrientation.unlock)
-          .not
-          .toHaveBeenCalled();
-        expect(Insomnia.allowSleep)
-          .not
-          .toHaveBeenCalled();
-        expect(deviceProvider.disableSingleAppMode)
-          .not
+        expect(BasePageComponent.prototype.unlockDevice)
           .toHaveBeenCalled();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(LoadJournalSilent());
@@ -229,11 +222,7 @@ describe('DashboardPage', () => {
         await component.ionViewDidEnter();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(DashboardViewDidEnter());
-        expect(ScreenOrientation.unlock)
-          .toHaveBeenCalled();
-        expect(Insomnia.allowSleep)
-          .toHaveBeenCalled();
-        expect(deviceProvider.disableSingleAppMode)
+        expect(BasePageComponent.prototype.unlockDevice)
           .toHaveBeenCalled();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(LoadJournalSilent());

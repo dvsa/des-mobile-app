@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
-import { PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -67,7 +67,7 @@ describe('WaitingRoomPage', () => {
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let translate: TranslateService;
   let modalController: ModalController;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+  let router: Router;
 
   const initialState = {
     appInfo: { employeeId: '123456' },
@@ -185,7 +185,7 @@ describe('WaitingRoomPage', () => {
       providers: [
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
         {
           provide: Platform,
@@ -223,6 +223,7 @@ describe('WaitingRoomPage', () => {
     translate.setDefaultLang('en');
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
+    router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
   }));
@@ -436,7 +437,7 @@ describe('WaitingRoomPage', () => {
         formGroup.get('insuranceCheckbox')
           .setValue(true);
         await component.onSubmit();
-        expect(routerSpy.navigate)
+        expect(router.navigate)
           .toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {

@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { ActivatedRouteMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ActivatedRoute, Router } from '@angular/router';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
@@ -18,6 +18,10 @@ import { Injector } from '@angular/core';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('TestReportBasePageComponent', () => {
   let injector: Injector;
@@ -68,6 +72,18 @@ describe('TestReportBasePageComponent', () => {
         {
           provide: TestReportValidatorProvider,
           useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
         provideMockStore({ initialState }),
       ],

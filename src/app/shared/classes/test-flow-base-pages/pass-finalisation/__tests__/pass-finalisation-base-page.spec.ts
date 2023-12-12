@@ -1,8 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { PlatformMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { ActivatedRouteMock, PlatformMock } from '@mocks/index.mock';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
@@ -33,6 +33,10 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('PassFinalisationPageComponent', () => {
   let injector: Injector;
@@ -82,6 +86,18 @@ describe('PassFinalisationPageComponent', () => {
         {
           provide: OutcomeBehaviourMapProvider,
           useClass: OutcomeBehaviourMapProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
         provideMockStore({ initialState }),
       ],

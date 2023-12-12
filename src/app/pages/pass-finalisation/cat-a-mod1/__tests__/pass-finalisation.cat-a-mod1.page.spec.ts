@@ -1,10 +1,5 @@
-import {
-  ComponentFixture, TestBed, waitForAsync, fakeAsync, tick,
-} from '@angular/core/testing';
-import {
-  NavControllerMock,
-  PlatformMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
@@ -17,15 +12,11 @@ import { FinalisationHeaderComponent } from '@components/test-finalisation/final
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import {
-  LicenseProvidedComponent,
-} from '@pages/pass-finalisation/components/license-provided/license-provided';
+import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
 import {
   LicenceProvidedWarningBannerComponent,
 } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
-import {
-  NavController, Platform,
-} from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -33,7 +24,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
@@ -51,7 +42,6 @@ describe('PassFinalisationCatAMod1Page', () => {
   let fixture: ComponentFixture<PassFinalisationCatAMod1Page>;
   let component: PassFinalisationCatAMod1Page;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -75,10 +65,22 @@ describe('PassFinalisationCatAMod1Page', () => {
         AppModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavController, useClass: NavControllerMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
         OutcomeBehaviourMapProvider,
       ],
     });
@@ -96,7 +98,8 @@ describe('PassFinalisationCatAMod1Page', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
       });
     });
 
@@ -106,7 +109,8 @@ describe('PassFinalisationCatAMod1Page', () => {
         component.subscription.closed = true;
         spyOn(store$, 'dispatch');
         component.ionViewWillEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationViewDidEnter());
       });
     });
 
@@ -115,32 +119,37 @@ describe('PassFinalisationCatAMod1Page', () => {
         component.transmission = 'Automatic';
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls['transmissionCtrl'].markAsDirty();
-        expect(component.displayTransmissionBanner()).toEqual(true);
+        expect(component.displayTransmissionBanner())
+          .toEqual(true);
       });
       it('should return false if transmission is not automatic and form is dirty', () => {
         component.transmission = 'Manual';
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls['transmissionCtrl'].markAsDirty();
-        expect(component.displayTransmissionBanner()).toEqual(false);
+        expect(component.displayTransmissionBanner())
+          .toEqual(false);
       });
       it('should return false if transmission is automatic and form is not dirty', () => {
         component.transmission = 'Automatic';
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls['transmissionCtrl'].markAsPristine();
-        expect(component.displayTransmissionBanner()).toEqual(false);
+        expect(component.displayTransmissionBanner())
+          .toEqual(false);
       });
       it('should return false if transmission is not automatic and form is not dirty', () => {
         component.transmission = 'Manual';
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls['transmissionCtrl'].markAsPristine();
-        expect(component.displayTransmissionBanner()).toEqual(false);
+        expect(component.displayTransmissionBanner())
+          .toEqual(false);
       });
     });
 
     describe('onSubmit', () => {
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PersistTests());
       });
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
         component.form = new UntypedFormGroup({
@@ -152,8 +161,10 @@ describe('PassFinalisationCatAMod1Page', () => {
 
         component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .toHaveBeenCalledWith(PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`));
         expect(store$.dispatch)

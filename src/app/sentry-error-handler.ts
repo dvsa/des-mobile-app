@@ -1,6 +1,4 @@
-import {
-  ErrorHandler, Inject, Injectable, Injector,
-} from '@angular/core';
+import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
 import * as Sentry from '@sentry/capacitor';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -52,7 +50,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
       }
 
       const role = this.appConfigProvider.getAppConfig()?.role;
-      const employeeID = this.authenticationProvider.getEmployeeId();
+      const employeeID = await this.authenticationProvider.getEmployeeIdFromIDToken();
       const appVersion = await this.appInfoProvider.getFullVersionNumber();
 
       Sentry.withScope((scope) => {

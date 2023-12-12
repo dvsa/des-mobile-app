@@ -1,8 +1,6 @@
-import {
-  ComponentFixture, waitForAsync, TestBed, fakeAsync, tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -43,7 +41,6 @@ describe('CommunicationPage', () => {
   let component: CommunicationPage;
   let store$: Store<StoreModel>;
   let translate: TranslateService;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -90,11 +87,26 @@ describe('CommunicationPage', () => {
         })),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DeviceAuthenticationProvider,
+          useClass: DeviceAuthenticationProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
       ],
     });
 
@@ -147,7 +159,9 @@ describe('CommunicationPage', () => {
 
     describe('dispatchCandidateChoseNewEmail', () => {
       it('should dispatch a CandidateChoseEmailAsCommunicationPreference action', () => {
-        spyOn(component, 'isNewEmailSelected').and.returnValue(true);
+        spyOn(component, 'isNewEmailSelected')
+          .and
+          .returnValue(true);
         component.dispatchCandidateChoseNewEmail(candidateMock.emailAddress);
         expect(store$.dispatch)
           .toHaveBeenCalledWith(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
@@ -217,14 +231,16 @@ describe('CommunicationPage', () => {
     it('should dispatch ValidPassCertChanged with passed value', () => {
       spyOn(component.store$, 'dispatch');
       component.validCertificateChanged(true);
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ValidPassCertChanged(true));
+      expect(component.store$.dispatch)
+        .toHaveBeenCalledWith(ValidPassCertChanged(true));
     });
   });
 
   describe('ionViewDidEnter', () => {
     it('should dispatch an action', () => {
       component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(CommunicationViewDidEnter());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(CommunicationViewDidEnter());
     });
   });
 
@@ -233,46 +249,53 @@ describe('CommunicationPage', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 
   describe('shouldPreselectADefaultValue', () => {
     it('should return true if communicationType is equal to CommunicationPage.notProvided', () => {
       component.communicationType = CommunicationPage.notProvided;
-      expect(component.shouldPreselectADefaultValue()).toEqual(true);
+      expect(component.shouldPreselectADefaultValue())
+        .toEqual(true);
     });
     it('should return false if communicationType '
-        + 'is not equal to CommunicationPage.notProvided', () => {
+      + 'is not equal to CommunicationPage.notProvided', () => {
       component.communicationType = CommunicationPage.email;
-      expect(component.shouldPreselectADefaultValue()).toEqual(false);
+      expect(component.shouldPreselectADefaultValue())
+        .toEqual(false);
     });
   });
 
   describe('restoreRadioValidators', () => {
     it('should set radioCtrl to true', () => {
       component.restoreRadioValidators();
-      expect(component.form.controls['radioCtrl'].value).toEqual(true);
+      expect(component.form.controls['radioCtrl'].value)
+        .toEqual(true);
     });
   });
 
   describe('initialiseDefaultSelections', () => {
     it('should set communicationType to CommunicationPage.email', () => {
       component.initialiseDefaultSelections();
-      expect(component.communicationType).toEqual(CommunicationPage.email);
+      expect(component.communicationType)
+        .toEqual(CommunicationPage.email);
     });
     it('should set emailType to CommunicationPage.providedEmail '
-        + 'if candidateProvidedEmail is present', () => {
+      + 'if candidateProvidedEmail is present', () => {
       component.candidateProvidedEmail = 'test';
       component.initialiseDefaultSelections();
 
-      expect(component.emailType).toEqual(CommunicationPage.providedEmail);
+      expect(component.emailType)
+        .toEqual(CommunicationPage.providedEmail);
     });
     it('should set radioCtrl to true if candidateProvidedEmail is present', () => {
       component.candidateProvidedEmail = 'test';
       component.initialiseDefaultSelections();
 
-      expect(component.form.controls['radioCtrl'].value).toEqual(true);
+      expect(component.form.controls['radioCtrl'].value)
+        .toEqual(true);
     });
     it('should call dispatchCandidateChoseProvidedEmail if candidateProvidedEmail is present', () => {
       component.candidateProvidedEmail = 'test';
@@ -280,34 +303,40 @@ describe('CommunicationPage', () => {
 
       component.initialiseDefaultSelections();
 
-      expect(component.dispatchCandidateChoseProvidedEmail).toHaveBeenCalled();
+      expect(component.dispatchCandidateChoseProvidedEmail)
+        .toHaveBeenCalled();
     });
   });
 
   describe('assertEmailType', () => {
     it('should set emailType to CommunicationPage.providedEmail if communicationEmail'
-        + 'is equal to candidateProvidedEmail and candidateProvidedEmail is not blank', () => {
+      + 'is equal to candidateProvidedEmail and candidateProvidedEmail is not blank', () => {
       component.candidateProvidedEmail = 'test';
       component.communicationEmail = 'test';
       component.assertEmailType();
-      expect(component.emailType).toEqual(CommunicationPage.providedEmail);
+      expect(component.emailType)
+        .toEqual(CommunicationPage.providedEmail);
     });
     it('should set emailType to CommunicationPage.updatedEmail if communicationEmail'
-        + 'is not equal to candidateProvidedEmail', () => {
+      + 'is not equal to candidateProvidedEmail', () => {
       component.candidateProvidedEmail = 'test1';
       component.communicationEmail = 'test';
       component.assertEmailType();
-      expect(component.emailType).toEqual(CommunicationPage.updatedEmail);
+      expect(component.emailType)
+        .toEqual(CommunicationPage.updatedEmail);
     });
   });
 
   describe('conditionalDispatchCandidateChoseNewEmail', () => {
     it('should call dispatchCandidateChoseNewEmail if isNewEmailSelected is true and '
-        + 'communicationEmail is not empty', () => {
-      spyOn(component, 'isNewEmailSelected').and.returnValue(true);
+      + 'communicationEmail is not empty', () => {
+      spyOn(component, 'isNewEmailSelected')
+        .and
+        .returnValue(true);
       spyOn(component, 'dispatchCandidateChoseNewEmail');
       component.conditionalDispatchCandidateChoseNewEmail();
-      expect(component.dispatchCandidateChoseNewEmail).toHaveBeenCalled();
+      expect(component.dispatchCandidateChoseNewEmail)
+        .toHaveBeenCalled();
     });
   });
 
@@ -316,14 +345,17 @@ describe('CommunicationPage', () => {
       spyOn(component, 'assertEmailType');
       component.communicationType = CommunicationPage.email;
       component.restoreRadiosFromState();
-      expect(component.assertEmailType).toHaveBeenCalled();
+      expect(component.assertEmailType)
+        .toHaveBeenCalled();
     });
     it('should not call assertEmailType if communicationType '
-        + 'is not equal to CommunicationPage.email', () => {
+      + 'is not equal to CommunicationPage.email', () => {
       spyOn(component, 'assertEmailType');
       component.communicationType = CommunicationPage.notProvided;
       component.restoreRadiosFromState();
-      expect(component.assertEmailType).not.toHaveBeenCalled();
+      expect(component.assertEmailType)
+        .not
+        .toHaveBeenCalled();
     });
   });
 

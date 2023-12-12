@@ -8,6 +8,10 @@ export class AuthenticationProviderMock {
     .and
     .returnValue(false);
 
+  getEmployeeIdFromIDToken = jasmine.createSpy('getEmployeeIdFromIDToken')
+    .and
+    .returnValue(Promise.resolve('1234567'));
+
   getAuthenticationToken = jasmine.createSpy('getAuthenticationToken')
     .and
     .returnValue(Promise.resolve('token'));

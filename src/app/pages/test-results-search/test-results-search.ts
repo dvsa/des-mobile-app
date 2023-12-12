@@ -1,5 +1,5 @@
 import { ModalController } from '@ionic/angular';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { Component, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -8,13 +8,11 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { ErrorTypes } from '@shared/models/error-message';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
 import { MesError } from '@shared/models/mes-error.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
-import { LogHelper } from '@providers/logs/logs-helper';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { SaveLog } from '@store/logs/logs.actions';
 import { ErrorPage } from '@pages/error-page/error';
@@ -62,8 +60,6 @@ export class TestResultsSearchPage extends BasePageComponent {
     public modalController: ModalController,
     public searchProvider: SearchProvider,
     private appConfig: AppConfigProvider,
-    private store$: Store<StoreModel>,
-    private logHelper: LogHelper,
     private accessibilityService: AccessibilityService,
     injector: Injector,
   ) {

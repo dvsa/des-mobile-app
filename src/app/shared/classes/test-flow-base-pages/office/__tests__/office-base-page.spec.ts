@@ -1,8 +1,8 @@
 import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { ActivatedRouteMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
@@ -82,6 +82,8 @@ import { OfficeBasePageComponent } from '../office-base-page';
 import { Injector } from '@angular/core';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('OfficeBasePageComponent', () => {
   let injector: Injector;
@@ -166,6 +168,14 @@ describe('OfficeBasePageComponent', () => {
         {
           provide: DeviceProvider,
           useClass: DeviceProviderMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
       ],
     });

@@ -2,8 +2,6 @@ import { Component, Injector } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import * as moment from 'moment';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -20,7 +18,6 @@ export class FakeJournalPage extends BasePageComponent {
   selectedDate: string;
 
   constructor(
-    private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     public orientationMonitorProvider: OrientationMonitorProvider,
     injector: Injector,

@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
-import {
-  FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OverlayEventDetail } from '@ionic/core';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -39,7 +37,8 @@ import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
 import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.constants';
 import {
-  RekeyReasonViewDidEnter, RekeyUploadTest,
+  RekeyReasonViewDidEnter,
+  RekeyUploadTest,
   ResetStaffNumberValidationError,
   ValidateTransferRekey,
 } from '@pages/rekey-reason/rekey-reason.actions';
@@ -61,7 +60,6 @@ describe('RekeyReasonPage', () => {
   let modalController: ModalController;
   let store$: Store<AppInfoStateModel>;
   let router: Router;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -132,13 +130,34 @@ describe('RekeyReasonPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Router, useValue: routerSpy },
-        { provide: LoadingProvider, useClass: LoaderProviderMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: FindUserProvider, useClass: FindUserProviderMock },
-        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: LoadingProvider,
+          useClass: LoaderProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: FindUserProvider,
+          useClass: FindUserProviderMock,
+        },
+        {
+          provide: NavigationStateProvider,
+          useClass: NavigationStateProviderMock,
+        },
         Store,
       ],
     });
@@ -154,89 +173,107 @@ describe('RekeyReasonPage', () => {
 
   describe('Class', () => {
     it('should create', () => {
-      expect(component).toBeDefined();
+      expect(component)
+        .toBeDefined();
     });
     describe('ionViewDidEnter', () => {
       it('should dispatch the did enter action', () => {
         component.ionViewDidEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(RekeyReasonViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(RekeyReasonViewDidEnter());
       });
     });
     describe('ipadIssueSelected', () => {
       it('should dispatch the ipad issue action', () => {
         component.ipadIssueSelected(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(IpadIssueSelected(true));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(IpadIssueSelected(true));
       });
     });
     describe('ipadIssueTechnicalFaultChanged', () => {
       it('should dispatch the ipad tech fault action', () => {
         component.ipadIssueTechnicalFaultChanged();
-        expect(store$.dispatch).toHaveBeenCalledWith(IpadIssueTechFaultSelected());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(IpadIssueTechFaultSelected());
       });
     });
     describe('ipadIssueLostChanged', () => {
       it('should dispatch the ipad lost action', () => {
         component.ipadIssueLostChanged();
-        expect(store$.dispatch).toHaveBeenCalledWith(IpadIssueLostSelected());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(IpadIssueLostSelected());
       });
     });
     describe('ipadIssueStolenChanged', () => {
       it('should dispatch the ipad stolen action', () => {
         component.ipadIssueStolenChanged();
-        expect(store$.dispatch).toHaveBeenCalledWith(IpadIssueStolenSelected());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(IpadIssueStolenSelected());
       });
     });
     describe('ipadIssueBrokenChanged', () => {
       it('should dispatch the ipad broken selected action', () => {
         component.ipadIssueBrokenChanged();
-        expect(store$.dispatch).toHaveBeenCalledWith(IpadIssueBrokenSelected());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(IpadIssueBrokenSelected());
       });
     });
     describe('otherSelected', () => {
       it('should dispatch the other selected action', () => {
         component.otherSelected(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(OtherSelected(true));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(OtherSelected(true));
       });
     });
     describe('otherReasonChanged', () => {
       it('should dispatch the other reason action', () => {
         component.otherReasonChanged('reason');
-        expect(store$.dispatch).toHaveBeenCalledWith(OtherReasonUpdated('reason'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(OtherReasonUpdated('reason'));
       });
     });
     describe('transferSelected', () => {
       it('should dispatch the transfer selected regardless of the value of isChecked', () => {
         component.transferSelected(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(TransferSelected(true));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(TransferSelected(true));
       });
       it('should dispatch the set examiner conducted action only', () => {
         component.transferSelected(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerConducted(null));
-        expect(store$.dispatch).not.toHaveBeenCalledWith(ResetStaffNumberValidationError());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SetExaminerConducted(null));
+        expect(store$.dispatch)
+          .not
+          .toHaveBeenCalledWith(ResetStaffNumberValidationError());
       });
       it('should dispatch the set examiner with the examinerKeyed and the reset action', () => {
         component.transferSelected(false);
-        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerConducted(component.examinerKeyed));
-        expect(store$.dispatch).toHaveBeenCalledWith(ResetStaffNumberValidationError());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SetExaminerConducted(component.examinerKeyed));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(ResetStaffNumberValidationError());
       });
     });
     describe('staffNumberChanged', () => {
       it('should dispatch the reset staff number action when isStaffNumberInvalid is true', () => {
         component.isStaffNumberInvalid = true;
         component.staffNumberChanged(123);
-        expect(store$.dispatch).toHaveBeenCalledWith(ResetStaffNumberValidationError());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(ResetStaffNumberValidationError());
       });
       it('should dispatch the set examiner action when isStaffNumberInvalid is false', () => {
         component.isStaffNumberInvalid = false;
         component.staffNumberChanged(123);
-        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerConducted(123));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SetExaminerConducted(123));
       });
     });
     describe('onExitRekeyPressed', () => {
       it('should call through to showExitRekeyModal', async () => {
         spyOn(component, 'showExitRekeyModal');
         await component.onExitRekeyPressed();
-        expect(component.showExitRekeyModal).toHaveBeenCalled();
+        expect(component.showExitRekeyModal)
+          .toHaveBeenCalled();
       });
     });
     describe('onExitRekeyModalDismiss', () => {
@@ -245,54 +282,71 @@ describe('RekeyReasonPage', () => {
       });
       it('should not call exitRekey when modal event is CANCEL', async () => {
         await component.onExitRekeyModalDismiss(ExitRekeyModalEvent.CANCEL);
-        expect(component.exitRekey).not.toHaveBeenCalled();
+        expect(component.exitRekey)
+          .not
+          .toHaveBeenCalled();
       });
       it('should call exitRekey when modal event is EXIT_REKEY', async () => {
         await component.onExitRekeyModalDismiss(ExitRekeyModalEvent.EXIT_REKEY);
-        expect(component.exitRekey).toHaveBeenCalled();
+        expect(component.exitRekey)
+          .toHaveBeenCalled();
       });
     });
     describe('canClickUploadRekeyTest', () => {
       it('should return true if any of ipadIssue/transfer/other are selected', async () => {
-        expect(component.canClickUploadRekeyTest({ selected: true }, null, null)).toEqual(true);
-        expect(component.canClickUploadRekeyTest(null, { selected: true }, null)).toEqual(true);
-        expect(component.canClickUploadRekeyTest(null, null, { selected: true })).toEqual(true);
-        expect(component.canClickUploadRekeyTest(null, null, null)).toEqual(false);
+        expect(component.canClickUploadRekeyTest({ selected: true }, null, null))
+          .toEqual(true);
+        expect(component.canClickUploadRekeyTest(null, { selected: true }, null))
+          .toEqual(true);
+        expect(component.canClickUploadRekeyTest(null, null, { selected: true }))
+          .toEqual(true);
+        expect(component.canClickUploadRekeyTest(null, null, null))
+          .toEqual(false);
       });
     });
     describe('showExitRekeyModal', () => {
       it('should display an exit rekey modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-          onDidDismiss: () => ({ data: 'cancel' }) as OverlayEventDetail,
-        } as HTMLIonModalElement));
+        spyOn(modalController, 'create')
+          .and
+          .returnValue(Promise.resolve({
+            present: async () => {
+            },
+            onDidDismiss: () => ({ data: 'cancel' }) as OverlayEventDetail,
+          } as HTMLIonModalElement));
         spyOn(component, 'onExitRekeyModalDismiss');
 
         await component.showExitRekeyModal();
 
-        expect(modalController.create).toHaveBeenCalledWith({
-          component: ExitRekeyModal,
-          cssClass: 'mes-modal-alert text-zoom-regular',
-        });
-        expect(component.onExitRekeyModalDismiss).toHaveBeenCalledWith('cancel' as ExitRekeyModalEvent);
+        expect(modalController.create)
+          .toHaveBeenCalledWith({
+            component: ExitRekeyModal,
+            cssClass: 'mes-modal-alert text-zoom-regular',
+          });
+        expect(component.onExitRekeyModalDismiss)
+          .toHaveBeenCalledWith('cancel' as ExitRekeyModalEvent);
       });
     });
     describe('onShowUploadRekeyModal', () => {
       it('should display an upload modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-          onDidDismiss: () => ({ data: 'cancel' }) as OverlayEventDetail,
-        } as HTMLIonModalElement));
+        spyOn(modalController, 'create')
+          .and
+          .returnValue(Promise.resolve({
+            present: async () => {
+            },
+            onDidDismiss: () => ({ data: 'cancel' }) as OverlayEventDetail,
+          } as HTMLIonModalElement));
         spyOn(component, 'onUploadRekeyModalDismiss');
 
         await component.onShowUploadRekeyModal(true);
 
-        expect(modalController.create).toHaveBeenCalledWith({
-          component: UploadRekeyModal,
-          componentProps: { retryMode: true },
-          cssClass: 'mes-modal-alert text-zoom-regular',
-        });
-        expect(component.onUploadRekeyModalDismiss).toHaveBeenCalledWith('cancel' as UploadRekeyModalEvent);
+        expect(modalController.create)
+          .toHaveBeenCalledWith({
+            component: UploadRekeyModal,
+            componentProps: { retryMode: true },
+            cssClass: 'mes-modal-alert text-zoom-regular',
+          });
+        expect(component.onUploadRekeyModalDismiss)
+          .toHaveBeenCalledWith('cancel' as UploadRekeyModalEvent);
       });
     });
     describe('ionViewWillEnter', () => {
@@ -300,7 +354,8 @@ describe('RekeyReasonPage', () => {
         component.merged$ = new Observable<string | boolean>();
         component.ionViewWillEnter();
 
-        expect(component.subscription).toBeDefined();
+        expect(component.subscription)
+          .toBeDefined();
       });
     });
     describe('isFormValid', () => {
@@ -308,7 +363,8 @@ describe('RekeyReasonPage', () => {
         spyOn(component, 'markSpecificControlsAsDirty');
         component.isFormValid();
 
-        expect(component.markSpecificControlsAsDirty).toHaveBeenCalled();
+        expect(component.markSpecificControlsAsDirty)
+          .toHaveBeenCalled();
       });
     });
     describe('ionViewDidLeave', () => {
@@ -316,32 +372,43 @@ describe('RekeyReasonPage', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
       });
     });
     describe('onUploadRekeyModalDismiss', () => {
       it('should dispatch and SetRekeyDate and ValidateTransferRekey if '
-          + 'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is true', () => {
+        + 'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is true', () => {
         component.isTransferSelected = true;
         component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
-        expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
-        expect(store$.dispatch).toHaveBeenCalledWith(ValidateTransferRekey());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SetRekeyDate());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(ValidateTransferRekey());
       });
       it('should dispatch and SetRekeyDate, SendCurrentTest and RekeyUploadTest if '
-          + 'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is false', () => {
+        + 'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is false', () => {
         component.isTransferSelected = false;
         component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
-        expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
-        expect(store$.dispatch).toHaveBeenCalledWith(SendCurrentTest());
-        expect(store$.dispatch).toHaveBeenCalledWith(RekeyUploadTest());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SetRekeyDate());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(SendCurrentTest());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(RekeyUploadTest());
       });
     });
     describe('onUploadPressed', () => {
       it('should call onShowUploadRekeyModal if isFormValid is true', async () => {
-        spyOn(component, 'isFormValid').and.returnValue(true);
-        spyOn(component, 'onShowUploadRekeyModal').and.callThrough();
+        spyOn(component, 'isFormValid')
+          .and
+          .returnValue(true);
+        spyOn(component, 'onShowUploadRekeyModal')
+          .and
+          .callThrough();
         await component.onUploadPressed();
-        expect(component.onShowUploadRekeyModal).toHaveBeenCalled();
+        expect(component.onShowUploadRekeyModal)
+          .toHaveBeenCalled();
       });
     });
     describe('exitRekey', () => {
@@ -350,14 +417,16 @@ describe('RekeyReasonPage', () => {
         component.fromRekeySearch = true;
         await component.exitRekey();
 
-        expect(component.router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
+        expect(component.router.navigate)
+          .toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
       });
       it('should run navigate with JOURNAL_PAGE if fromRekeySearch is false', async () => {
         spyOn(component.router, 'navigate');
         component.fromRekeySearch = false;
         await component.exitRekey();
 
-        expect(component.router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
+        expect(component.router.navigate)
+          .toHaveBeenCalledWith([JOURNAL_PAGE]);
       });
     });
     describe('markSpecificControlsAsDirty', () => {
@@ -371,13 +440,18 @@ describe('RekeyReasonPage', () => {
           transferSelected: new UntypedFormControl(),
           otherSelected: new UntypedFormControl(),
         });
-        component.formGroup.get('ipadIssueSelected').setValue('1');
+        component.formGroup.get('ipadIssueSelected')
+          .setValue('1');
         component.markSpecificControlsAsDirty();
 
-        expect(component.formGroup.get('ipadIssueTechnicalFault').dirty).toEqual(true);
-        expect(component.formGroup.get('ipadIssueLost').dirty).toEqual(true);
-        expect(component.formGroup.get('ipadIssueStolen').dirty).toEqual(true);
-        expect(component.formGroup.get('ipadIssueBroken').dirty).toEqual(true);
+        expect(component.formGroup.get('ipadIssueTechnicalFault').dirty)
+          .toEqual(true);
+        expect(component.formGroup.get('ipadIssueLost').dirty)
+          .toEqual(true);
+        expect(component.formGroup.get('ipadIssueStolen').dirty)
+          .toEqual(true);
+        expect(component.formGroup.get('ipadIssueBroken').dirty)
+          .toEqual(true);
       });
       it('should mark relevant fields as dirty if transferSelected is present ', () => {
         component.formGroup = new UntypedFormGroup({
@@ -386,10 +460,12 @@ describe('RekeyReasonPage', () => {
           otherSelected: new UntypedFormControl(),
           staffNumber: new UntypedFormControl(),
         });
-        component.formGroup.get('transferSelected').setValue('1');
+        component.formGroup.get('transferSelected')
+          .setValue('1');
         component.markSpecificControlsAsDirty();
 
-        expect(component.formGroup.get('staffNumber').dirty).toEqual(true);
+        expect(component.formGroup.get('staffNumber').dirty)
+          .toEqual(true);
       });
       it('should mark relevant fields as dirty if otherSelected is present ', () => {
         component.formGroup = new UntypedFormGroup({
@@ -398,10 +474,12 @@ describe('RekeyReasonPage', () => {
           otherSelected: new UntypedFormControl(),
           reason: new UntypedFormControl(),
         });
-        component.formGroup.get('otherSelected').setValue('1');
+        component.formGroup.get('otherSelected')
+          .setValue('1');
         component.markSpecificControlsAsDirty();
 
-        expect(component.formGroup.get('reason').dirty).toEqual(true);
+        expect(component.formGroup.get('reason').dirty)
+          .toEqual(true);
       });
     });
     describe('handleUploadOutcome', () => {
@@ -414,41 +492,64 @@ describe('RekeyReasonPage', () => {
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
         await component.handleUploadOutcome(uploadStatus);
-        expect(loaderService.handleUILoading).toHaveBeenCalledWith(
-          true, { spinner: 'circles', message: 'Uploading...' },
-        );
+        expect(loaderService.handleUILoading)
+          .toHaveBeenCalledWith(
+            true, {
+              spinner: 'circles',
+              message: 'Uploading...',
+            },
+          );
       });
       it('should display the retry modal when an upload fails', async () => {
         const action = SendCurrentTestFailure(false);
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
         await component.handleUploadOutcome(uploadStatus);
-        expect(loaderService.handleUILoading).toHaveBeenCalledWith(
-          false, { spinner: 'circles', message: 'Uploading...' },
-        );
-        expect(component.onShowUploadRekeyModal).toHaveBeenCalledWith(true);
+        expect(loaderService.handleUILoading)
+          .toHaveBeenCalledWith(
+            false, {
+              spinner: 'circles',
+              message: 'Uploading...',
+            },
+          );
+        expect(component.onShowUploadRekeyModal)
+          .toHaveBeenCalledWith(true);
       });
       it('should navigate to the next page and not display the retry modal when an upload is a duplicate', async () => {
         const action = SendCurrentTestFailure(true);
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
         await component.handleUploadOutcome(uploadStatus);
-        expect(loaderService.handleUILoading).toHaveBeenCalledWith(
-          false, { spinner: 'circles', message: 'Uploading...' },
-        );
-        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
-        expect(component.onShowUploadRekeyModal).not.toHaveBeenCalled();
+        expect(loaderService.handleUILoading)
+          .toHaveBeenCalledWith(
+            false, {
+              spinner: 'circles',
+              message: 'Uploading...',
+            },
+          );
+        expect(router.navigate)
+          .toHaveBeenCalledWith([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
+        expect(component.onShowUploadRekeyModal)
+          .not
+          .toHaveBeenCalled();
       });
       it('should navigate to next page and not display the retry modal when an upload succeeds', async () => {
         const action = SendCurrentTestSuccess();
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
         await component.handleUploadOutcome(uploadStatus);
-        expect(loaderService.handleUILoading).toHaveBeenCalledWith(
-          false, { spinner: 'circles', message: 'Uploading...' },
-        );
-        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
-        expect(component.onShowUploadRekeyModal).not.toHaveBeenCalled();
+        expect(loaderService.handleUILoading)
+          .toHaveBeenCalledWith(
+            false, {
+              spinner: 'circles',
+              message: 'Uploading...',
+            },
+          );
+        expect(router.navigate)
+          .toHaveBeenCalledWith([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
+        expect(component.onShowUploadRekeyModal)
+          .not
+          .toHaveBeenCalled();
       });
     });
   });

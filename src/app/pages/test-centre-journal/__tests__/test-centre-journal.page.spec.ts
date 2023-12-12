@@ -31,6 +31,10 @@ import {
 } from '../test-centre-journal.actions';
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { ActivatedRoute } from '@angular/router';
+import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 
 describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
@@ -86,6 +90,18 @@ describe('TestCenterJournalPage', () => {
         {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
         },
         provideMockStore({ initialState }),
       ],

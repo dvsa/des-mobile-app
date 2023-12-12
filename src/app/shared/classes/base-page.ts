@@ -1,13 +1,27 @@
 import { Platform } from '@ionic/angular';
-import { NavigationExtras, Router } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { LOGIN_PAGE } from '@pages/page-names.constants';
+import { Store } from '@ngrx/store';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Inject, Injector } from '@angular/core';
+import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
+
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DeviceProvider } from '@providers/device/device';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LOGIN_PAGE } from '@pages/page-names.constants';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { get } from 'lodash';
 
 export abstract class BasePageComponent {
   protected platform = this.injector.get(Platform);
   protected authenticationProvider = this.injector.get(AuthenticationProvider);
   public router = this.injector.get(Router);
+  public deviceProvider = this.injector.get(DeviceProvider);
+  public route = this.injector.get(ActivatedRoute);
+  public logHelper = this.injector.get(LogHelper);
+  public store$ = this.injector.get<Store<StoreModel>>(Store);
 
   protected constructor(
     public injector: Injector,
@@ -19,7 +33,7 @@ export abstract class BasePageComponent {
    * By calling authenticationProvider.determineAuthenticationMode(), we will set
    * authenticationProvider.inUnAuthenticatedMode to true if the user is offline.
    * This will then be used to prevent redirects to LOGIN_PAGE if the user is offline
-   * Otherwise - on view entry route the user to LOGIN_PAGE if their token is invalid
+   * Otherwise - on view entry route the user to LOGIN_PAGE if their token is invalid,
    * and they are online
    //
    */
@@ -63,5 +77,54 @@ export abstract class BasePageComponent {
       }
     }
   }
+
+  async lockDevice(isPracticeMode: boolean = false): Promise<void> {
+    if (this.isIos()) {
+      try {
+        await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
+        await Insomnia.keepAwake();
+
+        if (!isPracticeMode) {
+          await this.deviceProvider.enableSingleAppMode();
+        }
+      } catch (err) {
+        this.reportLog('lockDevice', err);
+      }
+    }
+  }
+
+  async unlockDevice(): Promise<void> {
+    if (this.isIos()) {
+      try {
+        await this.deviceProvider.disableSingleAppMode();
+
+        const isEnabled = await this.deviceProvider.isSAMEnabled();
+
+        if (!isEnabled) {
+          await ScreenOrientation.unlock();
+          await Insomnia.allowSleep();
+        }
+      } catch (err) {
+        this.reportLog('unlockDevice', err);
+      }
+    }
+  }
+
+  private reportLog = (method: string, error: unknown): void => {
+    const page = get(this.route.snapshot, '_routerState.url', 'Unknown Page');
+
+    const message = (error instanceof Error)
+      // serialise error object, stringify-ing a straight error returns '{}'
+      ? JSON.stringify(error, Object.getOwnPropertyNames(error))
+      : JSON.stringify(error);
+
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.ERROR,
+        `BasePageComponent => ${page} => ${method}`,
+        message,
+      ),
+    }));
+  };
 
 }

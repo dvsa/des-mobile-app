@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
-import { PlatformMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MockComponent } from 'ng-mocks';
 
 import { JournalNavigationComponent } from '@pages/journal/components/journal-navigation/journal-navigation';
@@ -18,12 +18,15 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { FakeJournalPage } from '../fake-journal.page';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 
 describe('FakeJournalPage', () => {
   let component: FakeJournalPage;
   let fixture: ComponentFixture<FakeJournalPage>;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -53,7 +56,19 @@ describe('FakeJournalPage', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
         },
         provideMockStore({ initialState: {} }),
       ],

@@ -1,8 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
 import { map } from 'rxjs/operators';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
@@ -13,8 +11,6 @@ import { unsubmittedTestSlotsInDateOrder$ } from '@pages/unuploaded-tests/unuplo
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
@@ -37,7 +33,6 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
-    private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
     public deviceProvider: DeviceProvider,
@@ -70,12 +65,7 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(UnuploadedTestsViewDidEnter());
-
-    if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
-    }
+    await super.unlockDevice();
   }
 
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';

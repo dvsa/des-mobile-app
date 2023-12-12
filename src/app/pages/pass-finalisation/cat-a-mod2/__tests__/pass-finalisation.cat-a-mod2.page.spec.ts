@@ -1,6 +1,4 @@
-import {
-  waitForAsync, ComponentFixture, TestBed, fakeAsync, tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
@@ -24,7 +22,7 @@ import {
 } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
-import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
+import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -49,7 +47,6 @@ describe('PassFinalisationCatAMod2Page', () => {
   let fixture: ComponentFixture<PassFinalisationCatAMod2Page>;
   let component: PassFinalisationCatAMod2Page;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -73,10 +70,22 @@ describe('PassFinalisationCatAMod2Page', () => {
         AppModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavController, useClass: NavControllerMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
         OutcomeBehaviourMapProvider,
       ],
     });
@@ -93,8 +102,10 @@ describe('PassFinalisationCatAMod2Page', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
         spyOn(PassFinalisationPageComponent.prototype, 'ionViewWillEnter');
         component.ionViewWillEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledTimes(1);
       });
     });
 
@@ -102,7 +113,8 @@ describe('PassFinalisationCatAMod2Page', () => {
       // Unit tests for the components TypeScript class
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PersistTests());
       });
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
@@ -132,7 +144,8 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
       });
     });
 
@@ -143,7 +156,8 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form.controls['transmissionCtrl'].markAsPristine();
         component.transmission = TransmissionType.Automatic;
 
-        expect(component.displayTransmissionBanner()).toEqual(false);
+        expect(component.displayTransmissionBanner())
+          .toEqual(false);
       });
       it('return false if transmissionCtrl is dirty and transmission is manual', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
@@ -151,7 +165,8 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form.controls['transmissionCtrl'].markAsDirty();
         component.transmission = TransmissionType.Manual;
 
-        expect(component.displayTransmissionBanner()).toEqual(false);
+        expect(component.displayTransmissionBanner())
+          .toEqual(false);
       });
       it('return true if transmissionCtrl is dirty and transmission is automatic', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
@@ -159,7 +174,8 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form.controls['transmissionCtrl'].markAsDirty();
         component.transmission = TransmissionType.Automatic;
 
-        expect(component.displayTransmissionBanner()).toEqual(true);
+        expect(component.displayTransmissionBanner())
+          .toEqual(true);
       });
     });
 

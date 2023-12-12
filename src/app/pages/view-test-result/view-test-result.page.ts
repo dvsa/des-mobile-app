@@ -4,15 +4,12 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import * as moment from 'moment';
 import { get } from 'lodash';
 import { formatApplicationReference } from '@shared/helpers/formatters';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
 import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-result.actions';
 import { of, Subscription } from 'rxjs';
 import { SearchProvider } from '@providers/search/search';
 import { HttpResponse } from '@angular/common/http';
 import { CompressionProvider } from '@providers/compression/compression';
 import { catchError, map, tap } from 'rxjs/operators';
-import { LogHelper } from '@providers/logs/logs-helper';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -66,10 +63,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
-    private store$: Store<StoreModel>,
     private searchProvider: SearchProvider,
     private compressionProvider: CompressionProvider,
-    private logHelper: LogHelper,
     private loadingProvider: LoadingProvider,
     public faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,

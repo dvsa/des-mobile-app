@@ -1,6 +1,7 @@
 export * from '@mocks/@capacitor/biometrics';
 export * from '@mocks/@capacitor/splash-screen';
 export * from '@mocks/@capacitor/status-bar';
+export * from '@mocks/angular-mocks/activated-route.mock';
 export * from '@mocks/angular-mocks/dom-sanitizer.mock';
 export * from '@mocks/angular-mocks/nav-params.mock';
 export * from '@mocks/angular-mocks/router-mock';

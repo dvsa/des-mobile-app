@@ -48,9 +48,9 @@ describe('SentryIonicErrorHandler', () => {
 
     spyOn(SentryIonicErrorHandler.prototype, 'handleError');
     spyOn(sentryErrorHandler.store$, 'dispatch');
-    spyOn(sentryErrorHandler.authenticationProvider, 'getEmployeeId')
-      .and
-      .returnValue(mockLog.drivingExaminerId);
+    // spyOn(sentryErrorHandler.authenticationProvider, 'getEmployeeIdFromIDToken')
+    //   .and
+    //   .returnValue(mockLog.drivingExaminerId);
     spyOn(sentryErrorHandler.appConfigProvider, 'getAppConfig')
       .and
       .returnValue({
@@ -71,7 +71,7 @@ describe('SentryIonicErrorHandler', () => {
         .toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber)
         .toHaveBeenCalled();
-      expect(sentryErrorHandler.authenticationProvider.getEmployeeId)
+      expect(sentryErrorHandler.authenticationProvider.getEmployeeIdFromIDToken)
         .toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch)
         .not
@@ -92,7 +92,7 @@ describe('SentryIonicErrorHandler', () => {
         .toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber)
         .toHaveBeenCalled();
-      expect(sentryErrorHandler.authenticationProvider.getEmployeeId)
+      expect(sentryErrorHandler.authenticationProvider.getEmployeeIdFromIDToken)
         .toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch)
         .toHaveBeenCalledWith(SaveLog({ payload: mockLog }));
