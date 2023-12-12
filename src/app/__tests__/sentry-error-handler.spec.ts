@@ -48,9 +48,6 @@ describe('SentryIonicErrorHandler', () => {
 
     spyOn(SentryIonicErrorHandler.prototype, 'handleError');
     spyOn(sentryErrorHandler.store$, 'dispatch');
-    // spyOn(sentryErrorHandler.authenticationProvider, 'getEmployeeIdFromIDToken')
-    //   .and
-    //   .returnValue(mockLog.drivingExaminerId);
     spyOn(sentryErrorHandler.appConfigProvider, 'getAppConfig')
       .and
       .returnValue({

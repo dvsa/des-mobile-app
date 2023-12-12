@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -7,11 +7,12 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { PracticeModeBanner } from '../practice-mode-banner';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
 describe('PracticeModeBanner', () => {
   let fixture: ComponentFixture<PracticeModeBanner>;
   let component: PracticeModeBanner;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+  let router: Router;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -24,20 +25,26 @@ describe('PracticeModeBanner', () => {
         }),
       })],
       providers: [
-        { provide: Router, useValue: routerSpy },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
         CategoryWhitelistProvider,
       ],
     });
 
     fixture = TestBed.createComponent(PracticeModeBanner);
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
   }));
 
   describe('Class', () => {
     describe('exitPracticeMode', () => {
-      it('should take the user back to the root page', () => {
-        component.exitPracticeMode();
-        expect(routerSpy.navigate).toHaveBeenCalled();
+      it('should take the user back to the root page', async () => {
+        spyOn(router, 'navigate');
+        await component.exitPracticeMode();
+        expect(router.navigate)
+          .toHaveBeenCalled();
       });
     });
   });

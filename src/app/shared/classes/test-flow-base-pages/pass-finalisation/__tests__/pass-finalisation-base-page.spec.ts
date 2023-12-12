@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { ActivatedRouteMock, PlatformMock } from '@mocks/index.mock';
+import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -41,7 +41,6 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 describe('PassFinalisationPageComponent', () => {
   let injector: Injector;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   let basePageComponent: PassFinalisationPageComponent;
   const initialState = {
@@ -77,7 +76,7 @@ describe('PassFinalisationPageComponent', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
         {
           provide: RouteByCategoryProvider,
