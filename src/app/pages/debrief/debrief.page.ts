@@ -71,6 +71,7 @@ interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
   dangerousFaults$: Observable<string[]>;
   drivingFaults$: Observable<(FaultSummary)[]>;
+  vehicleChecksShowIncorrect$: Observable<boolean>;
   drivingFaultCount$: Observable<number>;
   etaFaults$: Observable<ETA>;
   ecoFaults$: Observable<Eco>;
@@ -168,6 +169,17 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
         select(getTestData),
         withLatestFrom(testCategory$),
         map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory)),
+        take(1),
+      ),
+      vehicleChecksShowIncorrect$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(testCategory$),
+        map(([data, category]) => {
+          if (category === TestCategory.B) {
+            return this.faultSummaryProvider.shouldShowIncorrect(data);
+          }
+          return false;
+        }),
         take(1),
       ),
       drivingFaultCount$: currentTest$.pipe(
@@ -453,7 +465,4 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     ]);
   }
 
-  seriousOrDangerousFaultsContainsVehicleChecks(serious: string[] | null, dangerous: string[] | null) {
-    return serious.includes('vehicleChecks') || dangerous.includes('vehicleChecks');
-  }
 }

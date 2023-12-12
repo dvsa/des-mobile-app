@@ -556,9 +556,6 @@ describe('DebriefCardComponent', () => {
   });
   describe('ngOnInit', () => {
     it('should call correct functions', () => {
-      spyOn(component, 'displayIncorrect')
-        .and
-        .returnValue(false);
       spyOn(component, 'getShowMeQuestion')
         .and
         .returnValue(null);
@@ -572,8 +569,6 @@ describe('DebriefCardComponent', () => {
       component.ngOnInit();
 
       expect(component.getShowMeQuestion)
-        .toHaveBeenCalled();
-      expect(component.displayIncorrect)
         .toHaveBeenCalled();
       expect(component.getTellMeQuestion)
         .toHaveBeenCalled();
@@ -611,88 +606,6 @@ describe('DebriefCardComponent', () => {
             label: TestRequirementsLabels.uncoupleRecouple,
             checked: true,
           },
-        ]);
-    });
-  });
-  describe('displayIncorrect', () => {
-    it('should return true if both driving faults and serious faults contain' +
-      ' an element where source is vehicleChecks', () => {
-      component.seriousFaults = [
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.dangerousFaults = [
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.drivingFaults = [
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      expect(component.displayIncorrect()).toEqual(true);
-    });
-    it('should return true if both driving faults and dangerous faults contain' +
-      ' an element where source is vehicleChecks', () => {
-      component.seriousFaults = [
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.dangerousFaults = [
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.drivingFaults = [
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      expect(component.displayIncorrect()).toEqual(true);
-    });
-    it('should return false if driving faults does not contain' +
-      ' an element where source is vehicleChecks', () => {
-      component.seriousFaults = [
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.dangerousFaults = [
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.drivingFaults = [
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      expect(component.displayIncorrect()).toEqual(false);
-    });
-    it('should return false if driving faults does contain' +
-      ' an element where source is vehicleChecks but serious and dangerous faults do not', () => {
-      component.seriousFaults = [
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.dangerousFaults = [
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      component.drivingFaults = [
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ];
-      expect(component.displayIncorrect()).toEqual(false);
-    });
-  });
-  describe('cropVehicleCheck', () => {
-    it('should return passed array if displayIncorrectText is false', () => {
-      component.displayIncorrectText = false;
-      expect(component.cropVehicleCheck([
-        { competencyIdentifier: '1', source: 'vehicleChecks', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-      ]))
-        .toEqual([
-          {
-            competencyIdentifier: '1',
-            source: 'vehicleChecks',
-            comment: '1',
-            competencyDisplayName: '1',
-            faultCount: 1,
-          },
-        ]);
-    });
-    it('should return passed array with all elements with a source of vehicleChecks removed' +
-      ' if displayIncorrectText is true', () => {
-      component.displayIncorrectText = true;
-      expect(component.cropVehicleCheck([
-        { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
-        { competencyIdentifier: '2', source: 'vehicleChecks', comment: '2', competencyDisplayName: '2', faultCount: 1 },
-      ]))
-        .toEqual([
-          { competencyIdentifier: '1', source: '1', comment: '1', competencyDisplayName: '1', faultCount: 1 },
         ]);
     });
   });

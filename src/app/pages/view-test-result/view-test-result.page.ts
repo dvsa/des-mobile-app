@@ -63,6 +63,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   additionalErrorText: boolean;
   reEnterEmailSubscription: Subscription;
   reEnterEmail: RegeneratedEmails = null;
+  displayIncorrectText: boolean = false;
 
   constructor(
     public modalCtrl: ModalController,
@@ -111,7 +112,13 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
           return of();
         }),
       )
-      .subscribe();
+      .subscribe((value: TestResultSchemasUnion) => {
+        console.log(value);
+        if (value.category === TestCategory.B) {
+          this.displayIncorrectText = this.faultSummaryProvider
+            .shouldShowIncorrect(value.testData as CatBUniqueTypes.TestData);
+        }
+      });
   }
 
   ionViewDidEnter(): void {

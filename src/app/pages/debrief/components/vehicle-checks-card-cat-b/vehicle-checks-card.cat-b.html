@@ -9,8 +9,7 @@
         <ion-col class="down-padding ion-align-items-start">
           <div id="tell-me-question" *ngIf="componentState.tellMeQuestionHasFault$ | async">
             {{ 'debrief.tellMeQuestion' | translate }} -
-            {{ shouldDisplayIncorrect(componentState.showMeQuestionOutcome$ | async) ?
-            ('debrief.incorrect' | translate) : ('debrief.drivingFault' | translate) }}
+            {{ displayIncorrect ? ('debrief.incorrect' | translate) : ('debrief.drivingFault' | translate) }}
           </div>
           <div id="show-me-question" *ngIf="componentState.hasShowMeFault$ | async"
                [ngSwitch]="componentState.showMeQuestionOutcome$ | async">

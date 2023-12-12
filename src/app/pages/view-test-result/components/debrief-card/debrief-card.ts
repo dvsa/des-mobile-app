@@ -46,11 +46,13 @@ export class DebriefCardComponent implements OnInit {
   @Input()
   delegatedTest: boolean = false;
 
+  @Input()
+  displayIncorrectText: boolean = false;
+
   showMeQuestion: VehicleChecksQuestion;
   tellMeQuestion: VehicleChecksQuestion;
   manoeuvres: string[];
   ecoFault: FaultSummary;
-  displayIncorrectText: boolean = false;
 
   constructor(
     private questionProvider: QuestionProvider,
@@ -60,8 +62,6 @@ export class DebriefCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayIncorrectText = this.displayIncorrect();
-
     this.showMeQuestion = this.getShowMeQuestion();
     this.tellMeQuestion = this.getTellMeQuestion();
     this.manoeuvres = this.getManoeuvres();
@@ -505,18 +505,5 @@ export class DebriefCardComponent implements OnInit {
       || this.isCatD()
       || this.isValidEmergencyStopOrAvoidance()
       || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
-  }
-
-  displayIncorrect() {
-    return ((this.seriousFaults.filter(fault => fault.source === 'vehicleChecks').length > 0 ||
-        this.dangerousFaults.filter(fault => fault.source === 'vehicleChecks').length > 0) &&
-      this.drivingFaults.filter(fault => fault.source === 'vehicleChecks').length > 0);
-  }
-
-  cropVehicleCheck(drivingFaults: FaultSummary[]) {
-    if (this.displayIncorrectText) {
-      return drivingFaults.filter(fault => fault.source !== 'vehicleChecks');
-    }
-    return drivingFaults;
   }
 }

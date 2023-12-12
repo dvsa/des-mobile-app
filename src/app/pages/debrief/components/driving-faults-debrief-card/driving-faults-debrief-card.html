@@ -6,25 +6,23 @@
   </ion-card-title>
   <ion-card-content>
     <ion-grid>
-      <div *ngFor="let drivingFault of drivingFaults">
-        <ion-row *ngIf="shouldDisplay(drivingFault)" class="row-padding mes-data ion-align-items-center">
-          <ion-col size="26" class="ion-no-padding"></ion-col>
-          <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
-            <div>
-              <driving-faults-badge
-                [count]="drivingFault.faultCount"
-                [competencyDisplayName]="drivingFault.competencyIdentifier"
-                [badgeLabel]="isRider() ? 'Riding' : 'Driving'">
-              </driving-faults-badge>
-            </div>
-          </ion-col>
-          <ion-col size="1" class="ion-no-padding"></ion-col>
-          <ion-col class="ion-no-padding">
-            <div class="counter-label"
-                 id="{{drivingFault.competencyIdentifier}}-driving-text">{{'debrief.competencies.' + drivingFault.competencyIdentifier | translate  | modifyCompetencyLabel:testCategory:drivingFault.competencyIdentifier}}</div>
-          </ion-col>
-        </ion-row>
-      </div>
+      <ion-row *ngFor="let drivingFault of drivingFaults" class="row-padding mes-data ion-align-items-center">
+        <ion-col size="26" class="ion-no-padding"></ion-col>
+        <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
+          <div>
+            <driving-faults-badge
+              [count]="drivingFault.faultCount"
+              [competencyDisplayName]="drivingFault.competencyIdentifier"
+              [badgeLabel]="isRider() ? 'Riding' : 'Driving'">
+            </driving-faults-badge>
+          </div>
+        </ion-col>
+        <ion-col size="1" class="ion-no-padding"></ion-col>
+        <ion-col class="ion-no-padding">
+          <div class="counter-label"
+               id="{{drivingFault.competencyIdentifier}}-driving-text">{{'debrief.competencies.' + drivingFault.competencyIdentifier | translate  | modifyCompetencyLabel:testCategory:drivingFault.competencyIdentifier}}</div>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </ion-card-content>
 </ion-card>

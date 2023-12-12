@@ -19,6 +19,8 @@ import { FaultCountProvider } from '../fault-count/fault-count';
 import { FaultSummaryCatAM1Helper } from './cat-a-mod1/fault-summary.cat-a-mod1';
 import { FaultSummaryCatAM2Helper } from './cat-a-mod2/fault-summary.cat-a-mod2';
 import { FaultSummaryCatAdiPart2Helper } from './cat-adi-part2/fault-summary.cat-adi-part2';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 
 @Injectable()
 export class FaultSummaryProvider {
@@ -141,6 +143,15 @@ export class FaultSummaryProvider {
       default:
         return [];
     }
+  }
+
+  public shouldShowIncorrect(data: CatBUniqueTypes.TestData): boolean {
+    if ((data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
+        data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
+        && data.vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF) {
+      return true;
+    }
+    return false;
   }
 
   public getSeriousFaultsList(data: object, category: TestCategory): FaultSummary[] {

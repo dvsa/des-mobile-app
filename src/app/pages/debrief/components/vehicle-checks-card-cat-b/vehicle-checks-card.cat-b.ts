@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -27,6 +27,9 @@ interface VehicleChecksCardComponentState {
 export class VehicleChecksCardCatBComponent implements OnInit {
 
   componentState: VehicleChecksCardComponentState;
+
+  @Input()
+  displayIncorrect: boolean = false;
 
   constructor(private store$: Store<StoreModel>) { }
 
@@ -64,8 +67,4 @@ export class VehicleChecksCardCatBComponent implements OnInit {
   static hasVehicleChecksFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
     (vehicleChecks.tellMeQuestion.outcome && vehicleChecks.tellMeQuestion.outcome !== CompetencyOutcome.P)
     || (vehicleChecks.showMeQuestion.outcome && vehicleChecks.showMeQuestion.outcome !== CompetencyOutcome.P);
-
-  shouldDisplayIncorrect(outcome: 'P' | 'DF' | 'S' | 'D' | null) {
-    return (outcome === 'S' || outcome === 'D');
-  }
 }
