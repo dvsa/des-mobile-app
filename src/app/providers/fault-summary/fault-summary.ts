@@ -145,11 +145,20 @@ export class FaultSummaryProvider {
     }
   }
 
-  public shouldShowIncorrect(data: CatBUniqueTypes.TestData): boolean {
-    return (data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
-        data.vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
-      && data.vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF;
-
+  public shouldShowIncorrect(data: object, category: TestCategory): boolean {
+    switch (category) {
+      case TestCategory.B:
+        const {
+          showMeQuestion,
+          tellMeQuestion,
+        } = (data as CatBUniqueTypes.TestData).vehicleChecks;
+        return (
+          (showMeQuestion.outcome === CompetencyOutcome.D || showMeQuestion.outcome === CompetencyOutcome.S)
+          && tellMeQuestion.outcome === CompetencyOutcome.DF
+        );
+      default:
+        return false;
+    }
   }
 
   public getSeriousFaultsList(data: object, category: TestCategory): FaultSummary[] {

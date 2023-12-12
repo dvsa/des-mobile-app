@@ -113,10 +113,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
         }),
       )
       .subscribe((value: TestResultSchemasUnion) => {
-        if (value.category === TestCategory.B) {
-          this.displayIncorrectText = this.faultSummaryProvider
-            .shouldShowIncorrect(value.testData as CatBUniqueTypes.TestData);
-        }
+        this.displayIncorrectText = this.faultSummaryProvider
+          .shouldShowIncorrect(value.testData, value.category as TestCategory);
       });
   }
 

@@ -174,12 +174,8 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
       vehicleChecksShowIncorrect$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(testCategory$),
-        map(([data, category]) => {
-          if (category === TestCategory.B) {
-            return this.faultSummaryProvider.shouldShowIncorrect(data);
-          }
-          return false;
-        }),
+        map(([data, category]) => this.faultSummaryProvider
+          .shouldShowIncorrect(data, category as TestCategory)),
         take(1),
       ),
       drivingFaultCount$: currentTest$.pipe(
