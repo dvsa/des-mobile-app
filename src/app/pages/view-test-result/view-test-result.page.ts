@@ -96,6 +96,10 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       .pipe(
         map((response: HttpResponse<any>): string => response.body),
         map((data) => this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data)),
+        tap((testResult) => {
+          this.displayIncorrectText = this.faultSummaryProvider
+            .shouldShowIncorrect(testResult.testData, testResult.category as TestCategory);
+        }),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {
           this.store$.dispatch(SaveLog({
@@ -112,10 +116,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
           return of();
         }),
       )
-      .subscribe((value: TestResultSchemasUnion) => {
-        this.displayIncorrectText = this.faultSummaryProvider
-          .shouldShowIncorrect(value.testData, value.category as TestCategory);
-      });
+      .subscribe();
   }
 
   ionViewDidEnter(): void {
