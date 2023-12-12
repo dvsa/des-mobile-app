@@ -18,9 +18,6 @@ export class DrivingFaultsDebriefCardComponent {
   public drivingFaultCount: number;
 
   @Input()
-  public hideVehicleCheckFault: boolean = true;
-
-  @Input()
   public testCategory: TestCategory;
 
   drivingFaultsCardDescriptionSwitch(testCategory: TestCategory):string {
