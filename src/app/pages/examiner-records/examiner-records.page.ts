@@ -407,6 +407,13 @@ export class ExaminerRecordsPage implements OnInit {
     }
   }
 
+  public isBike = (): boolean => isAnyOf(this.currentCategory, [
+    // Cat Mod1
+    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
+    // Cat Mod2
+    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
+  ]);
+
   getColour(): { bar: string[], pie: string[], average: string } | { colours: string[], average: string } {
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
