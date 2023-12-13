@@ -77,22 +77,28 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   ngOnInit(): void {
-    if (!this.slot) {
-      this.slot = this.navParams.get('slot');
-    }
-
-    if (this.navParams.get('slots')) {
-      if (!this.slots) {
-        this.slots = this.navParams.get('slots');
-      }
-      this.slots = this.slots.filter((slot) => !!slot?.booking?.candidate);
-
-      this.prevSlot = this.slots[this.slots.indexOf(this.slot) - 1];
-      this.nextSlot = this.slots[this.slots.indexOf(this.slot) + 1];
-    }
-
+    const navSlot = this.navParams.get('slot');
+    const navSlots = this.navParams.get('slots');
     this.slotChanged = this.navParams.get('slotChanged');
     this.isTeamJournal = this.navParams.get('isTeamJournal');
+
+    // if `slot` is not defined, then use the slot value from `navParams`
+    // it will be undefined, when using the next/prev buttons as the value wouldn't be set via the Journal navigation
+    if (!this.slot) this.slot = navSlot;
+
+    // if `slots` is defined, we want to determine the prev/next slots using the navSlots
+    if (navSlots) {
+      if (!this.slots) this.slots = navSlots;
+
+      // some slot types won't be displayed in the candidate details page (Corporate Connectivity), we remove those here
+      this.slots = this.slots.filter((slot) => !!slot?.booking?.candidate);
+
+      // lookup the current slots index, and reduce by one to get the previous slot
+      this.prevSlot = this.slots[this.slots.indexOf(this.slot) - 1];
+
+      // lookup the current slots index, and increment by one to get the next slot
+      this.nextSlot = this.slots[this.slots.indexOf(this.slot) + 1];
+    }
 
     setTimeout(() => {
       this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
@@ -157,15 +163,13 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
       });
   }
 
-  /**
-   * Strip the slash from the start of the url returned by the router
-   * @param url
-   */
   formatUrl(url: string): string {
+    // strip the slash from the start of the url returned by the router
     return url ? url.substring(1) : null;
   }
 
   changeCandidate(prevOrNext: string) {
+    // we re-call the `ngOnInit` which mimics a new page load and therefore prev/current/next are re-calculated
     switch (prevOrNext) {
       case 'prev':
         this.slot = this.prevSlot;
@@ -181,7 +185,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   isCompleted(testStatus: TestStatus, completedTestOutcome: ActivityCode): boolean {
-    if (completedTestOutcome) return true;
+    if (completedTestOutcome) {
+      return true;
+    }
     return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
   }
 

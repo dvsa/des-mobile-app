@@ -3,24 +3,26 @@ import { ConnectionStatus } from '@providers/network-state/network-state';
 import { searchResultsMock } from '@providers/search/__mocks__/search-results.mock';
 import { initialState, journalReducer } from '../journal.reducer';
 import {
+  CandidateDetailsSeen,
+  ClearChangedSlot,
+  LoadCompletedTestsSuccess,
   LoadJournal,
   LoadJournalSuccess,
   UnloadJournal,
   UnsetError,
-  ClearChangedSlot,
-  CandidateDetailsSeen,
-  LoadCompletedTestsSuccess,
 } from '../journal.actions';
 import { JournalModel } from '../journal.model';
+import { Action } from '@ngrx/store';
 
 describe('Journal Reducer', () => {
 
   describe('undefined action', () => {
     it('should return the default state', () => {
-      const action = { type: 'NOOP' } as any;
+      const action = { type: 'NOOP' } as Action;
       const result = journalReducer(undefined, action);
 
-      expect(result).toBe(initialState);
+      expect(result)
+        .toBe(initialState);
     });
   });
 
@@ -29,18 +31,26 @@ describe('Journal Reducer', () => {
       const action = LoadJournal();
       const result = journalReducer(initialState, action);
 
-      expect(result).toEqual({
-        ...initialState,
-        isLoading: true,
-        error: { message: '', status: 0, statusText: '' },
-      });
+      expect(result)
+        .toEqual({
+          ...initialState,
+          isLoading: true,
+          error: {
+            message: '',
+            status: 0,
+            statusText: '',
+          },
+        });
     });
   });
 
   describe('[JournalPage] Load Journal Success', () => {
     it('should toggle loading state and populate slots + examiner', () => {
       const actionPayload = {
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         slotItemsByDate: {
           '2019-01-13': [{
             hasSlotChanged: false,
@@ -65,20 +75,24 @@ describe('Journal Reducer', () => {
 
       const result = journalReducer(state, action);
 
-      expect(result).toEqual({
-        ...state,
-        isLoading: false,
-        lastRefreshed: jasmine.any(Date),
-        slots: {
-          '2019-01-13': [{
-            hasSlotChanged: false,
-            hasSeenCandidateDetails: false,
-            slotData: {},
+      expect(result)
+        .toEqual({
+          ...state,
+          isLoading: false,
+          lastRefreshed: jasmine.any(Date),
+          slots: {
+            '2019-01-13': [{
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+            ],
           },
-          ],
-        },
-        examiner: { staffNumber: '123', individualId: 456 },
-      });
+          examiner: {
+            staffNumber: '123',
+            individualId: 456,
+          },
+        });
     });
   });
 
@@ -92,7 +106,8 @@ describe('Journal Reducer', () => {
       };
       const action = UnloadJournal();
       const result = journalReducer(stateWithJournals, action);
-      expect(result.slots).toEqual({});
+      expect(result.slots)
+        .toEqual({});
     });
     it('should reset the rest of the journal to default state', () => {
       const stateWithJournals = {
@@ -100,25 +115,40 @@ describe('Journal Reducer', () => {
         lastRefreshed: new Date(),
         selectedDate: 'dummy',
         slots: { '2019-01-13': [new SlotItem({}, false, false)] },
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         checkComplete: [],
         completedTests: [],
       };
       const action = UnloadJournal();
       const result = journalReducer(stateWithJournals, action);
-      expect(result.isLoading).toBe(false);
-      expect(result.lastRefreshed).toBeNull();
-      expect(result.selectedDate).toBe('');
-      expect(result.examiner).toBeNull();
+      expect(result.isLoading)
+        .toBe(false);
+      expect(result.lastRefreshed)
+        .toBeNull();
+      expect(result.selectedDate)
+        .toBe('');
+      expect(result.examiner)
+        .toBeNull();
     });
   });
 
   describe('[JournalPage] Unset error', () => {
     it('should remove any journal error in the state', () => {
-      const stateWithError = { ...initialState, error: { message: '', status: 0, statusText: '' } };
+      const stateWithError = {
+        ...initialState,
+        error: {
+          message: '',
+          status: 0,
+          statusText: '',
+        },
+      };
       const action = UnsetError();
       const result = journalReducer(stateWithError, action);
-      expect(result.error).toBeUndefined();
+      expect(result.error)
+        .toBeUndefined();
     });
   });
 
@@ -134,7 +164,8 @@ describe('Journal Reducer', () => {
       };
       const action = ClearChangedSlot(1234);
       const result = journalReducer(stateWithChangedSlot, action);
-      expect(result.slots[slotDate][0].hasSlotChanged).toEqual(false);
+      expect(result.slots[slotDate][0].hasSlotChanged)
+        .toEqual(false);
 
     });
 
@@ -146,7 +177,8 @@ describe('Journal Reducer', () => {
       } as JournalModel;
       const action = ClearChangedSlot(1234);
       const result = journalReducer(state, action);
-      expect(result).toEqual(state);
+      expect(result)
+        .toEqual(state);
     });
   });
 
@@ -163,7 +195,8 @@ describe('Journal Reducer', () => {
       const action = CandidateDetailsSeen({ slotId: 1234 });
       const result = journalReducer(stateWithChangedSlot, action);
 
-      expect(result.slots[slotDate][0].hasSeenCandidateDetails).toEqual(true);
+      expect(result.slots[slotDate][0].hasSeenCandidateDetails)
+        .toEqual(true);
 
     });
 
@@ -175,7 +208,8 @@ describe('Journal Reducer', () => {
       } as JournalModel;
       const action = CandidateDetailsSeen({ slotId: 1234 });
       const result = journalReducer(state, action);
-      expect(result).toEqual(state);
+      expect(result)
+        .toEqual(state);
     });
   });
 
@@ -190,8 +224,10 @@ describe('Journal Reducer', () => {
 
       const result = journalReducer(state, action);
 
-      expect(result.isLoading).toBe(false);
-      expect(result.completedTests).toEqual(searchResultsMock);
+      expect(result.isLoading)
+        .toBe(false);
+      expect(result.completedTests)
+        .toEqual(searchResultsMock);
     });
   });
 });

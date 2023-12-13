@@ -3,11 +3,12 @@ import { LogsModel } from '@store/logs/logs.model';
 import { initialState, logsReducer } from '../logs.reducer';
 import * as logsActions from '../logs.actions';
 import { LoadLogState } from '../logs.actions';
+import { Action } from '@ngrx/store';
 
 describe('Logs Reducer', () => {
   describe('undefined action', () => {
     it('should return the existing state', () => {
-      const action = { type: 'NOOP' } as any;
+      const action = { type: 'NOOP' } as Action;
       const result = logsReducer(undefined, action);
 
       expect(result)

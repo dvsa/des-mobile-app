@@ -10,10 +10,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store//tests/tests.selector';
 import { getTestCategory } from '@store//tests/category/category.reducer';
 import { map } from 'rxjs/operators';
-import {
-  CategorySpecificVehicleDetails,
-  VehicleDetailsByCategoryProvider,
-} from '@providers/vehicle-details-by-category/vehicle-details-by-category';
+import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 
 interface ReverseDiagramPageState {
@@ -46,7 +43,6 @@ export class ReverseDiagramPage implements OnInit {
   multiplierText: string;
   category: TestCategory;
   onClose: OnCloseFunc;
-  vehicleDetails: CategorySpecificVehicleDetails;
 
   constructor(
     private navParams: NavParams,
@@ -64,25 +60,30 @@ export class ReverseDiagramPage implements OnInit {
     );
 
     let category: TestCategory;
-    this.catSubscription = currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
-      category = value as TestCategory;
-      const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
-      this.componentState = {
-        vehicleLength$: currentTest$.pipe(
-          select(vehicleDetails.vehicleDetails),
-          select(vehicleDetails.vehicleLength),
-        ),
-        vehicleWidth$: currentTest$.pipe(
-          select(vehicleDetails.vehicleDetails),
-          select(vehicleDetails.vehicleWidth),
-        ),
-        category$: currentTest$.pipe(
-          select(getTestCategory),
-        ),
-      };
-    });
+    this.catSubscription = currentTest$.pipe(select(getTestCategory))
+      .subscribe((value) => {
+        category = value as TestCategory;
+        const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
+        this.componentState = {
+          vehicleLength$: currentTest$.pipe(
+            select(vehicleDetails.vehicleDetails),
+            select(vehicleDetails.vehicleLength),
+          ),
+          vehicleWidth$: currentTest$.pipe(
+            select(vehicleDetails.vehicleDetails),
+            select(vehicleDetails.vehicleWidth),
+          ),
+          category$: currentTest$.pipe(
+            select(getTestCategory),
+          ),
+        };
+      });
 
-    const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
+    const {
+      vehicleLength$,
+      vehicleWidth$,
+      category$,
+    } = this.componentState;
 
     this.merged$ = merge(
       vehicleLength$.pipe(map((val) => this.vehicleLength = val)),
@@ -163,12 +164,12 @@ export class ReverseDiagramPage implements OnInit {
     await this.onClose();
   }
 
-  onLengthKeyup(vehicleLength: number) : void {
+  onLengthKeyup(vehicleLength: number): void {
     this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, vehicleLength));
     this.calculateReversingLengths(vehicleLength);
   }
 
-  onWidthKeyup(vehicleWidth: number) : void {
+  onWidthKeyup(vehicleWidth: number): void {
     this.store$.dispatch(ReverseDiagramWidthChanged(this.vehicleWidth, vehicleWidth));
     this.calculateReversingWidth(vehicleWidth);
   }

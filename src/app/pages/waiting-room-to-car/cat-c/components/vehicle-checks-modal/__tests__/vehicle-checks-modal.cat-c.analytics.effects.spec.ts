@@ -11,17 +11,14 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import * as VehicleChecksActions from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
-import {
-  QuestionOutcome,
-  QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-c.actions';
 import { VehicleChecksModalCatCAnalyticsEffects } from '../vehicle-checks-modal.cat-c.analytics.effects';
 
 describe('VehicleChecksModalCatCAnalyticsEffects', () => {
   let effects: VehicleChecksModalCatCAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<unknown>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 
@@ -34,7 +31,10 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       ],
       providers: [
         VehicleChecksModalCatCAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -52,8 +52,10 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksViewDidEnter());
       effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -68,12 +70,14 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.ShowMeQuestionSelected(showMeQuestion, questionNumber));
       effects.showMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.VEHICLE_CHECKS,
-          `show me question ${questionNumber + 1} changed`,
-          showMeQuestion.code,
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.VEHICLE_CHECKS,
+            `show me question ${questionNumber + 1} changed`,
+            showMeQuestion.code,
+          );
         done();
       });
     });
@@ -86,12 +90,14 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.ShowMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.VEHICLE_CHECKS,
-          `show me question ${questionNumber + 1} outcome changed`,
-          'correct',
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.VEHICLE_CHECKS,
+            `show me question ${questionNumber + 1} outcome changed`,
+            'correct',
+          );
         done();
       });
     });
@@ -106,12 +112,14 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
       effects.tellMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.VEHICLE_CHECKS,
-          `tell me question ${questionNumber + 1} changed`,
-          tellMeQuestion.code,
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.VEHICLE_CHECKS,
+            `tell me question ${questionNumber + 1} changed`,
+            tellMeQuestion.code,
+          );
         done();
       });
     });
@@ -124,12 +132,14 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.VEHICLE_CHECKS,
-          `tell me question ${questionNumber + 1} outcome changed`,
-          'driving fault',
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.VEHICLE_CHECKS,
+            `tell me question ${questionNumber + 1} outcome changed`,
+            'driving fault',
+          );
         done();
       });
     });

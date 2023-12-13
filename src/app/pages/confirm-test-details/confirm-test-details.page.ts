@@ -334,9 +334,7 @@ export class ConfirmTestDetailsPage
     this.store$.dispatch(ClearCandidateLicenceData());
   }
 
-  isADI3(category: TestCategory): boolean {
-    return category === TestCategory.ADI3 || category === TestCategory.SC;
-  }
+  isADI3 = (category: TestCategory): boolean => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC]);
 
   displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
     TestCategory.ADI2,

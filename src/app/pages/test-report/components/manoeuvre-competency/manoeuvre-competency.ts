@@ -13,9 +13,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import {
-  Component, Input, OnDestroy, OnInit,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
@@ -56,8 +54,8 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
   touchState: boolean = false;
   rippleState: boolean = false;
 
-  rippleTimeout: any;
-  touchTimeout: any;
+  rippleTimeout: NodeJS.Timeout;
+  touchTimeout: NodeJS.Timeout;
 
   rippleEffectAnimationDuration: number = 300;
 
@@ -73,7 +71,8 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
 
   constructor(
     private store$: Store<StoreModel>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.label = manoeuvreCompetencyLabels[this.competency];
@@ -131,7 +130,8 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
       manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
     );
 
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$))
+      .subscribe();
 
   }
 

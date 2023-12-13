@@ -11,8 +11,7 @@ import { StartTimer } from '../../test-report.actions';
 export class TimerComponent {
 
   showStartTimerButton: boolean;
-
-  interval: any;
+  interval: NodeJS.Timeout;
   seconds: number;
   timerString: string;
   isPaused: boolean = true;
