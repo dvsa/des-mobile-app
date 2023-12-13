@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
+import { Device } from '@capacitor/device';
 
 type SentryError = RegExp | string;
 
@@ -34,11 +35,10 @@ export class SentryIonicErrorHandler extends ErrorHandler {
     super();
   }
 
-  // keep method name different to inside `ErrorHandler` which brings more clarity to unit tests
-  async handleErr(error: any) {
+  async handleError(error: any) {
     try {
-      // call through to `ErrorHandler` without use of super!
-      this.handleError(error);
+      // call through to ionic error handler which is default behaviour
+      super.handleError(error);
 
       // don't report missing apiKey errors that can be seen via Logs service;
       if (
@@ -49,26 +49,36 @@ export class SentryIonicErrorHandler extends ErrorHandler {
         return;
       }
 
-      const role = this.appConfigProvider.getAppConfig()?.role;
+      const appConfig = await this.appConfigProvider.getAppConfigAsync();
       const employeeID = await this.authenticationProvider.getEmployeeIdFromIDToken();
       const appVersion = await this.appInfoProvider.getFullVersionNumber();
+      const device = await Device.getId();
 
       Sentry.withScope((scope) => {
         if (employeeID) scope.setUser({ id: employeeID });
-        if (role) scope.setTag('role', role);
+        if (device?.identifier) scope.setTag('device-id', device.identifier);
+        if (appConfig?.role) scope.setTag('role', appConfig.role);
         if (appVersion) scope.setTag('app-version', appVersion);
 
         Sentry.captureException(error.originalError || error);
       });
     } catch (err) {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(
-          LogType.ERROR,
-          'Error handler',
-          err?.message ?? err,
-        ),
-      }));
+      this.reportError(err);
     }
+  }
+
+  private reportError(error: unknown) {
+    const details = (error instanceof Error)
+      ? JSON.stringify(error, Object.getOwnPropertyNames(error))
+      : JSON.stringify(error);
+
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.ERROR,
+        'Error handler',
+        details,
+      ),
+    }));
   }
 
   get authenticationProvider(): AuthenticationProvider {
