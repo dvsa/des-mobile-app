@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { IonRefresher, ModalController } from '@ionic/angular';
+import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { select } from '@ngrx/store';
-import { LoadingOptions } from '@ionic/core';
+import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -59,7 +59,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     translucent: false,
   };
   pageState: JournalPageState;
-  pageRefresher: IonRefresher;
+  pageRefresher: IonRefresherCustomEvent<RefresherEventDetail>;
   subscription: Subscription;
   merged$: Observable<any>;
   todaysDate: DateTime;
@@ -194,7 +194,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
 
     if (this.pageRefresher) {
-      this.pageRefresher['detail'].complete();
+      this.pageRefresher.detail.complete();
       this.pageRefresher = null;
     }
     return null;
@@ -219,7 +219,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await modal.present();
   };
 
-  public pullRefreshJournal = async (refresher: IonRefresher) => {
+  public pullRefreshJournal = async (refresher: IonRefresherCustomEvent<RefresherEventDetail>) => {
     await this.refreshJournal();
     this.pageRefresher = refresher;
   };
