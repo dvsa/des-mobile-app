@@ -1,15 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
-import { LogHelper } from '@providers/logs/logs-helper';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { DeviceProvider } from '@providers/device/device';
 import { DeviceError } from '@providers/device/device.constants';
-import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
@@ -32,7 +27,7 @@ import { LoadingOptions } from '@ionic/core';
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
-  appInitError: AuthenticationError | AppConfigError;
+  appInitError: AuthenticationError | AppConfigError | unknown;
   hasUserLoggedOut = false;
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
@@ -47,13 +42,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   constructor(
-    private store$: Store<StoreModel>,
     private loadingProvider: LoadingProvider,
     private appConfigProvider: AppConfigProvider,
     private menuController: MenuController,
-    private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
-    public deviceProvider: DeviceProvider,
     public networkStateProvider: NetworkStateProvider,
     injector: Injector,
   ) {
@@ -170,10 +162,32 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         }
         await this.authenticationProvider.logout();
       }
-      this.appInitError = error;
-      this.dispatchLog(JSON.stringify(this.appInitError));
+
+      const {
+        display,
+        record,
+      } = this.rationaliseError(error);
+
+      this.appInitError = display;
+
+      this.dispatchLog(record);
     }
     this.hasUserLoggedOut = false;
+  };
+
+  private rationaliseError = (error: unknown) => {
+    if (error instanceof Error) {
+      return {
+        // message to display to EU
+        display: error.message,
+        // details to record in logs
+        record: JSON.stringify(error, Object.getOwnPropertyNames(error)),
+      };
+    }
+    return {
+      display: error,
+      record: JSON.stringify(error),
+    };
   };
 
   hideSplashscreen = async (): Promise<void> => {
@@ -189,7 +203,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   dispatchLog = (message: string): void => {
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, `${LoginPage.name} => User login`, message),
+      payload: this.logHelper.createLog(LogType.ERROR, 'LoginPage => User login', message),
     }));
     this.store$.dispatch(SendLogs());
   };

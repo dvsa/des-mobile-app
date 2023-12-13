@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, LoadingController, MenuController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Navigation, NavigationExtras, Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
@@ -20,7 +20,13 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { AlertControllerMock, LoadingControllerMock, MenuControllerMock, PlatformMock } from '@mocks/index.mock';
+import {
+  AlertControllerMock,
+  LoadingControllerMock,
+  MenuControllerMock,
+  PlatformMock,
+  RouterMock,
+} from '@mocks/index.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
@@ -31,7 +37,6 @@ import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'getCurrentNavigation']);
   let authenticationProvider: AuthenticationProvider;
   let appConfigProvider: AppConfigProvider;
   let platform: Platform;
@@ -41,6 +46,7 @@ describe('LoginPage', () => {
   let menuController: MenuController;
   let logHelper: LogHelper;
   let analytics: AnalyticsProvider;
+  let router: Router;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -68,7 +74,7 @@ describe('LoginPage', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
         {
           provide: LoadingController,
@@ -123,6 +129,7 @@ describe('LoginPage', () => {
     menuController = TestBed.inject(MenuController);
     logHelper = TestBed.inject(LogHelper);
     analytics = TestBed.inject(AnalyticsProvider);
+    router = TestBed.inject(Router);
   }));
 
   it('should create', () => {
@@ -143,18 +150,18 @@ describe('LoginPage', () => {
         .returnValue(Promise.resolve());
     });
     it('should call login function when on ios', fakeAsync(() => {
-      spyOn(routerSpy, 'getCurrentNavigation')
+      spyOn(router, 'getCurrentNavigation')
         .and
-        .returnValue({ extras: { state: { hasLoggedOut: false } } });
+        .returnValue({ extras: { state: { hasLoggedOut: false } } as NavigationExtras } as Navigation);
       component.ngOnInit();
       flushMicrotasks();
       expect(component.login)
         .toHaveBeenCalled();
     }));
     it('should not run login on hasLoggedOut', fakeAsync(() => {
-      spyOn(routerSpy, 'getCurrentNavigation')
+      spyOn(router, 'getCurrentNavigation')
         .and
-        .returnValue({ extras: { state: { hasLoggedOut: true } } });
+        .returnValue({ extras: { state: { hasLoggedOut: true } } as NavigationExtras } as Navigation);
       component.ngOnInit();
       flushMicrotasks();
       expect(component.closeSideMenuIfOpen)
@@ -425,14 +432,14 @@ describe('LoginPage', () => {
   });
   describe('validateDeviceType', () => {
     beforeEach(() => {
-      spyOn(routerSpy, 'navigate');
+      spyOn(router, 'navigate');
     });
     it('should navigate to dashboard page', async () => {
       spyOn(component.deviceProvider, 'validDeviceType')
         .and
         .returnValue(Promise.resolve(true));
       await component.validateDeviceType();
-      expect(routerSpy.navigate)
+      expect(router.navigate)
         .toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });
   });

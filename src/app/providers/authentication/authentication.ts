@@ -270,6 +270,13 @@ export class AuthenticationProvider {
     }
   }
 
+  public getEmployeeIdFromIDToken = async () => {
+    // rerun logic for setting employee ID
+    await this.setEmployeeId();
+    // retrieve set employee ID
+    return this.getEmployeeId();
+  };
+
   public async setEmployeeId() {
     const idToken = await this.authConnect.getIdToken();
     const employeeId = idToken[this.employeeIdKey];
@@ -280,7 +287,7 @@ export class AuthenticationProvider {
 
   private logEvent = (logType: LogType, desc: string, msg: string) => {
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(logType, desc, `${AuthenticationProvider.name} => ${msg}`),
+      payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${msg}`),
     }));
   };
 

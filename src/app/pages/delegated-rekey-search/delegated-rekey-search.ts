@@ -1,9 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
-import { StoreModel } from '@shared/models/store.model';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
@@ -13,13 +12,12 @@ import {
 } from '@pages/delegated-rekey-search/delegated-rekey-search-error-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  getBookedTestSlot, getDelegatedRekeySearchError,
+  getBookedTestSlot,
+  getDelegatedRekeySearchError,
   getHasSearched,
   getIsLoading,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
-import {
-  AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash';
@@ -57,7 +55,6 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
-    private store$: Store<StoreModel>,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
     injector: Injector,

@@ -1,16 +1,11 @@
-import {
-  ComponentFixture, TestBed, fakeAsync, tick, waitForAsync,
-} from '@angular/core/testing';
-import {
-  NavControllerMock,
-  PlatformMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -18,19 +13,19 @@ import { FinalisationHeaderComponent } from '@components/test-finalisation/final
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { PassCertificateNumberComponent }
-  from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
-import { LicenseProvidedComponent }
-  from '@pages/pass-finalisation/components/license-provided/license-provided';
-import { LicenceProvidedWarningBannerComponent }
-  from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import {
-  NavController, Platform,
-} from '@ionic/angular';
+  PassCertificateNumberComponent,
+} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
+import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
+import {
+  LicenceProvidedWarningBannerComponent,
+} from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
+import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { PersistTests } from '@store/tests/tests.actions';
-import { PASS_CERTIFICATE_NUMBER_CTRL }
-  from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import {
+  PASS_CERTIFICATE_NUMBER_CTRL,
+} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
@@ -42,16 +37,12 @@ import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common'
 import { TestsModel } from '@store/tests/tests.model';
 import { provideMockStore } from '@ngrx/store/testing';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
-import {
-  PassFinalisationViewDidEnter,
-  PassFinalisationValidationError,
-} from '../../pass-finalisation.actions';
+import { PassFinalisationValidationError, PassFinalisationViewDidEnter } from '../../pass-finalisation.actions';
 
 describe('PassFinalisationCatBPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatBPage>;
   let component: PassFinalisationCatBPage;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   const initialState = {
     appInfo: { employeeId: '123456' },
@@ -65,7 +56,10 @@ describe('PassFinalisationCatBPage', () => {
           version: '1',
           rekey: false,
           activityCode: '1',
-          passCompletion: { passCertificateNumber: 'test', code78: true },
+          passCompletion: {
+            passCertificateNumber: 'test',
+            code78: true,
+          },
           category: TestCategory.D,
           changeMarker: null,
           examinerBooked: null,
@@ -146,10 +140,22 @@ describe('PassFinalisationCatBPage', () => {
         AppModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavController, useClass: NavControllerMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
         provideMockStore({ initialState }),
         OutcomeBehaviourMapProvider,
       ],
@@ -175,27 +181,32 @@ describe('PassFinalisationCatBPage', () => {
         component.ngOnInit();
         component.pageState.transmissionManualRadioChecked$.subscribe();
 
-        expect(component.form.controls['transmissionCtrl'].value).toEqual('Manual');
+        expect(component.form.controls['transmissionCtrl'].value)
+          .toEqual('Manual');
       });
     });
 
     describe('ionViewDidEnter', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
         component.ionViewDidEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledTimes(1);
       });
     });
     describe('onSubmit', () => {
       it('should dispatch the ProvisionalLicenseNotReceived action', async () => {
         component.candidateDriverNumber = '1234567';
         await component.onSubmit();
-        expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
       });
       // Unit tests for the components TypeScript class
       it('should dispatch the PersistTests action', async () => {
         await component.onSubmit();
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PersistTests());
       });
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
@@ -223,13 +234,15 @@ describe('PassFinalisationCatBPage', () => {
   });
 
   describe('isNorthernIreland', () => {
-    const UKlicence : string = 'JONES849339TS8AD';
-    const NIlicence : string = '23514780';
+    const UKlicence: string = 'JONES849339TS8AD';
+    const NIlicence: string = '23514780';
     it('should return true if driving licence is Northern Ireland', () => {
-      expect(component.isNorthernIreland(NIlicence)).toEqual(true);
+      expect(component.isNorthernIreland(NIlicence))
+        .toEqual(true);
     });
     it('should return false if driving licence is Northern Ireland', () => {
-      expect(component.isNorthernIreland(UKlicence)).toEqual(false);
+      expect(component.isNorthernIreland(UKlicence))
+        .toEqual(false);
     });
   });
 
@@ -238,7 +251,8 @@ describe('PassFinalisationCatBPage', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 
@@ -247,25 +261,29 @@ describe('PassFinalisationCatBPage', () => {
       component.transmission = 'Automatic';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
       component.form.controls['transmissionCtrl'].markAsDirty();
-      expect(component.displayTransmissionBanner()).toEqual(true);
+      expect(component.displayTransmissionBanner())
+        .toEqual(true);
     });
     it('should return false if transmission is not automatic and form is dirty', () => {
       component.transmission = 'Manual';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
       component.form.controls['transmissionCtrl'].markAsDirty();
-      expect(component.displayTransmissionBanner()).toEqual(false);
+      expect(component.displayTransmissionBanner())
+        .toEqual(false);
     });
     it('should return false if transmission is automatic and form is not dirty', () => {
       component.transmission = 'Automatic';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
       component.form.controls['transmissionCtrl'].markAsPristine();
-      expect(component.displayTransmissionBanner()).toEqual(false);
+      expect(component.displayTransmissionBanner())
+        .toEqual(false);
     });
     it('should return false if transmission is not automatic and form is not dirty', () => {
       component.transmission = 'Manual';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
       component.form.controls['transmissionCtrl'].markAsPristine();
-      expect(component.displayTransmissionBanner()).toEqual(false);
+      expect(component.displayTransmissionBanner())
+        .toEqual(false);
     });
   });
 

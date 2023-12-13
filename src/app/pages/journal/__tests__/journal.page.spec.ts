@@ -1,14 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonRefresher, ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ActivatedRouteMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -31,6 +28,7 @@ import {
 } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
 import * as journalActions from '@store/journal/journal.actions';
+import { JournalViewDidEnter } from '@store/journal/journal.actions';
 import { MesError } from '@shared/models/mes-error.model';
 import { ErrorPage } from '@pages/error-page/error';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -46,12 +44,14 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { ActivatedRoute } from '@angular/router';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
   let component: JournalPage;
   let store$: Store<StoreModel>;
-  let deviceProvider: DeviceProvider;
   let loaderService: LoadingProvider;
   const loadingOpts: LoadingOptions = {
     id: 'journal_loading_spinner',
@@ -128,6 +128,14 @@ describe('JournalPage', () => {
           provide: AccessibilityService,
           useClass: AccessibilityServiceMock,
         },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
       ],
     });
 
@@ -135,7 +143,6 @@ describe('JournalPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.subscription = new Subscription();
-    deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
     spyOn(store$, 'dispatch');
@@ -201,15 +208,12 @@ describe('JournalPage', () => {
     });
 
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions', async () => {
-        spyOn(ScreenOrientation, 'unlock');
-        spyOn(Insomnia, 'allowSleep');
+      it('should call through to base page unlock method', async () => {
+        spyOn(BasePageComponent.prototype, 'unlockDevice');
         await component.ionViewDidEnter();
-        expect(deviceProvider.disableSingleAppMode)
-          .toHaveBeenCalled();
-        expect(ScreenOrientation.unlock)
-          .toHaveBeenCalled();
-        expect(Insomnia.allowSleep)
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(JournalViewDidEnter());
+        expect(BasePageComponent.prototype.unlockDevice)
           .toHaveBeenCalled();
       });
     });

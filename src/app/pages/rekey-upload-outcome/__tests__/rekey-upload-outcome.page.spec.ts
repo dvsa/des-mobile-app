@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
-import { PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
@@ -29,7 +29,6 @@ describe('RekeyUploadOutcomePage', () => {
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
   let router: Router;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
   beforeEach(waitForAsync(() => {
     jasmine.getEnv()
@@ -53,7 +52,7 @@ describe('RekeyUploadOutcomePage', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
         {
           provide: AuthenticationProvider,

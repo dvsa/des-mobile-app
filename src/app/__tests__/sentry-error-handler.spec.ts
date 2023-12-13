@@ -46,19 +46,15 @@ describe('SentryIonicErrorHandler', () => {
 
     sentryErrorHandler = TestBed.inject(SentryIonicErrorHandler);
 
-    spyOn(SentryIonicErrorHandler.prototype, 'handleError');
     spyOn(sentryErrorHandler.store$, 'dispatch');
-    spyOn(sentryErrorHandler.authenticationProvider, 'getEmployeeId')
+    spyOn(sentryErrorHandler.appConfigProvider, 'getAppConfigAsync')
       .and
-      .returnValue(mockLog.drivingExaminerId);
-    spyOn(sentryErrorHandler.appConfigProvider, 'getAppConfig')
-      .and
-      .returnValue({
+      .returnValue(Promise.resolve({
         role: ExaminerRole.DE,
-      } as AppConfig);
+      } as AppConfig));
   }));
 
-  describe('handleErr', () => {
+  describe('handleError', () => {
     it('should call through to all providers and pass error to Sentry', async () => {
       spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber')
         .and
@@ -66,12 +62,12 @@ describe('SentryIonicErrorHandler', () => {
           Promise.resolve('4.8.0.5'),
         );
 
-      await sentryErrorHandler.handleErr(new Error('Some runtime error'));
-      expect(sentryErrorHandler.appConfigProvider.getAppConfig)
+      await sentryErrorHandler.handleError(new Error('Some runtime error'));
+      expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync)
         .toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber)
         .toHaveBeenCalled();
-      expect(sentryErrorHandler.authenticationProvider.getEmployeeId)
+      expect(sentryErrorHandler.authenticationProvider.getEmployeeIdFromIDToken)
         .toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch)
         .not
@@ -87,12 +83,12 @@ describe('SentryIonicErrorHandler', () => {
         .and
         .returnValue(mockLog);
 
-      await sentryErrorHandler.handleErr(new Error('Some runtime error'));
-      expect(sentryErrorHandler.appConfigProvider.getAppConfig)
+      await sentryErrorHandler.handleError(new Error('Some runtime error'));
+      expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync)
         .toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber)
         .toHaveBeenCalled();
-      expect(sentryErrorHandler.authenticationProvider.getEmployeeId)
+      expect(sentryErrorHandler.authenticationProvider.getEmployeeIdFromIDToken)
         .toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch)
         .toHaveBeenCalledWith(SaveLog({ payload: mockLog }));
@@ -107,16 +103,16 @@ describe('SentryIonicErrorHandler', () => {
         .and
         .returnValue(mockLog);
 
-      await sentryErrorHandler.handleErr({ err: 'some error' });
+      await sentryErrorHandler.handleError({ err: 'some error' });
       expect(sentryErrorHandler.store$.dispatch)
         .toHaveBeenCalledWith(SaveLog({ payload: mockLog }));
     });
     it('should not call to any provider if an instance of HttpErrorResponse', async () => {
-      await sentryErrorHandler.handleErr(new HttpErrorResponse({
+      await sentryErrorHandler.handleError(new HttpErrorResponse({
         status: 403,
         url: 'https://logs-service.com',
       }));
-      expect(sentryErrorHandler.appConfigProvider.getAppConfig)
+      expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync)
         .not
         .toHaveBeenCalled();
     });

@@ -1,18 +1,13 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ModalController, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
 import { AppLauncher } from '@capacitor/app-launcher';
 
 import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { DeviceProvider } from '@providers/device/device';
-import { StoreModel } from '@shared/models/store.model';
 import { DateTime } from '@shared/helpers/date-time';
 import { BasePageComponent } from '@shared/classes/base-page';
 import {
@@ -63,9 +58,7 @@ interface DashboardPageState {
   templateUrl: 'dashboard.page.html',
   styleUrls: ['dashboard.page.scss'],
 })
-export class DashboardPage
-  extends BasePageComponent
-  implements OnInit, ViewDidEnter, ViewWillEnter {
+export class DashboardPage extends BasePageComponent implements OnInit, ViewDidEnter, ViewWillEnter {
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
@@ -77,10 +70,8 @@ export class DashboardPage
 
   constructor(
     private appConfigProvider: AppConfigProvider,
-    private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private networkStateProvider: NetworkStateProvider,
-    public deviceProvider: DeviceProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
     injector: Injector,
@@ -139,11 +130,7 @@ export class DashboardPage
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
     this.store$.dispatch(journalActions.LoadJournalSilent());
 
-    if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
-    }
+    await super.unlockDevice();
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();

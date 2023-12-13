@@ -127,13 +127,13 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
     injector: Injector,
   ) {
     super(injector, false);
     this.form = new UntypedFormGroup({});
-    const { nonPassData } = this.route.snapshot.data;
+    const { nonPassData } = this.activatedRoute.snapshot.data;
     const [behaviourMap, activityCodeList] = nonPassData;
     this.activityCodeOptions = activityCodeList;
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);

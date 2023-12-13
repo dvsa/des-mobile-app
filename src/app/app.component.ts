@@ -1,10 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
-import {  combineLatest, merge, Observable, Subscription } from 'rxjs';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
@@ -12,7 +11,6 @@ import { Storage } from '@ionic/storage-angular';
 
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
@@ -20,7 +18,6 @@ import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { DeviceProvider } from '@providers/device/device';
 import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
@@ -73,7 +70,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   private platformSubscription: Subscription;
 
   constructor(
-    private store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
     protected accessibilityService: AccessibilityService,
@@ -83,7 +79,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
-    protected deviceProvider: DeviceProvider,
     private storage: Storage,
     injector: Injector,
   ) {

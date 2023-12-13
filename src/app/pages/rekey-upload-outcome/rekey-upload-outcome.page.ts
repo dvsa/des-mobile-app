@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestSlot } from '@dvsa/mes-journal-schema';
@@ -9,8 +9,6 @@ import { isEmpty } from 'lodash';
 
 import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';
-import { StoreModel } from '@shared/models/store.model';
-import { DeviceProvider } from '@providers/device/device';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
@@ -44,11 +42,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
   fromRekeySearch: boolean;
   subscription: Subscription = Subscription.EMPTY;
 
-  constructor(
-    private store$: Store<StoreModel>,
-    private deviceProvider: DeviceProvider,
-    injector: Injector,
-  ) {
+  constructor(injector: Injector) {
     super(injector);
   }
 

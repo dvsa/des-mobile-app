@@ -1,18 +1,16 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { IonRefresher, ModalController } from '@ionic/angular';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { StoreModel } from '@shared/models/store.model';
 import { ErrorTypes } from '@shared/models/error-message';
 import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
@@ -29,7 +27,6 @@ import {
 } from '@store/journal/journal.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
-import { DeviceProvider } from '@providers/device/device';
 import { LoadingProvider } from '@providers/loader/loader';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -71,11 +68,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     public orientationMonitorProvider: OrientationMonitorProvider,
-    private store$: Store<StoreModel>,
     public dateTimeProvider: DateTimeProvider,
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
-    private deviceProvider: DeviceProvider,
     public loadingProvider: LoadingProvider,
     injector: Injector,
   ) {
@@ -172,12 +167,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
-
-    if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
-    }
+    await super.unlockDevice();
   }
 
   async loadJournalManually() {

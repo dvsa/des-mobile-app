@@ -49,9 +49,6 @@ import {
   getValidCertificateStatus,
 } from '@store/tests/pre-test-declarations/cat-a-mod2/pre-test-declarations.cat-adi-part3.selector';
 import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-import { DeviceProvider } from '@providers/device/device';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -100,7 +97,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
-    private deviceProvider: DeviceProvider,
     injector: Injector,
   ) {
     super(injector, false);
@@ -220,27 +216,24 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(CommunicationViewDidEnter());
-
-    if (super.isIos()) {
-      await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
-      await Insomnia.keepAwake();
-
-      if (!this.isEndToEndPracticeMode) {
-        await this.deviceProvider.enableSingleAppMode();
-      }
-    }
+    await super.lockDevice(this.isEndToEndPracticeMode);
   }
 
   async onSubmit(): Promise<void> {
     Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+      .forEach(
+        (controlName) => this.form.controls[controlName].markAsDirty(),
+      );
+
     if (!this.form.valid) {
       Object.keys(this.form.controls)
-        .forEach((controlName) => {
-          if (this.form.controls[controlName].invalid) {
-            this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
-          }
-        });
+        .forEach(
+          (controlName) => {
+            if (this.form.controls[controlName].invalid) {
+              this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
+            }
+          },
+        );
       return;
     }
 

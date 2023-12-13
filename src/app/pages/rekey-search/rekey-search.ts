@@ -3,12 +3,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { isEmpty } from 'lodash';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
-import { StoreModel } from '@shared/models/store.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import {
   RekeySearchClearState,
@@ -22,7 +20,6 @@ import {
   getIsLoading,
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
-import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 interface RekeySearchPageState {
@@ -47,8 +44,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
-    private store$: Store<StoreModel>,
-    private deviceProvider: DeviceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -77,11 +72,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(RekeySearchViewDidEnter());
-
-    if (super.isIos()) {
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
-    }
+    await super.unlockDevice();
   }
 
   async ionViewWillEnter() {

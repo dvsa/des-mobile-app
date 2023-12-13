@@ -2,8 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { Router } from '@angular/router';
-import { AlertControllerMock, MenuControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRouteMock,
+  AlertControllerMock,
+  MenuControllerMock,
+  PlatformMock,
+  RouterMock,
+} from '@mocks/index.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -34,6 +40,8 @@ import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/acc
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AppComponent } from '../app.component';
 import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -119,6 +127,14 @@ describe('AppComponent', () => {
         {
           provide: Storage,
           useClass: StorageMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
       ],
     });

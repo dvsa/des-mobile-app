@@ -1,12 +1,6 @@
-import {
-  ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import {
-  AlertController, NavController, NavParams, Platform,
-} from '@ionic/angular';
-import {
-  AlertControllerMock, NavControllerMock, NavParamsMock, PlatformMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { AlertController, NavController, NavParams, Platform } from '@ionic/angular';
+import { AlertControllerMock, NavControllerMock, NavParamsMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -38,20 +32,17 @@ import { HealthDeclarationComponent } from '@pages/health-declaration/components
 import {
   ReceiptDeclarationComponent,
 } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
-
-const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
 describe('HealthDeclarationPage', () => {
   let fixture: ComponentFixture<HealthDeclarationPage>;
   let component: HealthDeclarationPage;
   let store$: Store<StoreModel>;
   let translate: TranslateService;
+  let router: Router;
 
   const testSlotAttributes: TestSlotAttributes = {
     welshTest: false,
@@ -128,7 +119,7 @@ describe('HealthDeclarationPage', () => {
         },
         {
           provide: Router,
-          useValue: routerSpy,
+          useClass: RouterMock,
         },
       ],
     });
@@ -140,6 +131,7 @@ describe('HealthDeclarationPage', () => {
       .and
       .callThrough();
     translate = TestBed.inject(TranslateService);
+    router = TestBed.inject(Router);
     translate.setDefaultLang('en');
     component.subscription = new Subscription();
   }));
@@ -169,7 +161,7 @@ describe('HealthDeclarationPage', () => {
 
       describe('persistAndNavigate', () => {
         it('should dispatch a ProvisionalLicenseNotReceived if passed true and licenseProvided is true', async () => {
-          spyOn(routerSpy, 'navigate')
+          spyOn(router, 'navigate')
             .and
             .returnValue(Promise.resolve(true));
           component.licenseProvided = true;

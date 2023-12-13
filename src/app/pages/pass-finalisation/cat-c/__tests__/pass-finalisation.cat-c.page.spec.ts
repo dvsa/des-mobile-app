@@ -1,10 +1,5 @@
-import {
-  ComponentFixture, TestBed, waitForAsync, fakeAsync, tick,
-} from '@angular/core/testing';
-import {
-  NavControllerMock,
-  PlatformMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
@@ -20,15 +15,11 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import {
   PassCertificateNumberComponent,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
-import {
-  LicenseProvidedComponent,
-} from '@pages/pass-finalisation/components/license-provided/license-provided';
+import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
 import {
   LicenceProvidedWarningBannerComponent,
 } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
-import {
-  NavController, Platform,
-} from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -38,7 +29,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
@@ -56,7 +47,6 @@ describe('PassFinalisationCatCPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatCPage>;
   let component: PassFinalisationCatCPage;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   const initialState = {
     appInfo: { employeeId: '123456' },
@@ -70,7 +60,10 @@ describe('PassFinalisationCatCPage', () => {
           version: '1',
           rekey: false,
           activityCode: '1',
-          passCompletion: { passCertificateNumber: 'test', code78Present: true },
+          passCompletion: {
+            passCertificateNumber: 'test',
+            code78Present: true,
+          },
           category: TestCategory.D,
           changeMarker: null,
           examinerBooked: null,
@@ -281,10 +274,22 @@ describe('PassFinalisationCatCPage', () => {
         AppModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavController, useClass: NavControllerMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
         provideMockStore({ initialState }),
         OutcomeBehaviourMapProvider,
       ],
@@ -304,13 +309,15 @@ describe('PassFinalisationCatCPage', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
       });
     });
     describe('shouldShowCandidateDoesntNeedLicenseBanner', () => {
       it('return provisionalLicenseIsReceived', () => {
         component.provisionalLicenseIsReceived = true;
-        expect(component.shouldShowCandidateDoesntNeedLicenseBanner()).toEqual(true);
+        expect(component.shouldShowCandidateDoesntNeedLicenseBanner())
+          .toEqual(true);
       });
     });
 
@@ -329,14 +336,16 @@ describe('PassFinalisationCatCPage', () => {
       it('should dispatch PassFinalisationViewDidEnter', () => {
         spyOn(store$, 'dispatch');
         component.ionViewWillEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationViewDidEnter());
       });
     });
 
     describe('onSubmit', () => {
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PersistTests());
       });
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
         component.form = new UntypedFormGroup({
@@ -348,8 +357,10 @@ describe('PassFinalisationCatCPage', () => {
 
         component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .toHaveBeenCalledWith(PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`));
         expect(store$.dispatch)
@@ -363,15 +374,18 @@ describe('PassFinalisationCatCPage', () => {
           component.transmission = cat.transmission;
           component.code78Present = cat.code78;
           component.testCategory = cat.category;
-          expect(component.shouldShowAutomaticBanner()).toEqual(cat.automaticBanner);
-          expect(component.shouldShowManualBanner()).toEqual(cat.manualBanner);
+          expect(component.shouldShowAutomaticBanner())
+            .toEqual(cat.automaticBanner);
+          expect(component.shouldShowManualBanner())
+            .toEqual(cat.manualBanner);
         });
       });
     });
     describe('shouldHideBanner', () => {
       it('should hide banner when only transmission is selected', () => {
         component.transmission = TransmissionType.Manual;
-        expect(component.shouldShowCode78Banner()).toEqual(false);
+        expect(component.shouldShowCode78Banner())
+          .toEqual(false);
       });
     });
   });

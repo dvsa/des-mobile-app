@@ -1,13 +1,11 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 
-import { DeviceProvider } from '@providers/device/device';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { StoreModel } from '@shared/models/store.model';
 import { SendCurrentTest } from '@store/tests/tests.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -27,17 +25,11 @@ interface DelegatedRekeyUploadOutcomePageState {
   templateUrl: 'delegated-rekey-upload-outcome.html',
   styleUrls: ['delegated-rekey-upload-outcome.scss'],
 })
-export class DelegatedRekeyUploadOutcomePage
-  extends BasePageComponent
-  implements OnInit, ViewDidEnter {
+export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements OnInit, ViewDidEnter {
 
   pageState: DelegatedRekeyUploadOutcomePageState;
 
-  constructor(
-    private store$: Store<StoreModel>,
-    private deviceProvider: DeviceProvider,
-    injector: Injector,
-  ) {
+  constructor(injector: Injector) {
     super(injector);
   }
 

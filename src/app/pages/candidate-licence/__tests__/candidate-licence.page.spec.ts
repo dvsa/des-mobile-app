@@ -2,12 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DomSanitizer } from '@angular/platform-browser';
-import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { CandidateLicencePage } from '@pages/candidate-licence/candidate-licence.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -37,6 +35,11 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestsModel } from '@store/tests/tests.model';
 import * as moment from 'moment';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
 describe('CandidateLicencePage', () => {
   let component: CandidateLicencePage;
@@ -127,6 +130,18 @@ describe('CandidateLicencePage', () => {
         {
           provide: Router,
           useClass: RouterMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
         provideMockStore({ initialState }),
       ],

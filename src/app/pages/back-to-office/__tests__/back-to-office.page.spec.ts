@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { AppModule } from 'src/app/app.module';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -14,7 +13,6 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 
@@ -23,7 +21,6 @@ describe('BackToOfficePage', () => {
   let component: BackToOfficePage;
   let modalController: ModalController;
   let store$: Store<StoreModel>;
-  let deviceProvider: DeviceProvider;
   let routeByCategoryProvider: RouteByCategoryProvider;
 
   beforeEach(waitForAsync(() => {
@@ -55,7 +52,6 @@ describe('BackToOfficePage', () => {
 
     fixture = TestBed.createComponent(BackToOfficePage);
     component = fixture.componentInstance;
-    deviceProvider = TestBed.inject(DeviceProvider);
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
@@ -71,19 +67,9 @@ describe('BackToOfficePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async () => {
-        spyOn(ScreenOrientation, 'unlock')
-          .and
-          .returnValue(Promise.resolve());
-        spyOn(Insomnia, 'allowSleep')
-          .and
-          .returnValue(Promise.resolve());
+        spyOn(BasePageComponent.prototype, 'unlockDevice');
         await component.ionViewDidEnter();
-        expect(deviceProvider.disableSingleAppMode)
-          .not
-          .toHaveBeenCalled();
-        expect(ScreenOrientation.unlock)
-          .toHaveBeenCalled();
-        expect(Insomnia.allowSleep)
+        expect(BasePageComponent.prototype.unlockDevice)
           .toHaveBeenCalled();
       });
     });

@@ -1,6 +1,8 @@
 export class RouterMock {
   url = '/url';
 
+  routerState = { root: '' };
+
   navigate = jasmine.createSpy('navigate')
     .and
     .returnValue(Promise.resolve(true));

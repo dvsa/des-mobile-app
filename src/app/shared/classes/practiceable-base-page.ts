@@ -16,9 +16,7 @@ interface PracticeableBasePageState {
 }
 
 @Injectable()
-export abstract class PracticeableBasePageComponent
-  extends BasePageComponent
-  implements OnInit, ViewDidLeave {
+export abstract class PracticeableBasePageComponent extends BasePageComponent implements OnInit, ViewDidLeave {
 
   public store$ = this.injector.get<Store<StoreModel>>(Store);
 
