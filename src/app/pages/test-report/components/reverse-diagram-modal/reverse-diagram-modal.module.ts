@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ReverseDiagramModalAnalyticsEffects }
   from './reverse-diagram-modal.analytics.effects';
 import { ReverseDiagramPage } from './reverse-diagram-modal';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { ReverseDiagramPage } from './reverse-diagram-modal';
   imports: [
     EffectsModule.forFeature([ReverseDiagramModalAnalyticsEffects]),
     IonicModule,
+    DirectivesModule,
   ],
   providers: [
     ReversingDistancesProvider,

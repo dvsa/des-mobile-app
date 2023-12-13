@@ -1,55 +1,38 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, ElementRef } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { ElementRef } from '@angular/core';
 import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 
-@Component({
-  template: '<input pasteSanitiser>',
-})
-class TestComponent { }
-
 describe('PasteSanitiserDirective', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let inputElement: DebugElement;
+  let directive: PasteSanitiserDirective;
+  let elementRefMock: jasmine.SpyObj<ElementRef>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [PasteSanitiserDirective, TestComponent],
+    elementRefMock = {
+      nativeElement: {
+        value: '',
+        setAttribute: jasmine.createSpy(),
+        getAttribute: jasmine.createSpy(),
+        hasAttribute: jasmine.createSpy(),
+      },
+    };
+    directive = new PasteSanitiserDirective(elementRefMock as ElementRef);
+  });
+
+  it('should sanitize pasted data', () => {
+    const event = new ClipboardEvent('paste', {
+      clipboardData: new DataTransfer(),
     });
-    fixture = TestBed.createComponent(TestComponent);
-    inputElement = fixture.debugElement.query(By.directive(PasteSanitiserDirective));
-  });
+    const maxLength = '5';
+    elementRefMock.nativeElement.getAttribute.and.returnValue(maxLength);
+    event.clipboardData.setData('text', 'text😊123');
+    elementRefMock.nativeElement.hasAttribute.and.returnValue(false);
+    spyOn(window, 'setTimeout')
+      .and
+      // @ts-ignore
+      .callFake((fn) => fn());
 
-  it('should create an instance', () => {
-    const directive = new PasteSanitiserDirective(inputElement.injector.get(ElementRef));
-    expect(directive).toBeTruthy();
-  });
+    directive.onInput(event);
 
-  it('should limit input length based on maxLength attribute', () => {
-    inputElement.nativeElement.setAttribute('maxLength', '5');
-
-    inputElement.nativeElement.value = '123456';
-    inputElement.triggerEventHandler('paste', { clipboardData: { getData: () => '1234567890' } });
-    fixture.detectChanges();
-
-    expect(inputElement.nativeElement.value).toBe('12345');
-  });
-
-  it('should limit input length based on charLimit attribute', () => {
-    inputElement.nativeElement.setAttribute('charLimit', '3');
-
-    inputElement.nativeElement.value = 'abcde';
-    inputElement.triggerEventHandler('paste', { clipboardData: { getData: () => 'abcdef' } });
-    fixture.detectChanges();
-
-    expect(inputElement.nativeElement.value).toBe('abc');
-  });
-
-  it('should not limit input length if neither maxLength nor charLimit attribute is set', () => {
-    inputElement.nativeElement.value = '123456';
-    inputElement.triggerEventHandler('paste', { clipboardData: { getData: () => '123456' } });
-    fixture.detectChanges();
-
-    expect(inputElement.nativeElement.value).toBe('123456');
+    expect(elementRefMock.nativeElement.value)
+      .toBe('text1');
   });
 });

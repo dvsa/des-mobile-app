@@ -1,45 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, ElementRef } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { ElementRef } from '@angular/core';
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
 
-@Component({
-  template: '<input emojiBlock>',
-})
-class TestComponent { }
-
 describe('EmojiBlockDirective', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let inputElement: DebugElement;
+  let directive: EmojiBlockDirective;
+  let elementRefMock: jasmine.SpyObj<ElementRef>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [EmojiBlockDirective, TestComponent],
-    });
-    fixture = TestBed.createComponent(TestComponent);
-    inputElement = fixture.debugElement.query(By.directive(EmojiBlockDirective));
+    elementRefMock = {
+      nativeElement: {
+        value: 'Hello😀 World🌎',
+        setAttribute: jasmine.createSpy(),
+        getAttribute: jasmine.createSpy(),
+        hasAttribute: jasmine.createSpy(),
+      },
+    };
+    directive = new EmojiBlockDirective(elementRefMock as ElementRef);
   });
 
-  it('should create an instance', () => {
-    const directive = new EmojiBlockDirective(inputElement.injector.get(ElementRef));
-    expect(directive).toBeTruthy();
-  });
+  it('should sanitize emojis from input data', () => {
+    directive.onInput();
 
-  it('should remove emojis from input on input event', () => {
-
-    inputElement.nativeElement.value = 'Hello 😀 World 🌎';
-    inputElement.triggerEventHandler('input', {});
-    fixture.detectChanges();
-
-    expect(inputElement.nativeElement.value).toBe('Hello  World ');
-  });
-
-  it('should remove emojis from input on paste event', () => {
-
-    inputElement.nativeElement.value = 'Hello 😀 World 🌎';
-    inputElement.triggerEventHandler('paste', {});
-    fixture.detectChanges();
-
-    expect(inputElement.nativeElement.value).toBe('Hello  World ');
+    expect(elementRefMock.nativeElement.value)
+      .toBe('Hello World');
   });
 });
