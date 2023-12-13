@@ -1,13 +1,16 @@
-# DES-MOBILE-APPLICATION
+# DES Mobile App
 
 DVSA Driving Examiner Application
 
+![CI Checks](https://github.com/dvsa/des-mobile-app/actions/workflows/ci.yaml/badge.svg)
+![Snyk Security](https://github.com/dvsa/des-mobile-app/actions/workflows/security.yaml/badge.svg)
+
 ### Pre-requisites
 
-- NodeJS
-- NPM
+- NodeJS - We are using [n](https://github.com/tj/n) to manage our version. Please see `.nvmrc` for specific version
+- NPM (If using [n](https://github.com/tj/n), your `npm` version will be automatically managed)
 - Brew
-- Cocoapods `brew install cocoapods`
+- Cocoapods (Recommend installing via Homebrew using `brew install cocoapods`)
 - Security
   - [Git secrets](https://github.com/awslabs/git-secrets)
   - [ScanRepo](https://github.com/UKHomeOffice/repo-security-scanner)
@@ -21,25 +24,26 @@ DVSA Driving Examiner Application
 
 ###### Run the following commands after cloning the project
 
-1. `npm i`
+1. `npm install` (or `npm i`)
 2. `npm run build`
 
 ### Config
 
 ###### Run the following to switch between configurations
 
-- `npm run config:dev` (access dev services)
+- `npm run config:dev`
 - `npm run config:local`
 
 ### Running Application
 
-- For simulator/device (Terminal should prompt you to a target which includes a connected device or Simulators from
-  XCode)
+- For simulator/device (A list of devices will be displayed based on Xcode installations)
   - `npm run serve:emulator`
-- For browser (Opens in default browser using local data)
+- For browser (Opens in default browser using data from `./mocks/generate-local-*.ts` files)
   - `npm run serve:local`
 
 ### Accessing NGRX state
+
+###### The Redux DevTools extension can be installed via Chrome Web Store
 
 #### Browser:
 
@@ -54,7 +58,7 @@ DVSA Driving Examiner Application
 
 ### Unit Tests
 
-###### Running the following command will create a folder containing code coverage here `./coverage`.
+###### Running the following command will execute the unit test suite, as well as creating a folder containing code coverage here `./coverage`.
 
 - `npm run test`
 
@@ -64,7 +68,7 @@ DVSA Driving Examiner Application
 
 - A script has been added (`buildScripts/sentry-deploy.sh`) that will automatically create a new Sentry release and
   upload sourcemaps
-- If wishing to disable Sentry for any reason, then set the `dsn` value to null
+- If wishing to disable Sentry for any reason, then set the `dsn` value to null in the env file
 
 ### Sonar
 
@@ -73,3 +77,8 @@ DVSA Driving Examiner Application
 - A script has been added (`buildScripts/sonar-properties-update.sh`) that will update the version of the Sonar release
   based upon the version contained inside `config.xml`
 - Execute `npm run sonar` to ensure all necessary files are checked
+
+### Code style
+
+- This project uses [husky](https://github.com/typicode/husky) to run a series of checks on `pre-commit` and `pre-push`
+- This project uses `lint-staged` and `eslint` to enforce code styles
