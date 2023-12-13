@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, Input, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -13,6 +13,7 @@ import { etaLabels } from './eta.constants';
 interface ETAComponentState {
   actionTaken$: Observable<boolean>;
 }
+
 @Component({
   selector: 'eta',
   templateUrl: 'eta.html',
@@ -26,11 +27,12 @@ export class EtaComponent implements OnInit {
   touchStateDelay: number = 100;
 
   touchState: boolean = false;
-  touchTimeout: any;
   label: string;
 
   componentState: ETAComponentState;
-  constructor(private store$: Store<StoreModel>) { }
+
+  constructor(private store$: Store<StoreModel>) {
+  }
 
   ngOnInit(): void {
     this.componentState = {

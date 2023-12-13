@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, VehicleDetails as CommonVehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import {
@@ -42,11 +42,22 @@ import {
   getVehicleWidth as getVehicleWidthManoeuvre,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { VehicleDetails as CatADI3VehicleDetails } from '@dvsa/mes-test-schema/categories/ADI3';
+import { VehicleDetails as CatMod1VehicleDetails } from '@dvsa/mes-test-schema/categories/AM1';
+import { VehicleDetails as CatMod2VehicleDetails } from '@dvsa/mes-test-schema/categories/AM2';
+import { VehicleDetails as CatCPCVehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
 
-export interface CategorySpecificVehicleDetails {
-  vehicleDetails: any;
-  vehicleWidth: any;
-  vehicleLength: any;
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+
+export interface CategorySpecificVehicleDetails<T> {
+  vehicleDetails: MemoizedSelector<object, T, DefaultProjectorFn<T>>;
+  vehicleWidth: (data: T) => number;
+  vehicleLength: (data: T) => number;
 }
 
 @Injectable()
@@ -54,27 +65,27 @@ export class VehicleDetailsByCategoryProvider {
 
   static getVehicleDetailsByCategoryCodeErrMsg: string = 'Error getting test category vehicle details';
 
-  public getVehicleDetailsByCategoryCode(category: CategoryCode): CategorySpecificVehicleDetails {
+  public getVehicleDetailsByCategoryCode(category: CategoryCode) {
     switch (category) {
       case TestCategory.ADI2:
         return {
           vehicleDetails: getVehicleDetailsADI2,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CatADI2UniqueTypes.VehicleDetails>;
       case TestCategory.ADI3:
       case TestCategory.SC:
         return {
           vehicleDetails: getVehicleDetailsADI3,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CatADI3VehicleDetails>;
       case TestCategory.B:
         return {
           vehicleDetails: getVehicleDetailsB,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CatBUniqueTypes.VehicleDetails>;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
@@ -83,7 +94,7 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsC,
           vehicleWidth: getVehicleWidthC,
           vehicleLength: getVehicleLengthC,
-        };
+        } as CategorySpecificVehicleDetails<CatCUniqueTypes.VehicleDetails>;
       case TestCategory.CM:
       case TestCategory.C1M:
       case TestCategory.CEM:
@@ -96,7 +107,7 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsManoeuvre,
           vehicleWidth: getVehicleWidthManoeuvre,
           vehicleLength: getVehicleLengthManoeuvre,
-        };
+        } as CategorySpecificVehicleDetails<CatCMUniqueTypes.VehicleDetails>;
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.DE:
@@ -105,14 +116,14 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsD,
           vehicleWidth: getVehicleWidthD,
           vehicleLength: getVehicleLengthD,
-        };
+        } as CategorySpecificVehicleDetails<CatDUniqueTypes.VehicleDetails>;
       case TestCategory.CCPC:
       case TestCategory.DCPC:
         return {
           vehicleDetails: getVehicleDetailsCPC,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CatCPCVehicleDetails>;
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
@@ -121,7 +132,7 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetails,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CommonVehicleDetails>;
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAM1:
@@ -130,7 +141,7 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsAM1,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CatMod1VehicleDetails>;
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAM2:
@@ -139,7 +150,7 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsAM2,
           vehicleWidth: null,
           vehicleLength: null,
-        };
+        } as CategorySpecificVehicleDetails<CatMod2VehicleDetails>;
       default:
         throw new Error(VehicleDetailsByCategoryProvider.getVehicleDetailsByCategoryCodeErrMsg);
     }

@@ -62,7 +62,6 @@ export class TestPersistenceProvider {
         ...this.deleteTestsFromTestObject(tests.testStatus, testsToDelete),
       },
     };
-
   }
 
   getTestsToDelete(tests: TestsModel): string[] {
@@ -82,7 +81,7 @@ export class TestPersistenceProvider {
       });
   }
 
-  deleteTestsFromTestObject(testObject: { [slotId: string]: any; }, keysToDelete: string[]): any {
+  deleteTestsFromTestObject<T>(testObject: { [slotId: string]: T; }, keysToDelete: string[]) {
     return omit(testObject, keysToDelete);
   }
 

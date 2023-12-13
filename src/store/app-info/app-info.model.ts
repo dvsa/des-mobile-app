@@ -2,7 +2,7 @@ export type AppInfoStateModel = {
   versionNumber: string;
   employeeId: string | null;
   employeeName: string;
-  error?: any;
+  error?: unknown;
   dateConfigLoaded?: string;
   updateAvailablePresented: boolean;
 };

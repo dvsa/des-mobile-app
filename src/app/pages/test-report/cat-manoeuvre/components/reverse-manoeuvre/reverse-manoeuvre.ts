@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { select, Store } from '@ngrx/store';
@@ -56,8 +54,8 @@ export class ReverseManoeuvreComponent {
   touchStateDelay: number = 100;
   touchState: boolean = false;
   rippleState: boolean = false;
-  rippleTimeout: any;
-  touchTimeout: any;
+  rippleTimeout: NodeJS.Timeout;
+  touchTimeout: NodeJS.Timeout;
   rippleEffectAnimationDuration: number = 300;
   componentState: ReverseManoeuvreCompetencyComponentState;
   subscription: Subscription;
@@ -70,7 +68,8 @@ export class ReverseManoeuvreComponent {
 
   constructor(
     private store$: Store<StoreModel>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.label = manoeuvreCompetencyLabels[this.competency];
@@ -128,7 +127,8 @@ export class ReverseManoeuvreComponent {
       manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
     );
 
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {
