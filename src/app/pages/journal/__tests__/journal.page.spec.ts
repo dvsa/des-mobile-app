@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonRefresher, ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform, RefresherEventDetail } from '@ionic/angular';
 import { ActivatedRouteMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -38,7 +38,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
-import { LoadingOptions } from '@ionic/core';
+import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
@@ -308,11 +308,13 @@ describe('JournalPage', () => {
           .and
           .callThrough();
 
-        await component.pullRefreshJournal({ ionPull: null } as IonRefresher);
+        const event = { target: {} } as IonRefresherCustomEvent<RefresherEventDetail>;
+
+        await component.pullRefreshJournal(event);
         expect(component.refreshJournal)
           .toHaveBeenCalled();
         expect(component.pageRefresher)
-          .toEqual({ ionPull: null } as IonRefresher);
+          .toEqual(event);
       });
     });
 
