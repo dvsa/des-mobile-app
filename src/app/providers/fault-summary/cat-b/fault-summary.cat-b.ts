@@ -90,6 +90,12 @@ export class FaultSummaryCatBHelper {
       return result;
     }
 
+    if ((vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
+      vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
+      && faultType === CompetencyOutcome.DF) {
+      return result;
+    }
+
     const isValidDangerousFault: boolean = faultType === CompetencyOutcome.D
       && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D;
 

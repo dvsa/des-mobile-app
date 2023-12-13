@@ -46,6 +46,9 @@ export class DebriefCardComponent implements OnInit {
   @Input()
   delegatedTest: boolean = false;
 
+  @Input()
+  displayIncorrectText: boolean = false;
+
   showMeQuestion: VehicleChecksQuestion;
   tellMeQuestion: VehicleChecksQuestion;
   manoeuvres: string[];

@@ -402,7 +402,8 @@
     "speedRequirementMet": "Ei fodloni",
     "speedRequirementNotMet": "Heb ei fodloni",
     "speedRequirementAborted": "Ymgais wedi’I hatal",
-    "avoidanceHeader": "Ymarfer osgoi/stop dan reolaeth"
+    "avoidanceHeader": "Ymarfer osgoi/stop dan reolaeth",
+    "incorrect": "Anghywir"
   },
   "healthDeclaration": {
     "confirm": "Rwy'n cadarnhau",

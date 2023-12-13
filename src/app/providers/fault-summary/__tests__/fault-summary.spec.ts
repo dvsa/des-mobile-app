@@ -14,6 +14,7 @@ import {
 } from './fault-summary.mock';
 import { FaultSummaryProvider } from '../fault-summary';
 import { FaultSummaryCatAM1Helper } from '../cat-a-mod1/fault-summary.cat-a-mod1';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('FaultSummaryProvider', () => {
   const categoryC = [
@@ -181,6 +182,36 @@ describe('FaultSummaryProvider', () => {
       .and
       .callThrough();
   });
+
+  describe('shouldShowIncorrect', () => {
+    it('should return false if the category is not B', () => {
+      expect(faultSummaryProvider.shouldShowIncorrect({ vehicleChecks: {
+        showMeQuestion: { outcome: CompetencyOutcome.S },
+        tellMeQuestion: { outcome: CompetencyOutcome.DF },
+      } }, TestCategory.C)).toEqual(false);
+    });
+    it('should return false if the passed tell me question does not have a driving fault', () => {
+      expect(faultSummaryProvider.shouldShowIncorrect({ vehicleChecks: {
+        showMeQuestion: { outcome: CompetencyOutcome.S },
+        tellMeQuestion: { outcome: CompetencyOutcome.P },
+      } }, TestCategory.B)).toEqual(false);
+    });
+    it('should return true if the passed show me question has a serious fault, ' +
+      'the passed tell me question has a driving fault and the category is B', () => {
+      expect(faultSummaryProvider.shouldShowIncorrect({ vehicleChecks: {
+        showMeQuestion: { outcome: CompetencyOutcome.S },
+        tellMeQuestion: { outcome: CompetencyOutcome.DF },
+      } }, TestCategory.B)).toEqual(true);
+    });
+    it('should return true if the passed show me question has a dangerous fault, ' +
+      'the passed tell me question has a driving fault and the category is B', () => {
+      expect(faultSummaryProvider.shouldShowIncorrect({ vehicleChecks: {
+        showMeQuestion: { outcome: CompetencyOutcome.D },
+        tellMeQuestion: { outcome: CompetencyOutcome.DF },
+      } }, TestCategory.B)).toEqual(true);
+    });
+  });
+
 
   describe('getDrivingFaultsList', () => {
     describe('Category B', () => {

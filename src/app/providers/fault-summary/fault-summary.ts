@@ -19,6 +19,8 @@ import { FaultCountProvider } from '../fault-count/fault-count';
 import { FaultSummaryCatAM1Helper } from './cat-a-mod1/fault-summary.cat-a-mod1';
 import { FaultSummaryCatAM2Helper } from './cat-a-mod2/fault-summary.cat-a-mod2';
 import { FaultSummaryCatAdiPart2Helper } from './cat-adi-part2/fault-summary.cat-adi-part2';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 
 @Injectable()
 export class FaultSummaryProvider {
@@ -140,6 +142,22 @@ export class FaultSummaryProvider {
         return FaultSummaryCatHomeTestHelper.getDrivingFaultsCatHomeTest(data);
       default:
         return [];
+    }
+  }
+
+  public shouldShowIncorrect(data: object, category: TestCategory): boolean {
+    switch (category) {
+      case TestCategory.B:
+        const {
+          showMeQuestion,
+          tellMeQuestion,
+        } = (data as CatBUniqueTypes.TestData).vehicleChecks;
+        return (
+          (showMeQuestion.outcome === CompetencyOutcome.D || showMeQuestion.outcome === CompetencyOutcome.S)
+          && tellMeQuestion.outcome === CompetencyOutcome.DF
+        );
+      default:
+        return false;
     }
   }
 
