@@ -18,6 +18,7 @@ export enum LocalStorageKey {
   LOGS = 'LOGS',
   STORAGE_MIGRATED = 'STORAGE_MIGRATED',
   TESTS = 'TESTS',
+  EXAMINER_STATS_KEY = 'EXAMINER_STAT_PREFERENCES',
 }
 
 export type StorageKey = LocalStorageKey | Token;

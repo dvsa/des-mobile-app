@@ -30,15 +30,15 @@ import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 import {
   ColourFilterChanged,
   DateRangeChanged,
-  ShowDataChanged,
   LocationChanged,
+  ShowDataChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
-import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DataStoreProvider, LocalStorageKey, StorageKey } from '@providers/data-store/data-store';
 
 @Injectable()
 export class AppInfoEffects {
-  private static readonly EXAMINER_STATS_KEY: string = 'EXAMINER_STAT_PREFERENCES';
+  private static readonly EXAMINER_STATS_KEY: StorageKey = LocalStorageKey.EXAMINER_STATS_KEY;
 
   constructor(
     private actions$: Actions,
