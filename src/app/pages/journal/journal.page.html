@@ -33,7 +33,8 @@
   <incomplete-tests-banner></incomplete-tests-banner>
 
   <ion-refresher
-    class="refresher-content refresher-refreshing-text"
+    class="refresher-content refresher-refreshing-text height-500 display-flex ion-justify-content-center"
+    pullMax="500" pullMin="70"
     (ionRefresh)="pullRefreshJournal($event)"
     slot="fixed">
     <ion-refresher-content
