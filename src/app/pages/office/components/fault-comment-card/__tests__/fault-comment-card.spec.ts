@@ -9,7 +9,7 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
-fdescribe('FaultCommentCardComponent', () => {
+describe('FaultCommentCardComponent', () => {
   let fixture: ComponentFixture<FaultCommentCardComponent>;
   let component: FaultCommentCardComponent;
 
