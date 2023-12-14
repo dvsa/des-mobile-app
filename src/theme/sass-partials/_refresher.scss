@@ -18,11 +18,6 @@
 
   ion-refresher-content {
     position: relative;
-    padding-bottom: 200px;
+    padding-bottom: 430px;
     background-color: var(--mes-theme-main-colour);
-
-    .refresher-pulling, .refresher-refreshing {
-      position: relative;
-      top: 30px;
-    }
   }
