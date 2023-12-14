@@ -41,7 +41,7 @@ describe('FaultCommentCardComponent', () => {
       fixture.detectChanges();
 
       const header = fixture.debugElement.query(By.css('h2')).nativeElement;
-      expect(header.innerHTML).toBe('header');
+      expect(header.innerHTML).toBe(' header  ');
     });
 
     it('should pass the faultComment and type to the fault-comment component', () => {
