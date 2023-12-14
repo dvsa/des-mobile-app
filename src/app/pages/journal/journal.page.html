@@ -35,10 +35,10 @@
   <ion-refresher
     class="refresher-content refresher-refreshing-text"
     (ionRefresh)="pullRefreshJournal($event)"
-    slot="fixed"
-    pullMax="500"
-    pullMin="70">
+    slot="fixed">
     <ion-refresher-content
+      pullMax="500"
+      pullMin="70"
       class="refresher-content refresher-refreshing-text"
       pullingIcon="arrow-down"
       pullingText="Pull to refresh"
