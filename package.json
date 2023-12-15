@@ -28,7 +28,7 @@
     "build:dev": "npm run schema-version && npm run config:dev && npm run build:prod",
     "build:prod": "ionic cap build ios --no-open --prod",
     "build:test": "npm run schema-version && npm run config:testing && buildScripts/build-for-e2e.sh",
-    "format": "prettier --write ./src",
+    "format": "prettier --write ./src/**/**/*.html",
     "lint": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --ext .ts",
     "lint:fix:commit": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
     "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
@@ -183,8 +183,10 @@
   },
   "lint-staged": {
     "./src/**/*.ts": [
-      "npm run format",
       "npm run lint:fix"
+    ],
+    "./src/**/*.html": [
+      "npm run format"
     ]
   },
   "overrides": {

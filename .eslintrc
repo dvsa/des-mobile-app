@@ -15,7 +15,7 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "off",
     "@typescript-eslint/indent": [
       "error",
       2,
