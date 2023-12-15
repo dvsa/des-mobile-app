@@ -44,9 +44,12 @@ describe('SeriousFaultsDebriefCardComponent', () => {
       fixture.detectChanges();
       const seriousFaultLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
       const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-      expect(seriousFaultLabels[0].nativeElement.innerHTML).toBe('Control - Ancillary Controls');
-      expect(seriousFaultLabels[1].nativeElement.innerHTML).toBe('Clearance');
-      expect(drivingFaultCount.innerHTML).toBe(seriousFaults.length.toString());
+      expect(seriousFaultLabels[0].nativeElement.innerHTML.trim())
+        .toBe('Control - Ancillary Controls');
+      expect(seriousFaultLabels[1].nativeElement.innerHTML.trim())
+        .toBe('Clearance');
+      expect(drivingFaultCount.innerHTML)
+        .toBe(seriousFaults.length.toString());
     });
 
     it('correct driving faults showing in welsh', (done) => {
@@ -57,11 +60,12 @@ describe('SeriousFaultsDebriefCardComponent', () => {
         fixture.detectChanges();
         const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
         const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-        expect(drivingFaultsLabels[0].nativeElement.innerHTML)
+        expect(drivingFaultsLabels[0].nativeElement.innerHTML.trim())
           .toBe((<any>welshTranslations).debrief.competencies.useOfSpeed);
-        expect(drivingFaultsLabels[1].nativeElement.innerHTML)
+        expect(drivingFaultsLabels[1].nativeElement.innerHTML.trim())
           .toBe((<any>welshTranslations).debrief.competencies.signalsTimed);
-        expect(drivingFaultCount.innerHTML).toBe(seriousFaults.length.toString());
+        expect(drivingFaultCount.innerHTML)
+          .toBe(seriousFaults.length.toString());
         done();
       });
     });
@@ -69,7 +73,8 @@ describe('SeriousFaultsDebriefCardComponent', () => {
     it('no serious faults showing', () => {
       component.seriousFaults = [];
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('#serious-fault'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('#serious-fault')))
+        .toBeNull();
     });
   });
 });

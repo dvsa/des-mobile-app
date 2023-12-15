@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { StoreModule } from '@ngrx/store';
@@ -44,9 +44,12 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       fixture.detectChanges();
       const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
       const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-      expect(dangerousLabels[0].nativeElement.innerHTML).toBe('Control - Ancillary Controls');
-      expect(dangerousLabels[1].nativeElement.innerHTML).toBe('Clearance');
-      expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
+      expect(dangerousLabels[0].nativeElement.innerHTML.trim())
+        .toBe('Control - Ancillary Controls');
+      expect(dangerousLabels[1].nativeElement.innerHTML.trim())
+        .toBe('Clearance');
+      expect(dangerousCounts.innerHTML)
+        .toBe(dangerousFaults.length.toString());
     });
 
     it('correct dangerous faults showing in welsh', (done) => {
@@ -57,9 +60,10 @@ describe('DangerousFaultsDebriefCardComponent', () => {
         fixture.detectChanges();
         const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
         const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-        expect(dangerousLabels[0].nativeElement.innerHTML)
+        expect(dangerousLabels[0].nativeElement.innerHTML.trim())
           .toBe((<any>welshTranslations).debrief.competencies.ancillaryControls);
-        expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
+        expect(dangerousCounts.innerHTML)
+          .toBe(dangerousFaults.length.toString());
         done();
       });
 
@@ -68,7 +72,8 @@ describe('DangerousFaultsDebriefCardComponent', () => {
     it('no dangerous faults showing', () => {
       component.dangerousFaults = [];
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('#dangerous-fault'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('#dangerous-fault')))
+        .toBeNull();
     });
   });
 });
