@@ -9,6 +9,7 @@ import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 @Injectable()
 export class LogHelper {
@@ -58,9 +59,9 @@ export class LogHelper {
       .subscribe();
   }
 
-  createLog(logType: LogType, desc: string, error: string): Log {
+  createLog(logType: LogType, desc: string, msg: unknown): Log {
     return {
-      message: error,
+      message: serialiseLogMessage(msg),
       type: logType,
       timestamp: Date.now(),
       description: desc,
