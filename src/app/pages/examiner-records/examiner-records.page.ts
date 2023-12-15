@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
 import {
   AccordionChanged,
   ColourFilterChanged,
@@ -24,8 +22,6 @@ import {
   getIndependentDrivingStats,
   getLocations,
   getManoeuvresUsed,
-  getOutcome,
-  getPassedTestCount,
   getRouteNumbers,
   getSafetyQuestions,
   getShowMeQuestions,
@@ -44,8 +40,9 @@ import {
   selectHideCharts,
 } from '@store/app-info/app-info.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock2';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ExaminerRecordsOnlineStub } from '@pages/examiner-records/__mocks__/online-stub.mock';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -58,8 +55,6 @@ interface ExaminerRecordsState {
   balanceQuestions$: Observable<ExaminerRecordData<string>[]>;
   independentDriving$: Observable<ExaminerRecordData<string>[]>;
   testCount$: Observable<number>;
-  passPercentage$: Observable<string>;
-  outcomes$: Observable<ExaminerRecordData<string>[]>;
   locationList$: Observable<{ item: TestCentre, count: number }[]>;
   categoryList$: Observable<{ item: TestCategory, count: number }[]>;
   emergencyStops$: Observable<ExaminerRecordData<string>[]>;
@@ -76,6 +71,22 @@ export const enum ColourEnum {
 export interface SelectableDateRange {
   display: string;
   val: DateRange;
+}
+
+export interface ExaminerRecord {
+  appRef: string,
+  testCategory: TestCategory,
+  testCentre: TestCentre,
+  routeNumber: number,
+  startDate: string,
+  controlledStop: boolean,
+  independentDriving: string,
+  circuit: string,
+  safetyQuestions: QuestionResult[],
+  balanceQuestions: QuestionResult[],
+  manoeuvres: any,
+  showMeQuestions: QuestionResult[],
+  tellMeQuestions: QuestionResult[],
 }
 
 export interface StaticColourScheme { colours: string[], average: string }
@@ -173,6 +184,8 @@ export class ExaminerRecordsPage implements OnInit {
   categorySelectPristine: boolean = true;
   currentTestCentre: TestCentre;
   locationSelectPristine: boolean = true;
+  public testResults: ExaminerRecord[];
+
 
 
   constructor(
@@ -180,6 +193,7 @@ export class ExaminerRecordsPage implements OnInit {
     public router: Router,
     public orientationProvider: OrientationMonitorProvider,
     public accessibilityService: AccessibilityService,
+    public examinerRecordsOnlineStub : ExaminerRecordsOnlineStub,
   ) {
   }
 
@@ -196,21 +210,21 @@ export class ExaminerRecordsPage implements OnInit {
   // wrapper used to reduce/centralise code
   // take in a dynamic type, and a function with signature of fn(test, date)
   private filterByParameters = <T>(fn: (
-    tests: StartedTests,
+    tests: ExaminerRecord[],
     range: DateRange,
     location: number,
     category: string,
   ) => T): Observable<T> => combineLatest(
     [
       // get the startedTests once per change detection cycle
-      this.store$.pipe(
-        select(getTests),
-        map(getStartedTests),
-        map(() => {
-          return demonstrationMock;
-        }),
-        take(1),
-      ),
+      // this.store$.pipe(
+      //   select(getTests),
+      //   map(getStartedTests),
+      //   map(() => {
+      //     return demonstrationMock;
+      //   }),
+      //   take(1),
+      // ),
       // listen for changes to the range
       this.rangeSubject$.asObservable(),
       this.locationSubject$.asObservable(),
@@ -218,14 +232,24 @@ export class ExaminerRecordsPage implements OnInit {
     ])
     .pipe(
       // return an observable using the generic `fn`
-      switchMap(([tests]) => of(fn(
-        tests,
+      switchMap(() => of(fn(
+        this.testResults,
         this.rangeSubject$.value,
         this.locationSubject$.value,
         this.categorySubject$.value))),
     );
 
+  getResults(): ExaminerRecord[] {
+    return this.examinerRecordsOnlineStub.getResults(
+      'DE',
+      new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
+      new Date(Date.now()).toString(),
+      '1234567');
+  }
+
   ngOnInit(): void {
+    this.testResults = this.getResults();
+
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
     if (!!this.categorySubject$.value) {
       this.categorySelectPristine = false;
@@ -243,12 +267,13 @@ export class ExaminerRecordsPage implements OnInit {
       showMeQuestions$: this.filterByParameters(getShowMeQuestions),
       tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
       testCount$: this.filterByParameters(getStartedTestCount),
-      outcomes$: this.filterByParameters(getOutcome),
       circuits$: this.filterByParameters(getCircuits),
       locationList$: this.filterByParameters(getLocations)
         .pipe(
           tap((value) => {
             this.locationFilterOptions = [];
+
+            console.log(value);
 
             value.forEach((val) => {
               this.locationFilterOptions.push(val.item);
@@ -305,11 +330,6 @@ export class ExaminerRecordsPage implements OnInit {
               percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
             },
           ])),
-        ),
-      passPercentage$: this.filterByParameters(getStartedTestCount)
-        .pipe(
-          withLatestFrom(this.filterByParameters(getPassedTestCount)),
-          map(this.calculatePercentage),
         ),
     };
 
