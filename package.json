@@ -28,6 +28,7 @@
     "build:dev": "npm run schema-version && npm run config:dev && npm run build:prod",
     "build:prod": "ionic cap build ios --no-open --prod",
     "build:test": "npm run schema-version && npm run config:testing && buildScripts/build-for-e2e.sh",
+    "format": "prettier --write ./src",
     "lint": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --ext .ts",
     "lint:fix:commit": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
     "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
@@ -143,8 +144,10 @@
     "@typescript-eslint/parser": "^6.12.0",
     "eslint": "^8.54.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-rxjs": "5.0.3",
     "husky": "^8.0.3",
     "jasmine-core": "~5.1.1",
@@ -161,6 +164,7 @@
     "ng-mocks": "^14.12.1",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.31",
+    "prettier": "^3.1.1",
     "puppeteer": "^21.5.2",
     "remotedev": "^0.2.9",
     "snyk": "^1.1253.0",
@@ -179,6 +183,7 @@
   },
   "lint-staged": {
     "./src/**/*.ts": [
+      "npm run format",
       "npm run lint:fix"
     ]
   },
