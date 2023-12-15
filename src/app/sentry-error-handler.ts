@@ -10,6 +10,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { Device } from '@capacitor/device';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 type SentryError = RegExp | string;
 
@@ -68,15 +69,11 @@ export class SentryIonicErrorHandler extends ErrorHandler {
   }
 
   private reportError(error: unknown) {
-    const details = (error instanceof Error)
-      ? JSON.stringify(error, Object.getOwnPropertyNames(error))
-      : JSON.stringify(error);
-
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(
         LogType.ERROR,
         'Error handler',
-        details,
+        serialiseLogMessage(error),
       ),
     }));
   }

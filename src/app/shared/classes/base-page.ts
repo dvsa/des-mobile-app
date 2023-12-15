@@ -13,6 +13,7 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { get } from 'lodash';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 export abstract class BasePageComponent {
   protected platform = this.injector.get(Platform);
@@ -113,16 +114,11 @@ export abstract class BasePageComponent {
   private reportLog = (method: string, error: unknown): void => {
     const page = get(this.route.snapshot, '_routerState.url', 'Unknown Page');
 
-    const message = (error instanceof Error)
-      // serialise error object, stringify-ing a straight error returns '{}'
-      ? JSON.stringify(error, Object.getOwnPropertyNames(error))
-      : JSON.stringify(error);
-
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(
         LogType.ERROR,
         `BasePageComponent => ${page} => ${method}`,
-        message,
+        serialiseLogMessage(error),
       ),
     }));
   };

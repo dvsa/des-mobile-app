@@ -18,6 +18,7 @@ import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 export enum Token {
   ID = 'idToken',
@@ -285,13 +286,13 @@ export class AuthenticationProvider {
     this.employeeId = numericEmployeeId.toString();
   }
 
-  private logEvent = (logType: LogType, desc: string, msg: string) => {
+  private logEvent = (logType: LogType, desc: string, msg: unknown) => {
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${msg}`),
+      payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
     }));
   };
 
-  public onLogoutError = (err: any, prefix?: string): void => {
+  public onLogoutError = (err: unknown, prefix?: string): void => {
     const basicDesc = 'Logout error';
     const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
     this.logEvent(LogType.ERROR, desc, err);

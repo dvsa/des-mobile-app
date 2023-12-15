@@ -9,6 +9,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogHelper } from '../logs/logs-helper';
 import { Token } from '@providers/authentication/authentication';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 export enum LocalStorageKey {
   COMPLETED_TESTS = 'COMPLETED_TESTS',
@@ -188,7 +189,7 @@ export class DataStoreProvider {
       payload: this.logHelper.createLog(
         level,
         `DataStoreProvider ${level} ${action} ${key}`,
-        (error instanceof Error) ? error.message : JSON.stringify(error),
+        serialiseLogMessage(error),
       ),
     }));
   };
