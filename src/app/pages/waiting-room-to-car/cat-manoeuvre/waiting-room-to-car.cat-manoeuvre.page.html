@@ -10,7 +10,8 @@
         [category]="pageState.category$ | async"
         [isDelegated]="pageState.delegatedTest$ | async"
         [isPracticeMode]="isPracticeMode"
-        [shouldAuthenticate]="false">
+        [shouldAuthenticate]="false"
+      >
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -26,7 +27,8 @@
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async">
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+            >
             </vehicle-registration>
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>
@@ -35,7 +37,8 @@
               [numberOfSeats]="pageState.numberOfSeats$ | async"
               [vehicleHeight]="pageState.vehicleHeight$ | async"
               [vehicleLength]="pageState.vehicleLength$ | async"
-              [vehicleWidth]="pageState.vehicleWidth$ | async">
+              [vehicleWidth]="pageState.vehicleWidth$ | async"
+            >
             </dimensions-card>
 
             <accompaniment-card
@@ -47,7 +50,8 @@
               [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
               [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
               [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+            >
             </accompaniment-card>
           </ion-col>
         </ion-row>
@@ -61,15 +65,19 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="{
+<ion-footer
+  *ngIf="{
   delegatedTest: pageState.delegatedTest$ | async
-} as data">
+} as data"
+>
   <ion-row class="mes-full-width-card box-shadow">
     <ion-col *ngIf="!data?.delegatedTest" class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" shape="round">
+        id="view-test-centre-journal-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -78,7 +86,9 @@
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" shape="round">
+        id="continue-to-test-report-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

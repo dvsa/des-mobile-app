@@ -21,34 +21,39 @@
       *ngIf="pageNumber === 1"
       (answerPayload)="populateAnswer($event)"
       [question]="pageState.question1$ | async"
-      [questionNumber]="pageNumber">
+      [questionNumber]="pageNumber"
+    >
     </question-card>
 
     <question-card
       *ngIf="pageNumber === 2"
       (answerPayload)="populateAnswer($event)"
       [question]="pageState.question2$ | async"
-      [questionNumber]="pageNumber">
+      [questionNumber]="pageNumber"
+    >
     </question-card>
 
     <question-card
       *ngIf="pageNumber === 3"
       (answerPayload)="populateAnswer($event)"
       [question]="pageState.question3$ | async"
-      [questionNumber]="pageNumber">
+      [questionNumber]="pageNumber"
+    >
     </question-card>
 
     <question-card
       *ngIf="pageNumber === 4"
       (answerPayload)="populateAnswer($event)"
       [question]="pageState.question4$ | async"
-      [questionNumber]="pageNumber">
+      [questionNumber]="pageNumber"
+    >
     </question-card>
 
     <question-five-card
       *ngIf="pageNumber === 5"
       (answerPayload)="populateAnswer($event)"
-      [question]="pageState.question5$ | async">
+      [question]="pageState.question5$ | async"
+    >
     </question-five-card>
   </div>
 
@@ -58,10 +63,10 @@
       [formGroup]="form"
       (questionScore)="populateScore($event)"
       [question]="pageState['question' + number + '$'] | async"
-      [questionNumber]="number">
+      [questionNumber]="number"
+    >
     </question-del-ex-radio-card>
   </div>
-
 </ion-content>
 
 <question-footer
@@ -69,5 +74,6 @@
   (questionPageChange)="questionPageChanged($event)"
   (testSummaryRequested)="onEndTestClick()"
   [isDelegated]="isDelegated"
-  [formGroup]="form">
+  [formGroup]="form"
+>
 </question-footer>

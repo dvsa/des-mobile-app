@@ -7,25 +7,29 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="48">
-        <input type="radio"
-               formControlName="fullLicenceHeldCtrl"
-               name="fullLicenceHeldCtrl"
-               id="full-licence-held-yes"
-               class="gds-radio-button"
-               [class.ng-invalid]="invalid"
-               (change)="fullLicenceHeldChanged($event.target.value)"
-               value="Y">
+        <input
+          type="radio"
+          formControlName="fullLicenceHeldCtrl"
+          name="fullLicenceHeldCtrl"
+          id="full-licence-held-yes"
+          class="gds-radio-button"
+          [class.ng-invalid]="invalid"
+          (change)="fullLicenceHeldChanged($event.target.value)"
+          value="Y"
+        />
         <label for="full-licence-held-yes" class="radio-label">Yes</label>
       </ion-col>
       <ion-col size="48">
-        <input type="radio"
-               formControlName="fullLicenceHeldCtrl"
-               name="fullLicenceHeldCtrl"
-               id="full-licence-held-no"
-               class="gds-radio-button"
-               [class.ng-invalid]="invalid"
-               (change)="fullLicenceHeldChanged($event.target.value)"
-               value="N">
+        <input
+          type="radio"
+          formControlName="fullLicenceHeldCtrl"
+          name="fullLicenceHeldCtrl"
+          id="full-licence-held-no"
+          class="gds-radio-button"
+          [class.ng-invalid]="invalid"
+          (change)="fullLicenceHeldChanged($event.target.value)"
+          value="N"
+        />
         <label for="full-licence-held-no" class="radio-label">No</label>
       </ion-col>
     </ion-row>

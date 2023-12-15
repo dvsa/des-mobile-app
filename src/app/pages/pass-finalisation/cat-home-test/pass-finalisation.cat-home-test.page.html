@@ -12,15 +12,14 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-
         <finalisation-header
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
-        <application-reference-number
-          [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <license-provided
@@ -28,18 +27,19 @@
           (licenseReceived)="provisionalLicenseReceived()"
           [form]="form"
           [licenseReceivedLabel]="'Provisional licence received'"
-          [license]="pageState.provisionalLicense$ | async">
+          [license]="pageState.provisionalLicense$ | async"
+        >
         </license-provided>
 
-        <licence-provided-warning-banner
-          [licenceProvided]="pageState.provisionalLicense$ | async">
+        <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async">
         </licence-provided-warning-banner>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        >
         </pass-certificate-number>
 
         <d255
@@ -48,25 +48,31 @@
           [display]="true"
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
           [formGroup]="form"
-          [outcome]="testOutcome">
+          [outcome]="testOutcome"
+        >
         </d255>
 
         <warning-banner
           *ngIf="pageState.d255$ | async"
-          warningText="DVLA will not process the result until a D255 is received.">
+          warningText="DVLA will not process the result until a D255 is received."
+        >
         </warning-banner>
 
         <language-preferences
-          (welshChanged)="isWelshChanged($event)" [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"></language-preferences>
+          (welshChanged)="isWelshChanged($event)"
+          [formGroup]="form"
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+        ></language-preferences>
 
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async" [display]=true
+          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [display]="true"
           [shouldShowSeparator]="false"
-          [formGroup]="form" [outcome]="testOutcome">
+          [formGroup]="form"
+          [outcome]="testOutcome"
+        >
         </debrief-witnessed>
-
       </ion-grid>
     </form>
   </div>

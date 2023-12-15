@@ -11,38 +11,28 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <error-message
-    *ngIf="!isLoading && showErrorMessage"
-    class="error"
-    returnTo="{{errorLink}}"
-    (exitModal)="onClose()">
+  <error-message *ngIf="!isLoading && showErrorMessage" class="error" returnTo="{{errorLink}}" (exitModal)="onClose()">
   </error-message>
 
   <div *ngIf="!isLoading && !showErrorMessage && testResult">
-    <view-test-header
-      [data]="getHeaderDetails()"
-      [appVersion]="testResult.appVersion"
-    ></view-test-header>
+    <view-test-header [data]="getHeaderDetails()" [appVersion]="testResult.appVersion"></view-test-header>
 
-    <activity-code-card
-      [activityCode]="testResult.activityCode">
-    </activity-code-card>
+    <activity-code-card [activityCode]="testResult.activityCode"> </activity-code-card>
 
-    <test-details-card
-      [candidateDetails]="getCandidateDetails()"
-      [data]="getTestDetails()">
-    </test-details-card>
+    <test-details-card [candidateDetails]="getCandidateDetails()" [data]="getTestDetails()"> </test-details-card>
 
     <fit-marker-banner
       *ngIf="testResult.journalData.testSlotAttributes.fitMarker"
       [isTestResult]="true"
-      [fitCaseNumber]="testResult.journalData.testSlotAttributes.fitCaseNumber">
+      [fitCaseNumber]="testResult.journalData.testSlotAttributes.fitCaseNumber"
+    >
     </fit-marker-banner>
 
     <contact-details-card
       [candidateData]="testResult.journalData.candidate"
       [reEnterEmail]="reEnterEmail"
-      [communicationPreferencesData]="testResult.communicationPreferences">
+      [communicationPreferencesData]="testResult.communicationPreferences"
+    >
     </contact-details-card>
 
     <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
@@ -61,7 +51,8 @@
       [instructorDetails]="getInstructorData()"
       [data]="testResult.vehicleDetails"
       [category]="testResult.category"
-      [passCompletion]="testResult.passCompletion">
+      [passCompletion]="testResult.passCompletion"
+    >
     </vehicle-details-card>
 
     <trainer-details-card
@@ -69,7 +60,8 @@
       [category]="testResult.category"
       [reasonForNoAdviceGiven]="getReason()"
       [trainerData]="getTrainerData()"
-      [reviewData]="getReviewData()">
+      [reviewData]="getReviewData()"
+    >
     </trainer-details-card>
 
     <debrief-card
@@ -81,7 +73,8 @@
       [data]="testResult.testData"
       [category]="testResult.category"
       [displayIncorrectText]="displayIncorrectText"
-      [delegatedTest]="testResult['delegatedTest']">
+      [delegatedTest]="testResult['delegatedTest']"
+    >
     </debrief-card>
 
     <cpc-debrief-card
@@ -94,7 +87,8 @@
       [question4]="testResult.testData['question4']"
       [question5]="testResult.testData['question5']"
       [overallScore]="testResult.testData['totalPercent']"
-      [combination]="testResult.testData['combination']">
+      [combination]="testResult.testData['combination']"
+    >
     </cpc-debrief-card>
 
     <adi3-debrief-card
@@ -106,13 +100,15 @@
       [riskManagement]="testResult.testData['riskManagement']"
       [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
       [grade]="testResult.testData['review']?.grade"
-      [review]="testResult.testData['review']">
+      [review]="testResult.testData['review']"
+    >
     </adi3-debrief-card>
 
     <sc-debrief-card
       *ngIf="isCategorySC()"
       [startTime]="testResult.testData['startTime']"
-      [endTime]="testResult.testData['endTime']">
+      [endTime]="testResult.testData['endTime']"
+    >
     </sc-debrief-card>
 
     <test-summary-card
@@ -121,7 +117,8 @@
       [passCompletion]="testResult.passCompletion"
       [testSummary]="testResult.testSummary"
       [communicationPreferences]="testResult.communicationPreferences"
-      [validCertificate]="getValidCertificate()">
+      [validCertificate]="getValidCertificate()"
+    >
     </test-summary-card>
   </div>
 </ion-content>

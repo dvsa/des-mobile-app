@@ -13,17 +13,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding"
-             [ngClass]="{'overflow': !delegatedTest}"
-             force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
   <toolbar [showDrivingFaultCounter]="false"></toolbar>
-  <ion-grid class="grid-layout" [ngClass]="{
+  <ion-grid
+    class="grid-layout"
+    [ngClass]="{
       'remove-mode': isRemoveFaultMode,
       'add-mode': !isRemoveFaultMode,
       'fault-mode': !isSeriousMode && !isDangerousMode,
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
-    }">
+    }"
+  >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="44">
@@ -42,11 +43,10 @@
                 [ripple]="false"
                 [ngClass]="{
                  'checked': pageState.selectedReverseManoeuvre$ | async
-                  }">
+                  }"
+              >
                 <span class="tickwrapper">
-                  <tick-indicator
-                    [ticked]="pageState.selectedReverseManoeuvre$ | async">
-                  </tick-indicator>
+                  <tick-indicator [ticked]="pageState.selectedReverseManoeuvre$ | async"> </tick-indicator>
                 </span>
               </competency-button>
             </ion-col>
@@ -58,13 +58,15 @@
               [attr.id]="getId(manoeuvreTypes.reverseManoeuvre, manoeuvreCompetencies.observationFault)"
               [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
               [competency]="manoeuvreCompetencies.controlFault"
-              (competencyClicked)="competencyClick()">
+              (competencyClicked)="competencyClick()"
+            >
             </reverse-manoeuvres>
             <reverse-manoeuvres
               [attr.id]="getId(manoeuvreTypes.reverseManoeuvre, manoeuvreCompetencies.observationFault)"
               [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
               [competency]="manoeuvreCompetencies.observationFault"
-              (competencyClicked)="competencyClick()">
+              (competencyClicked)="competencyClick()"
+            >
             </reverse-manoeuvres>
           </ion-col>
         </ion-row>
@@ -85,7 +87,8 @@
                 [category]="pageState.category$ | async"
                 [buttonFloatAbove]="true"
                 [disableDrivingFaults]="true"
-                (competencyClicked)="competencyClick()">
+                (competencyClicked)="competencyClick()"
+              >
               </uncouple-recouple>
             </ion-col>
           </ion-row>
@@ -100,7 +103,7 @@
             <span><reverse-diagram-link></reverse-diagram-link></span>
           </ion-col>
         </ion-row>
-        <br>
+        <br />
         <ion-row>
           <ion-col>
             <div class="dark-divider"></div>
@@ -117,8 +120,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="isRemoveFaultMode"></div>
+  <div
+    class="report-overlay report-overlay-modal"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="displayOverlay"
+  ></div>
+  <div
+    class="report-overlay report-overlay-remove"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="isRemoveFaultMode"
+  ></div>
 </ion-content>

@@ -3,17 +3,15 @@
     <label [id]="label | formatToID: idPrefix">{{ label }}</label>
   </ion-col>
   <ion-col size="6" class="ion-align-items-center display-flex">
-    <img *ngIf="shouldShowIndicator"
-         alt="Exclamation Indicator"
-         src="assets/imgs/journal/exclamation-indicator.png"
-         class="exclamation-indicator"/>
+    <img
+      *ngIf="shouldShowIndicator"
+      alt="Exclamation Indicator"
+      src="assets/imgs/journal/exclamation-indicator.png"
+      class="exclamation-indicator"
+    />
   </ion-col>
   <ion-col size="40" *ngIf="imgSrc; else notImage;">
-    <img
-      [src]="imgSrc"
-      [id]="label | formatToID: idPrefix: true"
-      [style]="dataStyling"
-      [alt]="label + ' image'"/>
+    <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [style]="dataStyling" [alt]="label + ' image'" />
   </ion-col>
   <ng-template #notImage>
     <ion-col [size]="shouldShowIndicator ? 50 : 56" class="ion-align-items-center display-flex">

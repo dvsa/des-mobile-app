@@ -13,18 +13,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  class="ion-no-padding"
-  [ngClass]="{'overflow': !delegatedTest}"
-  force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
   <toolbar></toolbar>
-  <ion-grid class="grid-layout" [ngClass]="{
+  <ion-grid
+    class="grid-layout"
+    [ngClass]="{
       'remove-mode': isRemoveFaultMode,
       'add-mode': !isRemoveFaultMode,
       'fault-mode': !isSeriousMode && !isDangerousMode,
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
-    }">
+    }"
+  >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -38,14 +38,16 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
-              [disabled]="(pageState.delegatedTest$ | async)">
+              [disabled]="(pageState.delegatedTest$ | async)"
+            >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
-              [disabled]="(pageState.delegatedTest$ | async)">
+              [disabled]="(pageState.delegatedTest$ | async)"
+            >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -54,20 +56,23 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.uphillStart"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStart]"
-              [disabled]="(pageState.delegatedTest$ | async)">
+              [disabled]="(pageState.delegatedTest$ | async)"
+            >
             </legal-requirement>
           </ion-col>
           <ion-col size="28">
             <legal-requirement
               [legalRequirement]="legalRequirements.downhillStart"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.downhillStart]"
-              [disabled]="(pageState.delegatedTest$ | async)">
+              [disabled]="(pageState.delegatedTest$ | async)"
+            >
             </legal-requirement>
           </ion-col>
           <ion-col size="40">
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStartControlledStop"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStartControlledStop]">
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStartControlledStop]"
+            >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -82,10 +87,9 @@
               [completed]="manoeuvresCompleted"
               [controlLabel]="'Reverse Left'"
               [clickCallback]="getCallback()"
-              [testCategory]="pageState.category$ | async">
-              <reverse-left-popover
-                [testCategory]="pageState.category$ | async"
-                [disableDrivingFaults]="true">
+              [testCategory]="pageState.category$ | async"
+            >
+              <reverse-left-popover [testCategory]="pageState.category$ | async" [disableDrivingFaults]="true">
               </reverse-left-popover>
             </reverse-left>
           </ion-col>
@@ -122,9 +126,7 @@
         </ion-row>
         <ion-row [ngStyle]="{'visibility': showUncoupleRecouple() ? 'visible' : 'hidden' }">
           <ion-col>
-            <uncouple-recouple
-              [category]="pageState.category$ | async"
-              [disableDrivingFaults]="true">
+            <uncouple-recouple [category]="pageState.category$ | async" [disableDrivingFaults]="true">
             </uncouple-recouple>
           </ion-col>
         </ion-row>
@@ -433,11 +435,11 @@
   <div
     class="report-overlay report-overlay-modal"
     [class.contract]="isSeriousMode || isDangerousMode"
-    [class.show-overlay]="displayOverlay">
-  </div>
+    [class.show-overlay]="displayOverlay"
+  ></div>
   <div
     class="report-overlay report-overlay-remove"
     [class.contract]="isSeriousMode || isDangerousMode"
-    [class.show-overlay]="isRemoveFaultMode">
-  </div>
+    [class.show-overlay]="isRemoveFaultMode"
+  ></div>
 </ion-content>

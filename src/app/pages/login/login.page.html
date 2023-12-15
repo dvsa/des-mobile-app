@@ -4,7 +4,8 @@
       <ion-button
         *ngIf="(!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()"
         (click)="openLogoutModal()"
-        id="logout-button">
+        id="logout-button"
+      >
         <span class="colour-white">Logout</span>
       </ion-button>
     </ion-buttons>
@@ -45,8 +46,9 @@
     <div *ngIf="isUserNotAuthorised()">
       <ion-text class="des-header-style-2">You're not authorised to use this app</ion-text>
       <ion-text class="des-header-style-3">Speak to your line manager if you want to use this app.</ion-text>
-      <ion-text class="des-header-style-3">If you think you’re already authorised,<br /> you can try to
-        <span (click)="login()" class="link">sign in</span>again.
+      <ion-text class="des-header-style-3"
+        >If you think you’re already authorised,<br />
+        you can try to <span (click)="login()" class="link">sign in</span>again.
       </ion-text>
     </div>
     <div *ngIf="isInvalidAppVersionError()">

@@ -13,7 +13,10 @@
           <div id="ecoFaults-adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
             {{ 'debrief.ecoPlanning' | translate }}
           </div>
-          <div id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning" *ngIf="adviceGivenControl && adviceGivenPlanning">
+          <div
+            id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning"
+            *ngIf="adviceGivenControl && adviceGivenPlanning"
+          >
             {{ 'debrief.ecoBoth' | translate }}
           </div>
         </ion-col>

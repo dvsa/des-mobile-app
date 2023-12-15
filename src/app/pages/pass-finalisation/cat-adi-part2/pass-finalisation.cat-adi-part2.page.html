@@ -15,13 +15,15 @@
         <finalisation-header
           [candidateName]="pageState.candidateName$ | async"
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
         <language-preferences
           [formGroup]="form"
           [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-          (welshChanged)="isWelshChanged($event)">
+          (welshChanged)="isWelshChanged($event)"
+        >
         </language-preferences>
 
         <debrief-witnessed
@@ -29,11 +31,11 @@
           [formGroup]="form"
           [debriefWitnessed]="pageState.debriefWitnessed$ | async"
           [outcome]="testOutcome"
-          (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+          (debriefWitnessedChange)="debriefWitnessedChanged($event)"
+        >
         </debrief-witnessed>
 
-        <warning-banner
-          warningText="Advise PDI to seek development for the Part 3 test from an ORDIT trainer">
+        <warning-banner warningText="Advise PDI to seek development for the Part 3 test from an ORDIT trainer">
         </warning-banner>
       </ion-grid>
     </form>

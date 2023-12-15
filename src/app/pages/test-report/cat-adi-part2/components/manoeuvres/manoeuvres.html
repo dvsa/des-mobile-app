@@ -1,12 +1,14 @@
 <ion-row>
   <ion-col class="ion-no-padding">
-    <button (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
-            [ngClass]="{
+    <button
+      (click)="togglePopoverDisplay()"
+      [class.promoted]="displayPopover"
+      [ngClass]="{
             'fault': drivingFaults > 0,
             'serious-fault': hasSeriousFault,
             'dangerous-fault': hasDangerousFault
-      }">
-
+      }"
+    >
       <div id="manoeuvers-tick" class="tickwrapper">
         <tick-indicator [ticked]="completed"></tick-indicator>
       </div>

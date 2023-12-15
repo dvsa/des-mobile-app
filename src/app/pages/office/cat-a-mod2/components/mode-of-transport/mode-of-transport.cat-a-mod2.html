@@ -1,8 +1,5 @@
-<ion-row
-  class="mes-validated-row mes-row-separator" id="mode-of-transport-card"
-  [formGroup]="formGroup">
-  <div class="validation-bar" [class.ng-invalid]="invalid">
-  </div>
+<ion-row class="mes-validated-row mes-row-separator" id="mode-of-transport-card" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label>Test conducted on</label>
   </ion-col>
@@ -44,7 +41,7 @@
           class="gds-radio-button"
           formControlName="modeOfTransport"
           name="modeOfTransport"
-          value='N/A'
+          value="N/A"
           [class.ng-invalid]="invalid"
           [checked]="modeOfTransport === 'N/A'"
           (change)="modeOfTransportChanged('N/A')"

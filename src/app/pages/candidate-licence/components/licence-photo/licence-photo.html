@@ -4,13 +4,14 @@
       *ngIf="!imageSrc; else showImage;"
       class="driver-photograph-spinner"
       id="driver-photograph-spinner"
-      name="bubbles">
+      name="bubbles"
+    >
     </ion-spinner>
 
     <ng-template #showImage>
       <ion-row>
         <ion-col>
-            <ion-text class="des-header-style-4" id="licence-information-title">Licence Photograph</ion-text>
+          <ion-text class="des-header-style-4" id="licence-information-title">Licence Photograph</ion-text>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -21,7 +22,7 @@
             alt="Candidate photograph from driving licence"
             aria-label="Candidate photograph from driving licence"
             class="driver-photograph"
-          >
+          />
         </ion-col>
       </ion-row>
     </ng-template>

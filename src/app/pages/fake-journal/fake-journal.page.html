@@ -6,10 +6,7 @@
 </ion-header>
 
 <ion-content>
-  <journal-navigation
-    [isSelectedDateToday]="true"
-    [selectedDate]="selectedDate">
-  </journal-navigation>
+  <journal-navigation [isSelectedDateToday]="true" [selectedDate]="selectedDate"> </journal-navigation>
 
   <location location="Example Test Centre"></location>
 
@@ -19,6 +16,7 @@
     [slot]="slot"
     [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
     [isPracticeMode]="true"
-    [hasSlotChanged]="false">
+    [hasSlotChanged]="false"
+  >
   </test-slot>
 </ion-content>

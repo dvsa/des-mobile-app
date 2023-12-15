@@ -1,8 +1,9 @@
 <ion-card id="driving-fault" *ngIf="drivingFaultCount > 0 || drivingFaults?.length > 0">
   <ion-card-title class="title-padding">
     <ion-text id="driving-fault-count" class="des-header-style-1 fault-heading">{{ drivingFaultCount }}</ion-text>
-    <ion-text id="driving-fault-title"
-              class="des-header-style-4 fault-heading">{{ drivingFaultsCardDescriptionSwitch(testCategory) | translate }}</ion-text>
+    <ion-text id="driving-fault-title" class="des-header-style-4 fault-heading"
+      >{{ drivingFaultsCardDescriptionSwitch(testCategory) | translate }}</ion-text
+    >
   </ion-card-title>
   <ion-card-content>
     <ion-grid>
@@ -13,14 +14,17 @@
             <driving-faults-badge
               [count]="drivingFault.faultCount"
               [competencyDisplayName]="drivingFault.competencyIdentifier"
-              [badgeLabel]="isRider() ? 'Riding' : 'Driving'">
+              [badgeLabel]="isRider() ? 'Riding' : 'Driving'"
+            >
             </driving-faults-badge>
           </div>
         </ion-col>
         <ion-col size="1" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
-          <div class="counter-label"
-               id="{{drivingFault.competencyIdentifier}}-driving-text">{{'debrief.competencies.' + drivingFault.competencyIdentifier | translate  | modifyCompetencyLabel:testCategory:drivingFault.competencyIdentifier}}</div>
+          <div class="counter-label" id="{{drivingFault.competencyIdentifier}}-driving-text">
+            {{'debrief.competencies.' + drivingFault.competencyIdentifier | translate |
+            modifyCompetencyLabel:testCategory:drivingFault.competencyIdentifier}}
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>

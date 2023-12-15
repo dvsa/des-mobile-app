@@ -16,7 +16,8 @@
           class="modal-row"
           [ngClass]="{ 'appear-disabled': disabled }"
           [style.width]="customWidth ? customWidth +'px' : '452px'"
-          (click)="openModal()">
+          (click)="openModal()"
+        >
           <ion-col size="87" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
             <span class="placeholder-details" size="90">{{placeholder}}</span>
           </ion-col>
@@ -45,7 +46,8 @@
             aria-hidden="true"
             name="location-sharp"
             class="test-centre-location-icon"
-            id="test-centre-icon">
+            id="test-centre-icon"
+          >
           </ion-icon>
           <label id="test-centre-location">{{model[displayKey]}}</label>
         </ion-col>
@@ -53,13 +55,9 @@
     </ion-col>
 
     <ion-col [size]="isAdvancedSearch ? 30 : 10" *ngIf="model && differentDisplay">
-      <ion-button (click)="openModal()" class="changeButton" size="small">
-        Change
-      </ion-button>
+      <ion-button (click)="openModal()" class="changeButton" size="small"> Change </ion-button>
       <!--Button to clear the input entirely only appears if the user is on advanced search-->
-      <ion-button *ngIf="isAdvancedSearch" (click)="clearInput()" class="changeButton" size="small">
-        Clear
-      </ion-button>
+      <ion-button *ngIf="isAdvancedSearch" (click)="clearInput()" class="changeButton" size="small"> Clear </ion-button>
     </ion-col>
   </ion-row>
 </ion-grid>

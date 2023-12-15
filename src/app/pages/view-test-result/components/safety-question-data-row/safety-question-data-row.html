@@ -9,12 +9,21 @@
         <ion-col
           id="icon-column"
           class="display-flex ion-align-items-center ion-no-padding completed-icon-padding"
-          size="10">
+          size="10"
+        >
           <div class="display-flex counter-icon">
-            <img *ngIf="!shouldShowFault(item.outcome)" src="assets/imgs/greenCorrectAnswer.png"
-                 alt="Correct Answer" class="correct-icon"/>
-            <img *ngIf="shouldShowFault(item.outcome)" src="assets/imgs/redWrongAnswer.png"
-                 alt="Wrong Answer" class="wrong-icon"/>
+            <img
+              *ngIf="!shouldShowFault(item.outcome)"
+              src="assets/imgs/greenCorrectAnswer.png"
+              alt="Correct Answer"
+              class="correct-icon"
+            />
+            <img
+              *ngIf="shouldShowFault(item.outcome)"
+              src="assets/imgs/redWrongAnswer.png"
+              alt="Wrong Answer"
+              class="wrong-icon"
+            />
           </div>
         </ion-col>
         <ion-col no-padding>

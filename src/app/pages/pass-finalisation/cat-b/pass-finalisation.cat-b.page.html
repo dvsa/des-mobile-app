@@ -1,7 +1,9 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title role="heading" aria-level="1" id="pass-finalisation-title">Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="pass-finalisation-title"
+      >Finalise Outcome - {{pageState.candidateUntitledName$ | async}}</ion-title
+    >
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -12,15 +14,14 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-
         <finalisation-header
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
-        <application-reference-number
-          [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <license-provided
@@ -29,35 +30,34 @@
           *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
           [form]="form"
           [licenseReceivedLabel]="'Provisional licence received'"
-          [license]="pageState.provisionalLicense$ | async">
+          [license]="pageState.provisionalLicense$ | async"
+        >
         </license-provided>
 
         <licence-provided-warning-banner
           *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-          [licenceProvided]="pageState.provisionalLicense$ | async">
+          [licenceProvided]="pageState.provisionalLicense$ | async"
+        >
         </licence-provided-warning-banner>
 
-        <danger-banner
-          *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-          [dangerText]="niMessage">
+        <danger-banner *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )" [dangerText]="niMessage">
         </danger-banner>
 
-        <transmission
-          (transmissionChange)="transmissionChanged($event)"
-          [formGroup]="form">
-        </transmission>
+        <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
 
         <warning-banner
           *ngIf="displayTransmissionBanner()"
           [warningIdentifier]="'transmission-'"
-          warningText="An automatic licence will be issued.">
+          warningText="An automatic licence will be issued."
+        >
         </warning-banner>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        >
         </pass-certificate-number>
 
         <d255
@@ -66,19 +66,22 @@
           [display]="true"
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
           [formGroup]="form"
-          [outcome]="testOutcome">
+          [outcome]="testOutcome"
+        >
         </d255>
 
         <warning-banner
           *ngIf="pageState.d255$ | async"
           [warningIdentifier]="'d255-'"
-          warningText="DVLA will not process the result until a D255 is received.">
+          warningText="DVLA will not process the result until a D255 is received."
+        >
         </warning-banner>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+        >
         </language-preferences>
 
         <debrief-witnessed
@@ -87,9 +90,9 @@
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"
-          [outcome]="testOutcome">
+          [outcome]="testOutcome"
+        >
         </debrief-witnessed>
-
       </ion-grid>
     </form>
   </div>

@@ -10,9 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding"
-             [ngClass]="{'overflow': !delegatedTest}"
-             force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
   <toolbar></toolbar>
   <ion-grid
     class="grid-layout"
@@ -22,7 +20,8 @@
       'fault-mode': !isSeriousMode && !isDangerousMode,
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
-    }">
+    }"
+  >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -81,7 +80,8 @@
               id="manoeuvres-adi-part2"
               [completed]="manoeuvresCompleted"
               [controlLabel]="'Manoeuvres'"
-              [clickCallback]="getCallback()">
+              [clickCallback]="getCallback()"
+            >
               <manoeuvres-popover-adi-part2></manoeuvres-popover-adi-part2>
             </manoeuvres-adi-part2>
           </ion-col>
@@ -123,12 +123,10 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <eta [eta]="eta.verbal">
-            </eta>
+            <eta [eta]="eta.verbal"> </eta>
           </ion-col>
           <ion-col>
-            <eta [eta]="eta.physical">
-            </eta>
+            <eta [eta]="eta.physical"> </eta>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -420,8 +418,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="isRemoveFaultMode"></div>
+  <div
+    class="report-overlay report-overlay-modal"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="displayOverlay"
+  ></div>
+  <div
+    class="report-overlay report-overlay-remove"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="isRemoveFaultMode"
+  ></div>
 </ion-content>

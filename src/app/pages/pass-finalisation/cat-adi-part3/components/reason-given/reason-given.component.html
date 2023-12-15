@@ -17,15 +17,15 @@
         (onCharacterCountChanged)="characterCountChanged($event)"
         id="ordit-reason-for-advice-textarea"
         emojiBlock
-        pasteSanitiser>
+        pasteSanitiser
+      >
       </textarea>
-      <div class="character-count validation-text">{{getCharacterCountText()}}</div>
+      <div class="character-count validation-text">{{ getCharacterCountText() }}</div>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div class="validation-text" [class.ng-invalid]="invalid" id="reason-given-validation-text">
-        Please provide {{charactersExceeded() ? 'a valid' : 'a'}} reason
+        Please provide {{ charactersExceeded() ? 'a valid' : 'a' }} reason
       </div>
     </ion-row>
   </ion-col>
 </ion-row>
-

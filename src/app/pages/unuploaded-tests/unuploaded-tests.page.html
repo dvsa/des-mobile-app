@@ -7,15 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="{
+<ion-content
+  class="ion-padding"
+  *ngIf="{
    slots: pageState.unSubmittedTestSlots$ | async
-} as state">
-
+} as state"
+>
   <div>
     <profile-header
       [employeeId]="pageState.employeeId$ | async"
       [name]="pageState.employeeName$ | async"
-      [role]="pageState.role$ | async">
+      [role]="pageState.role$ | async"
+    >
     </profile-header>
   </div>
 
@@ -30,6 +33,7 @@
     [slots]="pageState.unSubmittedTestSlotData$ | async"
     [slot]="slot?.slotData"
     [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-    [isUnSubmittedTestSlotView]="true">
+    [isUnSubmittedTestSlotView]="true"
+  >
   </test-slot>
 </ion-content>

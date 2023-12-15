@@ -1,15 +1,11 @@
 <ion-card>
   <ion-card-header class="tr-header-padding">
-    <h3 id="lesson-theme-card-title" class="des-header-style-3">
-      Lesson theme:
-    </h3>
+    <h3 id="lesson-theme-card-title" class="des-header-style-3">Lesson theme:</h3>
   </ion-card-header>
   <ion-card-content class="card-header-sizing" [formGroup]="formGroup">
     <ion-grid>
       <ion-row>
-        <div id="lesson-theme-card-sub-title" class="tr-standard-text">
-          Please select one or more options
-        </div>
+        <div id="lesson-theme-card-sub-title" class="tr-standard-text">Please select one or more options</div>
       </ion-row>
       <ion-row class="ion-padding-top"></ion-row>
       <ion-row>
@@ -18,7 +14,8 @@
             [assessmentLabel]="'Junctions'"
             [key]="'junctions'"
             [comparator]="defineComparator('junctions')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -26,7 +23,8 @@
             [assessmentLabel]="'Town & city driving'"
             [key]="'townCityDriving'"
             [comparator]="defineComparator('townCityDriving')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -34,7 +32,8 @@
             [assessmentLabel]="'Interaction with other road users'"
             [key]="'interactionWithOtherRoadUsers'"
             [comparator]="defineComparator('interactionWithOtherRoadUsers')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
       </ion-row>
@@ -44,7 +43,8 @@
             [assessmentLabel]="'Motorways'"
             [key]="'motorways'"
             [comparator]="defineComparator('motorways')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -52,7 +52,8 @@
             [assessmentLabel]="'Defensive driving'"
             [key]="'defensiveDriving'"
             [comparator]="defineComparator('defensiveDriving')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -60,7 +61,8 @@
             [assessmentLabel]="'Effective use of mirrors'"
             [key]="'effectiveUseOfMirrors'"
             [comparator]="defineComparator('effectiveUseOfMirrors')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
       </ion-row>
@@ -70,7 +72,8 @@
             [assessmentLabel]="'Rural roads'"
             [key]="'ruralRoads'"
             [comparator]="defineComparator('ruralRoads')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -78,7 +81,8 @@
             [assessmentLabel]="'Independent driving'"
             [key]="'independentDriving'"
             [comparator]="defineComparator('independentDriving')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -86,7 +90,8 @@
             [assessmentLabel]="'Dual carriageway / faster moving roads'"
             [key]="'dualCarriagewayFasterRoads'"
             [comparator]="defineComparator('dualCarriagewayFasterRoads')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
       </ion-row>
@@ -96,7 +101,8 @@
             [assessmentLabel]="'Commentary'"
             [key]="'commentary'"
             [comparator]="defineComparator('commentary')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -104,7 +110,8 @@
             [assessmentLabel]="'Recap a manoeuvre'"
             [key]="'recapAManoeuvre'"
             [comparator]="defineComparator('recapAManoeuvre')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col size="32">
@@ -112,7 +119,8 @@
             [assessmentLabel]="'Eco-safe driving'"
             [key]="'ecoSafeDriving'"
             [comparator]="defineComparator('ecoSafeDriving')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
       </ion-row>
@@ -122,7 +130,8 @@
             [assessmentLabel]="'Recap emergency stop'"
             [key]="'recapEmergencyStop'"
             [comparator]="defineComparator('recapEmergencyStop')"
-            (answerToggled)="lessonThemeChanged($event)">
+            (answerToggled)="lessonThemeChanged($event)"
+          >
           </assessment-answer>
         </ion-col>
         <ion-col></ion-col>
@@ -132,7 +141,7 @@
         <ion-col size="30">
           <ion-row>
             <ion-col>
-              <label style="font-weight: normal;">Other</label>
+              <label style="font-weight: normal">Other</label>
             </ion-col>
           </ion-row>
         </ion-col>
@@ -151,7 +160,8 @@
                 formControlName="otherReason"
                 class="mes-data input-styling-background"
                 emojiBlock
-                pasteSanitiser>
+                pasteSanitiser
+              >
               </textarea>
               <div class="character-count-standard validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
                 {{getCharacterCountText()}}

@@ -15,11 +15,11 @@
         <finalisation-header
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
-        <application-reference-number
-          [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <bike-category-type
@@ -27,45 +27,45 @@
           [categoryConfirmed]="true"
           [formGroup]="form"
           [testCategory]="pageState.testCategory$ | async"
-          testType="MOD1">
+          testType="MOD1"
+        >
         </bike-category-type>
 
-        <transmission
-          (transmissionChange)="transmissionChanged($event)"
-          [formGroup]="form">
-        </transmission>
+        <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
 
-        <warning-banner
-          *ngIf="displayTransmissionBanner()"
-          warningText="An automatic licence will be issued.">
+        <warning-banner *ngIf="displayTransmissionBanner()" warningText="An automatic licence will be issued.">
         </warning-banner>
 
         <pass-certificate-number-cat-a-mod1
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        >
         </pass-certificate-number-cat-a-mod1>
 
         <d255
           (d255Change)="d255Changed($event)"
           [d255]="pageState.d255$ | async"
-          [display]=true
+          [display]="true"
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
           [formGroup]="form"
-          [outcome]="pageState.testOutcome$ | async">
+          [outcome]="pageState.testOutcome$ | async"
+        >
         </d255>
 
         <warning-banner
           *ngIf="pageState.d255$ | async"
           [warningIdentifier]="'d255-'"
-          warningText="DVLA will not process the result until a D255 is received.">
+          warningText="DVLA will not process the result until a D255 is received."
+        >
         </warning-banner>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+        >
         </language-preferences>
 
         <debrief-witnessed
@@ -74,7 +74,8 @@
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"
-          [outcome]="pageState.testOutcome$ | async">
+          [outcome]="pageState.testOutcome$ | async"
+        >
         </debrief-witnessed>
       </ion-grid>
     </form>

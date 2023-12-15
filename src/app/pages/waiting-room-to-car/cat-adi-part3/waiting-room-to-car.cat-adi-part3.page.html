@@ -9,7 +9,8 @@
       <end-test-link
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
-        [shouldAuthenticate]="false">
+        [shouldAuthenticate]="false"
+      >
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -25,7 +26,8 @@
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async">
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+            >
             </vehicle-registration>
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>
@@ -33,34 +35,39 @@
             <dual-controls
               (dualControlsChange)="dualControlsOutcomeToggled($event)"
               [dualControls]="pageState.dualControls$ | async"
-              [formGroup]="form">
+              [formGroup]="form"
+            >
             </dual-controls>
 
             <transmission
               (transmissionChange)="transmissionChanged($event)"
               [formGroup]="form"
-              [transmission]="pageState.transmission$ | async">
+              [transmission]="pageState.transmission$ | async"
+            >
             </transmission>
 
             <pdi-logbook
               (pdiLogbookChange)="pdiLogbookChanged($event)"
               *ngIf="notSC(pageState.category$ | async)"
               [formGroup]="form"
-              [pdiLogbook]="pageState.pdiLogbook$ | async">
+              [pdiLogbook]="pageState.pdiLogbook$ | async"
+            >
             </pdi-logbook>
 
             <trainee-licence
               (traineeLicenceChange)="traineeLicenceChanged($event)"
               *ngIf="notSC(pageState.category$ | async)"
               [formGroup]="form"
-              [traineeLicence]="pageState.traineeLicence$ | async">
+              [traineeLicence]="pageState.traineeLicence$ | async"
+            >
             </trainee-licence>
 
             <ordit-trainer-cat-adi-part2
               (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
               [formGroup]="form"
               [notSC]="notSC(pageState.category$ | async)"
-              [orditTrainedRadioChecked]="pageState.orditTrained$ | async">
+              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
+            >
             </ordit-trainer-cat-adi-part2>
 
             <accompaniment-card-adi3
@@ -70,13 +77,15 @@
               [formGroup]="form"
               [otherAccompaniment]="pageState.otherAccompaniment$ | async"
               [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async">
+              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
+            >
             </accompaniment-card-adi3>
 
             <trainer-registration-number-cat-adi-part2
               (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
               [formGroup]="form"
-              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async">
+              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+            >
             </trainer-registration-number-cat-adi-part2>
           </ion-col>
         </ion-row>
@@ -91,7 +100,9 @@
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" shape="round">
+        id="view-test-centre-journal-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -100,7 +111,9 @@
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" shape="round">
+        id="continue-to-test-report-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

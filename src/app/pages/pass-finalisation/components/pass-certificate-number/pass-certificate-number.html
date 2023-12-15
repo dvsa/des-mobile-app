@@ -18,7 +18,8 @@
           maxlength="8"
           type="text"
           emojiBlock
-          pasteSanitiser>
+          pasteSanitiser
+        >
         </ion-input>
       </ion-col>
     </ion-row>
@@ -26,7 +27,8 @@
       <div
         [class.ng-invalid]="invalid"
         class="validation-text"
-        id="pass-finalisation-certificate-number-validation-text">
+        id="pass-finalisation-certificate-number-validation-text"
+      >
         {{formControl.hasError('duplicate') ? errors.duplicate : errors.invalid}}
       </div>
     </ion-row>

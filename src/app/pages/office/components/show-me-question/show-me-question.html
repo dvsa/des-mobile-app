@@ -6,19 +6,23 @@
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-select (ionChange)="showMeQuestionChanged($event.target.value)"
-                  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
-                  aria-label="Show me question"
-                  cancelText="Cancel"
-                  class="select-padding"
-                  formControlName="showMeQuestion"
-                  id="show-me-question-selector"
-                  labelPlacement="stacked"
-                  okText="Submit"
-                  placeholder="Select a question">
-        <ion-select-option *ngFor="let showMeQuestion of showMeQuestionOptions"
-                           [value]="showMeQuestion"
-                           id="show-me-question-{{showMeQuestion.code}}">
+      <ion-select
+        (ionChange)="showMeQuestionChanged($event.target.value)"
+        [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+        aria-label="Show me question"
+        cancelText="Cancel"
+        class="select-padding"
+        formControlName="showMeQuestion"
+        id="show-me-question-selector"
+        labelPlacement="stacked"
+        okText="Submit"
+        placeholder="Select a question"
+      >
+        <ion-select-option
+          *ngFor="let showMeQuestion of showMeQuestionOptions"
+          [value]="showMeQuestion"
+          id="show-me-question-{{showMeQuestion.code}}"
+        >
           {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
         </ion-select-option>
       </ion-select>

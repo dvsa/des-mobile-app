@@ -10,22 +10,29 @@
         <ion-col size="32" class="ion-no-padding"></ion-col>
         <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
           <div class="vehicle-check-icon">
-            <img *ngIf="!questionHasFault(question)" src="assets/imgs/greenCorrectAnswer.png"
-                 alt="Correct Answer" class="display-flex correct-icon"/>
-            <img *ngIf="questionHasFault(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer"
-                 class="display-flex wrong-icon"/>
+            <img
+              *ngIf="!questionHasFault(question)"
+              src="assets/imgs/greenCorrectAnswer.png"
+              alt="Correct Answer"
+              class="display-flex correct-icon"
+            />
+            <img
+              *ngIf="questionHasFault(question)"
+              src="assets/imgs/redWrongAnswer.png"
+              alt="Wrong Answer"
+              class="display-flex wrong-icon"
+            />
           </div>
         </ion-col>
         <ion-col size="1" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
           <div class="counter-label">
-              <span *ngIf="isHomeTest()">
-                  {{question.code}} - {{ 'debrief.showMeTellMeQuestions.FGHK.' + question.code | translate }}
-              </span>
+            <span *ngIf="isHomeTest()">
+              {{question.code}} - {{ 'debrief.showMeTellMeQuestions.FGHK.' + question.code | translate }}
+            </span>
             <span *ngIf="!isHomeTest()">
-                  {{question.code}}
-              - {{ 'debrief.showMeTellMeQuestions.' + category + '.' + question.code | translate }}
-              </span>
+              {{question.code}} - {{ 'debrief.showMeTellMeQuestions.' + category + '.' + question.code | translate }}
+            </span>
           </div>
         </ion-col>
       </ion-row>

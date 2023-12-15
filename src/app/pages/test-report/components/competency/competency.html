@@ -8,12 +8,12 @@
     'dangerous-fault': hasDangerousFault
   }"
 >
-
   <driving-faults-badge
     id="competency-driving-faults-{{ label }}"
     class="driving-faults"
     [count]="faultCount"
-    [competencyDisplayName]="competency">
+    [competencyDisplayName]="competency"
+  >
   </driving-faults-badge>
 
   <span id="competency-label-{{ label }}" class="competency-label ion-text-nowrap">{{ label }}</span>
@@ -22,13 +22,15 @@
     <serious-fault-badge
       id="competency-serious-faults-{{ label }}"
       [showBadge]="hasSeriousFault"
-      [competencyDisplayName]="competency">
+      [competencyDisplayName]="competency"
+    >
     </serious-fault-badge>
 
     <dangerous-fault-badge
       id="competency-dangerous-faults-{{ label }}"
       [showBadge]="hasDangerousFault"
-      [competencyDisplayName]="competency">
+      [competencyDisplayName]="competency"
+    >
     </dangerous-fault-badge>
   </div>
 </competency-button>

@@ -10,7 +10,8 @@
           *ngIf="formControl.dirty"
           [ngClass]="formControl.valid ? 'valid' : 'invalid'"
           name="{{formControl.valid ? 'checkmark-circle' : 'close-circle'}}"
-          id="review-{{formControl.valid ? 'valid' : 'invalid'}}-icon">
+          id="review-{{formControl.valid ? 'valid' : 'invalid'}}-icon"
+        >
         </ion-icon>
       </ion-col>
     </ion-row>
@@ -33,11 +34,10 @@
               (onCharacterCountChanged)="characterCountChanged($event)"
               (change)="feedbackChanged($event.target.value)"
               emojiBlock
-              pasteSanitiser>
+              pasteSanitiser
+            >
             </textarea>
-            <div
-              class="character-count validation-text"
-              id="review-character-count-text">
+            <div class="character-count validation-text" id="review-character-count-text">
               {{getCharacterCountText()}}
             </div>
           </ion-col>

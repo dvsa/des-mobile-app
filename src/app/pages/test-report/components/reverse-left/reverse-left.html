@@ -1,31 +1,35 @@
 <ion-row>
   <ion-col size="20" class="ion-no-padding">
-    <competency-button class="reverse-left-tick"
-                       [onTap]="toggleReverseLeft"
-                       [onPress]="toggleReverseLeft"
-                       [ripple]="false"
-                       [class.promoted]="displayPopover"
-                       [ngClass]="{
+    <competency-button
+      class="reverse-left-tick"
+      [onTap]="toggleReverseLeft"
+      [onPress]="toggleReverseLeft"
+      [ripple]="false"
+      [class.promoted]="displayPopover"
+      [ngClass]="{
                           'checked': completedReverseLeft
-                       }">
+                       }"
+    >
       <span id="legal-requirements-tick-reverse" class="tickwrapper">
         <tick-indicator [ticked]="completedReverseLeft"></tick-indicator>
       </span>
     </competency-button>
   </ion-col>
   <ion-col size="4" class="ion-no-padding">
-    <button (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
-            [ngClass]="{
+    <button
+      (click)="togglePopoverDisplay()"
+      [class.promoted]="displayPopover"
+      [ngClass]="{
         'fault': drivingFaults > 0,
         'serious-fault': hasSeriousFault,
         'dangerous-fault': hasDangerousFault
-      }">
-
+      }"
+    >
       <driving-faults-badge class="driving-faults" [count]="drivingFaults"></driving-faults-badge>
 
       <div class="label-wrapper">
         <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="caret-forward-outline"></ion-icon>
-        <span id='reverse-left-label'>Reverse</span>
+        <span id="reverse-left-label">Reverse</span>
       </div>
 
       <div class="fault-wrapper">

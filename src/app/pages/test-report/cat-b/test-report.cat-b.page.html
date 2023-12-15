@@ -1,16 +1,16 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-title role="heading" aria-level="1" id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="test-report-page-title"
+      >Test report - {{pageState.candidateUntitledName$ | async}}</ion-title
+    >
     <ion-buttons slot="end">
       <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding"
-             [ngClass]="{'overflow': !delegatedTest}"
-             force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
   <toolbar></toolbar>
   <ion-grid
     class="grid-layout"
@@ -20,7 +20,8 @@
       'fault-mode': !isSeriousMode && !isDangerousMode,
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
-    }">
+    }"
+  >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -33,13 +34,15 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]">
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
+            >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]">
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
+            >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -66,10 +69,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <manoeuvres
-              [completed]="manoeuvresCompleted"
-              [controlLabel]="'Manoeuvres'"
-              [clickCallback]="getCallback()">
+            <manoeuvres [completed]="manoeuvresCompleted" [controlLabel]="'Manoeuvres'" [clickCallback]="getCallback()">
               <manoeuvres-popover></manoeuvres-popover>
             </manoeuvres>
           </ion-col>
@@ -111,12 +111,10 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <eta [eta]="eta.verbal">
-            </eta>
+            <eta [eta]="eta.verbal"> </eta>
           </ion-col>
           <ion-col>
-            <eta [eta]="eta.physical">
-            </eta>
+            <eta [eta]="eta.physical"> </eta>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -408,10 +406,16 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="displayOverlay"
-       [class.hide-overlay]="!displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="isRemoveFaultMode"
-       [class.hide-overlay]="!isRemoveFaultMode"></div>
+  <div
+    class="report-overlay report-overlay-modal"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="displayOverlay"
+    [class.hide-overlay]="!displayOverlay"
+  ></div>
+  <div
+    class="report-overlay report-overlay-remove"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="isRemoveFaultMode"
+    [class.hide-overlay]="!isRemoveFaultMode"
+  ></div>
 </ion-content>

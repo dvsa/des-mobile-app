@@ -12,15 +12,14 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-
         <finalisation-header
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
-        <application-reference-number
-          [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <bike-category-type
@@ -28,7 +27,8 @@
           [categoryConfirmed]="true"
           [formGroup]="form"
           [testCategory]="pageState.testCategory$ | async"
-          testType="MOD2">
+          testType="MOD2"
+        >
         </bike-category-type>
 
         <license-provided
@@ -36,28 +36,24 @@
           (licenseReceived)="provisionalLicenseReceived()"
           [form]="form"
           [licenseReceivedLabel]="'Licence received'"
-          [license]="pageState.provisionalLicense$ | async">
+          [license]="pageState.provisionalLicense$ | async"
+        >
         </license-provided>
 
-        <licence-provided-warning-banner
-          [licenceProvided]="pageState.provisionalLicense$ | async">
+        <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async">
         </licence-provided-warning-banner>
 
-        <transmission
-          (transmissionChange)="transmissionChanged($event)"
-          [formGroup]="form">
-        </transmission>
+        <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
 
-        <warning-banner
-          *ngIf="displayTransmissionBanner()"
-          warningText="An automatic licence will be issued.">
+        <warning-banner *ngIf="displayTransmissionBanner()" warningText="An automatic licence will be issued.">
         </warning-banner>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        >
         </pass-certificate-number>
 
         <d255
@@ -66,18 +62,21 @@
           [display]="true"
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
           [formGroup]="form"
-          [outcome]="testOutcome">
+          [outcome]="testOutcome"
+        >
         </d255>
 
         <warning-banner
           *ngIf="pageState.d255$ | async"
-          warningText="DVLA will not process the result until a D255 is received.">
+          warningText="DVLA will not process the result until a D255 is received."
+        >
         </warning-banner>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+        >
         </language-preferences>
 
         <debrief-witnessed
@@ -86,7 +85,8 @@
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"
-          [outcome]="testOutcome">
+          [outcome]="testOutcome"
+        >
         </debrief-witnessed>
       </ion-grid>
     </form>

@@ -1,6 +1,5 @@
 <ion-row class="mes-validated-row mes-row-separator" id="code-78-card">
-  <div class="validation-bar" [class.ng-invalid]="isInvalid()">
-  </div>
+  <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
   <ion-col class="component-label align-self-center" size="32">
     <label>Is there a code 78 (automatic) on the licence?</label>
   </ion-col>
@@ -8,13 +7,25 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row [formGroup]="form">
       <ion-col size="48">
-        <input formControlName="code78Ctrl" type="radio" id="code-78-received" value="yes" class="gds-radio-button"
-          (click)="code78IsPresent()">
+        <input
+          formControlName="code78Ctrl"
+          type="radio"
+          id="code-78-received"
+          value="yes"
+          class="gds-radio-button"
+          (click)="code78IsPresent()"
+        />
         <label for="code-78-received" class="radio-label">Yes</label>
       </ion-col>
       <ion-col>
-        <input formControlName="code78Ctrl" type="radio" id="code-78-not-received" value="no" class="gds-radio-button"
-          (click)="code78IsNotPresent()">
+        <input
+          formControlName="code78Ctrl"
+          type="radio"
+          id="code-78-not-received"
+          value="no"
+          class="gds-radio-button"
+          (click)="code78IsNotPresent()"
+        />
         <label for="code-78-not-received" class="radio-label">No</label>
       </ion-col>
     </ion-row>

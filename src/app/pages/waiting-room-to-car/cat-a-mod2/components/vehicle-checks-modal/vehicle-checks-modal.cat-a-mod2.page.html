@@ -6,8 +6,12 @@
         <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
-    <ion-title role="heading" aria-level="1" id="vehicle-checks-modal-title"
-               class="ion-text-center toolbar-item-spacing">
+    <ion-title
+      role="heading"
+      aria-level="1"
+      id="vehicle-checks-modal-title"
+      class="ion-text-center toolbar-item-spacing"
+    >
       Safety and Balance Questions - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -17,9 +21,7 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        <h2 class="des-header-style-4">
-          Safety questions
-        </h2>
+        <h2 class="des-header-style-4">Safety questions</h2>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -32,16 +34,15 @@
         [isLastQuestion]="l"
         [submitClicked]="submitClicked"
         (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
-        (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)">
+        (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)"
+      >
       </vehicle-checks-question-cat-a-mod2>
     </ion-card-content>
   </ion-card>
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        <h2 class="des-header-style-4">
-          Balance questions
-        </h2>
+        <h2 class="des-header-style-4">Balance questions</h2>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -54,7 +55,8 @@
         [isLastQuestion]="l"
         [submitClicked]="submitClicked"
         (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
-        (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)">
+        (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)"
+      >
       </vehicle-checks-question-cat-a-mod2>
     </ion-card-content>
   </ion-card>

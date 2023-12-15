@@ -6,7 +6,8 @@
           *ngIf="canNavigateToPreviousDay"
           (click)="onPreviousDayClick()"
           class="des-header-style-5 navigation-button"
-          id="previous-day-container">
+          id="previous-day-container"
+        >
           <ion-icon class="navigation-arrow" name="chevron-back-outline" aria-labelledby="previous-day"></ion-icon>
           <span id="previous-day" aria-labelledby="previous-day">{{previousDayLabel}}</span>
         </ion-text>
@@ -22,11 +23,12 @@
           <ng-template #notToday>
             <div *ngIf="fromTestCentreJournal; else journalView">
               <ion-text class="des-header-style-1" id="date-tomorrow-header">Tomorrow</ion-text>
-              <br>
+              <br />
               <ion-text
                 class="des-header-style-3"
                 id="tomorrow-date"
-                aria-labelledby="date-tomorrow-header tomorrow-date">
+                aria-labelledby="date-tomorrow-header tomorrow-date"
+              >
                 {{ selectedDate | date:'EEEE d MMMM y' }}
               </ion-text>
             </div>
@@ -34,7 +36,7 @@
               <ion-text class="des-header-style-1" id="date-day-header" aria-labelledby="date-day-header">
                 {{ selectedDate | date:'EEEE' }}
               </ion-text>
-              <br>
+              <br />
               <ion-text class="des-header-style-3" id="date-subheader" aria-labelledby="date-day-header date-subheader">
                 {{ selectedDate | date:'d MMMM y' }}
               </ion-text>
@@ -50,11 +52,7 @@
           class="des-header-style-5 next-navigation-button"
         >
           <span id="next-day" aria-labelledby="next-day">{{nextDayLabel}}</span>
-          <ion-icon
-            class="navigation-arrow"
-            name="chevron-forward-outline"
-            aria-labelledby="next-day"
-          ></ion-icon>
+          <ion-icon class="navigation-arrow" name="chevron-forward-outline" aria-labelledby="next-day"></ion-icon>
         </ion-text>
       </ion-col>
     </ion-row>

@@ -31,7 +31,8 @@
           (technicalFaultChange)="ipadIssueTechnicalFaultChanged()"
           (lostChange)="ipadIssueLostChanged()"
           (stolenChange)="ipadIssueStolenChanged()"
-          (brokenChange)="ipadIssueBrokenChanged()">
+          (brokenChange)="ipadIssueBrokenChanged()"
+        >
         </ipad-issue>
 
         <transfer
@@ -40,7 +41,8 @@
           [staffNumber]="examinerConducted"
           [isStaffNumberInvalid]="isStaffNumberInvalid"
           (selectedChange)="transferSelected($event)"
-          (staffNumberChange)="staffNumberChanged($event)">
+          (staffNumberChange)="staffNumberChanged($event)"
+        >
         </transfer>
 
         <other-reason
@@ -48,7 +50,8 @@
           [selected]="(pageState.other$ | async).selected"
           [reason]="(pageState.other$ | async).reason"
           (selectedChange)="otherSelected($event)"
-          (reasonChange)="otherReasonChanged($event)">
+          (reasonChange)="otherReasonChanged($event)"
+        >
         </other-reason>
       </ion-grid>
     </div>
@@ -59,12 +62,16 @@
   <ion-row class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center">
       <ion-button
-        shape="round" class="mes-primary-button uploadRekeyButton" id="rekey-reason-upload-rekey-btn"
+        shape="round"
+        class="mes-primary-button uploadRekeyButton"
+        id="rekey-reason-upload-rekey-btn"
         [disabled]="!canClickUploadRekeyTest(
                         pageState.ipadIssue$ | async,
                         pageState.transfer$ | async,
                         pageState.other$ | async
-                    )" (click)="onUploadPressed()">
+                    )"
+        (click)="onUploadPressed()"
+      >
         <ion-text id="rekey-reason-upload-rekey-label" class="des-header-style-3">Upload rekeyed test</ion-text>
       </ion-button>
     </ion-col>

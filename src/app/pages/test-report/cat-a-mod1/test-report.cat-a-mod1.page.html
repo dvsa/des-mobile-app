@@ -10,17 +10,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding"
-             [ngClass]="{'overflow': !delegatedTest}"
-             force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
   <toolbar></toolbar>
-  <ion-grid class="grid-layout" [ngClass]="{
+  <ion-grid
+    class="grid-layout"
+    [ngClass]="{
       'remove-mode': isRemoveFaultMode,
       'add-mode': !isRemoveFaultMode,
       'fault-mode': !isSeriousMode && !isDangerousMode,
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
-    }">
+    }"
+  >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -111,15 +112,23 @@
     <speed-check-header></speed-check-header>
     <speed-check
       [competency]="competencies.speedCheckEmergency"
-      [pairedCompetency]="singleFaultCompetencyNames.emergencyStop">
+      [pairedCompetency]="singleFaultCompetencyNames.emergencyStop"
+    >
     </speed-check>
     <speed-check
       [competency]="competencies.speedCheckAvoidance"
-      [pairedCompetency]="singleFaultCompetencyNames.avoidance">
+      [pairedCompetency]="singleFaultCompetencyNames.avoidance"
+    >
     </speed-check>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
-       [class.show-overlay]="isRemoveFaultMode"></div>
+  <div
+    class="report-overlay report-overlay-modal"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="displayOverlay"
+  ></div>
+  <div
+    class="report-overlay report-overlay-remove"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="isRemoveFaultMode"
+  ></div>
 </ion-content>

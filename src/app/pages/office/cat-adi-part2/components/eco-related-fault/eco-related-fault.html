@@ -9,19 +9,23 @@
     <ion-col class="ion-align-self-center ion-padding-start" size="63">
       <ion-row class="spacing-row"></ion-row>
       <ion-row>
-        <ion-select (ionChange)="ecoFaultChanged($event.target.value)"
-                    [class.ng-invalid]="invalid"
-                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-                    aria-label="Eco fault capture"
-                    cancelText="Cancel"
-                    class="black-text"
-                    formControlName="ecoRelatedFault"
-                    id="eco-fault-selector"
-                    labelPlacement="stacked"
-                    okText="Submit"
-                    placeholder="Select fault">
-          <ion-select-option *ngFor="let fault of drivingFaults; trackBy: trackByIndex"
-                             [value]="fault.competencyIdentifier">
+        <ion-select
+          (ionChange)="ecoFaultChanged($event.target.value)"
+          [class.ng-invalid]="invalid"
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          aria-label="Eco fault capture"
+          cancelText="Cancel"
+          class="black-text"
+          formControlName="ecoRelatedFault"
+          id="eco-fault-selector"
+          labelPlacement="stacked"
+          okText="Submit"
+          placeholder="Select fault"
+        >
+          <ion-select-option
+            *ngFor="let fault of drivingFaults; trackBy: trackByIndex"
+            [value]="fault.competencyIdentifier"
+          >
             {{fault.competencyDisplayName}}
           </ion-select-option>
         </ion-select>

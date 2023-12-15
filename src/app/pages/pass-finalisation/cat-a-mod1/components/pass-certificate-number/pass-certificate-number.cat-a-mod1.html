@@ -7,24 +7,28 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row [formGroup]="form">
       <ion-col>
-        <ion-input (ionInput)="passCertificateNumberChanged($event.target.value)"
-                   [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
-                   [class.ng-invalid]="invalid"
-                   [maxlength]="passCertificateAMOD1Validator.maxLength"
-                   aria-labelledby="pass-certificate-label"
-                   class="ion-input-styling increase-width"
-                   formControlName="passCertificateNumberCtrl"
-                   id="pass-certificate-number"
-                   type="text"
-                   emojiBlock
-                   pasteSanitiser>
+        <ion-input
+          (ionInput)="passCertificateNumberChanged($event.target.value)"
+          [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
+          [class.ng-invalid]="invalid"
+          [maxlength]="passCertificateAMOD1Validator.maxLength"
+          aria-labelledby="pass-certificate-label"
+          class="ion-input-styling increase-width"
+          formControlName="passCertificateNumberCtrl"
+          id="pass-certificate-number"
+          type="text"
+          emojiBlock
+          pasteSanitiser
+        >
         </ion-input>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div [class.ng-invalid]="invalid"
-           class="validation-text"
-           id="pass-finalisation-certificate-number-validation-text">
+      <div
+        [class.ng-invalid]="invalid"
+        class="validation-text"
+        id="pass-finalisation-certificate-number-validation-text"
+      >
         {{formControl.hasError('duplicate') ? errors.duplicate : errors.invalid}}
       </div>
     </ion-row>

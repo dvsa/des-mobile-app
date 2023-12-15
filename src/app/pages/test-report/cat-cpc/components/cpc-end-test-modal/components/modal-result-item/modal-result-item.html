@@ -2,12 +2,14 @@
   <ion-col size="84" class="result-item">
     <div class="row">
       <div class="col question-code">{{label}}</div>
-      <div class="col question-score">{{displayScore(score)}}
-        <img class="outcome-icon"
-             [ngSrc]="getOutcomeIcon()"
-             [height]="46"
-             [width]="46"
-             [alt]="isPass ? 'Pass outcome icon' : 'Fail outcome icon'"
+      <div class="col question-score">
+        {{displayScore(score)}}
+        <img
+          class="outcome-icon"
+          [ngSrc]="getOutcomeIcon()"
+          [height]="46"
+          [width]="46"
+          [alt]="isPass ? 'Pass outcome icon' : 'Fail outcome icon'"
         />
       </div>
     </div>
@@ -23,12 +25,14 @@
       <div *ngIf="showScore" class="col black-text" id="{{idSelector}}-score">{{displayScore(score)}}</div>
     </ion-col>
     <ion-col size="{{showIcon ? 12 : 0}}">
-      <img *ngIf="showIcon"
-           class="outcome-icon"
-           [ngSrc]="getOutcomeIcon()"
-           [height]="46"
-           [width]="46"
-           [alt]="isPass ? 'Pass outcome icon' : 'Fail outcome icon'">
+      <img
+        *ngIf="showIcon"
+        class="outcome-icon"
+        [ngSrc]="getOutcomeIcon()"
+        [height]="46"
+        [width]="46"
+        [alt]="isPass ? 'Pass outcome icon' : 'Fail outcome icon'"
+      />
     </ion-col>
   </ion-row>
 </ion-grid>
