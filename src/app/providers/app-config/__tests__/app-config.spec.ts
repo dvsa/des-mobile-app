@@ -19,11 +19,15 @@ import { SchemaValidatorProvider } from '../../schema-validator/schema-validator
 import { SchemaValidatorProviderMock } from '../../schema-validator/__mocks__/schema-validator.mock';
 import { LogHelper } from '../../logs/logs-helper';
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { environment } from '@environments/environment';
+import { AppConfig } from '@providers/app-config/app-config.model';
 
 describe('AppConfigProvider', () => {
   let appConfig: AppConfigProvider;
   let httpMock: HttpTestingController;
   let platform: Platform;
+  let isDebug: IsDebug;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,6 +81,7 @@ describe('AppConfigProvider', () => {
     appConfig = TestBed.inject(AppConfigProvider);
     httpMock = TestBed.inject(HttpTestingController);
     platform = TestBed.inject(Platform);
+    isDebug = TestBed.inject(IsDebug);
     appConfig.isDebugMode = true;
     spyOn(appConfig, 'getDebugMode')
       .and
@@ -126,5 +131,47 @@ describe('AppConfigProvider', () => {
         .toBe('GET');
       request.flush(environmentResponseMock);
     }));
+  });
+
+  describe('getAppConfig', () => {
+    it('should asynchronously set the appConfig then return it', async () => {
+      spyOn(appConfig, 'getAppConfigAsync')
+        .and
+        .returnValue(Promise.resolve({ configUrl: 'url' } as AppConfig));
+      const conf = appConfig.getAppConfig();
+      expect(conf)
+        .not
+        .toBeUndefined();
+    });
+  });
+
+  describe('getDebugMode', () => {
+    beforeEach(() => {
+      (environment as TestersEnvironmentFile)!.isTest = false;
+    });
+
+    it('should return the value from the plugin when not isTest', async () => {
+      spyOn(isDebug, 'getIsDebug')
+        .and
+        .returnValue(Promise.resolve(true));
+
+      await appConfig.getDebugMode();
+
+      expect(appConfig.isDebugMode)
+        .toEqual(true);
+    });
+
+    it('should return true when isTest regardless of plugin', async () => {
+      (environment as TestersEnvironmentFile).isTest = true;
+
+      spyOn(isDebug, 'getIsDebug')
+        .and
+        .returnValue(Promise.resolve(false));
+
+      await appConfig.getDebugMode();
+
+      expect(appConfig.isDebugMode)
+        .toEqual(true);
+    });
   });
 });
