@@ -182,7 +182,7 @@ export class TestsEffects {
       )),
     switchMap((
       [startTestAction, journal, rekeySearch, delegatedRekeySearch, appVersion]:
-        [ReturnType<typeof StartTest>, JournalModel, RekeySearchModel, DelegatedRekeySearchModel, string],
+      [ReturnType<typeof StartTest>, JournalModel, RekeySearchModel, DelegatedRekeySearchModel, string],
     ) => {
       const isRekeySearch = this.navigationStateProvider.isRekeySearch();
       const isDelegatedRekeySearch = this.navigationStateProvider.isDelegatedExaminerRekeySearch();

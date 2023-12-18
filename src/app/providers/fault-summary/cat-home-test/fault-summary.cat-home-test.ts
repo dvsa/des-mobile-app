@@ -17,18 +17,18 @@ import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-c
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 type HomeTestData = CatFUniqueTypes.TestData
-  | CatGUniqueTypes.TestData
-  | CatHUniqueTypes.TestData
-  | CatKUniqueTypes.TestData;
+| CatGUniqueTypes.TestData
+| CatHUniqueTypes.TestData
+| CatKUniqueTypes.TestData;
 
 type HomeTestVehicleChecks = CatFUniqueTypes.VehicleChecks
-  | CatGUniqueTypes.VehicleChecks
-  | CatHUniqueTypes.VehicleChecks
-  | CatKUniqueTypes.VehicleChecks;
+| CatGUniqueTypes.VehicleChecks
+| CatHUniqueTypes.VehicleChecks
+| CatKUniqueTypes.VehicleChecks;
 
 type HomeTestManoeuvres = CatFUniqueTypes.Manoeuvres
-  | CatGUniqueTypes.Manoeuvres
-  | CatHUniqueTypes.Manoeuvres;
+| CatGUniqueTypes.Manoeuvres
+| CatHUniqueTypes.Manoeuvres;
 
 export class FaultSummaryCatHomeTestHelper {
 

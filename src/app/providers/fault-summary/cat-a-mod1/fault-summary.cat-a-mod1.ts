@@ -96,9 +96,9 @@ export class FaultSummaryCatAM1Helper {
   }
 
   public static createFaultSummary(competencyIdentifier: string,
-                                   competencyName: string,
-                                   competencyComments: string,
-                                   source: string = CommentSource.SIMPLE): FaultSummary {
+    competencyName: string,
+    competencyComments: string,
+    source: string = CommentSource.SIMPLE): FaultSummary {
     return {
       competencyIdentifier,
       source,

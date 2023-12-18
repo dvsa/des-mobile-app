@@ -22,13 +22,13 @@ export class VehicleDetailsCardComponent {
 
   @Input()
   data: CatBUniqueTypes.VehicleDetails
-    | CatCUniqueTypes.VehicleDetails
-    | CatCEUniqueTypes.VehicleDetails
-    | CatC1UniqueTypes.VehicleDetails
-    | CatC1EUniqueTypes.VehicleDetails
-    | CatADI2UniqueTypes.VehicleDetails
-    | CatADI3Types.VehicleDetails
-    | CatAMod1Types.VehicleDetails;
+  | CatCUniqueTypes.VehicleDetails
+  | CatCEUniqueTypes.VehicleDetails
+  | CatC1UniqueTypes.VehicleDetails
+  | CatC1EUniqueTypes.VehicleDetails
+  | CatADI2UniqueTypes.VehicleDetails
+  | CatADI3Types.VehicleDetails
+  | CatAMod1Types.VehicleDetails;
 
   @Input()
   category: TestCategory | CategoryCode;

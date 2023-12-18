@@ -81,10 +81,10 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl({
-          value: 'Select questions',
-          disabled: false,
-        },
-        [this.validateVehicleChecks.bind(this)]);
+        value: 'Select questions',
+        disabled: false,
+      },
+      [this.validateVehicleChecks.bind(this)]);
       this.formGroup.addControl('safetyAndBalanceSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');

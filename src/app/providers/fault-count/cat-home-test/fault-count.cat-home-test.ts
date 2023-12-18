@@ -10,14 +10,14 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { sumManoeuvreFaults } from '@shared/helpers/faults';
 
 type HomeTestData = CatFUniqueTypes.TestData
-  | CatGUniqueTypes.TestData
-  | CatHUniqueTypes.TestData
-  | CatKUniqueTypes.TestData;
+| CatGUniqueTypes.TestData
+| CatHUniqueTypes.TestData
+| CatKUniqueTypes.TestData;
 
 type HomeVehicleChecks = CatFUniqueTypes.VehicleChecks
-  | CatGUniqueTypes.VehicleChecks
-  | CatHUniqueTypes.VehicleChecks
-  | CatKUniqueTypes.VehicleChecks;
+| CatGUniqueTypes.VehicleChecks
+| CatHUniqueTypes.VehicleChecks
+| CatKUniqueTypes.VehicleChecks;
 
 export class FaultCountHomeTestHelper {
 

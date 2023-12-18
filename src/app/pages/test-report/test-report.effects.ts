@@ -29,7 +29,7 @@ import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergen
 import * as singleFaultCompetenciesActions
   from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import * as highwayCodeActions from
-    '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
+  '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { ActivityCode, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { of } from 'rxjs';
@@ -208,7 +208,7 @@ export class TestReportEffects {
       )),
     concatMap((
       [, lessonPlanning, riskManagement, teachingLearningStrategies]:
-        [ReturnType<ScoreChangedActions>, LessonPlanning, RiskManagement, TeachingLearningStrategies],
+      [ReturnType<ScoreChangedActions>, LessonPlanning, RiskManagement, TeachingLearningStrategies],
     ) => {
       const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
       const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');

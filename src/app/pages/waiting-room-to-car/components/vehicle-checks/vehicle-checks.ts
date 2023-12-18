@@ -21,7 +21,7 @@ import {
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { VehicleChecksCatADIPart2Modal } from
-    '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
+  '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import {
   VehicleChecksCatHomeTestModal,
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
@@ -82,10 +82,10 @@ export class VehicleChecksComponent implements OnChanges {
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl({
-          value: 'Select questions',
-          disabled: false,
-        },
-        [this.validateVehicleChecks.bind(this)]);
+        value: 'Select questions',
+        disabled: false,
+      },
+      [this.validateVehicleChecks.bind(this)]);
       this.formGroup.addControl('vehicleChecksSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');
