@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
-import * as moment from 'moment';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { InputChangeEventDetail } from '@ionic/angular';
@@ -10,6 +9,7 @@ import { DisplayType } from '@components/common/datetime-input/date-time-input.c
 import { InputInputEventDetail } from '@ionic/core';
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'advanced-search',
@@ -88,18 +88,18 @@ export class AdvancedSearchComponent {
   compareStartDate: Date = null;
   compareEndDate: Date = null;
   focusedElement: string = null;
-  currentDate: any = new Date().toISOString()
+  currentDate: string = new Date().toISOString()
     .substring(0, 10);
   displayType = DisplayType;
-  today = moment()
+  today = new DateTime()
     .format('YYYY-MM-DD');
-  todayPlaceholder = moment()
+  todayPlaceholder = new DateTime()
     .format('DD/MM/YYYY');
-  minStartDate = moment()
-    .subtract(2, 'years')
+  minStartDate = new DateTime()
+    .subtract(2, Duration.YEAR)
     .format('YYYY-MM-DD');
-  minStartDatePlaceholder = moment()
-    .subtract(2, 'years')
+  minStartDatePlaceholder = new DateTime()
+    .subtract(2, Duration.YEAR)
     .format('DD/MM/YYYY');
 
   constructor(

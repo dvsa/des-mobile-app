@@ -1,12 +1,7 @@
-import {
-  Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
-} from '@angular/core';
-import * as moment from 'moment';
-import {
-  isValidStartDate,
-  PRESS_TIME_TO_ENABLE_EDIT,
-} from '@shared/helpers/test-start-time';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { isValidStartDate, PRESS_TIME_TO_ENABLE_EDIT } from '@shared/helpers/test-start-time';
 import { IonDatetime } from '@ionic/angular';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'date-of-test',
@@ -36,43 +31,48 @@ export class DateOfTest implements OnInit {
   minDate: string;
 
   ngOnInit() {
-    this.customTestDate = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.maxDate = moment().format('YYYY-MM-DD');
-    this.minDate = moment().subtract(1, 'years').format('YYYY-MM-DD');
+    this.customTestDate = new DateTime(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    this.maxDate = new DateTime().format('YYYY-MM-DD');
+    this.minDate = new DateTime().subtract(1, Duration.YEAR)
+      .format('YYYY-MM-DD');
   }
 
   handleCancel(dateTime: IonDatetime): Promise<void> {
-    return dateTime.cancel(true).then(
-      () => {
-        this.disableEdit();
-      },
-    );
+    return dateTime.cancel(true)
+      .then(
+        () => {
+          this.disableEdit();
+        },
+      );
   }
 
   handleDone(dateTime: IonDatetime): Promise<void> {
-    return dateTime.confirm(false).then(
-      () => {
-        // if date not set, then close the modal on done click as fail safe before handling the data;
-        if (!dateTime.value) {
-          return dateTime.confirm(true);
-        }
+    return dateTime.confirm(false)
+      .then(
+        () => {
+          // if date not set, then close the modal on done click as fail safe before handling the data;
+          if (!dateTime.value) {
+            return dateTime.confirm(true);
+          }
 
-        const currentDate: string = moment().format('YYYY-MM-DD');
-        const selectedDate: string = moment(dateTime.value).format('YYYY-MM-DD');
+          const currentDate: string = new DateTime().format('YYYY-MM-DD');
+          const selectedDate: string = DateTime.at(dateTime.value as string)
+            .format('YYYY-MM-DD');
 
-        if (!isValidStartDate(selectedDate, currentDate)) {
-          this.isInvalid = true;
-          this.setIsValidStartDateTime.emit(false);
-          return;
-        }
+          if (!isValidStartDate(selectedDate, currentDate)) {
+            this.isInvalid = true;
+            this.setIsValidStartDateTime.emit(false);
+            return;
+          }
 
-        this.isInvalid = false;
-        this.customTestDate = dateTime.value as string;
-        this.setIsValidStartDateTime.emit(true);
-        this.dateOfTestChange.emit(this.customTestDate);
-        this.disableEdit();
-      },
-    ).finally(() => dateTime.confirm(true));
+          this.isInvalid = false;
+          this.customTestDate = dateTime.value as string;
+          this.setIsValidStartDateTime.emit(true);
+          this.dateOfTestChange.emit(this.customTestDate);
+          this.disableEdit();
+        },
+      )
+      .finally(() => dateTime.confirm(true));
   }
 
   onTouchStart() {
@@ -96,13 +96,17 @@ export class DateOfTest implements OnInit {
       case 'clear':
         return dateTime.reset();
       case 'done':
-        return dateTime.confirm().then(() => {
-          this.handleDone(dateTime).then(null);
-        });
+        return dateTime.confirm()
+          .then(() => {
+            this.handleDone(dateTime)
+              .then(null);
+          });
       case 'cancel':
-        return dateTime.cancel().then(() => {
-          this.handleCancel(dateTime).then(null);
-        });
+        return dateTime.cancel()
+          .then(() => {
+            this.handleCancel(dateTime)
+              .then(null);
+          });
       default:
         break;
     }

@@ -3,7 +3,6 @@ import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { DateTime } from '@shared/helpers/date-time';
 import { Name } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
-import * as moment from 'moment';
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
@@ -20,14 +19,17 @@ export class SearchResultComponent {
   constructor(
     public modalController: ModalController,
     private accessibilityService: AccessibilityService,
-  ) { }
+  ) {
+  }
 
   getDate(): string {
-    return new DateTime(this.searchResult.testDate).format('DD/MM/YYYY');
+    return DateTime.at(this.searchResult.testDate)
+      .format('DD/MM/YYYY');
   }
 
   getTime(): string {
-    return moment(this.searchResult.testDate).format('HH:mm');
+    return DateTime.at(this.searchResult.testDate)
+      .format('HH:mm');
   }
 
   getName(): string {

@@ -1,8 +1,6 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IonDatetime } from '@ionic/angular';
-import moment from 'moment';
+import { DateTime } from '@shared/helpers/date-time';
 
 export enum DisplayType {
   Date = 'date',
@@ -61,28 +59,38 @@ export class DateTimeInputComponent {
   customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime }>();
 
   formatDisplayDate(date: string) {
-    return moment(date)
+    return DateTime.at(date)
       .format('DD/MM/YYYY');
   }
 
   formatDisplayTime(time: string) {
-    return moment(time)
+    return DateTime.at(time)
       .format('HH:mm');
   }
 
   onSelected(event: IonDatetime, control: DisplayType) {
     let output: string;
+
+    const val = event.value as string;
+
     switch (control) {
       case DisplayType.Date:
-        this.displayValue = this.formatDisplayDate(event.value as string);
-        output = moment(event.value)
+
+        this.displayValue = this.formatDisplayDate(val);
+
+        output = DateTime
+          .at(val)
           .format('YYYY-MM-DD');
         break;
       case DisplayType.Time:
-        this.displayValue = this.formatDisplayTime(event.value as string);
-        this.outputValue = moment(event.value)
+        this.displayValue = this.formatDisplayTime(val);
+
+        this.outputValue = DateTime
+          .at(val)
           .format('YYYY-MM-DDTHH:mm');
-        output = moment(event.value)
+
+        output = DateTime
+          .at(val)
           .format('YYYY-MM-DDTHH:mm');
         break;
       default:

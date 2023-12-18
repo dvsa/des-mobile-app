@@ -4,9 +4,9 @@ import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
-import * as moment from 'moment';
 
 import { ModalEvent } from './journal-early-start-modal.constants';
+import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'journal-early-start-modal',
@@ -42,6 +42,6 @@ export class JournalEarlyStartModal implements OnInit {
   };
 
   getStartTime() {
-    return moment(this.slotData.start).format('kk:mm');
+    return new DateTime(this.slotData.start).format('kk:mm');
   }
 }

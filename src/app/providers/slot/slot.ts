@@ -6,7 +6,6 @@ import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } f
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import * as moment from 'moment';
 import { SlotItem } from '../slot-selector/slot-item';
 import { AppConfigProvider } from '../app-config/app-config';
 import { SlotHasChanged } from './slot.actions';
@@ -168,29 +167,36 @@ export class SlotProvider {
   canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
     const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
     const currentDateTime = new Date();
+
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
       return (period.testCategory === TestCategory.ADI2)
         && new Date(period.from) <= currentDateTime
         && (new Date(period.to) >= currentDateTime || period.to === null);
     });
-    const slotStart = moment(slot.slotDetail.start)
+
+    const slotStart = new DateTime(slot.slotDetail.start)
+      .moment
       .startOf('day');
-    const maxViewStart = moment(this.getLatestViewableSlotDateTime())
+
+    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime())
+      .moment
       .startOf('day');
+
     return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
   }
 
   getLatestViewableSlotDateTime(): Date {
-    const today = moment();
+    const today = new DateTime().moment;
     // add 3 days if current day is friday, 2 if saturday, else add 1
-    let daysToAdd: moment.DurationInputArg1;
+    let daysToAdd: number;
 
     if (today.isoWeekday() === 5) {
       daysToAdd = 3;
     } else {
       daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
     }
-    return moment()
+    return new DateTime()
+      .moment
       .add(daysToAdd, 'days')
       .startOf('day')
       .toDate();
