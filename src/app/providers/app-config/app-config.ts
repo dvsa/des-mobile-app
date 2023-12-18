@@ -346,15 +346,13 @@ export class AppConfigProvider {
     });
   };
 
-  getDebugMode = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      this.isDebug.getIsDebug()
-        .then((isDebug) => {
-          this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
-          console.log('Detected that app is running in debug mode');
-          resolve();
-        })
-        .catch((err) => reject(err));
-    });
+  getDebugMode = async (): Promise<void> => {
+    const isDebug = await this.isDebug.getIsDebug();
+
+    this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
+
+    if (this.isDebugMode) {
+      console.log('Detected that app is running in debug mode');
+    }
   };
 }
