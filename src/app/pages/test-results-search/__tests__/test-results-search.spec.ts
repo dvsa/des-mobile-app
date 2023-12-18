@@ -1,5 +1,5 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { Platform, ModalController } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
 
@@ -24,11 +24,13 @@ import { TestResultSearchViewDidEnter } from '@pages/test-results-search/test-re
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { TestResultsSearchPage } from '../test-results-search';
 import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
+import { HttpStatusCode } from '@angular/common/http';
 
 enum SearchBy {
   DriverNumber = 'driverNumber',
   ApplicationReference = 'appReference',
 }
+
 describe('TestResultsSearchPage', () => {
   let fixture: ComponentFixture<TestResultsSearchPage>;
   let component: TestResultsSearchPage;
@@ -50,12 +52,30 @@ describe('TestResultsSearchPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: SearchProvider, useClass: SearchProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: SearchProvider,
+          useClass: SearchProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: AppComponent,
+          useClass: MockAppComponent,
+        },
       ],
     });
 
@@ -79,24 +99,33 @@ describe('TestResultsSearchPage', () => {
     describe('advanced search', () => {
       describe('when the user is an LDTM', () => {
         beforeEach(() => {
-          spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.LDTM } as AppConfig);
+          spyOn(appConfigProviderMock, 'getAppConfig')
+            .and
+            .returnValue({ role: ExaminerRole.LDTM } as AppConfig);
           fixture.detectChanges();
         });
 
         it('displays the advanced search', () => {
-          expect(fixture.debugElement.query(By.css('#tab-search-advanced'))).not.toBeNull();
+          expect(fixture.debugElement.query(By.css('#tab-search-advanced')))
+            .not
+            .toBeNull();
         });
       });
 
       describe('when the user is a DE', () => {
         beforeEach(() => {
-          spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.DE } as AppConfig);
-          spyOn(authProviderMock, 'getEmployeeId').and.returnValue('testValue');
+          spyOn(appConfigProviderMock, 'getAppConfig')
+            .and
+            .returnValue({ role: ExaminerRole.DE } as AppConfig);
+          spyOn(authProviderMock, 'getEmployeeId')
+            .and
+            .returnValue('testValue');
           fixture.detectChanges();
         });
 
         it('verifyAdvancedSearch returns employee ID when the user is a DE', () => {
-          expect(component.verifyAdvancedSearch()).toBe('testValue');
+          expect(component.verifyAdvancedSearch())
+            .toBe('testValue');
         });
       });
     });
@@ -105,7 +134,8 @@ describe('TestResultsSearchPage', () => {
       it('should dispatch the view did enter action', () => {
         spyOn(component['store$'], 'dispatch');
         component.ionViewDidEnter();
-        expect(component['store$'].dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
+        expect(component['store$'].dispatch)
+          .toHaveBeenCalledWith(TestResultSearchViewDidEnter());
       });
     });
 
@@ -168,11 +198,19 @@ describe('TestResultsSearchPage', () => {
 
     describe('showError', () => {
       it('should display a modal on error', async () => {
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-        } as HTMLIonModalElement));
-        await component.showError({ status: 500, statusText: 'error', message: 'error' });
-        expect(modalController.create).toHaveBeenCalled();
+        spyOn(modalController, 'create')
+          .and
+          .returnValue(Promise.resolve({
+            present: async () => {
+            },
+          } as HTMLIonModalElement));
+        await component.showError({
+          status: HttpStatusCode.InternalServerError,
+          statusText: 'error',
+          message: 'error',
+        });
+        expect(modalController.create)
+          .toHaveBeenCalled();
       });
     });
   });

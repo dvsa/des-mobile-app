@@ -35,6 +35,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
+import { HttpStatusCode } from '@angular/common/http';
 
 describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
@@ -214,7 +215,7 @@ describe('TestCenterJournalPage', () => {
         .and
         .callFake(() => {
           return throwError(() => ({
-            statusCode: 400,
+            statusCode: HttpStatusCode.BadRequest,
             message: 'Some error',
             error: ErrorTypes.TEST_CENTRE_JOURNAL_ERROR,
           }));

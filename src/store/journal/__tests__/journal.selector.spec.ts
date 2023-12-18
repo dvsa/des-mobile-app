@@ -8,19 +8,21 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { Store } from '@ngrx/store';
 import {
-  getSlotsOnSelectedDate,
-  getLastRefreshed,
-  getIsLoading,
-  getError,
-  getLastRefreshedTime,
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getPermittedSlotIdsBeforeToday,
   getCompletedTests,
+  getError,
+  getIsLoading,
+  getLastRefreshed,
+  getLastRefreshedTime,
+  getPermittedSlotIdsBeforeToday,
+  getSlotsOnSelectedDate,
 } from '../journal.selector';
 import { JournalModel } from '../journal.model';
+import { HttpStatusCode } from '@angular/common/http';
 
-class MockStore { }
+class MockStore {
+}
 
 describe('JournalSelector', () => {
   let slotProvider: SlotProvider;
@@ -29,10 +31,22 @@ describe('JournalSelector', () => {
     TestBed.configureTestingModule({
       providers: [
         SlotProvider,
-        { provide: SlotProvider, useClass: SlotProvider },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: Store, useClass: MockStore },
+        {
+          provide: SlotProvider,
+          useClass: SlotProvider,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: Store,
+          useClass: MockStore,
+        },
       ],
     });
 
@@ -53,56 +67,72 @@ describe('JournalSelector', () => {
     },
     error: {
       message: 'something failed',
-      status: 404,
+      status: HttpStatusCode.NotFound,
       statusText: 'HTTP 404',
     },
     selectedDate: '2019-01-17',
-    examiner: { staffNumber: '123', individualId: 456 },
+    examiner: {
+      staffNumber: '123',
+      individualId: 456,
+    },
     completedTests: [],
   };
 
   describe('getIsLoading', () => {
     it('should fetch the loading status from the state', () => {
-      expect(getIsLoading(state)).toEqual(true);
+      expect(getIsLoading(state))
+        .toEqual(true);
     });
   });
 
   describe('getSlots', () => {
     it('should select the test slots from the state', () => {
       const selectedSlots = getSlotsOnSelectedDate(state);
-      expect(selectedSlots.length).toBe(1);
-      expect(selectedSlots[0].hasSlotChanged).toBe(false);
-      expect(selectedSlots[0].slotData).toBeDefined();
+      expect(selectedSlots.length)
+        .toBe(1);
+      expect(selectedSlots[0].hasSlotChanged)
+        .toBe(false);
+      expect(selectedSlots[0].slotData)
+        .toBeDefined();
     });
   });
 
   describe('getLastRefreshed', () => {
     it('should select the last refreshed date from the state', () => {
-      expect(getLastRefreshed(state).getUTCMilliseconds()).toBe(0);
+      expect(getLastRefreshed(state)
+        .getUTCMilliseconds())
+        .toBe(0);
     });
   });
 
   describe('getLastRefreshedTime', () => {
     it('should transform a nil date to the placeholder', () => {
-      expect(getLastRefreshedTime(null)).toBe('--:--');
-      expect(getLastRefreshedTime(undefined)).toBe('--:--');
+      expect(getLastRefreshedTime(null))
+        .toBe('--:--');
+      expect(getLastRefreshedTime(undefined))
+        .toBe('--:--');
     });
     it('should format the date to 24hr format with lowercase am/pm', () => {
-      expect(getLastRefreshedTime(new Date('2019-01-16T09:24:00'))).toBe('09:24am');
-      expect(getLastRefreshedTime(new Date('2019-01-16T15:45:10'))).toBe('03:45pm');
+      expect(getLastRefreshedTime(new Date('2019-01-16T09:24:00')))
+        .toBe('09:24am');
+      expect(getLastRefreshedTime(new Date('2019-01-16T15:45:10')))
+        .toBe('03:45pm');
     });
   });
 
   describe('getError', () => {
     it('should select the MesError from the state', () => {
       const error: MesError = getError(state);
-      expect(error.status).toBe(404);
+      expect(error.status)
+        .toBe(404);
     });
   });
 
   describe('canNavigateToNextDay', () => {
     beforeEach(() => {
-      spyOn(DateTime, 'today').and.returnValue(new Date('2019-01-29'));
+      spyOn(DateTime, 'today')
+        .and
+        .returnValue(new Date('2019-01-29'));
     });
 
     it('should return true if there are any next days', () => {
@@ -126,13 +156,17 @@ describe('JournalSelector', () => {
           ],
         },
         selectedDate: '2019-01-29',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [],
       };
 
       const result = canNavigateToNextDay(journal);
 
-      expect(result).toBe(true);
+      expect(result)
+        .toBe(true);
     });
 
     it('should return true if the current selected date is in the past', () => {
@@ -156,13 +190,17 @@ describe('JournalSelector', () => {
           ],
         },
         selectedDate: '2019-01-28',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [],
       };
 
       const result = canNavigateToNextDay(journal);
 
-      expect(result).toBe(true);
+      expect(result)
+        .toBe(true);
     });
 
     it('should return false if the current selected date is not a weekend and in the future', () => {
@@ -186,13 +224,17 @@ describe('JournalSelector', () => {
           ],
         },
         selectedDate: '2019-02-14',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [],
       };
 
       const result = canNavigateToNextDay(journal);
 
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
   });
 
@@ -211,13 +253,17 @@ describe('JournalSelector', () => {
           ],
         },
         selectedDate: '2019-01-01',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [],
       };
 
       const result = canNavigateToPreviousDay(journal, DateTime.at('2019-01-15'));
 
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
 
     it('should return true if selected day is not today and we have days to go to', () => {
@@ -241,13 +287,17 @@ describe('JournalSelector', () => {
           ],
         },
         selectedDate: '2019-01-14',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [],
       };
 
       const result = canNavigateToPreviousDay(journal, DateTime.at('2019-01-13'));
 
-      expect(result).toBe(true);
+      expect(result)
+        .toBe(true);
     });
   });
 
@@ -349,7 +399,10 @@ describe('JournalSelector', () => {
           ],
         },
         selectedDate: '2019-01-14',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [
           {
             costCode: '1',
@@ -365,8 +418,10 @@ describe('JournalSelector', () => {
 
       const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
 
-      expect(slotIds.length).toBe(1);
-      expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId)).toEqual([2001]);
+      expect(slotIds.length)
+        .toBe(1);
+      expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId))
+        .toEqual([2001]);
     });
   });
   describe('getCompletedTests', () => {
@@ -374,9 +429,12 @@ describe('JournalSelector', () => {
       const journalModel: JournalModel = {
         isLoading: false,
         lastRefreshed: new Date(0),
-        slots: { },
+        slots: {},
         selectedDate: '2019-01-01',
-        examiner: { staffNumber: '123', individualId: 456 },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
         completedTests: [
           {
             costCode: 'costCode',
@@ -401,7 +459,8 @@ describe('JournalSelector', () => {
 
       const data = getCompletedTests(journalModel);
 
-      expect(data).toEqual(journalModel.completedTests);
+      expect(data)
+        .toEqual(journalModel.completedTests);
     });
   });
 

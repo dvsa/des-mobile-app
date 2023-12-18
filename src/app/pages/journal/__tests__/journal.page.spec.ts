@@ -47,6 +47,7 @@ import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/acc
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { ActivatedRoute } from '@angular/router';
+import { HttpStatusCode } from '@angular/common/http';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -192,7 +193,7 @@ describe('JournalPage', () => {
         .callThrough();
       const errorMessage: MesError = {
         message: 'Error',
-        status: 500,
+        status: HttpStatusCode.InternalServerError,
         statusText: 'Something went wrong',
       };
       component.showError(errorMessage);

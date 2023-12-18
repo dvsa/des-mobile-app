@@ -1,7 +1,7 @@
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
-import { initialState, delegatedSearchReducer } from '../delegated-rekey-search.reducer';
+import { delegatedSearchReducer, initialState } from '../delegated-rekey-search.reducer';
 import * as delegatedRekeySearchActions from '../delegated-rekey-search.actions';
 
 describe('delegatedSearchReducer', () => {
@@ -12,10 +12,11 @@ describe('delegatedSearchReducer', () => {
     const appRef = '123456';
     const action = delegatedRekeySearchActions.SearchBookedDelegatedTest(appRef);
     const result = delegatedSearchReducer(state, action);
-    expect(result).toEqual({
-      ...initialState,
-      isLoading: true,
-    });
+    expect(result)
+      .toEqual({
+        ...initialState,
+        isLoading: true,
+      });
   });
 
   it('should store payload, turn loading state off and searched state on when search is successful', () => {
@@ -37,14 +38,15 @@ describe('delegatedSearchReducer', () => {
     };
     const action = delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot);
     const result = delegatedSearchReducer(state, action);
-    expect(result).toEqual({
-      ...initialState,
-      isLoading: false,
-      hasSearched: true,
-      bookedTestSlot: {
-        ...testSlot,
-      },
-    });
+    expect(result)
+      .toEqual({
+        ...initialState,
+        isLoading: false,
+        hasSearched: true,
+        bookedTestSlot: {
+          ...testSlot,
+        },
+      });
   });
 
   it('should store error, turn off loading state and searched state on when search was unsuccessful', () => {
@@ -53,18 +55,19 @@ describe('delegatedSearchReducer', () => {
       isLoading: true,
     };
     const err = new HttpErrorResponse({
-      status: 404,
+      status: HttpStatusCode.NotFound,
       statusText: 'Not Found',
       url: 'http://localhost:8100/dummy/search/booking/url?appRef=5235',
       error: 'html error',
     });
     const action = delegatedRekeySearchActions.SearchBookedDelegatedTestFailure(err);
     const result = delegatedSearchReducer(state, action);
-    expect(result).toEqual({
-      ...initialState,
-      err,
-      isLoading: false,
-      hasSearched: true,
-    });
+    expect(result)
+      .toEqual({
+        ...initialState,
+        err,
+        isLoading: false,
+        hasSearched: true,
+      });
   });
 });
