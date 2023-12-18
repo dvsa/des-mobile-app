@@ -31,11 +31,12 @@
                 [value]="applicationReference"
                 (change)="applicationReferenceChanged($event.target.value)"
                 emojiBlock
-                pasteSanitiser>
+                pasteSanitiser
+              >
               </ion-input>
             </ion-col>
           </ion-row>
-          <br>
+          <br />
           <ion-row>
             <ion-col class="vertical-align-center" size="32">
               <label id="rekey-search-staff-number-label">Staff number</label>
@@ -55,7 +56,8 @@
                 [value]="staffNumber"
                 (change)="staffNumberChanged($event.target.value)"
                 emojiBlock
-                pasteSanitiser>
+                pasteSanitiser
+              >
               </ion-input>
             </ion-col>
           </ion-row>
@@ -64,7 +66,8 @@
               [disabled]="(pageState.isLoading$ | async)"
               class="mes-primary-button search-tests"
               id="rekey-search-search-tests-btn"
-              (click)="searchTests()">
+              (click)="searchTests()"
+            >
               <ion-text class="des-header-style-3">
                 <ion-icon name="search" class="search-icon" id="rekey-search-search icon"></ion-icon>
                 Search booked tests
@@ -74,23 +77,29 @@
               class="search-spinner"
               name="bubbles"
               *ngIf="(pageState.isLoading$ | async)"
-              id="rekey-search-page-spinner">
+              id="rekey-search-page-spinner"
+            >
             </ion-spinner>
           </ion-row>
         </ion-grid>
       </tab>
     </tabs>
 
-    <div class="results-error"
-         *ngIf="(pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))">
+    <div
+      class="results-error"
+      *ngIf="(pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
+    >
       <p class="error-text" id="rekey-search-error-text-no-results">There were no results found for your search.</p>
       <p class="error-text" id="rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
     </div>
 
-    <div class="results-error"
-         *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))">
-      <p class="error-text" id="rekey-search-error-text-already-submitted">You can't rekey this test as it has already
-        been submitted.</p>
+    <div
+      class="results-error"
+      *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
+    >
+      <p class="error-text" id="rekey-search-error-text-already-submitted">
+        You can't rekey this test as it has already been submitted.
+      </p>
       <p class="error-text" id="rekey-search-error-text-already-pls-try-again">Please check and try again.</p>
     </div>
 
@@ -100,7 +109,8 @@
         [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
         [hasSlotChanged]="false"
         [hasSeenCandidateDetails]="true"
-        [showLocation]="false">
+        [showLocation]="false"
+      >
       </test-slot>
     </p>
   </div>

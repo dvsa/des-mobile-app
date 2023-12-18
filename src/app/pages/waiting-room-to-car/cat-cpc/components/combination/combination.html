@@ -6,27 +6,27 @@
   <ion-col class="ion-align-self-center ion-padding-start" size="63">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-select (ionChange)="combinationChanged($event.target.value)"
-                  [class.ng-invalid]="invalid"
-                  [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-                  aria-label="Combination"
-                  cancelText="Cancel"
-                  class="ion-select-text"
-                  formControlName="combination"
-                  id="combination"
-                  labelPlacement="stacked"
-                  okText="Submit"
-                  placeholder="Select a combination">
-        <ion-select-option *ngFor="let combination of combinations"
-                           [value]="combination.code">
+      <ion-select
+        (ionChange)="combinationChanged($event.target.value)"
+        [class.ng-invalid]="invalid"
+        [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+        aria-label="Combination"
+        cancelText="Cancel"
+        class="ion-select-text"
+        formControlName="combination"
+        id="combination"
+        labelPlacement="stacked"
+        okText="Submit"
+        placeholder="Select a combination"
+      >
+        <ion-select-option *ngFor="let combination of combinations" [value]="combination.code">
           {{combination.code}}
           <span *ngIf="combination.additionalText"> - {{combination.additionalText}}</span>
         </ion-select-option>
       </ion-select>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div [class.ng-invalid]="invalid" class="validation-text"
-           id="combination-validation-text">
+      <div [class.ng-invalid]="invalid" class="validation-text" id="combination-validation-text">
         Select a combination
       </div>
     </ion-row>

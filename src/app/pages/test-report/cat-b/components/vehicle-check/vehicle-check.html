@@ -1,6 +1,8 @@
 <ion-row>
   <ion-col size="20" class="ion-no-padding">
-    <competency-button id="show-me-question-tick" class="show-me-question-tick"
+    <competency-button
+      id="show-me-question-tick"
+      class="show-me-question-tick"
       [onTap]="toggleShowMeQuestion"
       [onPress]="toggleShowMeQuestion"
       [ripple]="false"
@@ -8,13 +10,14 @@
         'checked' : selectedShowMeQuestion
       }"
     >
-      <span class='tickwrapper'>
+      <span class="tickwrapper">
         <tick-indicator [ticked]="selectedShowMeQuestion"></tick-indicator>
       </span>
     </competency-button>
   </ion-col>
   <ion-col class="ion-no-padding">
-    <competency-button class="vehicle-check-competency"
+    <competency-button
+      class="vehicle-check-competency"
       [onTap]="onTap"
       [onPress]="onPress"
       [ripple]="canButtonRipple()"
@@ -25,11 +28,18 @@
         'dangerous-fault': hasDangerousFault()
       }"
     >
-      <driving-faults-badge id="show-me-question-driving-fault" class="driving-faults" [count]="getDrivingFaultCount()"></driving-faults-badge>
-      <div id="show-me-question-label" class='show-me-tell-me-label'>Show / tell</div>
+      <driving-faults-badge
+        id="show-me-question-driving-fault"
+        class="driving-faults"
+        [count]="getDrivingFaultCount()"
+      ></driving-faults-badge>
+      <div id="show-me-question-label" class="show-me-tell-me-label">Show / tell</div>
       <div class="fault-wrapper">
         <serious-fault-badge id="show-me-question-serious-fault" [showBadge]="hasSeriousFault()"></serious-fault-badge>
-        <dangerous-fault-badge  id="show-me-question-dangerous-fault"[showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+        <dangerous-fault-badge
+          id="show-me-question-dangerous-fault"
+          [showBadge]="hasDangerousFault()"
+        ></dangerous-fault-badge>
       </div>
     </competency-button>
   </ion-col>

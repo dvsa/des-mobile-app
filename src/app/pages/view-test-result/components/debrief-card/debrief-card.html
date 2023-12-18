@@ -7,40 +7,27 @@
       <data-row-with-list
         *ngIf="!isMod1() && showTestRequirement()"
         [label]="'Test requirements'"
-        [data]="testRequirements">
+        [data]="testRequirements"
+      >
       </data-row-with-list>
 
-      <data-row-with-list
-        *ngIf="showHighwayCode()"
-        [label]="'Highway code / Safety'"
-        [data]="highwayCode">
+      <data-row-with-list *ngIf="showHighwayCode()" [label]="'Highway code / Safety'" [data]="highwayCode">
       </data-row-with-list>
 
-      <data-row
-        *ngIf="!hideManoeuvre()"
-        [label]="'Manoeuvre'"
-        [value]="manoeuvre">
-      </data-row>
+      <data-row *ngIf="!hideManoeuvre()" [label]="'Manoeuvre'" [value]="manoeuvre"> </data-row>
 
-      <data-row
-        *ngIf="isCatB()"
-        [label]="'Manoeuvre(s)'"
-        [value]="getFlattenArray(getManoeuvres())">
-      </data-row>
+      <data-row *ngIf="isCatB()" [label]="'Manoeuvre(s)'" [value]="getFlattenArray(getManoeuvres())"> </data-row>
 
-      <data-row-with-list
-        *ngIf="showControlledStop()"
-        [label]="'Controlled Stop'"
-        [data]="controlledStop">
+      <data-row-with-list *ngIf="showControlledStop()" [label]="'Controlled Stop'" [data]="controlledStop">
       </data-row-with-list>
 
-      <data-row-custom
-        *ngIf="!isMod1()"
-        [shouldHaveSeperator]="true"
-        [centeredLabel]="false"
-        [label]="'ECO'">
+      <data-row-custom *ngIf="!isMod1()" [shouldHaveSeperator]="true" [centeredLabel]="false" [label]="'ECO'">
         <ion-row *ngFor="let item of eco;">
-          <ion-col [ngClass]="accessibilityService.getTextZoomClass()" class="list-max-height flex-center ion-align-items-center" size="7">
+          <ion-col
+            [ngClass]="accessibilityService.getTextZoomClass()"
+            class="list-max-height flex-center ion-align-items-center"
+            size="7"
+          >
             <div>
               <tick-indicator [ticked]="item.checked"></tick-indicator>
             </div>
@@ -61,9 +48,7 @@
           <ion-col>
             <ion-row>
               <ion-col>
-                <span class="mes-data">
-                  {{ ecoFault.competencyDisplayName }}
-                </span>
+                <span class="mes-data"> {{ ecoFault.competencyDisplayName }} </span>
               </ion-col>
             </ion-row>
             <ion-row>
@@ -73,7 +58,6 @@
             </ion-row>
           </ion-col>
         </ion-row>
-
       </data-row-custom>
 
       <faults-data-row
@@ -84,55 +68,58 @@
         [drivingFaults]="drivingFaults"
         [seriousFaults]="seriousFaults"
         [dangerousFaults]="dangerousFaults"
-        [drivingFaultCount]="drivingFaultCount">
+        [drivingFaultCount]="drivingFaultCount"
+      >
       </faults-data-row>
 
-      <data-row
-        [label]="'ETA'"
-        [value]="eTA"
-        [shouldHaveSeperator]="ETASeparator()">
-      </data-row>
+      <data-row [label]="'ETA'" [value]="eTA" [shouldHaveSeperator]="ETASeparator()"> </data-row>
 
       <vehicle-checks-data-row
         *ngIf="!delegatedTest && !isMod1() && !isMod2()"
         [shouldDisplayIncorrect]="displayIncorrectText"
         [label]="'Tell me question(s)'"
-        [data]="tellMeQuestions">
+        [data]="tellMeQuestions"
+      >
       </vehicle-checks-data-row>
 
       <vehicle-checks-data-row
         *ngIf="!delegatedTest && !isMod1() && !isMod2()"
         [shouldHaveSeperator]="isValidEmergencyStopOrAvoidance() || isCatD()"
         [label]="'Show me question(s)'"
-        [data]="showMeQuestions">
+        [data]="showMeQuestions"
+      >
       </vehicle-checks-data-row>
 
       <speed-card
         *ngIf="isValidEmergencyStopOrAvoidance()"
         [emergencyStop]="data['emergencyStop']"
         [avoidance]="data['avoidance']"
-        [shouldHaveSeperator]="false">
+        [shouldHaveSeperator]="false"
+      >
       </speed-card>
 
       <safety-question-data-row
         *ngIf="isCatD()"
         [label]="'Safety question(s)'"
         [data]="safetyQuestionsCatD"
-        [shouldHaveSeperator]="false">
+        [shouldHaveSeperator]="false"
+      >
       </safety-question-data-row>
 
       <safety-and-balance-data-row
         *ngIf="isMod2()"
         [label]="'Safety question(s)'"
         [data]="safetyQuestions"
-        [shouldHaveSeperator]="false">
+        [shouldHaveSeperator]="false"
+      >
       </safety-and-balance-data-row>
 
       <safety-and-balance-data-row
         *ngIf="isMod2()"
         [label]="'Balance question'"
         [data]="balanceQuestions"
-        [shouldHaveSeperator]="false">
+        [shouldHaveSeperator]="false"
+      >
       </safety-and-balance-data-row>
     </ion-grid>
   </ion-card-content>

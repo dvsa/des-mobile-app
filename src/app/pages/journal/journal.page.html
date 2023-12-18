@@ -2,9 +2,7 @@
   <ion-toolbar mode="ios">
     <ion-title aria-level="1" role="heading" id="page-title">Journal</ion-title>
     <ion-buttons id="back-button" slot="start">
-      <ion-back-button
-        (click)="router.navigate(['DashboardPage'], {replaceUrl: true})"
-        [defaultHref]="'DashboardPage'">
+      <ion-back-button (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
       </ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
@@ -12,11 +10,12 @@
         (click)="refreshJournal()"
         [disabled]="pageState.isLoading$ | async"
         class="refresh-button"
-        id="refresh-button">
+        id="refresh-button"
+      >
         <div class="line-height-styling">
           <ion-icon class="refresh-button-icon colour-white" name="sync-outline"></ion-icon>
           <span class="colour-white">Refresh</span>
-          <br>
+          <br />
           <ion-label>
             <ion-text class="des-header-style-6 last-sync" id="last-sync">
               Last sync: {{ pageState.lastRefreshedTime$ | async }}
@@ -38,7 +37,8 @@
       pullingIcon="arrow-down"
       pullingText="Pull to refresh"
       refreshingSpinner="circles"
-      refreshingText="Refreshing Journal...">
+      refreshingText="Refreshing Journal..."
+    >
     </ion-refresher-content>
   </ion-refresher>
 
@@ -48,19 +48,20 @@
     [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
     [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
     [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
-    [selectedDate]="pageState.selectedDate$ | async">
+    [selectedDate]="pageState.selectedDate$ | async"
+  >
   </journal-navigation>
 
   <ion-list>
     <journal-slots
       [completedTests]="pageState.completedTests$ | async"
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-      [slots]="pageState.slots$ | async">
+      [slots]="pageState.slots$ | async"
+    >
     </journal-slots>
   </ion-list>
 
   <div *ngIf="!!!(pageState.slots$ | async)?.length" class="no-results ion-text-center">
     <p>There is no journal data to display for this day</p>
   </div>
-
 </ion-content>

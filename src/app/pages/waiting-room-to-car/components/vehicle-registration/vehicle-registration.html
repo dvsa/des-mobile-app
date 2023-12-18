@@ -7,24 +7,25 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="32">
-        <ion-input type="text"
-                   id="registration"
-                   aria-labelledby="vehicle-registration-number-title"
-                   formControlName="vehicleRegistration"
-                   class="ion-input-styling increase-width"
-                   [class.ng-invalid]="invalid"
-                   [value]="vehicleRegistration"
-                   (ionInput)="vehicleRegistrationChanged($event)"
-                   (ionBlur)="onBlurEvent(vehicleRegistration)"
-                   [maxlength]="registrationNumberValidator.maxLength"
-                   emojiBlock
-                   pasteSanitiser>
+        <ion-input
+          type="text"
+          id="registration"
+          aria-labelledby="vehicle-registration-number-title"
+          formControlName="vehicleRegistration"
+          class="ion-input-styling increase-width"
+          [class.ng-invalid]="invalid"
+          [value]="vehicleRegistration"
+          (ionInput)="vehicleRegistrationChanged($event)"
+          (ionBlur)="onBlurEvent(vehicleRegistration)"
+          [maxlength]="registrationNumberValidator.maxLength"
+          emojiBlock
+          pasteSanitiser
+        >
         </ion-input>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid"
-           id="waiting-room-to-car-registration-validation-text">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-registration-validation-text">
         Enter the registration number
       </div>
     </ion-row>

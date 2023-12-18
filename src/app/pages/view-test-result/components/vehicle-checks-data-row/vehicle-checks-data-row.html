@@ -8,14 +8,10 @@
       <div *ngFor="let item of data;">
         <div class="mes-data large">
           <span class="mes-data large bold">{{item.code}} </span>- {{item.description}}
-          <span class="mes-data large bold"
-                *ngIf="shouldShowFault(item.outcome) && !shouldDisplayIncorrect">
+          <span class="mes-data large bold" *ngIf="shouldShowFault(item.outcome) && !shouldDisplayIncorrect">
             (1 driving fault)
           </span>
-          <span class="mes-data large bold"
-                *ngIf="shouldDisplayIncorrect">
-            (Incorrect)
-          </span>
+          <span class="mes-data large bold" *ngIf="shouldDisplayIncorrect"> (Incorrect) </span>
         </div>
       </div>
     </ng-template>

@@ -6,7 +6,12 @@
         <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
-    <ion-title role="heading" aria-level="1" id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
+    <ion-title
+      role="heading"
+      aria-level="1"
+      id="vehicle-checks-modal-title"
+      class="ion-text-center toolbar-item-spacing"
+    >
       Vehicle checks - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -19,7 +24,8 @@
       [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
       [testCategory]="category"
       [formGroup]="formGroup"
-      (fullLicenceHeldChange)="fullLicenceHeldChange($event)">
+      (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
+    >
     </full-licence-held-toggle>
   </ion-card>
 
@@ -27,9 +33,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h2 class="des-header-style-4">
-            Show me questions
-          </h2>
+          <h2 class="des-header-style-4">Show me questions</h2>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -42,16 +46,15 @@
           [isLastQuestion]="l"
           [submitClicked]="submitClicked"
           (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
-          (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)">
+          (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)"
+        >
         </vehicle-checks-question>
       </ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h2 class="des-header-style-4">
-            Tell me questions
-          </h2>
+          <h2 class="des-header-style-4">Tell me questions</h2>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -64,19 +67,19 @@
           [isLastQuestion]="l"
           [submitClicked]="submitClicked"
           (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
-          (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)">
+          (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
+        >
         </vehicle-checks-question>
       </ion-card-content>
     </ion-card>
     <warning-banner
       warningText="This will result in {{vehicleChecksScore.drivingFaults}} driving faults and {{vehicleChecksScore.seriousFaults}} serious fault"
-      *ngIf="shouldDisplayBanner()"></warning-banner>
+      *ngIf="shouldDisplayBanner()"
+    ></warning-banner>
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h2 class="des-header-style-4">
-            Safety questions
-          </h2>
+          <h2 class="des-header-style-4">Safety questions</h2>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -88,7 +91,8 @@
           [isLastSafetyQuestion]="l"
           [submitClicked]="submitClicked"
           [questions]="safetyQuestions"
-          (safetyQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)">
+          (safetyQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)"
+        >
         </safety-question>
       </ion-card-content>
     </ion-card>

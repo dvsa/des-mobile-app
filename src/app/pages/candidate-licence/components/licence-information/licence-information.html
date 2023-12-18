@@ -1,41 +1,13 @@
 <div id="candidate-licence-info-card" class="ion-padding" *ngIf="candidateData || isPracticeMode">
-    <ion-text class="des-header-style-4" id="candidate-licence-info-card-title">Licence information</ion-text>
-    <ion-grid>
-      <data-row
-        [idPrefix]="idPrefix"
-        [shouldHaveSeperator]="true"
-        [label]="'Driver number'"
-        [value]="driverNumber">
-      </data-row>
-      <data-row
-        [idPrefix]="idPrefix"
-        [shouldHaveSeperator]="true"
-        [label]="'Name'"
-        [value]="name">
-      </data-row>
-      <data-row
-        [idPrefix]="idPrefix"
-        [shouldHaveSeperator]="true"
-        [label]="'Age'"
-        [value]="age">
-      </data-row>
-      <data-row
-        [idPrefix]="idPrefix"
-        [shouldHaveSeperator]="true"
-        [label]="'Gender'"
-        [value]="gender">
-      </data-row>
-      <data-row
-        [idPrefix]="idPrefix"
-        [shouldHaveSeperator]="true"
-        [label]="'Card expiry date'"
-        [value]="cardExpiryDate">
-      </data-row>
-      <data-row
-        [idPrefix]="idPrefix"
-        [shouldHaveSeperator]="true"
-        [label]="'Signature'"
-        [imgSrc]="signature">
-      </data-row>
-    </ion-grid>
+  <ion-text class="des-header-style-4" id="candidate-licence-info-card-title">Licence information</ion-text>
+  <ion-grid>
+    <data-row [idPrefix]="idPrefix" [shouldHaveSeperator]="true" [label]="'Driver number'" [value]="driverNumber">
+    </data-row>
+    <data-row [idPrefix]="idPrefix" [shouldHaveSeperator]="true" [label]="'Name'" [value]="name"> </data-row>
+    <data-row [idPrefix]="idPrefix" [shouldHaveSeperator]="true" [label]="'Age'" [value]="age"> </data-row>
+    <data-row [idPrefix]="idPrefix" [shouldHaveSeperator]="true" [label]="'Gender'" [value]="gender"> </data-row>
+    <data-row [idPrefix]="idPrefix" [shouldHaveSeperator]="true" [label]="'Card expiry date'" [value]="cardExpiryDate">
+    </data-row>
+    <data-row [idPrefix]="idPrefix" [shouldHaveSeperator]="true" [label]="'Signature'" [imgSrc]="signature"> </data-row>
+  </ion-grid>
 </div>

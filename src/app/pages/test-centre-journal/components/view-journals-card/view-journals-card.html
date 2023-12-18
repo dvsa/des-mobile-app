@@ -11,7 +11,8 @@
   [minCharactersBeforeListDisplay]="2"
   [model]="selectedTestCentre"
   [placeholder]="'Select a test centre'"
-  [primaryKey]="'centreId'">
+  [primaryKey]="'centreId'"
+>
 </searchable-picklist-wrapper>
 <ng-template #isDE>
   <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
@@ -22,19 +23,20 @@
     <label>Examiner:</label>
   </ion-col>
   <ion-col class="component-value" size="72">
-    <ion-select #examinerSelect
-                (ionChange)="examinerChanged($event.target.value)"
-                [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
-                [interfaceOptions]="interfaceOptions"
-                aria-label="Examiner"
-                cancelText="Cancel"
-                class="select-text"
-                id="select-examiner"
-                labelPlacement="stacked"
-                okText="Select"
-                placeholder="Select examiner">
-      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
-                         [value]="examiner.staffNumber">
+    <ion-select
+      #examinerSelect
+      (ionChange)="examinerChanged($event.target.value)"
+      [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
+      [interfaceOptions]="interfaceOptions"
+      aria-label="Examiner"
+      cancelText="Cancel"
+      class="select-text"
+      id="select-examiner"
+      labelPlacement="stacked"
+      okText="Select"
+      placeholder="Select examiner"
+    >
+      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners" [value]="examiner.staffNumber">
         {{examiner.name}}
       </ion-select-option>
     </ion-select>
@@ -42,11 +44,13 @@
 </ion-row>
 
 <ion-row class="mes-full-width-card">
-  <ion-button (click)="onShowJournalClick()"
-              [disabled]="!hasSelectedExaminer"
-              class="mes-primary-button full-width"
-              id="show-journal-button"
-              mode="ios">
+  <ion-button
+    (click)="onShowJournalClick()"
+    [disabled]="!hasSelectedExaminer"
+    class="mes-primary-button full-width"
+    id="show-journal-button"
+    mode="ios"
+  >
     <ion-text class="des-header-style-3">Show journal</ion-text>
   </ion-button>
 </ion-row>
@@ -61,7 +65,8 @@
       [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
       [fromTestCentreJournal]="true"
       [isSelectedDateToday]="isSelectedDateToday()"
-      [selectedDate]="currentSelectedDate">
+      [selectedDate]="currentSelectedDate"
+    >
     </journal-navigation>
 
     <div *ngIf="shouldShowBanner() && hasClickedShowJournal" class="no-results">
@@ -72,7 +77,8 @@
       <journal-slots
         [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
         [isTeamJournal]="true"
-        [slots]="slotItems$ | async">
+        [slots]="slotItems$ | async"
+      >
       </journal-slots>
     </ion-list>
   </div>

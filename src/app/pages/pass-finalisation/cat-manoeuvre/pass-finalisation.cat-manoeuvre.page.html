@@ -12,28 +12,29 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-
         <finalisation-header
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
-        <application-reference-number
-          [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        >
         </pass-certificate-number>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+        >
         </language-preferences>
 
         <debrief-witnessed
@@ -42,7 +43,8 @@
           [display]="true"
           [formGroup]="form"
           [shouldShowSeparator]="false"
-          [outcome]="pageState.testOutcome$ | async">
+          [outcome]="pageState.testOutcome$ | async"
+        >
         </debrief-witnessed>
       </ion-grid>
     </form>

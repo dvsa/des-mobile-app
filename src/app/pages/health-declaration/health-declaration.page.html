@@ -20,7 +20,8 @@
       [candidatePrnNumber]="pageState.prn$ | async"
       [isStandardsCheck]="pageState.isStandardsCheck$ | async"
       (continueClickEvent)="onSubmit()"
-      [showVRNButton]="false">
+      [showVRNButton]="false"
+    >
     </candidate-section>
 
     <div class="mes-full-width-card-separator"></div>
@@ -36,14 +37,16 @@
         *ngIf="pageState.showHealthDec$ | async"
         [formGroup]="formGroup"
         [selected]="pageState.healthDeclarationAccepted$ | async"
-        (healthDeclarationChange)="healthDeclarationChanged()">
+        (healthDeclarationChange)="healthDeclarationChanged()"
+      >
       </health-declaration>
 
       <receipt-declaration
         [formGroup]="formGroup"
         [selected]="pageState.receiptDeclarationAccepted$ | async"
         (receiptDeclarationChange)="receiptDeclarationChanged()"
-        [certificateNumber]="pageState.passCertificateNumber$ | async">
+        [certificateNumber]="pageState.passCertificateNumber$ | async"
+      >
       </receipt-declaration>
 
       <div *ngIf="!(pageState.showHealthDec$ | async)" class="signature-area-padding"></div>
@@ -52,7 +55,8 @@
         [formGroup]="formGroup"
         [signature]="pageState.signature$ | async"
         (signatureDataChange)="getSignatureDrawCompleteAction($event)"
-        (signatureCleared)="getSignatureClearAction()">
+        (signatureCleared)="getSignatureClearAction()"
+      >
       </signature>
     </div>
   </form>

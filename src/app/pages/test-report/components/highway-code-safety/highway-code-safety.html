@@ -1,6 +1,7 @@
 <ion-row>
   <ion-col size="20" class="ion-no-padding">
-    <competency-button class="highway-code-safety-tick"
+    <competency-button
+      class="highway-code-safety-tick"
       [onTap]="toggleHighwayCodeSafety"
       [onPress]="toggleHighwayCodeSafety"
       [ripple]="false"
@@ -8,13 +9,14 @@
         'checked': selectedHighwayCodeSafety
       }"
     >
-      <span id="legal-requirements-tick-highway-safety" class='tickwrapper'>
+      <span id="legal-requirements-tick-highway-safety" class="tickwrapper">
         <tick-indicator [ticked]="selectedHighwayCodeSafety"></tick-indicator>
       </span>
     </competency-button>
   </ion-col>
   <ion-col class="ion-no-padding">
-    <competency-button class="highway-code-safety-competency"
+    <competency-button
+      class="highway-code-safety-competency"
       [onTap]="onTap"
       [onPress]="onPress"
       [ripple]="canButtonRipple()"
@@ -25,7 +27,7 @@
       }"
     >
       <driving-faults-badge class="driving-faults" [count]="faultCount()"></driving-faults-badge>
-      <div class='competency-label'>H/Code / Safety</div>
+      <div class="competency-label">H/Code / Safety</div>
       <div class="fault-wrapper">
         <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
         <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>

@@ -6,7 +6,12 @@
         <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
-    <ion-title role="heading" aria-level="1" id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
+    <ion-title
+      role="heading"
+      aria-level="1"
+      id="vehicle-checks-modal-title"
+      class="ion-text-center toolbar-item-spacing"
+    >
       Vehicle checks - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -19,7 +24,8 @@
       [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
       [testCategory]="category"
       [formGroup]="formGroup"
-      (fullLicenceHeldChange)="fullLicenceHeldChange($event)">
+      (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
+    >
     </full-licence-held-toggle>
   </ion-card>
 
@@ -27,49 +33,50 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h2 class="des-header-style-4" id="vehicle-checks-modal-show-me-label">
-            Show me questions
-          </h2>
+          <h2 class="des-header-style-4" id="vehicle-checks-modal-show-me-label">Show me questions</h2>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <vehicle-checks-question *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last"
-                                 [formGroup]="formGroup"
-                                 [questionResult]="(pageState.showMeQuestions$ | async)![i]"
-                                 [questions]="showMeQuestions"
-                                 [questionsToDisable]="pageState.showMeQuestions$ | async"
-                                 [isLastQuestion]="l"
-                                 [submitClicked]="submitClicked"
-                                 (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
-                                 (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)">
+        <vehicle-checks-question
+          *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last"
+          [formGroup]="formGroup"
+          [questionResult]="(pageState.showMeQuestions$ | async)![i]"
+          [questions]="showMeQuestions"
+          [questionsToDisable]="pageState.showMeQuestions$ | async"
+          [isLastQuestion]="l"
+          [submitClicked]="submitClicked"
+          (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
+          (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)"
+        >
         </vehicle-checks-question>
       </ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h2 class="des-header-style-4" id="vehicle-checks-modal-tell-me-label">
-            Tell me questions
-          </h2>
+          <h2 class="des-header-style-4" id="vehicle-checks-modal-tell-me-label">Tell me questions</h2>
         </ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <vehicle-checks-question *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
-                                 [formGroup]="formGroup"
-                                 [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
-                                 [questions]="tellMeQuestions"
-                                 [questionsToDisable]="pageState.tellMeQuestions$ | async"
-                                 [isLastQuestion]="l"
-                                 [submitClicked]="submitClicked"
-                                 (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
-                                 (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)">
+        <vehicle-checks-question
+          *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
+          [formGroup]="formGroup"
+          [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
+          [questions]="tellMeQuestions"
+          [questionsToDisable]="pageState.tellMeQuestions$ | async"
+          [isLastQuestion]="l"
+          [submitClicked]="submitClicked"
+          (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
+          (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
+        >
         </vehicle-checks-question>
       </ion-card-content>
     </ion-card>
     <warning-banner
       *ngIf="shouldDisplayBanner()"
-      warningText="This will result in {{vehicleChecksScore.drivingFaults}} driving faults and {{vehicleChecksScore.seriousFaults}} serious fault">
+      warningText="This will result in {{vehicleChecksScore.drivingFaults}} driving faults and {{vehicleChecksScore.seriousFaults}} serious fault"
+    >
     </warning-banner>
   </div>
 </ion-content>

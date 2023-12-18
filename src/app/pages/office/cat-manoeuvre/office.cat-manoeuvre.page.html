@@ -10,7 +10,8 @@
     [candidateName]="pageState.candidateName$ | async"
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async">
+    [testOutcomeText]="pageState.testOutcomeText$ | async"
+  >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -25,11 +26,15 @@
             *ngIf="isDelegated || (pageState.isRekey$ | async)"
             [dateOfTest]="pageState.startDate$ | async"
             (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
-            (dateOfTestChange)="dateOfTestChanged($event)">
+            (dateOfTestChange)="dateOfTestChanged($event)"
+          >
           </date-of-test>
 
-          <ion-row class="mes-component-row mes-row-separator ion-align-items-center" id="application-reference-card"
-                   *ngIf="isDelegated">
+          <ion-row
+            class="mes-component-row mes-row-separator ion-align-items-center"
+            id="application-reference-card"
+            *ngIf="isDelegated"
+          >
             <ion-col class="component-label" size="32">
               <label>Application reference</label>
             </ion-col>
@@ -44,7 +49,8 @@
             [activityCodeModel]="pageState.activityCode$ | async"
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
-            [disabled]="!isDelegated">
+            [disabled]="!isDelegated"
+          >
           </activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
@@ -52,7 +58,8 @@
               *ngIf="isDelegated && isPass()"
               [form]="form"
               [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-              (passCertificateNumberChange)="passCertificateNumberChanged($event)">
+              (passCertificateNumberChange)="passCertificateNumberChanged($event)"
+            >
             </pass-certificate-number>
 
             <health-declaration-signed
@@ -60,16 +67,18 @@
               [formGroup]="form"
               [label]="'Health declaration'"
               [healthDeclaration]="pageState.healthDeclarationAccepted$ | async"
-              (healthDeclarationChange)="healthDeclarationChanged($event)">
+              (healthDeclarationChange)="healthDeclarationChanged($event)"
+            >
             </health-declaration-signed>
 
             <d255
               *ngIf="isDelegated"
-              [display]=true
+              [display]="true"
               [d255]="pageState.d255$ | async"
               [outcome]="pageState.testOutcome$ | async"
               [formGroup]="form"
-              (d255Change)="d255Changed($event)">
+              (d255Change)="d255Changed($event)"
+            >
             </d255>
 
             <language-preferences
@@ -77,22 +86,26 @@
               [formGroup]="form"
               [isWelsh]="isWelsh()"
               [isDelegated]="isDelegated"
-              (welshChanged)="isWelshChanged($event)">
+              (welshChanged)="isWelshChanged($event)"
+            >
             </language-preferences>
 
             <debrief-witnessed
               *ngIf="isDelegated"
-              [display]=true
+              [display]="true"
               [formGroup]="form"
               [debriefWitnessed]="pageState.debriefWitnessed$ | async"
               [outcome]="pageState.testOutcome$ | async"
-              (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+              (debriefWitnessedChange)="debriefWitnessedChanged($event)"
+            >
             </debrief-witnessed>
 
-            <true-likeness *ngIf="pageState.displayCandidateDescription$ | async"
-                           [formGroup]="form"
-                           [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-                           (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
+            <true-likeness
+              *ngIf="pageState.displayCandidateDescription$ | async"
+              [formGroup]="form"
+              [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+              (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
+            >
             </true-likeness>
 
             <candidate-description
@@ -102,7 +115,8 @@
               [candidateDescription]="pageState.candidateDescription$ | async"
               [outcome]="pageState.testOutcome$ | async"
               [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
-              (candidateDescriptionChange)="candidateDescriptionChanged($event)">
+              (candidateDescriptionChange)="candidateDescriptionChanged($event)"
+            >
             </candidate-description>
 
             <identification
@@ -111,7 +125,8 @@
               [formGroup]="form"
               [identification]="pageState.identification$ | async"
               [outcome]="pageState.testOutcome$ | async"
-              (identificationChange)="identificationChanged($event)">
+              (identificationChange)="identificationChanged($event)"
+            >
             </identification>
 
             <weather-conditions
@@ -121,18 +136,21 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               [weatherConditionsOptions]="weatherConditions"
-              (weatherConditionsChange)="weatherConditionsChanged($event)">
+              (weatherConditionsChange)="weatherConditionsChanged($event)"
+            >
             </weather-conditions>
 
-            <accompaniment-card [formGroup]="form"
-                                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                                (otherAccompanimentChange)="otherAccompanimentToggled()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+            <accompaniment-card
+              [formGroup]="form"
+              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+            >
             </accompaniment-card>
 
             <additional-information
@@ -140,7 +158,8 @@
               [additionalInformation]="pageState.additionalInformation$ | async"
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
-              (additionalInformationChange)="additionalInformationChanged($event)">
+              (additionalInformationChange)="additionalInformationChanged($event)"
+            >
             </additional-information>
           </div>
         </ion-grid>
@@ -150,11 +169,13 @@
     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
       <eta-card
         *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
-        [faults]="pageState.etaFaults$ | async">
+        [faults]="pageState.etaFaults$ | async"
+      >
       </eta-card>
 
-      <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
-                [ecoFaults]="pageState.ecoFaults$ | async"
+      <eco-card
+        *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
+        [ecoFaults]="pageState.ecoFaults$ | async"
       ></eco-card>
 
       <fault-comment-card
@@ -165,7 +186,8 @@
         [outcome]="pageState.testOutcome$ | async"
         faultType="dangerous"
         header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
-        (faultCommentsChange)="dangerousFaultCommentChanged($event)">
+        (faultCommentsChange)="dangerousFaultCommentChanged($event)"
+      >
       </fault-comment-card>
 
       <fault-comment-card
@@ -176,7 +198,8 @@
         [outcome]="pageState.testOutcome$ | async"
         faultType="serious"
         header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
-        (faultCommentsChange)="seriousFaultCommentChanged($event)">
+        (faultCommentsChange)="seriousFaultCommentChanged($event)"
+      >
       </fault-comment-card>
     </div>
   </form>

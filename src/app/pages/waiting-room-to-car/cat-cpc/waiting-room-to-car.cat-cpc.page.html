@@ -10,7 +10,8 @@
         [category]="pageState.category$ | async"
         [isDelegated]="pageState.delegatedTest$ | async"
         [isPracticeMode]="isPracticeMode"
-        [shouldAuthenticate]="false">
+        [shouldAuthenticate]="false"
+      >
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -22,34 +23,37 @@
       <ion-grid>
         <ion-row class="ion-no-padding">
           <ion-col class="ion-no-padding">
-
             <candidate-declaration-signed
               (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
               *ngIf="pageState.delegatedTest$ | async"
               [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
               [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
-              [formGroup]="form">
+              [formGroup]="form"
+            >
             </candidate-declaration-signed>
 
             <vehicle-registration
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async">
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+            >
             </vehicle-registration>
 
             <vehicle-details-cat-cpc
               (vehicleDetailsChange)="vehicleConfiguration($event)"
               *ngIf="showVehicleDetails() && !(pageState.delegatedTest$ | async)"
               [configuration]="pageState?.configuration$ | async"
-              [formGroup]="form">
+              [formGroup]="form"
+            >
             </vehicle-details-cat-cpc>
 
             <combination
               (combinationChange)="combinationSelected($event)"
               [combination]="pageState.combination$ | async"
               [combinations]="pageState.combinations$ | async"
-              [formGroup]="form">
+              [formGroup]="form"
+            >
             </combination>
 
             <accompaniment-card-cat-cpc
@@ -57,7 +61,8 @@
               (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
               [formGroup]="form"
               [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+            >
             </accompaniment-card-cat-cpc>
           </ion-col>
         </ion-row>
@@ -72,7 +77,9 @@
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" shape="round">
+        id="view-test-centre-journal-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -81,7 +88,9 @@
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" shape="round">
+        id="continue-to-test-report-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

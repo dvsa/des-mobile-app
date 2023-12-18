@@ -7,16 +7,13 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col *ngIf="!categoryConfirmed" size="48">
-        <ion-button
-          (click)="openCategorySelector()"
-          *ngIf="!categoryConfirmed"
-          class="mes-return-button"
-        ><label id="select-cat-type-label">Select cat type..</label></ion-button>
+        <ion-button (click)="openCategorySelector()" *ngIf="!categoryConfirmed" class="mes-return-button"
+          ><label id="select-cat-type-label">Select cat type..</label></ion-button
+        >
       </ion-col>
       <ion-col *ngIf="categoryConfirmed" class="selected-category-code ion-align-self-center" size="48">
         <span class="ion-select-text">
-          {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}}
-          -
+          {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}} -
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
         </span>
       </ion-col>
@@ -45,9 +42,9 @@
   aria-label="Confirm bike category select"
   cancelText="Cancel"
   labelPlacement="stacked"
-  okText="Confirm">
-  <ion-select-option *ngFor="let category of bikeCategoryDetails;"
-                     [value]="category.categoryCode">
+  okText="Confirm"
+>
+  <ion-select-option *ngFor="let category of bikeCategoryDetails;" [value]="category.categoryCode">
     {{category.displayId}}
   </ion-select-option>
 </ion-select>

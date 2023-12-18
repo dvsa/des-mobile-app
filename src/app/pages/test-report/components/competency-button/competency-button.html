@@ -1,10 +1,11 @@
-<div class="competency-button"
-     role="button"
-     (tap)="onTapEvent()"
-     (press)="onPressEvent()"
-     (touchstart)="onTouchStart()"
-     (touchend)="onTouchEnd()"
-     [ngClass]="{
+<div
+  class="competency-button"
+  role="button"
+  (tap)="onTapEvent()"
+  (press)="onPressEvent()"
+  (touchstart)="onTouchStart()"
+  (touchend)="onTouchEnd()"
+  [ngClass]="{
     'activated': touchState,
     'ripple-effect': rippleState,
     'display-red-border': redBorder

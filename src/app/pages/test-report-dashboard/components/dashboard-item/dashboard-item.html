@@ -10,20 +10,12 @@
           *ngIf="!isInvalid && !showCompleted"
           class="chevron-icon"
           name="chevron-forward-outline"
-          id="{{idSelector}}-chevron">
+          id="{{idSelector}}-chevron"
+        >
         </ion-icon>
-        <ion-icon
-          *ngIf="isInvalid"
-          class="invalid-icon"
-          name="close-circle"
-          id="{{idSelector}}-invalid-icon">
+        <ion-icon *ngIf="isInvalid" class="invalid-icon" name="close-circle" id="{{idSelector}}-invalid-icon">
         </ion-icon>
-        <ion-icon
-          *ngIf="isValid"
-          class="valid-icon"
-          name="checkmark-circle"
-          id="{{idSelector}}-valid-icon">
-        </ion-icon>
+        <ion-icon *ngIf="isValid" class="valid-icon" name="checkmark-circle" id="{{idSelector}}-valid-icon"> </ion-icon>
       </ion-col>
     </ion-row>
   </ion-card-content>

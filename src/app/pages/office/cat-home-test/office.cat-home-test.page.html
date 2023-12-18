@@ -6,16 +6,15 @@
 </ion-header>
 
 <ion-content>
-
   <office-candidate-section
     [candidateName]="pageState.candidateName$ | async"
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async">
+    [testOutcomeText]="pageState.testOutcomeText$ | async"
+  >
   </office-candidate-section>
 
   <form [formGroup]="form">
-
     <ion-card>
       <ion-card-header>
         <h2 class="des-header-style-4">Test summary</h2>
@@ -27,43 +26,59 @@
             *ngIf="(pageState.isRekey$ | async)"
             [dateOfTest]="pageState.startDate$ | async"
             (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
-            (dateOfTestChange)="dateOfTestChanged($event)">
+            (dateOfTestChange)="dateOfTestChanged($event)"
+          >
           </date-of-test>
 
-          <activity-code id="activity-code-card" [formGroup]="form"
-                         [activityCodeModel]="pageState.activityCode$ | async"
-                         [activityCodeOptions]="activityCodeOptions"
-                         (activityCodeChange)="activityCodeChanged($event)" [disabled]="true"></activity-code>
+          <activity-code
+            id="activity-code-card"
+            [formGroup]="form"
+            [activityCodeModel]="pageState.activityCode$ | async"
+            [activityCodeOptions]="activityCodeOptions"
+            (activityCodeChange)="activityCodeChanged($event)"
+            [disabled]="true"
+          ></activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-            <true-likeness *ngIf="pageState.displayCandidateDescription$ | async"
-                           [formGroup]="form"
-                           [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-                           (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
+            <true-likeness
+              *ngIf="pageState.displayCandidateDescription$ | async"
+              [formGroup]="form"
+              [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+              (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
+            >
             </true-likeness>
 
-            <candidate-description [display]="pageState.displayCandidateDescription$ | async"
-                                   [formGroup]="form"
-                                   [candidateDescription]="pageState.candidateDescription$ | async"
-                                   [outcome]="pageState.testOutcome$ | async"
-                                   [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
-                                   (candidateDescriptionChange)="candidateDescriptionChanged($event)"></candidate-description>
+            <candidate-description
+              [display]="pageState.displayCandidateDescription$ | async"
+              [formGroup]="form"
+              [candidateDescription]="pageState.candidateDescription$ | async"
+              [outcome]="pageState.testOutcome$ | async"
+              [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
+              (candidateDescriptionChange)="candidateDescriptionChanged($event)"
+            ></candidate-description>
 
-            <identification [display]="pageState.displayIdentification$ | async" [formGroup]="form"
-                            [identification]="pageState.identification$ | async"
-                            [outcome]="pageState.testOutcome$ | async"
-                            (identificationChange)="identificationChanged($event)">
+            <identification
+              [display]="pageState.displayIdentification$ | async"
+              [formGroup]="form"
+              [identification]="pageState.identification$ | async"
+              [outcome]="pageState.testOutcome$ | async"
+              (identificationChange)="identificationChanged($event)"
+            >
             </identification>
 
-            <vehicle-checks-office-card [display]="pageState.displayVehicleChecks$ | async"
-                                        [checks]="pageState.vehicleChecks$ | async"></vehicle-checks-office-card>
+            <vehicle-checks-office-card
+              [display]="pageState.displayVehicleChecks$ | async"
+              [checks]="pageState.vehicleChecks$ | async"
+            ></vehicle-checks-office-card>
 
-            <weather-conditions [display]="pageState.displayWeatherConditions$ | async"
-                                [weatherConditions]="pageState.weatherConditions$ | async"
-                                [formGroup]="form"
-                                [outcome]="pageState.testOutcome$ | async"
-                                [weatherConditionsOptions]="weatherConditions"
-                                (weatherConditionsChange)="weatherConditionsChanged($event)">
+            <weather-conditions
+              [display]="pageState.displayWeatherConditions$ | async"
+              [weatherConditions]="pageState.weatherConditions$ | async"
+              [formGroup]="form"
+              [outcome]="pageState.testOutcome$ | async"
+              [weatherConditionsOptions]="weatherConditions"
+              (weatherConditionsChange)="weatherConditionsChanged($event)"
+            >
             </weather-conditions>
 
             <accompaniment-card
@@ -75,69 +90,79 @@
               (instructorAccompanimentChange)="instructorAccompanimentToggled()"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+            >
             </accompaniment-card>
 
-            <additional-information [display]="pageState.displayAdditionalInformation$ | async"
-                                    [additionalInformation]="pageState.additionalInformation$ | async"
-                                    [formGroup]="form"
-                                    [outcome]="pageState.testOutcome$ | async"
-                                    (additionalInformationChange)="additionalInformationChanged($event)"></additional-information>
-
+            <additional-information
+              [display]="pageState.displayAdditionalInformation$ | async"
+              [additionalInformation]="pageState.additionalInformation$ | async"
+              [formGroup]="form"
+              [outcome]="pageState.testOutcome$ | async"
+              (additionalInformationChange)="additionalInformationChanged($event)"
+            ></additional-information>
           </div>
         </ion-grid>
       </ion-card-content>
     </ion-card>
 
     <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-
       <eta-card
         *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
-        [faults]="pageState.etaFaults$ | async">
+        [faults]="pageState.etaFaults$ | async"
+      >
       </eta-card>
 
-      <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
-                [ecoFaults]="pageState.ecoFaults$ | async"
+      <eco-card
+        *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
+        [ecoFaults]="pageState.ecoFaults$ | async"
       ></eco-card>
 
-      <fault-comment-card [formGroup]="form"
-                          [faultComments]="pageState.dangerousFaults$ | async"
-                          [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
-                          [outcome]="pageState.testOutcome$ | async"
-                          faultType="dangerous"
-                          header="Dangerous faults"
-                          [maxFaultCount]="maxFaultCount"
-                          (faultCommentsChange)="dangerousFaultCommentChanged($event)">
+      <fault-comment-card
+        [formGroup]="form"
+        [faultComments]="pageState.dangerousFaults$ | async"
+        [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
+        [outcome]="pageState.testOutcome$ | async"
+        faultType="dangerous"
+        header="Dangerous faults"
+        [maxFaultCount]="maxFaultCount"
+        (faultCommentsChange)="dangerousFaultCommentChanged($event)"
+      >
       </fault-comment-card>
 
-      <fault-comment-card [formGroup]="form"
-                          [faultComments]="pageState.seriousFaults$ | async"
-                          [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
-                          [outcome]="pageState.testOutcome$ | async"
-                          faultType="serious"
-                          header="Serious faults"
-                          [maxFaultCount]="maxFaultCount"
-                          (faultCommentsChange)="seriousFaultCommentChanged($event)">
+      <fault-comment-card
+        [formGroup]="form"
+        [faultComments]="pageState.seriousFaults$ | async"
+        [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
+        [outcome]="pageState.testOutcome$ | async"
+        faultType="serious"
+        header="Serious faults"
+        [maxFaultCount]="maxFaultCount"
+        (faultCommentsChange)="seriousFaultCommentChanged($event)"
+      >
       </fault-comment-card>
 
-      <fault-comment-card id="driving-fault-comment-card"
-                          [formGroup]="form"
-                          [faultComments]="pageState.drivingFaults$ | async"
-                          [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
-                          [outcome]="pageState.testOutcome$ | async"
-                          faultType="driving"
-                          header="Driving"
-                          badgeLabel="Driving"
-                          [faultCount]="pageState.drivingFaultCount$ | async"
-                          [maxFaultCount]="maxFaultCount"
-                          (faultCommentsChange)="drivingFaultCommentChanged($event)">
+      <fault-comment-card
+        id="driving-fault-comment-card"
+        [formGroup]="form"
+        [faultComments]="pageState.drivingFaults$ | async"
+        [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
+        [outcome]="pageState.testOutcome$ | async"
+        faultType="driving"
+        header="Driving"
+        badgeLabel="Driving"
+        [faultCount]="pageState.drivingFaultCount$ | async"
+        [maxFaultCount]="maxFaultCount"
+        (faultCommentsChange)="drivingFaultCommentChanged($event)"
+      >
       </fault-comment-card>
 
       <driving-faults
         *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)"
         [label]="'Driving faults'"
         badgeLabel="Driving"
-        [faults]="(pageState.drivingFaults$ | async)">
+        [faults]="(pageState.drivingFaults$ | async)"
+      >
       </driving-faults>
     </div>
   </form>

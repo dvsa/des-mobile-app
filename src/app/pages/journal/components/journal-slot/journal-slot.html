@@ -1,39 +1,43 @@
 <span *ngFor="let slot of slots; index as i; trackBy: trackBySlotID;">
-    <span [ngSwitch]="slotType(slot)">
-         <personal-commitment
-           *ngSwitchCase="'personal'"
-           [hasSlotChanged]="slot?.hasSlotChanged"
-           [personalCommitments]="slot?.personalCommitment"
-           [showLocation]="showLocation(slot, slots[i - 1])"
-           [slot]="slot?.slotData">
-         </personal-commitment>
+  <span [ngSwitch]="slotType(slot)">
+    <personal-commitment
+      *ngSwitchCase="'personal'"
+      [hasSlotChanged]="slot?.hasSlotChanged"
+      [personalCommitments]="slot?.personalCommitment"
+      [showLocation]="showLocation(slot, slots[i - 1])"
+      [slot]="slot?.slotData"
+    >
+    </personal-commitment>
 
-        <activity-slot
-          *ngSwitchCase="'activity'"
-          [hasSlotChanged]="slot?.hasSlotChanged"
-          [showLocation]="showLocation(slot, slots[i - 1])"
-          [slot]="slot?.slotData">
-        </activity-slot>
+    <activity-slot
+      *ngSwitchCase="'activity'"
+      [hasSlotChanged]="slot?.hasSlotChanged"
+      [showLocation]="showLocation(slot, slots[i - 1])"
+      [slot]="slot?.slotData"
+    >
+    </activity-slot>
 
-        <empty-slot
-          *ngSwitchCase="'empty'"
-          [hasSlotChanged]="slot.hasSlotChanged"
-          [isPortrait]="isPortrait"
-          [showLocation]="showLocation(slot, slots[i - 1])"
-          [slot]="slot.slotData">
-        </empty-slot>
+    <empty-slot
+      *ngSwitchCase="'empty'"
+      [hasSlotChanged]="slot.hasSlotChanged"
+      [isPortrait]="isPortrait"
+      [showLocation]="showLocation(slot, slots[i - 1])"
+      [slot]="slot.slotData"
+    >
+    </empty-slot>
 
-        <test-slot
-          *ngSwitchCase="'test-slot'"
-          [delegatedTest]="false"
-          [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
-          [hasSlotChanged]="slot?.hasSlotChanged"
-          [isPortrait]="isPortrait"
-          [isTeamJournal]="isTeamJournal"
-          [showLocation]="showLocation(slot, slots[i - 1])"
-          [slot]="slot?.slotData"
-          [slots]="getSlots()"
-          [teamJournalCandidateResult]="false">
-        </test-slot>
-    </span>
+    <test-slot
+      *ngSwitchCase="'test-slot'"
+      [delegatedTest]="false"
+      [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
+      [hasSlotChanged]="slot?.hasSlotChanged"
+      [isPortrait]="isPortrait"
+      [isTeamJournal]="isTeamJournal"
+      [showLocation]="showLocation(slot, slots[i - 1])"
+      [slot]="slot?.slotData"
+      [slots]="getSlots()"
+      [teamJournalCandidateResult]="false"
+    >
+    </test-slot>
+  </span>
 </span>

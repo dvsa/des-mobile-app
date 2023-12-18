@@ -1,7 +1,10 @@
-<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="independent-driving-row"
-  [formGroup]="formGroup">
-  <div class="validation-bar" [class.ng-invalid]="invalid">
-  </div>
+<ion-row
+  *ngIf="display"
+  class="mes-validated-row mes-row-separator"
+  id="independent-driving-row"
+  [formGroup]="formGroup"
+>
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="independent-driving-label">{{componentTitle}}</label>
   </ion-col>
@@ -20,7 +23,11 @@
           [checked]="independentDriving === option1"
           (change)="independentDrivingChanged(option1)"
         />
-        <label [for]="getIndependentDrivingInputId(option1)" class="radio-label" [id]="option1label | formatToID: 'independent-driving'">
+        <label
+          [for]="getIndependentDrivingInputId(option1)"
+          class="radio-label"
+          [id]="option1label | formatToID: 'independent-driving'"
+        >
           {{option1label}}
         </label>
       </ion-col>
@@ -36,7 +43,11 @@
           [checked]="independentDriving === option2"
           (change)="independentDrivingChanged(option2)"
         />
-        <label [for]="getIndependentDrivingInputId(option2)" class="radio-label" [id]="option2label | formatToID: 'independent-driving'">
+        <label
+          [for]="getIndependentDrivingInputId(option2)"
+          class="radio-label"
+          [id]="option2label | formatToID: 'independent-driving'"
+        >
           {{option2label}}
         </label>
       </ion-col>
@@ -47,7 +58,7 @@
           class="gds-radio-button"
           formControlName="independentDriving"
           name="independentDriving"
-          value='N/A'
+          value="N/A"
           [class.ng-invalid]="invalid"
           [checked]="independentDriving === 'N/A'"
           (change)="independentDrivingChanged('N/A')"
@@ -56,11 +67,7 @@
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div
-        class="validation-text"
-        id="independent-driving-validation-text"
-        [class.ng-invalid]="invalid"
-      >
+      <div class="validation-text" id="independent-driving-validation-text" [class.ng-invalid]="invalid">
         {{componentWarningMessage}}
       </div>
     </ion-row>

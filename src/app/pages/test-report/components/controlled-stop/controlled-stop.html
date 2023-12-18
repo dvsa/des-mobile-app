@@ -1,6 +1,8 @@
 <ion-row>
   <ion-col size="20" class="ion-no-padding">
-    <competency-button id="controlled-stop-tick" class="controlled-stop-tick"
+    <competency-button
+      id="controlled-stop-tick"
+      class="controlled-stop-tick"
       [onTap]="toggleControlledStop"
       [onPress]="toggleControlledStop"
       [ripple]="false"
@@ -8,13 +10,14 @@
         'checked': selectedControlledStop
       }"
     >
-      <span class='tickwrapper'>
+      <span class="tickwrapper">
         <tick-indicator [ticked]="selectedControlledStop"></tick-indicator>
       </span>
     </competency-button>
   </ion-col>
   <ion-col class="ion-no-padding">
-    <competency-button class="controlled-stop-competency"
+    <competency-button
+      class="controlled-stop-competency"
       [onTap]="onTap"
       [onPress]="onPress"
       [ripple]="canButtonRipple()"
@@ -25,11 +28,18 @@
         'dangerous-fault': hasDangerousFault()
       }"
     >
-      <driving-faults-badge id="controlled-stop-driving-faults" class="driving-faults" [count]="faultCount()"></driving-faults-badge>
+      <driving-faults-badge
+        id="controlled-stop-driving-faults"
+        class="driving-faults"
+        [count]="faultCount()"
+      ></driving-faults-badge>
       <div id="controlled-stop-label">Controlled stop</div>
       <div class="fault-wrapper">
         <serious-fault-badge id="controlled-stop-serious-faults" [showBadge]="hasSeriousFault()"></serious-fault-badge>
-        <dangerous-fault-badge id="controlled-stop-dangerous-faults" [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+        <dangerous-fault-badge
+          id="controlled-stop-dangerous-faults"
+          [showBadge]="hasDangerousFault()"
+        ></dangerous-fault-badge>
       </div>
     </competency-button>
   </ion-col>

@@ -1,17 +1,18 @@
 <ion-row [formGroup]="formGroup">
   <ion-col size="58">
-    <ion-select (ionChange)="tellMeQuestionChanged($event.target.value)"
-                [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
-                aria-label="Tell me question"
-                cancelText="Cancel"
-                formControlName="tellMeQuestion"
-                id="tell-me-selector"
-                labelPlacement="stacked"
-                okText="Submit"
-                placeholder="Select a question"
-                value="tellMeQuestion">
-      <ion-select-option *ngFor="let currentTellMeQuestion of tellMeQuestions"
-                         [value]="currentTellMeQuestion">
+    <ion-select
+      (ionChange)="tellMeQuestionChanged($event.target.value)"
+      [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+      aria-label="Tell me question"
+      cancelText="Cancel"
+      formControlName="tellMeQuestion"
+      id="tell-me-selector"
+      labelPlacement="stacked"
+      okText="Submit"
+      placeholder="Select a question"
+      value="tellMeQuestion"
+    >
+      <ion-select-option *ngFor="let currentTellMeQuestion of tellMeQuestions" [value]="currentTellMeQuestion">
         {{currentTellMeQuestion.code}} - {{currentTellMeQuestion.shortName}}
       </ion-select-option>
     </ion-select>

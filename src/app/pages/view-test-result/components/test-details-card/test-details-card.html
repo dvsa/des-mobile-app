@@ -7,36 +7,22 @@
       <ion-row>
         <inappropriate-use-banner></inappropriate-use-banner>
       </ion-row>
-      <data-row
-        [label]="'Date'"
-        [value]="data.date">
-      </data-row>
+      <data-row [label]="'Date'" [value]="data.date"> </data-row>
 
-      <data-row
-        [label]="'Time'"
-        [value]="data.time">
-      </data-row>
+      <data-row [label]="'Time'" [value]="data.time"> </data-row>
 
-      <data-row
-        [label]="'Application reference'"
-        [value]="data.applicationReference">
-      </data-row>
+      <data-row [label]="'Application reference'" [value]="data.applicationReference"> </data-row>
 
-      <data-row
-        [label]="'Test category'"
-        [value]="data.category">
-      </data-row>
+      <data-row [label]="'Test category'" [value]="data.category"> </data-row>
 
       <data-row
         *ngIf="showFullCatHeld()"
         [label]="'Full cat ' + data.category?.split('+')[0] + ' held?'"
-        [value]="data?.fullLicenceHeld ? 'Yes' : 'No'">
+        [value]="data?.fullLicenceHeld ? 'Yes' : 'No'"
+      >
       </data-row>
 
-      <data-row
-        [label]="'Slot type'"
-        [value]="data.slotType"
-        [shouldShowIndicator]="data.slotType !== 'Standard Test'">
+      <data-row [label]="'Slot type'" [value]="data.slotType" [shouldShowIndicator]="data.slotType !== 'Standard Test'">
       </data-row>
 
       <data-row-custom
@@ -44,7 +30,8 @@
         [shouldShowIndicator]="additionalReqsIsPopulated(data.specialNeeds)"
         [centeredLabel]="data.specialNeeds?.length <= 1"
         [centeredIcon]="data.specialNeeds?.length <= 1"
-        [centredData]="data.specialNeeds?.length <= 1">
+        [centredData]="data.specialNeeds?.length <= 1"
+      >
         <ng-container class="mes-data" *ngIf="data.specialNeeds?.length > 1; else oneItem">
           <ul *ngFor="let additionalReq of data.specialNeeds;" class="ion-no-margin mes-data">
             <li>{{additionalReq}}</li>
@@ -59,37 +46,30 @@
         *ngIf="data.entitlementCheck !== undefined"
         [label]="'Entitlement check'"
         [value]="data.entitlementCheck ? 'Entitlement check is required.' : 'No'"
-        [shouldShowIndicator]="data.entitlementCheck">
+        [shouldShowIndicator]="data.entitlementCheck"
+      >
       </data-row>
 
-      <data-row-custom
-        [shouldHaveSeperator]="showAttemptNumber()||showPrn()"
-        [label]="'Additional information'">
+      <data-row-custom [shouldHaveSeperator]="showAttemptNumber()||showPrn()" [label]="'Additional information'">
         <div class="mes-data" *ngIf="data.previousCancellations.length === 0">None</div>
         <div *ngIf="!(data.previousCancellations.length === 0)">
           <div *ngIf="data.previousCancellations.length > 0">
             <div class="mes-data previous-cancellation-padding">Previous cancellations:</div>
-            <ul *ngFor="let previousCancellation of data.previousCancellations;"
-                class="ion-no-margin mes-data">
-              <li>
-                {{previousCancellation}}
-              </li>
+            <ul *ngFor="let previousCancellation of data.previousCancellations;" class="ion-no-margin mes-data">
+              <li>{{previousCancellation}}</li>
             </ul>
           </div>
         </div>
       </data-row-custom>
 
-      <data-row
-        *ngIf="showPrn()"
-        [label]="'Personal reference number'"
-        [value]="candidateDetails.prn">
-      </data-row>
+      <data-row *ngIf="showPrn()" [label]="'Personal reference number'" [value]="candidateDetails.prn"> </data-row>
 
       <data-row
         *ngIf="showAttemptNumber()"
         [label]="'Attempt number'"
         [shouldHaveSeperator]="false"
-        [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1">
+        [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1"
+      >
       </data-row>
     </ion-grid>
   </ion-card-content>

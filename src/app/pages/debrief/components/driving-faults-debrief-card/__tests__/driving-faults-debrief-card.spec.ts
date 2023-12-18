@@ -60,9 +60,12 @@ describe('DrivingFaultsDebriefCardComponent', () => {
       fixture.detectChanges();
       const drivingFaultLabels = fixture.debugElement.queryAll(By.css('#driving-fault .counter-label'));
       const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-      expect(drivingFaultLabels[0].nativeElement.innerHTML).toBe('Use of speed');
-      expect(drivingFaultLabels[1].nativeElement.innerHTML).toBe('Signals - Timed');
-      expect(drivingFaultCount.innerHTML).toBe(drivingFaults.length.toString());
+      expect(drivingFaultLabels[0].nativeElement.innerHTML.trim())
+        .toBe('Use of speed');
+      expect(drivingFaultLabels[1].nativeElement.innerHTML.trim())
+        .toBe('Signals - Timed');
+      expect(drivingFaultCount.innerHTML)
+        .toBe(drivingFaults.length.toString());
     });
 
     it('correct driving faults showing in welsh', (done) => {
@@ -87,11 +90,12 @@ describe('DrivingFaultsDebriefCardComponent', () => {
         fixture.detectChanges();
         const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#driving-fault .counter-label'));
         const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-        expect(drivingFaultsLabels[0].nativeElement.innerHTML)
+        expect(drivingFaultsLabels[0].nativeElement.innerHTML.trim())
           .toBe((<any>welshTranslations).debrief.competencies.useOfSpeed);
-        expect(drivingFaultsLabels[1].nativeElement.innerHTML)
+        expect(drivingFaultsLabels[1].nativeElement.innerHTML.trim())
           .toBe((<any>welshTranslations).debrief.competencies.signalsTimed);
-        expect(drivingFaultCount.innerHTML).toBe(drivingFaults.length.toString());
+        expect(drivingFaultCount.innerHTML)
+          .toBe(drivingFaults.length.toString());
         done();
       });
     });
@@ -100,29 +104,34 @@ describe('DrivingFaultsDebriefCardComponent', () => {
       component.drivingFaults = [];
       component.drivingFaultCount = 0;
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('#driving-fault'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('#driving-fault')))
+        .toBeNull();
     });
   });
 
   describe('drivingFaultsCardDescriptionSwitch', () => {
     it('Should return debrief.ridingFaultsCardDescription when cat is EUA1M1', () => {
       const value = component.drivingFaultsCardDescriptionSwitch(TestCategory.EUA1M1);
-      expect(value).toEqual('debrief.ridingFaultsCardDescription');
+      expect(value)
+        .toEqual('debrief.ridingFaultsCardDescription');
     });
 
     it('Should return debrief.ridingFaultsCardDescription when cat is EUA1M2', () => {
       const value = component.drivingFaultsCardDescriptionSwitch(TestCategory.EUA1M2);
-      expect(value).toEqual('debrief.ridingFaultsCardDescription');
+      expect(value)
+        .toEqual('debrief.ridingFaultsCardDescription');
     });
 
     it('Should return debrief.drivingFaultsCardDescription when cat is B', () => {
       const value = component.drivingFaultsCardDescriptionSwitch(TestCategory.B);
-      expect(value).toEqual('debrief.drivingFaultsCardDescription');
+      expect(value)
+        .toEqual('debrief.drivingFaultsCardDescription');
     });
 
     it('Should return debrief.drivingFaultsCardDescription when cat is BE', () => {
       const value = component.drivingFaultsCardDescriptionSwitch(TestCategory.BE);
-      expect(value).toEqual('debrief.drivingFaultsCardDescription');
+      expect(value)
+        .toEqual('debrief.drivingFaultsCardDescription');
     });
   });
 

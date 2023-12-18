@@ -1,4 +1,5 @@
-<div class="manoeuvre-competency-button"
+<div
+  class="manoeuvre-competency-button"
   (tap)="addOrRemoveFault()"
   (press)="addOrRemoveFault(true)"
   (touchstart)="onTouchStart()"
@@ -10,11 +11,10 @@
 >
   <driving-faults-badge class="driving-faults" [count]="hasDrivingFault()"></driving-faults-badge>
 
-  <span class='competency-label'>{{ getLabel() }}</span>
+  <span class="competency-label">{{ getLabel() }}</span>
 
   <div class="fault-wrapper">
     <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
     <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
   </div>
-
 </div>

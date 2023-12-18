@@ -9,11 +9,7 @@
     <ion-row class="message-wrapper ion-align-items-center">
       <ion-col class="ion-no-padding">
         <ion-row class="ion-justify-content-center">
-          <ion-spinner
-            class="delegated-spinner"
-            id="delegated-spinner"
-            name="bubbles">
-          </ion-spinner>
+          <ion-spinner class="delegated-spinner" id="delegated-spinner" name="bubbles"> </ion-spinner>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -43,7 +39,7 @@
             Rekey upload was unsuccessful
           </ion-text>
         </ion-row>
-        <br>
+        <br />
         <ion-row class="ion-justify-content-center">
           <ion-button id="dlg-retry-upload-btn" class="mes-grey-button retry-button" (click)="retryUpload()">
             <ion-text id="dlg-retry-upload-label" class="des-header-style-3">Retry upload</ion-text>
@@ -61,7 +57,8 @@
         id="dlg-return-to-dashboard-btn"
         class="mes-grey-button retry-button"
         (click)="goToDashboard()"
-        [disabled]="pageState.isUploading$ | async">
+        [disabled]="pageState.isUploading$ | async"
+      >
         <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
       </ion-button>
     </ion-col>
@@ -70,7 +67,8 @@
         id="dlg-rekey-another-btn"
         class="mes-primary-button retry-button"
         (click)="goToDelegatedSearch()"
-        [disabled]="pageState.isUploading$ | async">
+        [disabled]="pageState.isUploading$ | async"
+      >
         <ion-text id="dlg-rekey-another-label" class="des-header-style-3">Rekey another test</ion-text>
       </ion-button>
     </ion-col>

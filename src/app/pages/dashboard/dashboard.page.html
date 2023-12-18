@@ -5,7 +5,8 @@
       <ion-badge
         *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
         color="danger"
-        id="dashboard-notification-count-badge">
+        id="dashboard-notification-count-badge"
+      >
         {{notificationCount}}
       </ion-badge>
     </ion-buttons>
@@ -16,7 +17,8 @@
       <ion-badge
         *ngIf="pageState.showUpdatesAvailable$ | async"
         color="danger"
-        (click)="showUpdateAvailableModal(true)">
+        (click)="showUpdateAvailableModal(true)"
+      >
         Version {{pageState.liveAppVersion$ | async}} available
       </ion-badge>
     </ion-buttons>
@@ -33,7 +35,8 @@
       [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
       [employeeId]="pageState.employeeId$ | async"
       [name]="pageState.employeeName$ | async"
-      [role]="pageState.role$ | async">
+      [role]="pageState.role$ | async"
+    >
     </profile-header>
 
     <hr />
@@ -69,13 +72,10 @@
     <practice-test-report-card
       (click)="practiceTestReportCardClicked()"
       *ngIf="showTestReportPracticeMode()"
-      id="testReportPracticeMode">
+      id="testReportPracticeMode"
+    >
     </practice-test-report-card>
 
-    <practice-end-to-end-card
-      *ngIf="showEndToEndPracticeMode()"
-      id="endToendPracticeMode">
-    </practice-end-to-end-card>
+    <practice-end-to-end-card *ngIf="showEndToEndPracticeMode()" id="endToendPracticeMode"> </practice-end-to-end-card>
   </div>
-
 </ion-content>

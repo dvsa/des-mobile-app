@@ -9,9 +9,11 @@
         <div class="line-height-styling">
           <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
           <span class="colour-white">Refresh</span>
-          <br>
+          <br />
           <ion-label>
-            <ion-text id="last-sync" class="des-header-style-6 last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</ion-text>
+            <ion-text id="last-sync" class="des-header-style-6 last-sync"
+              >Last sync: {{pageState.lastRefreshedTime$ | async}}</ion-text
+            >
           </ion-label>
         </div>
       </ion-button>
@@ -38,7 +40,8 @@
             [testCentres]="pageState.activeTestCentres$ | async"
             [isLDTM]="isLDTM"
             [selectedTestCentre]="testCentreSelected"
-            (testCentreChanged)="testCentreChange($event)">
+            (testCentreChanged)="testCentreChange($event)"
+          >
           </candidate-search-card>
         </tab>
         <tab [tabTitle]="'View journals'" id="view-journals-tab-title">
@@ -50,7 +53,8 @@
             [testCentres]="pageState.activeTestCentres$ | async"
             [isLDTM]="isLDTM"
             [selectedTestCentre]="testCentreSelected"
-            (testCentreChanged)="testCentreChange($event)">
+            (testCentreChanged)="testCentreChange($event)"
+          >
           </view-journals-card>
         </tab>
       </tabs>

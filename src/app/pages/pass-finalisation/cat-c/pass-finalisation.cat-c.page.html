@@ -12,15 +12,14 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-
         <finalisation-header
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async"
+        >
         </finalisation-header>
 
-        <application-reference-number
-          [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <license-provided
@@ -28,64 +27,71 @@
           (licenseReceived)="provisionalLicenseReceived()"
           [form]="form"
           [licenseReceivedLabel]="'Provisional licence received'"
-          [license]="pageState.provisionalLicense$ | async">
+          [license]="pageState.provisionalLicense$ | async"
+        >
         </license-provided>
 
-        <licence-provided-warning-banner
-          [licenceProvided]="pageState.provisionalLicense$ | async">
+        <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async">
         </licence-provided-warning-banner>
 
         <warning-banner
           *ngIf="shouldShowCandidateDoesntNeedLicenseBanner()"
-          warningText="{{askCandidateLicenseMessage}}">
+          warningText="{{askCandidateLicenseMessage}}"
+        >
         </warning-banner>
 
         <transmission
           (transmissionChange)="transmissionChanged($event)"
           [formGroup]="form"
-          [transmission]="pageState.transmission$ | async">
+          [transmission]="pageState.transmission$ | async"
+        >
         </transmission>
 
-        <code-78
-          (code78Present)="onCode78Present($event)"
-          [code78]="pageState.code78$ | async"
-          [form]="form">
+        <code-78 (code78Present)="onCode78Present($event)" [code78]="pageState.code78$ | async" [form]="form">
         </code-78>
 
         <warning-banner
           *ngIf="shouldShowManualBanner()"
           [warningIdentifier]="'manual-licence-banner'"
-          [warningText]="manualMessage">
+          [warningText]="manualMessage"
+        >
         </warning-banner>
 
         <warning-banner
           *ngIf="shouldShowAutomaticBanner()"
           [warningIdentifier]="'automatic-licence-banner'"
-          [warningText]="automaticMessage">
+          [warningText]="automaticMessage"
+        >
         </warning-banner>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        >
         </pass-certificate-number>
 
-        <d255 (d255Change)="d255Changed($event)"
-              [d255]="pageState.d255$ | async"
-              [display]="true"
-              [formGroup]="form"
-              [outcome]="testOutcome">
+        <d255
+          (d255Change)="d255Changed($event)"
+          [d255]="pageState.d255$ | async"
+          [display]="true"
+          [formGroup]="form"
+          [outcome]="testOutcome"
+        >
         </d255>
 
-        <warning-banner *ngIf="pageState.d255$ | async"
-                        warningText="DVLA will not process the result until a D255 is received.">
+        <warning-banner
+          *ngIf="pageState.d255$ | async"
+          warningText="DVLA will not process the result until a D255 is received."
+        >
         </warning-banner>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+        >
         </language-preferences>
 
         <debrief-witnessed
@@ -94,7 +100,8 @@
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"
-          [outcome]="testOutcome">
+          [outcome]="testOutcome"
+        >
         </debrief-witnessed>
       </ion-grid>
     </form>

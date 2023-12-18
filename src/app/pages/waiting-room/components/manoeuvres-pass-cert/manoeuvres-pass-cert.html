@@ -1,32 +1,32 @@
 <ion-row class="mes-validated-row-short mes-row-separator mes-row-separator-top" id="manoeuvres-pass-cert-row">
-    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <ion-col class="component-label ion-align-self-center" size="32">
-        <label id="manoeuvres-pass-cert-label">Manoeuvres pass certificate number</label>
-    </ion-col>
-    <ion-col class="ion-align-self-center mes-padding-left">
-        <ion-row class="spacing-row"></ion-row>
-        <ion-row [formGroup]="formGroup">
-            <ion-col>
-                <ion-input
-                        [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
-                        [class.ng-invalid]="invalid"
-                        formControlName="manoeuvresPassCertificateNumberCtrl"
-                        aria-labelledby="manoeuvres-pass-cert-label"
-                        type="text"
-                        id="manoeuvres-pass-cert-number"
-                        class="ion-input-styling increase-width"
-                        maxlength="8"
-                        (ionInput)="manoeuvresPassCertificateNumberChanged($event.target.value)"
-                        emojiBlock
-                        pasteSanitiser>
-                </ion-input>
-            </ion-col>
-        </ion-row>
-        <ion-row class="validation-message-row ion-align-items-center">
-            <div class="validation-text" [class.ng-invalid]="invalid"
-                 id="manoeuvres-pass-cert-validation-text">
-                Enter a valid certificate number (8 characters)
-            </div>
-        </ion-row>
-    </ion-col>
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="manoeuvres-pass-cert-label">Manoeuvres pass certificate number</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row [formGroup]="formGroup">
+      <ion-col>
+        <ion-input
+          [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
+          [class.ng-invalid]="invalid"
+          formControlName="manoeuvresPassCertificateNumberCtrl"
+          aria-labelledby="manoeuvres-pass-cert-label"
+          type="text"
+          id="manoeuvres-pass-cert-number"
+          class="ion-input-styling increase-width"
+          maxlength="8"
+          (ionInput)="manoeuvresPassCertificateNumberChanged($event.target.value)"
+          emojiBlock
+          pasteSanitiser
+        >
+        </ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="manoeuvres-pass-cert-validation-text">
+        Enter a valid certificate number (8 characters)
+      </div>
+    </ion-row>
+  </ion-col>
 </ion-row>

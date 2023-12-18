@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-card class="ion-padding">
     <ion-row class="tr-standard-text">Total Score</ion-row>
-    <br>
+    <br />
     <ion-row>
       <ion-col class="tr-standard-text total-score-positioning" id="total-score-text" size="10">{{totalScore}}</ion-col>
       <ion-col>
@@ -18,10 +18,12 @@
     </ion-row>
   </ion-card>
 
-  <ion-card *ngIf="(lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel"
-            class="ion-padding">
+  <ion-card
+    *ngIf="(lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel"
+    class="ion-padding"
+  >
     <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
-    <br>
+    <br />
     <ion-row>
       <ion-col class="tr-standard-text" size="20">Student</ion-col>
       <ion-col><p id="student-value-text">{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
@@ -63,7 +65,8 @@
       <adi3-debrief-card-box
         [idSelector]="'lesson-planning'"
         [testReportSection]="lessonPlanning"
-        [title]="'Lesson Planning'">
+        [title]="'Lesson Planning'"
+      >
       </adi3-debrief-card-box>
     </ion-col>
 
@@ -71,7 +74,8 @@
       <adi3-debrief-card-box
         [idSelector]="'risk-management'"
         [testReportSection]="riskManagement"
-        [title]="'Risk Management'">
+        [title]="'Risk Management'"
+      >
       </adi3-debrief-card-box>
     </ion-col>
 
@@ -79,7 +83,8 @@
       <adi3-debrief-card-box
         [idSelector]="'teaching-and-learning-strategies'"
         [testReportSection]="teachingLearningStrategies"
-        [title]="'Teaching & Learning Strategies'">
+        [title]="'Teaching & Learning Strategies'"
+      >
       </adi3-debrief-card-box>
     </ion-col>
   </ion-row>
@@ -87,7 +92,7 @@
     <ion-col>
       <ion-card class="ion-padding">
         <ion-row class="tr-standard-text">Feedback</ion-row>
-        <br>
+        <br />
         <ion-row>
           <p id="review-feedback-text">{{review?.feedback}}</p>
         </ion-row>

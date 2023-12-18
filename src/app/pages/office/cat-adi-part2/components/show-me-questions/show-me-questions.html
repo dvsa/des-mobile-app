@@ -9,43 +9,51 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col class="ion-align-self-center ion-padding-start" size="40">
-        <ion-select (ionChange)="showMeQuestionsChanged($event.target?.value)"
-                    [class.ng-invalid]="invalid"
-                    [formControlName]="fieldName"
-                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-                    aria-label="Show me question"
-                    cancelText="Cancel"
-                    class="black-text"
-                    id="show-me-question-selector_{{questionNumber}}"
-                    labelPlacement="stacked"
-                    okText="Submit"
-                    placeholder="Select questions">
-          <ion-select-option *ngFor="let showMeQuestion of questions;"
-                             [disabled]="isOptionDisabled(showMeQuestion)"
-                             [value]="showMeQuestion">
+        <ion-select
+          (ionChange)="showMeQuestionsChanged($event.target?.value)"
+          [class.ng-invalid]="invalid"
+          [formControlName]="fieldName"
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          aria-label="Show me question"
+          cancelText="Cancel"
+          class="black-text"
+          id="show-me-question-selector_{{questionNumber}}"
+          labelPlacement="stacked"
+          okText="Submit"
+          placeholder="Select questions"
+        >
+          <ion-select-option
+            *ngFor="let showMeQuestion of questions;"
+            [disabled]="isOptionDisabled(showMeQuestion)"
+            [value]="showMeQuestion"
+          >
             {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
           </ion-select-option>
         </ion-select>
       </ion-col>
       <ion-col size="4"></ion-col>
       <ion-col class="ion-align-self-center" size="24">
-        <input (change)="showMeOutcomeChanged($event.target.value)"
-               [checked]="showMeChecked"
-               [disabled]="showMeDisabled"
-               class="gds-radio-button"
-               id="showMe_{{questionNumber}}_btn1"
-               type="radio"
-               value="P">
+        <input
+          (change)="showMeOutcomeChanged($event.target.value)"
+          [checked]="showMeChecked"
+          [disabled]="showMeDisabled"
+          class="gds-radio-button"
+          id="showMe_{{questionNumber}}_btn1"
+          type="radio"
+          value="P"
+        />
         <label class="radio-label" for="showMe_{{questionNumber}}_btn1">Correct</label>
       </ion-col>
       <ion-col class="ion-align-self-center" size="24">
-        <input (change)="showMeOutcomeChanged($event.target.value)"
-               [checked]="!showMeChecked"
-               [disabled]="showMeDisabled"
-               class="gds-radio-button"
-               id="showMe_{{questionNumber}}_btn2"
-               type="radio"
-               value="DF">
+        <input
+          (change)="showMeOutcomeChanged($event.target.value)"
+          [checked]="!showMeChecked"
+          [disabled]="showMeDisabled"
+          class="gds-radio-button"
+          id="showMe_{{questionNumber}}_btn2"
+          type="radio"
+          value="DF"
+        />
         <label class="radio-label" for="showMe_{{questionNumber}}_btn2">Incorrect</label>
       </ion-col>
     </ion-row>

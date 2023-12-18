@@ -10,15 +10,22 @@
     </ion-button>
   </ion-col>
   <ion-col *ngIf="isRekey && !isDelegated">
-    <ion-button id="reason-for-rekey" class="mes-primary-button padding-x-5 full-width"
-                (click)="continueClick()" [disabled]="!isValidStartDateTime">
+    <ion-button
+      id="reason-for-rekey"
+      class="mes-primary-button padding-x-5 full-width"
+      (click)="continueClick()"
+      [disabled]="!isValidStartDateTime"
+    >
       <ion-text class="des-header-style-3">Continue</ion-text>
     </ion-button>
   </ion-col>
   <ion-col *ngIf="isDelegated">
-    <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width"
-                [disabled]="!isValidStartDateTime"
-                (click)="submitClick()">
+    <ion-button
+      id="submit-button"
+      class="mes-primary-button padding-x-5 full-width"
+      [disabled]="!isValidStartDateTime"
+      (click)="submitClick()"
+    >
       <ion-text class="des-header-style-3">Submit</ion-text>
     </ion-button>
   </ion-col>

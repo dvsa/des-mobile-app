@@ -6,9 +6,7 @@
         <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
-    <ion-title>
-      Reversing diagram - {{getReversingDiagramLabel()}} vehicle
-    </ion-title>
+    <ion-title> Reversing diagram - {{getReversingDiagramLabel()}} vehicle </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +19,7 @@
       <ion-col size="56">
         <div class="content-container">
           <ion-text class="des-header-style-2">Distances</ion-text>
-          <br>
+          <br />
           <ion-text class="sub-header des-header-style-3">All dimensions in metres</ion-text>
           <div class="distances">
             <ion-row>
@@ -31,15 +29,17 @@
                     <label class="dimensions-labels">Length:</label>
                   </ion-col>
                   <ion-col size="50">
-                    <input type="number"
-                           step="0.01"
-                           id="vehicleLength"
-                           class="vehicle-length-input"
-                           [value]="vehicleLength"
-                           (keyup)="onLengthKeyup($event.target.value)"
-                           numbersOnly
-                           emojiBlock
-                           pasteSanitiser>
+                    <input
+                      type="number"
+                      step="0.01"
+                      id="vehicleLength"
+                      class="vehicle-length-input"
+                      [value]="vehicleLength"
+                      (keyup)="onLengthKeyup($event.target.value)"
+                      numbersOnly
+                      emojiBlock
+                      pasteSanitiser
+                    />
                   </ion-col>
                 </ion-row>
               </ion-col>
@@ -49,15 +49,17 @@
                     <label class="dimensions-labels">Width:</label>
                   </ion-col>
                   <ion-col size="44">
-                    <input type="number"
-                           step="0.01"
-                           id="vehicleWidth"
-                           class="vehicle-width-input"
-                           [value]="vehicleWidth"
-                           (keyup)="onWidthKeyup($event.target.value)"
-                           numbersOnly
-                           emojiBlock
-                           pasteSanitiser>
+                    <input
+                      type="number"
+                      step="0.01"
+                      id="vehicleWidth"
+                      class="vehicle-width-input"
+                      [value]="vehicleWidth"
+                      (keyup)="onWidthKeyup($event.target.value)"
+                      numbersOnly
+                      emojiBlock
+                      pasteSanitiser
+                    />
                   </ion-col>
                 </ion-row>
               </ion-col>
@@ -91,8 +93,7 @@
                       <div id="distance-of-lane-width" class="result">{{reversingWidth}}</div>
                     </ion-col>
                   </ion-row>
-                  <ion-row>
-                  </ion-row>
+                  <ion-row> </ion-row>
                 </ion-col>
               </ion-row>
             </div>

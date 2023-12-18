@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content forceOverscroll="false">
-
   <div class="search-inputs">
     <tabs>
       <tab [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
@@ -25,22 +24,21 @@
                 name="searchBy"
                 value="appReference"
                 [checked]="searchBy === 'appReference'"
-                (change)="searchByChanged('appReference')">
-              <label for="search-by-app-reference" class="radio-label">
-                Application reference
-              </label>
+                (change)="searchByChanged('appReference')"
+              />
+              <label for="search-by-app-reference" class="radio-label"> Application reference </label>
             </ion-col>
             <ion-col class="flex-center" size="34">
-              <input type="radio"
-                     id="search-by-driver-number"
-                     class="gds-radio-button"
-                     name="searchBy"
-                     value="driverNumber"
-                     [checked]="searchBy === 'driverNumber'"
-                     (change)="searchByChanged('driverNumber')">
-              <label for="search-by-driver-number" class="radio-label">
-                Driver number
-              </label>
+              <input
+                type="radio"
+                id="search-by-driver-number"
+                class="gds-radio-button"
+                name="searchBy"
+                value="driverNumber"
+                [checked]="searchBy === 'driverNumber'"
+                (change)="searchByChanged('driverNumber')"
+              />
+              <label for="search-by-driver-number" class="radio-label"> Driver number </label>
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
@@ -58,7 +56,8 @@
                 (ionBlur)="setFocus(null)"
                 [value]="candidateInfo"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)">
+                (ionInput)="candidateInfoChanged($event.target.value)"
+              >
               </ion-input>
               <ion-input
                 *ngIf="searchBy === 'appReference'"
@@ -73,7 +72,8 @@
                 (ionBlur)="setFocus(null)"
                 [value]="candidateInfo"
                 [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)">
+                (ionInput)="candidateInfoChanged($event.target.value)"
+              >
               </ion-input>
             </ion-col>
           </ion-row>
@@ -81,7 +81,9 @@
             <ion-button
               id="test-result-search-button"
               [attr.disabled]="showSearchSpinner ? 'true' : isEmpty(candidateInfo)"
-              class="mes-primary-button search-tests" (click)="searchTests()">
+              class="mes-primary-button search-tests"
+              (click)="searchTests()"
+            >
               <ion-text id="test-result-search-button-text" class="des-header-style-3">
                 <ion-icon name="search" class="search-icon"></ion-icon>
                 Search
@@ -96,7 +98,8 @@
           [importStaffNumber]="verifyAdvancedSearch()"
           [testCentres]="pageState.activeTestCentres$ | async"
           (onSearchTests)="advancedSearch($event)"
-          [showSpinner]="showAdvancedSearchSpinner">
+          [showSpinner]="showAdvancedSearchSpinner"
+        >
         </advanced-search>
       </tab>
     </tabs>
@@ -110,10 +113,6 @@
       Displaying <span>{{searchResults.length}}</span> results
     </p>
 
-    <search-result
-      *ngFor="let searchResult of searchResults;"
-      [searchResult]=searchResult>
-    </search-result>
+    <search-result *ngFor="let searchResult of searchResults;" [searchResult]="searchResult"> </search-result>
   </div>
-
 </ion-content>

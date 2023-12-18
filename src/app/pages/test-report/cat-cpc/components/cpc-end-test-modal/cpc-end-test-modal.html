@@ -10,14 +10,11 @@
     *ngFor="let question of questions"
     [label]="question.questionCode"
     [score]="question.score"
-    [isPass]="question.score >= 15">
+    [isPass]="question.score >= 15"
+  >
   </modal-result-item>
-  <modal-result-item
-    label="TOTAL"
-    [score]="totalPercentage"
-    [isPass]="testResult === '1'">
-  </modal-result-item>
-  <ion-row class="ion-justify-content-center ">
+  <modal-result-item label="TOTAL" [score]="totalPercentage" [isPass]="testResult === '1'"> </modal-result-item>
+  <ion-row class="ion-justify-content-center">
     <ion-col size="84">
       <ion-button class="mes-primary-button" (click)="onContinue()">
         <ion-text class="des-header-style-3">Continue to debrief</ion-text>

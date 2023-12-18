@@ -1,7 +1,9 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title"
+      >{{pageState.candidateName$ | async}}</ion-title
+    >
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -9,7 +11,8 @@
       <end-test-link
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
-        [shouldAuthenticate]="false">
+        [shouldAuthenticate]="false"
+      >
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -24,18 +27,20 @@
           *ngIf="pageState.showEyesight$ | async"
           [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
           [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-          [formGroup]="form">
+          [formGroup]="form"
+        >
         </eyesight-test>
 
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation
-            [cancelFn]="eyesightFailCancelled"
-            [nextPageOnFail]="getDebriefPage()">
+          <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
           </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
-                 id="post-eyesight-form-content">
+        <ion-row
+          [hidden]="pageState.eyesightTestFailed$ | async"
+          class="ion-no-padding"
+          id="post-eyesight-form-content"
+        >
           <ion-col class="ion-no-padding">
             <tell-me-question-card
               (tellMeQuestionChange)="tellMeQuestionChanged($event)"
@@ -44,26 +49,30 @@
               [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
               [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
               [tellMeQuestion]="pageState.tellMeQuestion$ | async"
-              [tellMeQuestions]="tellMeQuestions">
+              [tellMeQuestions]="tellMeQuestions"
+            >
             </tell-me-question-card>
 
             <vehicle-registration
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async">
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+            >
             </vehicle-registration>
 
             <transmission
               (transmissionChange)="transmissionChanged($event)"
               [formGroup]="form"
-              [transmission]="pageState.transmission$ | async">
+              [transmission]="pageState.transmission$ | async"
+            >
             </transmission>
 
             <instructor-registration
               (instructorRegistrationChange)="instructorRegistrationChanged($event)"
               [formGroup]="form"
-              [instructorRegistration]="pageState.instructorRegistrationNumber$ | async">
+              [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
+            >
             </instructor-registration>
 
             <accompaniment-card
@@ -75,7 +84,8 @@
               [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
               [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
               [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+            >
             </accompaniment-card>
 
             <vehicle-details-card
@@ -83,7 +93,8 @@
               (schoolVehicleDetailsChange)="schoolCarToggled()"
               [dualVehicleDetails]="pageState.dualControls$ | async"
               [formGroup]="form"
-              [schoolVehicleDetails]="pageState.schoolCar$ | async">
+              [schoolVehicleDetails]="pageState.schoolCar$ | async"
+            >
             </vehicle-details-card>
           </ion-col>
         </ion-row>
@@ -98,7 +109,9 @@
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" shape="round">
+        id="view-test-centre-journal-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -107,7 +120,9 @@
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" shape="round">
+        id="continue-to-test-report-button"
+        shape="round"
+      >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

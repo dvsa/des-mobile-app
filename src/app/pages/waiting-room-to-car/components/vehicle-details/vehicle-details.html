@@ -1,11 +1,13 @@
 <div [formGroup]="formGroup">
-    <input [id]="formControlName"
-           type="checkbox"
-           class="gds-checkbox"
-           [formControlName]="formControlName"
-           (change)="vehicleDetailsChanged()"
-           [value]="vehicleDetailsType">
-    <label [for]="formControlName" [id]="vehicleDetailsType | formatToID: 'vehicle-details'">
-        {{vehicleDetailsType}}
-    </label>
+  <input
+    [id]="formControlName"
+    type="checkbox"
+    class="gds-checkbox"
+    [formControlName]="formControlName"
+    (change)="vehicleDetailsChanged()"
+    [value]="vehicleDetailsType"
+  />
+  <label [for]="formControlName" [id]="vehicleDetailsType | formatToID: 'vehicle-details'">
+    {{vehicleDetailsType}}
+  </label>
 </div>

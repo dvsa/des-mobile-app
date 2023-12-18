@@ -31,7 +31,8 @@
     [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3?.lessonAndTheme?.other && !isEmpty(testDataADI3?.lessonAndTheme?.other))"
     [score]="lessonAndThemeState?.score"
     [maxScore]="2"
-    [idSelector]="'lesson-and-theme'">
+    [idSelector]="'lesson-and-theme'"
+  >
   </dashboard-item>
 
   <dashboard-item
@@ -42,24 +43,23 @@
     [showCompleted]="testReportState > 0"
     [score]="testReportState"
     [maxScore]="17"
-    [idSelector]="'test-report'">
+    [idSelector]="'test-report'"
+  >
   </dashboard-item>
 
-  <review-feedback
-    [form]="form"
-    [feedback]="pageState.feedback$ | async"
-    (feedbackChange)="feedbackChanged($event)">
+  <review-feedback [form]="form" [feedback]="pageState.feedback$ | async" (feedbackChange)="feedbackChanged($event)">
   </review-feedback>
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow" style="background-color: white;">
+  <ion-row class="mes-full-width-card box-shadow" style="background-color: white">
     <ion-col class="ion-text-center">
       <ion-button
         (click)="onContinueClick()"
         shape="round"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-button">
+        id="continue-button"
+      >
         <ion-text id="continue-text" class="des-header-style-3">Continue</ion-text>
       </ion-button>
     </ion-col>

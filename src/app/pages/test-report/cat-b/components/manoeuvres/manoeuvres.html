@@ -1,18 +1,26 @@
-<button id="manoeuvers-button" (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
+<button
+  id="manoeuvers-button"
+  (click)="togglePopoverDisplay()"
+  [class.promoted]="displayPopover"
   [ngClass]="{
     'fault': drivingFaults > 0,
     'serious-fault': hasSeriousFault,
     'dangerous-fault': hasDangerousFault
-  }">
+  }"
+>
   <div id="manoeuvers-tick" class="tickwrapper">
     <tick-indicator [ticked]="completed"></tick-indicator>
   </div>
 
-  <driving-faults-badge id="manoeuvers-driving-faults" class="driving-faults-manoeuvers" [count]="drivingFaults"></driving-faults-badge>
+  <driving-faults-badge
+    id="manoeuvers-driving-faults"
+    class="driving-faults-manoeuvers"
+    [count]="drivingFaults"
+  ></driving-faults-badge>
 
   <div class="label-wrapper">
     <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="caret-forward"></ion-icon>
-    <span class='label'>{{controlLabel}}</span>
+    <span class="label">{{controlLabel}}</span>
   </div>
 
   <div class="fault-wrapper">

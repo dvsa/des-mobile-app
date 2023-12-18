@@ -18,23 +18,29 @@
 
         <ion-row class="cpc-line-break ion-align-items-start" *ngIf="combination !== null">
           <ion-col size="56">
-            <ion-text class="des-header-style-3" [id]="'debrief-cpc-question-' + i">{{getFormattedQuestion(question)}}</ion-text>
+            <ion-text class="des-header-style-3" [id]="'debrief-cpc-question-' + i"
+              >{{getFormattedQuestion(question)}}</ion-text
+            >
           </ion-col>
           <ion-col size="25" class="cpc-percentage ion-text-center">
             <span [id]="'debrief-cpc-question-percentage-' + i">{{getQuestionPercentage(question)}}%</span>
           </ion-col>
           <ion-col size="12" class="ion-align-items-end ion-text-center">
             <div class="cpc-answer-icon">
-              <img *ngIf="shouldTickBox(question)"
-                   src="assets/imgs/greenCorrectAnswer.png"
-                   alt="Correct Answer"
-                   [id]="'debrief-cpc-question-icon-pass-' + i"
-                   class="correct-icon icon-image" />
-              <img *ngIf="!shouldTickBox(question)"
-                   src="assets/imgs/redWrongAnswer.png"
-                   alt="Wrong Answer"
-                   [id]="'debrief-cpc-question-icon-fail-' + i"
-                   class="wrong-icon icon-image" />
+              <img
+                *ngIf="shouldTickBox(question)"
+                src="assets/imgs/greenCorrectAnswer.png"
+                alt="Correct Answer"
+                [id]="'debrief-cpc-question-icon-pass-' + i"
+                class="correct-icon icon-image"
+              />
+              <img
+                *ngIf="!shouldTickBox(question)"
+                src="assets/imgs/redWrongAnswer.png"
+                alt="Wrong Answer"
+                [id]="'debrief-cpc-question-icon-fail-' + i"
+                class="wrong-icon icon-image"
+              />
             </div>
           </ion-col>
         </ion-row>
@@ -48,18 +54,23 @@
           </ion-col>
           <ion-col size="12" class="align-items-end">
             <div class="cpc-answer-icon">
-              <img *ngIf="isPass()" src="assets/imgs/greenCorrectAnswer.png"
-                   alt="Correct Answer"
-                   id="debrief-cpc-total-score-pass-icon"
-                   class="correct-icon icon-image" />
-              <img *ngIf="!isPass()" src="assets/imgs/redWrongAnswer.png"
-                   alt="Wrong Answer"
-                   id="debrief-cpc-total-score-fail-icon"
-                   class="wrong-icon icon-image" />
+              <img
+                *ngIf="isPass()"
+                src="assets/imgs/greenCorrectAnswer.png"
+                alt="Correct Answer"
+                id="debrief-cpc-total-score-pass-icon"
+                class="correct-icon icon-image"
+              />
+              <img
+                *ngIf="!isPass()"
+                src="assets/imgs/redWrongAnswer.png"
+                alt="Wrong Answer"
+                id="debrief-cpc-total-score-fail-icon"
+                class="wrong-icon icon-image"
+              />
             </div>
           </ion-col>
         </ion-row>
-
       </section>
     </ion-grid>
   </ion-card-content>

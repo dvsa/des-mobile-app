@@ -7,7 +7,8 @@
       [ngModel]="model ? model[displayKey] : searchedValue"
       [placeholder]="placeholder"
       emojiBlock
-      pasteSanitiser>
+      pasteSanitiser
+    >
     </ion-searchbar>
 
     <!-- Check if minimum number of required chars entered or custom template -->
@@ -19,15 +20,12 @@
           <ion-item
             (click)="onClick(data)"
             *ngFor="let data of filteredData; trackBy: trackBy;"
-            [id]="data[displayKey] | formatToID: idPrefix">
+            [id]="data[displayKey] | formatToID: idPrefix"
+          >
             <ion-col [ngClass]="conditionalStyles(data)">{{data[displayKey]}}</ion-col>
 
             <ion-col class="button-style" size="6">
-              <ion-icon
-                *ngIf="isActiveSelection(data)"
-                class="checkmark"
-                name="checkmark-sharp">
-              </ion-icon>
+              <ion-icon *ngIf="isActiveSelection(data)" class="checkmark" name="checkmark-sharp"> </ion-icon>
             </ion-col>
           </ion-item>
         </div>
@@ -47,9 +45,7 @@
     <ng-template #noResults>
       <ion-item>
         <ion-col>
-          <strong id="searchable-picklist-no-results-msg">
-            No results found
-          </strong>
+          <strong id="searchable-picklist-no-results-msg"> No results found </strong>
         </ion-col>
       </ion-item>
     </ng-template>
