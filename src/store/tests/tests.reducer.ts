@@ -1,5 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 import { Action, createFeatureSelector } from '@ngrx/store';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';

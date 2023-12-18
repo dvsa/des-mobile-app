@@ -13,7 +13,7 @@ import { getTestData } from '@store/tests/test-data/cat-manoeuvres/test-data.cat
 import { getManoeuvres } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.selector';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';

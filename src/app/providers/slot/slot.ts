@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import DeepDiff from 'deep-diff';
-import { flatten, get, groupBy, isEmpty, times } from 'lodash';
+import { flatten, get, groupBy, isEmpty, times } from 'lodash-es';
 import { Store } from '@ngrx/store';
 import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
 import { StoreModel } from '@shared/models/store.model';

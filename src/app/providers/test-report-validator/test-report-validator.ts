@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
@@ -38,7 +38,8 @@ export class TestReportValidatorProvider {
 
   constructor(
     private faultCountProvider: FaultCountProvider,
-  ) { }
+  ) {
+  }
 
   public isTestReportValid(data: object, category: TestCategory, isDelegated: boolean = false): boolean {
     switch (category) {
@@ -280,8 +281,8 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
-        && manoeuvre
-        && eco
+      && manoeuvre
+      && eco
     );
   }
 
@@ -293,7 +294,9 @@ export class TestReportValidatorProvider {
 
     if (!isDelegated) {
       if (!get(data, 'testRequirements.normalStart1', false)
-        && !get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart1);
+        && !get(data, 'testRequirements.normalStart2', false)) {
+        result.push(legalRequirementsLabels.normalStart1);
+      }
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
     if (isDelegated && !hasManoeuvreBeenCompletedCatC(data)) {
@@ -340,7 +343,9 @@ export class TestReportValidatorProvider {
 
     if (!isDelegated) {
       if (!get(data, 'testRequirements.normalStart1', false)
-        && !get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart1);
+        && !get(data, 'testRequirements.normalStart2', false)) {
+        result.push(legalRequirementsLabels.normalStart1);
+      }
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
     // only check for uncoupleRecouple/manoeuvre when delegated

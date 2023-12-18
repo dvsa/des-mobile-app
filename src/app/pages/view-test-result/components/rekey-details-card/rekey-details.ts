@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 

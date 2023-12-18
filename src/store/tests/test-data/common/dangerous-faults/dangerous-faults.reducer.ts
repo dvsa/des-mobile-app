@@ -1,6 +1,6 @@
 import { DangerousFaults } from '@dvsa/mes-test-schema/categories/common';
 import { createReducer, on } from '@ngrx/store';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import * as dangerousFaultsActions from './dangerous-faults.actions';
 
 export const initialState: DangerousFaults = {};

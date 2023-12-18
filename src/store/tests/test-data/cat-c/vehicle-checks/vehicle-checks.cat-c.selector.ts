@@ -4,7 +4,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { createFeatureSelector } from '@ngrx/store';
-import { some } from 'lodash';
+import { some } from 'lodash-es';
 
 export type CatCVehicleChecks =
   | CatCUniqueTypes.VehicleChecks

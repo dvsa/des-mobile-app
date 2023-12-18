@@ -5,7 +5,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getVehicleChecks } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { map, takeUntil } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
@@ -42,7 +42,8 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  constructor(private store$: Store<StoreModel>) { }
+  constructor(private store$: Store<StoreModel>) {
+  }
 
   ngOnInit(): void {
 
@@ -77,7 +78,9 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-    ).pipe(takeUntil(trDestroy$)).subscribe();
+    )
+      .pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {

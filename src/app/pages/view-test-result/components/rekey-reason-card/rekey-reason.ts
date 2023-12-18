@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RekeyReason, IpadIssue } from '@dvsa/mes-test-schema/categories/common';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'rekey-reason-card',
@@ -12,7 +12,7 @@ export class RekeyReasonCardComponent {
   data: RekeyReason;
 
   public get iPadIssue(): string {
-    const isIpadIssueSelected:boolean = get(this.data, 'ipadIssue.selected', false);
+    const isIpadIssueSelected: boolean = get(this.data, 'ipadIssue.selected', false);
     return isIpadIssueSelected ? RekeyReasonCardComponent.getIpadIssueDisplayText(get(this.data, 'ipadIssue')) : 'None';
   }
 

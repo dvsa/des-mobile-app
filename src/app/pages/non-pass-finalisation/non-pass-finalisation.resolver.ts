@@ -12,7 +12,7 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getBehaviourMapByCategory } from '@shared/helpers/behaviour-map-by-category';
 import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root',
@@ -27,10 +27,11 @@ export class NonPassFinalisationResolver {
     return forkJoin([
       this.getBehaviourMap(),
       this.getActivityCodeList(),
-    ]).pipe(
-      take(1),
-      catchError((err) => of(err)),
-    );
+    ])
+      .pipe(
+        take(1),
+        catchError((err) => of(err)),
+      );
   }
 
   private getBehaviourMap(): Observable<OutcomeBehaviourMapping> {
@@ -39,11 +40,13 @@ export class NonPassFinalisationResolver {
       select(getCurrentTest),
       select(getTestCategory),
       map((testCategory) => getBehaviourMapByCategory(testCategory as TestCategory)),
-    ).pipe(
-      take(1),
-      catchError((err) => of(err)),
-    );
+    )
+      .pipe(
+        take(1),
+        catchError((err) => of(err)),
+      );
   }
+
   private getActivityCodeList(): Observable<ActivityCodeModel[]> {
     return this.store$.pipe(
       select(getTests),
@@ -52,9 +55,10 @@ export class NonPassFinalisationResolver {
         get(test, 'delegatedTest', false),
         test.category === TestCategory.ADI3 || test.category === TestCategory.SC,
       )),
-    ).pipe(
-      take(1),
-      catchError((err) => of(err)),
-    );
+    )
+      .pipe(
+        take(1),
+        catchError((err) => of(err)),
+      );
   }
 }

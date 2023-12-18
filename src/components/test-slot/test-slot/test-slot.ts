@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { get, isNil } from 'lodash';
+import { get, isNil } from 'lodash-es';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

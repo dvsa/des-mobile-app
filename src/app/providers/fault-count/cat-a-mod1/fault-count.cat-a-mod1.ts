@@ -1,5 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { pickBy, get } from 'lodash';
+import { pickBy, get } from 'lodash-es';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 
@@ -9,7 +9,10 @@ export class FaultCountAM1Helper {
 
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const { singleFaultCompetencies, dangerousFaults } = data;
+    const {
+      singleFaultCompetencies,
+      dangerousFaults,
+    } = data;
 
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
     const controlledStopDangerousFaults = (
@@ -47,7 +50,10 @@ export class FaultCountAM1Helper {
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      seriousFaults, singleFaultCompetencies, emergencyStop, avoidance,
+      seriousFaults,
+      singleFaultCompetencies,
+      emergencyStop,
+      avoidance,
     } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
@@ -91,7 +97,10 @@ export class FaultCountAM1Helper {
 
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const { drivingFaults, singleFaultCompetencies } = data;
+    const {
+      drivingFaults,
+      singleFaultCompetencies,
+    } = data;
 
     const drivingFaultSumOfSimpleCompetencies = getCompetencyFaults(drivingFaults)
       .reduce(((res, faultSummary) => res + faultSummary.faultCount), 0);

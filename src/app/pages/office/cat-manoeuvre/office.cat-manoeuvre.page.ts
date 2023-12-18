@@ -3,7 +3,7 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { map, take, withLatestFrom } from 'rxjs/operators';
 import { UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
-import { startsWith } from 'lodash';
+import { startsWith } from 'lodash-es';
 
 import {
   CommonOfficePageState,

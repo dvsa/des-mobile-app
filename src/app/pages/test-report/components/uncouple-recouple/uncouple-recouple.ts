@@ -8,7 +8,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { map, takeUntil } from 'rxjs/operators';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import {
   ToggleUncoupleRecouple,
   UncoupleRecoupleAddDangerousFault,
@@ -110,7 +110,9 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       selectedUncoupleRecouple$.pipe(map((value) => this.selectedUncoupleRecouple = value)),
       uncoupleRecoupleOutcome$.pipe(map((outcome) => this.uncoupleRecoupleOutcome = outcome)),
-    ).pipe(takeUntil(trDestroy$)).subscribe();
+    )
+      .pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {

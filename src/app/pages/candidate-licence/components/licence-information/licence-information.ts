@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -58,7 +58,8 @@ export class LicenceInformation {
 
   get age(): number {
     const dob = get(this.candidateData, 'driverStandard.driver.dateOfBirth');
-    const age = new DateTime().diff(dob, Duration.YEAR);
+    const age = new DateTime()
+      .diff(dob, Duration.YEAR);
 
     return this.isPracticeMode
       ? this.bookingAge
@@ -73,7 +74,8 @@ export class LicenceInformation {
 
   get cardExpiryDate(): string {
     return this.isPracticeMode
-      ? new DateTime().add('5', 'years')
+      ? new DateTime()
+        .add('5', 'years')
         .format(this.displayDateFormat)
       : new DateTime(get(this.candidateData, 'driverStandard.token.validToDate'))
         .format(this.displayDateFormat);

@@ -2,7 +2,7 @@ import { ActivityCode, JournalData, TestResultCommonSchema } from '@dvsa/mes-tes
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
-import { get, startsWith } from 'lodash';
+import { get, startsWith } from 'lodash-es';
 import {
   ActivityCodeModel,
   activityCodeModelList,

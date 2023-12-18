@@ -1,7 +1,7 @@
 import {
   TestData, SingleFaultCompetencies, Avoidance, EmergencyStop,
 } from '@dvsa/mes-test-schema/categories/AM1';
-import { get, pickBy, startsWith } from 'lodash';
+import { get, pickBy, startsWith } from 'lodash-es';
 import { FaultSummary, CommentSource } from '@shared/models/fault-marking.model';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -84,7 +84,8 @@ export class FaultSummaryCatAM1Helper {
     const matchedCompetencies = pickBy(singleFaultCompetencies, (val) => val === outcome);
     const matchedComments = pickBy(
       singleFaultCompetencies,
-      (val, key) => Object.keys(matchedCompetencies).filter((value) => startsWith(key, value)).length > 0,
+      (val, key) => Object.keys(matchedCompetencies)
+        .filter((value) => startsWith(key, value)).length > 0,
     );
 
     return {
@@ -95,9 +96,9 @@ export class FaultSummaryCatAM1Helper {
   }
 
   public static createFaultSummary(competencyIdentifier: string,
-    competencyName: string,
-    competencyComments: string,
-    source: string = CommentSource.SIMPLE): FaultSummary {
+                                   competencyName: string,
+                                   competencyComments: string,
+                                   source: string = CommentSource.SIMPLE): FaultSummary {
     return {
       competencyIdentifier,
       source,

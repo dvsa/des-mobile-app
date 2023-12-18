@@ -6,7 +6,7 @@ import {
   TestData as CatADI3TestData,
   TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 @Injectable()
 export class ADI3AssessmentProvider {

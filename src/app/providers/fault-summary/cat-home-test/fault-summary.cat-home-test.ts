@@ -1,6 +1,6 @@
 import {
   endsWith, forOwn, transform, has, get,
-} from 'lodash';
+} from 'lodash-es';
 import { EyesightTest, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
@@ -17,18 +17,18 @@ import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-c
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 type HomeTestData = CatFUniqueTypes.TestData
-| CatGUniqueTypes.TestData
-| CatHUniqueTypes.TestData
-| CatKUniqueTypes.TestData;
+  | CatGUniqueTypes.TestData
+  | CatHUniqueTypes.TestData
+  | CatKUniqueTypes.TestData;
 
 type HomeTestVehicleChecks = CatFUniqueTypes.VehicleChecks
-| CatGUniqueTypes.VehicleChecks
-| CatHUniqueTypes.VehicleChecks
-| CatKUniqueTypes.VehicleChecks;
+  | CatGUniqueTypes.VehicleChecks
+  | CatHUniqueTypes.VehicleChecks
+  | CatKUniqueTypes.VehicleChecks;
 
 type HomeTestManoeuvres = CatFUniqueTypes.Manoeuvres
-| CatGUniqueTypes.Manoeuvres
-| CatHUniqueTypes.Manoeuvres;
+  | CatGUniqueTypes.Manoeuvres
+  | CatHUniqueTypes.Manoeuvres;
 
 export class FaultSummaryCatHomeTestHelper {
 
@@ -103,6 +103,7 @@ export class FaultSummaryCatHomeTestHelper {
 
     return [];
   }
+
   private static getEyesightTestSeriousFault(eyesightTest: EyesightTest): FaultSummary[] {
     if (!eyesightTest || !eyesightTest.seriousFault) {
       return [];
@@ -142,7 +143,7 @@ export class FaultSummaryCatHomeTestHelper {
       return result;
     }
 
-    let faultCount:number = 0;
+    let faultCount: number = 0;
 
     vehicleChecks.showMeQuestions.map((fault) => {
       if (fault.outcome === faultType) {

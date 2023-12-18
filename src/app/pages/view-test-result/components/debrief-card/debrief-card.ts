@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';

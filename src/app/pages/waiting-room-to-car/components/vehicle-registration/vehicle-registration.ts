@@ -2,7 +2,7 @@ import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import {
   FieldValidators,
   getRegistrationNumberValidator,

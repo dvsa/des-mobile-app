@@ -4,7 +4,7 @@ import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { createFeatureSelector } from '@ngrx/store';
-import { some } from 'lodash';
+import { some } from 'lodash-es';
 
 export type CatDSafetyQuestions =
   | CatDUniqueTypes.SafetyQuestions

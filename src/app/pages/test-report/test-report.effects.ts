@@ -29,11 +29,11 @@ import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergen
 import * as singleFaultCompetenciesActions
   from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import * as highwayCodeActions from
-  '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
+    '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { ActivityCode, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { of } from 'rxjs';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import {
   LessonPlanningOverallScoreChanged,
   LessonPlanningQuestionScoreChanged,
@@ -59,9 +59,9 @@ import * as testReportActions from './test-report.actions';
 export type NeverType<T> = T extends null ? never : T;
 
 export type ScoreChangedActions =
-    typeof LessonPlanningQuestionScoreChanged
-    | typeof RiskManagementQuestionScoreChanged
-    | typeof TeachingLearningStrategiesQuestionScoreChanged;
+  typeof LessonPlanningQuestionScoreChanged
+  | typeof RiskManagementQuestionScoreChanged
+  | typeof TeachingLearningStrategiesQuestionScoreChanged;
 
 @Injectable()
 export class TestReportEffects {
@@ -70,20 +70,22 @@ export class TestReportEffects {
     private actions$: Actions,
     private store$: Store<StoreModel>,
     private testResultProvider: TestResultProvider,
-  ) {}
+  ) {
+  }
 
   calculateTestResult$ = createEffect(() => this.actions$.pipe(
     ofType(
       testReportActions.CalculateTestResult,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+          ),
         ),
-      ),
-    )),
+      )),
     switchMap((
       [, currentTest]: [ReturnType<typeof testReportActions.CalculateTestResult>, NeverType<TestResultCommonSchema>],
     ) => {
@@ -154,14 +156,15 @@ export class TestReportEffects {
       highwayCodeActions.HighwayCodeSafetyRemoveFault,
       highwayCodeActions.ToggleHighwayCodeSafety,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-          map(isTestReportPracticeTest),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            map(isTestReportPracticeTest),
+          ),
         ),
-      ),
-    )),
+      )),
     filter(([, isTestReportPracticeTestValue]) => !isTestReportPracticeTestValue),
     delay(1000), // Added a 1-second delay allowing other action to complete/effects to fire
     map(() => testsActions.PersistTests()),
@@ -180,31 +183,32 @@ export class TestReportEffects {
       RiskManagementQuestionScoreChanged,
       TeachingLearningStrategiesQuestionScoreChanged,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
-          select(getTestData),
-          select(getLessonPlanning),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+            select(getTestData),
+            select(getLessonPlanning),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+            select(getTestData),
+            select(getRiskManagement),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+            select(getTestData),
+            select(getTeachingLearningStrategies),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
-          select(getTestData),
-          select(getRiskManagement),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
-          select(getTestData),
-          select(getTeachingLearningStrategies),
-        ),
-      ),
-    )),
+      )),
     concatMap((
       [, lessonPlanning, riskManagement, teachingLearningStrategies]:
-      [ReturnType<ScoreChangedActions>, LessonPlanning, RiskManagement, TeachingLearningStrategies],
+        [ReturnType<ScoreChangedActions>, LessonPlanning, RiskManagement, TeachingLearningStrategies],
     ) => {
       const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
       const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');

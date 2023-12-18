@@ -10,7 +10,7 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { map } from 'rxjs/operators';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { some } from 'lodash';
+import { some } from 'lodash-es';
 
 interface ManoeuvresFaultState {
   reverseRight: boolean;
@@ -32,7 +32,8 @@ export class ManoeuvresPopoverComponent {
   competencies = ManoeuvreCompetencies;
   manoeuvresWithFaults$: Observable<ManoeuvresFaultState>;
 
-  constructor(private store$: Store<StoreModel>) { }
+  constructor(private store$: Store<StoreModel>) {
+  }
 
   ngOnInit(): void {
     this.manoeuvres$ = this.store$.pipe(
@@ -54,6 +55,7 @@ export class ManoeuvresPopoverComponent {
   recordManoeuvreSelection(manoeuvre: ManoeuvreTypes): void {
     this.store$.dispatch(RecordManoeuvresSelection(manoeuvre));
   }
+
   /**
    * @param  {string} manoeuvre
    * @returns Observable<boolean>
@@ -64,7 +66,10 @@ export class ManoeuvresPopoverComponent {
   shouldManoeuvreDisable(manoeuvre: Exclude<ManoeuvreTypes, ManoeuvreTypes.reverseManoeuvre>): Observable<boolean> {
     return this.manoeuvresWithFaults$.pipe(
       map((manoeuvresWithFaults: ManoeuvresFaultState) => {
-        const { [manoeuvre]: manoeuvreToOmit, ...otherManoeuvres } = manoeuvresWithFaults;
+        const {
+          [manoeuvre]: manoeuvreToOmit,
+          ...otherManoeuvres
+        } = manoeuvresWithFaults;
         return some(otherManoeuvres, (value: boolean) => value);
       }),
     );
@@ -72,7 +77,7 @@ export class ManoeuvresPopoverComponent {
 
   manoeuvreHasFaults = (manoeuvre): boolean => (
     manoeuvre && (manoeuvre.controlFault != null
-    || manoeuvre.observationFault != null));
+      || manoeuvre.observationFault != null));
 
   getId = (manoeuvre: ManoeuvreTypes, competency: ManoeuvreCompetencies) => `${manoeuvre}-${competency}`;
 }

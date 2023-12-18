@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { TestDetailsModel } from './test-details-card.model';
 
 export type CandidateDetails = { prn: number; attemptNumber: number; };

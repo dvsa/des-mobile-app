@@ -1,6 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionProvider } from '@providers/question/question';

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import {
   Accompaniment,
   CategoryCode,

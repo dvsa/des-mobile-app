@@ -39,7 +39,7 @@ import {
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';

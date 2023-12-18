@@ -16,7 +16,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { omit, some } from 'lodash';
+import { omit, some } from 'lodash-es';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 interface ManoeuvresFaultState {
@@ -40,7 +40,8 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   subscription: Subscription;
   merged$: Observable<ManoeuvreTypes[]>;
 
-  constructor(private store$: Store<StoreModel>) { }
+  constructor(private store$: Store<StoreModel>) {
+  }
 
   ngOnInit(): void {
     this.manoeuvres$ = this.store$.pipe(
@@ -66,9 +67,10 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
         map((manoeuvres: CatADI2UniqueTypes.Manoeuvres[]) => {
           return [
             ...manoeuvres.map((manoeuvre) => {
-              return Object.keys(manoeuvre).find((manoeuvreType: ManoeuvreTypes) => {
-                return manoeuvre[manoeuvreType].selected === true;
-              });
+              return Object.keys(manoeuvre)
+                .find((manoeuvreType: ManoeuvreTypes) => {
+                  return manoeuvre[manoeuvreType].selected === true;
+                });
             }),
           ];
         }),
@@ -84,7 +86,8 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
       ),
     );
 
-    this.subscription = this.merged$.pipe(takeUntil(trDestroy$)).subscribe();
+    this.subscription = this.merged$.pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   recordManoeuvreSelection(manoeuvreType: ManoeuvreTypes, index: number): void {
@@ -102,7 +105,9 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   shouldManoeuvreDisable(manoeuvre: ManoeuvreTypes, index: number): Observable<boolean> {
     return this.manoeuvresWithFaults$.pipe(
       map((manoeuvresWithFaults: ManoeuvresFaultState[]) => {
-        if (manoeuvre === ManoeuvreTypes.reverseLeft) { return true; }
+        if (manoeuvre === ManoeuvreTypes.reverseLeft) {
+          return true;
+        }
 
         const otherManoeuvres = omit(manoeuvresWithFaults[index], manoeuvre);
         return some(otherManoeuvres, (value: boolean) => value);
@@ -118,15 +123,18 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
    * Tells the input whether the same ManoeuvreType has selected in the preceeding Manoeuvre
    */
   shouldHideManoeuvre(manoeuvre: ManoeuvreTypes, index: number): Observable<boolean> {
-    if (index === 0) { return of(false); }
+    if (index === 0) {
+      return of(false);
+    }
 
     let prerequisiteManoeuvreSelected: string;
 
     return this.manoeuvres$.pipe(
       map((manoeuvres) => {
-        prerequisiteManoeuvreSelected = Object.keys(manoeuvres[0]).find(
-          (manoeuvreName) => manoeuvres[0][manoeuvreName].selected,
-        );
+        prerequisiteManoeuvreSelected = Object.keys(manoeuvres[0])
+          .find(
+            (manoeuvreName) => manoeuvres[0][manoeuvreName].selected,
+          );
 
         return !prerequisiteManoeuvreSelected || manoeuvre === prerequisiteManoeuvreSelected;
       }),
@@ -136,7 +144,7 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   manoeuvreHasFaults = (manoeuvre): boolean => (
     manoeuvre
     && (manoeuvre.controlFault != null
-    || manoeuvre.observationFault != null)
+      || manoeuvre.observationFault != null)
   );
 
   getId = (manoeuvre: ManoeuvreTypes, competency: ManoeuvreCompetencies, index: number) => {

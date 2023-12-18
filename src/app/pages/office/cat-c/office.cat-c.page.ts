@@ -5,7 +5,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { startsWith } from 'lodash';
+import { startsWith } from 'lodash-es';
 
 import {
   CommonOfficePageState,

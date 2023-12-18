@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   CatDTestData,

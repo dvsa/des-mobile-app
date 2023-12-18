@@ -1,4 +1,4 @@
-import { pickBy, endsWith, sumBy } from 'lodash';
+import { pickBy, endsWith, sumBy } from 'lodash-es';
 import { Manoeuvres, Manoeuvre } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { CompetencyOutcome } from '../models/competency-outcome';

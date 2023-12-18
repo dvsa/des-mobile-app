@@ -1,6 +1,6 @@
 import {
   endsWith, forOwn, get, transform,
-} from 'lodash';
+} from 'lodash-es';
 import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
-import { isEmpty, startsWith } from 'lodash';
+import { isEmpty, startsWith } from 'lodash-es';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
@@ -227,7 +227,8 @@ export class TestOutcomeComponent implements OnInit {
         this.category,
         true,
         false,
-        DateTime.at(this.slotDetail.start).format('YYYY-MM-DD'),
+        DateTime.at(this.slotDetail.start)
+          .format('YYYY-MM-DD'),
       ));
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));

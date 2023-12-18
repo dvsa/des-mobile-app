@@ -1,4 +1,4 @@
-import { endsWith, forOwn, transform } from 'lodash';
+import { endsWith, forOwn, transform } from 'lodash-es';
 import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';

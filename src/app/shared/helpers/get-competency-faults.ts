@@ -1,4 +1,4 @@
-import { forOwn, isBoolean, isNumber } from 'lodash';
+import { forOwn, isBoolean, isNumber } from 'lodash-es';
 import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { DrivingFaults, SeriousFaults, DangerousFaults } from '@dvsa/mes-test-schema/categories/common';
 import { CompetencyIdentifiers, FaultSummary, CommentSource } from '../models/fault-marking.model';
@@ -7,7 +7,7 @@ import { CompetencyOutcome } from '../models/competency-outcome';
 
 const competencyOutcomes = [CompetencyOutcome.DF, CompetencyOutcome.S, CompetencyOutcome.D];
 
-export const calculateFaultCount = (value: number | boolean | CompetencyOutcome) : number => {
+export const calculateFaultCount = (value: number | boolean | CompetencyOutcome): number => {
   if (isBoolean(value)) {
     return value ? 1 : 0;
   }

@@ -5,7 +5,7 @@ import { select } from '@ngrx/store';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 
 import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';

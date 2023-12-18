@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { get, has, isEmpty } from 'lodash';
+import { get, has, isEmpty } from 'lodash-es';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 

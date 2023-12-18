@@ -1,5 +1,5 @@
 import { CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 
 export const getCommunicationPreferenceUpdatedEmail = (

@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 
 @Component({
   selector: 'safety-question',
@@ -74,6 +74,7 @@ export class SafetyQuestionComponent implements OnChanges {
   isInvalid(): boolean {
     if (this.submitClicked) {
       return !this.safetyQuestionOutcomeFormControl.valid;
-    } return false;
+    }
+    return false;
   }
 }

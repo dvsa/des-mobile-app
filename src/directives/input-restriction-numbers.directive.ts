@@ -1,11 +1,12 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { includes } from 'lodash';
+import { includes } from 'lodash-es';
 
 @Directive({
   selector: '[numbersOnly]',
 })
 export class InputRestrictionNumbersDirective {
-  constructor(public el: ElementRef) {}
+  constructor(public el: ElementRef) {
+  }
 
   // Allow usage of control keys aswell as numbers, useful for the browser
   controlKeys = ['ArrowRight', 'ArrowLeft', 'Backspace'];

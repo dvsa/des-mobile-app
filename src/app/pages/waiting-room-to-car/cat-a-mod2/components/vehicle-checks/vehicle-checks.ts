@@ -4,7 +4,7 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
 import {
@@ -81,10 +81,10 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl({
-        value: 'Select questions',
-        disabled: false,
-      },
-      [this.validateVehicleChecks.bind(this)]);
+          value: 'Select questions',
+          disabled: false,
+        },
+        [this.validateVehicleChecks.bind(this)]);
       this.formGroup.addControl('safetyAndBalanceSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');

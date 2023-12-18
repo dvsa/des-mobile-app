@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import {
   SearchablePicklistModalEvent,
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';

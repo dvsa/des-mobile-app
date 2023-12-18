@@ -1,6 +1,6 @@
 import { DrivingFaults } from '@dvsa/mes-test-schema/categories/common';
 import { createReducer, on } from '@ngrx/store';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import * as drivingFaultsActions from './driving-faults.actions';
 
 export const initialState: DrivingFaults = {};
@@ -21,7 +21,10 @@ export const drivingFaultsReducer = createReducer(
       [faultPayload.competency]: faultPayload.newFaultCount,
     };
   }),
-  on(drivingFaultsActions.AddDrivingFaultComment, (state, { competencyName, comment }): DrivingFaults => ({
+  on(drivingFaultsActions.AddDrivingFaultComment, (state, {
+    competencyName,
+    comment,
+  }): DrivingFaults => ({
     ...state,
     [`${competencyName}Comments`]: comment,
   })),

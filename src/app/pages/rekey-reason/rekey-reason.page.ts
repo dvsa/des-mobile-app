@@ -6,7 +6,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { UntypedFormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { LoadingOptions } from '@ionic/core';
 
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
