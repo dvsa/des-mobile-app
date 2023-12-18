@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProvider } from '@providers/search/search';
-import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   RekeySearchActions,
@@ -36,7 +35,7 @@ export class RekeySearchEffects {
             SearchBookedTestFailure({ message: RekeySearchErrorMessages.BookingAlreadyCompleted }),
           )),
           catchError((err: HttpErrorResponse): Observable<RekeySearchActions> => {
-            if (err.status === HttpStatusCodes.BAD_REQUEST) {
+            if (err.status === HttpStatusCode.BadRequest) {
               const rekeySearchParams = {
                 applicationReference: action.appRef,
                 staffNumber: action.staffNumber,

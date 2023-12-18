@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { switchMap, catchError } from 'rxjs/operators';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SearchProvider } from '@providers/search/search';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
-import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import {
+  DelegatedRekeySearchActions,
   SearchBookedDelegatedTest,
+  SearchBookedDelegatedTestFailure,
   SearchBookedDelegatedTestSuccess,
-  SearchBookedDelegatedTestFailure, DelegatedRekeySearchActions,
 } from './delegated-rekey-search.actions';
 import { DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
 
@@ -36,7 +36,7 @@ export class DelegatedRekeySearchEffects {
             }));
           }),
           catchError((err: HttpErrorResponse): Observable<DelegatedRekeySearchActions> => {
-            if (err.status === HttpStatusCodes.BAD_REQUEST) {
+            if (err.status === HttpStatusCode.BadRequest) {
               return this.delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef(action.appRef)
                 .pipe(
                   switchMap((response: any): Observable<any> => {

@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/capacitor';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -44,7 +44,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
       // don't report missing apiKey errors that can be seen via Logs service;
       if (
         error instanceof HttpErrorResponse
-        && error?.status === 403
+        && error?.status === HttpStatusCode.Forbidden
         && error?.url?.includes('logs')
       ) {
         return;

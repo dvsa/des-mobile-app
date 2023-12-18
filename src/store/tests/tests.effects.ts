@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, interval, of } from 'rxjs';
 import { Action, select, Store } from '@ngrx/store';
 import { find, has, omit, startsWith } from 'lodash';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -31,7 +31,6 @@ import {
 import { version } from '@environments/test-schema-version';
 import { StoreModel } from '@shared/models/store.model';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import {
   D255No,
@@ -397,7 +396,7 @@ export class TestsEffects {
           switchMap((responses: HttpResponse<any>[]) => {
             return responses.map((response, index) => {
               const matchedTests = find(completedTests, ['index', index]);
-              if (response.status === HttpStatusCodes.CREATED) {
+              if (response.status === HttpStatusCode.Created) {
                 return (matchedTests.status === TestStatus.WriteUp)
                   ? testActions.SendPartialTestSuccess(matchedTests.slotId, matchedTests.status)
                   : testActions.SendCompletedTestSuccess(matchedTests.slotId, matchedTests.status);
@@ -470,10 +469,10 @@ export class TestsEffects {
       return this.testSubmissionProvider.submitTest(testToSubmit)
         .pipe(
           map((response: HttpResponse<any> | HttpErrorResponse) => {
-            if (response.status === HttpStatusCodes.CREATED) {
+            if (response.status === HttpStatusCode.Created) {
               return testActions.SendCurrentTestSuccess();
             }
-            return testActions.SendCurrentTestFailure(response.status === HttpStatusCodes.CONFLICT);
+            return testActions.SendCurrentTestFailure(response.status === HttpStatusCode.Conflict);
           }),
         );
     }),
