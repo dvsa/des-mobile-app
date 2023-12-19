@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
-import * as moment from 'moment';
 import { get } from 'lodash';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-result.actions';
@@ -38,6 +37,7 @@ import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessme
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
+import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
   selector: '.view-test-result',
@@ -153,7 +153,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       return null;
     }
 
-    const startDate: moment.Moment = moment(get(this.testResult, 'journalData.testSlotAttributes.start'));
+    const startDate = DateTime.at(get(this.testResult, 'journalData.testSlotAttributes.start'));
 
     return {
       date: startDate.format('dddd Do MMMM YYYY'),

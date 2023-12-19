@@ -1,7 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select } from '@ngrx/store';
-import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TrueLikenessToPhotoChanged } from '@store/tests/test-summary/test-summary.actions';
@@ -37,6 +36,7 @@ import {
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 interface CandidateLicencePageState {
   candidateUntitledName$: Observable<string>;
@@ -116,8 +116,8 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         select(getJournalData),
         select(getCandidate),
         select(getDateOfBirth),
-        map((dateOfBirth: string) => moment()
-          .diff(dateOfBirth, 'years')),
+        map((dateOfBirth: string) => new DateTime()
+          .diff(dateOfBirth, Duration.YEAR)),
       ),
       candidateData$: currentTest$.pipe(
         select(getJournalData),

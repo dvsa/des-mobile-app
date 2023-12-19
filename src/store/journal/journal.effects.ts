@@ -37,7 +37,6 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import * as moment from 'moment';
 import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
@@ -233,11 +232,12 @@ export class JournalEffects {
     }),
     switchMap(([, staffNumber]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
+      const dateTime = new DateTime();
       const advancedSearchParams: AdvancedSearchParams = {
-        startDate: moment()
-          .subtract(numberOfDaysToView, 'days')
+        startDate: dateTime
+          .subtract(numberOfDaysToView, Duration.DAY)
           .format('YYYY-MM-DD'),
-        endDate: moment()
+        endDate: dateTime
           .format('YYYY-MM-DD'),
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',

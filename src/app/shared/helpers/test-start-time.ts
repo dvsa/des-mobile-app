@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 export const PRESS_TIME_TO_ENABLE_EDIT = 10000;
 
@@ -8,12 +8,13 @@ export const PRESS_TIME_TO_ENABLE_EDIT = 10000;
 export function getNewTestStartTime(inputDate: string, startDateTime: string): string {
   const date = inputDate.trim();
 
-  const dateArray = date.split('-').map((d) => parseInt(d, 10));
+  const dateArray = date.split('-')
+    .map((d) => parseInt(d, 10));
   const year = dateArray[0];
   const month = dateArray[1];
   const day = dateArray[2];
 
-  const startDateTemp = moment(startDateTime);
+  const startDateTemp = new DateTime(startDateTime).moment;
 
   startDateTemp.date(day);
   startDateTemp.month(month - 1);
@@ -30,13 +31,13 @@ export function getNewTestStartTime(inputDate: string, startDateTime: string): s
  */
 export function isValidStartDate(inputDate: string, currentDate: string): boolean {
 
-  if (moment(inputDate).isAfter(currentDate)) {
-
+  if (DateTime.at(inputDate)
+    .isAfter(currentDate)) {
     // inputDate is in the future
     return false;
   }
 
-  if (moment(currentDate).diff(inputDate, 'year', true) > 1) {
+  if (new DateTime(currentDate).diff(inputDate, Duration.YEAR, true) > 1) {
 
     // inputDate is more than one year in the past
     return false;

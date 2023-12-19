@@ -37,7 +37,7 @@ import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-tim
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
-import * as moment from 'moment';
+import { DateTime } from '@shared/helpers/date-time';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
@@ -114,7 +114,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestStartTime),
-        map((time: string) => time || moment()
+        map((time: string) => time || new DateTime()
           .toISOString()),
       ),
       testEndTime$: currentTest$.pipe(
@@ -123,7 +123,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestEndTime),
-        map((time: string) => time || moment()
+        map((time: string) => time || new DateTime()
           .add(1, 'hour')
           .toISOString()),
       ),

@@ -69,10 +69,10 @@ import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-tim
 import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
-import * as moment from 'moment';
 import {
   TestFinalisationInvalidTestDataModal,
 } from '../test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -292,7 +292,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestStartTime),
-        map((time: string) => time || moment()
+        map((time: string) => time || new DateTime()
           .toISOString()),
       ),
       testEndTime$: currentTest$.pipe(
@@ -300,8 +300,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestEndTime),
-        map((time: string) => time || moment()
-          .add(1, 'hour')
+        map((time: string) => time || new DateTime()
+          .add(1, Duration.HOUR)
           .toISOString()),
       ),
     };

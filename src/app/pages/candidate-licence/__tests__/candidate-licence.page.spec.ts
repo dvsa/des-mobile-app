@@ -34,12 +34,12 @@ import { DriverPhotograph } from '@dvsa/mes-driver-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestsModel } from '@store/tests/tests.model';
-import * as moment from 'moment';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 describe('CandidateLicencePage', () => {
   let component: CandidateLicencePage;
@@ -180,8 +180,8 @@ describe('CandidateLicencePage', () => {
         });
         component.pageState.age$.subscribe((val) => {
           expect(val)
-            .toEqual(moment()
-              .diff('2000-01-01', 'years'));
+            .toEqual(new DateTime()
+              .diff('2000-01-01', Duration.YEAR));
         });
       });
     });
