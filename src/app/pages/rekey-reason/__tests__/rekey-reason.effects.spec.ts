@@ -1,9 +1,9 @@
-import { ReplaySubject, defer } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { defer, ReplaySubject } from 'rxjs';
+import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { FindUserProvider } from '@providers/find-user/find-user';
 import { FindUserProviderMock } from '@providers/find-user/__mocks__/find-user.mock';
@@ -43,7 +43,10 @@ describe('RekeyReasonEffects', () => {
       providers: [
         RekeyReasonEffects,
         provideMockActions(() => actions$),
-        { provide: FindUserProvider, useClass: FindUserProviderMock },
+        {
+          provide: FindUserProvider,
+          useClass: FindUserProviderMock,
+        },
         Store,
       ],
     });
@@ -66,8 +69,11 @@ describe('RekeyReasonEffects', () => {
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
         // ASSERT
         effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(testActions.SendCurrentTest());
-          expect(findUserProvider.userExists).not.toHaveBeenCalled();
+          expect(res)
+            .toEqual(testActions.SendCurrentTest());
+          expect(findUserProvider.userExists)
+            .not
+            .toHaveBeenCalled();
           done();
         });
       });
@@ -78,16 +84,20 @@ describe('RekeyReasonEffects', () => {
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(789));
-        spyOn(findUserProvider, 'userExists').and.returnValue(asyncSuccess(new HttpResponse({
-          status: 200,
-          statusText: 'OK',
-        })));
+        spyOn(findUserProvider, 'userExists')
+          .and
+          .returnValue(asyncSuccess(new HttpResponse({
+            status: HttpStatusCode.Ok,
+            statusText: 'OK',
+          })));
         // ACT
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
         // ASSERT
         effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(testActions.SendCurrentTest());
-          expect(findUserProvider.userExists).toHaveBeenCalled();
+          expect(res)
+            .toEqual(testActions.SendCurrentTest());
+          expect(findUserProvider.userExists)
+            .toHaveBeenCalled();
           done();
         });
       });
@@ -96,27 +106,33 @@ describe('RekeyReasonEffects', () => {
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(57463524));
-        spyOn(findUserProvider, 'userExists').and.returnValue(asyncError(new HttpErrorResponse({
-          error: 'Error message',
-          status: 404,
-          statusText: 'Not Found',
-        })));
+        spyOn(findUserProvider, 'userExists')
+          .and
+          .returnValue(asyncError(new HttpErrorResponse({
+            error: 'Error message',
+            status: HttpStatusCode.NotFound,
+            statusText: 'Not Found',
+          })));
         // ACT
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
         // ASSERT
         effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(true));
-          expect(findUserProvider.userExists).toHaveBeenCalled();
+          expect(res)
+            .toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(true));
+          expect(findUserProvider.userExists)
+            .toHaveBeenCalled();
           done();
         });
       });
       it('should return a failure action with a false payload when the find user provider errors', (done) => {
         // ARRANGE
-        spyOn(findUserProvider, 'userExists').and.returnValue(asyncError(new HttpErrorResponse({
-          error: 'Error message',
-          status: 401,
-          statusText: 'OK',
-        })));
+        spyOn(findUserProvider, 'userExists')
+          .and
+          .returnValue(asyncError(new HttpErrorResponse({
+            error: 'Error message',
+            status: HttpStatusCode.Unauthorized,
+            statusText: 'OK',
+          })));
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(789));
@@ -124,8 +140,10 @@ describe('RekeyReasonEffects', () => {
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
         // ASSERT
         effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(false));
-          expect(findUserProvider.userExists).toHaveBeenCalled();
+          expect(res)
+            .toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(false));
+          expect(findUserProvider.userExists)
+            .toHaveBeenCalled();
           done();
         });
       });

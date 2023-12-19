@@ -13,7 +13,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { interval, Observable, of, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Action, select, Store } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -26,7 +26,6 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
-import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
@@ -43,7 +42,7 @@ import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
-import { LoadCompletedTests, LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
+import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
@@ -112,7 +111,7 @@ export class JournalEffects {
               )),
               catchError((err: HttpErrorResponse) => {
                 // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
-                if (err.status === HttpStatusCodes.NOT_MODIFIED) {
+                if (err.status === HttpStatusCode.NotModified) {
                   return of(journalActions.LoadJournalSuccess(
                     {
                       examiner,
@@ -219,8 +218,7 @@ export class JournalEffects {
           ),
         ),
       )),
-    filter(([action, , hasStarted, completedTests]:
-    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
+    filter(([action, , hasStarted, completedTests]) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
         return false;

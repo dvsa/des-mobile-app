@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 export class TestSubmissionProviderMock {
@@ -7,9 +7,9 @@ export class TestSubmissionProviderMock {
   submitTests = jasmine.createSpy('submitTests')
     .and
     .returnValue(of([
-      new HttpResponse({ status: 201 }),
-      new HttpResponse({ status: 201 }),
-      new HttpErrorResponse({ status: 500 }),
+      new HttpResponse({ status: HttpStatusCode.Created }),
+      new HttpResponse({ status: HttpStatusCode.Created }),
+      new HttpErrorResponse({ status: HttpStatusCode.InternalServerError }),
     ]));
 
   buildUrl = jasmine
