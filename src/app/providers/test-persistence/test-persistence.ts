@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Injectable } from '@angular/core';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';

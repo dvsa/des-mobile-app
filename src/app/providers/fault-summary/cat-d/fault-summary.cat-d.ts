@@ -1,6 +1,6 @@
 import {
   endsWith, forOwn, get, transform,
-} from 'lodash';
+} from 'lodash-es';
 import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
@@ -19,10 +19,10 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 export type PcvDoorExerciseTypes =
-| CatDUniqueTypes.PcvDoorExercise
-| CatDEUniqueTypes.PcvDoorExercise
-| CatD1UniqueTypes.PcvDoorExercise
-| CatD1EUniqueTypes.PcvDoorExercise;
+  | CatDUniqueTypes.PcvDoorExercise
+  | CatDEUniqueTypes.PcvDoorExercise
+  | CatD1UniqueTypes.PcvDoorExercise
+  | CatD1EUniqueTypes.PcvDoorExercise;
 
 export type SafetyQuestionsTypes =
   | CatDUniqueTypes.SafetyQuestions

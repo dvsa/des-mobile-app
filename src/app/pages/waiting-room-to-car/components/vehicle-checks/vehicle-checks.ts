@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';

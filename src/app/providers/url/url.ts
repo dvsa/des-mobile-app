@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isNil } from 'lodash';
+import { isNil } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()
@@ -7,7 +7,8 @@ export class UrlProvider {
 
   constructor(
     public appConfigProvider: AppConfigProvider,
-  ) { }
+  ) {
+  }
 
   getPersonalJournalUrl(staffNumber: string): string {
     const urlTemplate = this.appConfigProvider.getAppConfig()?.journal.journalUrl;

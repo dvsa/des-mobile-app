@@ -1,6 +1,6 @@
 import { SeriousFaults } from '@dvsa/mes-test-schema/categories/common';
 import { createReducer, on } from '@ngrx/store';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import * as seriousFaultsActions from './serious-faults.actions';
 
 export const initialState: SeriousFaults = {};

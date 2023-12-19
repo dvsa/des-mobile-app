@@ -1,6 +1,6 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Booking } from '@dvsa/mes-journal-schema';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { PopulateCandidateDetails } from './candidate.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';

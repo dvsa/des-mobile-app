@@ -28,7 +28,7 @@ import {
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { startsWith } from 'lodash';
+import { startsWith } from 'lodash-es';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';

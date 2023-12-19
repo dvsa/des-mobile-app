@@ -1,7 +1,7 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { createFeatureSelector } from '@ngrx/store';
-import { some } from 'lodash';
+import { some } from 'lodash-es';
 
 export const getSelectedShowMeQuestions = (
   vehicleChecks: CatADI2UniqueTypes.VehicleChecks,

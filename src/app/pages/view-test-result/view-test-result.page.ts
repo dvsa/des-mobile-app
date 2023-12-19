@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-result.actions';
 import { of, Subscription } from 'rxjs';

@@ -1,4 +1,4 @@
-import { pickBy, get } from 'lodash';
+import { pickBy, get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
@@ -10,10 +10,10 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 
 type CatCVehicleCheckUnion =
-    CatCUniqueTypes.VehicleChecks |
-    CatC1UniqueTypes.VehicleChecks |
-    CatCEUniqueTypes.VehicleChecks |
-    CatC1EUniqueTypes.VehicleChecks;
+  CatCUniqueTypes.VehicleChecks |
+  CatC1UniqueTypes.VehicleChecks |
+  CatCEUniqueTypes.VehicleChecks |
+  CatC1EUniqueTypes.VehicleChecks;
 
 export class FaultCountCHelper {
 
@@ -70,7 +70,10 @@ export class FaultCountCHelper {
   ): VehicleChecksScore => {
 
     if (!vehicleChecks) {
-      return { seriousFaults: 0, drivingFaults: 0 };
+      return {
+        seriousFaults: 0,
+        drivingFaults: 0,
+      };
     }
 
     const showMeQuestions: QuestionResult[] = get(vehicleChecks, 'showMeQuestions', []);
@@ -102,7 +105,10 @@ export class FaultCountCHelper {
   ): VehicleChecksScore => {
 
     if (!vehicleChecks) {
-      return { seriousFaults: 0, drivingFaults: 0 };
+      return {
+        seriousFaults: 0,
+        drivingFaults: 0,
+      };
     }
 
     const smQ1 = get(vehicleChecks, 'showMeQuestions[0]');
@@ -138,10 +144,17 @@ export class FaultCountCHelper {
 
     // The way how we store the driving faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const { drivingFaults, manoeuvres, vehicleChecks } = data;
+    const {
+      drivingFaults,
+      manoeuvres,
+      vehicleChecks,
+    } = data;
 
     let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults).forEach((fault) => { faultTotal += fault.faultCount; });
+    getCompetencyFaults(drivingFaults)
+      .forEach((fault) => {
+        faultTotal += fault.faultCount;
+      });
 
     const result = faultTotal
       + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF)
@@ -157,11 +170,17 @@ export class FaultCountCHelper {
     // The way how we store the driving faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      drivingFaults, manoeuvres, vehicleChecks, uncoupleRecouple,
+      drivingFaults,
+      manoeuvres,
+      vehicleChecks,
+      uncoupleRecouple,
     } = data;
 
     let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults).forEach((fault) => { faultTotal += fault.faultCount; });
+    getCompetencyFaults(drivingFaults)
+      .forEach((fault) => {
+        faultTotal += fault.faultCount;
+      });
     const uncoupleRecoupleHasDrivingFault = (uncoupleRecouple
       && uncoupleRecouple.fault === CompetencyOutcome.DF) ? 1 : 0;
 
@@ -179,7 +198,11 @@ export class FaultCountCHelper {
 
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const { seriousFaults, manoeuvres, vehicleChecks } = data;
+    const {
+      seriousFaults,
+      manoeuvres,
+      vehicleChecks,
+    } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
     const vehicleCheckSeriousFaults = vehicleChecks
@@ -199,7 +222,10 @@ export class FaultCountCHelper {
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      seriousFaults, manoeuvres, vehicleChecks, uncoupleRecouple,
+      seriousFaults,
+      manoeuvres,
+      vehicleChecks,
+      uncoupleRecouple,
     } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
@@ -221,7 +247,10 @@ export class FaultCountCHelper {
 
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const { dangerousFaults, manoeuvres } = data;
+    const {
+      dangerousFaults,
+      manoeuvres,
+    } = data;
 
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
 
@@ -237,7 +266,11 @@ export class FaultCountCHelper {
 
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const { dangerousFaults, manoeuvres, uncoupleRecouple } = data;
+    const {
+      dangerousFaults,
+      manoeuvres,
+      uncoupleRecouple,
+    } = data;
 
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
     const uncoupleRecoupleDangerousFaults = (uncoupleRecouple

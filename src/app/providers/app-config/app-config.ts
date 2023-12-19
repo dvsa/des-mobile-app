@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
-import { isEmpty, merge } from 'lodash';
+import { isEmpty, merge } from 'lodash-es';
 import { ValidationError, ValidatorResult } from 'jsonschema';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';

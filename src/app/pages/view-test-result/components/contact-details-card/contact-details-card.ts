@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Candidate, CommunicationPreferences, Address } from '@dvsa/mes-test-schema/categories/common';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 
 @Component({

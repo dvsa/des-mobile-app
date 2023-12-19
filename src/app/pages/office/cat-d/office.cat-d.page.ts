@@ -34,7 +34,7 @@ import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { startsWith } from 'lodash';
+import { startsWith } from 'lodash-es';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';

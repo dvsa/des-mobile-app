@@ -1,7 +1,7 @@
 import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { createReducer, on } from '@ngrx/store';
 
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import * as singleFaultCompetencyActions from './single-fault-competencies.actions';
 
 export const initialState: SingleFaultCompetencies = {};

@@ -20,7 +20,7 @@ import {
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {

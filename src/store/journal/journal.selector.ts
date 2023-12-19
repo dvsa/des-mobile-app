@@ -1,4 +1,4 @@
-import { flatten, get, isNil } from 'lodash';
+import { flatten, get, isNil } from 'lodash-es';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';

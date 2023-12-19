@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';
 import { select } from '@ngrx/store';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import { BasePageComponent } from '@shared/classes/base-page';

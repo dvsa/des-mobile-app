@@ -1,6 +1,6 @@
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { VehicleChecks } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import * as vehicleChecksCatADI2ActionTypes from '../vehicle-checks.cat-adi-part2.action';
 import {
@@ -23,8 +23,10 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       };
       const state: CatADI2UniqueTypes.VehicleChecks = cloneDeep(initialState);
       const result = vehicleChecksCatADI2Reducer(state, TellMeQuestionSelected(newQuestionPayload, 1));
-      expect(result.tellMeQuestions[1].code).toEqual('T01');
-      expect(result.tellMeQuestions[1].description).toEqual('desc');
+      expect(result.tellMeQuestions[1].code)
+        .toEqual('T01');
+      expect(result.tellMeQuestions[1].description)
+        .toEqual('desc');
     });
   });
 
@@ -37,7 +39,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
         outcome: 'P',
       };
       const result = vehicleChecksCatADI2Reducer(state, TellMeQuestionOutcomeChanged('DF', 1));
-      expect(result.tellMeQuestions[1].outcome).toEqual('DF');
+      expect(result.tellMeQuestions[1].outcome)
+        .toEqual('DF');
     });
   });
 
@@ -46,7 +49,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       const state: CatADI2UniqueTypes.VehicleChecks = cloneDeep(initialState);
       const result = vehicleChecksCatADI2Reducer(state, AddShowMeTellMeComment('So many mistakes.'));
 
-      expect(result.showMeTellMeComments).toEqual('So many mistakes.');
+      expect(result.showMeTellMeComments)
+        .toEqual('So many mistakes.');
     });
   });
 
@@ -55,7 +59,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       const result = vehicleChecksCatADI2Reducer(
         {}, vehicleChecksCatADI2ActionTypes.VehicleChecksAddSeriousFault(),
       );
-      expect(result).toEqual({ seriousFault: true });
+      expect(result)
+        .toEqual({ seriousFault: true });
     });
   });
 
@@ -64,7 +69,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       const result = vehicleChecksCatADI2Reducer(
         {}, vehicleChecksCatADI2ActionTypes.VehicleChecksAddDangerousFault(),
       );
-      expect(result).toEqual({ dangerousFault: true });
+      expect(result)
+        .toEqual({ dangerousFault: true });
     });
   });
 
@@ -73,7 +79,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       const result = vehicleChecksCatADI2Reducer(
         {}, vehicleChecksCatADI2ActionTypes.VehicleChecksRemoveSeriousFault(),
       );
-      expect(result).toEqual({ seriousFault: false });
+      expect(result)
+        .toEqual({ seriousFault: false });
     });
   });
 
@@ -82,7 +89,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       const result = vehicleChecksCatADI2Reducer(
         {}, vehicleChecksCatADI2ActionTypes.VehicleChecksRemoveDangerousFault(),
       );
-      expect(result).toEqual({ dangerousFault: false });
+      expect(result)
+        .toEqual({ dangerousFault: false });
     });
   });
 
@@ -93,7 +101,8 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       result = vehicleChecksCatADI2Reducer(
         result, vehicleChecksCatADI2ActionTypes.VehicleChecksCompletedToggle(),
       );
-      expect(result).toEqual({ vehicleChecksCompleted: true });
+      expect(result)
+        .toEqual({ vehicleChecksCompleted: true });
     });
   });
 });

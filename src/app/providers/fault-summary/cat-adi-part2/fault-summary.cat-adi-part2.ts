@@ -1,6 +1,6 @@
 import {
   get, forOwn, transform, endsWith,
-} from 'lodash';
+} from 'lodash-es';
 import { EyesightTest, QuestionResult, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';

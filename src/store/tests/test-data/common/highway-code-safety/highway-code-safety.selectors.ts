@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
 
 export const isHighwayCodeSafetySelected = (

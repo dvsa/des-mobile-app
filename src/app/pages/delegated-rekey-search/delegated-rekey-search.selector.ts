@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { DelegatedRekeySearchModel } from './delegated-rekey-search.reducer';
 
 export const getIsLoading = (rekeySearch: DelegatedRekeySearchModel) => rekeySearch.isLoading;

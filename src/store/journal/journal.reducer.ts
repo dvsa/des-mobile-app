@@ -1,5 +1,5 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import * as journalActions from './journal.actions';
@@ -21,7 +21,11 @@ export const journalReducer = createReducer(
   on(journalActions.LoadJournal, (state: JournalModel): JournalModel => ({
     ...state,
     isLoading: true,
-    error: { message: '', status: 0, statusText: '' },
+    error: {
+      message: '',
+      status: 0,
+      statusText: '',
+    },
   })),
   on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
@@ -63,7 +67,10 @@ export const journalReducer = createReducer(
   })),
   on(journalActions.UnloadJournal, (): JournalModel => initialState),
   on(journalActions.UnsetError, (state: JournalModel): JournalModel => {
-    const { error, ...stateWithoutError } = state;
+    const {
+      error,
+      ...stateWithoutError
+    } = state;
     return {
       ...stateWithoutError,
     };

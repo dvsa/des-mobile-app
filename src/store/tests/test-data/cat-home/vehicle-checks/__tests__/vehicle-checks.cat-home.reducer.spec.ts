@@ -1,7 +1,7 @@
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import {
   initialState,
   vehicleChecksCatHomeReducer,
@@ -24,8 +24,10 @@ describe('Vehicle Checks Cat HOME Reducer', () => {
       };
       const state: CatFUniqueTypes.VehicleChecks = cloneDeep(initialState);
       const result = vehicleChecksCatHomeReducer(state, ShowMeQuestionSelected(newQuestionPayload, 0));
-      expect(result.showMeQuestions[0].code).toEqual('S1');
-      expect(result.showMeQuestions[0].description).toEqual('desc');
+      expect(result.showMeQuestions[0].code)
+        .toEqual('S1');
+      expect(result.showMeQuestions[0].description)
+        .toEqual('desc');
     });
   });
 
@@ -38,7 +40,8 @@ describe('Vehicle Checks Cat HOME Reducer', () => {
         outcome: 'P',
       };
       const result = vehicleChecksCatHomeReducer(state, ShowMeQuestionOutcomeChanged('DF', 1));
-      expect(result.showMeQuestions[1].outcome).toEqual('DF');
+      expect(result.showMeQuestions[1].outcome)
+        .toEqual('DF');
     });
   });
 
@@ -50,8 +53,10 @@ describe('Vehicle Checks Cat HOME Reducer', () => {
       };
       const state: CatFUniqueTypes.VehicleChecks = cloneDeep(initialState);
       const result = vehicleChecksCatHomeReducer(state, TellMeQuestionSelected(newQuestionPayload, 0));
-      expect(result.tellMeQuestions[0].code).toEqual('T01');
-      expect(result.tellMeQuestions[0].description).toEqual('desc');
+      expect(result.tellMeQuestions[0].code)
+        .toEqual('T01');
+      expect(result.tellMeQuestions[0].description)
+        .toEqual('desc');
     });
   });
 
@@ -64,7 +69,8 @@ describe('Vehicle Checks Cat HOME Reducer', () => {
         outcome: 'P',
       };
       const result = vehicleChecksCatHomeReducer(state, TellMeQuestionOutcomeChanged('DF', 1));
-      expect(result.tellMeQuestions[1].outcome).toEqual('DF');
+      expect(result.tellMeQuestions[1].outcome)
+        .toEqual('DF');
     });
   });
 
@@ -73,7 +79,8 @@ describe('Vehicle Checks Cat HOME Reducer', () => {
       const state: CatFUniqueTypes.VehicleChecks = cloneDeep(initialState);
       const result = vehicleChecksCatHomeReducer(state, AddShowMeTellMeComment('So many mistakes.'));
 
-      expect(result.showMeTellMeComments).toEqual('So many mistakes.');
+      expect(result.showMeTellMeComments)
+        .toEqual('So many mistakes.');
     });
   });
 });

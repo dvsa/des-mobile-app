@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { isNil, has } from 'lodash';
+import { isNil, has } from 'lodash-es';
 import { NonTestActivity, TestSlot } from '@dvsa/mes-journal-schema';
 import { Activity, activities } from '@providers/slot-selector/activity.constants';
 import { removeLeadingZeros } from '@shared/helpers/formatters';

@@ -2,7 +2,7 @@ import { MockComponent } from 'ng-mocks';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';

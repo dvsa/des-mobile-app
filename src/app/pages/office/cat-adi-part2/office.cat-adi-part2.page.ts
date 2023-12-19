@@ -12,7 +12,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getTestOutcome, getTestOutcomeText } from '@store/tests/tests.selector';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { startsWith } from 'lodash';
+import { startsWith } from 'lodash-es';
 import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';

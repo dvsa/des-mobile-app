@@ -4,7 +4,7 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
 import {

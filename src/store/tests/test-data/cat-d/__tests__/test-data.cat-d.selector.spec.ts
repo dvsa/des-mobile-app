@@ -1,6 +1,6 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import {
   hasSeriousFault,
   hasDangerousFault,
@@ -75,91 +75,106 @@ describe('TestDataSelectors', () => {
 
   describe('getDrivingFaultCount', () => {
     it('should return the driving fault count', () => {
-      expect(getDrivingFaultCount(state, Competencies.controlsGears)).toBe(1);
+      expect(getDrivingFaultCount(state, Competencies.controlsGears))
+        .toBe(1);
     });
     it('should return undefined when there hasnt been any driving faults', () => {
-      expect(getDrivingFaultCount(state, Competencies.controlsParkingBrake)).toBeUndefined();
+      expect(getDrivingFaultCount(state, Competencies.controlsParkingBrake))
+        .toBeUndefined();
     });
   });
 
   describe('hasSeriousFault', () => {
     it('should return true if a competency has a serious fault', () => {
-      expect(hasSeriousFault(state, Competencies.awarenessPlanning)).toEqual(true);
+      expect(hasSeriousFault(state, Competencies.awarenessPlanning))
+        .toEqual(true);
     });
     it('should return false if a competency does not have a serious fault', () => {
-      expect(hasSeriousFault(state, Competencies.controlsClutch)).toBeFalsy();
+      expect(hasSeriousFault(state, Competencies.controlsClutch))
+        .toBeFalsy();
     });
   });
 
   describe('hasDangerousFault', () => {
     it('should return true if a competency has a dangerous fault', () => {
-      expect(hasDangerousFault(state, Competencies.useOfSpeed)).toEqual(true);
+      expect(hasDangerousFault(state, Competencies.useOfSpeed))
+        .toEqual(true);
     });
     it('should return false if a competency does not have a dangerous fault', () => {
-      expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling)).toBeFalsy();
+      expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling))
+        .toBeFalsy();
     });
   });
 
   describe('getETAFaultText', () => {
     it('should return null if no ETA faults', () => {
       const result = getETAFaultText(state.ETA);
-      expect(result).toBeUndefined();
+      expect(result)
+        .toBeUndefined();
     });
     it('should return `Physical and Verbal` if both ETA faults', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = true;
       updatedState.ETA.verbal = true;
       const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Physical and Verbal');
+      expect(result)
+        .toEqual('Physical and Verbal');
     });
     it('should return `Physical` if just physical ETA fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = true;
       updatedState.ETA.verbal = false;
       const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Physical');
+      expect(result)
+        .toEqual('Physical');
     });
     it('should return `Verbal` if just verbal ETA fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = false;
       updatedState.ETA.verbal = true;
       const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Verbal');
+      expect(result)
+        .toEqual('Verbal');
     });
   });
 
   describe('getEcoFaultText', () => {
     it('should return null if no eco faults', () => {
       const result = getEcoFaultText(state.eco);
-      expect(result).toBeUndefined();
+      expect(result)
+        .toBeUndefined();
     });
     it('should return `Control and Planning` if both eco faults', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = true;
       updatedState.eco.adviceGivenPlanning = true;
       const result = getEcoFaultText(updatedState.eco);
-      expect(result).toEqual('Control and Planning');
+      expect(result)
+        .toEqual('Control and Planning');
     });
     it('should return `Control` if just control eco fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = true;
       updatedState.eco.adviceGivenPlanning = false;
       const result = getEcoFaultText(updatedState.eco);
-      expect(result).toEqual('Control');
+      expect(result)
+        .toEqual('Control');
     });
     it('should return `Planning` if just planning eco fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = false;
       updatedState.eco.adviceGivenPlanning = true;
       const result = getEcoFaultText(updatedState.eco);
-      expect(result).toEqual('Planning');
+      expect(result)
+        .toEqual('Planning');
     });
   });
 
   describe('getManoeuvres', () => {
     it('should retrive the manoeuvres data when requested', () => {
       const result = getManoeuvres(state);
-      expect(result).toEqual(state.manoeuvres);
+      expect(result)
+        .toEqual(state.manoeuvres);
     });
   });
 
@@ -168,7 +183,8 @@ describe('TestDataSelectors', () => {
       const mockState: CatDUniqueTypes.TestData = {
         manoeuvres: {},
       };
-      expect(hasManoeuvreBeenCompletedCatD(mockState)).toBeFalsy();
+      expect(hasManoeuvreBeenCompletedCatD(mockState))
+        .toBeFalsy();
     });
     it('should return true when a manoeuvre has been completed', () => {
       const mockState: CatDUniqueTypes.TestData = {
@@ -176,7 +192,8 @@ describe('TestDataSelectors', () => {
           reverseLeft: { selected: true },
         },
       };
-      expect(hasManoeuvreBeenCompletedCatD(mockState)).toEqual(true);
+      expect(hasManoeuvreBeenCompletedCatD(mockState))
+        .toEqual(true);
     });
   });
 
@@ -192,10 +209,12 @@ describe('TestDataSelectors', () => {
             },
           ],
         };
-        expect(areTellMeQuestionsSelected(mockState)).toBe(true);
+        expect(areTellMeQuestionsSelected(mockState))
+          .toBe(true);
       });
       it('should return false if there is no tell me question selected', () => {
-        expect(areTellMeQuestionsSelected({})).toBe(false);
+        expect(areTellMeQuestionsSelected({}))
+          .toBe(false);
       });
     });
     describe('areTellMeQuestionsCorrect', () => {
@@ -210,7 +229,8 @@ describe('TestDataSelectors', () => {
       };
 
       it('should return true if the tell me question is marked as a pass', () => {
-        expect(areTellMeQuestionsCorrect(passedState)).toBe(true);
+        expect(areTellMeQuestionsCorrect(passedState))
+          .toBe(true);
       });
       it('should return false if the tell me question is marked as a driving fault', () => {
         const failedState: CatDUniqueTypes.VehicleChecks = {
@@ -222,7 +242,8 @@ describe('TestDataSelectors', () => {
             },
           ],
         };
-        expect(areTellMeQuestionsCorrect(failedState)).toBe(false);
+        expect(areTellMeQuestionsCorrect(failedState))
+          .toBe(false);
       });
     });
 
@@ -252,7 +273,8 @@ describe('TestDataSelectors', () => {
           },
         } as CatDUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatD(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatD(mockState))
+          .toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a driving fault', () => {
         const mockState = {
@@ -279,7 +301,8 @@ describe('TestDataSelectors', () => {
           },
         } as CatDUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatD(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatD(mockState))
+          .toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a serious fault', () => {
         const mockState = {
@@ -306,7 +329,8 @@ describe('TestDataSelectors', () => {
           },
         } as CatDUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatD(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatD(mockState))
+          .toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a dangerous fault', () => {
         const mockState = {
@@ -333,13 +357,13 @@ describe('TestDataSelectors', () => {
           },
         } as CatDUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatD(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatD(mockState))
+          .toEqual(true);
       });
       it('should return false if show me question outcome is not defined', () => {
         const mockState = {
           vehicleChecks: {
-            showMeQuestions: [
-            ],
+            showMeQuestions: [],
             tellMeQuestions: [
               {
                 outcome: CompetencyOutcome.DF,
@@ -351,7 +375,8 @@ describe('TestDataSelectors', () => {
           },
         } as CatDUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatD(mockState)).toEqual(false);
+        expect(hasVehicleChecksBeenCompletedCatD(mockState))
+          .toEqual(false);
       });
     });
   });

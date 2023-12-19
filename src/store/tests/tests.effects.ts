@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, interval, of } from 'rxjs';
 import { Action, select, Store } from '@ngrx/store';
-import { find, has, omit, startsWith } from 'lodash';
+import { find, has, omit, startsWith } from 'lodash-es';
 import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';

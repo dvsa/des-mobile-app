@@ -26,7 +26,7 @@ import {
 } from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { Competencies, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { startsWith } from 'lodash';
+import { startsWith } from 'lodash-es';
 import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';

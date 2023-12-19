@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
@@ -74,9 +74,11 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
     );
 
     if (visibilityType === VisibilityType.NotVisible) {
-      this.formGroup.get(this.fieldName).clearValidators();
+      this.formGroup.get(this.fieldName)
+        .clearValidators();
     } else {
-      this.formGroup.get(this.fieldName).setValidators([Validators.required]);
+      this.formGroup.get(this.fieldName)
+        .setValidators([Validators.required]);
     }
 
     if (this.questionResult) {
@@ -116,7 +118,7 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
     }
     const doesQuestionExist: QuestionResult = this.questionsToDisable.find(
       (questionToDisable) => questionToDisable.code === question.code
-          && questionToDisable.code !== this.questionResult.code,
+        && questionToDisable.code !== this.questionResult.code,
     );
 
     return doesQuestionExist !== undefined;

@@ -42,7 +42,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { get, uniqBy } from 'lodash';
+import { get, uniqBy } from 'lodash-es';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StartTest } from '@store/tests/tests.actions';
 

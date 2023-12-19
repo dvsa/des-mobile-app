@@ -1,18 +1,22 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { createReducer, on } from '@ngrx/store';
-import { dropRight } from 'lodash';
+import { dropRight } from 'lodash-es';
 import * as vehicleChecksCatCActionTypes from './vehicle-checks.cat-c.action';
 
 const initialState: CatCUniqueTypes.VehicleChecks = {
-  tellMeQuestions: Array(1).fill({}),
-  showMeQuestions: Array(1).fill({}),
+  tellMeQuestions: Array(1)
+    .fill({}),
+  showMeQuestions: Array(1)
+    .fill({}),
   vehicleChecksCompleted: null,
   fullLicenceHeld: null,
 };
 
 export const generateInitialState = (): CatCUniqueTypes.VehicleChecks => ({
-  tellMeQuestions: Array(2).fill({}),
-  showMeQuestions: Array(3).fill({}),
+  tellMeQuestions: Array(2)
+    .fill({}),
+  showMeQuestions: Array(3)
+    .fill({}),
   vehicleChecksCompleted: null,
   fullLicenceHeld: null,
 });

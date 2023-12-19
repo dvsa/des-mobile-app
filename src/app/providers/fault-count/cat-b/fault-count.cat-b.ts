@@ -1,4 +1,4 @@
-import { pickBy } from 'lodash';
+import { pickBy } from 'lodash-es';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
@@ -11,10 +11,16 @@ export class FaultCountBHelper {
     // The way how we store the driving faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      drivingFaults, manoeuvres, controlledStop, vehicleChecks,
+      drivingFaults,
+      manoeuvres,
+      controlledStop,
+      vehicleChecks,
     } = data;
     let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults).forEach((fault) => { faultTotal += fault.faultCount; });
+    getCompetencyFaults(drivingFaults)
+      .forEach((fault) => {
+        faultTotal += fault.faultCount;
+      });
 
     const controlledStopHasDrivingFault = (controlledStop && controlledStop.fault === CompetencyOutcome.DF) ? 1 : 0;
 
@@ -31,7 +37,11 @@ export class FaultCountBHelper {
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      seriousFaults, manoeuvres, controlledStop, vehicleChecks, eyesightTest,
+      seriousFaults,
+      manoeuvres,
+      controlledStop,
+      vehicleChecks,
+      eyesightTest,
     } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
@@ -54,7 +64,10 @@ export class FaultCountBHelper {
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      dangerousFaults, manoeuvres, controlledStop, vehicleChecks,
+      dangerousFaults,
+      manoeuvres,
+      controlledStop,
+      vehicleChecks,
     } = data;
 
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
@@ -76,7 +89,10 @@ export class FaultCountBHelper {
       return 0;
     }
 
-    const { showMeQuestion, tellMeQuestion } = vehicleChecks;
+    const {
+      showMeQuestion,
+      tellMeQuestion,
+    } = vehicleChecks;
 
     if (showMeQuestion.outcome === CompetencyOutcome.S || showMeQuestion.outcome === CompetencyOutcome.D) {
       return 0;

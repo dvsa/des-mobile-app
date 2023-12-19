@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
@@ -12,6 +12,7 @@ import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+
 @Component({
   selector: 'vehicle-details-card',
   templateUrl: 'vehicle-details-card.html',
@@ -44,11 +45,11 @@ export class VehicleDetailsCardComponent {
   @Input()
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
-  public shouldHideCard() : boolean {
+  public shouldHideCard(): boolean {
     return (!this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber);
   }
 
-  public get shouldShowDimensions() : boolean {
+  public get shouldShowDimensions(): boolean {
     switch (this.category) {
       case TestCategory.BE:
       case TestCategory.C:
@@ -73,7 +74,7 @@ export class VehicleDetailsCardComponent {
     }
   }
 
-  public get shouldShowExtraDimensions() : boolean {
+  public get shouldShowExtraDimensions(): boolean {
     switch (this.category) {
       case TestCategory.CM:
       case TestCategory.C1M:
@@ -89,7 +90,7 @@ export class VehicleDetailsCardComponent {
     }
   }
 
-  public get showTransmissionWithCode78() : boolean {
+  public get showTransmissionWithCode78(): boolean {
     switch (this.category) {
       case TestCategory.BE:
       case TestCategory.C:
@@ -134,19 +135,23 @@ export class VehicleDetailsCardComponent {
   }
 
   public get vehicleLength(): string {
-    return get(this.data, 'vehicleLength', '?').toString();
+    return get(this.data, 'vehicleLength', '?')
+      .toString();
   }
 
   public get vehicleWidth(): string {
-    return get(this.data, 'vehicleWidth', '?').toString();
+    return get(this.data, 'vehicleWidth', '?')
+      .toString();
   }
 
   public get vehicleHeight(): string {
-    return get(this.data, 'vehicleHeight', '?').toString();
+    return get(this.data, 'vehicleHeight', '?')
+      .toString();
   }
 
   public get numberOfSeats(): string {
-    return get(this.data, 'numberOfSeats', '?').toString();
+    return get(this.data, 'numberOfSeats', '?')
+      .toString();
   }
 
   public get schoolBike(): string {
@@ -175,6 +180,7 @@ export class VehicleDetailsCardComponent {
   public get schoolCarDualControls(): string {
     return get(this.data, 'schoolCar') ? 'School Car' : 'Dual Controls';
   }
+
   public get dualControls(): string {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
@@ -183,6 +189,6 @@ export class VehicleDetailsCardComponent {
 
   displayRegistration() {
     return this.isADI3() || !this.instructorRegistrationNumber === undefined
-        || this.shouldShowDimensions || !this.vehicleDetails === undefined;
+      || this.shouldShowDimensions || !this.vehicleDetails === undefined;
   }
 }

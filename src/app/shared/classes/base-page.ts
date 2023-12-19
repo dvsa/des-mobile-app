@@ -12,7 +12,7 @@ import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 export abstract class BasePageComponent {

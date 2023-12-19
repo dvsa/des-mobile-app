@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';

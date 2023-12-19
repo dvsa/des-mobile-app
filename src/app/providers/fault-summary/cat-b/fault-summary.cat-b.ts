@@ -1,4 +1,4 @@
-import { endsWith, forOwn, transform } from 'lodash';
+import { endsWith, forOwn, transform } from 'lodash-es';
 import { EyesightTest, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
@@ -91,7 +91,7 @@ export class FaultSummaryCatBHelper {
     }
 
     if ((vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
-      vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
+        vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
       && faultType === CompetencyOutcome.DF) {
       return result;
     }

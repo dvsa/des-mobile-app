@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -50,7 +50,8 @@ export class PcvDoorExerciseComponent {
 
   constructor(
     private store$: Store<StoreModel>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(
@@ -89,9 +90,11 @@ export class PcvDoorExerciseComponent {
       isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       pcvDoorExercise$.pipe(map((toggle) => this.pcvDoorExercise = toggle)),
-    ).pipe(tap(this.canButtonRipple));
+    )
+      .pipe(tap(this.canButtonRipple));
 
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {

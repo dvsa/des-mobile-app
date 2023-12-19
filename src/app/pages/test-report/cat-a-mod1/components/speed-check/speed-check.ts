@@ -15,7 +15,7 @@ import { getEmergencyStop }
   from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
 import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import {
   AddEmergencyStopSeriousFault,
   RemoveEmergencyStopSeriousFault,
@@ -89,7 +89,9 @@ export class SpeedCheckComponent {
 
     this.subscription = merge(
       speedCheckData$,
-    ).pipe(takeUntil(trDestroy$)).subscribe();
+    )
+      .pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -152,7 +154,7 @@ export class SpeedCheckComponent {
     if (event.target.value === '') return undefined;
     if (
       typeof event.target.value === 'string'
-        && !this.speedCheckValidator.pattern.test(event.target.value)
+      && !this.speedCheckValidator.pattern.test(event.target.value)
     ) {
       event.target.value = event.target.value.replace(nonNumericValues, '');
     }

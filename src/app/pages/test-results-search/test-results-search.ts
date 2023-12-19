@@ -16,7 +16,7 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { SaveLog } from '@store/logs/logs.actions';
 import { ErrorPage } from '@pages/error-page/error';
-import { orderBy } from 'lodash';
+import { orderBy } from 'lodash-es';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';

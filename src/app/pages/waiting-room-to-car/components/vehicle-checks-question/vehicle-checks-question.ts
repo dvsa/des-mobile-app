@@ -4,7 +4,7 @@ import {
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
