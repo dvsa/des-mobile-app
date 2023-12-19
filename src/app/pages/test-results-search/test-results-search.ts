@@ -11,6 +11,7 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { LogType } from '@shared/models/log.model';
 import { MesError } from '@shared/models/mes-error.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -35,6 +36,7 @@ enum SearchBy {
 
 interface TestResultPageState {
   activeTestCentres$: Observable<JournalTestCentre[]>;
+  isOffline$: Observable<boolean>;
 }
 
 @Component({
@@ -61,6 +63,7 @@ export class TestResultsSearchPage extends BasePageComponent {
     public searchProvider: SearchProvider,
     private appConfig: AppConfigProvider,
     private accessibilityService: AccessibilityService,
+    private networkStateProvider: NetworkStateProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -73,6 +76,7 @@ export class TestResultsSearchPage extends BasePageComponent {
         map(getTestCentres),
         map(getActiveTestCentres),
       ),
+      isOffline$: this.networkStateProvider.isOffline$,
     };
     this.merged$ = merge(
       this.pageState.activeTestCentres$,

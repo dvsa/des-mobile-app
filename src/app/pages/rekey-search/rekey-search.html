@@ -8,6 +8,8 @@
 </ion-header>
 
 <ion-content>
+  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+
   <div class="search-inputs">
     <tabs>
       <tab [tabTitle]="'Rekey search'" id="tab-search-rekey">
@@ -63,7 +65,7 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-button
-              [disabled]="(pageState.isLoading$ | async)"
+              [disabled]="(pageState.isLoading$ | async) || (pageState.isOffline$ | async)"
               class="mes-primary-button search-tests"
               id="rekey-search-search-tests-btn"
               (click)="searchTests()"

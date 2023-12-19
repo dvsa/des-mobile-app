@@ -221,7 +221,7 @@
   <ion-row>
     <ion-button
       (click)="searchTests()"
-      [disabled]="!!showSpinner"
+      [disabled]="!!showSpinner || isOffline"
       class="mes-primary-button search-tests"
       id="advanced-search-button"
     >
