@@ -8,6 +8,8 @@
 </ion-header>
 
 <ion-content forceOverscroll="false">
+  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+
   <div class="search-inputs">
     <tabs>
       <tab [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
@@ -80,7 +82,7 @@
           <ion-row class="ion-padding-top">
             <ion-button
               id="test-result-search-button"
-              [attr.disabled]="showSearchSpinner ? 'true' : isEmpty(candidateInfo)"
+              [attr.disabled]="showSearchSpinner || (pageState.isOffline$ | async) ? 'true' : isEmpty(candidateInfo)"
               class="mes-primary-button search-tests"
               (click)="searchTests()"
             >
@@ -99,6 +101,7 @@
           [testCentres]="pageState.activeTestCentres$ | async"
           (onSearchTests)="advancedSearch($event)"
           [showSpinner]="showAdvancedSearchSpinner"
+          [isOffline]="pageState.isOffline$ | async"
         >
         </advanced-search>
       </tab>

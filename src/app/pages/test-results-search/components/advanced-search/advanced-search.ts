@@ -27,6 +27,9 @@ export class AdvancedSearchComponent {
   @Input()
   testCentres: TestCentre[] = [];
 
+  @Input()
+  isOffline: boolean;
+
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 

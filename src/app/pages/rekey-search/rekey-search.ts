@@ -21,12 +21,14 @@ import {
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
   hasSearched$: Observable<boolean>;
   bookedTestSlot$: Observable<TestSlot>;
   rekeySearchErr$: Observable<RekeySearchError | HttpErrorResponse>;
+  isOffline$: Observable<boolean>;
 }
 
 @Component({
@@ -44,6 +46,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
+    private networkStateProvider: NetworkStateProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -67,6 +70,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       rekeySearchErr$: rekeySearch$.pipe(
         map(getRekeySearchError),
       ),
+      isOffline$: this.networkStateProvider.isOffline$,
     };
   }
 

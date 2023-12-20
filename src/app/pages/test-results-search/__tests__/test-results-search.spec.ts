@@ -25,6 +25,8 @@ import { TestCentre } from '@dvsa/mes-journal-schema';
 import { TestResultsSearchPage } from '../test-results-search';
 import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
 import { HttpStatusCode } from '@angular/common/http';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 
 enum SearchBy {
   DriverNumber = 'driverNumber',
@@ -76,6 +78,10 @@ describe('TestResultsSearchPage', () => {
           provide: AppComponent,
           useClass: MockAppComponent,
         },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        }
       ],
     });
 
