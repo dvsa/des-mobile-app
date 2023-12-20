@@ -83,7 +83,7 @@
     "@dvsa/mes-search-schema": "1.2.0",
     "@dvsa/mes-test-schema": "3.42.5",
     "@ionic-enterprise/auth": "3.9.5",
-    "@ionic/angular": "~7.5.6",
+    "@ionic/angular": "~7.5.7",
     "@ionic/core": "~7.5.6",
     "@ionic/storage-angular": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
