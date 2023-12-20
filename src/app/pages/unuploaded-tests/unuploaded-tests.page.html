@@ -3,7 +3,7 @@
     <ion-buttons id="unuploaded-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title id="page-title" role="heading" aria-level="1">My Dashboard</ion-title>
+    <ion-title id="unuploaded-tests-page-title" role="heading" aria-level="1">My Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -25,7 +25,7 @@
   <div class="header-divider"></div>
 
   <ion-text class="des-header-style-2">
-    You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
+    You have {{ state.slots?.length || 0 }} incomplete {{ getTestsText(state.slots?.length) }} (over 1 day old)
   </ion-text>
 
   <test-slot

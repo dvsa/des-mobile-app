@@ -60,7 +60,7 @@ export class AuthenticationProvider {
   private getAuthOptions = (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig()?.authentication;
     return {
-      logLevel: 'DEBUG',
+      logLevel: 'ERROR', // change to DEBUG to log more info
       authConfig: 'azure',
       platform: 'capacitor',
       clientID: authSettings.clientId,
