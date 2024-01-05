@@ -18,6 +18,7 @@ import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 export enum Token {
   ID = 'idToken',
@@ -114,15 +115,19 @@ export class AuthenticationProvider {
   };
 
   public isInUnAuthenticatedMode = (): boolean => {
-    return this.inUnAuthenticatedMode;
+    const unAuthedMode = this.inUnAuthenticatedMode;
+
+    if (unAuthedMode) {
+      this.logEvent(LogType.INFO, 'isInUnAuthenticatedMode', 'In un-authenticated mode');
+    }
+
+    return unAuthedMode;
   };
 
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if in un-authenticated mode, allow user to continue locally
       if (this.isInUnAuthenticatedMode()) return true;
-
-      this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Checking for access token');
 
       // check to see if there is an access token to interrogate
       const available = await this.authConnect.isAccessTokenAvailable();
@@ -133,16 +138,13 @@ export class AuthenticationProvider {
 
         // attempt a token refresh
         if (expired) {
-          this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Attempting to refresh session');
           await this.authConnect.refreshSession();
         }
 
-        this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning true');
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
 
-      this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning false');
       // return false if no token available
       return false;
     } catch (err) {
@@ -278,13 +280,13 @@ export class AuthenticationProvider {
     this.employeeId = numericEmployeeId.toString();
   }
 
-  private logEvent = (logType: LogType, desc: string, msg: string) => {
+  private logEvent = (logType: LogType, desc: string, msg: unknown) => {
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(logType, desc, `${AuthenticationProvider.name} => ${msg}`),
+      payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
     }));
   };
 
-  public onLogoutError = (err: any, prefix?: string): void => {
+  public onLogoutError = (err: unknown, prefix?: string): void => {
     const basicDesc = 'Logout error';
     const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
     this.logEvent(LogType.ERROR, desc, err);
