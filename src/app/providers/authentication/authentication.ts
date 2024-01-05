@@ -115,15 +115,19 @@ export class AuthenticationProvider {
   };
 
   public isInUnAuthenticatedMode = (): boolean => {
-    return this.inUnAuthenticatedMode;
+    const unAuthedMode = this.inUnAuthenticatedMode;
+
+    if (unAuthedMode) {
+      this.logEvent(LogType.INFO, 'isInUnAuthenticatedMode', 'In un-authenticated mode');
+    }
+
+    return unAuthedMode;
   };
 
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if in un-authenticated mode, allow user to continue locally
       if (this.isInUnAuthenticatedMode()) return true;
-
-      this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Checking for access token');
 
       // check to see if there is an access token to interrogate
       const available = await this.authConnect.isAccessTokenAvailable();
@@ -134,16 +138,13 @@ export class AuthenticationProvider {
 
         // attempt a token refresh
         if (expired) {
-          this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Attempting to refresh session');
           await this.authConnect.refreshSession();
         }
 
-        this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning true');
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
 
-      this.logEvent(LogType.DEBUG, 'isAuthenticated', 'Returning false');
       // return false if no token available
       return false;
     } catch (err) {
