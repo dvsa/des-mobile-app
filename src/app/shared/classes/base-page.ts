@@ -25,6 +25,9 @@ export abstract class BasePageComponent {
    */
   ionViewWillEnter() {
     if (this.isIos()) {
+      // re-evaluate connectivity status
+      this.authenticationProvider.determineAuthenticationMode();
+
       this.authenticationProvider
         .hasValidToken()
         .then(async (hasValidToken) => {
