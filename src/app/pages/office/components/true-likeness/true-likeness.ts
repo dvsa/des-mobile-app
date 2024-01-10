@@ -4,7 +4,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'true-likeness',
   templateUrl: 'true-likeness.html',
-  styleUrls: ['true-likeness.scss'],
 })
 export class TrueLikenessComponent implements OnChanges {
   @Input()
@@ -14,7 +13,7 @@ export class TrueLikenessComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Input()
-  colSize: number = 31;
+  colSize: number = 32;
 
   @Output()
   trueLikenessChange = new EventEmitter<boolean>();
