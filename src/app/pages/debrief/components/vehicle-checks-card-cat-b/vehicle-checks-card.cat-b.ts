@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -27,9 +27,6 @@ interface VehicleChecksCardComponentState {
 export class VehicleChecksCardCatBComponent implements OnInit {
 
   componentState: VehicleChecksCardComponentState;
-
-  @Input()
-  displayIncorrect: boolean = false;
 
   constructor(private store$: Store<StoreModel>) { }
 
