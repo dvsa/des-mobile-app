@@ -48,9 +48,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
-import { LogHelper } from '@providers/logs/logs-helper';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -87,7 +85,7 @@ export class DashboardPage extends BasePageComponent {
     public deviceProvider: DeviceProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
-    private logHelper: LogHelper,
+    public reportLogs: ReportLogsProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
     router: Router,
@@ -157,7 +155,7 @@ export class DashboardPage extends BasePageComponent {
         }
 
       } catch (err) {
-        this.reportLog('ionViewDidEnter', err);
+        this.reportLogs.methodReportLog('ionViewDidEnter', err, 'DashboardPage');
       }
     }
 
@@ -200,16 +198,6 @@ export class DashboardPage extends BasePageComponent {
 
   practiceTestReportCardClicked = (): void => {
     this.store$.dispatch(PracticeTestReportCard());
-  };
-
-  private reportLog = (method: string, error: unknown) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        LogType.ERROR,
-        `DashboardPage ${method}`,
-        JSON.stringify(error),
-      ),
-    }));
   };
 
   async showUpdateAvailableModal(manualClick: boolean = false): Promise<void> {

@@ -184,8 +184,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     if (super.isIos()) {
       try {
+        // attempt to disable SAM
         await this.deviceProvider.disableSingleAppMode();
 
+        // if SAM is now disabled, unlock the screen and allow sleep
         const isEnabled = await this.deviceProvider.isSAMEnabled();
 
         if (!isEnabled) {

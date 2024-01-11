@@ -54,8 +54,8 @@ import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
+import { ReportLogsProviderMock } from '@providers/logs/__mocks__/report-logs.mock';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -150,8 +150,8 @@ describe('DashboardPage', () => {
           useClass: ModalControllerMock,
         },
         {
-          provide: LogHelper,
-          useClass: LogHelperMock,
+          provide: ReportLogsProvider,
+          useClass: ReportLogsProviderMock,
         },
         provideMockStore({ initialState }),
       ],

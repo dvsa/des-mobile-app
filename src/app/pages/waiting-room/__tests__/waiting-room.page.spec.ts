@@ -58,6 +58,8 @@ import { WaitingRoomValidationError } from '../waiting-room.actions';
 import { WaitingRoomPage } from '../waiting-room.page';
 import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
 import { CBTNumberComponent } from '../components/cbt-number/cbt-number';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
+import { ReportLogsProviderMock } from '@providers/logs/__mocks__/report-logs.mock';
 
 describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
@@ -210,6 +212,10 @@ describe('WaitingRoomPage', () => {
         {
           provide: AppComponent,
           useClass: MockAppComponent,
+        },
+        {
+          provide: ReportLogsProvider,
+          useClass: ReportLogsProviderMock,
         },
         provideMockStore({ initialState }),
       ],

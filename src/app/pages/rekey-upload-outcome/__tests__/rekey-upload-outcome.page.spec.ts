@@ -22,6 +22,9 @@ import { EndRekey } from '@store/tests/rekey/rekey.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 import { rekeyReasonReducer } from '../../rekey-reason/rekey-reason.reducer';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
+import { ReportLogsProviderMock } from '@providers/logs/__mocks__/report-logs.mock';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 describe('RekeyUploadOutcomePage', () => {
   let fixture: ComponentFixture<RekeyUploadOutcomePage>;
@@ -67,6 +70,10 @@ describe('RekeyUploadOutcomePage', () => {
           provide: DeviceProvider,
           useClass: DeviceProviderMock,
         },
+        {
+          provide: ReportLogsProvider,
+          useClass: ReportLogsProviderMock,
+        },
       ],
     });
 
@@ -84,12 +91,43 @@ describe('RekeyUploadOutcomePage', () => {
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions', async () => {
+      it('should attempt to deactivate SAM,' +
+        'and unlock devices screen and orientation if SAM is disabled successfully', async () => {
+        spyOn(ScreenOrientation, 'unlock');
         spyOn(Insomnia, 'allowSleep');
+        spyOn(deviceProvider, 'isSAMEnabled')
+          .and
+          .returnValue(Promise.resolve(false));
+
         await component.ionViewDidEnter();
+
+        expect(deviceProvider.disableSingleAppMode)
+          .toHaveBeenCalled();
         expect(Insomnia.allowSleep)
           .toHaveBeenCalled();
+        expect(ScreenOrientation.unlock)
+          .toHaveBeenCalled();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(RekeyUploadOutcomeViewDidEnter());
+      });
+
+      it('should attempt to deactivate SAM,' +
+        'and not unlock devices screen and orientation if SAM fails to disabled successfully', async () => {
+        spyOn(ScreenOrientation, 'unlock');
+        spyOn(Insomnia, 'allowSleep');
+        spyOn(deviceProvider, 'isSAMEnabled')
+          .and
+          .returnValue(Promise.resolve(true));
+
+        await component.ionViewDidEnter();
+
         expect(deviceProvider.disableSingleAppMode)
+          .toHaveBeenCalled();
+        expect(Insomnia.allowSleep)
+          .not
+          .toHaveBeenCalled();
+        expect(ScreenOrientation.unlock)
+          .not
           .toHaveBeenCalled();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(RekeyUploadOutcomeViewDidEnter());

@@ -72,9 +72,7 @@ import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import * as waitingRoomActions from './waiting-room.actions';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
-import { LogHelper } from '@providers/logs/logs-helper';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -121,7 +119,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private translate: TranslateService,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    private logHelper: LogHelper,
+    public reportLogs: ReportLogsProvider,
   ) {
     super(platform, authenticationProvider, router, store$, false);
     this.formGroup = new UntypedFormGroup({});
@@ -134,11 +132,11 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     if (super.isIos()) {
       await ScreenOrientation
         .lock({ type: OrientationType.PORTRAIT_PRIMARY })
-        .catch((err) => this.reportLog('ScreenOrientation.lock', err));
+        .catch((err) => this.reportLogs.methodReportLog('ScreenOrientation.lock', err, 'WaitingRoomPage'));
 
       await Insomnia
         .keepAwake()
-        .catch((err) => this.reportLog('Insomnia.keepAwake', err));
+        .catch((err) => this.reportLogs.methodReportLog('Insomnia.keepAwake', err, 'WaitingRoomPage'));
 
       if (!this.isEndToEndPracticeMode) {
         await this.deviceProvider.enableSingleAppMode();
@@ -370,16 +368,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     await errorModal.onWillDismiss();
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
-
-  private reportLog = (method: string, error: unknown) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        LogType.ERROR,
-        `WaitingRoomPage ${method}`,
-        JSON.stringify(error),
-      ),
-    }));
-  };
 
   private shouldNavigateToCandidateLicenceDetails = (): boolean => {
     // skip the candidate licence page when test is marked as a re-key or for non licence acquisition based categories.
