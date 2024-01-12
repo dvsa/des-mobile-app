@@ -430,12 +430,30 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         withLatestFrom(category$),
         map(([testData, category]) =>
           this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+        withLatestFrom(category$),
+        map(([value, category]) => {
+          value.map(fault => {
+            if (fault.competencyDisplayName === 'Show Me/Tell Me' && category === TestCategory.B) {
+              fault.competencyDisplayName = 'Show Me Question';
+            }
+          })
+          return value;
+        }),
       ),
       seriousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
         map(([testData, category]) =>
           this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+        withLatestFrom(category$),
+        map(([value, category]) => {
+          value.map(fault => {
+            if (fault.competencyDisplayName === 'Show Me/Tell Me' && category === TestCategory.B) {
+              fault.competencyDisplayName = 'Show Me Question';
+            }
+          })
+          return value;
+        }),
       ),
       drivingFaults$: currentTest$.pipe(
         select(getTestData),
