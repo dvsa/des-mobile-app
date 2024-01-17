@@ -30,7 +30,7 @@ import {
 } from '@pages/examiner-records/examiner-records.selector';
 import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
-import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
+import { IndependentDriving, TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
@@ -43,6 +43,7 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ExaminerRecordsOnlineStub } from '@pages/examiner-records/__mocks__/online-stub.mock';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
+import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -80,8 +81,8 @@ export interface ExaminerRecord {
   routeNumber: number,
   startDate: string,
   controlledStop: boolean,
-  independentDriving: string,
-  circuit: string,
+  independentDriving: IndependentDriving,
+  circuit: Circuit,
   safetyQuestions: QuestionResult[],
   balanceQuestions: QuestionResult[],
   manoeuvres: any,
@@ -241,7 +242,6 @@ export class ExaminerRecordsPage implements OnInit {
 
   getResults(): ExaminerRecord[] {
     return this.examinerRecordsOnlineStub.getResults(
-      'DE',
       new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
       new Date(Date.now()).toString(),
       '1234567');
