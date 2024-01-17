@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 export type PassedData = [string, number, string];

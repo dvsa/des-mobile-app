@@ -1,4 +1,4 @@
-import { forOwn, get, isEqual, transform, uniqBy } from 'lodash';
+import { forOwn, get, isEqual, transform, uniqBy } from 'lodash-es';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   Manoeuvre,
