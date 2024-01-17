@@ -1,5 +1,10 @@
 ion-button {
   min-height: 44px;
+  --background-hover: transparent;
+}
+
+ion-button:hover {
+  filter: brightness(90%);
 }
 ion-modal {
   ion-button {
