@@ -273,8 +273,6 @@ export class ExaminerRecordsPage implements OnInit {
           tap((value) => {
             this.locationFilterOptions = [];
 
-            console.log(value);
-
             value.forEach((val) => {
               this.locationFilterOptions.push(val.item);
             });
