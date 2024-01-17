@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.selector';
 
 @Component({
