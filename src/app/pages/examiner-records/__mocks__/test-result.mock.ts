@@ -59,7 +59,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -335,7 +335,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -6898,7 +6898,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -7070,7 +7070,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -7242,7 +7242,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -7414,7 +7414,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -7586,7 +7586,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -7758,7 +7758,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -7913,7 +7913,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -8072,7 +8072,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -8231,7 +8231,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -8390,7 +8390,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -8549,7 +8549,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -8708,7 +8708,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -8867,7 +8867,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -9026,7 +9026,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -9185,7 +9185,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -9344,7 +9344,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000000',
+        'staffNumber': '12345670',
         'individualId': 10000000,
       },
       'candidate': {
@@ -9514,7 +9514,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -9677,7 +9677,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -9840,7 +9840,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10003,7 +10003,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10166,7 +10166,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10329,7 +10329,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10492,7 +10492,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10655,7 +10655,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10818,7 +10818,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -10981,7 +10981,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -11144,7 +11144,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -11307,7 +11307,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -11470,7 +11470,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -11633,7 +11633,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -11796,7 +11796,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -11959,7 +11959,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -12122,7 +12122,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -12285,7 +12285,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
@@ -12448,7 +12448,7 @@ export const demonstrationMock: StartedTests = {
     'appVersion': '4.10.0.0',
     'journalData': {
       'examiner': {
-        'staffNumber': '10000013',
+        'staffNumber': '1234567',
         'individualId': 1000013,
       },
       'candidate': {
