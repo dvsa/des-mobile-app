@@ -233,6 +233,7 @@ export const environment: LocalEnvironmentFile = {
   },
   tests: {
     testSubmissionUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/test-results',
+    examinerRecordsUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/test-results/search-examiner-records',
     autoSendInterval: 900000,
     examinerRecordsUrl: ''
   },
