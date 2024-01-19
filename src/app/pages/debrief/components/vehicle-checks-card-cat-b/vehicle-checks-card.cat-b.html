@@ -8,8 +8,7 @@
         </ion-col>
         <ion-col class="down-padding ion-align-items-start">
           <div id="tell-me-question" *ngIf="componentState.tellMeQuestionHasFault$ | async">
-            {{ 'debrief.tellMeQuestion' | translate }} - {{ displayIncorrect ? ('debrief.incorrect' | translate) :
-            ('debrief.drivingFault' | translate) }}
+            {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
           </div>
           <div
             id="show-me-question"
@@ -17,7 +16,7 @@
             [ngSwitch]="componentState.showMeQuestionOutcome$ | async"
           >
             <span *ngSwitchCase="'DF'" id="show-me-question-outcome-df">
-              {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.drivingFault' | translate }}
+              {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
             </span>
             <span *ngSwitchCase="'S'" id="show-me-question-outcome-s">
               {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.seriousFault' | translate }}

@@ -41,11 +41,7 @@
   >
   </eco-debrief-card>
 
-  <vehicle-checks-card-cat-b
-    *ngIf="isCategoryBTest()"
-    [displayIncorrect]="pageState.vehicleChecksShowIncorrect$ | async"
-  >
-  </vehicle-checks-card-cat-b>
+  <vehicle-checks-card-cat-b *ngIf="isCategoryBTest()"> </vehicle-checks-card-cat-b>
 
   <vehicle-checks-card
     *ngIf="showVehicleChecksArrayCard()"

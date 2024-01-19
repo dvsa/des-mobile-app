@@ -98,7 +98,7 @@ describe('VehicleChecksCardCatBComponent', () => {
           store$.dispatch(TellMeQuestionDrivingFault());
           fixture.detectChanges();
           const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
-          expect(tellMeQuestionText.innerHTML.trim()).toBe('Tell me question - Driving fault');
+          expect(tellMeQuestionText.innerHTML.trim()).toBe('Tell me question - Incorrect');
         });
         it('should indicate a tell me fault in Welsh for a Welsh test', (done) => {
           fixture.detectChanges();
@@ -107,10 +107,9 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('cy').subscribe(() => {
             fixture.detectChanges();
             const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
-            const questionText = (<any>welshTranslations).debrief.tellMeQuestion;
-            const drvingFaultText = (<any>welshTranslations).debrief.drivingFault;
+            const { tellMeQuestion, incorrect } = (<any>welshTranslations).debrief;
             expect(tellMeQuestionText.innerHTML.trim())
-              .toBe(`${questionText} - ${drvingFaultText}`);
+              .toBe(`${tellMeQuestion} - ${incorrect}`);
             done();
           });
         });
@@ -122,7 +121,7 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('en').subscribe(() => {
             fixture.detectChanges();
             const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-df')).nativeElement;
-            expect(showMeQuestionText.innerHTML.trim()).toBe('Show me question - Driving fault');
+            expect(showMeQuestionText.innerHTML.trim()).toBe('Show me question - Incorrect');
           });
         });
         it('should indicate a show me driving fault in Welsh for a Welsh test', (done) => {
@@ -132,8 +131,8 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('cy').subscribe(() => {
             fixture.detectChanges();
             const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-df')).nativeElement;
-            const { showMeQuestion, drivingFault } = (<any>welshTranslations).debrief;
-            const expectedTranslation = `${showMeQuestion} - ${drivingFault}`;
+            const { showMeQuestion, incorrect } = (<any>welshTranslations).debrief;
+            const expectedTranslation = `${showMeQuestion} - ${incorrect}`;
             expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
             done();
           });

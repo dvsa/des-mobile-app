@@ -8,6 +8,7 @@ import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
 } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 enum ValidFaultTypes {
   DRIVING = 'driving',
@@ -58,7 +59,9 @@ export class FaultCommentComponent implements OnChanges {
 
   faultCommentCharsRemaining: number = null;
   static readonly fieldName: string = 'faultComment';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    protected accessibilityService: AccessibilityService
+  ) { }
 
   ngOnChanges(): void {
     // mes 2393 - need to remove validations if < 16 faults as comments can
