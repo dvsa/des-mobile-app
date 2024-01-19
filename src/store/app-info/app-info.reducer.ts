@@ -9,13 +9,14 @@ import {
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';
-import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 import {
   ColourFilterChanged,
   DateRangeChanged,
   ShowDataChanged,
-  LocationChanged, TestCategoryChanged,
+  LocationChanged,
+  TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
+import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 
 export const appInfoFeatureKey = 'appInfo';
 
