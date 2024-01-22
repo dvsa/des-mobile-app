@@ -1,15 +1,15 @@
 :host {
   .content-background {
     font-size: 19px;
-    --ion-background-color: var(--mes-white);
+    --ion-background-color: var(--mes-theme-main-colour);
     border-radius: 10px !important;
-    border: 10px solid var(--mes-white) !important;
+    border: 10px solid var(--mes-theme-main-colour) !important;
     mix-blend-mode: exclusion;
   }
 
   .button-style {
     padding-top: 7px;
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
     display: flex;
     align-items: center;
 

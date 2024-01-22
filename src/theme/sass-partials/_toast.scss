@@ -1,12 +1,12 @@
 .mes-toast-message-error {
   --background: var(--gds-bright-red);
-  --color: var(--mes-white);
-  --button-color: var(--mes-white);
+  --color: var(--mes-theme-main-colour);
+  --button-color: var(--mes-theme-main-colour);
 }
 
 .mes-toast-message-test-report {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  --button-color: var(--mes-white);
+  --button-color: var(--mes-theme-main-colour);
 }

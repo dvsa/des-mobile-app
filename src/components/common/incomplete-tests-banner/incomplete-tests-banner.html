@@ -1,6 +1,6 @@
 <div *ngIf="(componentState.count$ | async).length > 0">
   <img src="/assets/imgs/exclamation-black.png" alt="Alert icon" />
   <label>
-    <span>{{getIncompleteText((componentState.count$ | async).length)}}</span>
+    <span class="banner-text">{{getIncompleteText((componentState.count$ | async).length)}}</span>
   </label>
 </div>

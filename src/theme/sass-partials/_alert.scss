@@ -25,7 +25,7 @@
       height: 100%;
       span.button-inner {
         font-size: 20px;
-        color: var(--gds-black);
+        color: var(--gds-theme-opposite);
       }
     }
   }
@@ -35,8 +35,8 @@
     display: none;
   }
   .sc-ion-alert-ios, .sc-ion-alert-md {
-    background-color: var(--gds-grey-5);
-    color: var(--dark);
+    background-color: var(--mes-background);
+    color: var(--theme-opposing-colour-soft);
   }
   div.alert-radio-group {
     // Ensure the buttons in the radio group occupy all available space
@@ -45,7 +45,7 @@
     button[aria-checked="true"] {
       div.alert-radio-label {
         font-weight: bold;
-        color: var(--gds-black);
+        color: var(--gds-theme-opposite);
       }
       // Checkmark
       div.alert-radio-inner {

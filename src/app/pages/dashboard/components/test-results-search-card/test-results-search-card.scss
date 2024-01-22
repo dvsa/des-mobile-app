@@ -14,7 +14,7 @@ button[clear] {
 
 .search-card {
   h1, h4 {
-    color: var(--mes-white);
+    color: var(--mes-theme-main-colour);
   }
 
   ion-row {
@@ -34,7 +34,7 @@ button[clear] {
     box-shadow: none;
 
     &.activated {
-      background: var(--mes-white-darken-10);
+      background: var(--mes-theme-main-variant1);
     }
 
     .des-header-style-3 {

@@ -3,14 +3,13 @@
   $input-border-invalid: 4px;
   $input-height: 52px;
   border-radius: 6px;
-  border: 2px solid #222222;
-  box-shadow: inset 0 3px 3px 0 #A5A2A2;
-  height: 48px;
+  border: 2px solid var(--mes-theme-opposing-colour);
   padding-left: 10px;
+  height: 48px;
+  background-color: var(--mes-theme-main-colour);
 
   &:focus {
     border: $input-border-invalid solid var(--gds-yellow);
-    box-shadow: inset 0 0 0 9px white;
   }
 
   &.ng-dirty {
@@ -27,9 +26,13 @@ input[type="tel"],
 ion-input[type="text"],
 ion-input[type="number"],
 ion-textarea,
-ion-datetime,
+ion-datetime {
+  @extend .common-input-style;
+}
+
 ion-select {
   @extend .common-input-style;
+  color: var(--mes-theme-opposing-colour);
 }
 
 input {
@@ -51,20 +54,22 @@ ion-select.select {
   width: 30px !important;
   background-size: 26px !important;
   right: 16px !important;
+  //Commented out to force light mode, comment back in if dark mode is fully integrated
+  //@media (prefers-color-scheme: dark) {
+  //  filter: invert(100%);
+  //  -webkit-filter: invert(100%);
+  //}
   & ion-icon {
     opacity: 0;
   }
 }
 
 .input-styling-background {
-  background: var(--mes-white);
-  color: black;
+  color: var(--mes-theme-opposing-colour);
 }
 
 .ion-input-styling {
-  background: var(--mes-white);
   --padding-start: 10px !important;
-  --color: black;
 
   .text-zoom-regular & {
     font-size: 20px;
@@ -91,5 +96,4 @@ ion-select.select {
 
 .input-focus {
   border: 4px solid var(--gds-yellow) !important;
-  box-shadow: inset 0 0 0 9px white;
 }

@@ -12,10 +12,13 @@
     margin-top: -4px;
   }
 
-  .refresh-button-icon {
-    padding: 0 10px;
-    font-size: 17px;
-  }
+.height-500 {
+  height: 500px;
+}
+
+.refresh-button-icon {
+  padding: 0 10px;
+  font-size: 17px;}
 
   #unauthenticated-mode-indicator {
     text-align: center;
@@ -23,7 +26,7 @@
     background: var(--gds-red);
 
     #unauth-text {
-      color: var(--mes-white);
+      color: var(--mes-theme-main-colour);
       font-size: 20px;
       font-weight: normal;
       letter-spacing: 0.34px;
@@ -47,7 +50,7 @@
   }
 
   .colour-white {
-    color: white;
+    color: var(--gds-white);
   }
 
   .list-ios {
@@ -81,5 +84,4 @@
       vertical-align: middle;
     }
   }
-
 }
