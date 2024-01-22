@@ -200,7 +200,6 @@ export class ConfirmTestDetailsPage
         map(([testResult]) => testResult),
         select(getPassCompletion),
         map(isProvisionalLicenseProvided),
-        take(1),
       ),
       // ADI3 & SC additional fields
       testOutcomeFullResult$: currentTest$.pipe(
