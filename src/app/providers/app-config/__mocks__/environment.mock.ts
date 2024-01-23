@@ -80,6 +80,7 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
   tests: {
     testSubmissionUrl: 'https://www.example.com/api/v1/test-result',
     autoSendInterval: 900000,
+    examinerRecordsUrl: ''
   },
   user: {
     findUserUrl: 'https://www.example.com/api/v1/users/{staffNumber}',
