@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import {
   AccordionChanged,
@@ -30,7 +30,9 @@ import {
 } from '@pages/examiner-records/examiner-records.selector';
 import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
-import { IndependentDriving, TestCentre } from '@dvsa/mes-test-schema/categories/common';
+import {
+  TestCentre,
+} from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
@@ -41,9 +43,12 @@ import {
 } from '@store/app-info/app-info.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { ExaminerRecordsOnlineStub } from '@pages/examiner-records/__mocks__/online-stub.mock';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
-import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
+import { CompressionProvider } from '@providers/compression/compression';
+import { SearchProvider } from '@providers/search/search';
+import { getTests } from '@store/tests/tests.reducer';
+import { getStartedTests } from '@store/tests/tests.selector';
+import { ExaminerRecordModel, formatForExaminerRecords } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -72,22 +77,6 @@ export const enum ColourEnum {
 export interface SelectableDateRange {
   display: string;
   val: DateRange;
-}
-
-export interface ExaminerRecord {
-  appRef: string,
-  testCategory: TestCategory,
-  testCentre: TestCentre,
-  routeNumber: number,
-  startDate: string,
-  controlledStop: boolean,
-  independentDriving: IndependentDriving,
-  circuit: Circuit,
-  safetyQuestions: QuestionResult[],
-  balanceQuestions: QuestionResult[],
-  manoeuvres: any,
-  showMeQuestions: QuestionResult[],
-  tellMeQuestions: QuestionResult[],
 }
 
 export interface StaticColourScheme { colours: string[], average: string }
@@ -185,16 +174,17 @@ export class ExaminerRecordsPage implements OnInit {
   categorySelectPristine: boolean = true;
   currentTestCentre: TestCentre;
   locationSelectPristine: boolean = true;
-  public testResults: ExaminerRecord[];
+  public testResults: ExaminerRecordModel[];
 
 
 
   constructor(
     public store$: Store<StoreModel>,
     public router: Router,
+    public compressionProvider: CompressionProvider,
     public orientationProvider: OrientationMonitorProvider,
     public accessibilityService: AccessibilityService,
-    public examinerRecordsOnlineStub : ExaminerRecordsOnlineStub,
+    public searchProvider: SearchProvider,
   ) {
   }
 
@@ -211,7 +201,7 @@ export class ExaminerRecordsPage implements OnInit {
   // wrapper used to reduce/centralise code
   // take in a dynamic type, and a function with signature of fn(test, date)
   private filterByParameters = <T>(fn: (
-    tests: ExaminerRecord[],
+    tests: ExaminerRecordModel[],
     range: DateRange,
     location: number,
     category: string,
@@ -240,15 +230,42 @@ export class ExaminerRecordsPage implements OnInit {
         this.categorySubject$.value))),
     );
 
-  getResults(): ExaminerRecord[] {
-    return this.examinerRecordsOnlineStub.getResults(
-      new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toString(),
-      new Date(Date.now()).toString(),
-      '1234567');
+  getResults(): ExaminerRecordModel[] {
+
+    let result: any = [];
+
+    this.store$.pipe(
+      select(getTests),
+      map(getStartedTests),
+      take(1),
+      map(() => {
+        return demonstrationMock;
+      }),
+      map((value) => Object.values(value)),
+      map(value => {
+        const recordArray: ExaminerRecordModel[] = [];
+        value.forEach((test) => {
+          recordArray.push(formatForExaminerRecords(test));
+        });
+        return recordArray;
+      })
+    ).subscribe(value => {
+      result.push(value);
+    });
+    // this.searchProvider.examinerRecordsSearch(
+    //   '55555555',
+    //   formatDate(new Date(Date.now() - 730 * 24 * 60 * 60 * 1000).toLocaleString(), 'yyyy-MM-dd', 'en-GB'),
+    //   formatDate(new Date(Date.now()).toLocaleString(), 'yyyy-MM-dd', 'en-GB')).subscribe(value => {
+    //   result = this.compressionProvider.extract(value);
+    // });
+
+
+    return result;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.testResults = this.getResults();
+    console.log(this.testResults);
 
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
     if (!!this.categorySubject$.value) {
