@@ -18,6 +18,19 @@ export class SearchProvider {
   ) {
   }
 
+  examinerRecordsSearch(staffNumber: string, startDate: string, endDate: string): Observable<string> {
+    return this.http.get<string>(
+      this.urlProvider.getExaminerRecordsUrl(),
+      {
+        params: {
+          staffNumber,
+          endDate,
+          startDate,
+        },
+      },
+    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+  }
+
   driverNumberSearch(driverNumber: string): Observable<SearchResultTestSchema[]> {
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl(),

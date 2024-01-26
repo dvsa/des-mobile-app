@@ -74,7 +74,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -169,7 +169,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -350,7 +350,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -359,7 +359,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -6913,7 +6913,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -7008,7 +7008,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -7085,7 +7085,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -7180,7 +7180,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -7257,7 +7257,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -7352,7 +7352,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -7429,7 +7429,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -7524,7 +7524,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -7601,7 +7601,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -7696,7 +7696,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -7773,7 +7773,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'Fox',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(999) 454-3317',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '55 Pierrepont Street',
@@ -7868,7 +7868,7 @@ export const demonstrationMock: StartedTests = {
       'passCertificateNumberReceived': false,
     },
     'communicationPreferences': {
-      'updatedEmail': 'andrew.setterfield@dvsa.gov.uk',
+      'updatedEmail': 'test@test.test',
       'conductedLanguage': 'English',
       'communicationMethod': 'Email',
     },
@@ -9529,7 +9529,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -9538,7 +9538,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -9692,7 +9692,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -9701,7 +9701,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -9855,7 +9855,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -9864,7 +9864,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10018,7 +10018,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -10027,7 +10027,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10181,7 +10181,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -10190,7 +10190,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10344,7 +10344,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -10353,7 +10353,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10507,7 +10507,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -10516,7 +10516,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10670,7 +10670,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -10679,7 +10679,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10833,7 +10833,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -10842,7 +10842,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -10996,7 +10996,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11005,7 +11005,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -11159,7 +11159,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11168,7 +11168,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -11322,7 +11322,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11331,7 +11331,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -11485,7 +11485,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11494,7 +11494,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -11648,7 +11648,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11657,7 +11657,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -11811,7 +11811,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11820,7 +11820,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -11974,7 +11974,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -11983,7 +11983,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -12137,7 +12137,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -12146,7 +12146,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -12300,7 +12300,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -12309,7 +12309,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,
@@ -12463,7 +12463,7 @@ export const demonstrationMock: StartedTests = {
           'firstName': 'John',
         },
         'ethnicityCode': 'D',
-        'mobileTelephone': '(801) 482-2702',
+        'mobileTelephone': '07654 123456',
         'candidateAddress': {
           'postcode': 'BR82 0DE',
           'addressLine1': '56 Fountain Avenue',
@@ -12472,7 +12472,7 @@ export const demonstrationMock: StartedTests = {
           'addressLine4': 'Corriganville',
           'addressLine5': 'Address Line 5',
         },
-        'primaryTelephone': '(867) 547-2278',
+        'primaryTelephone': '07654 123456',
       },
       'testCentre': {
         'centreId': 1,

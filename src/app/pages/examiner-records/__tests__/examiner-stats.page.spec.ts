@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
-import { ColourEnum, ExaminerRecordsPage } from '../examiner-records.page';
+import { ColourEnum, ExaminerRecordsPage, SelectableDateRange } from '../examiner-records.page';
 import {
   AccordionChanged,
   ColourFilterChanged,
@@ -278,11 +278,15 @@ describe('ExaminerStatsPage', () => {
             value:
               {
                 display: '1',
+                val: 'today',
               },
           },
         } as CustomEvent,
       );
-      expect(component.store$.dispatch).toHaveBeenCalledWith(DateRangeChanged('1'));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(DateRangeChanged({
+        display: '1',
+        val: 'today',
+      } as SelectableDateRange,));
     });
     it('should set rangeSubject to the val property of the value passed', () => {
       spyOn(component.store$, 'dispatch');
@@ -317,7 +321,8 @@ describe('ExaminerStatsPage', () => {
       spyOn(component.store$, 'dispatch');
 
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
-      expect(component.store$.dispatch).toHaveBeenCalledWith(LocationChanged('1'));
+      expect(component.store$.dispatch)
+        .toHaveBeenCalledWith(LocationChanged({ centreName: '1', centreId: 1, costCode: '2' }));
     });
   });
 
