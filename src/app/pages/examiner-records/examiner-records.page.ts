@@ -207,16 +207,6 @@ export class ExaminerRecordsPage implements OnInit {
     category: string,
   ) => T): Observable<T> => combineLatest(
     [
-      // get the startedTests once per change detection cycle
-      // this.store$.pipe(
-      //   select(getTests),
-      //   map(getStartedTests),
-      //   map(() => {
-      //     return demonstrationMock;
-      //   }),
-      //   take(1),
-      // ),
-      // listen for changes to the range
       this.rangeSubject$.asObservable(),
       this.locationSubject$.asObservable(),
       this.categorySubject$.asObservable(),
@@ -232,7 +222,7 @@ export class ExaminerRecordsPage implements OnInit {
 
   getResults(): ExaminerRecordModel[] {
 
-    let result: any = [];
+    let result: ExaminerRecordModel[] = [];
 
     this.store$.pipe(
       select(getTests),
@@ -250,7 +240,7 @@ export class ExaminerRecordsPage implements OnInit {
         return recordArray;
       })
     ).subscribe(value => {
-      result.push(value);
+      result= [...result, ...value];
     });
     // this.searchProvider.examinerRecordsSearch(
     //   '55555555',
@@ -265,7 +255,6 @@ export class ExaminerRecordsPage implements OnInit {
 
   async ngOnInit() {
     this.testResults = this.getResults();
-    console.log(this.testResults);
 
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
     if (!!this.categorySubject$.value) {

@@ -70,8 +70,6 @@ export const getLocations = (
     // filter for any nulls
     .filter((testCentre) => !!testCentre.centreId));
 
-  console.log(data);
-
   return uniqBy(data.map((item: TestCentre) => {
     return {
       item,
@@ -204,25 +202,10 @@ export const getRouteNumbers = (
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
-  console.log('range:', range);
-  console.log('centreId:', centreId);
-  console.log('category:', category);
-  console.log('before:', getEligibleTests(startedTests, range));
+
   const data = getEligibleTests(startedTests, range)
-    .map(value => {
-      console.log('A', value);
-      return value;
-    })
     .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId') === centreId)
-    .map(value => {
-      console.log('B', value);
-      return value;
-    })
     .filter((record: ExaminerRecordModel) => get(record, 'testCategory') === category)
-    .map(value => {
-      console.log('C', value);
-      return value;
-    })
     // extract route number
     .map((record: ExaminerRecordModel) => (
       {
@@ -230,8 +213,6 @@ export const getRouteNumbers = (
         testCentre: get(record, 'testCentre.costCode', null),
       }))// filter for any nulls
     .filter((route) => route.routeNum !== null);
-
-  console.log('after:', data);
 
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => isEqual(val, item)).length;
