@@ -1,6 +1,8 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-title id="post-debrief-title" role="heading" aria-level="1">Post debrief</ion-title>
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
+    <ion-title id="post-debrief-title" role="heading" aria-level="1">Post debrief screen</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content id="post-debrief-holding-page" class="content-styling" forceOverscroll="false">
