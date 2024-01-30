@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -26,7 +26,6 @@ import { BackToOfficePage } from './back-to-office.page';
       BackToOfficeEffects,
       BackToOfficeAnalyticsEffects,
     ]),
-    NgOptimizedImage,
   ],
   declarations: [
     BackToOfficePage,

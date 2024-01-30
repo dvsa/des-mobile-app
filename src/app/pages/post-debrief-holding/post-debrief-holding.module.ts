@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -18,7 +18,6 @@ import { PostDebriefHoldingPage } from './post-debrief-holding.page';
     EffectsModule.forFeature([
       PostDebriefHoldingAnalyticsEffects,
     ]),
-    NgOptimizedImage,
   ],
   declarations: [PostDebriefHoldingPage],
 })
