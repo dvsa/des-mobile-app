@@ -9,7 +9,6 @@ export class PasteSanitiserDirective {
 
   constructor(private el: ElementRef) {
   }
-
   @HostListener('paste', ['$event'])
   onInput(event: ClipboardEvent): void {
     const inputField = this.el.nativeElement;

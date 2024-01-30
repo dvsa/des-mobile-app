@@ -156,7 +156,7 @@
                 [class.ng-invalid]="invalid"
                 [value]="otherReason"
                 (onCharacterCountChanged)="characterCountChanged($event)"
-                (change)="otherReasoningChanged($event.target.value)"
+                (input)="otherReasoningChanged($event.target.value)"
                 formControlName="otherReason"
                 class="mes-data input-styling-background"
                 emojiBlock
@@ -164,7 +164,7 @@
               >
               </textarea>
               <div class="character-count-standard validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
-                {{getCharacterCountText()}}
+                {{ getCharacterCountText() }}
               </div>
             </ion-col>
           </ion-row>
