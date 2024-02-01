@@ -33,7 +33,7 @@ export const questionCombinations: Combination[] = [
   {
     code: 'LGV4',
     questions: ['Q08', 'Q04', 'Q15', 'Q11'],
-    additionalText: 'LSDT & Fire ex',
+    additionalText: 'LSDT & fire ex',
   },
   {
     code: 'LGV5',
@@ -71,7 +71,7 @@ export const questionCombinations: Combination[] = [
   {
     code: 'PCV4',
     questions: ['Q07', 'Q12', 'Q17', 'Q13'],
-    additionalText: 'Wheel chair & Fire ex',
+    additionalText: 'Wheel chair & fire ex',
   },
   {
     code: 'PCV5',

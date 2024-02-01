@@ -9,10 +9,10 @@ export enum TestRequirementsLabels {
   busStop1 = 'Bus Stop (BS)',
   busStop2 = 'Bus Stop (BS)',
   angledStart = 'Angled start (AS)',
-  hillStart = 'Hill start (HS) / Designated stop (DS)',
+  hillStart = 'Hill start (HS) / designated stop (DS)',
   uphillStart = 'Uphill start (US)',
   downhillStart = 'Downhill start (DS)',
-  angledStartControlledStop = 'Angled start (AS) / Controlled stop (CS)',
+  angledStartControlledStop = 'Angled start (AS) / controlled stop (CS)',
   uncoupleRecouple = 'Uncouple / recouple',
 }
 

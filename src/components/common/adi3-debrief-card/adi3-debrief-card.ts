@@ -64,7 +64,7 @@ export class Adi3DebriefCard implements OnInit {
       case 'A':
         return 'A high overall standard of instruction demonstrated';
       default:
-        return 'Unsatisfactory Performance';
+        return 'Unsatisfactory performance';
     }
   }
 }

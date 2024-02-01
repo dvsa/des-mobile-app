@@ -7,16 +7,16 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'Your fully laden vehicle is ready for you to do a delivery. Show me:',
     additionalItems: [
-      'a) the checks you\'d carry out to make sure the vehicle isn\'t over-loaded',
-      'b) if you\'re still in doubt, what else you could do',
+      'a) The checks you\'d carry out to make sure the vehicle isn\'t over-loaded.',
+      'b) If you\'re still in doubt, what else you could do.',
     ],
     answer1: {
       selected: false,
-      label: 'Check paperwork relating to the load (Or check load)',
+      label: 'Check paperwork relating to the load (or check load)',
     },
     answer2: {
       selected: false,
-      label: 'Check vehicle design weight (VI Plate).',
+      label: 'Check vehicle design weight (VI plate)',
     },
     answer3: {
       selected: false,
@@ -30,11 +30,11 @@ export const lgvQuestions: CPCQuestion[] = [
   },
   {
     questionCode: 'Q02',
-    title: 'Security of vehicle and contents ',
+    title: 'Security of vehicle and contents',
     subtitle: 'You need to leave your vehicle.',
     additionalItems: [
       'a) Where might you consider parking it?',
-      'b) Explain what safety checks and security precautions you\'d take',
+      'b) Explain what safety checks and security precautions you\'d take.',
     ],
     answer1: {
       selected: false,
@@ -42,7 +42,7 @@ export const lgvQuestions: CPCQuestion[] = [
     },
     answer2: {
       selected: false,
-      label: 'Remove keys and lock doors ',
+      label: 'Remove keys and lock doors',
     },
     answer3: {
       selected: false,
@@ -80,11 +80,11 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q04',
     title: 'Security of vehicle and contents',
-    subtitle: 'You are about to drive a high sided vehicle on an unfamiliar route. ',
+    subtitle: 'You are about to drive a high sided vehicle on an unfamiliar route.',
     additionalItems: [
-      'a) Show me the visual checks you would make before starting your journey',
+      'a) Show me the visual checks you would make before starting your journey.',
       'b) If there is any doubt of the vehicles height what else could you do?',
-      'c) If you are involved in a railway bridge strike what action should you take? ',
+      'c) If you are involved in a railway bridge strike what action should you take?',
     ],
     answer1: {
       selected: false,
@@ -100,7 +100,7 @@ export const lgvQuestions: CPCQuestion[] = [
     },
     answer4: {
       selected: false,
-      label: 'Call the police and railway authority using the bridge ID plate ',
+      label: 'Call the police and railway authority using the bridge ID plate',
     },
     score: null,
   },
@@ -109,8 +109,8 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'Your fully laden vehicle is ready for you to do a delivery. Show me:',
     additionalItems: [
-      'a)The checks you\'d carry out to make sure the vehicle\'s not overloaded',
-      'b) if you\'re still in doubt, what else you could you do',
+      'a) The checks you\'d carry out to make sure the vehicle\'s not overloaded.',
+      'b) If you\'re still in doubt, what else you could you do.',
     ],
     answer1: {
       selected: false,
@@ -118,7 +118,7 @@ export const lgvQuestions: CPCQuestion[] = [
     },
     answer2: {
       selected: false,
-      label: 'Check vehicle design weight (VI Plate) ',
+      label: 'Check vehicle design weight (VI plate)',
     },
     answer3: {
       selected: false,
@@ -141,7 +141,7 @@ export const lgvQuestions: CPCQuestion[] = [
     },
     answer2: {
       selected: false,
-      label: 'Check under and on top (visual, if possible) of the vehicle ',
+      label: 'Check under and on top (visual, if possible) of the vehicle',
     },
     answer3: {
       selected: false,
@@ -158,10 +158,10 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'You\'ve been asked to collect half a load of steel plates on an empty vehicle. Show me:',
     additionalItems: [
-      'a) by pointing to the correct distribution area(s) on this vehicle, where the load should be placed',
-      'b) which restraining device you\'d use to secure the load ',
-      'c) how you\'d secure the load with the restraining device, using the load securing trolley',
-      'd) how you\'d release the restraining device.',
+      'a) By pointing to the correct distribution area(s) on this vehicle, where the load should be placed.',
+      'b) Which restraining device you\'d use to secure the load.',
+      'c) How you\'d secure the load with the restraining device, using the load securing trolley.',
+      'd) How you\'d release the restraining device.',
     ],
     answer1: {
       selected: false,
@@ -186,8 +186,8 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Assessing Emergency Situations',
     subtitle: 'You suspect a brake fault on this vehicle. Show me:',
     additionalItems: [
-      'a) what checks you can carry out to make sure the compressor is working properly ',
-      'b) any checks you could make to identify air leaks',
+      'a) What checks you can carry out to make sure the compressor is working properly.',
+      'b) Any checks you could make to identify air leaks.',
     ],
     answer1: {
       selected: false,
@@ -212,8 +212,8 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'You\'re about to make a very long journey beyond the fuel range of this vehicle.',
     additionalItems: [
-      'a) Show me what checks you\'d make to this vehicle\'s fuel system',
-      'b) Explain what precautions you\'d take to make sure you don\'t run out of fuel'],
+      'a) Show me what checks you\'d make to this vehicle\'s fuel system.',
+      'b) Explain what precautions you\'d take to make sure you don\'t run out of fuel.'],
     answer1: {
       selected: false,
       label: 'Checks enough fuel for the first stage of the journey (instrument check)',
@@ -237,16 +237,16 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Assessing emergency situations',
     subtitle: 'You\'re driving on a motorway and flames appear from the engine compartment. Show me:',
     additionalItems: [
-      'a) how you’d deal with this small electrical wiring fire',
-      'b) which is the appropriate fire extinguisher to use on this fire',
+      'a) How you’d deal with this small electrical wiring fire.',
+      'b) Which is the appropriate fire extinguisher to use on this fire.',
     ],
     answer1: {
       selected: false,
-      label: 'Stop as quickly and safely as possible on the hard shoulder. ',
+      label: 'Stop as quickly and safely as possible on the hard shoulder',
     },
     answer2: {
       selected: false,
-      label: 'Identifies correct extinguisher to use on electrical system fire (CO2 / Powder) (Refer to photograph)',
+      label: 'Identifies correct extinguisher to use on electrical system fire (CO2 / powder) (refer to photograph)',
     },
     answer3: {
       selected: false,
@@ -261,15 +261,15 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q12',
     title: 'Loading the vehicle',
-    subtitle: 'Show me: ',
+    subtitle: 'Show me:',
     additionalItems: [
-      'a) how you\'d check the maximum authorised mass of this vehicle',
-      'b) what other checks you\'d carry out to make sure the vehicle\'s not overloaded',
-      'c) if you\'re still in doubt, what else you could do',
+      'a) How you\'d check the maximum authorised mass of this vehicle.',
+      'b) What other checks you\'d carry out to make sure the vehicle\'s not overloaded.',
+      'c) If you\'re still in doubt, what else you could do.',
     ],
     answer1: {
       selected: false,
-      label: 'Check vehicle design weight (VI Plate)',
+      label: 'Check vehicle design weight (VI plate)',
     },
     answer2: {
       selected: false,
@@ -287,8 +287,8 @@ export const lgvQuestions: CPCQuestion[] = [
   },
   {
     questionCode: 'Q13',
-    title: 'Security of vehicle and contents ',
-    subtitle: 'You\'ve been given a different vehicle to drive for the day. Show me all of the practical and visual safety checks you\'d make before driving the vehicle. ',
+    title: 'Security of vehicle and contents',
+    subtitle: 'You\'ve been given a different vehicle to drive for the day. Show me all of the practical and visual safety checks you\'d make before driving the vehicle.',
     additionalItems: [],
     answer1: {
       selected: false,
@@ -313,10 +313,10 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'You\'ve delivered part of your load and are left with half a load of empty roller cages inside your box van. Show me:',
     additionalItems: [
-      'a) by pointing to the correct distribution area(s) on this vehicle, where this load should be placed',
-      'b) which restraining device you\'d use to secure the load',
-      'c) how you\'d secure the load with the restraining device',
-      'd) how you\'d release the restraining device',
+      'a) by pointing to the correct distribution area(s) on this vehicle, where this load should be placed.',
+      'b) which restraining device you\'d use to secure the load.',
+      'c) how you\'d secure the load with the restraining device.',
+      'd) how you\'d release the restraining device.',
     ],
     answer1: {
       selected: false,
@@ -380,7 +380,7 @@ export const lgvQuestion5: Question5 = {
   },
   answer4: {
     selected: false,
-    label: 'Lights / Reflectors',
+    label: 'Lights / reflectors',
   },
   answer5: {
     selected: false,
@@ -392,7 +392,7 @@ export const lgvQuestion5: Question5 = {
   },
   answer7: {
     selected: false,
-    label: 'Tyres / Wheel fixings ',
+    label: 'Tyres / wheel fixings',
   },
   answer8: {
     selected: false,
@@ -400,7 +400,7 @@ export const lgvQuestion5: Question5 = {
   },
   answer9: {
     selected: false,
-    label: 'Wipers / Washers',
+    label: 'Wipers / washers',
   },
   answer10: {
     selected: false,
