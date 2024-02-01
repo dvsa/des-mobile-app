@@ -23,8 +23,8 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
+import { ReportLogsProviderMock } from '@providers/logs/__mocks__/report-logs.mock';
 
 describe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
@@ -75,8 +75,8 @@ describe('BackToOfficePage', () => {
           useClass: DateTimeProviderMock,
         },
         {
-          provide: LogHelper,
-          useClass: LogHelperMock,
+          provide: ReportLogsProvider,
+          useClass: ReportLogsProviderMock,
         },
       ],
     });

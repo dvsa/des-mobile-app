@@ -29,6 +29,7 @@ import {
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { getTests } from '@store/tests/tests.reducer';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
 
 interface RekeyUploadOutcomePageState {
   duplicateUpload$: Observable<boolean>;
@@ -53,6 +54,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
     protected router: Router,
+    public reportLogs: ReportLogsProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -108,9 +110,21 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
 
   async ionViewDidEnter(): Promise<void> {
     if (super.isIos()) {
-      await ScreenOrientation.unlock();
-      await Insomnia.allowSleep();
-      await this.deviceProvider.disableSingleAppMode();
+      try {
+        // attempt to disable SAM
+        await this.deviceProvider.disableSingleAppMode();
+
+        // if SAM is now disabled, unlock the screen and allow sleep
+        const isEnabled = await this.deviceProvider.isSAMEnabled();
+
+        if (!isEnabled) {
+          await ScreenOrientation.unlock();
+          await Insomnia.allowSleep();
+        }
+
+      } catch (err) {
+        this.reportLogs.methodReportLog('ionViewDidEnter', err, 'BackToOfficePage');
+      }
     }
 
     this.store$.dispatch(RekeyUploadOutcomeViewDidEnter());

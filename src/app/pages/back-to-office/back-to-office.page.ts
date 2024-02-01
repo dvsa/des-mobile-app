@@ -31,9 +31,7 @@ import { DeviceProvider } from '@providers/device/device';
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
+import { ReportLogsProvider } from '@providers/logs/report-logs-provider.service';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -68,7 +66,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public routeByCategoryProvider: RouteByCategoryProvider,
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
-    public logHelper: LogHelper,
+    public reportLogs: ReportLogsProvider,
   ) {
     super(platform, authenticationProvider, router, store$, false);
   }
@@ -110,22 +108,19 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
 
     if (super.isIos()) {
       try {
-        // check if SAM was enabled before disabling it which would suggest it failed before & needs device restart
-        this.singleAppModeEnabled = await this.deviceProvider.isSAMEnabled();
-
         // attempt to disable SAM
         await this.deviceProvider.disableSingleAppMode();
 
-        // if SAM is now disabled, unlock the screen and allow sleep
-        const isEnabled = await this.deviceProvider.isSAMEnabled();
+        this.singleAppModeEnabled = await this.deviceProvider.isSAMEnabled();
 
-        if (!isEnabled) {
+        // if SAM is now disabled, unlock the screen and allow sleep
+        if (!this.singleAppModeEnabled) {
           await ScreenOrientation.unlock();
           await Insomnia.allowSleep();
         }
 
       } catch (err) {
-        this.reportLog('ionViewDidEnter', err);
+        this.reportLogs.methodReportLog('ionViewDidEnter', err, 'BackToOfficePage');
       }
     }
   }
@@ -189,16 +184,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   async goToOfficePage() {
     await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
-
-  private reportLog = (method: string, error: unknown) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        LogType.ERROR,
-        `BackToOfficePage ${method}`,
-        JSON.stringify(error),
-      ),
-    }));
-  };
 
   private destroyTestSubs = (): void => {
     // At this point in a test, you can not go back at all in the journey - therefore shutdown any subscriptions
