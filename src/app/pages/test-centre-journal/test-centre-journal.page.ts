@@ -64,6 +64,23 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   viewJournalsCard: ViewJournalsCardComponent;
 
   private destroy$ = new Subject<{}>();
+  activeTestCentres: JournalTestCentre[] = [
+    {
+      centreId: 3024,
+      costCode: 'DER(1)',
+      centreName: 'Derby 1',
+    },
+    {
+      centreId: 3025,
+      costCode: 'LON',
+      centreName: 'London 1',
+    },
+    {
+      centreId: 325,
+      centreName: 'Stirling',
+      costCode: 'ESTIRL',
+    },
+  ]
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
