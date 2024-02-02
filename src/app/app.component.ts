@@ -55,13 +55,13 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     },
     {
       title: UNUPLOADED_TESTS_PAGE,
-      descriptor: 'Unsubmitted Tests',
+      descriptor: 'Unsubmitted tests',
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
     // {
     //   title: PASS_CERTIFICATES,
-    //   descriptor: 'Missing/Spoiled Pass Certificates',
+    //   descriptor: 'Missing / spoiled pass certificates',
     // },
   ];
 

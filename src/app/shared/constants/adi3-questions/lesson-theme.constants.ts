@@ -1,14 +1,14 @@
 export const studentValues = {
   beginner: 'Beginner',
-  partlyTrained: 'Partly Trained',
+  partlyTrained: 'Partly trained',
   trained: 'Trained',
-  flhNew: 'FLH New',
-  flhExperienced: 'FLH Experienced',
+  flhNew: 'FLH new',
+  flhExperienced: 'FLH experienced',
 };
 
 export const lessonThemeValues = {
   junctions: 'Junctions',
-  townCityDriving: 'Town & City driving',
+  townCityDriving: 'Town & city driving',
   interactionWithOtherRoadUsers: 'Interaction with other road users',
   motorways: 'Motorways',
   defensiveDriving: 'Defensive driving',

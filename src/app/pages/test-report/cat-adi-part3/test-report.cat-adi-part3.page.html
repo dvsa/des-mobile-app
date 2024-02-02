@@ -15,7 +15,7 @@
     <ion-row class="mes-full-width-card-small-top ion-nowrap">
       <ion-col size="60">
         <h2 id="adi-pt3-assessment-lesson-theme-title" class="normal-font-weight ion-padding-start des-header-style-2">
-          {{testCategory === 'SC' ? 'Standards check' : 'ADI Part 3'}} assessment
+          {{testCategory === 'SC' ? 'Standards check' : 'ADI part 3'}} assessment
         </h2>
       </ion-col>
       <ion-col size="36">
@@ -23,7 +23,7 @@
           id="adi-pt3-lesson-theme-title"
           class="ion-float-right normal-font-weight ion-padding-end des-header-style-2"
         >
-          Lesson & Theme
+          Lesson & theme
         </ion-text>
       </ion-col>
     </ion-row>
@@ -90,7 +90,7 @@
     *ngIf="page === 'testReport'"
     [score]="adi3AssessmentProvider.countScoreIfTouched(pageState.adi3TestData$ | async)"
     [displayPercentage]="false"
-    [label]="'Total Score:'"
+    [label]="'Total score:'"
   >
   </question-score>
 

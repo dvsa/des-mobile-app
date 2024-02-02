@@ -52,7 +52,7 @@ export class Adi3EndTestModal implements OnInit {
 
   getTestResultLabel(): string {
     if (!this.isTestReportPopulated) {
-      return 'No Result';
+      return 'No result';
     }
     if (this.riskToPublicSafety === true) {
       return 'Terminated';

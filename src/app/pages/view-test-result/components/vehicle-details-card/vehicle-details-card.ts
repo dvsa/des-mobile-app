@@ -178,7 +178,7 @@ export class VehicleDetailsCardComponent {
   }
 
   public get schoolCarDualControls(): string {
-    return get(this.data, 'schoolCar') ? 'School Car' : 'Dual Controls';
+    return get(this.data, 'schoolCar') ? 'School car' : 'Dual controls';
   }
 
   public get dualControls(): string {

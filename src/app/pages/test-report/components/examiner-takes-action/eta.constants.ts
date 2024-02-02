@@ -1,4 +1,4 @@
 export enum etaLabels {
-  verbal = 'ETA: Verbal',
-  physical = 'ETA: Physical',
+  verbal = 'ETA: verbal',
+  physical = 'ETA: physical',
 }

@@ -173,13 +173,13 @@ describe('VehicleDetailsCardComponent', () => {
     });
 
     describe('schoolCarDualControls', () => {
-      it('should return School Car if schoolCar is true', () => {
+      it('should return School car if schoolCar is true', () => {
         component.data = { schoolCar: true };
-        expect(component.schoolCarDualControls).toEqual('School Car');
+        expect(component.schoolCarDualControls).toEqual('School car');
       });
       it('should return Dual Controls if schoolCar is false', () => {
         component.data = { schoolCar: false };
-        expect(component.schoolCarDualControls).toEqual('Dual Controls');
+        expect(component.schoolCarDualControls).toEqual('Dual controls');
       });
     });
 

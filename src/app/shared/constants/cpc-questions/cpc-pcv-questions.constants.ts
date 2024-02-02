@@ -109,8 +109,8 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Ability to assess emergency situations',
     subtitle: 'You\'re driving on a motorway and flames appear from the engine compartment. Show me:',
     additionalItems: [
-      'a) how you’d deal with this small electrical wiring fire',
-      'b) which is the appropriate fire extinguisher to use on this fire',
+      'a) How you’d deal with this small electrical wiring fire.',
+      'b) Which is the appropriate fire extinguisher to use on this fire.',
     ],
     answer1: {
       selected: false,
@@ -135,10 +135,10 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'A wheelchair user wants to board your vehicle. Show me or explain:',
     additionalItems: [
-      'a) the different access points on the vehicle which a wheelchair user might use\n',
-      'b) the docking area for wheelchairs on this vehicle',
-      'c) which way the wheelchair should face',
-      'd) What would you do if the wheelchair docking area is occupied by another passenger',
+      'a) The different access points on the vehicle which a wheelchair user might use.\n',
+      'b) The docking area for wheelchairs on this vehicle.',
+      'c) Which way the wheelchair should face.',
+      'd) What would you do if the wheelchair docking area is occupied by another passenger.',
     ],
     answer1: {
       selected: false,
@@ -163,8 +163,8 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Ability to assess emergency situations',
     subtitle: 'You\'re driving a loaded vehicle on a motorway and flames appear from around one of your tyres. Tell me:',
     additionalItems: [
-      'a) how you\'d deal with this small fire?',
-      'b) which of these extinguishers would be the best to use on the fire?',
+      'a) How you\'d deal with this small fire?',
+      'b) Which of these extinguishers would be the best to use on the fire?',
     ],
     answer1: {
       selected: false,
@@ -189,8 +189,8 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Assessing Emergency Situations',
     subtitle: 'You suspect a brake fault on this vehicle. Show me:',
     additionalItems: [
-      'a) what checks you can carry out to make sure the compressor is working properly ',
-      'b) any checks you could make to identify air leaks',
+      'a) What checks you can carry out to make sure the compressor is working properly.',
+      'b) Any checks you could make to identify air leaks.',
     ],
     answer1: {
       selected: false,
@@ -238,8 +238,8 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Ability to assess emergency situations',
     subtitle: 'Walk around the vehicle and:',
     additionalItems: [
-      'a) explain what projections and overhangs there are',
-      'b) describe what allowances you\'d have to make for these projections and overhangs when you\'re driving the vehicle',
+      'a) Explain what projections and overhangs there are.',
+      'b) Describe what allowances you\'d have to make for these projections and overhangs when you\'re driving the vehicle.',
     ],
     answer1: {
       selected: false,
@@ -287,8 +287,8 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Ability to assess emergency situations',
     subtitle: 'You\'re driving along a busy main road and are alerted to a small fire which is centred around the fuel system. Show me:',
     additionalItems: [
-      'a) how you\'d deal with this situation ',
-      'b) which extinguisher you would NOT use on a fuel fire',
+      'a) How you\'d deal with this situation.',
+      'b) Which extinguisher you would NOT use on a fuel fire.',
     ],
     answer1: {
       selected: false,

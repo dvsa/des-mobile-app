@@ -5,7 +5,7 @@
       <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="candidate-licence-page-title">
-      DVLA Licence information - {{pageState.candidateUntitledName$ | async}}
+      DVLA licence information - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
       <end-test-link [category]="pageState.testCategory$ | async" [isPracticeMode]="isPracticeMode"></end-test-link>

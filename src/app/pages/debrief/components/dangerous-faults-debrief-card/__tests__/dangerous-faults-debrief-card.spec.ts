@@ -45,7 +45,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
       const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
       expect(dangerousLabels[0].nativeElement.innerHTML.trim())
-        .toBe('Control - Ancillary Controls');
+        .toBe('Control - Ancillary controls');
       expect(dangerousLabels[1].nativeElement.innerHTML.trim())
         .toBe('Clearance');
       expect(dangerousCounts.innerHTML)

@@ -43,7 +43,7 @@ export enum ActivityCodeDescription {
   NOT_AVAILABLE_FOR_HOME_TEST_EXAMINER_FAULT = 'Not available for home test: Not candidate’s fault',
   BAD_LIGHT = 'Bad light',
   TRAFFIC = 'Traffic congestion',
-  NATURAL_DISASTER = 'Natural Disaster',
+  NATURAL_DISASTER = 'Natural disaster',
   LICENCE_FAILED_CHECK = 'Licence failed UV check',
   CANDIDATE_REFUSED_TO_SIGN_RESIDENCY_DECLARATION = 'Candidate refused to sign residency declaration',
   CANDIDATE_STOPS_TEST = 'Candidate chose to stop test: Not already failed',
@@ -82,7 +82,7 @@ export enum Adi3ActivityCodeDescription {
   BAD_WEATHER_AT_DTC = 'Bad weather at DTC',
   BAD_WEATHER_AT_CANDIDATES_HOME = 'Bad weather at PDI/ADI/Pupil’s home',
   TRAFFIC = 'Traffic congestion',
-  NATURAL_DISASTER = 'Natural Disaster',
+  NATURAL_DISASTER = 'Natural disaster',
   INDUSTRIAL_ACTION = 'Test cancelled due to industrial action',
 }
 

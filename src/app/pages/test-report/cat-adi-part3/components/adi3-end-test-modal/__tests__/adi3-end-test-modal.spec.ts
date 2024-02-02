@@ -131,10 +131,10 @@ describe('Adi3EndTestModal', () => {
   });
 
   describe('getTestResultLabel', () => {
-    it('should return No Result if isTestReportPopulated is false', () => {
+    it('should return No result if isTestReportPopulated is false', () => {
       component.isTestReportPopulated = false;
 
-      expect(component.getTestResultLabel()).toBe('No Result');
+      expect(component.getTestResultLabel()).toBe('No result');
     });
     it('should return Terminated if isTestReportPopulated is true '
         + 'and riskToPublicSafety is true', () => {

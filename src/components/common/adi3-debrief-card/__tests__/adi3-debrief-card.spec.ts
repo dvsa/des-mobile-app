@@ -37,10 +37,10 @@ describe('Adi3DebriefCard', () => {
       expect(component.displayGradeDescription())
         .toBe('A high overall standard of instruction demonstrated');
     });
-    it('should "Unsatisfactory Performance" if grade sets the switch to default', () => {
+    it('should "Unsatisfactory performance" if grade sets the switch to default', () => {
       component.grade = 'test';
       expect(component.displayGradeDescription())
-        .toBe('Unsatisfactory Performance');
+        .toBe('Unsatisfactory performance');
     });
   });
 
@@ -49,7 +49,7 @@ describe('Adi3DebriefCard', () => {
       component.lessonTheme = { lessonThemes: ['junctions', 'townCityDriving'] };
       component.ngOnInit();
       expect(component.lessonThemeValueStr)
-        .toEqual('Junctions, Town & City driving');
+        .toEqual('Junctions, Town & city driving');
     });
   });
 });

@@ -1,6 +1,6 @@
 <ion-grid>
   <ion-card class="ion-padding">
-    <ion-row class="tr-standard-text">Total Score</ion-row>
+    <ion-row class="tr-standard-text">Total score</ion-row>
     <br />
     <ion-row>
       <ion-col class="tr-standard-text total-score-positioning" id="total-score-text" size="10">{{totalScore}}</ion-col>
@@ -12,7 +12,7 @@
           <p id="grade-description-text">{{displayGradeDescription()}}</p>
         </ion-row>
         <ion-row *ngIf="riskManagement.score <= 7">
-          <p id="scored-less-than-7-in-rm-text">Scored 7 or less in Risk Management section</p>
+          <p id="scored-less-than-7-in-rm-text">Scored 7 or less in risk management section</p>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -22,7 +22,7 @@
     *ngIf="(lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel"
     class="ion-padding"
   >
-    <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
+    <ion-row class="tr-standard-text">Lesson & theme</ion-row>
     <br />
     <ion-row>
       <ion-col class="tr-standard-text" size="20">Student</ion-col>
@@ -65,7 +65,7 @@
       <adi3-debrief-card-box
         [idSelector]="'lesson-planning'"
         [testReportSection]="lessonPlanning"
-        [title]="'Lesson Planning'"
+        [title]="'Lesson planning'"
       >
       </adi3-debrief-card-box>
     </ion-col>
@@ -74,7 +74,7 @@
       <adi3-debrief-card-box
         [idSelector]="'risk-management'"
         [testReportSection]="riskManagement"
-        [title]="'Risk Management'"
+        [title]="'Risk management'"
       >
       </adi3-debrief-card-box>
     </ion-col>
@@ -83,7 +83,7 @@
       <adi3-debrief-card-box
         [idSelector]="'teaching-and-learning-strategies'"
         [testReportSection]="teachingLearningStrategies"
-        [title]="'Teaching & Learning Strategies'"
+        [title]="'Teaching & learning strategies'"
       >
       </adi3-debrief-card-box>
     </ion-col>
