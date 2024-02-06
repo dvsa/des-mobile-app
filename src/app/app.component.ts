@@ -29,6 +29,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -61,7 +62,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     },
     {
       title: EXAMINER_RECORDS,
-      descriptor: 'Examiner Records',
+      descriptor: 'Examiner records',
     },
     // {
     //   title: PASS_CERTIFICATES,
@@ -83,6 +84,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
+    private examinerRecordsProvider: ExaminerRecordsProvider,
     private storage: Storage,
     injector: Injector,
   ) {
@@ -223,9 +225,18 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   navPage = async (page: Page): Promise<void> => {
-    await this.router.navigate([page.title]);
-    await this.menuController.close();
-    this.store$.dispatch(SideMenuItemSelected(page.descriptor));
+    if (page.title === EXAMINER_RECORDS) {
+      await this.examinerRecordsProvider.cacheOnlineRecords().then(async () => {
+        console.log('online tests cached');
+        await this.router.navigate([page.title]);
+        await this.menuController.close();
+        this.store$.dispatch(SideMenuItemSelected(page.descriptor));
+      });
+    } else {
+      await this.router.navigate([page.title]);
+      await this.menuController.close();
+      this.store$.dispatch(SideMenuItemSelected(page.descriptor));
+    }
   };
 
   closeSideMenu = (): void => {

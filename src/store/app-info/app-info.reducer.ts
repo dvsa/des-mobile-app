@@ -15,6 +15,7 @@ import {
   ShowDataChanged,
   LocationChanged,
   TestCategoryChanged,
+  CacheTests,
 } from '@pages/examiner-records/examiner-records.actions';
 import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
 
@@ -26,6 +27,7 @@ export const initialState: AppInfoStateModel = {
   employeeName: 'Unknown Name',
   updateAvailablePresented: null,
   examinerRecords: {
+    cachedTests: null,
     showData: false,
     colourScheme: ColourEnum.Default,
     dateFilter: null,
@@ -59,6 +61,13 @@ export const appInfoReducer = createReducer(
   on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
     ...state,
     updateAvailablePresented: hasSeen,
+  })),
+  on(CacheTests, (state: AppInfoStateModel, { tests }) => ({
+    ...state,
+    examinerRecords: {
+      ...state.examinerRecords,
+      cachedTests: tests,
+    },
   })),
   on(ColourFilterChanged, (state: AppInfoStateModel, { colour }) => ({
     ...state,

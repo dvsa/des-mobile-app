@@ -214,6 +214,8 @@ export const getRouteNumbers = (
       }))// filter for any nulls
     .filter((route) => route.routeNum !== null);
 
+  console.log('routeData:', data);
+
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => isEqual(val, item)).length;
     return {
