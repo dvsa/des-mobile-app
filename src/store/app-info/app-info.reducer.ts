@@ -17,7 +17,7 @@ import {
   TestCategoryChanged,
   CacheTests,
 } from '@pages/examiner-records/examiner-records.actions';
-import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
+import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
 export const appInfoFeatureKey = 'appInfo';
 
