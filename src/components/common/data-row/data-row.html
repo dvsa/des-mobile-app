@@ -14,8 +14,10 @@
     <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [style]="dataStyling" [alt]="label + ' image'" />
   </ion-col>
   <ng-template #notImage>
-    <ion-col [size]="shouldShowIndicator ? 50 : 56"
-             [class]="[centreData ? 'ion-justify-content-center' : null, 'ion-align-items-center', 'display-flex']">
+    <ion-col
+      [size]="shouldShowIndicator ? 50 : 56"
+      [class]="[centreData ? 'ion-justify-content-center' : null, 'ion-align-items-center', 'display-flex']"
+    >
       <span [style]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
     </ion-col>
   </ng-template>

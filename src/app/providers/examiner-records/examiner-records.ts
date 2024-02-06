@@ -31,6 +31,7 @@ export interface SelectableDateRange {
 export type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 @Injectable()
 export class ExaminerRecordsProvider {
+
   public colours: {
     default: VariableColourScheme,
     monochrome: VariableColourScheme,
