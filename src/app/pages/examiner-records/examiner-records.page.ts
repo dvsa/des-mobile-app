@@ -370,7 +370,7 @@ export class ExaminerRecordsPage implements OnInit {
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
   ]);
 
-  getColour(): { bar: string[], pie: string[], average: string } | { colours: string[], average: string } {
+  getColour(): StaticColourScheme | VariableColourScheme {
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
         return this.examinerRecordsProvider.colours.monochrome;
