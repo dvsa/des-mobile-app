@@ -1,28 +1,31 @@
 <ion-row id="view-filter-row" [formGroup]="formGroup">
-  <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 35 : 30" class="ion-align-self-center">
-    <input type="radio"
-           id="value-filter-default"
-           class="gds-radio-button"
-           name="colourFilter"
-           formControlName="colourFilter"
-           value="Default"
-           (change)="viewFilterChanged($event.target.value)">
-    <label for="value-filter-default" class="radio-label" id="value-filter-default-label">
-      Default
-    </label>
+  <ion-col
+    [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 35 : 30"
+    class="ion-align-self-center"
+  >
+    <input
+      type="radio"
+      id="value-filter-default"
+      class="gds-radio-button"
+      name="colourFilter"
+      formControlName="colourFilter"
+      value="Default"
+      (change)="viewFilterChanged($event.target.value)"
+    />
+    <label for="value-filter-default" class="radio-label" id="value-filter-default-label"> Default </label>
   </ion-col>
-<!--      <ion-row size="50" class="padding-top-10 ion-align-self-center">-->
-<!--        <input type="radio"-->
-<!--               id="value-filter-amethyst"-->
-<!--               class="gds-radio-button"-->
-<!--               name="colourFilter"-->
-<!--               formControlName="colourFilter"-->
-<!--               value="Amethyst"-->
-<!--               (change)="viewFilterChanged($event.target.value)">-->
-<!--        <label for="value-filter-amethyst" class="radio-label" id="value-filter-amethyst-label">-->
-<!--          Amethyst-->
-<!--        </label>-->
-<!--      </ion-row>-->
+  <!--      <ion-row size="50" class="padding-top-10 ion-align-self-center">-->
+  <!--        <input type="radio"-->
+  <!--               id="value-filter-amethyst"-->
+  <!--               class="gds-radio-button"-->
+  <!--               name="colourFilter"-->
+  <!--               formControlName="colourFilter"-->
+  <!--               value="Amethyst"-->
+  <!--               (change)="viewFilterChanged($event.target.value)">-->
+  <!--        <label for="value-filter-amethyst" class="radio-label" id="value-filter-amethyst-label">-->
+  <!--          Amethyst-->
+  <!--        </label>-->
+  <!--      </ion-row>-->
   <!--    <ion-row size="50" class="padding-top-10 ion-align-self-center">-->
   <!--      <input type="radio"-->
   <!--             id="value-filter-navy"-->
@@ -36,15 +39,15 @@
   <!--      </label>-->
   <!--    </ion-row>-->
   <ion-col size="45" class="ion-align-self-center">
-    <input type="radio"
-           id="value-filter-monochrome"
-           class="gds-radio-button"
-           name="colourFilter"
-           formControlName="colourFilter"
-           value="Monochrome"
-           (change)="viewFilterChanged($event.target.value)">
-    <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label">
-      Monochrome
-    </label>
+    <input
+      type="radio"
+      id="value-filter-monochrome"
+      class="gds-radio-button"
+      name="colourFilter"
+      formControlName="colourFilter"
+      value="Monochrome"
+      (change)="viewFilterChanged($event.target.value)"
+    />
+    <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label"> Monochrome </label>
   </ion-col>
 </ion-row>
