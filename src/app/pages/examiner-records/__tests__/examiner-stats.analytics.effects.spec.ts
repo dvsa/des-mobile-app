@@ -15,6 +15,7 @@ import {
   ShowDataChanged,
   LocationChanged,
   TestCategoryChanged,
+  CallBackendRecords,
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
@@ -61,7 +62,10 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   describe('dateRangeChanged$', () => {
     it('should log an event', (done) => {
       // ACT
-      actions$.next(DateRangeChanged('some range'));
+      actions$.next(DateRangeChanged({
+        display: '1',
+        val: 'today',
+      }));
       // ASSERT
       effects.dateRangeChanged$.subscribe((result) => {
         expect(result.type)
@@ -70,7 +74,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.EXAMINER_STATS,
             AnalyticsEvents.DATE_RANGE_CHANGED,
-            'some range',
+            'today',
           );
         done();
       });
@@ -79,7 +83,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   describe('locationChanged$', () => {
     it('should log an event', (done) => {
       // ACT
-      actions$.next(LocationChanged('some location'));
+      actions$.next(LocationChanged({ centreId: 1, centreName: '2', costCode: '3' }));
       // ASSERT
       effects.locationChanged$.subscribe((result) => {
         expect(result.type)
@@ -88,7 +92,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.EXAMINER_STATS,
             AnalyticsEvents.LOCATION_CHANGED,
-            'some location',
+            '2',
           );
         done();
       });
@@ -107,6 +111,23 @@ describe('ExaminerStatsAnalyticsEffects', () => {
             AnalyticsEventCategories.EXAMINER_STATS,
             AnalyticsEvents.TEST_CATEGORY_CHANGED,
             TestCategory.ADI2,
+          );
+        done();
+      });
+    });
+  });
+  describe('testsCached$', () => {
+    it('should log an event', (done) => {
+      // ACT
+      actions$.next(CallBackendRecords('test'));
+      // ASSERT
+      effects.testsCached$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.EXAMINER_STATS,
+            AnalyticsEvents.ONLINE_TESTS_SAVED,
           );
         done();
       });
