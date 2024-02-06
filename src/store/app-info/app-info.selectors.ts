@@ -36,6 +36,11 @@ export const selectExaminerRecords = createSelector(
   (appInfo: AppInfoStateModel) => appInfo.examinerRecords,
 );
 
+export const selectCachedTests = createSelector(
+  selectAppInfo,
+  selectExaminerRecords,
+  (_, examinerRecords): string => examinerRecords.cachedTests,
+);
 export const selectColourScheme = createSelector(
   selectAppInfo,
   selectExaminerRecords,
