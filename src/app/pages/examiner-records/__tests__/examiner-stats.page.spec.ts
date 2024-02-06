@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
-import { ColourEnum, ExaminerRecordsPage, SelectableDateRange } from '../examiner-records.page';
+import { ExaminerRecordsPage } from '../examiner-records.page';
 import {
   AccordionChanged,
   ColourFilterChanged,
@@ -14,6 +14,7 @@ import {
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { of } from 'rxjs';
+import { ColourEnum, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 
 describe('ExaminerStatsPage', () => {
   let component: ExaminerRecordsPage;
@@ -286,7 +287,7 @@ describe('ExaminerStatsPage', () => {
       expect(component.store$.dispatch).toHaveBeenCalledWith(DateRangeChanged({
         display: '1',
         val: 'today',
-      } as SelectableDateRange,));
+      } as SelectableDateRange));
     });
     it('should set rangeSubject to the val property of the value passed', () => {
       spyOn(component.store$, 'dispatch');
@@ -389,31 +390,31 @@ describe('ExaminerStatsPage', () => {
     it('should return colors.default.pie if the colourOption ' +
       'is not within the switch options and the input is not bar', () => {
       component.colourOption = null;
-      expect(component.colourSelect('pie')).toEqual(component.colours.default.pie);
+      expect(component.colourSelect('pie')).toEqual(component.examinerRecordsProvider.colours.default.pie);
     });
     it('should return colors.default.pie if the colourOption is Default and the input is not bar', () => {
       component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('pie')).toEqual(component.colours.default.pie);
+      expect(component.colourSelect('pie')).toEqual(component.examinerRecordsProvider.colours.default.pie);
     });
     it('should return colors.default.bar if the colourOption is Default and the input is bar', () => {
       component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('bar')).toEqual(component.colours.default.bar);
+      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.default.bar);
     });
     it('should return colors.monochrome.pie if the colourOption is Monochrome and the input is not bar', () => {
       component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('pie')).toEqual(component.colours.monochrome.pie);
+      expect(component.colourSelect('pie')).toEqual(component.examinerRecordsProvider.colours.monochrome.pie);
     });
     it('should return colors.monochrome.bar if the colourOption is Monochrome and the input is bar', () => {
       component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('bar')).toEqual(component.colours.monochrome.bar);
+      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.monochrome.bar);
     });
     it('should return colors.amethyst if the colourOption is Amethyst', () => {
       component.colourOption = ColourEnum.Amethyst;
-      expect(component.colourSelect('bar')).toEqual(component.colours.amethyst);
+      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.amethyst.colours);
     });
     it('should return colors.navy if the colourOption is Navy', () => {
       component.colourOption = ColourEnum.Navy;
-      expect(component.colourSelect('bar')).toEqual(component.colours.navy);
+      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.navy.colours);
     });
   });
 
@@ -440,13 +441,13 @@ describe('ExaminerStatsPage', () => {
 
   describe('getLabelColour', () => {
     it('should return #FFFFFF if type is bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.colours.navy, 'bar')).toEqual('#FFFFFF');
+      expect(component.getLabelColour(component.examinerRecordsProvider.colours.navy, 'bar')).toEqual('#FFFFFF');
     });
     it('should return #000000 if type is not bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.colours.navy, 'pie')).toEqual('#000000');
+      expect(component.getLabelColour(component.examinerRecordsProvider.colours.navy, 'pie')).toEqual('#000000');
     });
     it('should return #000000 if the passed value is not colors.navy', () => {
-      expect(component.getLabelColour(component.colours.amethyst, 'pie')).toEqual('#000000');
+      expect(component.getLabelColour(component.examinerRecordsProvider.colours.amethyst, 'pie')).toEqual('#000000');
     });
   });
 

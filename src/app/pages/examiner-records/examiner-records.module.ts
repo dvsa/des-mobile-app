@@ -12,6 +12,7 @@ import { ExaminerRecordsAnalyticsEffects } from '@pages/examiner-records/examine
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/examiner-records-components.module';
+import { ExaminerRecordsEffects } from '@pages/examiner-records/examiner-records.effects';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/examine
     ExaminerRecordsRoutingModule,
     EffectsModule.forFeature([
       ExaminerRecordsAnalyticsEffects,
+      ExaminerRecordsEffects,
     ]),
     TranslateModule,
     ComponentsModule,

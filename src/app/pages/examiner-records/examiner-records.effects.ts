@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   CacheTests,
   CallBackendRecords,
@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
 import { SearchProvider } from '@providers/search/search';
 
 @Injectable()
-export class ExaminerRecordsAnalyticsEffects {
+export class ExaminerRecordsEffects {
 
   constructor(
     private searchProvider: SearchProvider,
@@ -18,9 +18,6 @@ export class ExaminerRecordsAnalyticsEffects {
   }
 
   recordsCalled$ = createEffect(() => this.actions$.pipe(
-    tap(() => {
-      console.log('call');
-    }),
     ofType(CallBackendRecords),
     map(({ staffNumber }) => {
       let results: string = '';

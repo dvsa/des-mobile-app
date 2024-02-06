@@ -50,12 +50,13 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests } from '@store/tests/tests.selector';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/AM2';
-import { get } from 'lodash-es';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-
-type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
+import {
+  ColourEnum,
+  DESChartTypes,
+  ExaminerRecordsProvider,
+  StaticColourScheme,
+  VariableColourScheme,
+} from '@providers/examiner-records/examiner-records';
 
 interface ExaminerRecordsState {
   routeNumbers$: Observable<ExaminerRecordData<string>[]>;
@@ -72,20 +73,6 @@ interface ExaminerRecordsState {
   circuits$: Observable<ExaminerRecordData<string>[]>;
 }
 
-export const enum ColourEnum {
-  Default = 'Default',
-  Monochrome = 'Monochrome',
-  Navy = 'Navy',
-  Amethyst = 'Amethyst',
-}
-
-export interface SelectableDateRange {
-  display: string;
-  val: DateRange;
-}
-
-export interface StaticColourScheme { colours: string[], average: string }
-export interface VariableColourScheme { bar: string[], pie: string[], average: string }
 @Component({
   selector: 'examiner-records',
   templateUrl: './examiner-records.page.html',
@@ -104,73 +91,12 @@ export class ExaminerRecordsPage implements OnInit {
   pageState: ExaminerRecordsState;
   showData = this.store$.selectSignal(selectHideCharts)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
-  colours: {
-    default: VariableColourScheme,
-    monochrome: VariableColourScheme,
-    navy: StaticColourScheme,
-    amethyst: StaticColourScheme,
-  } = {
-    default: {
-      pie: [
-        '#008FFB',
-        '#ED6926',
-        '#FF526F',
-        '#007C42',
-        '#a05195',
-      ],
-      bar: ['#008FFB'],
-      average: '#000000',
-    },
-    monochrome: {
-      pie: ['#616161',
-        '#757575',
-        '#898989',
-        '#bdbdbd',
-        '#e0e0e0',
-      ],
-      bar: ['#777777'],
-      average: '#000000',
-    },
-    amethyst: {
-      colours: [
-        '#f95d6a',
-        '#d45087',
-        '#665191',
-        '#2f4b7c',
-        '#003f5c',
-      ],
-      average: '#00FF00',
-    },
-    navy: {
-      colours: [
-        '#008FFB',
-        '#00E396',
-        '#FEB019',
-        '#FF4560',
-        '#9070ff',
-      ],
-      average: '#FF0000',
-    },
-  };
   categoryPlaceholder: string;
   locationPlaceholder: string;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
-  dateFilterOptions: SelectableDateRange[] = [
-    {
-      display: 'Today',
-      val: 'today',
-    },
-    {
-      display: 'Last 7 days',
-      val: 'week',
-    },
-    {
-      display: 'Last 14 days',
-      val: 'fortnight',
-    },
-  ];
-  public defaultDate: { display: string; val: DateRange } = this.dateFilterOptions[2];
+
+  public defaultDate: { display: string; val: DateRange } = this.examinerRecordsProvider.dateFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
   public locationFilter: string;
   public categoryDisplay: string;
@@ -189,6 +115,7 @@ export class ExaminerRecordsPage implements OnInit {
     public compressionProvider: CompressionProvider,
     public orientationProvider: OrientationMonitorProvider,
     public accessibilityService: AccessibilityService,
+    public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
   ) {
   }
@@ -225,75 +152,6 @@ export class ExaminerRecordsPage implements OnInit {
         this.categorySubject$.value))),
     );
 
-  formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
-    let result: ExaminerRecordModel = {
-      appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
-      testCategory: testResult.category as TestCategory,
-      testCentre: testResult.journalData.testCentre,
-      startDate: testResult.journalData.testSlotAttributes.start,
-    };
-
-    [
-      { field: 'controlledStop', value: get(testResult, 'testData.controlledStop.selected') },
-      { field: 'independentDriving', value: get(testResult, 'testSummary.independentDriving') },
-      { field: 'circuit', value: get(testResult, 'testSummary.circuit') },
-      { field: 'safetyQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.safetyQuestions') },
-      { field: 'balanceQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.balanceQuestions') },
-      { field: 'manoeuvres', value: get(testResult, 'testData.manoeuvres') },
-    ].forEach(item => {
-      if (item.value) {
-        result = {
-          ...result,
-          [item.field]: item.value,
-        };
-      }
-    });
-
-    let routeNumber = get(testResult, 'testSummary.routeNumber');
-    if (routeNumber) {
-      result = {
-        ...result,
-        routeNumber: Number(routeNumber),
-      };
-    }
-
-    let showQuestion = get(testResult, 'testData.vehicleChecks.showMeQuestion');
-    let showQuestions = get(testResult, 'testData.vehicleChecks.showMeQuestions');
-    if (showQuestion) {
-      result = {
-        ...result,
-        showMeQuestions: [showQuestion],
-      };
-    } else if (
-      showQuestions &&
-      (showQuestions as QuestionResult[]).filter((question) => Object.keys(question).length > 0).length !== 0) {
-
-      result = {
-        ...result,
-        showMeQuestions: (showQuestions as QuestionResult[]).filter(
-          (question) => Object.keys(question).length > 0),
-      };
-    }
-    let tellQuestion = get(testResult, 'testData.vehicleChecks.tellMeQuestion');
-    let tellQuestions = get(testResult, 'testData.vehicleChecks.tellMeQuestions');
-    if (tellQuestion) {
-      result = {
-        ...result,
-        tellMeQuestions: [tellQuestion],
-      };
-    } else if (
-      tellQuestions &&
-      (tellQuestions as QuestionResult[]).filter((question) => Object.keys(question).length > 0).length !== 0) {
-
-      result = {
-        ...result,
-        tellMeQuestions: (tellQuestions as QuestionResult[]).filter(
-          (question) => Object.keys(question).length > 0),
-      };
-    }
-    return result;
-  };
-
   getResults(): ExaminerRecordModel[] {
 
     let result: ExaminerRecordModel[] = [];
@@ -309,7 +167,7 @@ export class ExaminerRecordsPage implements OnInit {
       map(value => {
         const recordArray: ExaminerRecordModel[] = [];
         value.forEach((test) => {
-          recordArray.push(this.formatForExaminerRecords(test));
+          recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
         });
         return recordArray;
       })
@@ -495,13 +353,13 @@ export class ExaminerRecordsPage implements OnInit {
 
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
-        return this.colours.monochrome[charType];
+        return this.examinerRecordsProvider.colours.monochrome[charType];
       case ColourEnum.Amethyst:
-        return this.colours.amethyst.colours;
+        return this.examinerRecordsProvider.colours.amethyst.colours;
       case ColourEnum.Navy:
-        return this.colours.navy.colours;
+        return this.examinerRecordsProvider.colours.navy.colours;
       default:
-        return this.colours.default[charType];
+        return this.examinerRecordsProvider.colours.default[charType];
     }
   }
 
@@ -515,26 +373,26 @@ export class ExaminerRecordsPage implements OnInit {
   getColour(): { bar: string[], pie: string[], average: string } | { colours: string[], average: string } {
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
-        return this.colours.monochrome;
+        return this.examinerRecordsProvider.colours.monochrome;
       case ColourEnum.Amethyst:
-        return this.colours.amethyst;
+        return this.examinerRecordsProvider.colours.amethyst;
       case ColourEnum.Navy:
-        return this.colours.navy;
+        return this.examinerRecordsProvider.colours.navy;
       default:
-        return this.colours.default;
+        return this.examinerRecordsProvider.colours.default;
     }
   }
 
   averageSelect(): string {
     switch (this.colourOption) {
       case ColourEnum.Monochrome:
-        return this.colours.monochrome.average;
+        return this.examinerRecordsProvider.colours.monochrome.average;
       case ColourEnum.Amethyst:
-        return this.colours.amethyst.average;
+        return this.examinerRecordsProvider.colours.amethyst.average;
       case ColourEnum.Navy:
-        return this.colours.navy.average;
+        return this.examinerRecordsProvider.colours.navy.average;
       default:
-        return this.colours.default.average;
+        return this.examinerRecordsProvider.colours.default.average;
     }
   }
 
@@ -550,7 +408,7 @@ export class ExaminerRecordsPage implements OnInit {
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   getLabelColour(value: VariableColourScheme | StaticColourScheme, type: DESChartTypes) {
-    if (value === this.colours.navy) {
+    if (value === this.examinerRecordsProvider.colours.navy) {
       return (type === 'bar') ? ExaminerRecordsPage.WHITE : ExaminerRecordsPage.BLACK;
     }
     return ExaminerRecordsPage.BLACK;
