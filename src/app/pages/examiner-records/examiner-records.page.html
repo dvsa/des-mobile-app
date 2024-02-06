@@ -5,10 +5,11 @@
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="{
+<ion-content
+  [fullscreen]="true"
+  *ngIf="{
   routeGrid: pageState.routeNumbers$ | async,
   manoeuvresGrid: pageState.manoeuvres$ | async,
   showMeQuestionsGrid: pageState.showMeQuestions$ | async,
@@ -19,8 +20,8 @@
   testCount: pageState.testCount$ | async,
   emergencyStops: pageState.emergencyStops$ | async,
   circuits: pageState.circuits$ | async,
-} as data">
-
+} as data"
+>
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>
@@ -35,14 +36,14 @@
           (ionChange)="handleLocationFilter($event?.detail?.value, true)"
           labelPlacement="stacked"
           [value]="locationSelectPristine ? null : currentTestCentre"
-          [placeholder]="locationPlaceholder">
+          [placeholder]="locationPlaceholder"
+        >
           <ion-select-option [value]="option" *ngFor="let option of locationFilterOptions;">
             {{option.centreName}}
           </ion-select-option>
         </ion-select>
-        <ion-text
-          *ngIf="(pageState.locationList$ | async).length == 0"
-          class="mes-data">No locations available
+        <ion-text *ngIf="(pageState.locationList$ | async).length == 0" class="mes-data"
+          >No locations available
         </ion-text>
       </ion-row>
     </ion-col>
@@ -60,14 +61,14 @@
           labelPlacement="stacked"
           id="categorySelect"
           [value]="categorySelectPristine ? null : categorySubject$.value"
-          [placeholder]="categoryPlaceholder">
+          [placeholder]="categoryPlaceholder"
+        >
           <ion-select-option [value]="option" *ngFor="let option of categoryFilterOptions;">
             {{option}}
           </ion-select-option>
         </ion-select>
-        <ion-text
-          *ngIf="(pageState.categoryList$ | async).length == 0"
-          class="mes-data">No categories available
+        <ion-text *ngIf="(pageState.categoryList$ | async).length == 0" class="mes-data"
+          >No categories available
         </ion-text>
       </ion-row>
     </ion-col>
@@ -82,8 +83,9 @@
           class="input-styling-background black-text"
           (ionChange)="handleDateFilter($event)"
           labelPlacement="stacked"
-          [placeholder]="defaultDate.display">
-          <ion-select-option [value]="option" *ngFor="let option of dateFilterOptions;">
+          [placeholder]="defaultDate.display"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.dateFilterOptions;">
             {{option.display}}
           </ion-select-option>
         </ion-select>
@@ -95,34 +97,38 @@
       <colour-filter-radio
         [formGroup]="form"
         [colourScheme]="colourOption"
-        (filterChange)="colourFilterChanged($event)">
+        (filterChange)="colourFilterChanged($event)"
+      >
       </colour-filter-radio>
     </ion-col>
-    <ion-col class="ion-align-items-center display-flex"
-             [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 28 : 23">
+    <ion-col
+      class="ion-align-items-center display-flex"
+      [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 28 : 23"
+    >
       <label>Show data tables</label>
     </ion-col>
     <ion-col size="7" class="display-flex ion-align-items-center">
-      <input type="checkbox"
-             id="chart-toggle-input"
-             class="gds-checkbox"
-             (change)="toggleData()"
-             [checked]="showData">
+      <input
+        type="checkbox"
+        id="chart-toggle-input"
+        class="gds-checkbox"
+        (change)="toggleData()"
+        [checked]="showData"
+      />
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
 
   <div
     *ngIf="(pageState.categoryList$ | async).length > 0 &&
-    (pageState.locationList$ | async).length > 0">
-
+    (pageState.locationList$ | async).length > 0"
+  >
     <ion-row class="ion-justify-content-center display-flex">
-
       <ion-col *ngIf="data.routeGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [cardTitle]="'Test routes completed'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'bar')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Route', 'Amount', '%']"
@@ -130,17 +136,18 @@
           [showData]="showData"
           [chartID]="'testRoutes'"
           [splitChartLabel]="false"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'bar'"
           [colourScheme]="colourSelect('bar')"
-          [passedData]="data.routeGrid">
+          [passedData]="data.routeGrid"
+        >
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
           [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
           [averageColour]="averageSelect()"
-          [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
+          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
@@ -149,19 +156,19 @@
           [chartID]="'independentDriving'"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'pie'"
           [colourScheme]="colourSelect('pie')"
-          [passedData]="data.independentDrivingGrid">
+          [passedData]="data.independentDrivingGrid"
+        >
         </examiner-reports-card>
-
       </ion-col>
       <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
         <examiner-reports-card
           [cardTitle]="'Emergency stops'"
           [showCustomContent]="showData"
           [averageColour]="averageSelect()"
-          [strokeColour]="colourSelect() === colours.navy.colours ? '#243673' : '#FFFFFF'"
+          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
@@ -170,24 +177,27 @@
           [chartID]="'emergencyStop'"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [splitChartLabel]="false"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'pie'"
           [colourScheme]="colourSelect('pie')"
-          [passedData]="data.emergencyStops">
+          [passedData]="data.emergencyStops"
+        >
           <data-row
-                    [labelStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                    [dataStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                    [value]="data.emergencyStops[0].count"
-                    [centreData]="true"
-                    label="Emergency stop total">
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
+            [value]="data.emergencyStops[0].count"
+            [centreData]="true"
+            label="Emergency stop total"
+          >
           </data-row>
           <data-row
-                    [labelStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                    [dataStyling]="colourSelect() === colours.navy.colours ? 'color: white' : null"
-                    [shouldHaveSeperator]="false"
-                    [centreData]="true"
-                    [value]="data.emergencyStops[0].percentage"
-                    label="Emergency stop (%)">
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
+            [shouldHaveSeperator]="false"
+            [centreData]="true"
+            [value]="data.emergencyStops[0].percentage"
+            label="Emergency stop (%)"
+          >
           </data-row>
         </examiner-reports-card>
       </ion-col>
@@ -195,7 +205,7 @@
         <examiner-reports-card
           [cardTitle]="'Manoeuvres completed'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'bar')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Manoeuvre', 'Amount', '%']"
@@ -203,17 +213,18 @@
           [showData]="showData"
           [chartID]="'manoeuvresChart'"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'bar'"
           [colourScheme]="colourSelect('bar')"
-          [passedData]="data.manoeuvresGrid">
+          [passedData]="data.manoeuvresGrid"
+        >
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [cardTitle]="'Show me questions asked'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'bar')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
@@ -221,17 +232,18 @@
           [showData]="showData"
           [chartID]="'showMeChart'"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'bar'"
           [colourScheme]="colourSelect('bar')"
-          [passedData]="data.showMeQuestionsGrid">
+          [passedData]="data.showMeQuestionsGrid"
+        >
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.tellMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [cardTitle]="'Tell me questions asked'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'bar')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
@@ -239,17 +251,18 @@
           [showData]="showData"
           [chartID]="'tellMeChart'"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'bar'"
           [colourScheme]="colourSelect('bar')"
-          [passedData]="data.tellMeQuestionsGrid">
+          [passedData]="data.tellMeQuestionsGrid"
+        >
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.balanceGrid?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
           [cardTitle]="'Balance questions asked'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
@@ -258,17 +271,18 @@
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [chartID]="'balanceChart'"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'pie'"
           [colourScheme]="colourSelect('pie')"
-          [passedData]="data.balanceGrid">
+          [passedData]="data.balanceGrid"
+        >
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.safetyGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [cardTitle]="'Safety questions asked'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'bar')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
@@ -276,18 +290,18 @@
           [showData]="showData"
           [chartID]="'safetyChart'"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'bar'"
           [colourScheme]="colourSelect('bar')"
-          [passedData]="data.safetyGrid">
+          [passedData]="data.safetyGrid"
+        >
         </examiner-reports-card>
-
       </ion-col>
       <ion-col *ngIf="data.circuits?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
           [cardTitle]="'Circuits'"
           [averageColour]="averageSelect()"
-          [strokeColour]="getColour() === colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Circuit', 'Amount', '%']"
@@ -296,30 +310,27 @@
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [chartID]="'circuit'"
           [splitChartLabel]="true"
-          [darkColours]="getColour() === colours.navy"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
           [chartType]="'pie'"
           [colourScheme]="colourSelect('pie')"
-          [passedData]="data.circuits">
+          [passedData]="data.circuits"
+        >
         </examiner-reports-card>
       </ion-col>
     </ion-row>
   </div>
 
-  <div class="text-align-center
-  ion-justify-content-center
-  ion-align-items-center
-  display-flex
-  height-65-percent
-  direction-column"
-       *ngIf="(pageState.categoryList$ | async).length === 0 ||
-       (pageState.locationList$ | async).length === 0">
+  <div
+    class="text-align-center ion-justify-content-center ion-align-items-center display-flex height-65-percent direction-column"
+    *ngIf="(pageState.categoryList$ | async).length === 0 ||
+       (pageState.locationList$ | async).length === 0"
+  >
     <ion-row>
       <ion-text class="mes-data">
-        No driving test data available.<br>Try again when more tests have been completed.
+        No driving test data available.<br />Try again when more tests have been completed.
       </ion-text>
     </ion-row>
   </div>
-
 </ion-content>
 
 <ion-footer class="footer-styling">
@@ -328,7 +339,8 @@
       <ion-button
         id="dlg-return-to-dashboard-btn"
         class="mes-primary-button width-80-percent"
-        (click)="goToDashboard()">
+        (click)="goToDashboard()"
+      >
         <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
       </ion-button>
     </ion-col>

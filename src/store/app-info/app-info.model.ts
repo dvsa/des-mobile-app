@@ -1,5 +1,5 @@
-import { ColourEnum, SelectableDateRange } from '@pages/examiner-records/examiner-records.page';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ColourEnum, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 
 export type AppInfoStateModel = {
   versionNumber: string;
