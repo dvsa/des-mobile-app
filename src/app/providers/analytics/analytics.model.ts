@@ -238,6 +238,7 @@ export enum AnalyticsEvents {
   LOCATION_CHANGED = 'location changed',
   TEST_CATEGORY_CHANGED = 'test category changed',
   COLOUR_SCHEME_CHANGED = 'colour scheme changed',
+  ONLINE_TESTS_SAVED = 'online tests saved',
   HIDE_CHARTS_CHANGED = 'chart visibility changed',
   ADDITIONAL_FILTERS_TOGGLED = 'additional filters toggled',
 }

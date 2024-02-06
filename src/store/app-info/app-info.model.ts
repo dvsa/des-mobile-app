@@ -9,6 +9,7 @@ export type AppInfoStateModel = {
   dateConfigLoaded?: string;
   updateAvailablePresented: boolean;
   examinerRecords: {
+    cachedTests: string;
     showData: boolean;
     colourScheme: ColourEnum;
     dateFilter: SelectableDateRange;

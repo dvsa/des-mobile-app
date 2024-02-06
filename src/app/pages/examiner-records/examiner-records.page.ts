@@ -38,6 +38,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import {
+  selectCachedTests,
   selectColourScheme,
   selectHideCharts,
 } from '@store/app-info/app-info.selectors';
@@ -47,8 +48,12 @@ import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProvider } from '@providers/search/search';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests } from '@store/tests/tests.selector';
-import { ExaminerRecordModel, formatForExaminerRecords } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/AM2';
+import { get } from 'lodash-es';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { formatApplicationReference } from '@shared/helpers/formatters';
 
 type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 
@@ -220,6 +225,75 @@ export class ExaminerRecordsPage implements OnInit {
         this.categorySubject$.value))),
     );
 
+  formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
+    let result: ExaminerRecordModel = {
+      appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
+      testCategory: testResult.category as TestCategory,
+      testCentre: testResult.journalData.testCentre,
+      startDate: testResult.journalData.testSlotAttributes.start,
+    };
+
+    [
+      { field: 'controlledStop', value: get(testResult, 'testData.controlledStop.selected') },
+      { field: 'independentDriving', value: get(testResult, 'testSummary.independentDriving') },
+      { field: 'circuit', value: get(testResult, 'testSummary.circuit') },
+      { field: 'safetyQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.safetyQuestions') },
+      { field: 'balanceQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.balanceQuestions') },
+      { field: 'manoeuvres', value: get(testResult, 'testData.manoeuvres') },
+    ].forEach(item => {
+      if (item.value) {
+        result = {
+          ...result,
+          [item.field]: item.value,
+        };
+      }
+    });
+
+    let routeNumber = get(testResult, 'testSummary.routeNumber');
+    if (routeNumber) {
+      result = {
+        ...result,
+        routeNumber: Number(routeNumber),
+      };
+    }
+
+    let showQuestion = get(testResult, 'testData.vehicleChecks.showMeQuestion');
+    let showQuestions = get(testResult, 'testData.vehicleChecks.showMeQuestions');
+    if (showQuestion) {
+      result = {
+        ...result,
+        showMeQuestions: [showQuestion],
+      };
+    } else if (
+      showQuestions &&
+      (showQuestions as QuestionResult[]).filter((question) => Object.keys(question).length > 0).length !== 0) {
+
+      result = {
+        ...result,
+        showMeQuestions: (showQuestions as QuestionResult[]).filter(
+          (question) => Object.keys(question).length > 0),
+      };
+    }
+    let tellQuestion = get(testResult, 'testData.vehicleChecks.tellMeQuestion');
+    let tellQuestions = get(testResult, 'testData.vehicleChecks.tellMeQuestions');
+    if (tellQuestion) {
+      result = {
+        ...result,
+        tellMeQuestions: [tellQuestion],
+      };
+    } else if (
+      tellQuestions &&
+      (tellQuestions as QuestionResult[]).filter((question) => Object.keys(question).length > 0).length !== 0) {
+
+      result = {
+        ...result,
+        tellMeQuestions: (tellQuestions as QuestionResult[]).filter(
+          (question) => Object.keys(question).length > 0),
+      };
+    }
+    return result;
+  };
+
   getResults(): ExaminerRecordModel[] {
 
     let result: ExaminerRecordModel[] = [];
@@ -235,20 +309,20 @@ export class ExaminerRecordsPage implements OnInit {
       map(value => {
         const recordArray: ExaminerRecordModel[] = [];
         value.forEach((test) => {
-          recordArray.push(formatForExaminerRecords(test));
+          recordArray.push(this.formatForExaminerRecords(test));
         });
         return recordArray;
       })
     ).subscribe(value => {
-      result= [...result, ...value];
+      result= [
+        ...result,
+        ...value,
+        // ...this.compressionProvider
+        //   .extract(this.store$.selectSignal(selectCachedTests)() as string) as ExaminerRecordModel[],
+      ];
     });
-    // this.searchProvider.examinerRecordsSearch(
-    //   '55555555',
-    //   formatDate(new Date(Date.now() - 730 * 24 * 60 * 60 * 1000).toLocaleString(), 'yyyy-MM-dd', 'en-GB'),
-    //   formatDate(new Date(Date.now()).toLocaleString(), 'yyyy-MM-dd', 'en-GB')).subscribe(value => {
-    //   result = this.compressionProvider.extract(value);
-    // });
-
+    console.log('online:', this.store$.selectSignal(selectCachedTests)());
+    console.log('final Array:', result);
 
     return result;
   }
