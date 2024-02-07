@@ -176,11 +176,16 @@ export class ExaminerRecordsPage implements OnInit {
       let cachedTests: ExaminerRecordModel[] = this.compressionProvider
         .extract(this.store$.selectSignal(selectCachedTests)());
 
-      result= [
+      result = [
         ...result,
         ...value,
         ...cachedTests,
       ];
+
+      //remove duplicates from array
+      result.filter((item, index, self) => {
+        return self.findIndex(item2 => item2.appRef === item.appRef) === index;
+      });
     });
 
     return result;
