@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   CacheTests,
   GetExaminerRecords,
@@ -14,6 +14,9 @@ import { EXAMINER_RECORDS } from '@pages/page-names.constants';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { CompressionProvider } from '@providers/compression/compression';
 import { gzipSync } from 'zlib';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { LogHelper } from '@providers/logs/logs-helper';
 
 @Injectable()
 export class ExaminerRecordsEffects {
@@ -24,6 +27,7 @@ export class ExaminerRecordsEffects {
     public store$: Store<StoreModel>,
     public router: Router,
     public compressionProvider: CompressionProvider,
+    private logHelper: LogHelper,
   ) {
   }
 
@@ -36,6 +40,12 @@ export class ExaminerRecordsEffects {
         formatDate(new Date(Date.now() - 730 * 24 * 60 * 60 * 1000).toLocaleString(), 'yyyy-MM-dd', 'en-GB'),
         formatDate(new Date(Date.now()).toLocaleString(), 'yyyy-MM-dd', 'en-GB')
       );
+    }),
+    catchError((err) => {
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving examiner records', err.error),
+      }));
+      return '';
     }),
     //Remove blank properties from returned records
     map((examinerHash) => this.compressionProvider.extract(examinerHash) as ExaminerRecordModel[]),
