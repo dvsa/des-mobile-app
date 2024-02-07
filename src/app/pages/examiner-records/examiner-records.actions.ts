@@ -22,13 +22,16 @@ export const TestCategoryChanged = createAction(
   (testCategory: TestCategory) => ({ testCategory }),
 );
 
-export const CallBackendRecords = createAction(
+export const GetExaminerRecords = createAction(
   '[ExaminerRecordsPage] Call backend tests',
   (staffNumber: string) => ({ staffNumber }),
 );
 export const CacheTests = createAction(
   '[ExaminerRecordsPage] Cache backend tests',
   (tests: string) => ({ tests }),
+);
+export const LoadingExaminerRecords = createAction(
+  '[ExaminerRecordsPage] Examiner records begins loading',
 );
 
 export const ColourFilterChanged = createAction(

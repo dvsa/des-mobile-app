@@ -16,6 +16,7 @@ import {
   LocationChanged,
   TestCategoryChanged,
   CacheTests,
+  LoadingExaminerRecords,
 } from '@pages/examiner-records/examiner-records.actions';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
@@ -33,6 +34,7 @@ export const initialState: AppInfoStateModel = {
     dateFilter: null,
     locationFilter: null,
     categoryFilter: null,
+    isLoading: false,
   },
 };
 
@@ -67,6 +69,14 @@ export const appInfoReducer = createReducer(
     examinerRecords: {
       ...state.examinerRecords,
       cachedTests: tests,
+      isLoading: false,
+    },
+  })),
+  on(LoadingExaminerRecords, (state: AppInfoStateModel, { }) => ({
+    ...state,
+    examinerRecords: {
+      ...state.examinerRecords,
+      isLoading: true,
     },
   })),
   on(ColourFilterChanged, (state: AppInfoStateModel, { colour }) => ({

@@ -226,17 +226,13 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   navPage = async (page: Page): Promise<void> => {
     if (page.title === EXAMINER_RECORDS) {
-      await this.examinerRecordsProvider.cacheOnlineRecords('55555555').then(async () => {
-        console.log('online tests cached');
-        await this.router.navigate([page.title]);
-        await this.menuController.close();
-        this.store$.dispatch(SideMenuItemSelected(page.descriptor));
-      });
+      // create examiner records action - set isLoading true
+      this.examinerRecordsProvider.cacheOnlineRecords('55555555');
     } else {
       await this.router.navigate([page.title]);
-      await this.menuController.close();
-      this.store$.dispatch(SideMenuItemSelected(page.descriptor));
     }
+    await this.menuController.close();
+    this.store$.dispatch(SideMenuItemSelected(page.descriptor));
   };
 
   closeSideMenu = (): void => {
