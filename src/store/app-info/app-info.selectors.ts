@@ -41,6 +41,11 @@ export const selectCachedTests = createSelector(
   selectExaminerRecords,
   (_, examinerRecords): string => examinerRecords.cachedTests,
 );
+export const getIsLoadingRecords = createSelector(
+  selectAppInfo,
+  selectExaminerRecords,
+  (_, examinerRecords): boolean => examinerRecords.isLoading,
+);
 export const selectColourScheme = createSelector(
   selectAppInfo,
   selectExaminerRecords,
