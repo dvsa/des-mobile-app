@@ -3,8 +3,10 @@ import { SearchProvider } from '@providers/search/search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { CallBackendRecords } from '@pages/examiner-records/examiner-records.actions';
-import { selectExaminerRecords } from '@store/app-info/app-info.selectors';
+import {
+  GetExaminerRecords,
+  LoadingExaminerRecords,
+} from '@pages/examiner-records/examiner-records.actions';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { formatApplicationReference } from '@shared/helpers/formatters';
@@ -105,10 +107,9 @@ export class ExaminerRecordsProvider {
   }
 
 
-  async cacheOnlineRecords(staffNumber: string) {
-    console.log('before cacheCall');
-    this.store$.dispatch(CallBackendRecords(staffNumber));
-    console.log('online:', this.store$.selectSignal(selectExaminerRecords)());
+  cacheOnlineRecords(staffNumber: string) {
+    this.store$.dispatch(LoadingExaminerRecords());
+    this.store$.dispatch(GetExaminerRecords(staffNumber));
   }
 
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {

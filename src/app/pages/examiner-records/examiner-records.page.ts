@@ -172,15 +172,19 @@ export class ExaminerRecordsPage implements OnInit {
         return recordArray;
       })
     ).subscribe(value => {
+
+      console.log('cached test when constructing records array:', this.store$.selectSignal(selectCachedTests)());
+      let cachedTests: ExaminerRecordModel[] = this.compressionProvider
+        .extract(this.store$.selectSignal(selectCachedTests)());
+
+
       result= [
         ...result,
         ...value,
-        // ...this.compressionProvider
-        //   .extract(this.store$.selectSignal(selectCachedTests)() as string) as ExaminerRecordModel[],
+        ...cachedTests,
       ];
+      console.log('final Array:', result);
     });
-    console.log('online:', this.store$.selectSignal(selectCachedTests)());
-    console.log('final Array:', result);
 
     return result;
   }

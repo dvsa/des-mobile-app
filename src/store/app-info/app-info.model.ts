@@ -15,5 +15,6 @@ export type AppInfoStateModel = {
     dateFilter: SelectableDateRange;
     locationFilter: number;
     categoryFilter: TestCategory;
+    isLoading?: boolean;
   }
 };
