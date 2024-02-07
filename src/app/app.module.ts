@@ -72,6 +72,7 @@ import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { CompressionProvider } from '@providers/compression/compression';
+import { LoadingProvider } from '@providers/loader/loader';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -173,6 +174,7 @@ if (enableRehydrationPlugin) {
     AuthenticationProvider,
     CompressionProvider,
     AppInfoProvider,
+    LoadingProvider,
     DateTimeProvider,
     SecureStorage,
     IsDebug,

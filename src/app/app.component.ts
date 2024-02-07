@@ -30,10 +30,13 @@ import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { LoadingProvider } from '@providers/loader/loader';
+import { getIsLoadingRecords } from '@store/app-info/app-info.selectors';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
   unSubmittedTestSlotsCount$: Observable<number>;
+  isLoadingRecords$: Observable<boolean>
 }
 
 export interface Page {
@@ -86,6 +89,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appConfigProvider: AppConfigProvider,
     private examinerRecordsProvider: ExaminerRecordsProvider,
     private storage: Storage,
+    private loadingProvider: LoadingProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -115,11 +119,22 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
+        isLoadingRecords$: this.store$.pipe(
+          map(getIsLoadingRecords),
+        ),
         unSubmittedTestSlotsCount$: combineLatest([
           unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
         ])
           .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
       };
+
+      const {
+        isLoadingRecords$,
+      } = this.pageState;
+
+      isLoadingRecords$.subscribe(value => {
+        this.handleLoadingUI(value);
+      });
 
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
@@ -233,6 +248,22 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     }
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(page.descriptor));
+  };
+
+  currentlyLoading: boolean = false;
+  handleLoadingUI = async (isLoading: boolean) => {
+    if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
+      this.currentlyLoading = isLoading;
+      await this.loadingProvider.handleUILoading(isLoading, {
+        id: 'record_loading_spinner',
+        spinner: 'circles',
+        backdropDismiss: true,
+        translucent: false,
+        message: 'Loading examiner records...'
+      });
+
+    }
+    return null;
   };
 
   closeSideMenu = (): void => {
