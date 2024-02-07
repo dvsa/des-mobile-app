@@ -4,7 +4,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
-import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
+import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
 describe('ColourFilterRadioComponent', () => {
   let fixture: ComponentFixture<ColourFilterRadioComponent>;
