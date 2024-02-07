@@ -15,10 +15,9 @@ import {
   ShowDataChanged,
   LocationChanged,
   TestCategoryChanged,
-  CallBackendRecords,
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ColourEnum } from '@pages/examiner-records/examiner-records.page';
+import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
 describe('ExaminerStatsAnalyticsEffects', () => {
   let effects: ExaminerRecordsAnalyticsEffects;
@@ -111,23 +110,6 @@ describe('ExaminerStatsAnalyticsEffects', () => {
             AnalyticsEventCategories.EXAMINER_STATS,
             AnalyticsEvents.TEST_CATEGORY_CHANGED,
             TestCategory.ADI2,
-          );
-        done();
-      });
-    });
-  });
-  describe('testsCached$', () => {
-    it('should log an event', (done) => {
-      // ACT
-      actions$.next(CallBackendRecords('test'));
-      // ASSERT
-      effects.testsCached$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.ONLINE_TESTS_SAVED,
           );
         done();
       });

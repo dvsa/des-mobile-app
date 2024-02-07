@@ -86,7 +86,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -185,7 +185,7 @@ export const demonstrationMock: StartedTests = {
         'individualId': 9000001,
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -362,7 +362,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -6925,7 +6925,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -7097,7 +7097,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -7269,7 +7269,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -7441,7 +7441,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -7613,7 +7613,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -7785,7 +7785,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '(805) 405-2289',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -9541,7 +9541,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -9704,7 +9704,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -9867,7 +9867,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -10030,7 +10030,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -10193,7 +10193,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -10356,7 +10356,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -10519,7 +10519,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -10682,7 +10682,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -10845,7 +10845,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11008,7 +11008,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11171,7 +11171,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11334,7 +11334,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11497,7 +11497,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11660,7 +11660,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11823,7 +11823,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -11986,7 +11986,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -12149,7 +12149,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -12312,7 +12312,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -12475,7 +12475,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
@@ -14354,7 +14354,7 @@ export const demonstrationMock: StartedTests = {
         'primaryTelephone': '07654 123456',
       },
       'testCentre': {
-        'centreId': 1,
+        'centreId': 10,
         'costCode': 'NCST',
         'centreName': 'Newcastle Test Centre (Example)',
       },
