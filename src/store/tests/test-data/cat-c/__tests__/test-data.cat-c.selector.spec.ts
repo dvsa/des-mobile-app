@@ -96,13 +96,13 @@ describe('TestDataSelectors - CatC', () => {
       const result = getETAFaultText(state.ETA);
       expect(result).toBeUndefined();
     });
-    it('should return `Physical and Verbal` if both ETA faults', () => {
+    it('should return `Physical and verbal` if both ETA faults', () => {
       const result = getETAFaultText({
         ...state.ETA,
         physical: true,
         verbal: true,
       });
-      expect(result).toEqual('Physical and Verbal');
+      expect(result).toEqual('Physical and verbal');
     });
     it('should return `Physical` if just physical ETA fault', () => {
       const result = getETAFaultText({
@@ -127,13 +127,13 @@ describe('TestDataSelectors - CatC', () => {
       const result = getEcoFaultText(state.eco);
       expect(result).toBeUndefined();
     });
-    it('should return `Control and Planning` if both eco faults', () => {
+    it('should return `Control and planning` if both eco faults', () => {
       const result = getEcoFaultText({
         ...state.eco,
         adviceGivenControl: true,
         adviceGivenPlanning: true,
       });
-      expect(result).toEqual('Control and Planning');
+      expect(result).toEqual('Control and planning');
     });
     it('should return `Control` if just control eco fault', () => {
       const result = getEcoFaultText({

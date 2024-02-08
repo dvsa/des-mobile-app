@@ -408,7 +408,11 @@ export class DebriefCardComponent implements OnInit {
       eta.push('Physical');
     }
     if (get(this.data, 'ETA.verbal')) {
-      eta.push('Verbal');
+      if (get(this.data, 'ETA.physical')) {
+        eta.push('verbal');
+      } else {
+        eta.push('Verbal');
+      }
     }
     if (eta.length === 0) {
       eta.push('None');
