@@ -4,16 +4,6 @@ import { UpdateAvailable } from '@pages/dashboard/components/update-available-mo
 export const LoadAppVersion = createAction(
   '[AppComponent] Load App Version',
 );
-
-export const LoadExaminerRecordsPreferences = createAction(
-  '[AppComponent] Load examiner records preferences',
-);
-
-export const LoadExaminerRecordsFailure = createAction(
-  '[AppComponent] Load examiner records failed',
-  (reason: string) => ({ reason }),
-);
-
 export const LoadAppVersionSuccess = createAction(
   '[AppInfoEffects] Load App Version Success',
   props<{ versionNumber: string }>(),

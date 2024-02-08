@@ -9,16 +9,6 @@ import {
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';
-import {
-  ColourFilterChanged,
-  DateRangeChanged,
-  ShowDataChanged,
-  LocationChanged,
-  TestCategoryChanged,
-  CacheTests,
-  LoadingExaminerRecords,
-} from '@pages/examiner-records/examiner-records.actions';
-import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
 export const appInfoFeatureKey = 'appInfo';
 
@@ -27,15 +17,6 @@ export const initialState: AppInfoStateModel = {
   employeeId: null,
   employeeName: 'Unknown Name',
   updateAvailablePresented: null,
-  examinerRecords: {
-    cachedTests: null,
-    showData: false,
-    colourScheme: ColourEnum.Default,
-    dateFilter: null,
-    locationFilter: null,
-    categoryFilter: null,
-    isLoading: false,
-  },
 };
 
 export const appInfoReducer = createReducer(
@@ -63,56 +44,6 @@ export const appInfoReducer = createReducer(
   on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
     ...state,
     updateAvailablePresented: hasSeen,
-  })),
-  on(CacheTests, (state: AppInfoStateModel, { tests }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      cachedTests: tests,
-      isLoading: false,
-    },
-  })),
-  on(LoadingExaminerRecords, (state: AppInfoStateModel, { }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      isLoading: true,
-    },
-  })),
-  on(ColourFilterChanged, (state: AppInfoStateModel, { colour }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      colourScheme: colour,
-    },
-  })),
-  on(DateRangeChanged, (state: AppInfoStateModel, { selectedDate }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      dateFilter: selectedDate,
-    },
-  })),
-  on(LocationChanged, (state: AppInfoStateModel, { location }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      locationFilter: location?.centreId,
-    },
-  })),
-  on(TestCategoryChanged, (state: AppInfoStateModel, { testCategory }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      categoryFilter: testCategory,
-    },
-  })),
-  on(ShowDataChanged, (state: AppInfoStateModel, { hideChart: showData }) => ({
-    ...state,
-    examinerRecords: {
-      ...state.examinerRecords,
-      showData: showData,
-    },
   })),
 );
 

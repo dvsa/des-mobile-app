@@ -38,10 +38,10 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import {
-  selectCachedTests,
+  selectCachedExaminerRecords,
   selectColourScheme,
   selectHideCharts,
-} from '@store/app-info/app-info.selectors';
+} from '@store/examiner-records/examiner-records.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CompressionProvider } from '@providers/compression/compression';
@@ -173,13 +173,11 @@ export class ExaminerRecordsPage implements OnInit {
       })
     ).subscribe(value => {
 
-      let cachedTests: ExaminerRecordModel[] = this.compressionProvider
-        .extract(this.store$.selectSignal(selectCachedTests)());
+      let cachedExaminerRecords: ExaminerRecordModel[] = this.store$.selectSignal(selectCachedExaminerRecords)();
 
       result = [
-        ...result,
         ...value,
-        ...cachedTests,
+        ...cachedExaminerRecords === null ? [] : cachedExaminerRecords,
       ];
 
       //remove duplicates from array
