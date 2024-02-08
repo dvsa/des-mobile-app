@@ -96,6 +96,14 @@ export class ExaminerRecordsProvider {
       display: 'Last 14 days',
       val: 'fortnight',
     },
+    {
+      display: 'Last 1 year',
+      val: '1 year',
+    },
+    {
+      display: 'Last 2 years',
+      val: '2 years',
+    },
   ];
 
 

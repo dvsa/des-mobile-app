@@ -1,4 +1,4 @@
-import { forOwn, get, isEqual, transform, uniqBy } from 'lodash-es';
+import { forOwn, get, transform, uniqBy } from 'lodash-es';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   Manoeuvre,
@@ -63,7 +63,6 @@ export const getLocations = (
   range: DateRange = null,
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
-
   const data = (getEligibleTests(startedTests, range)
     // extract cost codes
     .map((record) => get(record, 'testCentre', null))
@@ -73,7 +72,7 @@ export const getLocations = (
   return uniqBy(data.map((item: TestCentre) => {
     return {
       item,
-      count: data.filter((val) => isEqual(val, item)).length,
+      count: data.filter((val: TestCentre) => val.centreId === item.centreId).length,
     };
   }), 'item.centreId')
     .sort((item1, item2) =>
@@ -179,7 +178,7 @@ export const getCategories = (
   return uniqBy(data.map((item: TestCategory) => {
     return {
       item,
-      count: data.filter((val) => isEqual(val, item)).length,
+      count: data.filter((val: TestCategory) => val === item).length,
     };
   }), 'item')
     .sort((item1, item2) =>
@@ -207,17 +206,13 @@ export const getRouteNumbers = (
     .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId') === centreId)
     .filter((record: ExaminerRecordModel) => get(record, 'testCategory') === category)
     // extract route number
-    .map((record: ExaminerRecordModel) => (
-      {
-        routeNum: get(record, 'routeNumber', null),
-        testCentre: get(record, 'testCentre.costCode', null),
-      }))// filter for any nulls
-    .filter((route) => route.routeNum !== null);
+    .map((record: ExaminerRecordModel) => (get(record, 'routeNumber', null)))// filter for any nulls
+    .filter((route) => route !== null);
 
   return uniqBy(data.map((item) => {
-    const count = data.filter((val) => isEqual(val, item)).length;
+    const count = data.filter((val) => val === item).length;
     return {
-      item: `Route ${item.routeNum}`,
+      item: `Route ${item}`,
       count,
       percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
