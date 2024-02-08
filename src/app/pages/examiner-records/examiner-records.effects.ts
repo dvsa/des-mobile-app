@@ -5,7 +5,6 @@ import {
   CacheTests,
   GetExaminerRecords,
 } from '@pages/examiner-records/examiner-records.actions';
-import { formatDate } from '@angular/common';
 import { SearchProvider } from '@providers/search/search';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -36,8 +35,6 @@ export class ExaminerRecordsEffects {
       //Get backend tests in the examiner records format
       return this.searchProvider.examinerRecordsSearch(
         staffNumber,
-        formatDate(new Date(Date.now() - 730 * 24 * 60 * 60 * 1000).toLocaleString(), 'yyyy-MM-dd', 'en-GB'),
-        formatDate(new Date(Date.now()).toLocaleString(), 'yyyy-MM-dd', 'en-GB')
       );
     }),
     catchError((err) => {
