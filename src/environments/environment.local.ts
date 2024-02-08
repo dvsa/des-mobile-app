@@ -235,7 +235,6 @@ export const environment: LocalEnvironmentFile = {
     testSubmissionUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/test-results',
     examinerRecordsUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/test-results/search-examiner-records',
     autoSendInterval: 900000,
-    examinerRecordsUrl: ''
   },
   user: {
     findUserUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/users/{staffNumber}',

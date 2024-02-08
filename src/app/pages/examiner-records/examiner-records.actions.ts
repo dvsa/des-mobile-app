@@ -2,6 +2,7 @@ import { createAction } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { ColourEnum, SelectableDateRange } from '@providers/examiner-records/examiner-records';
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 
 export const ExaminerRecordsViewDidEnter = createAction(
   '[ExaminerRecordsPage] Page Entered',
@@ -28,7 +29,7 @@ export const GetExaminerRecords = createAction(
 );
 export const CacheTests = createAction(
   '[ExaminerRecordsPage] Cache backend tests',
-  (tests: string) => ({ tests }),
+  (tests: ExaminerRecordModel[]) => ({ tests }),
 );
 export const LoadingExaminerRecords = createAction(
   '[ExaminerRecordsPage] Examiner records begins loading',

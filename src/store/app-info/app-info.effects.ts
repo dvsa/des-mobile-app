@@ -20,25 +20,14 @@ import {
   LoadConfigSuccess,
   LoadEmployeeName,
   LoadEmployeeNameSuccess,
-  LoadExaminerRecordsFailure,
-  LoadExaminerRecordsPreferences,
   RestartApp,
   SetDateConfigLoaded,
 } from './app-info.actions';
-import { selectDateConfigLoaded, selectExaminerRecords } from './app-info.selectors';
+import { selectDateConfigLoaded } from './app-info.selectors';
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
-import {
-  ColourFilterChanged,
-  DateRangeChanged,
-  LocationChanged,
-  ShowDataChanged,
-  TestCategoryChanged,
-} from '@pages/examiner-records/examiner-records.actions';
-import { DataStoreProvider, LocalStorageKey, StorageKey } from '@providers/data-store/data-store';
 
 @Injectable()
 export class AppInfoEffects {
-  private static readonly EXAMINER_STATS_KEY: StorageKey = LocalStorageKey.EXAMINER_STATS_KEY;
 
   constructor(
     private actions$: Actions,
@@ -47,7 +36,6 @@ export class AppInfoEffects {
     private appInfoProvider: AppInfoProvider,
     private dateTimeProvider: DateTimeProvider,
     private authenticationProvider: AuthenticationProvider,
-    private dataStore: DataStoreProvider,
   ) {
   }
 
@@ -110,50 +98,6 @@ export class AppInfoEffects {
     switchMap(async () => {
       const employeeName = await this.authenticationProvider.loadEmployeeName();
       return LoadEmployeeNameSuccess({ employeeName });
-    }),
-  ));
-
-  persistExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      ColourFilterChanged,
-      ShowDataChanged,
-      TestCategoryChanged,
-      DateRangeChanged,
-      LocationChanged,
-    ),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.select(selectExaminerRecords),
-        ),
-      )),
-    switchMap(async (
-      [, examinerStatPreferences],
-    ) => this.dataStore.setItem(AppInfoEffects.EXAMINER_STATS_KEY, JSON.stringify(examinerStatPreferences))),
-  ), { dispatch: false });
-
-  loadExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
-    ofType(LoadExaminerRecordsPreferences),
-    concatMap(() => this.dataStore.getItem(AppInfoEffects.EXAMINER_STATS_KEY)),
-    switchMap((examinerRecords) => {
-      if (!examinerRecords) {
-        return [LoadExaminerRecordsFailure('Examiner stats preferences not found')];
-      }
-      const {
-        hideCharts,
-        colourScheme,
-        dateFilter,
-        locationFilter,
-        categoryFilter,
-      } = JSON.parse(examinerRecords);
-
-      return [
-        (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
-        (!!hideCharts) ? ShowDataChanged(hideCharts) : null,
-        (!!dateFilter) ? DateRangeChanged(dateFilter) : null,
-        (!!locationFilter) ? LocationChanged(locationFilter) : null,
-        (!!categoryFilter) ? TestCategoryChanged(categoryFilter) : null,
-      ];
     }),
   ));
 }

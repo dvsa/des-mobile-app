@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { EXAMINER_RECORDS } from '@pages/page-names.constants';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { CompressionProvider } from '@providers/compression/compression';
-import { gzipSync } from 'zlib';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -56,7 +55,7 @@ export class ExaminerRecordsEffects {
     }),
     //compress and cache results
     map((examinerHash) => this.store$.dispatch(
-      CacheTests(gzipSync(JSON.stringify(examinerHash)).toString('base64')),
+      CacheTests(examinerHash),
     )),
     map(() => this.router.navigate([EXAMINER_RECORDS])),
   ),  { dispatch: false });
