@@ -496,14 +496,32 @@ describe('DebriefCardComponent', () => {
         },
       };
       expect(component.eTA)
-        .toEqual('Physical and Verbal');
+        .toEqual('Physical and verbal');
     });
     it('should push None to an array if no ETA is present', () => {
       component.data = {
         ETA: null,
       };
-      expect(component.getManoeuvres())
-        .toEqual(['None']);
+      expect(component.eTA)
+        .toEqual('None');
+    });
+    it('should push Verbal to an array if only ETA Verbal is present', () => {
+      component.data = {
+        ETA: {
+          verbal: true,
+        },
+      };
+      expect(component.eTA)
+        .toEqual('Verbal');
+    });
+    it('should push Physical to an array if only ETA Physical is present', () => {
+      component.data = {
+        ETA: {
+          physical: true,
+        },
+      };
+      expect(component.eTA)
+        .toEqual('Physical');
     });
   });
   describe('highwayCode', () => {
