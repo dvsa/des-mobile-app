@@ -32,7 +32,7 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'H18',
     description: 'Tell me how you would check that the flashing amber beacon is working on this vehicle.',
-    shortName: 'Amber Beacon',
+    shortName: 'Amber beacon',
   },
 ];
 
