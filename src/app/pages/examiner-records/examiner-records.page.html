@@ -20,6 +20,8 @@
   testCount: pageState.testCount$ | async,
   emergencyStops: pageState.emergencyStops$ | async,
   circuits: pageState.circuits$ | async,
+  locationList: pageState.locationList$ | async,
+  categoryList: pageState.categoryList$ | async
 } as data"
 >
   <ion-row class="ion-padding">
@@ -29,7 +31,7 @@
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
-          *ngIf="(pageState.locationList$ | async).length > 0"
+          *ngIf="data.locationList?.length > 0"
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
           id="locationSelect"
@@ -42,9 +44,7 @@
             {{option.centreName}}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="(pageState.locationList$ | async).length == 0" class="mes-data"
-          >No locations available
-        </ion-text>
+        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available </ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -54,7 +54,7 @@
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
-          *ngIf="(pageState.categoryList$ | async).length > 0"
+          *ngIf="data.categoryList?.length > 0"
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
           (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
@@ -67,9 +67,7 @@
             {{option}}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="(pageState.categoryList$ | async).length == 0" class="mes-data"
-          >No categories available
-        </ion-text>
+        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available </ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -119,10 +117,7 @@
     </ion-col>
   </ion-row>
 
-  <div
-    *ngIf="(pageState.categoryList$ | async).length > 0 &&
-    (pageState.locationList$ | async).length > 0"
-  >
+  <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">
       <ion-col *ngIf="data.routeGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
@@ -322,8 +317,7 @@
 
   <div
     class="text-align-center ion-justify-content-center ion-align-items-center display-flex height-65-percent direction-column"
-    *ngIf="(pageState.categoryList$ | async).length === 0 ||
-       (pageState.locationList$ | async).length === 0"
+    *ngIf="data.categoryList?.length === 0 || data.locationList?.length === 0"
   >
     <ion-row>
       <ion-text class="mes-data">
