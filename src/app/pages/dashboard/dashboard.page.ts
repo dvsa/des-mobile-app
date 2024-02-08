@@ -38,13 +38,14 @@ import {
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import {
   HasSeenUpdateAvailablePopup,
-  LoadExaminerRecordsPreferences,
   UpdateAvailableBadgeClicked,
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { LoadExaminerRecordsPreferences } from '@store/examiner-records/examiner-records.actions';
+
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
