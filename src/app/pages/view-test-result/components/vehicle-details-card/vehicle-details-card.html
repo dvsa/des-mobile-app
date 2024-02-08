@@ -77,7 +77,7 @@
 
       <data-row
         *ngIf="schoolBike"
-        [label]="'School Bike'"
+        [label]="'School bike'"
         [shouldHaveSeperator]="!!(isADI2() || isADI3() || (!isADI3() && trainerPRN))"
         [value]="schoolBike"
       >
@@ -103,7 +103,7 @@
       >
       </data-row>
 
-      <data-row *ngIf="isADI3()" [shouldHaveSeperator]="false" [label]="'Dual Controls'" [value]="dualControls">
+      <data-row *ngIf="isADI3()" [shouldHaveSeperator]="false" [label]="'Dual controls'" [value]="dualControls">
       </data-row>
     </ion-grid>
   </ion-card-content>
