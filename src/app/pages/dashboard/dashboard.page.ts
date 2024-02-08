@@ -36,12 +36,12 @@ import {
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import {
   HasSeenUpdateAvailablePopup,
-  LoadExaminerRecordsPreferences,
   UpdateAvailableBadgeClicked,
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { LoadExaminerRecordsPreferences } from '@store/examiner-records/examiner-records.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;

@@ -31,7 +31,7 @@ import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/te
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LoadingProvider } from '@providers/loader/loader';
-import { getIsLoadingRecords } from '@store/app-info/app-info.selectors';
+import { getIsLoadingRecords } from '@store/examiner-records/examiner-records.selectors';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -242,7 +242,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   navPage = async (page: Page): Promise<void> => {
     if (page.title === EXAMINER_RECORDS) {
-      // create examiner records action - set isLoading true
       this.examinerRecordsProvider.cacheOnlineRecords('55555555');
     } else {
       await this.router.navigate([page.title]);
@@ -256,7 +255,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
       this.currentlyLoading = isLoading;
       await this.loadingProvider.handleUILoading(isLoading, {
-        id: 'record_loading_spinner',
+        id: 'examinerRecord_loading_spinner',
         spinner: 'circles',
         backdropDismiss: true,
         translucent: false,
