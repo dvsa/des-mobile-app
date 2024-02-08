@@ -62,7 +62,8 @@
 <ng-template #fullData>
   <ion-row *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;">
     <ion-col
-      [class]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 'padding-top-10' : null"
+      class="colour-col"
+      [class.padding-top-10]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
       size="auto"
       *ngIf="displayColour"
     >
