@@ -40,7 +40,7 @@ import { Router } from '@angular/router';
 import {
   selectCachedExaminerRecords,
   selectColourScheme,
-  selectHideCharts,
+  selectShowData,
 } from '@store/examiner-records/examiner-records.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -54,6 +54,7 @@ import {
   ColourEnum,
   DESChartTypes,
   ExaminerRecordsProvider,
+  SelectableDateRange,
   StaticColourScheme,
   VariableColourScheme,
 } from '@providers/examiner-records/examiner-records';
@@ -89,14 +90,14 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
-  showData = this.store$.selectSignal(selectHideCharts)();
+  showData = this.store$.selectSignal(selectShowData)();
   colourOption = this.store$.selectSignal(selectColourScheme)();
   categoryPlaceholder: string;
   locationPlaceholder: string;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
 
-  public defaultDate: { display: string; val: DateRange } = this.examinerRecordsProvider.dateFilterOptions[2];
+  public defaultDate: SelectableDateRange = this.examinerRecordsProvider.dateFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
   public locationFilter: string;
   public categoryDisplay: string;
@@ -183,9 +184,12 @@ export class ExaminerRecordsPage implements OnInit {
       //remove duplicates from array
       result.filter((item, index, self) => {
         return self.findIndex(item2 => item2.appRef === item.appRef) === index;
-      });
-    });
-
+      })
+        //put final array in date order by most recent
+        .sort((a, b) => {
+          return Date.parse(b.startDate) - Date.parse(a.startDate);
+        });
+    })
     return result;
   }
 
