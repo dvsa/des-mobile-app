@@ -15,6 +15,7 @@ import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constan
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/constants/competencies/catadi2-manoeuvres';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { ExaminerRecordsRange } from '@providers/examiner-records/examiner-records';
 
 // Generic `T` is the configurable type of the item
 export interface ExaminerRecordData<T> {
@@ -36,20 +37,50 @@ const getIndex = (item: string) => {
   return match && match[1] ? Number(match[1]) : null;
 };
 
+function trimArray(
+  startedTests: ExaminerRecordModel[],
+  range: ExaminerRecordsRange = null,
+) {
+  let tempArray: ExaminerRecordModel[];
+  switch (range) {
+    case '100 tests':
+      tempArray = startedTests.slice(0, 100);
+      break;
+    default:
+      tempArray = startedTests;
+      break;
+  }
+  return tempArray;
+}
+
+const isExaminerRecordsTestLimits = (range: ExaminerRecordsRange) => {
+  const criteria = ['100 tests'] as ExaminerRecordsRange[]
+  return criteria.includes(range);
+};
+
 export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
+  filterByCategoryAndCentre: boolean = true,
 ): ExaminerRecordModel[] => {
-  return startedTests.filter((value: ExaminerRecordModel) => (dateFilter(value, range) &&
-    get(value, 'testCentre.centreId') === centreId &&
-    get(value, 'testCategory') === category));
+
+  let trimmedArray = false
+  if (isExaminerRecordsTestLimits(range)) {
+    trimmedArray = true
+    startedTests = trimArray(startedTests, range);
+  }
+
+  return startedTests.filter((value: ExaminerRecordModel) => (
+    (!trimmedArray ? (dateFilter(value, range as DateRange)): true) &&
+    (filterByCategoryAndCentre ?
+      (get(value, 'testCentre.centreId') === centreId && get(value, 'testCategory') === category) : true)));
 };
 
 export const getEmergencyStopCount = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): number =>
@@ -60,15 +91,14 @@ export const getEmergencyStopCount = (
 
 export const getLocations = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
-  const data = (startedTests
-    .filter(value => dateFilter(value, range))
+  const data = getEligibleTests(startedTests, range, null, null, false)
     // extract cost codes
     .map((record) => get(record, 'testCentre', null))
     // filter for any nulls
-    .filter((testCentre) => !!testCentre.centreId));
+    .filter((testCentre) => !!testCentre.centreId);
 
   return uniqBy(data.map((item: TestCentre) => {
     return {
@@ -82,7 +112,7 @@ export const getLocations = (
 
 export const getIndependentDrivingStats = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number,
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
@@ -126,7 +156,7 @@ export const getIndependentDrivingStats = (
 
 export const getCircuits = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number,
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
@@ -158,20 +188,19 @@ export const getCircuits = (
 
 export const getCategories = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number,
 ): {
   item: TestCategory;
   count: number
 }[] => {
 
-  const data = (startedTests
-    .filter(value => dateFilter(value, range))
+  const data = getEligibleTests(startedTests, range, null, null, false)
     .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId') === centreId)
     // extract categories
     .map((record: ExaminerRecordModel) => get(record, 'testCategory', null))
     // filter for any nulls
-    .filter((category) => !!category));
+    .filter((category) => !!category);
 
   return uniqBy(data.map((item: TestCategory) => {
     return {
@@ -185,7 +214,7 @@ export const getCategories = (
 
 export const getStartedTestCount = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): number =>
@@ -193,7 +222,7 @@ export const getStartedTestCount = (
 
 export const getRouteNumbers = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
@@ -217,7 +246,7 @@ export const getRouteNumbers = (
 
 export const getSafetyQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
@@ -255,7 +284,7 @@ export const getSafetyQuestions = (
 
 export const getBalanceQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
@@ -291,7 +320,7 @@ export const getBalanceQuestions = (
 
 export const getShowMeQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
@@ -319,7 +348,7 @@ export const getShowMeQuestions = (
 
 export const getTellMeQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
@@ -373,7 +402,7 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
 
 export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: ExaminerRecordsRange = null,
   centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
