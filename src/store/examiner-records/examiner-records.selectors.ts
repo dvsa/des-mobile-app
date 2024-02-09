@@ -20,7 +20,7 @@ export const selectColourScheme = createSelector(
   (examinerRecords): ColourEnum => examinerRecords.colourScheme,
 );
 
-export const selectHideCharts = createSelector(
+export const selectShowData = createSelector(
   selectExaminerRecords,
   (examinerRecords): boolean => examinerRecords.showData,
 );

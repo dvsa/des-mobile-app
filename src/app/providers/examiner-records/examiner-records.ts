@@ -26,9 +26,12 @@ export const enum ColourEnum {
   Amethyst = 'Amethyst',
 }
 
+export type ExaminerRecordsTestLimits = '100 tests';
+export type ExaminerRecordsRange = DateRange | ExaminerRecordsTestLimits;
+
 export interface SelectableDateRange {
   display: string;
-  val: DateRange;
+  val: ExaminerRecordsRange;
 }
 export type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 @Injectable()
@@ -103,6 +106,10 @@ export class ExaminerRecordsProvider {
     {
       display: 'Last 2 years',
       val: '2 years',
+    },
+    {
+      display: 'Last 100 tests',
+      val: '100 tests',
     },
   ];
 
