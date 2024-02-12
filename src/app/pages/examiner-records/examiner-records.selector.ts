@@ -37,27 +37,6 @@ const getIndex = (item: string) => {
   return match && match[1] ? Number(match[1]) : null;
 };
 
-function trimArray(
-  startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-) {
-  let tempArray: ExaminerRecordModel[];
-  switch (range) {
-    case '100 tests':
-      tempArray = startedTests.slice(0, 100);
-      break;
-    default:
-      tempArray = startedTests;
-      break;
-  }
-  return tempArray;
-}
-
-const isExaminerRecordsTestLimits = (range: ExaminerRecordsRange) => {
-  const criteria = ['100 tests'] as ExaminerRecordsRange[]
-  return criteria.includes(range);
-};
-
 export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -67,9 +46,9 @@ export const getEligibleTests = (
 ): ExaminerRecordModel[] => {
 
   let trimmedArray = false
-  if (isExaminerRecordsTestLimits(range)) {
+  if (!!Number(range)) {
     trimmedArray = true
-    startedTests = trimArray(startedTests, range);
+    startedTests = startedTests.slice(0, Number(range));
   }
 
   return startedTests.filter((value: ExaminerRecordModel) => (
