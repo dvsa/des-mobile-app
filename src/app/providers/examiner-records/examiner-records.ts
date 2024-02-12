@@ -26,7 +26,7 @@ export const enum ColourEnum {
   Amethyst = 'Amethyst',
 }
 
-export type ExaminerRecordsTestLimits = '100 tests';
+export type ExaminerRecordsTestLimits = '100';
 export type ExaminerRecordsRange = DateRange | ExaminerRecordsTestLimits;
 
 export interface SelectableDateRange {
@@ -109,7 +109,7 @@ export class ExaminerRecordsProvider {
     },
     {
       display: 'Last 100 tests',
-      val: '100 tests',
+      val: '100',
     },
   ];
 
