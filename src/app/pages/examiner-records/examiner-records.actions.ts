@@ -31,6 +31,10 @@ export const CacheTests = createAction(
   '[ExaminerRecordsPage] Cache backend tests',
   (tests: ExaminerRecordModel[]) => ({ tests }),
 );
+export const UpdateLastCached = createAction(
+  '[ExaminerRecordsPage] Updated examiner records last cached time',
+  (time: string) => ({ time }),
+);
 export const LoadingExaminerRecords = createAction(
   '[ExaminerRecordsPage] Examiner records begins loading',
 );
