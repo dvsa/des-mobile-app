@@ -10,4 +10,5 @@ export type ExaminerRecordStateModel = {
   locationFilter: number;
   categoryFilter: TestCategory;
   isLoading?: boolean;
+  lastUpdatedTime: string;
 };

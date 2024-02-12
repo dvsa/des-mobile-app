@@ -11,6 +11,10 @@ export const selectCachedExaminerRecords = createSelector(
   selectExaminerRecords,
   (examinerRecords): ExaminerRecordModel[] => examinerRecords.cachedTests,
 );
+export const selectLastCachedDate = createSelector(
+  selectExaminerRecords,
+  (examinerRecords): string => examinerRecords.lastUpdatedTime,
+);
 export const getIsLoadingRecords = createSelector(
   selectExaminerRecords,
   (examinerRecords): boolean => examinerRecords.isLoading,

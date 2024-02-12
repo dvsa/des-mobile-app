@@ -5,7 +5,7 @@ import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import {
   CacheTests,
   ColourFilterChanged, DateRangeChanged,
-  LoadingExaminerRecords, LocationChanged, ShowDataChanged, TestCategoryChanged,
+  LoadingExaminerRecords, LocationChanged, ShowDataChanged, TestCategoryChanged, UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 
 export const examinerRecordsFeatureKey = 'examinerRecords';
@@ -18,10 +18,15 @@ export const initialState: ExaminerRecordStateModel = {
   locationFilter: null,
   categoryFilter: null,
   isLoading: false,
+  lastUpdatedTime: ''
 };
 
 export const examinerRecordsReducer = createReducer(
   initialState,
+  on(UpdateLastCached, (state: ExaminerRecordStateModel, { time }) => ({
+    ...state,
+    lastUpdatedTime: time,
+  })),
   on(CacheTests, (state: ExaminerRecordStateModel, { tests }) => ({
     ...state,
     cachedTests: tests,

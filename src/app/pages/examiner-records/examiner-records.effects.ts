@@ -4,6 +4,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   CacheTests,
   GetExaminerRecords,
+  UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 import { SearchProvider } from '@providers/search/search';
 import { Store } from '@ngrx/store';
@@ -15,6 +16,7 @@ import { CompressionProvider } from '@providers/compression/compression';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { DateTime } from '@shared/helpers/date-time';
 
 @Injectable()
 export class ExaminerRecordsEffects {
@@ -51,9 +53,10 @@ export class ExaminerRecordsEffects {
       })
     }),
     //compress and cache results
-    map((examinerHash) => this.store$.dispatch(
-      CacheTests(examinerHash),
-    )),
+    map((examinerRecords) => {
+      this.store$.dispatch(CacheTests(examinerRecords));
+      this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
+    }),
     map(() => this.router.navigate([EXAMINER_RECORDS])),
   ),  { dispatch: false });
 }

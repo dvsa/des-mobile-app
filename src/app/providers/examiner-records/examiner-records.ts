@@ -13,8 +13,11 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { DateRange } from '@shared/helpers/date-time';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
+import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
+import { EXAMINER_RECORDS } from '@pages/page-names.constants';
+import { Router } from '@angular/router';
 
 export interface StaticColourScheme { colours: string[], average: string }
 export interface VariableColourScheme { bar: string[], pie: string[], average: string }
@@ -118,13 +121,21 @@ export class ExaminerRecordsProvider {
     public searchProvider: SearchProvider,
     public compressionProvider: CompressionProvider,
     public store$: Store<StoreModel>,
+    public router: Router
   ) {
   }
 
 
-  cacheOnlineRecords(staffNumber: string) {
-    this.store$.dispatch(LoadingExaminerRecords());
-    this.store$.dispatch(GetExaminerRecords(staffNumber));
+  async cacheOnlineRecords(staffNumber: string) {
+    if (
+      !this.store$.selectSignal(selectCachedExaminerRecords)() ||
+      this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
+    ) {
+      this.store$.dispatch(LoadingExaminerRecords());
+      this.store$.dispatch(GetExaminerRecords(staffNumber));
+    } else {
+      await this.router.navigate([EXAMINER_RECORDS])
+    }
   }
 
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
