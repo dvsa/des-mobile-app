@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
-  CacheTests,
+  CacheExaminerRecords,
   GetExaminerRecords,
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -32,7 +32,7 @@ export class ExaminerRecordsEffects {
   ) {
   }
 
-  recordsCalled$ = createEffect(() => this.actions$.pipe(
+  onlineExaminerRecordsCalled$ = createEffect(() => this.actions$.pipe(
     ofType(GetExaminerRecords),
     switchMap(({ staffNumber }) => {
       //Get backend tests in the examiner records format
@@ -57,7 +57,7 @@ export class ExaminerRecordsEffects {
     }),
     //compress and cache results
     map((examinerRecords) => {
-      this.store$.dispatch(CacheTests(examinerRecords));
+      this.store$.dispatch(CacheExaminerRecords(examinerRecords));
       if (examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
     }),
     map(() => this.router.navigate([EXAMINER_RECORDS])),
