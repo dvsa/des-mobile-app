@@ -152,7 +152,7 @@
         <examiner-reports-card
           [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
           [averageColour]="averageSelect()"
-          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
@@ -173,7 +173,7 @@
           [cardTitle]="'Emergency stops'"
           [showCustomContent]="showData"
           [averageColour]="averageSelect()"
-          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
@@ -188,16 +188,16 @@
           [passedData]="data.emergencyStops"
         >
           <data-row
-            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
-            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
             [value]="data.emergencyStops[0].count"
             [centreData]="true"
             label="Emergency stop total"
           >
           </data-row>
           <data-row
-            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
-            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy ? 'color: white' : null"
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
             [shouldHaveSeperator]="false"
             [centreData]="true"
             [value]="data.emergencyStops[0].percentage"
