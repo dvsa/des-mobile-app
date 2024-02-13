@@ -24,6 +24,9 @@
   categoryList: pageState.categoryList$ | async
 } as data"
 >
+  <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
+    <label role="alert" id="unauth-text">No backend data, filters limited</label>
+  </div>
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>
@@ -44,7 +47,7 @@
             {{option.centreName}}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available </ion-text>
+        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available</ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -67,7 +70,7 @@
             {{option}}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available </ion-text>
+        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -83,7 +86,14 @@
           labelPlacement="stacked"
           [placeholder]="defaultDate.display"
         >
-          <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.dateFilterOptions;">
+          <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.localFilterOptions;">
+            {{option.display}}
+          </ion-select-option>
+          <ion-select-option
+            [disabled]="!cachedExaminerRecords"
+            [value]="option"
+            *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;"
+          >
             {{option.display}}
           </ion-select-option>
         </ion-select>
@@ -321,7 +331,7 @@
   >
     <ion-row>
       <ion-text class="mes-data">
-        No driving test data available.<br />Try again when more tests have been completed.
+        No driving test data available for this period.<br />Select another date range.
       </ion-text>
     </ion-row>
   </div>

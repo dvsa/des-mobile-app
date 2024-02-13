@@ -96,8 +96,9 @@ export class ExaminerRecordsPage implements OnInit {
   locationPlaceholder: string;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
+  cachedExaminerRecords: ExaminerRecordModel[] = null
 
-  public defaultDate: SelectableDateRange = this.examinerRecordsProvider.dateFilterOptions[2];
+  public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
   public locationFilter: string;
   public categoryDisplay: string;
@@ -174,11 +175,11 @@ export class ExaminerRecordsPage implements OnInit {
       })
     ).subscribe(value => {
 
-      let cachedExaminerRecords: ExaminerRecordModel[] = this.store$.selectSignal(selectCachedExaminerRecords)();
+      this.cachedExaminerRecords = this.store$.selectSignal(selectCachedExaminerRecords)();
 
       result = [
         ...value,
-        ...cachedExaminerRecords === null ? [] : cachedExaminerRecords,
+        ...this.cachedExaminerRecords === null ? [] : this.cachedExaminerRecords,
       ];
 
       //remove duplicates from array
