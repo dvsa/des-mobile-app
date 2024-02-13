@@ -89,7 +89,7 @@ export class ExaminerRecordsProvider {
     },
   };
 
-  public dateFilterOptions: SelectableDateRange[] = [
+  public localFilterOptions: SelectableDateRange[] = [
     {
       display: 'Today',
       val: 'today',
@@ -102,6 +102,8 @@ export class ExaminerRecordsProvider {
       display: 'Last 14 days',
       val: 'fortnight',
     },
+  ];
+  public onlineFilterOptions: SelectableDateRange[] = [
     {
       display: 'Last 1 year',
       val: '1 year',
