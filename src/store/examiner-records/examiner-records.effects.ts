@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { StoreModel } from '@shared/models/store.model';
 import {
+  CacheExaminerRecords,
   ColourFilterChanged, DateRangeChanged, LocationChanged,
   ShowDataChanged,
-  TestCategoryChanged,
+  TestCategoryChanged, UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -15,6 +16,7 @@ import {
   LoadExaminerRecordsPreferences,
 } from '@store/examiner-records/examiner-records.actions';
 import { selectExaminerRecords } from '@store/examiner-records/examiner-records.selectors';
+import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-records.model';
 
 @Injectable()
 export class ExaminerRecordsEffects {
@@ -33,6 +35,7 @@ export class ExaminerRecordsEffects {
       TestCategoryChanged,
       DateRangeChanged,
       LocationChanged,
+      CacheExaminerRecords,
     ),
     concatMap((action) => of(action)
       .pipe(
@@ -53,19 +56,23 @@ export class ExaminerRecordsEffects {
         return [LoadExaminerRecordsFailure('Examiner stats preferences not found')];
       }
       const {
-        hideCharts,
+        showData,
         colourScheme,
         dateFilter,
         locationFilter,
         categoryFilter,
-      } = JSON.parse(examinerRecords);
+        cachedRecords,
+        lastUpdatedTime,
+      } = JSON.parse(examinerRecords) as ExaminerRecordStateModel;
 
       return [
         (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
-        (!!hideCharts) ? ShowDataChanged(hideCharts) : null,
+        (!!showData) ? ShowDataChanged(showData) : null,
         (!!dateFilter) ? DateRangeChanged(dateFilter) : null,
         (!!locationFilter) ? LocationChanged(locationFilter) : null,
         (!!categoryFilter) ? TestCategoryChanged(categoryFilter) : null,
+        (!!cachedRecords && cachedRecords.length) ? CacheExaminerRecords(cachedRecords) : null,
+        (!!lastUpdatedTime) ? (UpdateLastCached(lastUpdatedTime)) : null,
       ];
     }),
   ));

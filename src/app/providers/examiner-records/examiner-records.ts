@@ -129,6 +129,8 @@ export class ExaminerRecordsProvider {
 
 
   async cacheOnlineRecords(staffNumber: string) {
+    console.log(this.store$.selectSignal(selectCachedExaminerRecords)());
+
     if (
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
