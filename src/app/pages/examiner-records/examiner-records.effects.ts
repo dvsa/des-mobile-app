@@ -17,6 +17,7 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { DateTime } from '@shared/helpers/date-time';
+import { of } from 'rxjs';
 
 @Injectable()
 export class ExaminerRecordsEffects {
@@ -37,26 +38,28 @@ export class ExaminerRecordsEffects {
       //Get backend tests in the examiner records format
       return this.searchProvider.examinerRecordsSearch(
         staffNumber,
+      ).pipe(
+        catchError((err) => {
+          this.store$.dispatch(SaveLog({
+            payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving examiner records', err.error),
+          }));
+          return of(null);
+        }),
       );
     }),
-    catchError((err) => {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving examiner records', err.error),
-      }));
-      return '';
-    }),
     //Remove blank properties from returned records
-    map((examinerHash) => this.compressionProvider.extract(examinerHash) as ExaminerRecordModel[]),
+    map((examinerHash: string) =>
+      (examinerHash ? this.compressionProvider.extract(examinerHash) : null) as ExaminerRecordModel[]),
     map((examinerRecords) => {
-      return examinerRecords.map((examinerRecord) => {
+      return examinerRecords ? examinerRecords.map((examinerRecord) => {
         return Object.fromEntries(Object.entries(examinerRecord).filter(([, v]) => v != null)) as ExaminerRecordModel;
-      })
+      }) : null;
     }),
     //compress and cache results
     map((examinerRecords) => {
       this.store$.dispatch(CacheTests(examinerRecords));
-      this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
+      if (examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
     }),
     map(() => this.router.navigate([EXAMINER_RECORDS])),
-  ),  { dispatch: false });
+  ), { dispatch: false });
 }
