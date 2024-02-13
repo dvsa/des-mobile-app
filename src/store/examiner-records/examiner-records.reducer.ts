@@ -18,7 +18,7 @@ export const initialState: ExaminerRecordStateModel = {
   locationFilter: null,
   categoryFilter: null,
   isLoading: false,
-  lastUpdatedTime: ''
+  lastUpdatedTime: null
 };
 
 export const examinerRecordsReducer = createReducer(
