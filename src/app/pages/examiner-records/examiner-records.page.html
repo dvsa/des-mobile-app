@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
   </ion-toolbar>
+  <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
+    <label role="alert" id="unauth-text">No backend data, filters limited</label>
+  </div>
 </ion-header>
 
 <ion-content
@@ -24,9 +27,6 @@
   categoryList: pageState.categoryList$ | async
 } as data"
 >
-  <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
-    <label role="alert" id="unauth-text">No backend data, filters limited</label>
-  </div>
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>
