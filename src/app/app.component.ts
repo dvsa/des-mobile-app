@@ -241,7 +241,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   navPage = async (page: Page): Promise<void> => {
     if (page.title === EXAMINER_RECORDS) {
-      this.examinerRecordsProvider.cacheOnlineRecords('55555555');
+      await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
     } else {
       await this.router.navigate([page.title]);
     }
