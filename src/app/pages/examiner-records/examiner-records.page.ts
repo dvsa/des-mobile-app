@@ -96,7 +96,7 @@ export class ExaminerRecordsPage implements OnInit {
   locationPlaceholder: string;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
-  cachedExaminerRecords: ExaminerRecordModel[] = null
+  cachedExaminerRecords: ExaminerRecordModel[] = null;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
@@ -108,7 +108,6 @@ export class ExaminerRecordsPage implements OnInit {
   currentTestCentre: TestCentre;
   locationSelectPristine: boolean = true;
   public testResults: ExaminerRecordModel[];
-
 
 
   constructor(
@@ -172,7 +171,7 @@ export class ExaminerRecordsPage implements OnInit {
           recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
         });
         return recordArray;
-      })
+      }),
     ).subscribe(value => {
 
       this.cachedExaminerRecords = this.store$.selectSignal(selectCachedExaminerRecords)();
@@ -190,11 +189,12 @@ export class ExaminerRecordsPage implements OnInit {
         .sort((a, b) => {
           return Date.parse(b.startDate) - Date.parse(a.startDate);
         });
-    })
+    });
     return result;
   }
 
   async ngOnInit() {
+    await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
     this.testResults = this.getResults();
 
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);

@@ -10,7 +10,6 @@ import { SearchProvider } from '@providers/search/search';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Router } from '@angular/router';
-import { EXAMINER_RECORDS } from '@pages/page-names.constants';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -60,6 +59,5 @@ export class ExaminerRecordsEffects {
       this.store$.dispatch(CacheTests(examinerRecords));
       if (examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
     }),
-    map(() => this.router.navigate([EXAMINER_RECORDS])),
   ), { dispatch: false });
 }
