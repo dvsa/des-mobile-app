@@ -27,7 +27,7 @@ export const GetExaminerRecords = createAction(
   '[ExaminerRecordsPage] Call backend tests',
   (staffNumber: string) => ({ staffNumber }),
 );
-export const CacheTests = createAction(
+export const CacheExaminerRecords = createAction(
   '[ExaminerRecordsPage] Cache backend tests',
   (tests: ExaminerRecordModel[]) => ({ tests }),
 );

@@ -9,7 +9,7 @@ export const selectExaminerRecords = (state: StoreModel): ExaminerRecordStateMod
 
 export const selectCachedExaminerRecords = createSelector(
   selectExaminerRecords,
-  (examinerRecords): ExaminerRecordModel[] => examinerRecords.cachedTests,
+  (examinerRecords): ExaminerRecordModel[] => examinerRecords.cachedRecords,
 );
 export const selectLastCachedDate = createSelector(
   selectExaminerRecords,
@@ -38,6 +38,6 @@ export const selectCategoryFilter = createSelector(
 );
 export const selectLocationFilter = createSelector(
   selectExaminerRecords,
-  (examinerRecords): number => examinerRecords.locationFilter,
+  (examinerRecords): number => examinerRecords.locationFilter.centreId,
 );
 

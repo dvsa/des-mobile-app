@@ -3,7 +3,7 @@ import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-records.model';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import {
-  CacheTests,
+  CacheExaminerRecords,
   ColourFilterChanged, DateRangeChanged,
   LoadingExaminerRecords, LocationChanged, ShowDataChanged, TestCategoryChanged, UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -11,7 +11,7 @@ import {
 export const examinerRecordsFeatureKey = 'examinerRecords';
 
 export const initialState: ExaminerRecordStateModel = {
-  cachedTests: null,
+  cachedRecords: null,
   showData: false,
   colourScheme: ColourEnum.Default,
   dateFilter: null,
@@ -27,9 +27,9 @@ export const examinerRecordsReducer = createReducer(
     ...state,
     lastUpdatedTime: time,
   })),
-  on(CacheTests, (state: ExaminerRecordStateModel, { tests }) => ({
+  on(CacheExaminerRecords, (state: ExaminerRecordStateModel, { tests }) => ({
     ...state,
-    cachedTests: tests,
+    cachedRecords: tests,
     isLoading: false,
   })),
   on(LoadingExaminerRecords, (state: ExaminerRecordStateModel, { }) => ({
@@ -46,7 +46,7 @@ export const examinerRecordsReducer = createReducer(
   })),
   on(LocationChanged, (state: ExaminerRecordStateModel, { location }) => ({
     ...state,
-    locationFilter: location?.centreId,
+    locationFilter: location,
   })),
   on(TestCategoryChanged, (state: ExaminerRecordStateModel, { testCategory }) => ({
     ...state,
