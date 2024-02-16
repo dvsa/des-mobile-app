@@ -65,7 +65,7 @@ export const getEmergencyStopCount = (
 ): number =>
   getEligibleTests(startedTests, range, centreId, category)
     .map((record: ExaminerRecordModel) => get(record, 'controlledStop', null))
-    .filter((controlledStop) => !!controlledStop)
+    .filter((controlledStop) => (!!controlledStop && (controlledStop === 'true')))
     .length;
 
 export const getLocations = (
@@ -208,7 +208,8 @@ export const getRouteNumbers = (
 
   const data = getEligibleTests(startedTests, range, centreId, category)
     // extract route number
-    .map((record: ExaminerRecordModel) => (get(record, 'routeNumber', null)))// filter for any nulls
+    .map((record: ExaminerRecordModel) => (get(record, 'routeNumber', null)))
+    // filter for any nulls
     .filter((route) => route !== null);
 
   return uniqBy(data.map((item) => {
@@ -399,7 +400,7 @@ export const getManoeuvresUsed = (
       const manoeuvres = get(record, 'manoeuvres');
       if (!manoeuvres) return;
       const testCategory = get(record, 'testCategory') as TestCategory;
-      const mans = testCategory === TestCategory.ADI2 ? manoeuvres : [manoeuvres];
+      const mans = Array.isArray(manoeuvres) ? manoeuvres : [manoeuvres];
       mans.forEach((manoeuvre) => {
         forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
           const faults = !man.selected ? [] : transform(man, (result) => {

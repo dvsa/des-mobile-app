@@ -105,16 +105,16 @@ export class ExaminerRecordsProvider {
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
+      display: 'Last 100 tests',
+      val: '100',
+    },
+    {
       display: 'Last 1 year',
       val: '1 year',
     },
     {
       display: 'Last 2 years',
       val: '2 years',
-    },
-    {
-      display: 'Last 100 tests',
-      val: '100',
     },
   ];
 
@@ -123,14 +123,11 @@ export class ExaminerRecordsProvider {
     public searchProvider: SearchProvider,
     public compressionProvider: CompressionProvider,
     public store$: Store<StoreModel>,
-    public router: Router
+    public router: Router,
   ) {
   }
 
-
   async cacheOnlineRecords(staffNumber: string) {
-    console.log(this.store$.selectSignal(selectCachedExaminerRecords)());
-
     if (
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
