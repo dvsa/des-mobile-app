@@ -159,13 +159,13 @@ describe('TestDataSelectors CAT A Mod 2', () => {
       const result = getEcoFaultText(state.eco);
       expect(result).toBeUndefined();
     });
-    it('should return `Control and Planning` if both eco faults', () => {
+    it('should return `Control and planning` if both eco faults', () => {
       const result = getEcoFaultText({
         ...state,
         adviceGivenControl: true,
         adviceGivenPlanning: true,
       });
-      expect(result).toEqual('Control and Planning');
+      expect(result).toEqual('Control and planning');
     });
     it('should return `Control` if just control eco fault', () => {
       const result = getEcoFaultText({

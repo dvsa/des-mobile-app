@@ -23,17 +23,17 @@
     "safetyAndBalanceQuestions": {
       "M1": "Lefel olew",
       "M2": "Corn yn gweithio",
-      "M3": "Hylif Brêc",
+      "M3": "Hylif brêc",
       "M4": "Goleuadau",
-      "M5": "Goleuadau Brêc",
+      "M5": "Goleuadau brêc",
       "M6": "Cadwyn",
       "M7": "Llywio",
       "M8": "Teiars",
-      "M9": "Brêc Blaen",
+      "M9": "Brêc blaen",
       "M10": "Breciau",
-      "M11": "Switsh Torri Allan Injan",
+      "M11": "Switsh torri allan injan",
       "M12": "Golau Niwl",
-      "M13": "Wedi Gostwng / Prif Belydr ",
+      "M13": "Wedi gostwng / prif belydr ",
       "B1": "Problemau teithwyr piliwn",
       "B2": "Cludo teithiwr",
       "B3": "Cydbwysedd gyda theithiwr"
@@ -53,7 +53,7 @@
         "T11": "Wedi'u gostwng i'r prif belydryn",
         "T12": "Mae gan yr injan ddigon o olew",
         "T13": "Oerydd y peiriant",
-        "T14": "Hylif Brêc"
+        "T14": "Hylif brêc"
       },
       "B+E": {
         "T01": "Breciau",

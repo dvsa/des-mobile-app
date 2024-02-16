@@ -2,7 +2,7 @@
   <ion-grid>
     <ion-row *ngIf="emergencyStop && (emergencyStop.firstAttempt || emergencyStop.secondAttempt)">
       <ion-col size="40">
-        <label>Emergency Stop</label>
+        <label>Emergency stop</label>
       </ion-col>
       <ion-col size="20" class="ion-no-padding">
         <div *ngIf="(emergencyStop.firstAttempt || emergencyStop.firstAttempt === 0)">
@@ -38,7 +38,7 @@
 
     <ion-row *ngIf="avoidance && (avoidance.firstAttempt || avoidance.secondAttempt)">
       <ion-col size="40">
-        <label>Avoidance</label>
+        <label>avoidance</label>
       </ion-col>
       <ion-col size="20" class="ion-no-padding">
         <div *ngIf="(avoidance.firstAttempt || avoidance.firstAttempt === 0)">1st: {{avoidance.firstAttempt}}km/h</div>
