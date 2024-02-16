@@ -6,7 +6,7 @@
     <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
   </ion-toolbar>
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
-    <label role="alert" id="unauth-text">No backend data, filters limited</label>
+    <label role="alert" id="unauth-text">Unable to access all data. Some options are not available.</label>
   </div>
 </ion-header>
 
@@ -89,13 +89,11 @@
           <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.localFilterOptions;">
             {{option.display}}
           </ion-select-option>
-          <ion-select-option
-            [disabled]="!cachedExaminerRecords"
-            [value]="option"
-            *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;"
-          >
-            {{option.display}}
-          </ion-select-option>
+          <div *ngIf="cachedExaminerRecords">
+            <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;">
+              {{option.display}}
+            </ion-select-option>
+          </div>
         </ion-select>
       </ion-row>
     </ion-col>

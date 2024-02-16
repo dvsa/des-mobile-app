@@ -1,5 +1,641 @@
 import { StartedTests } from '@store/tests/tests.selector';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import moment from 'moment/moment';
+import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { QuestionProvider } from '@providers/question/question';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class DemonstrationFunctions {
+
+  constructor(
+    public questionProvider: QuestionProvider,
+  ) {
+  }
+
+  generateQuery(staffNumber: number) {
+    let query = `INSERT INTO TEST_RESULT(
+    application_reference,
+    staff_number,
+    test_result,
+    test_date,
+    tc_id,
+    tc_cc,
+    driver_number,
+    driver_surname,
+    result_status,
+    autosave,
+    activity_code,
+    category,
+    pass_certificate_number,
+    version,
+    app_version
+) VALUES `;
+    // query = query.concat(this.generateFakeCatB(700, staffNumber, 1400));
+    // query = query.concat(this.generateFakeCatMod1(700, staffNumber, 700));
+    query = query.concat(this.generateFakeCatMod2(500, staffNumber, 500));
+    query = query.substring(0, query.length - 1);
+    console.log(query);
+
+  }
+
+  generateFakeCatB(amount: number, staffNumber: number, min: number) {
+
+    let query: string = '';
+
+    let currentDate = new Date();
+    let twoYearsAgo = new Date(
+      currentDate.getFullYear() - 2,
+      currentDate.getMonth(),
+      currentDate.getDate(),
+    );
+
+    let activityCodes = activityCodeModelList.map(value => value.activityCode);
+    let tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.B)
+      .map(value => ({ code: value.code, description: value.shortName, outcome: 'P' }));
+    let showMeQuestions = this.questionProvider.getShowMeQuestions(TestCategory.B)
+      .map(value => ({ code: value.code, description: value.shortName, outcome: 'P' }));
+    let testCentres = [{
+      'centreId': 10,
+      'costCode': 'NCST',
+      'centreName': 'Newcastle Test Centre (Example)',
+    },
+    {
+      'centreId': 3,
+      'costCode': 'CDF',
+      'centreName': 'Cardiff Test Centre (Example)',
+    },
+    {
+      'centreId': 2,
+      'costCode': 'LNDN',
+      'centreName': 'London Test Centre (Example)',
+    },
+    ];
+    for (let i = min; i < amount + min; i = i + 1) {
+      let manoeuvre = ['reverseRight',
+        'reverseParkRoad',
+        'reverseParkCarpark',
+        'forwardPark'][Math.floor(Math.random() * 4)];
+      let date = moment(
+        new Date(twoYearsAgo.getTime() + Math.random() * (currentDate.getTime() - twoYearsAgo.getTime())),
+      ).format('YYYY-MM-DD');
+      let testResult =
+        {
+          'appVersion': '4.10.0.0',
+          'version': '3.42.5',
+          'category': 'B',
+          'activityCode': activityCodes[Math.floor(Math.random() * activityCodes.length)],
+          'journalData': {
+            'examiner': {
+              'staffNumber': staffNumber.toString(),
+              'individualId': i,
+            },
+            'testCentre': testCentres[Math.floor(Math.random() * testCentres.length)],
+            'testSlotAttributes': {
+              'welshTest': false,
+              'slotId': 4000 + i,
+              'start': date,
+              'specialNeeds': false,
+              'specialNeedsCode': 'EXTRA',
+              'specialNeedsArray': ['None'],
+              'vehicleTypeCode': 'C',
+              'extendedTest': false,
+              'examinerVisiting': false,
+              'previousCancellation': ['Act of nature'],
+              'entitlementCheck': false,
+              'categoryEntitlementCheck': false,
+              'fitMarker': false,
+              'slotType': 'Extra Time Needed',
+            },
+            'candidate': {
+              'candidateAddress': {
+                'addressLine1': 'addressLine1',
+                'addressLine2': 'addressLine2',
+                'addressLine3': 'addressLine3',
+                'postcode': 'postCode',
+              },
+              'candidateId': i,
+              'candidateName': {
+                'firstName': `firstName${i}`,
+                'lastName': `lastName${i}`,
+                'title': 'title',
+              },
+              'driverNumber': `driverNumber${i}`,
+              'mobileTelephone': '11111 111111',
+              'primaryTelephone': '11111 111111',
+              'secondaryTelephone': '11111 111111',
+              'dateOfBirth': '1111-11-11',
+              'ethnicityCode': 'E',
+              'gender': 'F',
+            },
+            'applicationReference': { 'applicationId': i, 'bookingSequence': 3, 'checkDigit': 1 },
+          },
+          'preTestDeclarations': {
+            'insuranceDeclarationAccepted': true,
+            'residencyDeclarationAccepted': true,
+            'preTestSignature': '',
+            'candidateDeclarationSigned': false,
+          },
+          'accompaniment': {},
+          'vehicleDetails': {
+            'registrationNumber': i.toString(),
+            'gearboxCategory': 'Manual',
+            'motStatus': 'No details found',
+          },
+          'instructorDetails': {},
+          'testData': {
+            'drivingFaults': { 'moveOffSafety': 1 },
+            'dangerousFaults': {},
+            'seriousFaults': {},
+            'vehicleChecks': {
+              'tellMeQuestion': tellMeQuestions[Math.floor(Math.random() * tellMeQuestions.length)],
+              'showMeQuestion': showMeQuestions[Math.floor(Math.random() * showMeQuestions.length)],
+            },
+            'controlledStop': { 'selected': [true, false][Math.floor(Math.random() * 2)] },
+            'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+            'ETA': {},
+            'eyesightTest': { 'complete': true, 'seriousFault': false },
+            'manoeuvres': { [manoeuvre]: { 'selected': true } },
+            'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+          },
+          'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+          'postTestDeclarations': {
+            'healthDeclarationAccepted': true,
+            'passCertificateNumberReceived': true,
+
+            'postTestSignature': '',
+          },
+          'testSummary': {
+            'routeNumber': Math.floor(Math.random() * (12 - 1 + 1) + 1),
+            'independentDriving': ['Sat nav', 'Traffic signs'][Math.floor(Math.random() * 2)],
+            'candidateDescription': 'description',
+            'additionalInformation': null,
+            'weatherConditions': ['Snowing'],
+            'debriefWitnessed': true,
+            'D255': false,
+            'identification': 'Licence',
+            'trueLikenessToPhoto': true,
+          },
+          'communicationPreferences': {
+            'updatedEmail': '',
+            'communicationMethod': 'Post',
+            'conductedLanguage': 'English',
+          },
+          'rekey': false,
+          'rekeyDate': null,
+          'rekeyReason': {
+            'ipadIssue': {
+              'selected': false,
+              'broken': false,
+              'lost': false,
+              'technicalFault': false,
+              'stolen': false,
+            }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+          },
+          'delegatedTest': false,
+          'examinerBooked': staffNumber,
+          'examinerConducted': staffNumber,
+          'examinerKeyed': staffNumber,
+          'changeMarker': false,
+        } as TestResultCommonSchema;
+      query = query.concat(`('90000000000${i}',
+      '${staffNumber}',
+      '${JSON.stringify(testResult)}',
+      '${date}',
+      '${testResult.journalData.testCentre.centreId}',
+      '${testResult.journalData.testCentre.costCode}',
+      '${testResult.journalData.candidate.driverNumber}',
+      '${testResult.journalData.candidate.candidateName.lastName}',
+      1,
+      ${false},
+      '${testResult.activityCode}',
+      '${testResult.category}',
+      '${testResult?.passCompletion?.passCertificateNumber ? testResult?.passCompletion?.passCertificateNumber : null}',
+      '3.42.5',
+      '${testResult.appVersion}'),`);
+    }
+    return query;
+  }
+  generateFakeCatMod1(amount: number, staffNumber: number, min: number) {
+    let query = '';
+
+    let currentDate = new Date();
+    let twoYearsAgo = new Date(
+      currentDate.getFullYear() - 2,
+      currentDate.getMonth(),
+      currentDate.getDate(),
+    );
+
+    let activityCodes = activityCodeModelList.map(value => value.activityCode);
+    let testCentres = [{
+      'centreId': 10,
+      'costCode': 'NCST',
+      'centreName': 'Newcastle Test Centre (Example)',
+    },
+    {
+      'centreId': 3,
+      'costCode': 'CDF',
+      'centreName': 'Cardiff Test Centre (Example)',
+    },
+    {
+      'centreId': 2,
+      'costCode': 'LNDN',
+      'centreName': 'London Test Centre (Example)',
+    },
+    ];
+    for (let i = min; i < amount + min; i = i + 1) {
+      let date = moment(
+        new Date(twoYearsAgo.getTime() + Math.random() * (currentDate.getTime() - twoYearsAgo.getTime())),
+      ).format('YYYY-MM-DD');
+      let testResult =
+        {
+          'rekey': false,
+          'version': '3.42.5',
+          'category': 'EUAMM1',
+          'testData': {
+            'ETA': {
+              'verbal': true,
+              'physical': true,
+            },
+            'avoidance': {
+              'firstAttempt': 87,
+            },
+            'drivingFaults': {
+              'precautions': 1,
+            },
+            'emergencyStop': {
+              'outcome': 'S',
+              'comments': 'Jhgfds',
+              'firstAttempt': 98,
+              'secondAttempt': 87,
+            },
+            'seriousFaults': {
+              'precautions': true,
+              'moveOffSafety': true,
+              'precautionsComments': 'Ghj',
+              'moveOffSafetyComments': 'Iuy',
+            },
+            'dangerousFaults': {
+              'precautions': true,
+              'moveOffControl': true,
+              'precautionsComments': '6789',
+              'moveOffControlComments': '8765',
+            },
+            'singleFaultCompetencies': {
+              'manualHandling': 'DF',
+            },
+          },
+          'appVersion': '4.10.0.0',
+          'journalData': {
+            'examiner': {
+              'staffNumber': '12345670',
+              'individualId': 10000000,
+            },
+            'candidate': {
+              'candidateAddress': {
+                'addressLine1': 'addressLine1',
+                'addressLine2': 'addressLine2',
+                'addressLine3': 'addressLine3',
+                'postcode': 'postCode',
+              },
+              'candidateId': i,
+              'candidateName': {
+                'firstName': `firstName${i}`,
+                'lastName': `lastName${i}`,
+                'title': 'title',
+              },
+              'driverNumber': `driverNumber${i}`,
+              'mobileTelephone': '11111 111111',
+              'primaryTelephone': '11111 111111',
+              'secondaryTelephone': '11111 111111',
+              'dateOfBirth': '1111-11-11',
+              'ethnicityCode': 'E',
+              'gender': 'F',
+            },
+            'testCentre': testCentres[Math.floor(Math.random() * testCentres.length)],
+            'testSlotAttributes': {
+              'start': date,
+              'slotId': 5000 + i,
+              'slotType': 'Standard Test',
+              'fitMarker': false,
+              'welshTest': false,
+              'extendedTest': false,
+              'specialNeeds': false,
+              'vehicleTypeCode': 'C',
+              'entitlementCheck': false,
+              'examinerVisiting': false,
+              'specialNeedsCode': 'NONE',
+              'specialNeedsArray': [
+                'None',
+              ],
+              'previousCancellation': [
+                'Act of nature',
+              ],
+              'categoryEntitlementCheck': false,
+            },
+            'applicationReference': {
+              'checkDigit': 1,
+              'applicationId': 10123400,
+              'bookingSequence': 1,
+            },
+          },
+          'rekeyReason': {
+            'other': {
+              'reason': '',
+              'selected': false,
+            },
+            'transfer': {
+              'selected': false,
+            },
+            'ipadIssue': {
+              'lost': false,
+              'broken': false,
+              'stolen': false,
+              'selected': false,
+              'technicalFault': false,
+            },
+          },
+          'testSummary': {
+            'D255': false,
+            'circuit': ['Right', 'Left'][Math.floor(Math.random() * 2)],
+            'routeNumber': Math.floor(Math.random() * (12 - 1 + 1) + 1),
+            'identification': 'Passport',
+            'debriefWitnessed': true,
+            'weatherConditions': [
+              'Foggy / misty',
+              'Dull / dry roads',
+              'Icy',
+            ],
+            'trueLikenessToPhoto': false,
+            'candidateDescription': '9876543',
+          },
+          'activityCode': activityCodes[Math.floor(Math.random() * activityCodes.length)],
+          'changeMarker': false,
+          'accompaniment': {
+            'ADI': true,
+            'interpreter': true,
+          },
+          'examinerKeyed': staffNumber,
+          'examinerBooked': staffNumber,
+          'vehicleDetails': {
+            'motStatus': 'No details found',
+            'schoolBike': true,
+            'gearboxCategory': 'Manual',
+            'registrationNumber': i.toString(),
+          },
+          'examinerConducted': staffNumber,
+          'preTestDeclarations': {
+            'preTestSignature': '',
+            'DL196CBTCertNumber': '',
+            'insuranceDeclarationAccepted': true,
+            'residencyDeclarationAccepted': true,
+          },
+          'postTestDeclarations': {
+            'postTestSignature': '',
+            'healthDeclarationAccepted': false,
+            'passCertificateNumberReceived': false,
+          },
+          'communicationPreferences': {
+            'updatedEmail': 'test.test@dvsa.gov.uk',
+            'conductedLanguage': 'English',
+            'communicationMethod': 'Email',
+          },
+        } as TestResultCommonSchema;
+      query = query.concat(`('80000000000${i}',
+      '${staffNumber}',
+      '${JSON.stringify(testResult)}',
+      '${date}',
+      '${testResult.journalData.testCentre.centreId}',
+      '${testResult.journalData.testCentre.costCode}',
+      '${testResult.journalData.candidate.driverNumber}',
+      '${testResult.journalData.candidate.candidateName.lastName}',
+      1,
+      ${false},
+      '${testResult.activityCode}',
+      '${testResult.category}',
+      '${testResult?.passCompletion?.passCertificateNumber ? testResult?.passCompletion?.passCertificateNumber : null}',
+      '3.42.5',
+      '${testResult.appVersion}'),`);
+    }
+    return query;
+  }
+  generateFakeCatMod2(amount: number, staffNumber: number, min: number) {
+    let query = '';
+
+    let currentDate = new Date();
+    let twoYearsAgo = new Date(
+      currentDate.getFullYear() - 2,
+      currentDate.getMonth(),
+      currentDate.getDate(),
+    );
+
+    let activityCodes = activityCodeModelList.map(value => value.activityCode);
+    let safetyQuestions = this.questionProvider.getSafetyQuestions(TestCategory.EUAM2)
+      .map(value => ({ code: value.code, description: value.shortName, outcome: 'P' }));
+
+    let balanceQuestions = this.questionProvider.getBalanceQuestions(TestCategory.EUAM2)
+      .map(value => ({ code: value.code, description: value.shortName, outcome: 'P' }));
+    let testCentres = [{
+      'centreId': 10,
+      'costCode': 'NCST',
+      'centreName': 'Newcastle Test Centre (Example)',
+    },
+    {
+      'centreId': 3,
+      'costCode': 'CDF',
+      'centreName': 'Cardiff Test Centre (Example)',
+    },
+    {
+      'centreId': 2,
+      'costCode': 'LNDN',
+      'centreName': 'London Test Centre (Example)',
+    },
+    ];
+    for (let i = min; i < amount + min; i = i + 1) {
+      let firstRandomSafetyQuestion = safetyQuestions[Math.floor(Math.random() * safetyQuestions.length)];
+      let secondRandomSafetyQuestion = firstRandomSafetyQuestion;
+
+      while (secondRandomSafetyQuestion === firstRandomSafetyQuestion) {
+        secondRandomSafetyQuestion = safetyQuestions[Math.floor(Math.random() * safetyQuestions.length)];
+      }
+      let date = moment(
+        new Date(twoYearsAgo.getTime() + Math.random() * (currentDate.getTime() - twoYearsAgo.getTime())),
+      ).format('YYYY-MM-DD');
+      let testResult =
+        {
+          'rekey': false,
+          'version': '3.42.5',
+          'category': 'EUAM2',
+          'testData': {
+            'ETA': {},
+            'eco': {
+              'completed': true,
+            },
+            'eyesightTest': {
+              'complete': true,
+              'seriousFault': false,
+            },
+            'drivingFaults': {
+              'precautions': 1,
+              'junctionsTurningLeft': 2,
+              'junctionsTurningRight': 3,
+              'junctionsCuttingCorners': 1,
+              'progressUndueHesitation': 1,
+              'progressAppropriateSpeed': 1,
+            },
+            'seriousFaults': {
+              'rearObservationSignalling': true,
+              'rearObservationSignallingComments': '9898989',
+            },
+            'dangerousFaults': {},
+            'testRequirements': {
+              'hillStart': true,
+              'angledStart': true,
+              'normalStart1': true,
+              'normalStart2': true,
+            },
+            'safetyAndBalanceQuestions': {
+              'safetyQuestions': [
+                firstRandomSafetyQuestion,
+                secondRandomSafetyQuestion,
+              ],
+              'balanceQuestions': [
+                balanceQuestions[Math.floor(Math.random() * balanceQuestions.length)],
+              ],
+            },
+          },
+          'appVersion': '4.10.0.0',
+          'journalData': {
+            'examiner': {
+              'staffNumber': staffNumber.toString(),
+              'individualId': 10000000,
+            },
+            'candidate': {
+              'candidateAddress': {
+                'addressLine1': 'addressLine1',
+                'addressLine2': 'addressLine2',
+                'addressLine3': 'addressLine3',
+                'postcode': 'postCode',
+              },
+              'candidateId': i,
+              'candidateName': {
+                'firstName': `firstName${i}`,
+                'lastName': `lastName${i}`,
+                'title': 'title',
+              },
+              'driverNumber': `driverNumber${i}`,
+              'mobileTelephone': '11111 111111',
+              'primaryTelephone': '11111 111111',
+              'secondaryTelephone': '11111 111111',
+              'dateOfBirth': '1111-11-11',
+              'ethnicityCode': 'E',
+              'gender': 'F',
+            },
+            'testCentre': testCentres[Math.floor(Math.random() * testCentres.length)],
+            'testSlotAttributes': {
+              'start': date,
+              'slotId': 6000 + i,
+              'slotType': 'Standard Test',
+              'fitMarker': false,
+              'welshTest': false,
+              'extendedTest': false,
+              'specialNeeds': false,
+              'vehicleTypeCode': 'C',
+              'entitlementCheck': false,
+              'examinerVisiting': false,
+              'specialNeedsCode': 'NONE',
+              'specialNeedsArray': [
+                'None',
+              ],
+              'previousCancellation': [
+                'Act of nature',
+              ],
+              'categoryEntitlementCheck': false,
+            },
+            'applicationReference': {
+              'checkDigit': 1,
+              'applicationId': 10123433,
+              'bookingSequence': 1,
+            },
+          },
+          'rekeyReason': {
+            'other': {
+              'reason': '',
+              'selected': false,
+            },
+            'transfer': {
+              'selected': false,
+            },
+            'ipadIssue': {
+              'lost': false,
+              'broken': false,
+              'stolen': false,
+              'selected': false,
+              'technicalFault': false,
+            },
+          },
+          'testSummary': {
+            'D255': false,
+            'routeNumber': Math.floor(Math.random() * (12 - 1 + 1) + 1),
+            'identification': 'Licence',
+            'modeOfTransport': 'Car to bike',
+            'debriefWitnessed': true,
+            'weatherConditions': [
+              'Foggy / misty',
+              'Dull / dry roads',
+              'Windy',
+            ],
+            'independentDriving': ['Sat nav', 'Traffic signs'][Math.floor(Math.random() * 2)],
+            'trueLikenessToPhoto': true,
+          },
+          'activityCode': activityCodes[Math.floor(Math.random() * activityCodes.length)],
+          'changeMarker': false,
+          'accompaniment': {},
+          'examinerKeyed': staffNumber,
+          'examinerBooked': staffNumber,
+          'vehicleDetails': {
+            'motStatus': 'No details found',
+            'gearboxCategory': 'Manual',
+            'registrationNumber': 'K',
+          },
+          'examinerConducted': staffNumber,
+          'preTestDeclarations': {
+            'preTestSignature': '',
+            'DL196CBTCertNumber': '',
+            'insuranceDeclarationAccepted': true,
+            'residencyDeclarationAccepted': true,
+          },
+          'postTestDeclarations': {
+            'postTestSignature': '',
+            'healthDeclarationAccepted': false,
+            'passCertificateNumberReceived': false,
+          },
+          'communicationPreferences': {
+            'updatedEmail': 'test@test.test',
+            'conductedLanguage': 'English',
+            'communicationMethod': 'Email',
+          },
+        } as TestResultCommonSchema;
+      query = query.concat(`('70000000000${i}',
+      '${staffNumber}',
+      '${JSON.stringify(testResult)}',
+      '${date}',
+      '${testResult.journalData.testCentre.centreId}',
+      '${testResult.journalData.testCentre.costCode}',
+      '${testResult.journalData.candidate.driverNumber}',
+      '${testResult.journalData.candidate.candidateName.lastName}',
+      1,
+      ${false},
+      '${testResult.activityCode}',
+      '${testResult.category}',
+      '${testResult?.passCompletion?.passCertificateNumber ? testResult?.passCompletion?.passCertificateNumber : null}',
+      '3.42.5',
+      '${testResult.appVersion}'),`);
+    }
+    return query;
+  }
+}
 
 export const demonstrationMock: StartedTests = {
   1: {

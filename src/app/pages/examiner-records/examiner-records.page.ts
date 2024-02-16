@@ -9,8 +9,8 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
-  ShowDataChanged,
   LocationChanged,
+  ShowDataChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import {
@@ -30,9 +30,7 @@ import {
 } from '@pages/examiner-records/examiner-records.selector';
 import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
-import {
-  TestCentre,
-} from '@dvsa/mes-test-schema/categories/common';
+import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';

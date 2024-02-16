@@ -256,9 +256,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.loadingProvider.handleUILoading(isLoading, {
         id: 'examinerRecord_loading_spinner',
         spinner: 'circles',
-        backdropDismiss: true,
+        backdropDismiss: false,
         translucent: false,
-        message: 'Loading examiner records...'
+        message: 'Loading...'
       });
 
     }
