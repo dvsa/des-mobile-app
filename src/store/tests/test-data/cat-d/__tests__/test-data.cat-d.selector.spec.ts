@@ -112,13 +112,13 @@ describe('TestDataSelectors', () => {
       expect(result)
         .toBeUndefined();
     });
-    it('should return `Physical and Verbal` if both ETA faults', () => {
+    it('should return `Physical and verbal` if both ETA faults', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = true;
       updatedState.ETA.verbal = true;
       const result = getETAFaultText(updatedState.ETA);
       expect(result)
-        .toEqual('Physical and Verbal');
+        .toEqual('Physical and verbal');
     });
     it('should return `Physical` if just physical ETA fault', () => {
       const updatedState = cloneDeep(state);
@@ -144,13 +144,13 @@ describe('TestDataSelectors', () => {
       expect(result)
         .toBeUndefined();
     });
-    it('should return `Control and Planning` if both eco faults', () => {
+    it('should return `Control and planning` if both eco faults', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = true;
       updatedState.eco.adviceGivenPlanning = true;
       const result = getEcoFaultText(updatedState.eco);
       expect(result)
-        .toEqual('Control and Planning');
+        .toEqual('Control and planning');
     });
     it('should return `Control` if just control eco fault', () => {
       const updatedState = cloneDeep(state);

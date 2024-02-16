@@ -34,7 +34,7 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'H6',
     description: 'Show me how you would clean the windscreen using the windscreen washer and wipers.',
-    shortName: 'Wash Windscreen',
+    shortName: 'Wash windscreen',
   },
   {
     code: 'H7',
@@ -59,12 +59,12 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'H11',
     description: 'Open the bonnet, identify where you would check the engine coolant level and tell me how you would check that the engine has the correct level.',
-    shortName: 'Engine Coolant',
+    shortName: 'Engine coolant',
   },
   {
     code: 'H12',
     description: 'Open the bonnet, identify where the brake fluid reservoir is and tell me how you would check that you have a safe level of hydraulic brake fluid.',
-    shortName: 'Brake Fluid',
+    shortName: 'Brake fluid',
   },
 ];
 
