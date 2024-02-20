@@ -219,6 +219,9 @@ export class ChartComponent implements OnInit, OnChanges {
           },
         },
         pie: {
+          dataLabels: {
+            offset: -15,
+          },
           expandOnClick: false,
           donut: {
             labels: {
