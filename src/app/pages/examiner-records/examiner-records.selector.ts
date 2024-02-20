@@ -215,7 +215,7 @@ export const getRouteNumbers = (
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => val === item).length;
     return {
-      item: `Route ${item}`,
+      item: `R${item} - Route ${item}`,
       count,
       percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
