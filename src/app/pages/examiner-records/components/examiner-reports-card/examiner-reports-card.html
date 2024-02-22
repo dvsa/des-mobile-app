@@ -1,9 +1,19 @@
-<ion-card [class]="darkColours ? ['white-text' , 'navy-card'] : 'mes-black'">
+<ion-card
+  (click)="hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData"
+  [class]="darkColours ? [
+'white-text',
+'navy-card',
+'ion-activatable',
+] : [
+'mes-black',
+'ion-activatable',
+]"
+>
   <ion-card-header>
     <ion-card-title>
       <ion-row>
         <ion-col>
-          <ion-text class="des-header-style-4 fault-heading">{{cardTitle}}</ion-text>
+          <ion-text class="des-header-style-4 fault-heading">{{ cardTitle }}</ion-text>
         </ion-col>
       </ion-row>
     </ion-card-title>
@@ -13,6 +23,7 @@
       <ion-row>
         <ion-col class="ion-justify-content-center display-flex">
           <chart
+            *ngIf="showChart"
             [chartId]="chartID"
             [splitLabel]="splitChartLabel"
             [isPortrait]="isPortrait"
@@ -27,7 +38,7 @@
           </chart>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="chartType === 'bar'">
+      <ion-row *ngIf="chartType === 'bar' && showChart">
         <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
           <div [style.border-top-color]="averageColour" class="dashed-line"></div>
         </ion-col>
@@ -48,7 +59,7 @@
             <ion-row class="ion-padding-top mes-row-separator"></ion-row>
             <ion-row class="ion-padding-top display-flex ion-justify-content-center">
               <ion-col class="display-flex ion-justify-content-center">
-                <span class="mes-data"><label>Total:</label> {{getTotal(passedData)}}</span>
+                <span class="mes-data"><label>Total:</label> {{ getTotal(passedData) }}</span>
               </ion-col>
             </ion-row>
           </div>

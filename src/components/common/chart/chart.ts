@@ -76,8 +76,7 @@ export class ChartComponent implements OnInit, OnChanges {
         //disable chart section darkening on click if the chart is a pie
         active: {
           filter: {
-            type: this.chartType === 'pie' ? 'none' : 'darken',
-            value: 0.6,
+            type: 'none',
           },
         },
       },
@@ -188,7 +187,7 @@ export class ChartComponent implements OnInit, OnChanges {
       },
       tooltip: {
         followCursor: false,
-        enabled: this.chartType === 'bar',
+        enabled: false,
         custom: function ({ series, seriesIndex, dataPointIndex, w }) {
           return '<div class="ion-padding">' +
             '<ion-text class="mes-data">' +

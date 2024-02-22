@@ -111,7 +111,7 @@
       class="ion-align-items-center display-flex"
       [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 28 : 24"
     >
-      <label>Show data tables</label>
+      <label>Hide charts</label>
     </ion-col>
     <ion-col size="7" class="display-flex ion-align-items-center">
       <input
@@ -130,6 +130,7 @@
       <ion-col *ngIf="data.routeGrid?.length && !isMod1()" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [cardTitle]="'Test routes completed'"
+          [showChart]="!hideCharts"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'bar')"
@@ -148,6 +149,7 @@
       </ion-col>
       <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
           [averageColour]="averageSelect()"
           [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
@@ -168,7 +170,9 @@
       </ion-col>
       <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Emergency stops'"
+          [hasCustomContent]="true"
           [showCustomContent]="showData"
           [averageColour]="averageSelect()"
           [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
@@ -211,6 +215,7 @@
       </ion-col>
       <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Manoeuvres completed'"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
@@ -230,6 +235,7 @@
       </ion-col>
       <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Show me questions asked'"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
@@ -249,6 +255,7 @@
       </ion-col>
       <ion-col *ngIf="data.tellMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Tell me questions asked'"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
@@ -268,6 +275,7 @@
       </ion-col>
       <ion-col *ngIf="data.balanceGrid?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Balance questions asked'"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
@@ -288,6 +296,7 @@
       </ion-col>
       <ion-col *ngIf="data.safetyGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Safety questions asked'"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
@@ -307,6 +316,7 @@
       </ion-col>
       <ion-col *ngIf="data.circuits?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
+          [showChart]="!hideCharts"
           [cardTitle]="'Circuits'"
           [averageColour]="averageSelect()"
           [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
