@@ -127,7 +127,7 @@
 
   <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">
-      <ion-col *ngIf="data.routeGrid?.length" class="ion-no-padding" size="auto">
+      <ion-col *ngIf="data.routeGrid?.length && !isMod1()" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [cardTitle]="'Test routes completed'"
           [averageColour]="averageSelect()"
@@ -186,22 +186,27 @@
           [passedData]="data.emergencyStops"
         >
           <data-row
-            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
-            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
-            [value]="data.emergencyStops[0].count"
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+            [shouldHaveSeperator]="false"
             [centreData]="true"
-            label="Emergency stop total"
+            [value]="data.testCount"
+            [noPadding]="true"
+            label="Number of tests in range"
           >
           </data-row>
           <data-row
-            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
-            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? 'color: white' : null"
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+            [value]="data.emergencyStops[0].count"
             [shouldHaveSeperator]="false"
             [centreData]="true"
-            [value]="data.emergencyStops[0].percentage"
-            label="Emergency stop (%)"
+            label="Emergency stops performed"
           >
           </data-row>
+          <ion-text>
+            You performed an emergency stop on {{data.emergencyStops[0].percentage}}% of tests in range.</ion-text
+          >
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
