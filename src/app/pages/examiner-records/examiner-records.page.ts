@@ -38,7 +38,6 @@ import { Router } from '@angular/router';
 import {
   selectCachedExaminerRecords,
   selectColourScheme,
-  selectShowData,
 } from '@store/examiner-records/examiner-records.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -88,7 +87,8 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
-  showData = this.store$.selectSignal(selectShowData)();
+  showData = false;
+  hideCharts = false;
   colourOption = this.store$.selectSignal(selectColourScheme)();
   categoryPlaceholder: string;
   locationPlaceholder: string;
@@ -348,6 +348,7 @@ export class ExaminerRecordsPage implements OnInit {
 
   toggleData(): void {
     this.showData = !this.showData;
+    this.hideCharts = !this.hideCharts;
     this.store$.dispatch(ShowDataChanged(this.showData));
   }
 

@@ -29,9 +29,13 @@ export class ExaminerReportsCard {
   @Input()
   showCustomContent: boolean = false;
   @Input()
+  hasCustomContent: boolean = false;
+  @Input()
   displayColoursOnDataGrid: boolean = false;
   @Input()
   showData: boolean = false;
+  @Input()
+  showChart: boolean = true;
   @Input()
   splitChartLabel: boolean = false;
   @Input()
