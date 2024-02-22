@@ -126,10 +126,6 @@ export class ExaminerRecordsPage implements OnInit {
     }
   }
 
-  private calculatePercentage = (
-    [startedTestCount, comparatorCount],
-  ) => `${((comparatorCount / startedTestCount) * 100).toFixed(1)}%`;
-
   // wrapper used to reduce/centralise code
   // take in a dynamic type, and a function with signature of fn(test, date)
   private filterByParameters = <T>(fn: (
@@ -439,4 +435,9 @@ export class ExaminerRecordsPage implements OnInit {
   async goToDashboard(): Promise<void> {
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
+
+  public isMod1 = (): boolean => isAnyOf(this.currentCategory, [
+    // Cat Mod1
+    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
+  ]);
 }
