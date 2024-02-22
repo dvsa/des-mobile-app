@@ -240,7 +240,6 @@ export const getSafetyQuestions = (
       })),
   ];
 
-
   const data = getEligibleTests(startedTests, range, centreId, category)
     .map((record: ExaminerRecordModel) => [
       ...get(record, 'safetyQuestions', []) as QuestionResult[],
