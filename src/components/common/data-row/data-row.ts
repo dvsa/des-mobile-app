@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'data-row',
   templateUrl: 'data-row.html',
+  styleUrls: ['data-row.scss']
 })
 export class DataRowComponent {
 
@@ -10,10 +11,13 @@ export class DataRowComponent {
   label: string;
 
   @Input()
-  dataStyling?: string;
+  noPadding: boolean = false;
 
   @Input()
-  labelStyling?: string;
+  dataStyling?: {[p: string]: any}= null;
+
+  @Input()
+  labelStyling?: {[p: string]: any} = null;
 
   @Input()
   imgSrc: string;
