@@ -110,9 +110,9 @@ export const getIndependentDrivingStats = (
   if (isAnyOf(category, [
     TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
   ])) {
-    indDrivingOptions = ['Traffic signs', 'Diagram', 'N/A'];
+    indDrivingOptions = ['Traffic signs', 'Diagram'];
   } else {
-    indDrivingOptions = ['Traffic signs', 'Sat nav', 'N/A'];
+    indDrivingOptions = ['Traffic signs', 'Sat nav'];
   }
 
   const data: string[] = getEligibleTests(startedTests, range, centreId, category)
@@ -305,7 +305,7 @@ export const getShowMeQuestions = (
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
-  const questions = qp.getShowMeQuestions(category);
+  const questions = qp.getShowMeQuestions(category).filter((q) => q.code !== 'N/A');
 
   const data = getEligibleTests(startedTests, range, centreId, category)
     .map((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])

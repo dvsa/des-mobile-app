@@ -51,10 +51,10 @@ export class ExaminerReportsCard {
     '#a05195',
   ];
   @Input() public chartTransform: { portrait: {
-    width: number | string, height: number | string,
+    width: number, height: number,
   },
   landscape: {
-    width: number | string, height: number | string,
+    width: number, height: number,
   }
   } = { portrait: { width: 740, height: 300 }, landscape: { width: 1020, height: 300 } };
 
@@ -70,5 +70,11 @@ export class ExaminerReportsCard {
       return examinerRecordData.map((obj) => Object.values(obj) as T[]);
     }
     return [[]];
+  }
+
+  getTapText(trueCondition: string, falseCondition: string) {
+    return this.hasCustomContent ?
+      this.showCustomContent ? trueCondition : falseCondition :
+      this.showData ? trueCondition : falseCondition;
   }
 }
