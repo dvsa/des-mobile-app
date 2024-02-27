@@ -4,9 +4,8 @@ import { Injectable } from '@angular/core';
 import { StoreModel } from '@shared/models/store.model';
 import {
   CacheExaminerRecords,
-  ColourFilterChanged, DateRangeChanged, LocationChanged,
-  ShowDataChanged,
-  TestCategoryChanged, UpdateLastCached,
+  ColourFilterChanged,
+  UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -31,10 +30,6 @@ export class ExaminerRecordsEffects {
   persistExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
     ofType(
       ColourFilterChanged,
-      ShowDataChanged,
-      TestCategoryChanged,
-      DateRangeChanged,
-      LocationChanged,
       CacheExaminerRecords,
     ),
     concatMap((action) => of(action)
@@ -56,21 +51,13 @@ export class ExaminerRecordsEffects {
         return [LoadExaminerRecordsFailure('Examiner stats preferences not found')];
       }
       const {
-        showData,
         colourScheme,
-        dateFilter,
-        locationFilter,
-        categoryFilter,
         cachedRecords,
         lastUpdatedTime,
       } = JSON.parse(examinerRecords) as ExaminerRecordStateModel;
 
       return [
         (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
-        (!!showData) ? ShowDataChanged(showData) : null,
-        (!!dateFilter) ? DateRangeChanged(dateFilter) : null,
-        (!!locationFilter) ? LocationChanged(locationFilter) : null,
-        (!!categoryFilter) ? TestCategoryChanged(categoryFilter) : null,
         (!!cachedRecords && cachedRecords.length) ? CacheExaminerRecords(cachedRecords) : null,
         (!!lastUpdatedTime) ? (UpdateLastCached(lastUpdatedTime)) : null,
       ];
