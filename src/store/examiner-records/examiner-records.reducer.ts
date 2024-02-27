@@ -12,11 +12,7 @@ export const examinerRecordsFeatureKey = 'examinerRecords';
 
 export const initialState: ExaminerRecordStateModel = {
   cachedRecords: null,
-  showData: false,
   colourScheme: ColourEnum.Default,
-  dateFilter: null,
-  locationFilter: null,
-  categoryFilter: null,
   isLoading: false,
   lastUpdatedTime: null
 };
