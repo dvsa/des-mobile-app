@@ -1,12 +1,11 @@
 <ion-card
-  (click)="hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData"
+  (click)="showChart ? (hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData) : null"
+  [class.ion-activatable]="showChart"
   [class]="darkColours ? [
 'white-text',
 'navy-card',
-'ion-activatable',
 ] : [
 'mes-black',
-'ion-activatable',
 ]"
 >
   <ion-card-header>
