@@ -98,8 +98,8 @@
       </ion-row>
     </ion-col>
   </ion-row>
-  <ion-row class="mes-padding-left">
-    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 59 : 63">
+  <ion-row class="mes-padding-right mes-padding-left">
+    <ion-col size="auto">
       <colour-filter-radio
         [formGroup]="form"
         [colourScheme]="colourOption"
@@ -107,13 +107,11 @@
       >
       </colour-filter-radio>
     </ion-col>
-    <ion-col
-      class="ion-align-items-center display-flex"
-      [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 28 : 24"
-    >
+    <ion-col></ion-col>
+    <ion-col class="ion-align-items-center display-flex" size="auto">
       <label>Hide charts</label>
     </ion-col>
-    <ion-col size="7" class="display-flex ion-align-items-center">
+    <ion-col size="7" class="display-flex ion-float-end ion-align-items-center">
       <input
         type="checkbox"
         id="chart-toggle-input"

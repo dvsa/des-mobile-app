@@ -1,8 +1,5 @@
-<ion-row id="view-filter-row" [formGroup]="formGroup">
-  <ion-col
-    [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 35 : 30"
-    class="ion-align-self-center"
-  >
+<ion-row class="display-flex ion-justify-content-start" id="view-filter-row" [formGroup]="formGroup">
+  <ion-col size="auto" class="ion-align-self-center">
     <input
       type="radio"
       id="value-filter-default"
@@ -38,7 +35,8 @@
   <!--        Navy-->
   <!--      </label>-->
   <!--    </ion-row>-->
-  <ion-col size="45" class="ion-align-self-center">
+  <ion-col size="2"></ion-col>
+  <ion-col size="auto" class="ion-align-self-center">
     <input
       type="radio"
       id="value-filter-monochrome"
@@ -48,6 +46,6 @@
       value="Monochrome"
       (change)="viewFilterChanged($event.target.value)"
     />
-    <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label"> Monochrome </label>
+    <label for="value-filter-monochrome" class="radio-label" id="value-filter-monochrome-label">Monochrome</label>
   </ion-col>
 </ion-row>
