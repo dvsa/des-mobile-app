@@ -1,10 +1,6 @@
 import { forOwn, get, transform, uniqBy } from 'lodash-es';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  Manoeuvre,
-  SafetyQuestionResult,
-  TestCentre,
-} from '@dvsa/mes-test-schema/categories/common';
+import { Manoeuvre, SafetyQuestionResult, TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
@@ -108,7 +104,8 @@ export const getIndependentDrivingStats = (
   }
   let indDrivingOptions: string[];
   if (isAnyOf(category, [
-    TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
+    TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E, // C
+    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Mod 2
   ])) {
     indDrivingOptions = ['Traffic signs', 'Diagram'];
   } else {
