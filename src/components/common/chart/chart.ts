@@ -17,12 +17,13 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() public horizontal: boolean = false;
   @Input() public splitLabel: boolean = true;
   @Input() public calculatePercentages: boolean = false;
-  @Input() public transformOptions: { portrait: {
-    width: number | string, height: number | string,
-  },
-  landscape: {
-    width: number | string, height: number | string,
-  }
+  @Input() public transformOptions: {
+    portrait: {
+      width: number | string, height: number | string,
+    },
+    landscape: {
+      width: number | string, height: number | string,
+    }
   } = { portrait: { width: 740, height: 300 }, landscape: { width: 1020, height: 300 } };
   @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
   @Input() public labelColour: string = '#000000';
@@ -32,6 +33,7 @@ export class ChartComponent implements OnInit, OnChanges {
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
   public average: number = 0;
+  public tickCount: number = null;
   public chart: ApexCharts = null;
   public chartOptions: ApexOptions;
 
@@ -128,15 +130,15 @@ export class ChartComponent implements OnInit, OnChanges {
           if (this.splitLabel) {
             return this.calculatePercentages ?
               opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
-                Number(val).toFixed(1) + '%' :
+              Number(val).toFixed(1) + '%' :
               opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
-                this.passedData[opts.seriesIndex].percentage;
+              this.passedData[opts.seriesIndex].percentage;
           }
           return this.calculatePercentages ?
             opts.w.globals.labels[opts.seriesIndex] + ':  ' +
-              Number(val).toFixed(1) + '%' :
+            Number(val).toFixed(1) + '%' :
             opts.w.globals.labels[opts.seriesIndex] + ':  ' +
-              this.passedData[opts.seriesIndex].percentage;
+            this.passedData[opts.seriesIndex].percentage;
         },
       },
       stroke: { show: true, colors: [this.strokeColour] },
@@ -164,6 +166,7 @@ export class ChartComponent implements OnInit, OnChanges {
         crosshairs: {
           show: false,
         },
+        tickAmount: this.tickCount,
         labels: {
           offsetY: this.horizontal ? 7 : 6,
           style: {
@@ -188,7 +191,7 @@ export class ChartComponent implements OnInit, OnChanges {
       tooltip: {
         followCursor: false,
         enabled: false,
-        custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        custom: function({ series, seriesIndex, dataPointIndex, w }) {
           return '<div class="ion-padding">' +
             '<ion-text class="mes-data">' +
             '' + w.globals.labels[dataPointIndex] + ': ' + series[seriesIndex][dataPointIndex] + '' +
@@ -242,10 +245,15 @@ export class ChartComponent implements OnInit, OnChanges {
     this.labels = this.passedData.map((val) => val.item);
     const values: number[] = this.passedData.map((val) => val.count);
     this.average = ((values.reduce((a, b) => a + b, 0)) / values.length) || 0;
+    this.tickCount = this.getTickCount(values);
 
     this.dataValues = (this.getChartType() === '1Axis')
       ? values as ApexNonAxisChartSeries
       : [{ data: values }] as ApexAxisChartSeries;
   }
-}
 
+  getTickCount(numbers: number[]) {
+    const max = Math.max(...numbers)
+    return max <= 5 ? max : null;
+  }
+}
