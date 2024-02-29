@@ -129,6 +129,7 @@ ion-modal {
 
 .mes-warning-button {
   --background: var(--gds-yellow);
+  --background-activated: var(--gds-yellow-darken-15);
   --color: var(--gds-black) !important;
   --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
 }
