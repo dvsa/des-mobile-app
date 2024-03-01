@@ -51,8 +51,8 @@ ion-modal {
 }
 
 .mes-secondary-button {
-  --background: var(--secondary-button);
-  --background-activated: var(--secondary-button-darken-10);
+  --background: var(--gds-yellow);
+  --background-activated: var(--gds-yellow-darken-15);
   --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
   --border-radius: 10px;
   margin: 0 0.2em;
@@ -125,13 +125,6 @@ ion-modal {
       color: var(--gds-light-blue);
     }
   }
-}
-
-.mes-warning-button {
-  --background: var(--gds-yellow);
-  --background-activated: var(--gds-yellow-darken-15);
-  --color: var(--gds-black) !important;
-  --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 .mes-return-button {

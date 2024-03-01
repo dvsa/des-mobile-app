@@ -31,7 +31,7 @@
     <ion-col class="flex-center" *ngIf="showResumeButton()">
       <ion-button
         id="resume-button-{{applicationId}}"
-        class="generic-button mes-warning-button"
+        class="generic-button mes-secondary-button"
         (click)="clickStartOrResumeTest()"
       >
         <ion-text class="des-header-style-3 write-up-label">Resume</ion-text>
@@ -48,11 +48,7 @@
       </ion-button>
     </ion-col>
     <ion-col class="display-flex" *ngIf="showWriteUpButton()">
-      <ion-button
-        class="mes-secondary-button mes-warning-button"
-        (click)="writeUpTest()"
-        id="write-up-button-{{applicationId}}"
-      >
+      <ion-button class="mes-secondary-button" (click)="writeUpTest()" id="write-up-button-{{applicationId}}">
         <ion-text class="des-header-style-3 write-up-label">Write-up</ion-text>
       </ion-button>
     </ion-col>
