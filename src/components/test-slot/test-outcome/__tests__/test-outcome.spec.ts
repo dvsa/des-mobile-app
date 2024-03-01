@@ -538,7 +538,7 @@ describe('TestOutcomeComponent', () => {
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
 
-        const debriefButton = fixture.debugElement.query(By.css('.mes-warning-button'));
+        const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
         debriefButton.triggerEventHandler('click', null);
 
         expect(component.resumeTest)
@@ -567,11 +567,12 @@ describe('TestOutcomeComponent', () => {
           .and
           .returnValue(true);
         component.slotDetail = testSlotDetail;
+        component.applicationId = 1;
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
 
-        const resumeButton = fixture.debugElement.query(By.css('.mes-warning-button'));
+        const resumeButton = fixture.debugElement.query(By.css('#resume-button-1'));
         resumeButton.triggerEventHandler('click', null);
 
         expect(component.resumeTest)
