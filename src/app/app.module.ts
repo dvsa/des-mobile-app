@@ -77,6 +77,7 @@ import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-pr
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -126,6 +127,7 @@ if (enableRehydrationPlugin) {
   imports: [
     DirectivesModule,
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot({
       swipeBackEnabled: false,
       animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
