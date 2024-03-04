@@ -46,7 +46,7 @@ describe('DateTimeInputComponent', () => {
     it('should emit blank variables if the DisplayType is not type Date or Time', () => {
       spyOn(component.onDataPicked, 'emit');
       component.control = 'test';
-      component.onSelected({} as IonDatetime, null);
+      component.onSelected('', null);
       expect(component.onDataPicked.emit)
         .toHaveBeenCalledWith({
           data: '',
@@ -59,7 +59,7 @@ describe('DateTimeInputComponent', () => {
       + ' if the DisplayType is Time', () => {
       spyOn(component.onDataPicked, 'emit');
       component.control = 'test';
-      component.onSelected({ value: '2000-01-02 12:11' } as IonDatetime, DisplayType.Time);
+      component.onSelected('2000-01-02 12:11', DisplayType.Time);
       expect(component.onDataPicked.emit)
         .toHaveBeenCalledWith({
           data: '2000-01-02T12:11',
@@ -72,7 +72,7 @@ describe('DateTimeInputComponent', () => {
       + ' if the DisplayType is Date', () => {
       spyOn(component.onDataPicked, 'emit');
       component.control = 'test';
-      component.onSelected({ value: '2000-01-02' } as IonDatetime, DisplayType.Date);
+      component.onSelected('2000-01-02', DisplayType.Date);
       expect(component.onDataPicked.emit)
         .toHaveBeenCalledWith({
           data: '2000-01-02',
