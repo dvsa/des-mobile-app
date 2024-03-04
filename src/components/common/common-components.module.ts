@@ -47,6 +47,11 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { DirectivesModule } from '@directives/directives.module';
+import { MatFormField } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCard } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -96,6 +101,15 @@ import { DirectivesModule } from '@directives/directives.module';
     TerminateTestModalModule,
     NgOptimizedImage,
     DirectivesModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInput,
+    MatFormField,
+    MatCard,
+
+  ],
+  providers: [
+    MatDatepickerModule,
   ],
   exports: [
     DateTimeInputComponent,
