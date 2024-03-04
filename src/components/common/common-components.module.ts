@@ -48,6 +48,11 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
+import { MatFormField } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCard } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -102,7 +107,15 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     TerminateTestModalModule,
     NgOptimizedImage,
     DirectivesModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInput,
+    MatFormField,
+    MatCard,
     NgApexchartsModule,
+  ],
+  providers: [
+    MatDatepickerModule,
   ],
   exports: [
     DateTimeInputComponent,

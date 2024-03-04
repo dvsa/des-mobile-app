@@ -1,13 +1,32 @@
-.date-modal::part(content) {
-  width: 400px;
-  height: 350px;
-  color: var(--gds-black);
+@import "calendar-style.scss";
+
+.mat-calendar {
+  width: 80% !important;
+}
+
+.terminate-button {
+  color: var(--gds-red);
+}
+
+.calendar-row-height {
+  height: 540px;
 }
 
 .time-modal::part(content) {
   width: 400px;
   height: 270px;
   color: var(--gds-black);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.top-border {
+  border-top: 2px solid var(--gds-grey-2);
+}
+.right-border {
+  border-right: 2px solid var(--gds-grey-2);
 }
 
 .time-modal-content {
