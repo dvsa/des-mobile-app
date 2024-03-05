@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { isValidStartDate, PRESS_TIME_TO_ENABLE_EDIT } from '@shared/helpers/test-start-time';
 import { IonDatetime } from '@ionic/angular';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
+import moment from 'moment';
 
 @Component({
   selector: 'date-of-test',
@@ -29,9 +31,10 @@ export class DateOfTest implements OnInit {
   customTestDate: string = '';
   maxDate: string;
   minDate: string;
+  protected readonly DisplayType = DisplayType;
 
   ngOnInit() {
-    this.customTestDate = new DateTime(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    this.customTestDate = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
     this.maxDate = new DateTime().format('YYYY-MM-DD');
     this.minDate = new DateTime().subtract(1, Duration.YEAR)
       .format('YYYY-MM-DD');
