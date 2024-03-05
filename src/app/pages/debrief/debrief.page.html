@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-buttons id="back-button" slot="start">
@@ -11,7 +11,7 @@
   <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
 </ion-header>
 
-<ion-content>
+<ion-content [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
   <speed-check-debrief-card
     *ngIf="pageState.showSpeedCheck$ | async"
     [emergencyStop]="pageState.emergencyStop$ | async"
@@ -85,7 +85,7 @@
   </adi3-debrief-card>
 </ion-content>
 
-<ion-footer>
+<ion-footer [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
   <div id="end-debrief-background">
     <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
       <ion-text class="des-header-style-3">{{ 'debrief.end' | translate }}</ion-text>

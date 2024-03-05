@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-buttons id="communication-back-button" slot="start">
@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
   <lock-screen-indicator></lock-screen-indicator>
   <div>
     <form [formGroup]="form">

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-buttons id="back-button" slot="start">
@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content forceOverscroll="false">
+<ion-content [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'" forceOverscroll="false">
   <lock-screen-indicator></lock-screen-indicator>
 
   <form [formGroup]="formGroup">
