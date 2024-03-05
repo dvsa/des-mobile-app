@@ -7,6 +7,9 @@ import { DeviceProvider } from '../device/device';
 import { AppConfigProvider } from '../app-config/app-config';
 import { AnalyticsDimensionIndices, AnalyticsEventCategories, IAnalyticsProvider } from './analytics.model';
 import { AuthenticationProvider } from '../authentication/authentication';
+import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
+
+declare const gtag: Function;
 
 @Injectable()
 export class AnalyticsProvider implements IAnalyticsProvider {
@@ -22,6 +25,105 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     private device: DeviceProvider,
     private authProvider: AuthenticationProvider,
   ) {
+  }
+
+  /**
+   * initial setup of GA4
+   */
+  initialiseGoogleAnalytics = (): Promise<any> => new Promise((resolve) => {
+
+    // TODO add guard for no key
+    // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
+    this.googleAnalyticsKey = 'REMOVED FOR COMMIT';
+    this.addGAScript(!this.appConfig.environmentFile?.production);
+
+    this.platform.ready()
+      .then(async () => {
+        this.setGAUserId(this.authProvider.getEmployeeId());
+        this.setGADeviceId(await this.device.getUniqueDeviceId());
+        this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
+        this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, await this.device.getDeviceName());
+      });
+    resolve(true);
+  });
+
+  addGAScript(debugMode: boolean = false): void {
+    const gtagScript: HTMLScriptElement = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleAnalyticsKey}`;
+    document.head.prepend(gtagScript);
+    gtag('config', this.googleAnalyticsKey, {
+      send_page_view: false,
+      debugMode,
+    });
+  }
+
+  setGAUserId(userId: string): void {
+    if (this.isIos()) {
+      try {
+        this.uniqueUserId = createHash('sha256')
+          .update(userId || 'unavailable')
+          .digest('hex');
+        this.addGACustomDimension(AnalyticsDimensionIndices.USER_ID, this.uniqueUserId);
+        gtag('config', this.googleAnalyticsKey, {
+          send_page_view: false,
+          user_id: this.uniqueUserId,
+        });
+      } catch (error) {
+        console.log(`Analytics - setGAUserId ${this.uniqueUserId}`, error);
+      }
+    }
+  }
+
+  setGADeviceId(deviceId: string): void {
+    this.uniqueDeviceId = createHash('sha256')
+      .update(deviceId || 'defaultDevice')
+      .digest('hex');
+    this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
+  }
+
+  addGACustomDimension(key: number, value: string): void {
+    if (this.isIos()) {
+      try {
+        const [dimension] = getEnumKeyByValue(AnalyticsDimensionIndices, key);
+        gtag('event', dimension, { key: value });
+      } catch (error) {
+        console.error('Analytics - addGACustomDimension', error);
+      }
+    }
+  }
+
+  setGACurrentPage(name: string): void {
+    this.platform.ready()
+      .then(() => {
+        if (this.isIos()) {
+          try {
+            gtag('config', this.googleAnalyticsKey, {
+              send_page_view: false,
+              page_title: name,
+            });
+          } catch (error) {
+            console.error('Analytics - setGACurrentPage', error);
+          }
+        }
+      });
+  }
+
+  logGAEvent(category: string, event: string, label?: string, value?: number): void {
+    this.platform.ready()
+      .then(() => {
+        if (this.isIos()) {
+          try {
+            gtag('event', event, {
+              event_category: category,
+              event_label: label,
+              value,
+            });
+          } catch (error) {
+            console.error('Analytics - logEvent', error);
+          }
+        }
+      });
   }
 
   initialiseAnalytics = (): Promise<any> => new Promise((resolve) => {
