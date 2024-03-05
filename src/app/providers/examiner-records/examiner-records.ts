@@ -105,10 +105,6 @@ export class ExaminerRecordsProvider {
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
-      display: 'Last 100 tests',
-      val: '100',
-    },
-    {
       display: 'Last 1 year',
       val: '1 year',
     },
