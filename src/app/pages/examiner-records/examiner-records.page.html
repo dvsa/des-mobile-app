@@ -6,7 +6,7 @@
     <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
   </ion-toolbar>
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
-    <label role="alert" id="unauth-text">Unable to access all data. Some options are not available.</label>
+    <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
   </div>
 </ion-header>
 
@@ -76,7 +76,7 @@
     <ion-col></ion-col>
     <ion-col size="25">
       <ion-row>
-        <label>Range</label>
+        <label>Date range</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select

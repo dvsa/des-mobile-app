@@ -88,8 +88,8 @@ export class ChartComponent implements OnInit, OnChanges {
           {
             y: this.average,
             borderColor: this.averageColour,
-            borderWidth: 4,
-            strokeDashArray: 4,
+            borderWidth: 2,
+            strokeDashArray: 8,
           },
         ],
       },
