@@ -14,7 +14,6 @@ export class LanguageSetDirective {
 
   ngOnInit() {
     this.translateService.store.onLangChange.subscribe( (value) => {
-      console.log(value)
       if (value.lang) {
         if (value.lang === 'cy') {
           this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
