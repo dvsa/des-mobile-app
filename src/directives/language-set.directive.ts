@@ -4,21 +4,22 @@ import { TranslateService } from '@ngx-translate/core';
 @Directive({
   selector: '[setLanguage]',
 })
-export class languageSetDirective {
+export class LanguageSetDirective {
 
   constructor (
     private ref: ElementRef,
     private translateService: TranslateService,
-    private _renderer: Renderer2,
+    private renderer: Renderer2,
   ) {}
 
   ngOnInit() {
     this.translateService.store.onLangChange.subscribe( (value) => {
+      console.log(value)
       if (value.lang) {
         if (value.lang === 'cy') {
-          this._renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
+          this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
         } else {
-          this._renderer.removeAttribute(this.ref.nativeElement, 'lang');
+          this.renderer.removeAttribute(this.ref.nativeElement, 'lang');
         }
       }
     });
