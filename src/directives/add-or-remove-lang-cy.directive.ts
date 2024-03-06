@@ -2,9 +2,9 @@ import { Directive, ElementRef, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
-  selector: '[setLanguage]',
+  selector: '[addOrRemoveLangCy]',
 })
-export class SetLanguageDirective {
+export class AddOrRemoveLangCyDirective {
 
   constructor (
     private ref: ElementRef,

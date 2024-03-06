@@ -4,7 +4,7 @@
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title setLanguage role="heading" aria-level="1" id="page-title"
+    <ion-title addOrRemoveLangCy role="heading" aria-level="1" id="page-title"
       >{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title
     >
   </ion-toolbar>
@@ -88,7 +88,7 @@
 <ion-footer>
   <div id="end-debrief-background">
     <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
-      <ion-text setLanguage class="des-header-style-3">{{ 'debrief.end' | translate }}</ion-text>
+      <ion-text addOrRemoveLangCy class="des-header-style-3">{{ 'debrief.end' | translate }}</ion-text>
     </ion-button>
   </div>
 </ion-footer>

@@ -4,7 +4,7 @@
     <ion-buttons id="communication-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title setLanguage role="heading" aria-level="1" id="communication-page-title">
+    <ion-title addOrRemoveLangCy role="heading" aria-level="1" id="communication-page-title">
       {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
@@ -45,7 +45,7 @@
         <ion-row class="mes-validated-row">
           <ion-col>
             <div class="communication-text-container">
-              <ion-text setLanguage class="des-header-style-4" id="comms-instruction-header"
+              <ion-text addOrRemoveLangCy class="des-header-style-4" id="comms-instruction-header"
                 >{{ 'communication.instructionHeader' | translate }}</ion-text
               >
             </div>

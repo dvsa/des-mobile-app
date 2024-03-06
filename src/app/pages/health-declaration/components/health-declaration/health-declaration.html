@@ -2,7 +2,7 @@
   <ion-col>
     <ul>
       <li>
-        <p setLanguage>{{ 'healthDeclaration.healthDeclaration' | translate }}</p>
+        <p addOrRemoveLangCy>{{ 'healthDeclaration.healthDeclaration' | translate }}</p>
       </li>
     </ul>
   </ion-col>
@@ -22,7 +22,7 @@
           [checked]="selected"
           (click)="healthDeclarationChanged()"
         />
-        <label setLanguage id="health-declaration-label" for="health-declaration-checkbox">
+        <label addOrRemoveLangCy id="health-declaration-label" for="health-declaration-checkbox">
           {{ 'healthDeclaration.confirm' | translate }}
         </label>
       </ion-col>
@@ -30,7 +30,7 @@
     <ion-row>
       <ion-col>
         <div
-          setLanguage
+          addOrRemoveLangCy
           id="health-change-validation-text"
           class="validation-text-with-row-spacing"
           [class.ng-invalid]="isInvalid()"

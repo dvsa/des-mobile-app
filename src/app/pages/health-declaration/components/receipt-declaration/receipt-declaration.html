@@ -1,7 +1,7 @@
 <div>
   <ul>
     <li>
-      <p setLanguage class="black-text" id="declaration-pass-certificate-number">
+      <p addOrRemoveLangCy class="black-text" id="declaration-pass-certificate-number">
         {{ 'healthDeclaration.certificateReceived' | translate }}: {{ certificateNumber }}
       </p>
     </li>
@@ -21,7 +21,7 @@
           [checked]="selected"
           (click)="receiptDeclarationChanged()"
         />
-        <label id="receipt-declaration-label" for="receipt-declaration-checkbox" setLanguage
+        <label id="receipt-declaration-label" for="receipt-declaration-checkbox" addOrRemoveLangCy
           >{{ 'healthDeclaration.confirm' | translate }}</label
         >
       </ion-col>
@@ -29,7 +29,7 @@
     <ion-row>
       <ion-col>
         <div
-          setLanguage
+          addOrRemoveLangCy
           id="pass-certificate-receipt-validation-text"
           class="validation-text-with-row-spacing"
           [class.ng-invalid.withRowMargin]="isInvalid()"

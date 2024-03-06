@@ -1,7 +1,7 @@
 <ion-card id="safety-and-balance-questions" *ngIf="(safetyAndBalanceQuestions$ | async)?.length > 0; let questions;">
   <ion-card-header>
     <ion-card-title>
-      <ion-text setLanguage class="des-header-style-4 fault-heading"
+      <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
         >{{ 'debrief.safetyAndBalance' | translate }}</ion-text
       >
     </ion-card-title>
@@ -31,7 +31,7 @@
         </ion-col>
         <ion-col size="3" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
-          <div setLanguage class="counter-label">
+          <div addOrRemoveLangCy class="counter-label">
             {{question.code}} - {{ 'debrief.safetyAndBalanceQuestions.' + question.code | translate }}
           </div>
         </ion-col>

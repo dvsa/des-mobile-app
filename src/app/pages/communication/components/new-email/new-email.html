@@ -10,7 +10,7 @@
     [checked]="isNewEmailAddressChosen"
     [value]="isNewEmailAddressChosen"
   />
-  <label setLanguage for="newEmail" class="radio-label" id="new-email-label">
+  <label addOrRemoveLangCy for="newEmail" class="radio-label" id="new-email-label">
     {{ 'communication.newEmailLabel' | translate }}
   </label>
 </ion-row>
@@ -20,7 +20,7 @@
     <ion-col size="6"></ion-col>
     <ion-col>
       <ion-row>
-        <span setLanguage class="communication-text" id="new-email-msg">
+        <span addOrRemoveLangCy class="communication-text" id="new-email-msg">
           {{ 'communication.newEmail' | translate }}
         </span>
       </ion-row>
@@ -42,7 +42,7 @@
       </ion-row>
       <ion-row class="validation-message-row ion-align-items-center">
         <div
-          setLanguage
+          addOrRemoveLangCy
           class="validation-text"
           [class.ng-invalid]="invalid"
           id="communication-new-email-validation-text"

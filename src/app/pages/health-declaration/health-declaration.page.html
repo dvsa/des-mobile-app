@@ -4,7 +4,7 @@
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title setLanguage id="health-declaration-title" role="heading" aria-level="1">
+    <ion-title addOrRemoveLangCy id="health-declaration-title" role="heading" aria-level="1">
       {{ 'healthDeclaration.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
   </ion-toolbar>
@@ -29,7 +29,7 @@
     <div class="mes-full-width-card no-padding-top" id="declaration-section">
       <ion-row>
         <ion-col>
-          <ion-text setLanguage class="des-header-style-4"
+          <ion-text addOrRemoveLangCy class="des-header-style-4"
             >{{ 'healthDeclaration.declarationIntent' | translate }}:</ion-text
           >
         </ion-col>

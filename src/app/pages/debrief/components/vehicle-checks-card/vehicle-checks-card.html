@@ -1,7 +1,7 @@
 <ion-card id="vehicle-checks" *ngIf="tellMeShowMeQuestions.length > 0; let questions">
   <ion-card-header>
     <ion-card-title>
-      <ion-text setLanguage class="des-header-style-4 fault-heading"
+      <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
         >{{ 'debrief.vehicleChecks' | translate }}</ion-text
       >
     </ion-card-title>
@@ -29,10 +29,10 @@
         <ion-col size="1" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
           <div class="counter-label">
-            <span setLanguage *ngIf="isHomeTest()">
+            <span addOrRemoveLangCy *ngIf="isHomeTest()">
               {{question.code}} - {{ 'debrief.showMeTellMeQuestions.FGHK.' + question.code | translate }}
             </span>
-            <span setLanguage *ngIf="!isHomeTest()">
+            <span addOrRemoveLangCy *ngIf="!isHomeTest()">
               {{question.code}} - {{ 'debrief.showMeTellMeQuestions.' + category + '.' + question.code | translate }}
             </span>
           </div>
