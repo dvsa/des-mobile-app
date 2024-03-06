@@ -15,7 +15,7 @@
     "useDefineForClassFields": false,
     "target": "ES2022",
     "lib": [
-      "es2018",
+      "es2021",
       "dom"
     ],
     "paths": {

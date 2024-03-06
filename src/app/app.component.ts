@@ -97,6 +97,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.appConfigProvider.initialiseAppConfig();
       await this.initialiseSentry();
       this.initialiseNetworkState();
+      await this.setGoogleTagManager();
       this.initialiseAuthentication();
       await this.initialisePersistentStorage();
       this.store$.dispatch(LoadAppVersion());
@@ -217,6 +218,25 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     }, sentryAngularInit);
 
     return Promise.resolve();
+  };
+
+  setGoogleTagManager = async () => {
+    try {
+      // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
+      const googleAnalyticsKey = 'X';
+      const gtResponse = await (
+        await fetch(`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsKey}`)
+      ).text();
+      if (document.location.protocol.startsWith('http')) {
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        Function(gtResponse)();
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        Function(gtResponse.replaceAll('http:', 'capacitor:'))();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   navPage = async (page: Page): Promise<void> => {
