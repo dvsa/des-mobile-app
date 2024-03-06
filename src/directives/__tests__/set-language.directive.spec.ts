@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
-import { LanguageSetDirective } from '@directives/language-set.directive';
+import { SetLanguageDirective } from '@directives/set-language.directive';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core/lib/translate.service';
 import { TranslateStore } from '@ngx-translate/core/dist/lib/translate.store';
@@ -7,7 +7,7 @@ import SpyObj = jasmine.SpyObj;
 import { Observable, of } from 'rxjs';
 
 describe('LanguageSetDirective', () => {
-  let directive: LanguageSetDirective;
+  let directive: SetLanguageDirective;
   let elementRefMock: jasmine.SpyObj<ElementRef>;
   let translateMock: jasmine.SpyObj<TranslateService>;
   let renderMock: jasmine.SpyObj<Renderer2>;
@@ -37,7 +37,7 @@ describe('LanguageSetDirective', () => {
         onLangChange: new EventEmitter<LangChangeEvent>(),
       } as TranslateStore,
     } as SpyObj<TranslateService>;
-    directive = new LanguageSetDirective(elementRefMock as ElementRef, translateMock, renderMock);
+    directive = new SetLanguageDirective(elementRefMock as ElementRef, translateMock, renderMock);
   });
 
   it('should add lang attribute with value of cy if the value of onLangChange is cy', () => {

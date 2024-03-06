@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Directive({
   selector: '[setLanguage]',
 })
-export class LanguageSetDirective {
+export class SetLanguageDirective {
 
   constructor (
     private ref: ElementRef,
