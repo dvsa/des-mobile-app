@@ -21,6 +21,7 @@ import { EcoDebriefCardComponent } from './eco-debrief-card/eco-debrief-card';
 import { TestOutcomeDebriefCardComponent } from './test-outcome-debrief-card/test-outcome-debrief-card';
 import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks-card';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-q
     TranslateModule,
     PipesModule,
     IonicModule,
+    DirectivesModule,
   ],
   exports: [
     VehicleChecksCardComponent,

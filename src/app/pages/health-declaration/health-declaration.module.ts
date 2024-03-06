@@ -13,6 +13,7 @@ import { HealthDeclarationAnalyticsEffects } from '@pages/health-declaration/hea
 import { HealthDeclarationEffects } from '@pages/health-declaration/health-declaration.effects';
 import { HealthDeclarationPage } from './health-declaration.page';
 import { HealthDeclarationPageRoutingModule } from './health-declaration-routing.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { HealthDeclarationPageRoutingModule } from './health-declaration-routing
       HealthDeclarationAnalyticsEffects,
       HealthDeclarationEffects,
     ]),
+    DirectivesModule,
   ],
   declarations: [HealthDeclarationPage],
 })

@@ -4,16 +4,19 @@
       <ion-row class="mes-data ion-align-items-start">
         <ion-col size="3"></ion-col>
         <ion-col size="34">
-          <ion-text class="des-header-style-4 fault-heading">{{ 'debrief.ecoHeader' | translate }}</ion-text>
+          <ion-text setLanguage class="des-header-style-4 fault-heading"
+            >{{ 'debrief.ecoHeader' | translate }}</ion-text
+          >
         </ion-col>
         <ion-col class="down-padding ion-align-self-start">
-          <div id="ecoFaults-adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">
+          <div setLanguage id="ecoFaults-adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">
             {{ 'debrief.ecoControl' | translate }}
           </div>
-          <div id="ecoFaults-adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
+          <div setLanguage id="ecoFaults-adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
             {{ 'debrief.ecoPlanning' | translate }}
           </div>
           <div
+            setLanguage
             id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning"
             *ngIf="adviceGivenControl && adviceGivenPlanning"
           >

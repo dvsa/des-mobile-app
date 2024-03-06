@@ -1,10 +1,10 @@
-<ion-header [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
+<ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-buttons id="communication-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title role="heading" aria-level="1" id="communication-page-title">
+    <ion-title setLanguage role="heading" aria-level="1" id="communication-page-title">
       {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
+<ion-content>
   <lock-screen-indicator></lock-screen-indicator>
   <div>
     <form [formGroup]="form">
@@ -45,7 +45,7 @@
         <ion-row class="mes-validated-row">
           <ion-col>
             <div class="communication-text-container">
-              <ion-text class="des-header-style-4" id="comms-instruction-header"
+              <ion-text setLanguage class="des-header-style-4" id="comms-instruction-header"
                 >{{ 'communication.instructionHeader' | translate }}</ion-text
               >
             </div>

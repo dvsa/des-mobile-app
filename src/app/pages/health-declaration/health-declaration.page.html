@@ -1,16 +1,16 @@
-<ion-header [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'">
+<ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title id="health-declaration-title" role="heading" aria-level="1">
+    <ion-title setLanguage id="health-declaration-title" role="heading" aria-level="1">
       {{ 'healthDeclaration.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [lang]="(pageState.conductedLanguage$ | async) === 'Cymraeg' ? 'cy' : 'en'" forceOverscroll="false">
+<ion-content forceOverscroll="false">
   <lock-screen-indicator></lock-screen-indicator>
 
   <form [formGroup]="formGroup">
@@ -29,7 +29,9 @@
     <div class="mes-full-width-card no-padding-top" id="declaration-section">
       <ion-row>
         <ion-col>
-          <ion-text class="des-header-style-4">{{ 'healthDeclaration.declarationIntent' | translate }}:</ion-text>
+          <ion-text setLanguage class="des-header-style-4"
+            >{{ 'healthDeclaration.declarationIntent' | translate }}:</ion-text
+          >
         </ion-col>
       </ion-row>
 

@@ -2,7 +2,7 @@
   <ion-col>
     <ul class="ion-no-margin">
       <li>
-        <p id="waiting-room-residency-declaration">{{ 'waitingRoom.residencyDeclaration' | translate }}</p>
+        <p setLanguage id="waiting-room-residency-declaration">{{ 'waitingRoom.residencyDeclaration' | translate }}</p>
       </li>
     </ul>
   </ion-col>
@@ -21,7 +21,7 @@
           [checked]="selected"
           (click)="residencyDeclarationChanged()"
         />
-        <label for="residency-declaration-checkbox" id="waiting-room-confirm-residency-label">
+        <label setLanguage for="residency-declaration-checkbox" id="waiting-room-confirm-residency-label">
           {{ 'waitingRoom.confirm' | translate }}
         </label>
       </ion-col>
@@ -29,6 +29,7 @@
     <ion-row *ngIf="isInvalid()">
       <ion-col>
         <div
+          setLanguage
           id="waiting-room-residency-validation-text"
           class="validation-text-with-row-spacing"
           [class.ng-invalid.withRowMargin]="isInvalid()"
