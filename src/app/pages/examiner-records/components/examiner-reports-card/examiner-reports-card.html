@@ -2,7 +2,7 @@
   id="record-card-{{chartID}}"
   [style.min-width]="(this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)+'px'"
   (click)="showChart ? (hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData) : null"
-  [class.ion-activatable]="showChart"
+  [class.ion-activatable]="showChart && getTotal(passedData)"
   [class]="darkColours ? [
 'white-text',
 'navy-card',
