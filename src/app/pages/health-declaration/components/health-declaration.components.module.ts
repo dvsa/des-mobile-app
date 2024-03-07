@@ -9,6 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { HealthDeclarationComponent } from './health-declaration/health-declaration';
 import { ReceiptDeclarationComponent } from './receipt-declaration/receipt-declaration';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ReceiptDeclarationComponent } from './receipt-declaration/receipt-decla
     ComponentsModule,
     ReactiveFormsModule,
     CommonModule,
+    DirectivesModule,
   ],
   exports: [
     HealthDeclarationComponent,

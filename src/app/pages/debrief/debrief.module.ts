@@ -15,6 +15,7 @@ import { DebriefAnalyticsEffects } from '@pages/debrief/debrief.analytics.effect
 import { ViewTestResultComponentsModule } from '@pages/view-test-result/components/view-test-result.components.module';
 import { DebriefPageRoutingModule } from './debrief.routing.module';
 import { DebriefPage } from './debrief.page';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { DebriefPage } from './debrief.page';
       DebriefAnalyticsEffects,
     ]),
     ViewTestResultComponentsModule,
+    DirectivesModule,
   ],
   declarations: [DebriefPage],
   providers: [

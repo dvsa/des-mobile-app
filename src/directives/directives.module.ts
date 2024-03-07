@@ -4,6 +4,7 @@ import { InputRestrictionUppercaseAlphanumDirective } from './input-restriction-
 import { CharacterCountDirective } from './character-count.directive';
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
 import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
     CharacterCountDirective,
     EmojiBlockDirective,
     PasteSanitiserDirective,
+    AddOrRemoveLangCyDirective
   ],
   imports: [],
   exports: [
@@ -20,6 +22,7 @@ import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
     CharacterCountDirective,
     EmojiBlockDirective,
     PasteSanitiserDirective,
+    AddOrRemoveLangCyDirective
   ],
 })
 export class DirectivesModule { }

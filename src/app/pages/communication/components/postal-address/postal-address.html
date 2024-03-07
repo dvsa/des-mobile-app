@@ -8,7 +8,7 @@
     (click)="postalRadioSelected()"
     [checked]="isPostalAddressChosen"
   />
-  <label for="postalAddress" class="radio-label" id="by-post-label">
+  <label addOrRemoveLangCy for="postalAddress" class="radio-label" id="by-post-label">
     {{ 'communication.byPostLabel' | translate }}
   </label>
 </ion-row>
@@ -17,7 +17,9 @@
   <ion-col size="6"> </ion-col>
   <ion-col>
     <ion-row>
-      <span class="communication-text" id="by-post-desc"> {{ 'communication.byPostDescription' | translate }}: </span>
+      <span addOrRemoveLangCy class="communication-text" id="by-post-desc">
+        {{ 'communication.byPostDescription' | translate }}:
+      </span>
     </ion-row>
     <ion-row>
       <display-address class="display-address" [address]="postalAddress"></display-address>

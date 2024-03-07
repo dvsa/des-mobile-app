@@ -12,6 +12,7 @@ import { CommunicationEffects } from '@pages/communication/communication.effects
 import { CommunicationAnalyticsEffects } from '@pages/communication/communication.analytics.effects';
 import { CommunicationPageRoutingModule } from './communication-routing.module';
 import { CommunicationPage } from './communication.page';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { CommunicationPage } from './communication.page';
       CommunicationEffects,
       CommunicationAnalyticsEffects,
     ]),
+    DirectivesModule,
   ],
   declarations: [CommunicationPage],
 })

@@ -1,7 +1,7 @@
 <ion-card id="serious-fault" *ngIf="seriousFaults?.length > 0">
   <ion-card-title class="title-padding">
     <ion-text id="serious-fault-count" class="des-header-style-1 fault-heading">{{seriousFaults.length}}</ion-text>
-    <ion-text id="serious-fault-title" class="des-header-style-4 fault-heading"
+    <ion-text addOrRemoveLangCy id="serious-fault-title" class="des-header-style-4 fault-heading"
       >{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text
     >
   </ion-card-title>
@@ -16,7 +16,7 @@
         </ion-col>
         <ion-col size="1" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
-          <div class="counter-label" id="{{seriousFault}}-serious-text">
+          <div addOrRemoveLangCy class="counter-label" id="{{seriousFault}}-serious-text">
             {{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}
           </div>
         </ion-col>

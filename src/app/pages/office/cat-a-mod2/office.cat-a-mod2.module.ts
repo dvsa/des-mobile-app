@@ -18,6 +18,7 @@ import {
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
 import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.mod
     ReactiveFormsModule,
     PipesModule,
     WaitingRoomToCarComponentsModule,
+    DirectivesModule,
   ],
   declarations: [OfficeCatAMod2Page,
     ModeOfTransportCatAMod2Component,

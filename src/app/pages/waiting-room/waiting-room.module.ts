@@ -11,6 +11,7 @@ import { WaitingRoomComponentsModule } from '@pages/waiting-room/components/wait
 import { WaitingRoomAnalyticsEffects } from '@pages/waiting-room/waiting-room.analytics.effects';
 import { WaitingRoomPage } from './waiting-room.page';
 import { WaitingRoomPageRoutingModule } from './waiting-room-routing.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { WaitingRoomPageRoutingModule } from './waiting-room-routing.module';
     ComponentsModule,
     ReactiveFormsModule,
     WaitingRoomComponentsModule,
+    DirectivesModule,
   ],
   providers: [PassCertificateValidationProvider],
   declarations: [WaitingRoomPage],

@@ -1,14 +1,16 @@
 <ion-card id="speed-check" *ngIf="emergencyStop.firstAttempt !== undefined || avoidance.firstAttempt !== undefined">
   <ion-card-header>
     <ion-card-title>
-      <ion-text class="des-header-style-4"> {{ 'debrief.speedRequirementsHeader' | translate }} </ion-text>
+      <ion-text addOrRemoveLangCy class="des-header-style-4">
+        {{ 'debrief.speedRequirementsHeader' | translate }}
+      </ion-text>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
       <ion-row class="ion-padding no-padding-right">
         <ion-col size="36" class="ion-no-padding">
-          <label>{{ 'debrief.emergencyStopHeader' | translate }}</label>
+          <label addOrRemoveLangCy>{{ 'debrief.emergencyStopHeader' | translate }}</label>
         </ion-col>
 
         <ion-col size="20" class="ion-no-padding" *ngIf="emergencyStop.firstAttempt !== undefined">
@@ -59,10 +61,10 @@
         </ion-col>
 
         <ion-col size="11" class="ion-no-padding">
-          <div class="counter-label black-text ion-nowrap" *ngIf="!emergencyStop.outcome">
+          <div addOrRemoveLangCy class="counter-label black-text ion-nowrap" *ngIf="!emergencyStop.outcome">
             {{ 'debrief.speedRequirementMet' | translate }}
           </div>
-          <div class="counter-label black-text ion-nowrap" *ngIf="emergencyStop.outcome">
+          <div addOrRemoveLangCy class="counter-label black-text ion-nowrap" *ngIf="emergencyStop.outcome">
             {{ 'debrief.speedRequirementNotMet' | translate }}
           </div>
         </ion-col>
@@ -70,7 +72,7 @@
 
       <ion-row class="ion-padding no-padding-right" *ngIf="avoidanceAttempted">
         <ion-col size="36" class="ion-no-padding">
-          <label>{{ 'debrief.avoidanceHeader' | translate }}</label>
+          <label addOrRemoveLangCy>{{ 'debrief.avoidanceHeader' | translate }}</label>
         </ion-col>
 
         <ion-col size="20" class="ion-no-padding" *ngIf="avoidance.firstAttempt !== undefined">
@@ -117,10 +119,10 @@
         </ion-col>
 
         <ion-col size="11" class="ion-no-padding">
-          <div class="counter-label black-text ion-nowrap" *ngIf="!avoidance.outcome">
+          <div addOrRemoveLangCy class="counter-label black-text ion-nowrap" *ngIf="!avoidance.outcome">
             {{ 'debrief.speedRequirementMet' | translate }}
           </div>
-          <div class="counter-label black-text ion-nowrap" *ngIf="avoidance.outcome">
+          <div addOrRemoveLangCy class="counter-label black-text ion-nowrap" *ngIf="avoidance.outcome">
             {{ 'debrief.speedRequirementNotMet' | translate }}
           </div>
         </ion-col>
@@ -136,4 +138,4 @@
   </ng-container>
 </ng-template>
 
-<ng-template #Aborted> {{ 'debrief.speedRequirementAborted' | translate }} </ng-template>
+<ng-template addOrRemoveLangCy #Aborted> {{ 'debrief.speedRequirementAborted' | translate }} </ng-template>
