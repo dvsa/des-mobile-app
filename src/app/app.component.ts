@@ -29,6 +29,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -79,6 +80,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
+    private analytics: AnalyticsProvider,
     private storage: Storage,
     injector: Injector,
   ) {
@@ -95,10 +97,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         await this.deviceProvider.disableSingleAppMode();
       }
       await this.appConfigProvider.initialiseAppConfig();
+      await this.setGoogleTagManager();
       await this.initialiseSentry();
       this.initialiseNetworkState();
-      await this.setGoogleTagManager();
       this.initialiseAuthentication();
+      await this.analytics.initialiseGoogleAnalytics();
       await this.initialisePersistentStorage();
       this.store$.dispatch(LoadAppVersion());
       await this.configureStatusBar();
@@ -223,7 +226,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   setGoogleTagManager = async () => {
     try {
       // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      const googleAnalyticsKey = 'X';
+      const googleAnalyticsKey = 'x';
       const gtResponse = await (
         await fetch(`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsKey}`)
       ).text();

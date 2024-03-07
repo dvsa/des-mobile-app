@@ -34,8 +34,8 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
     // TODO add guard for no key
     // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-    this.googleAnalyticsKey = 'REMOVED FOR COMMIT';
-    this.addGAScript(!this.appConfig.environmentFile?.production);
+    this.googleAnalyticsKey = 'x';
+    this.addGAScript(true);
 
     this.platform.ready()
       .then(async () => {
