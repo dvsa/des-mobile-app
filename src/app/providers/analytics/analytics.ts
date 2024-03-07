@@ -30,22 +30,29 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   /**
    * initial setup of GA4
    */
-  initialiseGoogleAnalytics = (): Promise<any> => new Promise((resolve) => {
 
-    // TODO add guard for no key
-    // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-    this.googleAnalyticsKey = 'x';
-    this.addGAScript(true);
+  initialiseGoogleAnalytics = async (): Promise<void> => {
+    try {
+      // TODO: Add guard for missing key
+      // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
+      this.googleAnalyticsKey = 'X';
+      this.addGAScript(true);
 
-    this.platform.ready()
-      .then(async () => {
-        this.setGAUserId(this.authProvider.getEmployeeId());
-        this.setGADeviceId(await this.device.getUniqueDeviceId());
-        this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
-        this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, await this.device.getDeviceName());
-      });
-    resolve(true);
-  });
+      await this.platform.ready();
+
+      const employeeId = this.authProvider.getEmployeeId();
+      const uniqueDeviceId = await this.device.getUniqueDeviceId();
+      const deviceModel = await this.device.getDeviceName();
+
+      this.setGAUserId(employeeId);
+      this.setGADeviceId(uniqueDeviceId);
+      this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, uniqueDeviceId);
+      this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, deviceModel);
+    } catch (error) {
+      // Handle any errors here
+      console.error('Analytics - Error initializing Google Analytics:', error);
+    }
+  };
 
   addGAScript(debugMode: boolean = false): void {
     const gtagScript: HTMLScriptElement = document.createElement('script');
@@ -61,9 +68,11 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   setGAUserId(userId: string): void {
     if (this.isIos()) {
       try {
+        console.log('set GA user id');
         this.uniqueUserId = createHash('sha256')
           .update(userId || 'unavailable')
           .digest('hex');
+        console.log(`set GA user id: ${this.uniqueUserId}`);
         this.addGACustomDimension(AnalyticsDimensionIndices.USER_ID, this.uniqueUserId);
         gtag('config', this.googleAnalyticsKey, {
           send_page_view: false,
@@ -85,6 +94,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   addGACustomDimension(key: number, value: string): void {
     if (this.isIos()) {
       try {
+        console.log(`Analytics - add custom dimension: ${key}`);
         const [dimension] = getEnumKeyByValue(AnalyticsDimensionIndices, key);
         gtag('event', dimension, { key: value });
       } catch (error) {
@@ -98,6 +108,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       .then(() => {
         if (this.isIos()) {
           try {
+            console.log(`Analytics - set page: ${name}`);
             gtag('config', this.googleAnalyticsKey, {
               send_page_view: false,
               page_title: name,

@@ -44,6 +44,11 @@ export class JournalAnalyticsEffects {
       this.analytics.setCurrentPage(AnalyticsScreenNames.JOURNAL);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
+
+      // Test
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.JOURNAL);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
       return of(AnalyticRecorded());
     }),
   ));
@@ -62,6 +67,11 @@ export class JournalAnalyticsEffects {
         this.analytics.getDiffDays(action.day).toString(),
       );
 
+      //Test
+      this.analytics.addGACustomDimension(
+        AnalyticsDimensionIndices.JOURNAL_DAYS_FROM_TODAY,
+        this.analytics.getDiffDays(action.day).toString(),
+      );
       return of(AnalyticRecorded());
     }),
   ));

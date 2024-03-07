@@ -50,6 +50,9 @@ export class DashboardAnalyticsEffects {
       )),
     switchMap(() => {
       this.analytics.setCurrentPage(AnalyticsScreenNames.DASHBOARD);
+
+      // Test
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.DASHBOARD);
       return of(AnalyticRecorded());
     }),
   ));
