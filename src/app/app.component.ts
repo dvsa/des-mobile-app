@@ -101,7 +101,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.initialiseSentry();
       this.initialiseNetworkState();
       this.initialiseAuthentication();
-      await this.analytics.initialiseGoogleAnalytics();
+      // await this.analytics.initialiseGoogleAnalytics();
       await this.initialisePersistentStorage();
       this.store$.dispatch(LoadAppVersion());
       await this.configureStatusBar();
@@ -226,7 +226,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   setGoogleTagManager = async () => {
     try {
       // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      const googleAnalyticsKey = 'x';
+      const googleAnalyticsKey = 'X';
       const gtResponse = await (
         await fetch(`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsKey}`)
       ).text();
