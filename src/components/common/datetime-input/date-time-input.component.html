@@ -1,5 +1,3 @@
-<mat-card class="demo-inline-calendar-card"> </mat-card>
-
 <div id="dateTimeItem + {{ control }}">
   <ion-input
     [class.left-align]="leftAlign"
@@ -16,7 +14,7 @@
   <ion-modal
     class="{{ displayType }}-modal"
     trigger="dateTimeItem + {{ control }}"
-    [keepContentsMounted]="true"
+    [keepContentsMounted]="false"
     mode="ios"
     #modal
     [backdropDismiss]="true"
@@ -26,7 +24,7 @@
         <ion-row class="calendar-row-height">
           <ion-col class="display-flex ion-justify-content-center">
             <mat-calendar
-              #date
+              #datePicker
               [maxDate]="maxValue"
               [minDate]="minValue"
               (selectedChange)="selectedBuffer = $event"
@@ -42,7 +40,7 @@
               fill="clear"
               class="terminate-button full-width"
               id="terminate-test-button"
-              (click)="modal.dismiss(); buttonEmit(date.selected, 'cancel')"
+              (click)="modal.dismiss(); buttonEmit(datePicker.selected, 'cancel')"
             >
               <ion-text> Cancel </ion-text>
             </ion-button>
@@ -52,7 +50,9 @@
               fill="clear"
               class="black-text full-width"
               id="return-to-test-button"
-              (click)="modal.dismiss(); onSelected(selectedBuffer, displayType); buttonEmit(date.selected, 'done')"
+              (click)="
+                modal.dismiss(); onSelected(selectedBuffer, displayType); buttonEmit(datePicker.selected, 'done')
+              "
             >
               <ion-text> OK </ion-text>
             </ion-button>
@@ -83,7 +83,7 @@
       <ion-datetime
         *ngIf="displayType === DisplayType.Time"
         class="time-modal-content"
-        #time
+        #timePicker
         id="{{ pickerId }}"
         [showDefaultButtons]="!emitButtonEvents"
         [showClearButton]="showClearButton && !emitButtonEvents"
@@ -92,14 +92,19 @@
         [(ngModel)]="outputValue"
         [max]="maxValue"
         [min]="minValue"
-        (ionChange)="onSelected(time.value, displayType)"
+        (ionChange)="onSelected(timePicker.value, displayType)"
       >
         <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
-          <ion-button color="primary" (click)="time.cancel(); buttonEmit(time, 'cancel')">Cancel</ion-button>
-          <ion-button *ngIf="showClearButton" color="primary" (click)="time.reset(); buttonEmit(time, 'clear')"
+          <ion-button color="primary" (click)="timePicker.cancel(); buttonEmit(timePicker, 'cancel')"
+            >Cancel</ion-button
+          >
+          <ion-button
+            *ngIf="showClearButton"
+            color="primary"
+            (click)="timePicker.reset(); buttonEmit(timePicker, 'clear')"
             >Clear
           </ion-button>
-          <ion-button color="primary" (click)="time.confirm(); buttonEmit(time, 'done')">Done</ion-button>
+          <ion-button color="primary" (click)="timePicker.confirm(); buttonEmit(timePicker, 'done')">Done</ion-button>
         </ion-buttons>
       </ion-datetime>
     </ng-template>
