@@ -18,6 +18,7 @@
     mode="ios"
     #modal
     [backdropDismiss]="true"
+    (didDismiss)="selectedBuffer = null"
   >
     <ng-template>
       <div *ngIf="displayType === DisplayType.Date">
