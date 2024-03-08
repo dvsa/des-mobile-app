@@ -35,7 +35,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     try {
       // TODO: Add guard for missing key
       // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      this.googleAnalyticsKey = 'X';
+      this.googleAnalyticsKey = 'x';
       this.addGAScript();
 
       await this.platform.ready();
@@ -55,16 +55,28 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   };
 
   addGAScript(): void {
+// Create a new script element
     const gtagScript: HTMLScriptElement = document.createElement('script');
-    gtagScript.async = true;
-    gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleAnalyticsKey}`;
-    document.head.prepend(gtagScript);
-    gtag('set', 'checkProtocolTask', function () {});
 
-    gtag('config', this.googleAnalyticsKey, {
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-4XPD2B5Y1J';
+
+    document.head.appendChild(gtagScript);
+
+    const gtagScript2: HTMLScriptElement = document.createElement('script');
+
+    gtagScript2.innerHTML = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('set', 'checkProtocolTask', function() {});
+  gtag('config', 'G-4XPD2B5Y1J'{
       send_page_view: false,
       client_storage: 'none',
     });
+`;
+
+    document.head.appendChild(gtagScript2);
   }
 
   setGAUserId(userId: string): void {

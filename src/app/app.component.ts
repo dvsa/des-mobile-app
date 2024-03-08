@@ -89,11 +89,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      await this.platform.ready();
-
-      await this.setGoogleTagManager();
+      // await this.setGoogleTagManager();
       await this.analytics.initialiseGoogleAnalytics();
-
+      await this.platform.ready();
       await this.storage.create();
 
       if (this.platform.is('cordova')) {
