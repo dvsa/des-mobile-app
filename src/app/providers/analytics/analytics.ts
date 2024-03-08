@@ -38,8 +38,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       this.googleAnalyticsKey = 'X';
       this.addGAScript(true);
 
-      await this.platform.ready();
-
       const employeeId = this.authProvider.getEmployeeId();
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
       const deviceModel = await this.device.getDeviceName();
