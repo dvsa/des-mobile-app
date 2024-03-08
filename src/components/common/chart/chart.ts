@@ -183,6 +183,13 @@ export class ChartComponent implements OnInit, OnChanges {
         },
       },
       colors: this.colors,
+      theme: {
+        monochrome: {
+          color: '#949494',
+          shadeTo: 'dark',
+          enabled: true
+        }
+      },
       series: this.dataValues,
       labels: this.labels,
       legend: {

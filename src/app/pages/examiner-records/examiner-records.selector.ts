@@ -5,7 +5,6 @@ import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 import { QuestionProvider } from '@providers/question/question';
-import { manoeuvreTypeLabelsCatD } from '@shared/constants/competencies/catd-manoeuvres';
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatB } from '@shared/constants/competencies/catb-manoeuvres';
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constants/competencies/catbe-manoeuvres';
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/constants/competencies/catadi2-manoeuvres';
@@ -349,23 +348,7 @@ export const getTellMeQuestions = (
 };
 
 export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreTypes) => {
-  if ([TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
-    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-  ].includes(category)) {
-    enum left {
-      reverseManoeuvre = 'Reverse',
-    }
-
-    return type ? left[type] : left;
-  } else if ([TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E].includes(category)) {
-    enum man {
-      reverseLeft = 'Reverse',
-    }
-
-    return type ? man[type] : man;
-  } else if ([TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E].includes(category)) {
-    return type ? manoeuvreTypeLabelsCatD[type] : manoeuvreTypeLabelsCatD;
-  } else if ([TestCategory.B].includes(category)) {
+  if ([TestCategory.B].includes(category)) {
     return type ? manoeuvreTypeLabelsCatB[type] : manoeuvreTypeLabelsCatB;
   } else if ([TestCategory.BE].includes(category)) {
     return type ? manoeuvreTypeLabelsCatBE[type] : manoeuvreTypeLabelsCatBE;

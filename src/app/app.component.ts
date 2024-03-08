@@ -66,6 +66,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     {
       title: EXAMINER_RECORDS,
       descriptor: 'Examiner records',
+      hideWhenRole: [ExaminerRole.DLG],
     },
     // {
     //   title: PASS_CERTIFICATES,

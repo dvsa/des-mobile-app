@@ -40,6 +40,248 @@ export class DemonstrationFunctions {
 
   }
 
+  generateFakeCatADI2(amount: number, staffNumber: number, min: number) {
+    let query: string = '';
+
+    let currentDate = new Date();
+    let twoYearsAgo = new Date(
+      currentDate.getFullYear() - 2,
+      currentDate.getMonth(),
+      currentDate.getDate(),
+    );
+
+    let activityCodes = activityCodeModelList.map(value => value.activityCode);
+    let tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.ADI2)
+      .map(value => ({ code: value.code, description: value.shortName, outcome: 'P' }));
+    let showMeQuestions = this.questionProvider.getShowMeQuestions(TestCategory.ADI2)
+      .map(value => ({ code: value.code, description: value.shortName, outcome: 'P' }));
+    let testCentres = [{
+      'centreId': 10,
+      'costCode': 'NCST',
+      'centreName': 'Newcastle Test Centre (Example)',
+    },
+    {
+      'centreId': 3,
+      'costCode': 'CDF',
+      'centreName': 'Cardiff Test Centre (Example)',
+    },
+    {
+      'centreId': 2,
+      'costCode': 'LNDN',
+      'centreName': 'London Test Centre (Example)',
+    },
+    ];
+    for (let i = min; i < amount + min; i = i + 1) {
+      let manoeuvre = ['reverseRight',
+        'reverseParkRoad',
+        'reverseParkCarpark',
+        'forwardPark'][Math.floor(Math.random() * 4)];
+      let date = moment(
+        new Date(twoYearsAgo.getTime() + Math.random() * (currentDate.getTime() - twoYearsAgo.getTime())),
+      ).format('YYYY-MM-DD');
+      let testResult =
+        {
+          'appVersion': '4.10.0.0',
+          'version': '3.42.5',
+          'category': 'ADI2',
+          'activityCode': activityCodes[Math.floor(Math.random() * activityCodes.length)],
+          'journalData': {
+            'examiner': {
+              'staffNumber': staffNumber.toString(),
+              'individualId': i,
+            },
+            'testCentre': testCentres[Math.floor(Math.random() * testCentres.length)],
+            'testSlotAttributes': {
+              'welshTest': false,
+              'slotId': 4000 + i,
+              'start': date,
+              'specialNeeds': false,
+              'specialNeedsCode': 'EXTRA',
+              'specialNeedsArray': ['None'],
+              'vehicleTypeCode': 'C',
+              'extendedTest': false,
+              'examinerVisiting': false,
+              'previousCancellation': ['Act of nature'],
+              'entitlementCheck': false,
+              'categoryEntitlementCheck': false,
+              'fitMarker': false,
+              'slotType': 'Extra Time Needed',
+            },
+            'candidate': {
+              'candidateAddress': {
+                'addressLine1': 'addressLine1',
+                'addressLine2': 'addressLine2',
+                'addressLine3': 'addressLine3',
+                'postcode': 'postCode',
+              },
+              'candidateId': i,
+              'candidateName': {
+                'firstName': `firstName${i}`,
+                'lastName': `lastName${i}`,
+                'title': 'title',
+              },
+              'driverNumber': `driverNumber${i}`,
+              'mobileTelephone': '11111 111111',
+              'primaryTelephone': '11111 111111',
+              'secondaryTelephone': '11111 111111',
+              'dateOfBirth': '1111-11-11',
+              'ethnicityCode': 'E',
+              'gender': 'F',
+            },
+            'applicationReference': { 'applicationId': i, 'bookingSequence': 3, 'checkDigit': 1 },
+          },
+          'preTestDeclarations': {
+            'insuranceDeclarationAccepted': true,
+            'residencyDeclarationAccepted': true,
+            'preTestSignature': '',
+            'candidateDeclarationSigned': false,
+          },
+          'accompaniment': {},
+          'vehicleDetails': {
+            'registrationNumber': i.toString(),
+            'gearboxCategory': 'Manual',
+            'motStatus': 'No details found',
+          },
+          'instructorDetails': {},
+          // 'testData': {
+          //   'ETA': {},
+          //   'eco': {
+          //     'completed': true
+          //   },
+          //   'manoeuvres': [
+          //     {
+          //       'reverseRight': {
+          //         'selected': true
+          //       }
+          //     },
+          //     {
+          //       'reverseParkRoad': {
+          //         'selected': true
+          //       }
+          //     }
+          //   ],
+          //   'eyesightTest': {
+          //     'complete': true,
+          //     'seriousFault': false
+          //   },
+          //   'drivingFaults': {
+          //     'controlsAccelerator': 4
+          //   },
+          //   'seriousFaults': {},
+          //   'vehicleChecks': {
+          //     'seriousFault': false,
+          //     'dangerousFault': false,
+          //     'showMeQuestions': [
+          //       {
+          //         'code': 'A15',
+          //         'outcome': 'P',
+          //         'description': 'Rear windscreen'
+          //       },
+          //       {
+          //         'code': 'A16',
+          //         'outcome': 'P',
+          //         'description': 'Front windscreen'
+          //       }
+          //     ],
+          //     'tellMeQuestions': [
+          //       //make the random generation not duplicate
+          //       tellMeQuestions[Math.floor(Math.random() * tellMeQuestions.length)],
+          //       {
+          //         'code': 'T7',
+          //         'outcome': 'DF',
+          //         'description': 'Direction indicators'
+          //       },
+          //       {
+          //         'code': 'T8',
+          //         'outcome': 'DF',
+          //         'description': 'Brake lights'
+          //       }
+          //     ],
+          //     'vehicleChecksCompleted': true
+          //   },
+          //   'controlledStop': {},
+          //   'dangerousFaults': {},
+          //   'testRequirements': {
+          //     'angledStart': true,
+          //     'uphillStart': true,
+          //     'normalStart1': true,
+          //     'normalStart2': true,
+          //     'downhillStart': true
+          //   }
+          // },
+          'testData': {
+            'drivingFaults': { 'moveOffSafety': 1 },
+            'dangerousFaults': {},
+            'seriousFaults': {},
+            'vehicleChecks': {
+              'tellMeQuestion': tellMeQuestions[Math.floor(Math.random() * tellMeQuestions.length)],
+              'showMeQuestion': showMeQuestions[Math.floor(Math.random() * showMeQuestions.length)],
+            },
+            'controlledStop': { 'selected': [true, false][Math.floor(Math.random() * 2)] },
+            'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
+            'ETA': {},
+            'eyesightTest': { 'complete': true, 'seriousFault': false },
+            'manoeuvres': { [manoeuvre]: { 'selected': true } },
+            'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+          },
+          'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
+          'postTestDeclarations': {
+            'healthDeclarationAccepted': true,
+            'passCertificateNumberReceived': true,
+
+            'postTestSignature': '',
+          },
+          'testSummary': {
+            'routeNumber': Math.floor(Math.random() * (12 - 1 + 1) + 1),
+            'independentDriving': ['Sat nav', 'Traffic signs'][Math.floor(Math.random() * 2)],
+            'candidateDescription': 'description',
+            'additionalInformation': null,
+            'weatherConditions': ['Snowing'],
+            'debriefWitnessed': true,
+            'D255': false,
+            'identification': 'Licence',
+            'trueLikenessToPhoto': true,
+          },
+          'communicationPreferences': {
+            'updatedEmail': '',
+            'communicationMethod': 'Post',
+            'conductedLanguage': 'English',
+          },
+          'rekey': false,
+          'rekeyDate': null,
+          'rekeyReason': {
+            'ipadIssue': {
+              'selected': false,
+              'broken': false,
+              'lost': false,
+              'technicalFault': false,
+              'stolen': false,
+            }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+          },
+          'delegatedTest': false,
+          'examinerBooked': staffNumber,
+          'examinerConducted': staffNumber,
+          'examinerKeyed': staffNumber,
+          'changeMarker': false,
+        } as TestResultCommonSchema;
+      query = query.concat(`('90000000000${i}',
+      '${staffNumber}',
+      '${JSON.stringify(testResult)}',
+      '${date}',
+      '${testResult.journalData.testCentre.centreId}',
+      '${testResult.journalData.testCentre.costCode}',
+      '${testResult.journalData.candidate.driverNumber}',
+      '${testResult.journalData.candidate.candidateName.lastName}',
+      1,
+      ${false},
+      '${testResult.activityCode}',
+      '${testResult.category}',
+      '${testResult?.passCompletion?.passCertificateNumber ? testResult?.passCompletion?.passCertificateNumber : null}',
+      '3.42.5',
+      '${testResult.appVersion}'),`);
+    }
+    return query;
+  }
   generateFakeCatB(amount: number, staffNumber: number, min: number) {
 
     let query: string = '';
@@ -15075,5 +15317,198 @@ export const demonstrationMock: StartedTests = {
       'communicationMethod': 'Email',
     },
   } as TestResultCommonSchema,
-
+  114: {
+    'rekey': false,
+    'version': '3.42.5',
+    'category': 'ADI2',
+    'testData': {
+      'ETA': {},
+      'eco': {
+        'completed': true
+      },
+      'manoeuvres': [
+        {
+          'reverseRight': {
+            'selected': true
+          }
+        },
+        {
+          'reverseParkRoad': {
+            'selected': true
+          }
+        }
+      ],
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false
+      },
+      'drivingFaults': {
+        'controlsAccelerator': 4
+      },
+      'seriousFaults': {},
+      'vehicleChecks': {
+        'seriousFault': false,
+        'dangerousFault': false,
+        'showMeQuestions': [
+          {
+            'code': 'A15',
+            'outcome': 'P',
+            'description': 'Rear windscreen'
+          },
+          {
+            'code': 'A16',
+            'outcome': 'P',
+            'description': 'Front windscreen'
+          }
+        ],
+        'tellMeQuestions': [
+          {
+            'code': 'T2',
+            'outcome': 'DF',
+            'description': 'Tyre pressures'
+          },
+          {
+            'code': 'T7',
+            'outcome': 'DF',
+            'description': 'Direction indicators'
+          },
+          {
+            'code': 'T8',
+            'outcome': 'DF',
+            'description': 'Brake lights'
+          }
+        ],
+        'vehicleChecksCompleted': true
+      },
+      'controlledStop': {},
+      'dangerousFaults': {},
+      'testRequirements': {
+        'angledStart': true,
+        'uphillStart': true,
+        'normalStart1': true,
+        'normalStart2': true,
+        'downhillStart': true
+      }
+    },
+    'appVersion': '4.10.0.0',
+    'journalData': {
+      'examiner': {
+        'staffNumber': '10000012',
+        'individualId': 1000012
+      },
+      'candidate': {
+        'prn': 9283749,
+        'gender': 'F',
+        'candidateId': 100,
+        'dateOfBirth': '1977-07-02',
+        'driverNumber': 'PEARS123456789DO',
+        'candidateName': {
+          'title': 'miss',
+          'lastName': 'Firstlis',
+          'firstName': 'Anna'
+        },
+        'ethnicityCode': 'D',
+        'mobileTelephone': '07654 123456',
+        'candidateAddress': {
+          'postcode': 'PO57 0DE',
+          'addressLine1': 'Address Line 1',
+          'addressLine2': 'Address Line 2',
+          'addressLine3': 'Address Line 3',
+          'addressLine4': 'Address Line 4',
+          'addressLine5': 'Address Line 5'
+        },
+        'previousADITests': 2,
+        'primaryTelephone': '01234 567890',
+        'secondaryTelephone': '04321 098765'
+      },
+      'testCentre': {
+        'centreId': 54321,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre'
+      },
+      'testSlotAttributes': {
+        'start': '2024-03-07T08:00:00',
+        'slotId': 2200,
+        'slotType': 'Standard Test',
+        'fitMarker': false,
+        'welshTest': false,
+        'extendedTest': false,
+        'specialNeeds': false,
+        'vehicleTypeCode': 'C',
+        'entitlementCheck': false,
+        'examinerVisiting': false,
+        'specialNeedsCode': 'NONE',
+        'specialNeedsArray': [
+          'None'
+        ],
+        'previousCancellation': [
+          'Act of nature'
+        ],
+        'categoryEntitlementCheck': false
+      },
+      'applicationReference': {
+        'checkDigit': 1,
+        'applicationId': 22123400,
+        'bookingSequence': 1
+      }
+    },
+    'rekeyReason': {
+      'other': {
+        'reason': '',
+        'selected': false
+      },
+      'transfer': {
+        'selected': false
+      },
+      'ipadIssue': {
+        'lost': false,
+        'broken': false,
+        'stolen': false,
+        'selected': false,
+        'technicalFault': false
+      }
+    },
+    'testSummary': {
+      'D255': false,
+      'routeNumber': 22,
+      'identification': 'Licence',
+      'debriefWitnessed': true,
+      'weatherConditions': [
+        'Windy'
+      ],
+      'independentDriving': 'Sat nav',
+      'trueLikenessToPhoto': true
+    },
+    'activityCode': '2',
+    'changeMarker': false,
+    'accompaniment': {},
+    'delegatedTest': false,
+    'examinerKeyed': 10000012,
+    'examinerBooked': 10000012,
+    'trainerDetails': {
+      'trainingRecords': true,
+      'orditTrainedCandidate': true
+    },
+    'vehicleDetails': {
+      'gearboxCategory': 'Manual',
+      'registrationNumber': 'AUTOPCK'
+    },
+    'examinerConducted': 10000012,
+    'preTestDeclarations': {
+      'preTestSignature': '',
+      'candidateDeclarationSigned': false,
+      'insuranceDeclarationAccepted': true,
+      'residencyDeclarationAccepted': false
+    },
+    'postTestDeclarations': {
+      'postTestSignature': '',
+      'healthDeclarationAccepted': false,
+      'passCertificateNumberReceived': false
+    },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'conductedLanguage': 'English',
+      'communicationMethod': 'Post'
+    }
+  } as TestResultCommonSchema,
 };
