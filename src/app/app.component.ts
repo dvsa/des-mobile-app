@@ -91,13 +91,15 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     try {
       await this.platform.ready();
 
+      await this.setGoogleTagManager();
+      await this.analytics.initialiseGoogleAnalytics();
+
       await this.storage.create();
 
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
       await this.appConfigProvider.initialiseAppConfig();
-      await this.setGoogleTagManager();
       await this.initialiseSentry();
       this.initialiseNetworkState();
       this.initialiseAuthentication();
@@ -226,7 +228,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   setGoogleTagManager = async () => {
     try {
       // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      const googleAnalyticsKey = 'X';
+      const googleAnalyticsKey = 'G-4XPD2B5Y1J';
       const gtResponse = await (
         await fetch(`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsKey}`)
       ).text();

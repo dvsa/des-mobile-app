@@ -36,7 +36,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       // TODO: Add guard for missing key
       // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
       this.googleAnalyticsKey = 'X';
-      this.addGAScript(true);
+      this.addGAScript();
 
       await this.platform.ready();
 
@@ -54,14 +54,16 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   };
 
-  addGAScript(debugMode: boolean = false): void {
+  addGAScript(): void {
     const gtagScript: HTMLScriptElement = document.createElement('script');
     gtagScript.async = true;
     gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleAnalyticsKey}`;
     document.head.prepend(gtagScript);
+    gtag('set', 'checkProtocolTask', function () {});
+
     gtag('config', this.googleAnalyticsKey, {
       send_page_view: false,
-      debugMode,
+      client_storage: 'none',
     });
   }
 
