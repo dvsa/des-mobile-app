@@ -1,8 +1,8 @@
 <ion-card
   id="record-card-{{chartID}}"
   [style.min-width]="(this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)+'px'"
-  (click)="showChart ? (hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData) : null"
-  [class.ion-activatable]="showChart && getTotal(passedData)"
+  (click)="cardIsClickable ? (showChart ? (hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData) : null) : null"
+  [class.ion-activatable]="cardIsClickable && showChart && getTotal(passedData)"
   [class]="darkColours ? [
 'white-text',
 'navy-card',
