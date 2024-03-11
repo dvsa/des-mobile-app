@@ -1,7 +1,7 @@
 <ion-card
   id="record-card-{{chartID}}"
   [style.min-width]="(this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)+'px'"
-  (click)="cardIsClickable ? (showChart ? (hasCustomContent ? showCustomContent = !showCustomContent : showData = !showData) : null) : null"
+  (click)="handleCardClick()"
   [class.ion-activatable]="cardIsClickable && showChart && getTotal(passedData)"
   [class]="darkColours ? [
 'white-text',
@@ -46,6 +46,9 @@
         <ion-col>
           <ion-text class="mes-data">Average</ion-text>
         </ion-col>
+      </ion-row>
+      <ion-row *ngIf="chartSubtitle">
+        <ion-text class="semibold-font-family ion-text-center">{{chartSubtitle}}</ion-text>
       </ion-row>
       <ion-row class="ion-padding-top" *ngIf="showData">
         <ion-col class="ion-no-padding">

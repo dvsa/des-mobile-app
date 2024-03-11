@@ -116,8 +116,8 @@
         type="checkbox"
         id="chart-toggle-input"
         class="gds-checkbox"
-        (change)="toggleData()"
-        [checked]="showData"
+        (change)="hideChart()"
+        [checked]="hideCharts"
       />
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
@@ -135,7 +135,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Route', 'Amount', '%']"
           [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
-          [showData]="showData"
           [chartID]="'testRoutes'"
           [splitChartLabel]="true"
           [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
@@ -150,12 +149,14 @@
           [showChart]="!hideCharts"
           [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
           [averageColour]="averageSelect()"
+          [hasCustomContent]="true"
+          [chartSubtitle]="('Your current ratio of tests with independent '+ (isBike() ? 'riding' : 'driving') + ' is '
+          + calculateRatio(data.independentDrivingGrid[0].count,data.independentDrivingGrid[1].count))"
           [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
           [displayColoursOnDataGrid]="!hideCharts"
-          [showData]="showData"
           [chartID]="'independentDriving'"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [splitChartLabel]="true"
@@ -164,21 +165,41 @@
           [colourScheme]="colourSelect('pie')"
           [passedData]="data.independentDrivingGrid"
         >
+          <data-row
+            [noPadding]="true"
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+            [value]="calculateRatio(data.independentDrivingGrid[0].count,data.independentDrivingGrid[1].count)"
+            [shouldHaveSeperator]="false"
+            [centreData]="true"
+            label="Current ratio"
+          >
+          </data-row>
+          <data-row
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+            [value]="'1:7'"
+            [shouldHaveSeperator]="false"
+            [centreData]="true"
+            label="Target ratio"
+          >
+          </data-row>
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
         <examiner-reports-card
           [showChart]="!hideCharts"
           [cardTitle]="'Emergency stops'"
+          [useGrid]="false"
           [hasCustomContent]="true"
-          [showCustomContent]="showData"
+          [chartSubtitle]="('Your current ratio of tests with emergency stops is '
+          + calculateRatio(data.emergencyStops[0].count,data.emergencyStops[1].count))"
           [averageColour]="averageSelect()"
           [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
           [displayColoursOnDataGrid]="true"
-          [showData]="false"
           [chartID]="'emergencyStop'"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [splitChartLabel]="false"
@@ -206,9 +227,25 @@
             label="Emergency stops performed"
           >
           </data-row>
-          <ion-text>
-            You performed an emergency stop on {{data.emergencyStops[0].percentage}} of tests in range.</ion-text
+          <data-row
+            [noPadding]="true"
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+            [value]="calculateRatio(data.emergencyStops[0].count, data.emergencyStops[1].count)"
+            [shouldHaveSeperator]="false"
+            [centreData]="true"
+            label="Current ratio"
           >
+          </data-row>
+          <data-row
+            [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+            [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+            [value]="'1:3'"
+            [shouldHaveSeperator]="false"
+            [centreData]="true"
+            label="Target ratio"
+          >
+          </data-row>
         </examiner-reports-card>
       </ion-col>
       <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
@@ -221,7 +258,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Manoeuvre', 'Amount', '%']"
           [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
-          [showData]="showData"
           [chartID]="'manoeuvresChart'"
           [splitChartLabel]="true"
           [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
@@ -241,7 +277,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
-          [showData]="showData"
           [chartID]="'showMeChart'"
           [splitChartLabel]="true"
           [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
@@ -261,7 +296,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
-          [showData]="showData"
           [chartID]="'tellMeChart'"
           [splitChartLabel]="true"
           [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
@@ -281,7 +315,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [displayColoursOnDataGrid]="true"
-          [showData]="showData"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [chartID]="'balanceChart'"
           [splitChartLabel]="true"
@@ -302,7 +335,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
-          [showData]="showData"
           [chartID]="'safetyChart'"
           [splitChartLabel]="true"
           [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
@@ -322,7 +354,6 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Circuit', 'Amount', '%']"
           [displayColoursOnDataGrid]="true"
-          [showData]="showData"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
           [chartID]="'circuit'"
           [splitChartLabel]="true"

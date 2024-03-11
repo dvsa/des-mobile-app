@@ -25,7 +25,11 @@ export class ExaminerReportsCard {
   @Input()
   labelColour: string = '#000000';
   @Input()
+  chartSubtitle: string = null;
+  @Input()
   isPortrait: boolean = false;
+  @Input()
+  useGrid: boolean = true;
   @Input()
   showCustomContent: boolean = false;
   @Input()
@@ -78,5 +82,16 @@ export class ExaminerReportsCard {
     return this.hasCustomContent ?
       this.showCustomContent ? trueCondition : falseCondition :
       this.showData ? trueCondition : falseCondition;
+  }
+
+  handleCardClick() {
+    if (this.cardIsClickable && this.showChart) {
+      if (this.hasCustomContent) {
+        this.showCustomContent = !this.showCustomContent;
+      }
+      if (this.useGrid) {
+        this.showData = !this.showData;
+      }
+    }
   }
 }

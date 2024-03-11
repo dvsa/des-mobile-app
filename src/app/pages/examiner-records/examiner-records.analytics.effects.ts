@@ -9,7 +9,8 @@ import {
   AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
-  ExaminerRecordsViewDidEnter, ShowDataChanged,
+  ExaminerRecordsViewDidEnter,
+  HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -92,7 +93,7 @@ export class ExaminerRecordsAnalyticsEffects {
   ));
 
   hideChartsChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(ShowDataChanged),
+    ofType(HideChartsChanged),
     switchMap(({ hideChart }) => {
       this.analytics.logEvent(
         AnalyticsEventCategories.EXAMINER_STATS,
