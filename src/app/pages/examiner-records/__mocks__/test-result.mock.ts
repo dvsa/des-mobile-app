@@ -5,6 +5,7 @@ import { activityCodeModelList } from '@shared/constants/activity-code/activity-
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { QuestionProvider } from '@providers/question/question';
 import { Injectable } from '@angular/core';
+import { isEmpty } from 'lodash-es';
 
 @Injectable()
 export class DemonstrationFunctions {
@@ -12,6 +13,18 @@ export class DemonstrationFunctions {
   constructor(
     public questionProvider: QuestionProvider,
   ) {
+  }
+
+  private generateUniqueRandomObjects<T>(count: number, arrayOfItemsToRandomiseFrom: T[]): T[] {
+    const result: T[] = [];
+
+    while (result.length < count) {
+      const tempValue = arrayOfItemsToRandomiseFrom[Math.floor(Math.random() * arrayOfItemsToRandomiseFrom.length)];
+      if (isEmpty(result.filter((val) => val === tempValue))) {
+        result.push(tempValue);
+      }
+    }
+    return result;
   }
 
   generateQuery(staffNumber: number) {
@@ -34,10 +47,10 @@ export class DemonstrationFunctions {
 ) VALUES `;
     // query = query.concat(this.generateFakeCatB(700, staffNumber, 1400));
     // query = query.concat(this.generateFakeCatMod1(700, staffNumber, 700));
-    query = query.concat(this.generateFakeCatMod2(500, staffNumber, 500));
+    // query = query.concat(this.generateFakeCatMod2(500, staffNumber, 500));
+    query = query.concat(this.generateFakeCatADI2(500, staffNumber, 0));
     query = query.substring(0, query.length - 1);
     console.log(query);
-
   }
 
   generateFakeCatADI2(amount: number, staffNumber: number, min: number) {
@@ -72,10 +85,12 @@ export class DemonstrationFunctions {
     },
     ];
     for (let i = min; i < amount + min; i = i + 1) {
-      let manoeuvre = ['reverseRight',
+      let manoeuvres = this.generateUniqueRandomObjects(2, ['reverseRight',
         'reverseParkRoad',
         'reverseParkCarpark',
-        'forwardPark'][Math.floor(Math.random() * 4)];
+        'forwardPark']).map(value => {
+        return { [value]: { 'selected': true } }
+      });
       let date = moment(
         new Date(twoYearsAgo.getTime() + Math.random() * (currentDate.getTime() - twoYearsAgo.getTime())),
       ).format('YYYY-MM-DD');
@@ -143,86 +158,35 @@ export class DemonstrationFunctions {
             'motStatus': 'No details found',
           },
           'instructorDetails': {},
-          // 'testData': {
-          //   'ETA': {},
-          //   'eco': {
-          //     'completed': true
-          //   },
-          //   'manoeuvres': [
-          //     {
-          //       'reverseRight': {
-          //         'selected': true
-          //       }
-          //     },
-          //     {
-          //       'reverseParkRoad': {
-          //         'selected': true
-          //       }
-          //     }
-          //   ],
-          //   'eyesightTest': {
-          //     'complete': true,
-          //     'seriousFault': false
-          //   },
-          //   'drivingFaults': {
-          //     'controlsAccelerator': 4
-          //   },
-          //   'seriousFaults': {},
-          //   'vehicleChecks': {
-          //     'seriousFault': false,
-          //     'dangerousFault': false,
-          //     'showMeQuestions': [
-          //       {
-          //         'code': 'A15',
-          //         'outcome': 'P',
-          //         'description': 'Rear windscreen'
-          //       },
-          //       {
-          //         'code': 'A16',
-          //         'outcome': 'P',
-          //         'description': 'Front windscreen'
-          //       }
-          //     ],
-          //     'tellMeQuestions': [
-          //       //make the random generation not duplicate
-          //       tellMeQuestions[Math.floor(Math.random() * tellMeQuestions.length)],
-          //       {
-          //         'code': 'T7',
-          //         'outcome': 'DF',
-          //         'description': 'Direction indicators'
-          //       },
-          //       {
-          //         'code': 'T8',
-          //         'outcome': 'DF',
-          //         'description': 'Brake lights'
-          //       }
-          //     ],
-          //     'vehicleChecksCompleted': true
-          //   },
-          //   'controlledStop': {},
-          //   'dangerousFaults': {},
-          //   'testRequirements': {
-          //     'angledStart': true,
-          //     'uphillStart': true,
-          //     'normalStart1': true,
-          //     'normalStart2': true,
-          //     'downhillStart': true
-          //   }
-          // },
           'testData': {
-            'drivingFaults': { 'moveOffSafety': 1 },
-            'dangerousFaults': {},
+            'ETA': {},
+            'eco': {
+              'completed': true
+            },
+            'manoeuvres': manoeuvres,
+            'eyesightTest': {
+              'complete': true,
+              'seriousFault': false
+            },
+            'drivingFaults': {
+            },
             'seriousFaults': {},
             'vehicleChecks': {
-              'tellMeQuestion': tellMeQuestions[Math.floor(Math.random() * tellMeQuestions.length)],
-              'showMeQuestion': showMeQuestions[Math.floor(Math.random() * showMeQuestions.length)],
+              'seriousFault': false,
+              'dangerousFault': false,
+              'showMeQuestions': this.generateUniqueRandomObjects(2, showMeQuestions),
+              'tellMeQuestions': this.generateUniqueRandomObjects(3, tellMeQuestions),
+              'vehicleChecksCompleted': true
             },
-            'controlledStop': { 'selected': [true, false][Math.floor(Math.random() * 2)] },
-            'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
-            'ETA': {},
-            'eyesightTest': { 'complete': true, 'seriousFault': false },
-            'manoeuvres': { [manoeuvre]: { 'selected': true } },
-            'testRequirements': { 'normalStart1': true, 'normalStart2': true, 'hillStart': true, 'angledStart': true },
+            'controlledStop': {},
+            'dangerousFaults': {},
+            'testRequirements': {
+              'angledStart': true,
+              'uphillStart': true,
+              'normalStart1': true,
+              'normalStart2': true,
+              'downhillStart': true
+            }
           },
           'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
           'postTestDeclarations': {
@@ -264,7 +228,7 @@ export class DemonstrationFunctions {
           'examinerKeyed': staffNumber,
           'changeMarker': false,
         } as TestResultCommonSchema;
-      query = query.concat(`('90000000000${i}',
+      query = query.concat(`('60000000000${i}',
       '${staffNumber}',
       '${JSON.stringify(testResult)}',
       '${date}',
