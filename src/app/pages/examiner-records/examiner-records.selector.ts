@@ -378,12 +378,11 @@ export const getManoeuvresUsed = (
     .forEach((record: ExaminerRecordModel) => {
       const manoeuvres = get(record, 'manoeuvres');
       if (!manoeuvres) return;
-      const testCategory = get(record, 'testCategory') as TestCategory;
       const mans = Array.isArray(manoeuvres) ? manoeuvres : [manoeuvres];
       mans.forEach((manoeuvre) => {
         forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
           const faults = !man.selected ? [] : transform(man, (result) => {
-            result.push(getManoeuvreTypeLabels(testCategory, type));
+            result.push(getManoeuvreTypeLabels(category, type));
           }, []);
           faultsEncountered.push(...faults);
         });
