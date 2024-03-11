@@ -12,7 +12,7 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
-  ShowDataChanged,
+  HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -136,7 +136,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   describe('hideChartsChanged$', () => {
     it('should log Charts unhidden if called with false', (done) => {
       // ACT
-      actions$.next(ShowDataChanged(false));
+      actions$.next(HideChartsChanged(false));
       // ASSERT
       effects.hideChartsChanged$.subscribe((result) => {
         expect(result.type)
@@ -152,7 +152,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
     });
     it('should log Charts hidden if called with true', (done) => {
       // ACT
-      actions$.next(ShowDataChanged(true));
+      actions$.next(HideChartsChanged(true));
       // ASSERT
       effects.hideChartsChanged$.subscribe((result) => {
         expect(result.type)

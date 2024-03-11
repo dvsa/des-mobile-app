@@ -10,7 +10,7 @@ import {
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
   LocationChanged,
-  ShowDataChanged,
+  HideChartsChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import {
@@ -55,7 +55,6 @@ import {
   StaticColourScheme,
   VariableColourScheme,
 } from '@providers/examiner-records/examiner-records';
-import { ItemReorderEventDetail } from '@ionic/core';
 
 interface ExaminerRecordsState {
   routeNumbers$: Observable<ExaminerRecordData<string>[]>;
@@ -88,7 +87,6 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
-  showData = false;
   hideCharts = false;
   colourOption = this.store$.selectSignal(selectColourScheme)();
   categoryPlaceholder: string;
@@ -347,10 +345,9 @@ export class ExaminerRecordsPage implements OnInit {
     this.store$.dispatch(ColourFilterChanged(colour));
   }
 
-  toggleData(): void {
-    this.showData = !this.showData;
+  hideChart(): void {
     this.hideCharts = !this.hideCharts;
-    this.store$.dispatch(ShowDataChanged(this.showData));
+    this.store$.dispatch(HideChartsChanged(this.hideCharts));
   }
 
   colourSelect(chartType?: ChartType): string[] {
@@ -367,13 +364,6 @@ export class ExaminerRecordsPage implements OnInit {
         return this.examinerRecordsProvider.colours.default[charType];
     }
   }
-
-  public isBike = (): boolean => isAnyOf(this.currentCategory, [
-    // Cat Mod1
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
-    // Cat Mod2
-    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
-  ]);
 
   getColour(): StaticColourScheme | VariableColourScheme {
     switch (this.colourOption) {
@@ -443,14 +433,15 @@ export class ExaminerRecordsPage implements OnInit {
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
   ]);
 
-  handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    // The `from` and `to` properties contain the index of the item
-    // when the drag started and ended, respectively
-    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
+  public isBike = (): boolean => isAnyOf(this.currentCategory, [
+    // Cat Mod1
+    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
+    // Cat Mod2
+    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
+  ]);
 
-    // Finish the reorder and position the item in the DOM based on
-    // where the gesture ended. This method can also be called directly
-    // by the reorder group
-    ev.detail.complete();
+  calculateRatio(a: number, b: number) {
+    let finalB = (a !== 0 ? (b / a) : b);
+    return `${ a !== 0 ? (a / a) : 0}:${finalB % 1 !== 0 ? finalB.toFixed(2) : finalB }`;
   }
 }
