@@ -11,10 +11,10 @@ export class DataRowComponent {
   label: string;
 
   @Input()
-  noPadding: boolean = false;
+  dataStyling?: {[p: string]: any}= null;
 
   @Input()
-  dataStyling?: {[p: string]: any}= null;
+  rowStyling?: {[p: string]: any}= null;
 
   @Input()
   labelStyling?: {[p: string]: any} = null;
@@ -36,4 +36,8 @@ export class DataRowComponent {
 
   @Input()
   centreData: boolean = false;
+
+  @Input()
+  customLabelWidth: number = null;
+
 }

@@ -1,5 +1,8 @@
-<ion-row [class.no-padding]="noPadding" [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
-  <ion-col [size]="shouldShowIndicator ? 40 : 34" class="ion-align-items-center display-flex">
+<ion-row [ngStyle]="rowStyling" [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
+  <ion-col
+    [size]="customLabelWidth ? customLabelWidth : (this.shouldShowIndicator ? 40 : 34)"
+    class="ion-align-items-center display-flex"
+  >
     <label [ngStyle]="labelStyling" [id]="label | formatToID: idPrefix">{{ label }}</label>
   </ion-col>
   <ion-col size="6" class="ion-align-items-center display-flex">
@@ -14,10 +17,7 @@
     <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [ngStyle]="dataStyling" [alt]="label + ' image'" />
   </ion-col>
   <ng-template #notImage>
-    <ion-col
-      [size]="shouldShowIndicator ? 50 : 56"
-      [class]="[centreData ? 'ion-justify-content-center' : null, 'ion-align-items-center', 'display-flex']"
-    >
+    <ion-col [class]="[centreData ? 'ion-justify-content-center' : null, 'ion-align-items-center', 'display-flex']">
       <span [ngStyle]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
     </ion-col>
   </ng-template>
