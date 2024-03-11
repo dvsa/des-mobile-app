@@ -89,11 +89,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      // await this.setGoogleTagManager();
-      await this.analytics.initialiseGoogleAnalytics();
       await this.platform.ready();
       await this.storage.create();
-
+      await this.analytics.initialiseGoogleAnalytics();
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
@@ -101,7 +99,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.initialiseSentry();
       this.initialiseNetworkState();
       this.initialiseAuthentication();
-      // await this.analytics.initialiseGoogleAnalytics();
+
       await this.initialisePersistentStorage();
       this.store$.dispatch(LoadAppVersion());
       await this.configureStatusBar();
@@ -221,25 +219,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     }, sentryAngularInit);
 
     return Promise.resolve();
-  };
-
-  setGoogleTagManager = async () => {
-    try {
-      // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      const googleAnalyticsKey = 'G-4XPD2B5Y1J';
-      const gtResponse = await (
-        await fetch(`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsKey}`)
-      ).text();
-      if (document.location.protocol.startsWith('http')) {
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
-        Function(gtResponse)();
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
-        Function(gtResponse.replaceAll('http:', 'capacitor:'))();
-      }
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   navPage = async (page: Page): Promise<void> => {

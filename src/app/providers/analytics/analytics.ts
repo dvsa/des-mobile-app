@@ -14,6 +14,7 @@ declare const gtag: Function;
 @Injectable()
 export class AnalyticsProvider implements IAnalyticsProvider {
   googleAnalyticsKey: string = '';
+  googleAnalytics4Key: string = '';
   uniqueDeviceId: string;
   uniqueUserId: string;
   private analyticsStartupError: string = 'Error starting Google Analytics';
@@ -28,110 +29,136 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   /**
-   * initial setup of GA4
+   * Inital setup for Google Analytics, setting unique user and device id
+   * for all events to be tagged with for this session
+   *
    */
-
   initialiseGoogleAnalytics = async (): Promise<void> => {
     try {
       // TODO: Add guard for missing key
       // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      this.googleAnalyticsKey = 'x';
-      this.addGAScript();
-
+      this.googleAnalytics4Key = 'G-4XPD2B5Y1J';
+      await this.setGoogleTagManager(this.googleAnalytics4Key);
       await this.platform.ready();
 
       const employeeId = this.authProvider.getEmployeeId();
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
       const deviceModel = await this.device.getDeviceName();
 
-      this.setGAUserId(employeeId);
+      this.setGAUserId(this.googleAnalytics4Key, employeeId);
       this.setGADeviceId(uniqueDeviceId);
       this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, uniqueDeviceId);
       this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, deviceModel);
     } catch (error) {
-      // Handle any errors here
       console.error('Analytics - Error initializing Google Analytics:', error);
     }
   };
 
-  addGAScript(): void {
-// Create a new script element
-    const gtagScript: HTMLScriptElement = document.createElement('script');
+  /**
+   * Sets up Google Tag Manager with the provided Google Analytics key.
+   * The resulting script has all references for capacitor replaced with https
+   * to provide a workaround when traffic is blocked
+   *
+   * @param {string} googleAnalyticsKey
+   * @returns {Promise<void>}
+   */
+  setGoogleTagManager = async (googleAnalyticsKey: string) => {
+    try {
+      const gtResponse = await (
+        await fetch(`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsKey}`)
+      ).text();
+      if (document.location.protocol.startsWith('http')) {
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        Function(gtResponse)();
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        Function(gtResponse.replaceAll('http:', 'capacitor:'))();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    gtagScript.async = true;
-    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-4XPD2B5Y1J';
-
-    document.head.appendChild(gtagScript);
-
-    const gtagScript2: HTMLScriptElement = document.createElement('script');
-
-    gtagScript2.innerHTML = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('set', 'checkProtocolTask', function() {});
-  gtag('config', 'G-4XPD2B5Y1J'{
-      send_page_view: false,
-      client_storage: 'none',
-    });
-`;
-
-    document.head.appendChild(gtagScript2);
-  }
-
-  setGAUserId(userId: string): void {
+  /**
+   * Sets the Google Analytics user ID and custom dimension.
+   *
+   * Hashes the provided user ID to create a unique user ID,
+   * sets it as a custom dimension in Google Analytics, and configures Google Analytics
+   * to use the unique user ID for tracking for all events by this user for this session
+   *
+   * @param {string} key
+   * @param {string} userId
+   */
+  setGAUserId(key: string, userId: string): void {
     if (this.isIos()) {
       try {
         console.log('set GA user id');
-        this.uniqueUserId = createHash('sha256')
+        const uniqueUserId = createHash('sha256')
           .update(userId || 'unavailable')
           .digest('hex');
-        console.log(`set GA user id: ${this.uniqueUserId}`);
-        this.addGACustomDimension(AnalyticsDimensionIndices.USER_ID, this.uniqueUserId);
-        gtag('config', this.googleAnalyticsKey, {
+        console.log(`set GA user id: ${uniqueUserId}`);
+        this.addGACustomDimension(AnalyticsDimensionIndices.USER_ID, uniqueUserId);
+        gtag('config', key, {
           send_page_view: false,
-          user_id: this.uniqueUserId,
+          user_id: uniqueUserId,
         });
       } catch (error) {
-        console.log(`Analytics - setGAUserId ${this.uniqueUserId}`, error);
+        console.log(`Analytics - setGAUserId error`, error);
       }
     }
   }
 
+  /**
+   * Sets the Google Analytics device ID custom dimension.
+   * Generates a unique device ID based on the provided device ID or a default value.
+   *
+   * @param {string} deviceId
+   */
   setGADeviceId(deviceId: string): void {
-    this.uniqueDeviceId = createHash('sha256')
+    const uniqueDeviceId = createHash('sha256')
       .update(deviceId || 'defaultDevice')
       .digest('hex');
-    this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
+    this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, uniqueDeviceId);
   }
 
+  /**
+   * Adds a custom dimension for Google Analytics.
+   * Custom events need to exist in the analytic dimension enum
+   *
+   * @param {number} key - The key representing the custom dimension index.
+   * @param {string} value - The value to be associated with the custom dimension.
+   */
   addGACustomDimension(key: number, value: string): void {
     if (this.isIos()) {
       try {
-        console.log(`Analytics - add custom dimension: ${key}`);
         const [dimension] = getEnumKeyByValue(AnalyticsDimensionIndices, key);
-        gtag('event', dimension, { key: value });
+        if (dimension) { // Guard to check if dimension is not undefined or null
+          gtag('event', dimension, { key: value });
+        } else {
+          console.error('Analytics - addGACustomDimension: Dimension not found for key', key);
+        }
       } catch (error) {
         console.error('Analytics - addGACustomDimension', error);
       }
     }
   }
 
-  setGACurrentPage(name: string): void {
-    this.platform.ready()
-      .then(() => {
-        if (this.isIos()) {
-          try {
-            console.log(`Analytics - set page: ${name}`);
-            gtag('config', this.googleAnalyticsKey, {
-              send_page_view: false,
-              page_title: name,
-            });
-          } catch (error) {
-            console.error('Analytics - setGACurrentPage', error);
-          }
-        }
-      });
+  /**
+   * Sets the current page for Google Analytics
+   *
+   * @param {string} pageName - The name of the current page to track.
+   */
+  setGACurrentPage(pageName: string): void {
+    if (this.isIos()) {
+      try {
+        console.log(`Analytics - set page: ${pageName}`);
+        gtag('config', this.googleAnalytics4Key, {
+          page_title: pageName
+        });
+      } catch (error) {
+        console.error('Analytics - setGACurrentPage', error);
+      }
+    }
   }
 
   logGAEvent(category: string, event: string, label?: string, value?: number): void {

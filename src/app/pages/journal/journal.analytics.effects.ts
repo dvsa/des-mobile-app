@@ -41,9 +41,9 @@ export class JournalAnalyticsEffects {
   journalView$ = createEffect(() => this.actions$.pipe(
     ofType(JournalViewDidEnter),
     switchMap(() => {
-      this.analytics.setCurrentPage(AnalyticsScreenNames.JOURNAL);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
+      // this.analytics.setCurrentPage(AnalyticsScreenNames.JOURNAL);
+      // this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
+      // this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
 
       // Test
       this.analytics.setGACurrentPage(AnalyticsScreenNames.JOURNAL);
