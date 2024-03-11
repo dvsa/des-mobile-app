@@ -4,8 +4,13 @@ import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-recor
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import {
   CacheExaminerRecords,
-  ColourFilterChanged, DateRangeChanged,
-  LoadingExaminerRecords, LocationChanged, ShowDataChanged, TestCategoryChanged, UpdateLastCached,
+  ColourFilterChanged,
+  DateRangeChanged,
+  LoadingExaminerRecords,
+  LocationChanged,
+  HideChartsChanged,
+  TestCategoryChanged,
+  UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 
 export const examinerRecordsFeatureKey = 'examinerRecords';
@@ -48,7 +53,7 @@ export const examinerRecordsReducer = createReducer(
     ...state,
     categoryFilter: testCategory,
   })),
-  on(ShowDataChanged, (state: ExaminerRecordStateModel, { hideChart: showData }) => ({
+  on(HideChartsChanged, (state: ExaminerRecordStateModel, { hideChart: showData }) => ({
     ...state,
     showData: showData,
   })),

@@ -8,7 +8,7 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
-  ShowDataChanged,
+  HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -364,25 +364,25 @@ describe('ExaminerStatsPage', () => {
     });
   });
 
-  describe('toggleChart', () => {
-    it('should flip hideChart', () => {
-      component.showData = true;
-      component.toggleData();
-      expect(component.showData).toEqual(false);
+  describe('HideChartsChanged', () => {
+    it('should flip hideCharts', () => {
+      component.hideCharts = true;
+      component.hideChart();
+      expect(component.hideCharts).toEqual(false);
     });
     it('should dispatch the store with HideChartsChanged(true) if hideChart is true after being flipped', () => {
       spyOn(component.store$, 'dispatch');
-      component.showData = false;
+      component.hideCharts = false;
 
-      component.toggleData();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ShowDataChanged(true));
+      component.hideChart();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
     });
     it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
       spyOn(component.store$, 'dispatch');
-      component.showData = true;
+      component.hideCharts = true;
 
-      component.toggleData();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ShowDataChanged(false));
+      component.hideChart();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
     });
   });
 
