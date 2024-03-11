@@ -9,6 +9,12 @@
 }
 
 
+.additional-data-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 ion-menu-button {
   color: white;
 }

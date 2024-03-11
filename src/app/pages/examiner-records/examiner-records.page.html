@@ -166,6 +166,9 @@
           [passedData]="data.independentDrivingGrid"
         >
           <data-row
+            class="additional-data-row"
+            [customLabelWidth]="50"
+            [rowStyling]="{'padding': '0'}"
             [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
             [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
             [value]="calculateRatio(data.independentDrivingGrid[0].count,data.independentDrivingGrid[1].count)"
@@ -175,7 +178,9 @@
           >
           </data-row>
           <data-row
-            [noPadding]="true"
+            class="additional-data-row"
+            [customLabelWidth]="50"
+            [rowStyling]="{'padding': '0'}"
             [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
             [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
             [value]="'1:7'"
@@ -209,16 +214,21 @@
           [passedData]="data.emergencyStops"
         >
           <data-row
+            class="additional-data-row"
+            [customLabelWidth]="50"
+            [rowStyling]="{'padding': '0'}"
             [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
             [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
             [shouldHaveSeperator]="false"
             [centreData]="true"
             [value]="data.testCount"
-            [noPadding]="true"
             label="Number of tests in range"
           >
           </data-row>
           <data-row
+            class="additional-data-row"
+            [customLabelWidth]="50"
+            [rowStyling]="{'padding': '0'}"
             [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
             [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
             [value]="data.emergencyStops[0].count"
@@ -228,6 +238,9 @@
           >
           </data-row>
           <data-row
+            class="additional-data-row"
+            [customLabelWidth]="50"
+            [rowStyling]="{'padding': '0'}"
             [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
             [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
             [value]="calculateRatio(data.emergencyStops[0].count, data.emergencyStops[1].count)"
@@ -237,7 +250,9 @@
           >
           </data-row>
           <data-row
-            [noPadding]="true"
+            class="additional-data-row"
+            [customLabelWidth]="50"
+            [rowStyling]="{'padding': '0'}"
             [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
             [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
             [value]="'1:3'"
