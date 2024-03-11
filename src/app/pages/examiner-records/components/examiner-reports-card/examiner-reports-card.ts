@@ -41,6 +41,8 @@ export class ExaminerReportsCard {
   @Input()
   darkColours: boolean = false;
   @Input()
+  cardIsClickable: boolean = true;
+  @Input()
   chartType: ChartType = 'bar';
   @Input()
   colourScheme: string[] = [
