@@ -154,7 +154,7 @@
           [labelColour]="getLabelColour(getColour(), 'pie')"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Type', 'Amount', '%']"
-          [displayColoursOnDataGrid]="true"
+          [displayColoursOnDataGrid]="!hideCharts"
           [showData]="showData"
           [chartID]="'independentDriving'"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
