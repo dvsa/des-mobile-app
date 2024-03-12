@@ -350,7 +350,7 @@ export class ExaminerRecordsPage implements OnInit {
     this.store$.dispatch(HideChartsChanged(this.hideCharts));
   }
 
-  colourSelect(chartType?: ChartType): string[] {
+  colourSelect(chartType?: ChartType, isEmergencyStop: boolean = false): string[] {
     const charType: DESChartTypes = (chartType === 'bar') ? 'bar' : 'pie';
 
     switch (this.colourOption) {
@@ -361,7 +361,9 @@ export class ExaminerRecordsPage implements OnInit {
       case ColourEnum.Navy:
         return this.examinerRecordsProvider.colours.navy.colours;
       default:
-        return this.examinerRecordsProvider.colours.default[charType];
+        return isEmergencyStop ?
+          this.examinerRecordsProvider.colours.default.emergencyStop :
+          this.examinerRecordsProvider.colours.default[charType];
     }
   }
 
