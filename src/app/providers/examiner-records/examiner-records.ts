@@ -20,7 +20,7 @@ import { EXAMINER_RECORDS } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 
 export interface StaticColourScheme { colours: string[], average: string }
-export interface VariableColourScheme { bar: string[], pie: string[], average: string }
+export interface VariableColourScheme { bar: string[], pie: string[], emergencyStop?: string[], average: string }
 
 export const enum ColourEnum {
   Default = 'Default',
@@ -55,6 +55,10 @@ export class ExaminerRecordsProvider {
         '#a05195',
       ],
       bar: ['#008FFB'],
+      emergencyStop: [
+        '#ED6926',
+        '#777777'
+      ],
       average: '#000000',
     },
     monochrome: {
