@@ -443,7 +443,7 @@ export class ExaminerRecordsPage implements OnInit {
   ]);
 
   calculateRatio(a: number, b: number) {
-    let finalB = (a !== 0 ? (b / a) : b);
-    return `${ a !== 0 ? (a / a) : 0}:${finalB % 1 !== 0 ? finalB.toFixed(2) : finalB }`;
+    let finalA = (b !== 0 ? (a / b) : a);
+    return `${ finalA % 1 !== 0 ? ((finalA)*3).toFixed(1) : finalA} : ${(b !== 0 ? (b / b) : 0)*3 }`;
   }
 }
