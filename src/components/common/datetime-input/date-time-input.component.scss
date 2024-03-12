@@ -1,7 +1,11 @@
 @import "calendar-style.scss";
 
 .mat-calendar {
-  width: 80% !important;
+  width: 96% !important;
+}
+
+.date-modal {
+  --width: 62%;
 }
 
 .terminate-button {
