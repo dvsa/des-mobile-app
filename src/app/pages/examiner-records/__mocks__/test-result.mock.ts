@@ -15386,9 +15386,9 @@ export const demonstrationMock: StartedTests = {
         'secondaryTelephone': '04321 098765'
       },
       'testCentre': {
-        'centreId': 54321,
-        'costCode': 'EXTC1',
-        'centreName': 'Example Test Centre'
+        'centreId': 10,
+        'costCode': 'NCST',
+        'centreName': 'Newcastle Test Centre (Example)',
       },
       'testSlotAttributes': {
         'start': '2024-03-07T08:00:00',
