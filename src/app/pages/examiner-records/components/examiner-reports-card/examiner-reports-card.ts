@@ -33,19 +33,23 @@ export class ExaminerReportsCard {
   @Input()
   showCustomContent: boolean = false;
   @Input()
+  hasCustomMainContent: boolean = false;
+  @Input()
   hasCustomContent: boolean = false;
   @Input()
   displayColoursOnDataGrid: boolean = false;
   @Input()
-  showData: boolean = false;
+  showExpandedData: boolean = false;
   @Input()
-  showChart: boolean = true;
+  canExpand: boolean = true;
+  @Input()
+  showMainContent: boolean = true;
+  @Input()
+  hasChart: boolean = true;
   @Input()
   splitChartLabel: boolean = false;
   @Input()
   darkColours: boolean = false;
-  @Input()
-  cardIsClickable: boolean = true;
   @Input()
   chartType: ChartType = 'bar';
   @Input()
@@ -81,17 +85,12 @@ export class ExaminerReportsCard {
   getTapText(trueCondition: string, falseCondition: string) {
     return this.hasCustomContent ?
       this.showCustomContent ? trueCondition : falseCondition :
-      this.showData ? trueCondition : falseCondition;
+      this.showExpandedData ? trueCondition : falseCondition;
   }
 
   handleCardClick() {
-    if (this.cardIsClickable && this.showChart) {
-      if (this.hasCustomContent) {
-        this.showCustomContent = !this.showCustomContent;
-      }
-      if (this.useGrid) {
-        this.showData = !this.showData;
-      }
+    if (this.canExpand && this.showMainContent) {
+      this.showExpandedData = !this.showExpandedData;
     }
   }
 }

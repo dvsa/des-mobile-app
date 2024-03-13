@@ -87,7 +87,7 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
-  hideCharts = false;
+  hideMainContent = false;
   colourOption = this.store$.selectSignal(selectColourScheme)();
   categoryPlaceholder: string;
   locationPlaceholder: string;
@@ -104,6 +104,7 @@ export class ExaminerRecordsPage implements OnInit {
   categorySelectPristine: boolean = true;
   currentTestCentre: TestCentre;
   locationSelectPristine: boolean = true;
+  showExpandedData: boolean = false;
   public testResults: ExaminerRecordModel[];
 
 
@@ -346,8 +347,9 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   hideChart(): void {
-    this.hideCharts = !this.hideCharts;
-    this.store$.dispatch(HideChartsChanged(this.hideCharts));
+    this.hideMainContent = !this.hideMainContent;
+    this.showExpandedData = !this.showExpandedData
+    this.store$.dispatch(HideChartsChanged(this.hideMainContent));
   }
 
   colourSelect(chartType?: ChartType, isEmergencyStop: boolean = false): string[] {
