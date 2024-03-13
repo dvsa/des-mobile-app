@@ -1,8 +1,8 @@
 <ion-card
   id="record-card-{{chartID}}"
-  [style.min-width]="(this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)+'px'"
+  [style.min-width]=" this.hasChart ? (this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)+'px' : null"
   (click)="handleCardClick()"
-  [class.ion-activatable]="cardIsClickable && showChart && getTotal(passedData)"
+  [class.ion-activatable]="canExpand && getTotal(passedData)"
   [class]="darkColours ? [
 'white-text',
 'navy-card',
@@ -21,10 +21,10 @@
   </ion-card-header>
   <ion-card-content>
     <div *ngIf="getTotal(passedData)">
-      <ion-row>
+      <ion-row *ngIf="hasChart">
         <ion-col class="ion-justify-content-center display-flex">
           <chart
-            *ngIf="showChart"
+            *ngIf="showMainContent"
             [chartId]="chartID"
             [splitLabel]="splitChartLabel"
             [isPortrait]="isPortrait"
@@ -39,7 +39,10 @@
           </chart>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="chartType === 'bar' && showChart">
+      <ion-row *ngIf="hasCustomMainContent">
+        <ng-content select="[head]"></ng-content>
+      </ion-row>
+      <ion-row *ngIf="chartType === 'bar' && showMainContent && hasChart">
         <ion-col class="display-flex ion-justify-content-center ion-align-items-center" size="10">
           <div [style.border-top-color]="averageColour" class="dashed-line"></div>
         </ion-col>
@@ -50,7 +53,7 @@
       <ion-row *ngIf="chartSubtitle">
         <ion-text class="semibold-font-family ion-text-center">{{chartSubtitle}}</ion-text>
       </ion-row>
-      <ion-row class="ion-padding-top" *ngIf="showData">
+      <ion-row class="ion-padding-top" *ngIf="useGrid && showExpandedData">
         <ion-col class="ion-no-padding">
           <data-grid
             [headers]="gridHeaders"
@@ -69,10 +72,10 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="showCustomContent" class="display-flex direction-column ion-padding-top">
-        <ng-content></ng-content>
+      <ion-row *ngIf="hasCustomContent && showExpandedData" class="display-flex direction-column ion-padding-top">
+        <ng-content select="[body]"></ng-content>
       </ion-row>
-      <div *ngIf="showChart">
+      <div *ngIf="canExpand && (useGrid || hasCustomContent)">
         <ion-row class="padding-top-18 mes-row-separator"></ion-row>
         <ion-row class="padding-top-18 display-flex ion-justify-content-center">
           <ion-text>{{ getTapText('Tap to hide data', 'Tap to show data') }}</ion-text>

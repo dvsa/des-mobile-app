@@ -366,20 +366,20 @@ describe('ExaminerStatsPage', () => {
 
   describe('HideChartsChanged', () => {
     it('should flip hideCharts', () => {
-      component.hideCharts = true;
+      component.hideMainContent = true;
       component.hideChart();
-      expect(component.hideCharts).toEqual(false);
+      expect(component.hideMainContent).toEqual(false);
     });
     it('should dispatch the store with HideChartsChanged(true) if hideChart is true after being flipped', () => {
       spyOn(component.store$, 'dispatch');
-      component.hideCharts = false;
+      component.hideMainContent = false;
 
       component.hideChart();
       expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
     });
     it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
       spyOn(component.store$, 'dispatch');
-      component.hideCharts = true;
+      component.hideMainContent = true;
 
       component.hideChart();
       expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
