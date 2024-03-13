@@ -444,8 +444,9 @@ export class ExaminerRecordsPage implements OnInit {
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
   ]);
 
-  calculateRatio(a: number, b: number) {
+  calculateRatio(a: number, b: number, comparisonNumber: number) {
     let finalA = (b !== 0 ? (a / b) : a);
-    return `${ finalA % 1 !== 0 ? ((finalA)*3).toFixed(1) : finalA} : ${(b !== 0 ? (b / b) : 0)*3 }`;
+    return `${ finalA % 1 !== 0 ? ((finalA)*comparisonNumber).toFixed(1) : finalA}
+    : ${(b !== 0 ? (b / b) : 0)*comparisonNumber }`;
   }
 }

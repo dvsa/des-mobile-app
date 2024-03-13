@@ -47,6 +47,8 @@ export class ExaminerReportsCard {
   @Input()
   hasChart: boolean = true;
   @Input()
+  showTotal: boolean = true;
+  @Input()
   splitChartLabel: boolean = false;
   @Input()
   darkColours: boolean = false;
@@ -83,9 +85,7 @@ export class ExaminerReportsCard {
   }
 
   getTapText(trueCondition: string, falseCondition: string) {
-    return this.hasCustomContent ?
-      this.showCustomContent ? trueCondition : falseCondition :
-      this.showExpandedData ? trueCondition : falseCondition;
+    return this.showExpandedData ? trueCondition : falseCondition;
   }
 
   handleCardClick() {
