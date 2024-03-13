@@ -64,7 +64,7 @@
           </data-grid>
           <div>
             <ion-row class="ion-padding-top mes-row-separator"></ion-row>
-            <ion-row class="ion-padding-top display-flex ion-justify-content-center">
+            <ion-row *ngIf="showTotal" class="ion-padding-top display-flex ion-justify-content-center">
               <ion-col class="display-flex ion-justify-content-center">
                 <span class="mes-data"><label>Total:</label> {{ getTotal(passedData) }}</span>
               </ion-col>
