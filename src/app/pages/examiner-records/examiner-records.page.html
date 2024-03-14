@@ -152,7 +152,7 @@
           [showMainContent]="!hideMainContent"
           [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
           [averageColour]="averageSelect()"
-          [hasCustomContent]="true"
+          [hasCustomExpandedContent]="true"
           [chartSubtitle]="('Ratio of tests with independent '+ (isBike() ? 'riding' : 'driving') + ' is '
           + calculateRatio(data.independentDrivingGrid[0].count,data.independentDrivingGrid[1].count, 7))"
           [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
@@ -218,7 +218,7 @@
           [showExpandedData]="showExpandedData"
           [hasChart]="false"
           [hasCustomMainContent]="true"
-          [hasCustomContent]="true"
+          [hasCustomExpandedContent]="true"
           [useGrid]="false"
           [cardTitle]="'Emergency stops'"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
