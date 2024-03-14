@@ -7,6 +7,7 @@ export class AppConfigProviderMock {
     liveAppVersion: localEnvironmentMock.liveAppVersion,
     configUrl: localEnvironmentMock.configUrl,
     googleAnalyticsId: localEnvironmentMock.googleAnalyticsId,
+    googleAnalyticsKey: localEnvironmentMock.googleAnalyticsKey,
     daysToCacheLogs: localEnvironmentMock.daysToCacheLogs,
     logoutClearsTestPersistence: localEnvironmentMock.logoutClearsTestPersistence,
     logsPostApiKey: localEnvironmentMock.logsPostApiKey,
