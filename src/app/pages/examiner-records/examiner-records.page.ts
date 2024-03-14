@@ -177,7 +177,7 @@ export class ExaminerRecordsPage implements OnInit {
       ];
 
       //remove duplicates from array
-      result.filter((item, index, self) => {
+      result = result.filter((item, index, self) => {
         return self.findIndex(item2 => item2.appRef === item.appRef) === index;
       })
         //put final array in date order by most recent
