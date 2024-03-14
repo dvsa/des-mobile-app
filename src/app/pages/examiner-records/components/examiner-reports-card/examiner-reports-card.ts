@@ -25,7 +25,7 @@ export class ExaminerReportsCard {
   @Input()
   labelColour: string = '#000000';
   @Input()
-  chartSubtitle: string = null;
+  chartSubtitle: boolean = false;
   @Input()
   isPortrait: boolean = false;
   @Input()
