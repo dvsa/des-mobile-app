@@ -954,7 +954,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 1,
         'bookingSequence': 1,
       },
     },
@@ -1064,7 +1064,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 2, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1226,7 +1226,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 3,
         'bookingSequence': 1,
       },
     },
@@ -1334,7 +1334,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 4, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1461,7 +1461,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 5, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1571,7 +1571,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 6, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1681,7 +1681,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 7, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1791,7 +1791,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 8, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -1901,7 +1901,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 9, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2011,7 +2011,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 10, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2121,7 +2121,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 11, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2231,7 +2231,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 12, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2341,7 +2341,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 13, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2451,7 +2451,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 14, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2561,7 +2561,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 15, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2671,7 +2671,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 16, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2781,7 +2781,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 17, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -2891,7 +2891,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 18, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3001,7 +3001,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 19, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3111,7 +3111,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 20, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3221,7 +3221,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 21, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3331,7 +3331,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 22, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3441,7 +3441,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 23, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3551,7 +3551,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 24, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3661,7 +3661,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 25, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3771,7 +3771,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 26, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3881,7 +3881,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 27, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -3991,7 +3991,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 28, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4101,7 +4101,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 29, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4211,7 +4211,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 30, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4321,7 +4321,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 31, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4431,7 +4431,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 32, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4541,7 +4541,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 33, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4651,7 +4651,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 34, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4761,7 +4761,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 35, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4871,7 +4871,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 36, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -4981,7 +4981,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 37, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5091,7 +5091,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 38, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5201,7 +5201,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 39, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5311,7 +5311,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 40, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5421,7 +5421,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 41, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5531,7 +5531,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 42, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5641,7 +5641,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 43, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5751,7 +5751,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 44, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5861,7 +5861,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 45, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -5971,7 +5971,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 46, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6081,7 +6081,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 47, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6191,7 +6191,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 48, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6301,7 +6301,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 49, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6411,7 +6411,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 50, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6521,7 +6521,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 51, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6631,7 +6631,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 52, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6741,7 +6741,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 53, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6851,7 +6851,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 54, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -6961,7 +6961,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 55, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7071,7 +7071,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 56, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7181,7 +7181,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 57, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7291,7 +7291,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 58, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7401,7 +7401,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 59, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7511,7 +7511,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 60, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7621,7 +7621,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 61, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -7793,7 +7793,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 62,
         'bookingSequence': 1,
       },
     },
@@ -7965,7 +7965,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 63,
         'bookingSequence': 1,
       },
     },
@@ -8137,7 +8137,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 64,
         'bookingSequence': 1,
       },
     },
@@ -8309,7 +8309,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 65,
         'bookingSequence': 1,
       },
     },
@@ -8481,7 +8481,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 66,
         'bookingSequence': 1,
       },
     },
@@ -8653,7 +8653,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123433,
+        'applicationId': 67,
         'bookingSequence': 1,
       },
     },
@@ -8808,7 +8808,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 68,
         'bookingSequence': 1,
       },
     },
@@ -8967,7 +8967,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 69,
         'bookingSequence': 1,
       },
     },
@@ -9126,7 +9126,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 70,
         'bookingSequence': 1,
       },
     },
@@ -9285,7 +9285,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 71,
         'bookingSequence': 1,
       },
     },
@@ -9444,7 +9444,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 72,
         'bookingSequence': 1,
       },
     },
@@ -9603,7 +9603,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 73,
         'bookingSequence': 1,
       },
     },
@@ -9762,7 +9762,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 74,
         'bookingSequence': 1,
       },
     },
@@ -9921,7 +9921,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 75,
         'bookingSequence': 1,
       },
     },
@@ -10080,7 +10080,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 76,
         'bookingSequence': 1,
       },
     },
@@ -10239,7 +10239,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 10123400,
+        'applicationId': 77,
         'bookingSequence': 1,
       },
     },
@@ -10405,7 +10405,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 78,
         'bookingSequence': 1,
       },
     },
@@ -10568,7 +10568,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 79,
         'bookingSequence': 1,
       },
     },
@@ -10731,7 +10731,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 80,
         'bookingSequence': 1,
       },
     },
@@ -10894,7 +10894,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 81,
         'bookingSequence': 1,
       },
     },
@@ -11057,7 +11057,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 82,
         'bookingSequence': 1,
       },
     },
@@ -11220,7 +11220,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 83,
         'bookingSequence': 1,
       },
     },
@@ -11383,7 +11383,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 84,
         'bookingSequence': 1,
       },
     },
@@ -11546,7 +11546,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 85,
         'bookingSequence': 1,
       },
     },
@@ -11709,7 +11709,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 86,
         'bookingSequence': 1,
       },
     },
@@ -11872,7 +11872,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 87,
         'bookingSequence': 1,
       },
     },
@@ -12035,7 +12035,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 88,
         'bookingSequence': 1,
       },
     },
@@ -12198,7 +12198,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 89,
         'bookingSequence': 1,
       },
     },
@@ -12361,7 +12361,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 90,
         'bookingSequence': 1,
       },
     },
@@ -12524,7 +12524,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 91,
         'bookingSequence': 1,
       },
     },
@@ -12687,7 +12687,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 92,
         'bookingSequence': 1,
       },
     },
@@ -12850,7 +12850,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 93,
         'bookingSequence': 1,
       },
     },
@@ -13013,7 +13013,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 94,
         'bookingSequence': 1,
       },
     },
@@ -13176,7 +13176,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 95,
         'bookingSequence': 1,
       },
     },
@@ -13339,7 +13339,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 96,
         'bookingSequence': 1,
       },
     },
@@ -13447,7 +13447,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 97, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -13571,7 +13571,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 98, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -13695,7 +13695,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 99, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -13820,7 +13820,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 100, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -13944,7 +13944,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 101, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14068,7 +14068,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 102, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14192,7 +14192,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 103, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14316,7 +14316,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 104, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14440,7 +14440,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 105, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14564,7 +14564,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 106, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14688,7 +14688,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 107, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14812,7 +14812,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 108, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -14936,7 +14936,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 109, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -15060,7 +15060,7 @@ export const demonstrationMock: StartedTests = {
         'ethnicityCode': 'E',
         'gender': 'F',
       },
-      'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+      'applicationReference': { 'applicationId': 110, 'bookingSequence': 3, 'checkDigit': 1 },
     },
     'preTestDeclarations': {
       'insuranceDeclarationAccepted': true,
@@ -15218,7 +15218,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 23123413,
+        'applicationId': 111,
         'bookingSequence': 1,
       },
     },
@@ -15412,7 +15412,7 @@ export const demonstrationMock: StartedTests = {
       },
       'applicationReference': {
         'checkDigit': 1,
-        'applicationId': 22123400,
+        'applicationId': 112,
         'bookingSequence': 1
       }
     },
