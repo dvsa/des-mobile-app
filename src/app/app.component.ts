@@ -29,7 +29,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -80,7 +79,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
-    private analytics: AnalyticsProvider,
     private storage: Storage,
     injector: Injector,
   ) {
@@ -91,7 +89,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     try {
       await this.platform.ready();
       await this.storage.create();
-      await this.analytics.initialiseGoogleAnalytics();
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }

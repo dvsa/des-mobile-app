@@ -8,6 +8,7 @@ export type AppConfig = {
     environment: string;
   },
   googleAnalyticsId: string,
+  googleAnalyticsKey: string,
   daysToCacheLogs: number,
   logoutClearsTestPersistence?: boolean;
   logsPostApiKey: string;

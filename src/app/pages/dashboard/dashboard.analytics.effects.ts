@@ -49,9 +49,10 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     switchMap(() => {
-      // this.analytics.setCurrentPage(AnalyticsScreenNames.DASHBOARD);
+      // TODO - MES-9495 - remove old analytics
+      this.analytics.setCurrentPage(AnalyticsScreenNames.DASHBOARD);
 
-      // Test
+      // GA4 analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.DASHBOARD);
       return of(AnalyticRecorded());
     }),

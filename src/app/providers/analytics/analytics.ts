@@ -29,15 +29,13 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   /**
-   * Inital setup for Google Analytics, setting unique user and device id
+   * Initial setup for Google Analytics, setting unique user and device id
    * for all events to be tagged with for this session
    *
    */
   initialiseGoogleAnalytics = async (): Promise<void> => {
     try {
-      // TODO: Add guard for missing key
-      // this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-      this.googleAnalytics4Key = 'G-4XPD2B5Y1J';
+      this.googleAnalytics4Key = this.appConfig.getAppConfig()?.googleAnalyticsKey;
       await this.setGoogleTagManager(this.googleAnalytics4Key);
       await this.platform.ready();
 
@@ -47,7 +45,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
       this.setGAUserId(this.googleAnalytics4Key, employeeId);
       this.setGADeviceId(uniqueDeviceId);
-      this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, uniqueDeviceId);
       this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, deviceModel);
     } catch (error) {
       console.error('Analytics - Error initializing Google Analytics:', error);
@@ -103,7 +100,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
           user_id: uniqueUserId,
         });
       } catch (error) {
-        console.log(`Analytics - setGAUserId error`, error);
+        console.log('Analytics - setGAUserId error', error);
       }
     }
   }
@@ -176,6 +173,10 @@ export class AnalyticsProvider implements IAnalyticsProvider {
           }
         }
       });
+  }
+
+  logGAError(type: string, message: string): void {
+    this.logGAEvent(AnalyticsEventCategories.ERROR, type, message);
   }
 
   initialiseAnalytics = (): Promise<any> => new Promise((resolve) => {

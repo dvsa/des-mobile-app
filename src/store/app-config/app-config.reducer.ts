@@ -9,6 +9,7 @@ export const initialState: AppConfig = {
   liveAppVersion: null,
   configUrl: null,
   googleAnalyticsId: null,
+  googleAnalyticsKey: null,
   daysToCacheLogs: null,
   logoutClearsTestPersistence: null,
   logsPostApiKey: null,

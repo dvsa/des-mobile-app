@@ -94,10 +94,18 @@ export class WaitingRoomAnalyticsEffects {
       [, tests, applicationReference, candidateId, category]:
       [ReturnType<typeof WaitingRoomViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
       this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
+
+      //GA4 Test
+      this.analytics.setGACurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
       return of(AnalyticRecorded());
     }),
   ));
@@ -219,6 +227,12 @@ export class WaitingRoomAnalyticsEffects {
           AnalyticsEvents.VRN_CAPTURE,
           AnalyticsEvents.VRN_CAPTURE_CANCELLED,
         );
+
+        this.analytics.logGAEvent(
+          formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+        )
         return of(AnalyticRecorded());
       }
       return of(AnalyticNotRecorded());
