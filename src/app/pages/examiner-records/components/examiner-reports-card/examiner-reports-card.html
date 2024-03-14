@@ -72,10 +72,13 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="hasCustomContent && showExpandedData" class="display-flex direction-column ion-padding-top">
+      <ion-row
+        *ngIf="hasCustomExpandedContent && showExpandedData"
+        class="display-flex direction-column ion-padding-top"
+      >
         <ng-content select="[body]"></ng-content>
       </ion-row>
-      <div *ngIf="canExpand && (useGrid || hasCustomContent)">
+      <div *ngIf="canExpand && (useGrid || hasCustomExpandedContent)">
         <ion-row class="padding-top-18 mes-row-separator"></ion-row>
         <ion-row class="padding-top-18 display-flex ion-justify-content-center">
           <ion-text>{{ getTapText('Tap to hide data', 'Tap to show data') }}</ion-text>

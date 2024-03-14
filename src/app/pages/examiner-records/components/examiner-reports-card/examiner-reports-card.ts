@@ -31,11 +31,9 @@ export class ExaminerReportsCard {
   @Input()
   useGrid: boolean = true;
   @Input()
-  showCustomContent: boolean = false;
-  @Input()
   hasCustomMainContent: boolean = false;
   @Input()
-  hasCustomContent: boolean = false;
+  hasCustomExpandedContent: boolean = false;
   @Input()
   displayColoursOnDataGrid: boolean = false;
   @Input()
@@ -89,7 +87,7 @@ export class ExaminerReportsCard {
   }
 
   handleCardClick() {
-    if (this.canExpand && this.showMainContent) {
+    if (this.canExpand) {
       this.showExpandedData = !this.showExpandedData;
     }
   }
