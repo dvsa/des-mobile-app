@@ -8,8 +8,20 @@
   }
 }
 
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .target-padding {
   padding-top: 40px;
+}
+
+.regular-weight {
+  font-weight: 400;
 }
 
 .additional-data-row {
