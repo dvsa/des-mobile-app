@@ -50,8 +50,10 @@
           <ion-text class="mes-data">Average</ion-text>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="chartSubtitle">
-        <ion-text class="semibold-font-family ion-text-center">{{chartSubtitle}}</ion-text>
+      <ion-row class="display-flex ion-justify-content-center" *ngIf="chartSubtitle">
+        <ion-text class="semibold-font-family ion-text-center">
+          <ng-content select="[subtitle]"></ng-content>
+        </ion-text>
       </ion-row>
       <ion-row class="ion-padding-top" *ngIf="useGrid && showExpandedData">
         <ion-col class="ion-no-padding">
