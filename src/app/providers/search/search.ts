@@ -18,6 +18,25 @@ export class SearchProvider {
   ) {
   }
 
+  examinerRecordsSearch(staffNumber: string, startDate?: string, endDate?: string): Observable<string> {
+    let parameters = {};
+
+    [
+      { name: 'staffNumber', val: staffNumber },
+      { name: 'startDate', val: startDate },
+      { name: 'endDate', val: endDate },
+    ].forEach(param => {
+      if (param.val) parameters[param.name] = param.val
+    })
+
+    return this.http.get<string>(
+      this.urlProvider.getExaminerRecordsUrl(),
+      {
+        params: parameters,
+      },
+    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+  }
+
   driverNumberSearch(driverNumber: string): Observable<SearchResultTestSchema[]> {
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl(),

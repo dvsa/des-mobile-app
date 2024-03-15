@@ -1,0 +1,458 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons id="pass-cert-burger-menu-btn" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
+  </ion-toolbar>
+  <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
+    <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
+  </div>
+</ion-header>
+
+<ion-content
+  [fullscreen]="true"
+  *ngIf="{
+  routeGrid: pageState.routeNumbers$ | async,
+  manoeuvresGrid: pageState.manoeuvres$ | async,
+  showMeQuestionsGrid: pageState.showMeQuestions$ | async,
+  independentDrivingGrid: pageState.independentDriving$ | async,
+  tellMeQuestionsGrid: pageState.tellMeQuestions$ | async,
+  safetyGrid: pageState.safetyQuestions$ | async,
+  balanceGrid: pageState.balanceQuestions$ | async,
+  testCount: pageState.testCount$ | async,
+  emergencyStops: pageState.emergencyStops$ | async,
+  circuits: pageState.circuits$ | async,
+  locationList: pageState.locationList$ | async,
+  categoryList: pageState.categoryList$ | async
+} as data"
+>
+  <ion-row class="ion-padding">
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
+      <ion-row>
+        <label>Location</label>
+      </ion-row>
+      <ion-row class="padding-top-10">
+        <ion-select
+          *ngIf="data.locationList?.length > 0"
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          id="locationSelect"
+          (ionChange)="handleLocationFilter($event?.detail?.value, true)"
+          labelPlacement="stacked"
+          [value]="locationSelectPristine ? null : currentTestCentre"
+          [placeholder]="locationPlaceholder"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of locationFilterOptions;">
+            {{ option.centreName }}
+          </ion-select-option>
+        </ion-select>
+        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available</ion-text>
+      </ion-row>
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 23 : 20">
+      <ion-row>
+        <label>Test category</label>
+      </ion-row>
+      <ion-row class="padding-top-10">
+        <ion-select
+          *ngIf="data.categoryList?.length > 0"
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
+          labelPlacement="stacked"
+          id="categorySelect"
+          [value]="categorySelectPristine ? null : categorySubject$.value"
+          [placeholder]="categoryPlaceholder"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of categoryFilterOptions;">
+            {{ option }}
+          </ion-select-option>
+        </ion-select>
+        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
+      </ion-row>
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col size="25">
+      <ion-row>
+        <label>Date range</label>
+      </ion-row>
+      <ion-row class="padding-top-10">
+        <ion-select
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          (ionChange)="handleDateFilter($event)"
+          labelPlacement="stacked"
+          [placeholder]="defaultDate.display"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.localFilterOptions;">
+            {{ option.display }}
+          </ion-select-option>
+          <div *ngIf="cachedExaminerRecords">
+            <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;">
+              {{ option.display }}
+            </ion-select-option>
+          </div>
+        </ion-select>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row class="mes-padding-right mes-padding-left">
+    <ion-col size="auto">
+      <colour-filter-radio
+        [formGroup]="form"
+        [colourScheme]="colourOption"
+        (filterChange)="colourFilterChanged($event)"
+      >
+      </colour-filter-radio>
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col class="ion-align-items-center display-flex" size="auto">
+      <label>Hide charts</label>
+    </ion-col>
+    <ion-col size="7" class="display-flex ion-float-end ion-align-items-center">
+      <input
+        type="checkbox"
+        id="chart-toggle-input"
+        class="gds-checkbox"
+        (change)="hideChart()"
+        [checked]="hideMainContent"
+      />
+      <label [for]="'chart-toggle-input'"></label>
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
+    <ion-row class="ion-justify-content-center display-flex">
+      <ion-col *ngIf="data.routeGrid?.length && !isMod1()" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [cardTitle]="'Test routes completed'"
+          [showMainContent]="!hideMainContent"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Route', 'Amount', '%']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [chartID]="'testRoutes'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.routeGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
+          [averageColour]="averageSelect()"
+          [hasCustomExpandedContent]="!isBike()"
+          [chartSubtitle]="!isBike()"
+          [strokeColour]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Type', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [canExpand]="!hideMainContent"
+          [useGrid]="isBike()"
+          [chartID]="'independentDriving'"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.independentDrivingGrid"
+        >
+          <div subtitle>
+            {{'Ratio of tests using traffic signs is' }}
+            <br />
+            {{calculateRatio(data.independentDrivingGrid[0].count,data.independentDrivingGrid[1].count, 5)}}
+          </div>
+          <div body>
+            <data-row
+              class="additional-data-row padding-top-10"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {
+              'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} :
+              null"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              [value]="data.testCount"
+              label="Number of tests in range"
+            >
+            </data-row>
+            <ion-row *ngFor="let drive of data.independentDrivingGrid; let i = index">
+              <ion-col *ngIf="!hideMainContent" class="display-flex ion-align-items-center" size="10">
+                <span [style.background-color]="colourSelect('pie')[i]" class="dot"></span>
+              </ion-col>
+              <ion-col [size]="hideMainContent ? 56 : 46">
+                <label class="regular-weight"> {{ data.independentDrivingGrid[i].item }} </label>
+              </ion-col>
+              <ion-col class="display-flex ion-align-items-center ion-justify-content-center">
+                <label class="regular-weight"> {{ data.independentDrivingGrid[i].count }} </label>
+              </ion-col>
+            </ion-row>
+            <data-row
+              class="additional-data-row padding-top-10"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+              [value]="'33%'"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              label="Target percentage"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row padding-top-10"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+              [value]="'1 : 5'"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              label="Target ratio"
+            >
+            </data-row>
+          </div>
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [hasChart]="false"
+          [hasCustomMainContent]="true"
+          [hasCustomExpandedContent]="true"
+          [useGrid]="false"
+          [cardTitle]="'Emergency stops'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [passedData]="data.emergencyStops"
+        >
+          <div head>
+            <ion-row>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ data.emergencyStops[0].percentage }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6"> % of tests with an emergency stop</ion-text>
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ calculateRatio(data.emergencyStops[0].count, data.emergencyStops[1].count, 3) }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6">
+                    Ratio of tests with an emergency stop
+                  </ion-text>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div body>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {
+              'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} :
+              null"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              [value]="data.testCount"
+              label="Number of tests in range"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row padding-top-10"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+              [value]="data.emergencyStops[0].count"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              label="Emergency stops performed"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+              [value]="'33%'"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              label="Target percentage"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row padding-top-10"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white', 'font-weight': 400} : {'font-weight': 400}"
+              [dataStyling]="colourSelect() === examinerRecordsProvider.colours.navy.colours ? {'color': 'white'} : null"
+              [value]="'1 : 3'"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              label="Target ratio"
+            >
+            </data-row>
+          </div>
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto"></ion-col>
+      <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Show me questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [chartID]="'showMeChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.showMeQuestionsGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.tellMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Tell me questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [chartID]="'tellMeChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.tellMeQuestionsGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.balanceGrid?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Balance questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'balanceChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.balanceGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.safetyGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Safety questions asked'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [chartID]="'safetyChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.safetyGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.circuits?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [canExpand]="!hideMainContent"
+          [cardTitle]="'Circuits'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'pie')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Circuit', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'circuit'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'pie'"
+          [colourScheme]="colourSelect('pie')"
+          [passedData]="data.circuits"
+        >
+        </examiner-reports-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div
+    class="text-align-center ion-justify-content-center ion-align-items-center display-flex height-65-percent direction-column"
+    *ngIf="data.categoryList?.length === 0 || data.locationList?.length === 0"
+  >
+    <ion-row>
+      <ion-text class="mes-data">
+        No driving test data available for this period.<br />Select another date range.
+      </ion-text>
+    </ion-row>
+  </div>
+</ion-content>
+
+<ion-footer class="footer-styling">
+  <ion-row class="ion-padding-top mes-full-width-card-half-padding box-shadow">
+    <ion-col class="ion-text-center">
+      <ion-button
+        id="dlg-return-to-dashboard-btn"
+        class="mes-primary-button width-80-percent"
+        (click)="goToDashboard()"
+      >
+        <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

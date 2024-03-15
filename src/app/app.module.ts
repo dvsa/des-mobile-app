@@ -70,6 +70,11 @@ import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { StoreModel } from '@shared/models/store.model';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { CompressionProvider } from '@providers/compression/compression';
+import { LoadingProvider } from '@providers/loader/loader';
+import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
+import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -89,6 +94,7 @@ const reducers: ActionReducerMap<any> = {
   tests: testsReducer,
   rekeySearch: rekeySearchReducer,
   delegatedRekeySearch: delegatedSearchReducer,
+  examinerRecords: examinerRecordsReducer,
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];
@@ -133,6 +139,7 @@ if (enableRehydrationPlugin) {
     AppInfoStoreModule,
     ReferenceDataStoreModule,
     AppConfigStoreModule,
+    ExaminerRecordsStoreModule,
     LogsStoreModule,
     TestCentreJournalStoreModule,
     JournalModule,
@@ -167,8 +174,11 @@ if (enableRehydrationPlugin) {
       useClass: SentryIonicErrorHandler,
     },
     AppConfigProvider,
+    ExaminerRecordsProvider,
     AuthenticationProvider,
+    CompressionProvider,
     AppInfoProvider,
+    LoadingProvider,
     DateTimeProvider,
     SecureStorage,
     IsDebug,

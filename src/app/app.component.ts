@@ -18,7 +18,7 @@ import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, EXAMINER_RECORDS, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -29,10 +29,14 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { LoadingProvider } from '@providers/loader/loader';
+import { getIsLoadingRecords } from '@store/examiner-records/examiner-records.selectors';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
   unSubmittedTestSlotsCount$: Observable<number>;
+  isLoadingRecords$: Observable<boolean>
 }
 
 export interface Page {
@@ -59,6 +63,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
+    {
+      title: EXAMINER_RECORDS,
+      descriptor: 'Examiner records',
+      hideWhenRole: [ExaminerRole.DLG],
+    },
     // {
     //   title: PASS_CERTIFICATES,
     //   descriptor: 'Missing / spoiled pass certificates',
@@ -79,7 +88,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
+    private examinerRecordsProvider: ExaminerRecordsProvider,
     private storage: Storage,
+    private loadingProvider: LoadingProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -110,11 +121,22 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
+        isLoadingRecords$: this.store$.pipe(
+          map(getIsLoadingRecords),
+        ),
         unSubmittedTestSlotsCount$: combineLatest([
           unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
         ])
           .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
       };
+
+      const {
+        isLoadingRecords$,
+      } = this.pageState;
+
+      isLoadingRecords$.subscribe(value => {
+        this.handleLoadingUI(value);
+      });
 
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
@@ -220,9 +242,29 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   navPage = async (page: Page): Promise<void> => {
-    await this.router.navigate([page.title]);
+    if (page.title === EXAMINER_RECORDS) {
+      await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
+    } else {
+      await this.router.navigate([page.title]);
+    }
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(page.descriptor));
+  };
+
+  currentlyLoading: boolean = false;
+  handleLoadingUI = async (isLoading: boolean) => {
+    if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
+      this.currentlyLoading = isLoading;
+      await this.loadingProvider.handleUILoading(isLoading, {
+        id: 'examinerRecord_loading_spinner',
+        spinner: 'circles',
+        backdropDismiss: false,
+        translucent: false,
+        message: 'Loading...'
+      });
+
+    }
+    return null;
   };
 
   closeSideMenu = (): void => {

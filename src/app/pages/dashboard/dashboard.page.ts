@@ -41,6 +41,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { LoadExaminerRecordsPreferences } from '@store/examiner-records/examiner-records.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -129,6 +130,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
     this.store$.dispatch(journalActions.LoadJournalSilent());
+    this.store$.dispatch(LoadExaminerRecordsPreferences());
 
     await super.unlockDevice();
 

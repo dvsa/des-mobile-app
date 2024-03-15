@@ -1,0 +1,29 @@
+<ion-row *ngIf="headers && showHeaders">
+  <ion-col size="auto" *ngIf="displayColour">
+    <span class="dot placeholder"></span>
+  </ion-col>
+  <ion-col class="ion-justify-content-center display-flex" *ngFor="let header of headers">
+    <label class="text-align-center">{{ header }}</label>
+  </ion-col>
+</ion-row>
+
+<br *ngIf="headers && showHeaders" />
+<ion-row *ngIf="showSeparator" class="mes-row-separator"></ion-row>
+<br *ngIf="showSeparator" />
+
+<ion-row *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;">
+  <ion-col
+    class="colour-col"
+    [class.padding-top-10]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
+    size="auto"
+    *ngIf="displayColour"
+  >
+    <span [style.background-color]="finalColourArray[i]" class="dot"></span>
+  </ion-col>
+  <ion-col
+    [class]="[first ? 'ion-justify-content-left' : 'ion-justify-content-center', 'display-flex']"
+    *ngFor="let data of headers; index as y; let first = first"
+  >
+    <span [class]="[first ? 'text-align-left' : 'text-align-center', 'mes-data']">{{ passedItem[y] }}</span>
+  </ion-col>
+</ion-row>
