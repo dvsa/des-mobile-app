@@ -62,6 +62,15 @@ export class DateTimeInputComponent {
   @Output()
   customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime | string }>();
 
+  handleMonthSelected(event: string, minDate: string) {
+    if (DateTime.at(event).format('YYYY-MM-DD') <
+      DateTime.at(minDate).format('YYYY-MM-DD')) {
+      this.selectedBuffer = minDate;
+    } else {
+      this.selectedBuffer = event;
+    }
+  }
+
   formatDisplayDate(date: string) {
     return DateTime.at(date)
       .format('DD/MM/YYYY');
@@ -74,9 +83,9 @@ export class DateTimeInputComponent {
 
   onSelected(event: string, control: DisplayType) {
     let output: string;
-    this.selectedValue = this.selectedBuffer;
+    this.selectedValue = this.selectedBuffer ? this.selectedBuffer : this.selectedValue;
 
-    const val = event as string;
+    const val = this.selectedValue as string;
 
     switch (control) {
       case DisplayType.Date:
@@ -111,4 +120,6 @@ export class DateTimeInputComponent {
       data: dateTime,
     });
   }
+
+  protected readonly console = console;
 }
