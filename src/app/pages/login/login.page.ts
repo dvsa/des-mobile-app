@@ -133,7 +133,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
 
+      // TODO - MES-9495 - remove old analytics
       await this.analytics.initialiseAnalytics();
+
       await this.analytics.initialiseGoogleAnalytics();
 
       this.store$.dispatch(StartSendingCompletedTests());

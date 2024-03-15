@@ -150,7 +150,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       try {
         console.log(`Analytics - set page: ${pageName}`);
         gtag('config', this.googleAnalytics4Key, {
-          page_title: pageName
+          page_title: pageName,
         });
       } catch (error) {
         console.error('Analytics - setGACurrentPage', error);
@@ -158,16 +158,31 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   }
 
-  logGAEvent(category: string, event: string, label?: string, value?: number): void {
+  logGAEvent(eventName: string, title1?: string, value1?: string,
+    title2?: string, value2?: string, title3?: string, value3?: string,
+  ): void {
     this.platform.ready()
       .then(() => {
         if (this.isIos()) {
           try {
-            gtag('event', event, {
-              event_category: category,
-              event_label: label,
-              value,
-            });
+            const eventData: { [key: string]: string } = {};
+
+            // Conditionally include title1 and value1
+            if (title1 && value1) {
+              eventData[title1] = value1;
+            }
+
+            // Conditionally include title2 and value2
+            if (title2 && value2) {
+              eventData[title2] = value2;
+            }
+
+            // Conditionally include title3 and value3
+            if (title3 && value3) {
+              eventData[title3] = value3;
+            }
+
+            gtag('event', eventName, eventData);
           } catch (error) {
             console.error('Analytics - logEvent', error);
           }
@@ -175,10 +190,25 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       });
   }
 
+  /**
+   * Record a GA4 event as a generic error
+   * @param type
+   * @param message
+   */
   logGAError(type: string, message: string): void {
-    this.logGAEvent(AnalyticsEventCategories.ERROR, type, message);
+    this.logGAEvent(type, AnalyticsEventCategories.ERROR, message);
   }
 
+  /**
+   * Record a GA4 event as a validation error
+   * @param type
+   * @param message
+   */
+  logGAValidationError(type: string, message: string): void {
+    this.logGAEvent(type, AnalyticsEventCategories.VALIDATION_ERROR, message);
+  }
+
+  // TODO - MES-9495 - remove old analytics
   initialiseAnalytics = (): Promise<any> => new Promise((resolve) => {
     this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
     this.platform.ready()
@@ -209,6 +239,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       });
   }
 
+  // TODO - MES-9495 - remove old analytics
   setCurrentPage(name: string): void {
     this.platform.ready()
       .then(() => {
@@ -226,6 +257,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       });
   }
 
+  // TODO - MES-9495 - remove old analytics
   logEvent(category: string, event: string, label?: string, value?: number): void {
     this.platform.ready()
       .then(() => {
@@ -243,6 +275,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       });
   }
 
+  // TODO - MES-9495 - remove old analytics
   addCustomDimension(key: number, value: string): void {
     if (this.isIos()) {
       this.ga
@@ -257,6 +290,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   }
 
+  // TODO - MES-9495 - remove old analytics
   logError(type: string, message: string): void {
     this.logEvent(AnalyticsEventCategories.ERROR, type, message);
   }
@@ -275,6 +309,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   }
 
+  // TODO - MES-9495 - remove old analytics
   setUserId(userId: string): void {
     if (this.isIos()) {
       // @TODO: Consider using `createHash('sha512')` based on SonarQube suggestion.
@@ -295,6 +330,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   }
 
+  // TODO - MES-9495 - remove old analytics
   setDeviceId(deviceId: string): void {
     // @TODO: Consider using `createHash('sha512')` based on SonarQube suggestion.
     // This will have GA device implications
