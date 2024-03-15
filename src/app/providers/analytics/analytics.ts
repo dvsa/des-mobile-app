@@ -158,6 +158,17 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   }
 
+  /**
+   * Call gtag analyics function with an event with optional key value pairs for up
+   * to 3 pairs of additional information.
+   * @param eventName
+   * @param title1
+   * @param value1
+   * @param title2
+   * @param value2
+   * @param title3
+   * @param value3
+   */
   logGAEvent(eventName: string, title1?: string, value1?: string,
     title2?: string, value2?: string, title3?: string, value3?: string,
   ): void {
