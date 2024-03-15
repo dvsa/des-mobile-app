@@ -268,15 +268,24 @@ export enum GoogleAnalyticsEventPrefix {
 
 export enum GoogleAnalyticsEvents {
   VALIDATION_ERROR = 'validation_error',
+  CANDIDATE_RECEIVE_TEST_RESULTS = 'send _candidate_test_results',
+  SET_D255 = 'set_d255',
 }
 
 export enum GoogleAnalyticsEventsTitles {
   BLANK_FIELD = 'blank_field',
-  OUTCOME = 'outcome'
+  OUTCOME = 'outcome',
+  COMMS_CHANNEL = 'comms_channel',
+  FINALISATION_D255 = 'd255'
 }
 
 export enum GoogleAnalyticsEventsValues {
   VRN_CAPTURE_SELECTED = 'selected',
   VRN_CAPTURE_CANCELLED = 'cancelled',
   VRN_CAPTURE_SAVED = 'saved',
+  COMMS_METHOD_BOOKING_EMAIL = 'booking email',
+  COMMS_METHOD_NEW_EMAIL = 'new email',
+  COMMS_METHOD_POST = 'by email',
+  YES = 'yes',
+  NO = 'no',
 }

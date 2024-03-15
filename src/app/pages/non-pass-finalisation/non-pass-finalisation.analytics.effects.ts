@@ -11,10 +11,10 @@ import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { getTests } from '@store/tests/tests.reducer';
 import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
 import { TestsModel } from '@store/tests/tests.model';
@@ -73,8 +73,13 @@ export class NonPassFinalisationAnalyticsEffects {
     switchMap((
       [, tests]: [ReturnType<typeof NonPassFinalisationViewDidEnter>, TestsModel, boolean],
     ) => {
+
+      // TODO - MES-9495 - remove old analytics
       const screenName = formatAnalyticsText(AnalyticsScreenNames.NON_PASS_FINALISATION, tests);
       this.analytics.setCurrentPage(screenName);
+
+      //GA4 Analytics
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.NON_PASS_FINALISATION, tests));
       return of(AnalyticRecorded());
     }),
   ));
@@ -135,10 +140,18 @@ export class NonPassFinalisationAnalyticsEffects {
     ) => {
       // D255Yes used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode !== ActivityCodes.PASS) {
+
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
           formatAnalyticsText(AnalyticsEvents.D255, tests),
           'Yes',
+        );
+
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
+          GoogleAnalyticsEventsTitles.FINALISATION_D255,
+          GoogleAnalyticsEventsValues.YES,
         );
         return of(AnalyticRecorded());
       }
@@ -173,10 +186,18 @@ export class NonPassFinalisationAnalyticsEffects {
     ) => {
       // D255No used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode !== ActivityCodes.PASS) {
+
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
           formatAnalyticsText(AnalyticsEvents.D255, tests),
           'No',
+        );
+
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
+          GoogleAnalyticsEventsTitles.FINALISATION_D255,
+          GoogleAnalyticsEventsValues.NO,
         );
         return of(AnalyticRecorded());
       }

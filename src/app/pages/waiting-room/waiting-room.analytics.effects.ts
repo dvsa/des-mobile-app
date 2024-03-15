@@ -101,9 +101,8 @@ export class WaitingRoomAnalyticsEffects {
       this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
 
       //GA4 Analytics
-      this.analytics.setGACurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.WAITING_ROOM, tests));
 
-      // Create custom analytics for use throughout the test
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
