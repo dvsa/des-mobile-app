@@ -302,6 +302,7 @@ export class AppConfigProvider {
     this.appConfig = merge({}, this.appConfig, <AppConfig>{
       liveAppVersion: data.liveAppVersion,
       googleAnalyticsId: data.googleAnalyticsId,
+      googleAnalyticsKey: data.googleAnalyticsKey,
       approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
       timeTravelDate: data.timeTravelDate,
       role: data.role,

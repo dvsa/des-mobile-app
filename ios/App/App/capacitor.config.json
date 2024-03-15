@@ -5,6 +5,9 @@
 	"plugins": {
 		"SplashScreen": {
 			"launchAutoHide": false
+		},
+		"CapacitorCookies": {
+			"enabled": true
 		}
 	},
 	"cordova": {},

@@ -41,9 +41,14 @@ export class JournalAnalyticsEffects {
   journalView$ = createEffect(() => this.actions$.pipe(
     ofType(JournalViewDidEnter),
     switchMap(() => {
+
+      // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(AnalyticsScreenNames.JOURNAL);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
+
+      // GA4 Analytics
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.JOURNAL);
       return of(AnalyticRecorded());
     }),
   ));

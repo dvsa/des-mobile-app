@@ -27,6 +27,11 @@
 			<array>
 				<string>uk.gov.dvsa.drivingexaminerservices</string>
 			</array>
+			<key>WKAppBoundDomains</key>
+      <array>
+      	<string>region1.google-analytics.com</string>
+      	<string>ssl.google-analytics.com</string>
+      </array>
 		</dict>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>

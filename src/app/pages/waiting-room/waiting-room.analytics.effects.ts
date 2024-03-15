@@ -10,7 +10,7 @@ import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { WaitingRoomValidationError, WaitingRoomViewDidEnter } from '@pages/waiting-room/waiting-room.actions';
 import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
@@ -22,7 +22,7 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import {
   getApplicationReference,
 } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -94,10 +94,20 @@ export class WaitingRoomAnalyticsEffects {
       [, tests, applicationReference, candidateId, category]:
       [ReturnType<typeof WaitingRoomViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
       this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
+
+      //GA4 Analytics
+      this.analytics.setGACurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
+
+      // Create custom analytics for use throughout the test
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
       return of(AnalyticRecorded());
     }),
   ));
@@ -128,10 +138,20 @@ export class WaitingRoomAnalyticsEffects {
       [action, tests, category]:
       [ReturnType<typeof WaitingRoomValidationError>, TestsModel, CategoryCode, boolean],
     ) => {
+
+      // TODO - MES-9495 - remove old analytics
       const screenName = formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`,
         action.errorMessage);
+
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        action.errorMessage,
+      )
+
       return of(AnalyticRecorded());
     }),
   ));
@@ -154,10 +174,18 @@ export class WaitingRoomAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [ReturnType<typeof CbtNumberChanged>, TestsModel, boolean]) => {
+
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
         formatAnalyticsText(AnalyticsEvents.CBT_CHANGED, tests),
       );
+
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        analyticsEventTypePrefix(AnalyticsEvents.CBT_CHANGED, tests)
+      )
+
       return of(AnalyticRecorded());
     }),
   ));
@@ -181,11 +209,21 @@ export class WaitingRoomAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel, boolean]) => {
       if (this.router.url?.startsWith(this.className)) {
+
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
           AnalyticsEvents.VRN_CAPTURE,
           AnalyticsEvents.VRN_CAPTURE_SELECTED,
         );
+
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          GoogleAnalyticsEventsValues.VRN_CAPTURE_SELECTED,
+        );
+
         return of(AnalyticRecorded());
       }
       return of(AnalyticNotRecorded());
@@ -214,10 +252,19 @@ export class WaitingRoomAnalyticsEffects {
       [ReturnType<typeof VRNModalCancelled>, TestsModel, boolean],
     ) => {
       if (this.router.url?.startsWith(this.className)) {
+
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
           AnalyticsEvents.VRN_CAPTURE,
           AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+        );
+
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          GoogleAnalyticsEventsValues.VRN_CAPTURE_CANCELLED,
         );
         return of(AnalyticRecorded());
       }
@@ -244,10 +291,19 @@ export class WaitingRoomAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel, boolean]) => {
       if (this.router.url?.startsWith(this.className)) {
+
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
           AnalyticsEvents.VRN_CAPTURE,
           AnalyticsEvents.VRN_CAPTURE_SAVED,
+        );
+
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          GoogleAnalyticsEventsValues.VRN_CAPTURE_SAVED,
         );
         return of(AnalyticRecorded());
       }

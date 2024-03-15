@@ -11,6 +11,7 @@ export const environment: LocalEnvironmentFile = {
   enableDevTools: true,
   enableRehydrationPlugin: true,
   googleAnalyticsId: 'UA-129489007-3',
+
   employeeNameKey: 'name',
   approvedDeviceIdentifiers: [
     'iPad7,4',

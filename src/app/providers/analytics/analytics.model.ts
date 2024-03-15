@@ -57,6 +57,7 @@ export enum AnalyticsEventCategories {
   TEST_LIFECYCLE = 'test lifecycle',
   TEST_SUBMISSION = 'test submission',
   ERROR = 'error',
+  VALIDATION_ERROR = 'validation error',
   JOURNAL = 'journal',
   TEST_CENTRE_JOURNAL = 'test centre journal',
   AUTHENTICATION = 'authentication',
@@ -257,4 +258,25 @@ export enum JournalRefreshModes {
 export enum AnalyticsErrorTypes {
   SUBMIT_FORM_ERROR = 'submit form error',
   VALIDATION_ERROR = 'validation error',
+}
+
+export enum GoogleAnalyticsEventPrefix {
+  PRACTICE_MODE = 'PM',
+  DELEGATED_TEST = 'DX',
+  REKEY = 'RM',
+}
+
+export enum GoogleAnalyticsEvents {
+  VALIDATION_ERROR = 'validation_error',
+}
+
+export enum GoogleAnalyticsEventsTitles {
+  BLANK_FIELD = 'blank_field',
+  OUTCOME = 'outcome'
+}
+
+export enum GoogleAnalyticsEventsValues {
+  VRN_CAPTURE_SELECTED = 'selected',
+  VRN_CAPTURE_CANCELLED = 'cancelled',
+  VRN_CAPTURE_SAVED = 'saved',
 }

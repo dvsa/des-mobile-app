@@ -58,10 +58,15 @@ export class CandidateDetailsAnalyticsEffects {
       const candidateCheck = isCandidateCheckNeeded(slot);
       const candidateId = getCandidateId(slot);
 
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, candidateId?.toString());
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, specNeeds ? '1' : '0');
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS,
+        specNeeds ? '1' : '0');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, candidateCheck ? '1' : '0');
       this.analytics.setCurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);
+
+      // GA4 Analytics
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);
 
       return of(AnalyticRecorded());
     }),
