@@ -1,0 +1,33 @@
+<ion-row>
+  <ion-col size="23">
+    <ion-button (click)="changeToYear()" class="mes-black button-clear">
+      <ion-text class="mes-data header-label">{{ yearLabel }}</ion-text>
+      <ion-icon [class.rotate]="calendar.currentView === 'multi-year'" name="caret-down-outline"></ion-icon>
+    </ion-button>
+  </ion-col>
+  <ion-col size="auto">
+    <ion-button (click)="changeToMonth()" class="mes-black button-clear">
+      <ion-text class="mes-data header-label">{{ monthLabel }}</ion-text>
+      <ion-icon [class.rotate]="calendar.currentView === 'year'" name="caret-down-outline"></ion-icon>
+    </ion-button>
+  </ion-col>
+  <ion-col></ion-col>
+  <ion-col *ngIf="calendar.currentView === 'month'" size="15">
+    <ion-button
+      *ngIf="dateAdapter.addCalendarMonths(this.calendar.activeDate, -1) >= calendar.minDate"
+      (click)="previousClicked()"
+      class="mes-black button-clear"
+    >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-col>
+  <ion-col *ngIf="calendar.currentView === 'month'" size="15">
+    <ion-button
+      *ngIf="dateAdapter.addCalendarMonths(this.calendar.activeDate, 1) <= calendar.maxDate"
+      (click)="nextClicked()"
+      class="mes-black button-clear"
+    >
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </ion-col>
+</ion-row>
