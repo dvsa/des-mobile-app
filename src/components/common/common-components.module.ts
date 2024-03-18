@@ -52,9 +52,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInput } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCard } from '@angular/material/card';
+import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
 
 @NgModule({
   declarations: [
+    DateHeaderComponent,
     DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,
@@ -112,6 +114,7 @@ import { MatCard } from '@angular/material/card';
     MatDatepickerModule,
   ],
   exports: [
+    DateHeaderComponent,
     DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,

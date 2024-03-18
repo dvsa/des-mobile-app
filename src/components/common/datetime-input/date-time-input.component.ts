@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { IonDatetime } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
+import { MatCalendar } from '@angular/material/datepicker';
+import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
+
 export enum DisplayType {
   Date = 'date',
   Time = 'time',
@@ -13,6 +16,9 @@ export enum DisplayType {
   encapsulation: ViewEncapsulation.None,
 })
 export class DateTimeInputComponent {
+  @ViewChild(MatCalendar) datePicker!: MatCalendar<string>;
+
+
   @Input()
   maxValue?: string;
 
@@ -55,6 +61,8 @@ export class DateTimeInputComponent {
   selectedValue: string;
 
   protected readonly DisplayType = DisplayType;
+  protected readonly DateHeaderComponent = DateHeaderComponent;
+
 
   @Output()
   onDataPicked = new EventEmitter<{ control?: string, data: string }>();
@@ -63,12 +71,28 @@ export class DateTimeInputComponent {
   customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime | string }>();
 
   handleMonthSelected(event: string, minDate: string) {
-    if (DateTime.at(event).format('YYYY-MM-DD') <
-      DateTime.at(minDate).format('YYYY-MM-DD')) {
-      this.selectedBuffer = minDate;
-    } else {
-      this.selectedBuffer = event;
+    let selected = DateTime.at(this.selectedBuffer ? this.selectedBuffer : '');
+    let current = DateTime.at(event)
+    let minimum = DateTime.at(minDate)
+
+    if (!(current.month() === selected.month() &&
+      current.year() === selected.year())) {
+      if (current.format('YYYY-MM-DD') <
+        minimum.format('YYYY-MM-DD')) {
+        this.selectedBuffer = minDate;
+      } else {
+        this.selectedBuffer = event;
+      }
     }
+  }
+
+  handleBackButton(): 'month' {
+    if (this.selectedValue) {
+      this.datePicker.activeDate = this.selectedValue
+    } else {
+      this.datePicker.activeDate = this.selectedBuffer ? this.selectedBuffer : this.datePicker.maxDate;
+    }
+    return 'month'
   }
 
   formatDisplayDate(date: string) {
@@ -114,12 +138,13 @@ export class DateTimeInputComponent {
   }
 
   buttonEmit(dateTime: IonDatetime | string, buttonType: string) {
-    this.selectedBuffer = null;
+    if (buttonType !== 'back') {
+      this.selectedBuffer = null;
+    }
     this.customButtonEvent.emit({
       buttonType,
       data: dateTime,
     });
   }
 
-  protected readonly console = console;
 }

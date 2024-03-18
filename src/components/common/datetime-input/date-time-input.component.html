@@ -32,32 +32,51 @@
               (selectedChange)="selectedBuffer = $event"
               [startAt]="selectedValue"
               [(selected)]="selectedBuffer ? selectedBuffer : selectedValue"
+              [headerComponent]="DateHeaderComponent"
             >
             </mat-calendar>
           </ion-col>
         </ion-row>
         <ion-row class="top-border">
-          <ion-col class="right-border display-flex ion-justify-content-center ion-no-padding">
+          <ion-col
+            *ngIf="datePicker.currentView === 'month'"
+            class="right-border display-flex ion-justify-content-center ion-no-padding"
+          >
             <ion-button
               fill="clear"
               class="terminate-button full-width"
-              id="terminate-test-button"
+              id="cancel-datepicker-button"
               (click)="modal.dismiss(); buttonEmit(datePicker.selected, 'cancel')"
             >
               <ion-text> Cancel </ion-text>
             </ion-button>
           </ion-col>
-          <ion-col class="display-flex ion-justify-content-center ion-no-padding">
+          <ion-col
+            *ngIf="datePicker.currentView === 'month'"
+            class="display-flex ion-justify-content-center ion-no-padding"
+          >
             <ion-button
-              *ngIf="datePicker.currentView === 'month'"
               fill="clear"
               class="black-text full-width"
-              id="return-to-test-button"
+              id="confirm-datepicker-button"
               (click)="
                 modal.dismiss(); onSelected(selectedBuffer, displayType); buttonEmit(datePicker.selected, 'done')
               "
             >
               <ion-text> OK </ion-text>
+            </ion-button>
+          </ion-col>
+          <ion-col
+            *ngIf="datePicker.currentView !== 'month'"
+            class="display-flex ion-justify-content-center ion-no-padding"
+          >
+            <ion-button
+              fill="clear"
+              class="black-text full-width"
+              id="back-datepicker-button"
+              (click)="datePicker.currentView = handleBackButton(); buttonEmit(datePicker.selected, 'back')"
+            >
+              <ion-text> Back </ion-text>
             </ion-button>
           </ion-col>
         </ion-row>

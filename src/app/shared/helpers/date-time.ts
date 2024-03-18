@@ -47,6 +47,12 @@ export class DateTime {
   day(): number {
     return this.moment.day();
   }
+  month(): number {
+    return this.moment.month();
+  }
+  year(): number {
+    return this.moment.year();
+  }
 
   toString(): string {
     return this.moment.toString();
