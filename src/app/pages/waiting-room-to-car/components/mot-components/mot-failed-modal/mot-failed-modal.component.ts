@@ -6,7 +6,7 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
 @Component({
