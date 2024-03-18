@@ -1,4 +1,9 @@
-<ion-row [class.mes-row-separator]="!(hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE)" class="mes-validated-row" id="registration-card" [formGroup]="formGroup">
+<ion-row
+  [class.mes-row-separator]="!(hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE)"
+  class="mes-validated-row"
+  id="registration-card"
+  [formGroup]="formGroup"
+>
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="vehicle-registration-number-title">Vehicle registration number</label>
@@ -7,23 +12,28 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col class="display-flex" size="45">
-        <ion-input type="text"
-                   id="registration"
-                   aria-labelledby="vehicle-registration-number-title"
-                   formControlName="vehicleRegistration"
-                   class="ion-input-styling"
-                   [class.margin-bottom]="!invalid"
-                   [class.ng-invalid]="invalid"
-                   [value]="vehicleRegistration"
-                   (ionInput)="vehicleRegistrationChanged($event)"
-                   (ionBlur)="onBlurEvent(vehicleRegistration)"
-                   [maxlength]="registrationNumberValidator.maxLength"
-        emojiBlock
+        <ion-input
+          type="text"
+          id="registration"
+          aria-labelledby="vehicle-registration-number-title"
+          formControlName="vehicleRegistration"
+          class="ion-input-styling"
+          [class.margin-bottom]="!invalid"
+          [class.ng-invalid]="invalid"
+          [value]="vehicleRegistration"
+          (ionInput)="vehicleRegistrationChanged($event)"
+          (ionBlur)="onBlurEvent(vehicleRegistration)"
+          [maxlength]="registrationNumberValidator.maxLength"
+          emojiBlock
           pasteSanitiser
         ></ion-input>
       </ion-col>
       <ion-col size="35">
-        <ion-button [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE" class="mes-grey-button" (click)="getMOT(vehicleRegistration)">
+        <ion-button
+          [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE"
+          class="mes-grey-button"
+          (click)="getMOT(vehicleRegistration)"
+        >
           <ion-text class="mot-button-text">Check MOT</ion-text>
         </ion-button>
       </ion-col>
@@ -32,14 +42,16 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="invalid" class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid"
-           id="waiting-room-to-car-registration-validation-text">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-registration-validation-text">
         Enter the registration number
       </div>
     </ion-row>
   </ion-col>
 </ion-row>
-<ion-row class="ion-padding-bottom mes-row-separator" *ngIf="hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE">
+<ion-row
+  class="ion-padding-bottom mes-row-separator"
+  *ngIf="hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE"
+>
   <mot-card
     class="full-width"
     (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
@@ -50,4 +62,3 @@
     [didNotMatch]="didNotMatch"
   ></mot-card>
 </ion-row>
-
