@@ -7,30 +7,38 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="48">
-        <input type="radio"
-               formControlName="alternateEvidenceCtrl"
-               name="alternateEvidenceCtrl"
-               id="alternate-evidence-pass"
-               class="gds-radio-button"
-               [class.ng-invalid]="invalid"
-               (change)="alternateEvidenceTestResultChanged($event.target.value)"
-               value="P">
+        <input
+          type="radio"
+          formControlName="alternateEvidenceCtrl"
+          name="alternateEvidenceCtrl"
+          id="alternate-evidence-pass"
+          class="gds-radio-button"
+          [class.ng-invalid]="invalid"
+          (change)="alternateEvidenceTestResultChanged($event.target.value)"
+          value="P"
+        />
         <label for="alternate-evidence-pass" class="radio-label" id="alternate-evidence-pass-label">Yes</label>
       </ion-col>
       <ion-col size="48">
-        <input type="radio"
-               formControlName="alternateEvidenceCtrl"
-               name="alternateEvidenceCtrl"
-               id="alternate-evidence-fail"
-               class="gds-radio-button"
-               [class.ng-invalid]="invalid"
-               (change)="alternateEvidenceTestResultChanged($event.target.value)"
-               value="F">
+        <input
+          type="radio"
+          formControlName="alternateEvidenceCtrl"
+          name="alternateEvidenceCtrl"
+          id="alternate-evidence-fail"
+          class="gds-radio-button"
+          [class.ng-invalid]="invalid"
+          (change)="alternateEvidenceTestResultChanged($event.target.value)"
+          value="F"
+        />
         <label for="alternate-evidence-fail" class="radio-label" id="alternate-evidence-fail-label">No</label>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-alternate-evidence-validation-text">
+      <div
+        class="validation-text"
+        [class.ng-invalid]="invalid"
+        id="waiting-room-to-car-alternate-evidence-validation-text"
+      >
         Confirm if alternative evidence was provided
       </div>
     </ion-row>
@@ -39,5 +47,6 @@
 <alternate-evidence-description
   *ngIf="formControl.value == 'P'"
   (evidenceDescriptionTestResultChange)="descriptionUpdated($event)"
-  [formGroup]="formGroup">
+  [formGroup]="formGroup"
+>
 </alternate-evidence-description>

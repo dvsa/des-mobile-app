@@ -42,7 +42,6 @@
           id="post-eyesight-form-content"
         >
           <ion-col class="ion-no-padding">
-
             <vehicle-registration
               (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
@@ -51,7 +50,8 @@
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
               [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async">
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+            >
             </vehicle-registration>
 
             <tell-me-question-card
@@ -64,14 +64,6 @@
               [tellMeQuestions]="tellMeQuestions"
             >
             </tell-me-question-card>
-
-            <vehicle-registration
-              (vehicleRegistrationBlur)="getMOTStatus()"
-              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-              [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
-            >
-            </vehicle-registration>
 
             <transmission
               (transmissionChange)="transmissionChanged($event)"
