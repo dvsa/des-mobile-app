@@ -320,7 +320,27 @@
           </div>
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto"></ion-col>
+      <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Manoeuvres completed'"
+          [averageColour]="averageSelect()"
+          [strokeColour]="getColour() === examinerRecordsProvider.colours.navy ? '#243673' : '#FFFFFF'"
+          [labelColour]="getLabelColour(getColour(), 'bar')"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="(getColour().hasOwnProperty('colours'))"
+          [chartID]="'manoeuvresChart'"
+          [splitChartLabel]="true"
+          [darkColours]="getColour() === examinerRecordsProvider.colours.navy"
+          [chartType]="'bar'"
+          [colourScheme]="colourSelect('bar')"
+          [passedData]="data.manoeuvresGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
       <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
