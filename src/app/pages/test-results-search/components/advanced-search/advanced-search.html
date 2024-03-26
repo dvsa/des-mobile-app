@@ -63,6 +63,7 @@
     </ion-col>
     <ion-col size="22">
       <datetime-input
+        [customTitle]="'Start date'"
         [ariaLabel]="'Start date'"
         (onDataPicked)="changeDate($event)"
         [leftAlign]="true"
@@ -82,6 +83,7 @@
     </ion-col>
     <ion-col size="22">
       <datetime-input
+        [customTitle]="'End date'"
         [ariaLabel]="'End date'"
         class="input-styling-background"
         (onDataPicked)="changeDate($event)"

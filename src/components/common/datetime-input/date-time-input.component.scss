@@ -6,6 +6,7 @@
 
 .date-modal {
   --width: 62%;
+  --height: auto;
 }
 
 .terminate-button {
@@ -14,6 +15,10 @@
 
 .calendar-row-height {
   height: 540px;
+}
+
+.button-row-height {
+  height: 76px;
 }
 
 .time-modal::part(content) {
