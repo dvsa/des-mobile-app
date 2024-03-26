@@ -22,6 +22,9 @@
   >
     <ng-template>
       <div *ngIf="displayType === DisplayType.Date">
+        <ion-row class="ion-justify-content-center" *ngIf="customTitle">
+          <label class="padding-top-10">{{ customTitle }}</label>
+        </ion-row>
         <ion-row class="calendar-row-height">
           <ion-col class="display-flex ion-justify-content-center">
             <mat-calendar
@@ -37,7 +40,7 @@
             </mat-calendar>
           </ion-col>
         </ion-row>
-        <ion-row class="top-border">
+        <ion-row class="top-border button-row-height">
           <ion-col
             *ngIf="datePicker.currentView === 'month'"
             class="right-border display-flex ion-justify-content-center ion-no-padding"
