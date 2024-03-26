@@ -23,6 +23,9 @@ export class DateTimeInputComponent {
   maxValue?: string;
 
   @Input()
+  customTitle?: string;
+
+  @Input()
   minValue?: string;
 
   @Input()
