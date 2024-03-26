@@ -12,15 +12,22 @@ export class AddOrRemoveLangCyDirective {
     private renderer: Renderer2,
   ) {}
 
-  ngOnInit() {
-    this.translateService.store.onLangChange.subscribe( (value) => {
-      if (value.lang) {
-        if (value.lang === 'cy') {
-          this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
-        } else {
-          this.renderer.removeAttribute(this.ref.nativeElement, 'lang');
-        }
+  assignLanguage(language: string) {
+    if (language) {
+      if (language === 'cy') {
+        this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
+      } else {
+        this.renderer.removeAttribute(this.ref.nativeElement, 'lang');
       }
+    }
+  }
+
+  ngOnInit() {
+    if(this.translateService.store.currentLang) {
+      this.assignLanguage(this.translateService.store.currentLang)
+    }
+    this.translateService.store.onLangChange.subscribe( (value) => {
+      this.assignLanguage(value.lang)
     });
   }
 }
