@@ -8,7 +8,7 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -85,6 +85,8 @@ describe('CandidateDetailsAnalyticsEffects', () => {
       effects.candidateView$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '123');
         expect(analyticsProviderMock.addCustomDimension)
@@ -93,6 +95,16 @@ describe('CandidateDetailsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, '1');
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenName);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '123');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, '1');
         done();
       });
     });
@@ -108,6 +120,7 @@ describe('CandidateDetailsAnalyticsEffects', () => {
       effects.candidateModalDismiss$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, null);
         expect(analyticsProviderMock.addCustomDimension)
@@ -115,7 +128,17 @@ describe('CandidateDetailsAnalyticsEffects', () => {
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
         expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith('journal screen');
+          .toHaveBeenCalledWith(AnalyticsScreenNames.JOURNAL);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(AnalyticsScreenNames.JOURNAL);
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, null);
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, null);
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
         done();
       });
     });
@@ -131,10 +154,20 @@ describe('CandidateDetailsAnalyticsEffects', () => {
       effects.slotChangeViewed$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.JOURNAL,
             AnalyticsEvents.SLOT_CHANGE_VIEWED,
+            '123',
+          );
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.JOURNAL,
+            GoogleAnalyticsEventsTitles.SLOT_VIEWED,
             '123',
           );
         done();
