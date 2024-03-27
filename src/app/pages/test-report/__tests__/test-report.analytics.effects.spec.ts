@@ -27,7 +27,7 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
   AnalyticsLabels,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { competencyLabels, fullCompetencyLabels } from '@shared/constants/competencies/competencies';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -61,7 +61,7 @@ import * as testReportActions from '../test-report.actions';
 import { TestReportAnalyticsEffects } from '../test-report.analytics.effects';
 import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
 
-describe('TestReportAnalyticsEffects', () => {
+fdescribe('TestReportAnalyticsEffects', () => {
   let effects: TestReportAnalyticsEffects;
   let actions$: ReplaySubject<any>;
   let analyticsProviderMock: AnalyticsProvider;
@@ -116,7 +116,11 @@ describe('TestReportAnalyticsEffects', () => {
           .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
         done();
       });
@@ -142,6 +146,14 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEvents.SELECT_REMOVE_MODE,
             AnalyticsEvents.REMOVE_MODE_SELECTED,
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.SELECT_MODE,
+            GoogleAnalyticsEventsTitles.MODE,
+            GoogleAnalyticsEventsValues.REMOVE,
+          )
         done();
       });
     });
