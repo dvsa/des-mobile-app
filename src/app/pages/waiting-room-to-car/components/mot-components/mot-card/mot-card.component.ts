@@ -19,6 +19,8 @@ export class MotCardComponent {
   @Input()
   didNotMatch: boolean = false;
   @Input()
+  fakeOffline: boolean = false;
+  @Input()
   formGroup: UntypedFormGroup;
   @Input()
   data: VehicleDetails = {
@@ -59,7 +61,7 @@ export class MotCardComponent {
   }
 
   isOffline(): boolean {
-    return (this.networkState.getNetworkState() !== ConnectionStatus.ONLINE);
+    return (this.networkState.getNetworkState() !== ConnectionStatus.ONLINE || this.fakeOffline);
   }
   isValidMOT() {
     return this.data.status === MotStatusCodes.VALID;
