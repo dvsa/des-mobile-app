@@ -10,6 +10,7 @@ import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 
 export interface MotDataWithStatus {
   status: string,
@@ -29,6 +30,57 @@ export class VehicleDetailsApiService {
   vehicleIdentifier: string;
   vehicleDetailsResponse: VehicleDetails;
 
+  fakeMOTResults: MotDataWithStatus[] = [
+    {
+      status: '200',
+      data: {
+        registration: 'XX01VLD',
+        make: 'fakeMake',
+        model: 'fakeModel',
+        colour: 'Red',
+        status: MotStatusCodes.VALID,
+        testExpiryDate: '01/01/01',
+        testDueDate: '01/01/01',
+        testDate: '01/01/01',
+      }
+    },
+    {
+      status: '200',
+      data: {
+        registration: 'XX01INV',
+        make: 'fakeMake',
+        model: 'fakeModel',
+        colour: 'Red',
+        status: MotStatusCodes.NOT_VALID,
+        testExpiryDate: '01/01/01',
+        testDueDate: '01/01/01',
+        testDate: '01/01/01',
+      }
+    },
+    {
+      status: '200',
+      data: {
+        registration: 'XX01NDT',
+        make: '-',
+        model: '-',
+        colour: '-',
+        status: MotStatusCodes.NO_DETAILS,
+        testExpiryDate: '01/01/01',
+        testDueDate: '01/01/01',
+        testDate: '01/01/01',
+      }
+    }
+  ]
+
+  getFakeVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
+    console.log(this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration));
+    let returnData = this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration);
+    if (returnData) {
+      return of(this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration));
+    } else {
+      return of({status: '204', data: null});
+    }
+  }
   getVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
     if (vehicleRegistration === this.vehicleIdentifier && this.vehicleDetailsResponse !== undefined) {
       return of({ status: 'Already Saved', data: this.vehicleDetailsResponse });
@@ -45,6 +97,10 @@ export class VehicleDetailsApiService {
         }
       }),
       map((value):MotDataWithStatus => {
+        console.log({
+          status: value.status.toString(),
+          data: value.body,
+        })
         return {
           status: value.status.toString(),
           data: value.body,
