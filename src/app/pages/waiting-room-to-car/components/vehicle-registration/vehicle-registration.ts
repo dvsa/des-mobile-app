@@ -51,6 +51,9 @@ export class VehicleRegistrationComponent implements OnChanges {
   showSearchSpinner: boolean = false;
   didNotMatch: boolean = false;
 
+  isPressed: boolean = false;
+  fakeOffline: boolean = false;
+
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
@@ -71,13 +74,29 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.alternativeEvidenceDescriptionUpdate.emit(undefined);
   }
 
+  onTouchStart() {
+    console.log('press')
+    this.isPressed = true;
+
+    setTimeout(() => {
+      if (this.isPressed) {
+        console.log('hold')
+        this.fakeOffline = !this.fakeOffline;
+      }
+    }, 1000);
+  }
+
+  onTouchEnd() {
+    this.isPressed = false;
+  }
+
   getMOT(value: string) {
     this.clearData();
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
     this.didNotMatch = false;
 
-    this.motApiService.getVehicleByIdentifier(value).subscribe(async (val) => {
+    this.motApiService.getFakeVehicleByIdentifier(value).subscribe(async (val) => {
       this.motData = val;
       this.vrnSearchListUpdate.emit(value);
       // If the MOT is invalid, open the reconfirm modal

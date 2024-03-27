@@ -1,11 +1,16 @@
 <ion-row
-  [class.mes-row-separator]="!(hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE)"
+  [class.mes-row-separator]="!(hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline)"
   class="mes-validated-row"
   id="registration-card"
   [formGroup]="formGroup"
 >
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-  <ion-col class="component-label ion-align-self-center" size="32">
+  <ion-col
+    (touchstart)="onTouchStart()"
+    (touchend)="onTouchEnd()"
+    class="component-label ion-align-self-center"
+    size="32"
+  >
     <label id="vehicle-registration-number-title">Vehicle registration number</label>
   </ion-col>
   <ion-col class="ion-align-self-center mes-padding-left">
@@ -30,7 +35,7 @@
       </ion-col>
       <ion-col size="35">
         <ion-button
-          [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE"
+          [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
         >
@@ -50,13 +55,14 @@
 </ion-row>
 <ion-row
   class="ion-padding-bottom mes-row-separator"
-  *ngIf="hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE"
+  *ngIf="hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline"
 >
   <mot-card
     class="full-width"
     (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
     (alternativeEvidenceDescriptionUpdate)="alternativeEvidenceDescriptionUpdate.emit($event)"
     [formGroup]="formGroup"
+    [fakeOffline]="fakeOffline"
     [data]="motData?.data"
     [status]="motData?.status"
     [didNotMatch]="didNotMatch"
