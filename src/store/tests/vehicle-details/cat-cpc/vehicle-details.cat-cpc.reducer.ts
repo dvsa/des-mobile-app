@@ -31,6 +31,33 @@ export const vehicleDetailsCatCPCReducer = createReducer(
     ...state,
     configuration,
   })),
+  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
+    ...state,
+    motEvidence,
+  })),
+  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
+    ...state,
+    motEvidenceProvided,
+  })),
+  on(vehicleDetailsActions.VehicleMakeChanged, (state, { make }): VehicleDetails => ({
+    ...state,
+    make,
+  })),
+  on(vehicleDetailsActions.VehicleModelChanged, (state, { model }): VehicleDetails => ({
+    ...state,
+    model,
+  })),
+  on(vehicleDetailsActions.VehicleExpiryDateChanged, (state, { testExpiryDate }): VehicleDetails => ({
+    ...state,
+    testExpiryDate,
+  })),
+  on(vehicleDetailsActions.VRNListUpdated, (state, { vrn }) => ({
+    ...state,
+    previouslySearchedRegNumbers: [
+      ...(state?.previouslySearchedRegNumbers || []),
+      vrn,
+    ],
+  })),
 );
 
 export const getVehicleDetails = createFeatureSelector<VehicleDetails>('vehicleDetails');

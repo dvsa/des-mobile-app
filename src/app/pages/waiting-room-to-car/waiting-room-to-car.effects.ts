@@ -8,7 +8,10 @@ import { of } from 'rxjs';
 import { StoreModel } from '@shared/models/store.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
+import {
+  MotDataWithStatus,
+  VehicleDetailsApiService,
+} from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -64,7 +67,7 @@ export class WaitingRoomToCarEffects {
     // filter any requests that are nulls or empty strings from hitting service
     filter((regNumber) => !!regNumber),
     switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
-    map((vehicleDetails) => MotStatusChanged(vehicleDetails?.status || MotStatus.NO_DETAILS)),
+    map((vehicleDetails: MotDataWithStatus) => MotStatusChanged(vehicleDetails?.data?.status || MotStatus.NO_DETAILS)),
     catchError((err) => {
       this.store$.dispatch(SaveLog({
         payload: this.logHelper.createLog(

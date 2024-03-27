@@ -12,6 +12,32 @@ export const MotStatusChanged = createAction(
   (motStatus: string) => ({ motStatus }),
 );
 
+export const MotEvidenceChanged = createAction(
+  '[Vehicle Details] Mot evidence changed',
+  (motEvidence: string) => ({ motEvidence }),
+);
+
+export const MotEvidenceProvidedToggled = createAction(
+  '[Vehicle Details] Mot evidence provided toggled',
+  (motEvidenceProvided: boolean) => ({ motEvidenceProvided }),
+);
+export const VehicleMakeChanged = createAction(
+  '[Vehicle Details] Vehicle make changed',
+  (make: string) => ({ make }),
+);
+export const VehicleModelChanged = createAction(
+  '[Vehicle Details] Vehicle model changed',
+  (model: string) => ({ model }),
+);
+export const VehicleExpiryDateChanged = createAction(
+  '[Vehicle Details] Vehicle expiry date changed',
+  (testExpiryDate: string) => ({ testExpiryDate }),
+);
+export const VRNListUpdated = createAction(
+  '[Vehicle Details] Searched VRN list updated',
+  (vrn: string) => ({ vrn }),
+);
+
 export const SchoolCarToggled = createAction(
   '[Vehicle Details] School car toggled',
 );

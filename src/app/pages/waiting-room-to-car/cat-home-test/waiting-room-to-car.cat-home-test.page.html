@@ -46,6 +46,8 @@
         >
           <ion-col class="ion-no-padding">
             <vehicle-registration
+              (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
+              (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"

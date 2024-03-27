@@ -13,7 +13,11 @@ import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getGearboxCategory,
+  getMotEvidence, getMotEvidenceProvided,
+  getRegistrationNumber,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
   WaitingRoomToCarBikeCategoryChanged,
@@ -23,10 +27,10 @@ import {
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged,
+  GearboxCategoryChanged, MotEvidenceChanged, MotEvidenceProvidedToggled,
   SchoolBikeToggled,
-  SchoolCarToggled,
-  VehicleRegistrationChanged,
+  SchoolCarToggled, VehicleExpiryDateChanged, VehicleMakeChanged, VehicleModelChanged,
+  VehicleRegistrationChanged, VRNListUpdated,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   InstructorAccompanimentToggled,
@@ -72,6 +76,8 @@ import {
 import { Inject, Injector } from '@angular/core';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -87,6 +93,8 @@ export interface CommonWaitingRoomToCarPageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
+  motEvidenceProvided$: Observable<boolean>;
+  motEvidenceDescription$: Observable<string>;
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
@@ -160,6 +168,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       dualControls$: currentTest$.pipe(
         select(getVehicleDetails),
         select(getDualControls),
+      ),
+      motEvidenceProvided$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotEvidenceProvided),
+      ),
+      motEvidenceDescription$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotEvidence),
       ),
       instructorAccompaniment$: currentTest$.pipe(
         select(getAccompaniment),
@@ -239,6 +255,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     // Temporarily disable the call to the MOT endpoint as it's not being used.
     // this.store$.dispatch(GetMotStatus());
   }
+  getMOTEvidenceProvided(evidenceToggle: boolean): void {
+    this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
+  }
+  getMOTEvidenceChanged(evidence: string): void {
+    this.store$.dispatch(MotEvidenceChanged(evidence));
+  }
 
   schoolCarToggled(): void {
     this.store$.dispatch(SchoolCarToggled());
@@ -301,6 +323,16 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   trainerRegistrationNumberChanged(instructorRegistration: number): void {
     this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
+  }
+
+  updateVRNSearchList(vrn: string) {
+    this.store$.dispatch(VRNListUpdated(vrn));
+  }
+
+  motDetailsChanged(motDetails: VehicleDetails) {
+    this.store$.dispatch(VehicleMakeChanged(motDetails.make));
+    this.store$.dispatch(VehicleModelChanged(motDetails.model));
+    this.store$.dispatch(VehicleExpiryDateChanged(motDetails.testExpiryDate));
   }
 
   async practiceModeTestCentreAlert() {

@@ -39,14 +39,19 @@ xdescribe('VehicleDetailsApiService', () => {
   });
 
   describe('getVehicleByIdentifier', () => {
-    it('should return an Observable of vehicleDetailsResponse if it is defined and'
-      + ' vehicleRegistration is vehicleIdentifier', () => {
+    it('should return an Observable of vehicleDetailsResponse with a status of Already Saved if '
+      + 'it is defined and vehicleRegistration is vehicleIdentifier', () => {
       vehicleDetailsService.vehicleIdentifier = 'ABC123';
       vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as VehicleDetails;
       vehicleDetailsService.getVehicleByIdentifier('ABC123')
         .subscribe((val) => {
           expect(val)
-            .toEqual({ registration: 'ABC123' } as VehicleDetails);
+            .toEqual({
+              status: 'Already Saved',
+              data: {
+                registration: 'ABC123',
+              } as VehicleDetails,
+            });
         });
     });
     it('should call the search endpoint with the provided driver number', () => {

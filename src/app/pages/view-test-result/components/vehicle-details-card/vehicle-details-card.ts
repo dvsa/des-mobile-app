@@ -12,6 +12,7 @@ import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 
 @Component({
   selector: 'vehicle-details-card',
@@ -184,11 +185,25 @@ export class VehicleDetailsCardComponent {
   public get dualControls(): string {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
-
+  isValidMOT() {
+    return this.data?.motStatus === MotStatusCodes.VALID;
+  }
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {
     return this.isADI3() || !this.instructorRegistrationNumber === undefined
       || this.shouldShowDimensions || !this.vehicleDetails === undefined;
+  }
+
+  getPreviousFilteredVRNs(): string[] {
+    const filteredVRN: string[] = [];
+
+    this.data.previouslySearchedRegNumbers.forEach((value) => {
+      if (!filteredVRN.includes(value)) {
+        filteredVRN.push(value);
+      }
+    });
+
+    return filteredVRN;
   }
 }
