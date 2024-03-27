@@ -317,6 +317,17 @@ export enum GoogleAnalyticsEvents {
   DEFER_WRITE_UP = 'defer_write-up',
   ASAM = 'single_app_mode_modal',
   TEST_BOOKING_SEARCH = 'test_booking_search',
+  SELECT_MODE = 'select_mode',
+  EXIT_MODE = 'exit_mode',
+  REMOVE_FAULT = 'remove_fault',
+  TEST_ENDED = 'test_ended',
+  TEST_TERMINATED = 'test_terminated',
+  LEGAL_REQUIREMENT = 'legal_requirement',
+  ECO_CONTROL = 'eco_control',
+  ECO_PLANNING = 'eco_planning',
+  ETA = 'examiner_took_action',
+  CONTROLLED_STOP = 'controlled_stop',
+  START_TIMER = 'start_timer',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -345,6 +356,9 @@ export enum GoogleAnalyticsEventsTitles {
   CATEGORY = 'category',
   BLANK_FIELD = 'blank_field',
   OUTCOME = 'outcome',
+  MODE = 'mode',
+  ITEM_NAME = 'item_name',
+  ITEM_STATUS = 'item_status',
   COMMS_CHANNEL = 'comms_channel',
   FINALISATION_D255 = 'd255',
   OPENED = 'opened',
@@ -413,4 +427,7 @@ export enum GoogleAnalyticsEventsValues {
   TRIGGERED = 'triggered',
   SERIOUS = 'serious',
   DANGEROUS = 'dangerous',
+  REMOVE = 'remove',
+  ETA_PHYSICAL = 'physical',
+  ETA_VERBAL = 'verbal',
 }
