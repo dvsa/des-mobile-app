@@ -281,7 +281,7 @@ export enum GoogleAnalyticsEvents {
   ORDIT_TRAINER = 'ordit_trainer',
   TRAINER_REG_NUMBER = 'trainer_reg_number',
   MOT_CHECK = 'mot_check',
-  VRN_CAPTURE = 'vrn capture',
+  VRN_CAPTURE = 'vrn_capture',
   JOURNAL = 'journal',
 }
 
