@@ -267,6 +267,8 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  RESUME_WRITE_UP = 'resume_write_up',
+  JOURNAL = 'journal',
   SUBMIT_FORM_ERROR = 'submit_form_error',
   VALIDATION_ERROR = 'validation_error',
   CANDIDATE_RECEIVE_TEST_RESULTS = 'send_candidate_test_results',
@@ -286,6 +288,12 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  NAVIGATION = 'navigation',
+  RESULT = 'result',
+  SLOT_CHANGED = 'slot_changed',
+  ERROR = 'error',
+  EARLY_START_MODAL = 'early_start_modal',
+  REFRESH = 'refresh',
   CHANGED_FROM = 'changed_from',
   CHANGED_TO = 'changed_to',
   CATEGORY = 'category',
@@ -301,6 +309,8 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  PASS = 'pass',
+  FAIL = 'fail',
   VRN_CAPTURE_SELECTED = 'selected',
   VRN_CAPTURE_CANCELLED = 'cancelled',
   VRN_CAPTURE_SAVED = 'saved',
@@ -310,4 +320,9 @@ export enum GoogleAnalyticsEventsValues {
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
   YES = 'yes',
   NO = 'no',
+  CONTINUE = 'continue',
+  DISPLAY = 'display',
+  EXIT = 'exit',
+  AUTOMATIC = 'automatic',
+  MANUAL = 'manual',
 }
