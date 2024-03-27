@@ -267,25 +267,44 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  SUBMIT_FORM_ERROR = 'submit_form_error',
   VALIDATION_ERROR = 'validation_error',
-  CANDIDATE_RECEIVE_TEST_RESULTS = 'send _candidate_test_results',
+  CANDIDATE_RECEIVE_TEST_RESULTS = 'send_candidate_test_results',
   SET_D255 = 'set_d255',
+  BIKE_CATEGORY_CHANGED = 'bike_category_changed',
+  DUAL_CONTROLS = 'dual_controls',
+  BIKE_CATEGORY_SELECTED = 'bike_category_selected',
+  NAVIGATION = 'navigation',
+  SET_TRANSMISSION = 'set_transmission',
+  PDI_LOGBOOK = 'pdi_logbook',
+  TRAINEE_LICENCE = 'trainee_licence',
+  ORDIT_TRAINER = 'ordit_trainer',
+  TRAINER_REG_NUMBER = 'trainer_reg_number',
+  MOT_CHECK = 'mot_check',
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  CHANGED_FROM = 'changed_from',
+  CHANGED_TO = 'changed_to',
+  CATEGORY = 'category',
   BLANK_FIELD = 'blank_field',
   OUTCOME = 'outcome',
   COMMS_CHANNEL = 'comms_channel',
-  FINALISATION_D255 = 'd255'
+  FINALISATION_D255 = 'd255',
+  OPENED = 'opened',
+  SELECTION = 'selection',
+  TRANSMISSION_TYPE = 'transmission_type',
+  MOT_STATUS = 'mot_status',
 }
 
 export enum GoogleAnalyticsEventsValues {
   VRN_CAPTURE_SELECTED = 'selected',
   VRN_CAPTURE_CANCELLED = 'cancelled',
   VRN_CAPTURE_SAVED = 'saved',
-  COMMS_METHOD_BOOKING_EMAIL = 'booking email',
-  COMMS_METHOD_NEW_EMAIL = 'new email',
-  COMMS_METHOD_POST = 'by email',
+  COMMS_METHOD_BOOKING_EMAIL = 'booking_email',
+  COMMS_METHOD_NEW_EMAIL = 'new_email',
+  COMMS_METHOD_POST = 'by_email',
+  BIKE_CATEGORY_MODAL = 'bike_category_modal',
   YES = 'yes',
   NO = 'no',
 }

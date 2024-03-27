@@ -10,6 +10,9 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
   AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { Application } from '@dvsa/mes-journal-schema';
@@ -81,6 +84,7 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
+    spyOn(analyticsProviderMock, 'logGAEvent');
   });
 
   describe('waitingRoomToCarViewDidEnter', () => {
@@ -96,6 +100,15 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       effects.waitingRoomToCarViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(screenName);
+
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -143,6 +156,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarError('error 123'));
       // ASSERT
       effects.waitingRoomToCarError$.subscribe((result) => {
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEvents.SUBMIT_FORM_ERROR}`,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'error 123',
+          );
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logError)
@@ -164,6 +183,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarError('error 123'));
       // ASSERT
       effects.waitingRoomToCarError$.subscribe((result) => {
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.SUBMIT_FORM_ERROR}`,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'error 123',
+          );
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logError)
@@ -187,6 +212,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomToCarValidationError$.subscribe((result) => {
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'formControl1',
+          );
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logError)
@@ -206,6 +237,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomToCarValidationError$.subscribe((result) => {
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'formControl1',
+          );
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logError)
@@ -237,6 +274,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DUAL_CONTROLS_CHANGED}`,
             'dual controls changed to Yes',
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.DUAL_CONTROLS}`,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            GoogleAnalyticsEventsValues.YES,
+          );
       });
     });
     it('should record an analytic when dual controls is changed to No', () => {
@@ -256,6 +299,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DUAL_CONTROLS_CHANGED}`,
             'dual controls changed to No',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.DUAL_CONTROLS}`,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            GoogleAnalyticsEventsValues.NO,
           );
       });
     });
@@ -280,6 +329,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.GEARBOX_CATEGORY_CHANGED}`,
             'Automatic',
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+            'Automatic',
+          );
       });
     });
     it('should record an analytic when transmission is changed to Manual', () => {
@@ -298,6 +353,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.GEARBOX_CATEGORY_CHANGED}`,
+            'Manual',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
             'Manual',
           );
       });
@@ -323,6 +384,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.PDI_LOGBOOK_CHANGED}`,
             'pdi logbook changed to Yes',
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.PDI_LOGBOOK}`,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            GoogleAnalyticsEventsValues.YES,
+          );
       });
     });
     it('should record an analytic when pdiLogbook is changed to No', () => {
@@ -342,6 +409,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.PDI_LOGBOOK_CHANGED}`,
             'pdi logbook changed to No',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.PDI_LOGBOOK}`,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            GoogleAnalyticsEventsValues.NO,
           );
       });
     });
@@ -366,6 +439,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.TRAINEE_LICENCE_CHANGED}`,
             'trainee licence changed to Yes',
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.TRAINEE_LICENCE}`,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            GoogleAnalyticsEventsValues.YES,
+          );
       });
     });
     it('should record an analytic when traineeLicence is changed to No', () => {
@@ -385,6 +464,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.TRAINEE_LICENCE_CHANGED}`,
             'trainee licence changed to No',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.TRAINEE_LICENCE}`,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            GoogleAnalyticsEventsValues.NO,
           );
       });
     });
