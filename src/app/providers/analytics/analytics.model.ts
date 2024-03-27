@@ -267,6 +267,7 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  RESUME_WRITE_UP = 'resume_write_up',
   BALANCE_QUESTION = 'balance_Q',
   SAFETY_QUESTION = 'safety_Q',
   TELL_ME_QUESTION = 'tell_me_Q',
@@ -298,8 +299,13 @@ export enum GoogleAnalyticsEvents {
 
 export enum GoogleAnalyticsEventsTitles {
   QUESTION_NUMBER = 'question_number',
-  RESULT = 'result',
   BACK = 'back',
+  NAVIGATION = 'navigation',
+  RESULT = 'result',
+  SLOT_CHANGED = 'slot_changed',
+  ERROR = 'error',
+  EARLY_START_MODAL = 'early_start_modal',
+  REFRESH = 'refresh',
   CHANGED_FROM = 'changed_from',
   FILTER = 'filter',
   CHANGED_TO = 'changed_to',
@@ -320,6 +326,8 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  PASS = 'pass',
+  FAIL = 'fail',
   DEBRIEF = 'debrief',
   FINALISE_OUTCOME = 'finalise_outcome',
   CORRECT = 'correct',
@@ -335,6 +343,11 @@ export enum GoogleAnalyticsEventsValues {
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
   YES = 'yes',
   NO = 'no',
+  CONTINUE = 'continue',
+  DISPLAY = 'display',
+  EXIT = 'exit',
+  AUTOMATIC = 'automatic',
+  MANUAL = 'manual',
   OPEN = 'open',
   CLOSE = 'close',
   CLICKED = 'clicked',
