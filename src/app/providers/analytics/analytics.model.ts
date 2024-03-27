@@ -281,6 +281,8 @@ export enum GoogleAnalyticsEvents {
   ORDIT_TRAINER = 'ordit_trainer',
   TRAINER_REG_NUMBER = 'trainer_reg_number',
   MOT_CHECK = 'mot_check',
+  VRN_CAPTURE = 'vrn capture',
+  JOURNAL = 'journal',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -295,6 +297,7 @@ export enum GoogleAnalyticsEventsTitles {
   SELECTION = 'selection',
   TRANSMISSION_TYPE = 'transmission_type',
   MOT_STATUS = 'mot_status',
+  SLOT_VIEWED = 'slot_viewed',
 }
 
 export enum GoogleAnalyticsEventsValues {

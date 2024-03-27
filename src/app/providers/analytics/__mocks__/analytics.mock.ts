@@ -11,7 +11,7 @@ export class AnalyticsProviderMock implements IAnalyticsProvider {
   initialiseGoogleAnalytics = jasmine.createSpy('initialiseGoogleAnalytics').and.returnValue(Promise.resolve());
 
   logEvent = () => {};
-  logGAEvent = () => {};
+  logGAEvent = jasmine.createSpy('logGAEvent');
 
   addCustomDimension = jasmine.createSpy('addCustomDimension');
   addGACustomDimension = jasmine.createSpy('addGACustomDimension');

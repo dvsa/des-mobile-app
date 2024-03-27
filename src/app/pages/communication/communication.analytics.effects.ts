@@ -224,7 +224,7 @@ export class CommunicationAnalyticsEffects {
 
         // GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
           GoogleAnalyticsEventsTitles.OUTCOME,
           GoogleAnalyticsEventsValues.VRN_CAPTURE_CANCELLED,
         );
@@ -263,7 +263,7 @@ export class CommunicationAnalyticsEffects {
 
         // GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
           GoogleAnalyticsEventsTitles.OUTCOME,
           GoogleAnalyticsEventsValues.VRN_CAPTURE_SAVED,
         );
