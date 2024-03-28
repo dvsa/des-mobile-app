@@ -284,7 +284,6 @@ export enum GoogleAnalyticsEvents {
   TRAINER_REG_NUMBER = 'trainer_reg_number',
   MOT_CHECK = 'mot_check',
   VRN_CAPTURE = 'vrn_capture',
-  JOURNAL = 'journal',
 }
 
 export enum GoogleAnalyticsEventsTitles {
