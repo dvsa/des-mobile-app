@@ -267,6 +267,10 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  BALANCE_QUESTION = 'balance_Q',
+  SAFETY_QUESTION = 'safety_Q',
+  TELL_ME_QUESTION = 'tell_me_Q',
+  SHOW_ME_QUESTION = 'show_me_Q',
   SUBMIT_FORM_ERROR = 'submit_form_error',
   VALIDATION_ERROR = 'validation_error',
   CANDIDATE_RECEIVE_TEST_RESULTS = 'send_candidate_test_results',
@@ -290,6 +294,8 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  QUESTION_NUMBER = 'question_number',
+  RESULT = 'result',
   CHANGED_FROM = 'changed_from',
   CHANGED_TO = 'changed_to',
   CATEGORY = 'category',
@@ -308,6 +314,8 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  CORRECT = 'correct',
+  DRIVING_FAULT = 'driving_fault',
   VRN_CAPTURE_SELECTED = 'selected',
   VRN_CAPTURE_CANCELLED = 'cancelled',
   VRN_CAPTURE_SAVED = 'saved',
