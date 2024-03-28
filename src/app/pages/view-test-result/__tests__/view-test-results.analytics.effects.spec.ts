@@ -40,6 +40,12 @@ describe('ViewTestResultAnalyticsEffects', () => {
           AnalyticsDimensionIndices.APPLICATION_REFERENCE,
           '12345',
         );
+
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '12345',
+        );
         done();
       });
     });
