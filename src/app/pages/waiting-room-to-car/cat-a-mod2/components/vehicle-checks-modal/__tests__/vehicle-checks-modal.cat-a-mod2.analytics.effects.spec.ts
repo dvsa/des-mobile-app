@@ -9,7 +9,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import * as testsActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import * as SafetyAndBalanceQuestionsActions
   from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import {
@@ -55,6 +59,7 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -75,6 +80,11 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
           `safety question ${questionNumber + 1} changed`,
           safetyQuestion.code,
         );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          (GoogleAnalyticsEvents.SAFETY_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          safetyQuestion.code,
+        );
         done();
       });
     });
@@ -92,6 +102,11 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
           AnalyticsEventCategories.VEHICLE_CHECKS,
           `safety question ${questionNumber + 1} outcome changed`,
           'correct',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          (GoogleAnalyticsEvents.SAFETY_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.CORRECT,
         );
         done();
       });
@@ -113,12 +128,17 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
           `balance question ${questionNumber + 1} changed`,
           balanceQuestion.code,
         );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          (GoogleAnalyticsEvents.BALANCE_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          balanceQuestion.code,
+        );
         done();
       });
     });
   });
 
-  describe('balanceQuestionOutComeChanged$', () => {
+  describe('balanceQuestionOutcomeChanged$', () => {
     const questionOutcome: QuestionOutcome = 'DF';
     const questionNumber: number = 1;
     it('should log an analytics event with balance question outcome info', (done) => {
@@ -130,6 +150,11 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
           AnalyticsEventCategories.VEHICLE_CHECKS,
           `balance question ${questionNumber + 1} outcome changed`,
           'driving fault',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          (GoogleAnalyticsEvents.BALANCE_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT,
         );
         done();
       });
