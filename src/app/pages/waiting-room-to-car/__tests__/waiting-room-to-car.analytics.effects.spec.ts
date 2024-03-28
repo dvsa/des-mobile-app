@@ -84,7 +84,6 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
-    spyOn(analyticsProviderMock, 'logGAEvent');
   });
 
   describe('waitingRoomToCarViewDidEnter', () => {
