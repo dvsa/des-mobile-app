@@ -263,7 +263,7 @@ describe('JournalAnalyticsEffects', () => {
   describe('resumingWriteUpEffect$', () => {
     it('should call setCurrentPage', (done) => {
 
-      spyOn(testSelector, 'getTestById').and.callFake(() => {return {
+      spyOn(testSelector, 'getTestById').and.returnValue({
         journalData: {
           candidate: { candidateId: 1 } as Candidate,
           applicationReference: {
@@ -272,11 +272,9 @@ describe('JournalAnalyticsEffects', () => {
             checkDigit: 1,
           },
         } as JournalData,
-      } as TestResultCommonSchema});
+      } as TestResultCommonSchema);
 
-      spyOn(testSelector, 'isPassed').and.callFake(() => {
-        return true;
-      });
+      spyOn(testSelector, 'isPassed').and.returnValue(true);
 
       actions$.next(journalActions.ResumingWriteUp('1'));
       effects.resumingWriteUpEffect$.subscribe((result) => {

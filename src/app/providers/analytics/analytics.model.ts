@@ -294,8 +294,7 @@ export enum GoogleAnalyticsEvents {
   MENU = 'burger_menu',
   METADATA = 'metadata',
   APP_UPDATE = 'app_update_available',
-  INCOMPLETE_TESTS = 'incomplete_tests',
-}
+  INCOMPLETE_TESTS = 'incomplete_tests',}
 
 export enum GoogleAnalyticsEventsTitles {
   QUESTION_NUMBER = 'question_number',
