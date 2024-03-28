@@ -283,6 +283,10 @@ export enum GoogleAnalyticsEvents {
   MOT_CHECK = 'mot_check',
   VRN_CAPTURE = 'vrn_capture',
   JOURNAL = 'journal',
+  PRACTICE_MODE_NAVIGATION = 'pm_navigation',
+  MENU = 'burger_menu',
+  METADATA = 'metadata',
+  APP_UPDATE = 'app_update_available',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -298,6 +302,9 @@ export enum GoogleAnalyticsEventsTitles {
   TRANSMISSION_TYPE = 'transmission_type',
   MOT_STATUS = 'mot_status',
   SLOT_VIEWED = 'slot_viewed',
+  PRACTICE_TEST_SELECTED = 'practice_test_report_selected',
+  STATUS = 'status',
+  DEVICE_THEME = 'device_theme',
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -310,4 +317,9 @@ export enum GoogleAnalyticsEventsValues {
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
   YES = 'yes',
   NO = 'no',
+  OPEN = 'open',
+  CLOSE = 'close',
+  CLICKED = 'clicked',
+  DARK_MODE = 'dark_mode',
+  LIGHT_MODE = 'light_mode',
 }

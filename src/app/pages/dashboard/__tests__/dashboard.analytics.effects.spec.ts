@@ -4,7 +4,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -21,6 +26,7 @@ import { UpdateAvailable } from '@pages/dashboard/components/update-available-mo
 import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
 import * as dashboardActions from '../dashboard.actions';
 import { DetectDeviceTheme } from '../dashboard.actions';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
@@ -63,7 +69,11 @@ describe('DashboardAnalyticsEffects', () => {
       effects.dashboardViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
+        // GA4 analytics
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
       });
@@ -75,10 +85,18 @@ describe('DashboardAnalyticsEffects', () => {
       effects.practiceTestReportSelected$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.DASHBOARD,
             AnalyticsEvents.PRACTICE_TEST_SELECTED,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.PRACTICE_MODE_NAVIGATION,
+            GoogleAnalyticsEventsTitles.PRACTICE_TEST_SELECTED,
+            TestCategory.B,
           );
         done();
       });
@@ -90,11 +108,19 @@ describe('DashboardAnalyticsEffects', () => {
       effects.sideMenuOpen$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.DASHBOARD,
             AnalyticsEvents.SIDE_MENU,
             'Menu Opened',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.MENU,
+            GoogleAnalyticsEventsTitles.STATUS,
+            GoogleAnalyticsEventsValues.OPEN,
           );
         done();
       });
@@ -106,11 +132,19 @@ describe('DashboardAnalyticsEffects', () => {
       effects.sideMenuClosed$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.DASHBOARD,
             AnalyticsEvents.SIDE_MENU,
             'Menu Closed',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.MENU,
+            GoogleAnalyticsEventsTitles.STATUS,
+            GoogleAnalyticsEventsValues.CLOSE,
           );
         done();
       });
@@ -122,11 +156,19 @@ describe('DashboardAnalyticsEffects', () => {
       effects.sideMenuItemSelected$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.DASHBOARD,
             AnalyticsEvents.SIDE_MENU,
             'opt1 Selected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.MENU,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            'opt1',
           );
         done();
       });
@@ -138,12 +180,16 @@ describe('DashboardAnalyticsEffects', () => {
       effects.updateAvailablePopup$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.APP_UPDATE_BADGE,
             'Modal',
             'New version modal displayed',
           );
+
+        // GA4 Analytics
+        // TBC
         done();
       });
     });
@@ -154,12 +200,17 @@ describe('DashboardAnalyticsEffects', () => {
       effects.updateAvailableOptionClicked$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.APP_UPDATE_BADGE,
             'Modal',
             'Ok button selected',
           );
+
+        // GA4 Analytics
+        // TBC
         done();
       });
     });
@@ -170,11 +221,16 @@ describe('DashboardAnalyticsEffects', () => {
       effects.updateAvailableBadgeClicked$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.APP_UPDATE_BADGE,
             'New version badge selected',
           );
+
+        // GA4 Analytics
+        // TBC
         done();
       });
     });
@@ -184,11 +240,21 @@ describe('DashboardAnalyticsEffects', () => {
         effects.detectDeviceTheme$.subscribe((result) => {
           expect(result.type === AnalyticRecorded.type)
             .toBe(true);
+
+          // TODO - MES-9495 - remove old analytics
           expect(analyticsProviderMock.logEvent)
             .toHaveBeenCalledWith(
               AnalyticsEventCategories.METADATA,
               'Device theme',
               'Light mode',
+            );
+
+          // GA4 Analytics
+          expect(analyticsProviderMock.logGAEvent)
+            .toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.METADATA,
+              GoogleAnalyticsEventsTitles.DEVICE_THEME,
+              GoogleAnalyticsEventsValues.LIGHT_MODE,
             );
           done();
         });
