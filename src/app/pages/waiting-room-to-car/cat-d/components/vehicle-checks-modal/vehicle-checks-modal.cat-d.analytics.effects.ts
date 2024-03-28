@@ -81,7 +81,8 @@ export class VehicleChecksModalCatDAnalyticsEffects {
         (GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1)),
         GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.showMeQuestion.code,
-      );      return of(AnalyticRecorded());
+      );
+      return of(AnalyticRecorded());
     }),
   ));
 
