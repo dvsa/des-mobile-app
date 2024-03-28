@@ -19,12 +19,10 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as journalActions from '@store/journal/journal.actions';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { JournalAnalyticsEffects } from '../journal.analytics.effects';
-import * as testSelector from '@store/tests/tests.selector';
 import {
   Candidate,
-  JournalData,
-  TestResultCommonSchema,
 } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 describe('JournalAnalyticsEffects', () => {
   let effects: JournalAnalyticsEffects;
@@ -37,6 +35,26 @@ describe('JournalAnalyticsEffects', () => {
       imports: [
         StoreModule.forRoot({
           journal: journalReducer,
+          tests: () => ({
+            currentTest: {
+              slotId: '123',
+            },
+            testStatus: {},
+            startedTests: {
+              123: {
+                activityCode: ActivityCodes.PASS,
+                journalData: {
+                  candidate: { candidateId: 1 } as Candidate,
+                  applicationReference: {
+                    applicationId: 1,
+                    bookingSequence: 1,
+                    checkDigit: 1,
+                  },
+                }
+              },
+            },
+          }),
+
         }),
       ],
       providers: [
@@ -263,20 +281,7 @@ describe('JournalAnalyticsEffects', () => {
   describe('resumingWriteUpEffect', () => {
     it('should call setCurrentPage', (done) => {
 
-      spyOn(testSelector, 'getTestById').and.returnValue({
-        journalData: {
-          candidate: { candidateId: 1 } as Candidate,
-          applicationReference: {
-            applicationId: 1,
-            bookingSequence: 1,
-            checkDigit: 1,
-          },
-        } as JournalData,
-      } as TestResultCommonSchema);
-
-      spyOn(testSelector, 'isPassed').and.returnValue(true);
-
-      actions$.next(journalActions.ResumingWriteUp('1'));
+      actions$.next(journalActions.ResumingWriteUp('123'));
       effects.resumingWriteUpEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logEvent)
@@ -288,20 +293,19 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(
             AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-            '111',);
+            '1011',);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
 
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.RESUME_WRITE_UP,
-            'pass',
-          );
+            GoogleAnalyticsEvents.RESUME_WRITE_UP,
+            GoogleAnalyticsEventsTitles.RESULT,
+            GoogleAnalyticsEventsValues.PASS);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '111');
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '1');
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '1011');
         done();
       });
     });
