@@ -73,7 +73,6 @@ export class VehicleChecksModalAnalyticsEffects {
         eventText,
         action.tellMeQuestion.code,
       );
-      console.log(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1));
       // GA4 Analytics
       this.analytics.logGAEvent(
         (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
