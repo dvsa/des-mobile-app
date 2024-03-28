@@ -51,7 +51,6 @@ describe('JournalAnalyticsEffects', () => {
     effects = TestBed.inject(JournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     spyOn(analyticsProviderMock, 'logEvent');
-    spyOn(analyticsProviderMock, 'logGAEvent');
   }));
 
   describe('journalView', () => {
