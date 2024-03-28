@@ -260,7 +260,7 @@ describe('JournalAnalyticsEffects', () => {
       });
     });
   });
-  describe('resumingWriteUpEffect$', () => {
+  describe('resumingWriteUpEffect', () => {
     it('should call setCurrentPage', (done) => {
 
       spyOn(testSelector, 'getTestById').and.returnValue({
