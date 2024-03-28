@@ -28,7 +28,7 @@ import * as dashboardActions from '../dashboard.actions';
 import { DetectDeviceTheme } from '../dashboard.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-fdescribe('DashboardAnalyticsEffects', () => {
+describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;

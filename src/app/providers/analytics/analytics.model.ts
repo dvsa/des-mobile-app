@@ -286,6 +286,7 @@ export enum GoogleAnalyticsEvents {
   PRACTICE_MODE_NAVIGATION = 'pm_navigation',
   MENU = 'burger_menu',
   METADATA = 'metadata',
+  APP_UPDATE = 'app_update_available',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -318,6 +319,7 @@ export enum GoogleAnalyticsEventsValues {
   NO = 'no',
   OPEN = 'open',
   CLOSE = 'close',
+  CLICKED = 'clicked',
   DARK_MODE = 'dark_mode',
   LIGHT_MODE = 'light_mode',
 }

@@ -203,11 +203,11 @@ export class DashboardAnalyticsEffects {
       );
 
       // GA4 Analytics
-      // this.analytics.logGAEvent(
-      //   AnalyticsEventCategories.APP_UPDATE_BADGE,
-      //   'Modal',
-      //   'New version modal displayed',
-      // );
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.APP_UPDATE,
+        GoogleAnalyticsEventsTitles.STATUS,
+        GoogleAnalyticsEventsValues.OPEN
+      );
       return of(AnalyticRecorded());
     }),
   ));
@@ -233,11 +233,11 @@ export class DashboardAnalyticsEffects {
       );
 
       // GA4 Analytics
-      // this.analytics.logGAEvent(
-      //   AnalyticsEventCategories.APP_UPDATE_BADGE,
-      //   'Modal',
-      //   `${selected} button selected`,
-      // );
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.APP_UPDATE,
+        GoogleAnalyticsEventsTitles.STATUS,
+        '${selected}'
+      );
       return of(AnalyticRecorded());
     }),
   ));
@@ -262,10 +262,11 @@ export class DashboardAnalyticsEffects {
       );
 
       // GA4 Analytics
-      // this.analytics.logGAEvent(
-      //   AnalyticsEventCategories.APP_UPDATE_BADGE,
-      //   'New version badge selected',
-      // );
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.APP_UPDATE,
+        GoogleAnalyticsEventsTitles.STATUS,
+        GoogleAnalyticsEventsValues.CLICKED
+      );
       return of(AnalyticRecorded());
     }),
   ));
