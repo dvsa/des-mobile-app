@@ -267,6 +267,14 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  FEEDBACK = 'feedback',
+  ADD_FAULT = 'add_fault',
+  FUEL_EFFICIENT_DRIVING= 'fuel_efficient_driving',
+  TRANSPORT_MODE = 'transport_mode',
+  INDEPENDENT_DRIVING = 'independent_driving',
+  CIRCUIT_CHANGED = 'circuit_changed',
+  UPLOAD_CONFIRMED = 'upload_confirmed',
+  SAVE_WRITE_UP = 'save_write_up',
   TEST_CENTRE_JOURNAL = 'test_centre_journal',
   RESUME_WRITE_UP = 'resume_write_up',
   BALANCE_QUESTION = 'balance_Q',
@@ -296,11 +304,16 @@ export enum GoogleAnalyticsEvents {
   METADATA = 'metadata',
   APP_UPDATE = 'app_update_available',
   INCOMPLETE_TESTS = 'incomplete_tests',
-  DEFER_WRITE_UP = 'defer_write-up',
+DEFER_WRITE_UP = 'defer_write-up',
   ASAM = 'single_app_mode_modal',
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  FAULT_TYPE = 'fault_type',
+  REASON = 'reason',
+  FEEDBACK_CATEGORY = 'feedback_category',
+  DRIVING_TYPE = 'driving_type',
+  DIRECTION = 'direction',
   QUESTION_NUMBER = 'question_number',
   BACK = 'back',
   RESULT = 'result',
@@ -333,6 +346,16 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  ECO = 'eco',
+  CAR_TO_BIKE = 'car_to_bike',
+  BIKE_TO_BIKE = 'bike_to_bike',
+  SAT_NAV = 'sat_nav',
+  DIAGRAM = 'diagram',
+  TRAFFIC_SIGNS = 'traffic_signs',
+  NOT_APPLICABLE = 'not_applicable',
+  LEFT = 'left',
+  RIGHT = 'right',
+  TERMINATED = 'terminated',
   PASS = 'pass',
   FAIL = 'fail',
   DEBRIEF = 'debrief',
