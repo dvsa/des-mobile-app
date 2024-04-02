@@ -293,6 +293,7 @@ export enum GoogleAnalyticsEvents {
   MENU = 'burger_menu',
   METADATA = 'metadata',
   APP_UPDATE = 'app_update_available',
+  INCOMPLETE_TESTS = 'incomplete_tests',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -315,6 +316,7 @@ export enum GoogleAnalyticsEventsTitles {
   PRACTICE_TEST_SELECTED = 'practice_test_report_selected',
   STATUS = 'status',
   DEVICE_THEME = 'device_theme',
+  TEST_STATUS = 'test_status',
 }
 
 export enum GoogleAnalyticsEventsValues {

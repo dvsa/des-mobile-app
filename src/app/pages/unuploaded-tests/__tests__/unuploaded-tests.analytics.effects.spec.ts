@@ -2,11 +2,17 @@ import { ReplaySubject } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+} from '@providers/analytics/analytics.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { UnuploadedTestsAnalyticsEffects } from '@pages/unuploaded-tests/unuploaded-tests.analytics.effects';
 import { ContinueUnuploadedTest, UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 describe('UnuploadedTestsAnalyticsEffects', () => {
   let effects: UnuploadedTestsAnalyticsEffects;
@@ -34,7 +40,12 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
       actions$.next(UnuploadedTestsViewDidEnter());
       effects.unUploadedTestViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+
+        //GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -42,13 +53,22 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
 
   describe('continueUnUploadedTest$', () => {
     it('should log an event', (done) => {
-      actions$.next(ContinueUnuploadedTest('status'));
+      actions$.next(ContinueUnuploadedTest(TestStatus.WriteUp));
       effects.continueUnUploadedTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.UN_UPLOADED_TESTS,
           AnalyticsEvents.TEST_SELECTED,
-          'status',
+          TestStatus.WriteUp,
+        );
+
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.INCOMPLETE_TESTS,
+          GoogleAnalyticsEventsTitles.TEST_STATUS,
+          TestStatus.WriteUp,
         );
         done();
       });
