@@ -298,6 +298,7 @@ export enum GoogleAnalyticsEvents {
 export enum GoogleAnalyticsEventsTitles {
   QUESTION_NUMBER = 'question_number',
   RESULT = 'result',
+  BACK = 'back',
   CHANGED_FROM = 'changed_from',
   FILTER = 'filter',
   CHANGED_TO = 'changed_to',
@@ -317,6 +318,8 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  DEBRIEF = 'debrief',
+  FINALISE_OUTCOME = 'finalise_outcome',
   CORRECT = 'correct',
   DRIVING_FAULT = 'driving_fault',
   APP_REF = 'app_ref',
