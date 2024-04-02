@@ -51,6 +51,9 @@ export class VehicleRegistrationComponent implements OnChanges {
   showSearchSpinner: boolean = false;
   didNotMatch: boolean = false;
 
+
+  //This is here to help with visits and tests in places with poor connectivity,
+  // this will be deleted in the full release
   isPressed: boolean = false;
   fakeOffline: boolean = false;
   realData: boolean = true;
@@ -75,6 +78,8 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.alternativeEvidenceDescriptionUpdate.emit(undefined);
   }
 
+  //This is here to help with visits and tests in places with poor connectivity,
+  // this will be deleted in the full release
   onTouchStart(holdType: string) {
     this.isPressed = true;
 
@@ -102,6 +107,8 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.showSearchSpinner = true;
     this.didNotMatch = false;
 
+    //This is here to help with visits and tests in places with poor connectivity,
+    // it will always point towards the real data when released
     let apiCall$ = this.realData ?
       this.motApiService.getVehicleByIdentifier(value) : this.motApiService.getFakeVehicleByIdentifier(value)
 
