@@ -4,7 +4,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import * as testResultSearchActions from '../test-results-search.actions';
@@ -44,6 +49,8 @@ describe('TestResultsSearchAnalyticsEffects', () => {
           .toBe(true);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -62,6 +69,12 @@ describe('TestResultsSearchAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_RESULTS_SEARCH,
             AnalyticsEvents.APPLICATION_REFERENCE_SEARCH,
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
+            GoogleAnalyticsEventsTitles.FILTER,
+            GoogleAnalyticsEventsValues.APP_REF
+          );
         done();
       });
     });
@@ -79,6 +92,12 @@ describe('TestResultsSearchAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_RESULTS_SEARCH,
             AnalyticsEvents.DRIVER_NUMBER_SEARCH,
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
+            GoogleAnalyticsEventsTitles.FILTER,
+            GoogleAnalyticsEventsValues.DRIVER_NUMBER
           );
         done();
       });
@@ -99,6 +118,12 @@ describe('TestResultsSearchAnalyticsEffects', () => {
             AnalyticsEvents.LDTM_SEARCH,
             '',
           );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LDTM_SEARCH,
+            GoogleAnalyticsEventsTitles.FILTER,
+            ''
+          );
         done();
       });
     });
@@ -115,6 +140,12 @@ describe('TestResultsSearchAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_RESULTS_SEARCH,
             AnalyticsEvents.LDTM_SEARCH,
             'test centre',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LDTM_SEARCH,
+            GoogleAnalyticsEventsTitles.FILTER,
+            'test centre'
           );
         done();
       });
@@ -140,6 +171,12 @@ describe('TestResultsSearchAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_RESULTS_SEARCH,
             AnalyticsEvents.LDTM_SEARCH,
             'date, staff id, test centre, activity code, test category, pass certificate, rekey',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LDTM_SEARCH,
+            GoogleAnalyticsEventsTitles.FILTER,
+            'date, staff id, test centre, activity code, test category, pass certificate, rekey'
           );
         done();
       });

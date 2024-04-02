@@ -4,7 +4,12 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames, GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import {
   PerformApplicationReferenceSearch,
   PerformDriverNumberSearch,
@@ -24,7 +29,10 @@ export class TestResultsSearchAnalyticsEffects {
   testResultSearchViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(TestResultSearchViewDidEnter),
     switchMap(() => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(AnalyticsScreenNames.TEST_RESULTS_SEARCH);
+      //GA4 Analytics
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.TEST_RESULTS_SEARCH);
       return of(AnalyticRecorded());
     }),
   ));
@@ -32,9 +40,16 @@ export class TestResultsSearchAnalyticsEffects {
   performApplicationReferenceSearch$ = createEffect(() => this.actions$.pipe(
     ofType(PerformApplicationReferenceSearch),
     switchMap(() => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         AnalyticsEventCategories.TEST_RESULTS_SEARCH,
         AnalyticsEvents.APPLICATION_REFERENCE_SEARCH,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.APP_REF
       );
       return of(AnalyticRecorded());
     }),
@@ -43,9 +58,16 @@ export class TestResultsSearchAnalyticsEffects {
   performDriverNumberSearch$ = createEffect(() => this.actions$.pipe(
     ofType(PerformDriverNumberSearch),
     switchMap(() => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         AnalyticsEventCategories.TEST_RESULTS_SEARCH,
         AnalyticsEvents.DRIVER_NUMBER_SEARCH,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.DRIVER_NUMBER
       );
       return of(AnalyticRecorded());
     }),
@@ -54,6 +76,7 @@ export class TestResultsSearchAnalyticsEffects {
   performLDTMSearch$ = createEffect(() => this.actions$.pipe(
     ofType(PerformLDTMSearch),
     switchMap((action: ReturnType<typeof PerformLDTMSearch>) => {
+      // TODO - MES-9495 - remove old analytics
       const searchParametersUsed: string[] = [];
       let label: string = '';
 
@@ -97,6 +120,12 @@ export class TestResultsSearchAnalyticsEffects {
         AnalyticsEventCategories.TEST_RESULTS_SEARCH,
         AnalyticsEvents.LDTM_SEARCH,
         label,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.LDTM_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        label
       );
       return of(AnalyticRecorded());
     }),
