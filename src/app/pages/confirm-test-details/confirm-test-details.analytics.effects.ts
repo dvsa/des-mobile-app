@@ -5,7 +5,14 @@ import {
   concatMap, filter, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   BackButtonClick,
@@ -46,7 +53,10 @@ export class ConfirmTestDetailsAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(() => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(AnalyticsScreenNames.CONFIRM_TEST_DETAILS);
+      // GA4 Analytics
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.CONFIRM_TEST_DETAILS);
       return of(AnalyticRecorded());
     }),
   ));
@@ -69,10 +79,17 @@ export class ConfirmTestDetailsAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [ReturnType<typeof BackToDebrief>, TestsModel, boolean]) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.NAVIGATION, tests),
         formatAnalyticsText(AnalyticsEvents.BACK, tests),
         'Back to debrief',
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.BACK,
+        GoogleAnalyticsEventsValues.DEBRIEF
       );
       return of(AnalyticRecorded());
     }),
@@ -96,10 +113,17 @@ export class ConfirmTestDetailsAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [ReturnType<typeof BackButtonClick>, TestsModel, boolean]) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.NAVIGATION, tests),
         formatAnalyticsText(AnalyticsEvents.BACK, tests),
         'Back to finalise outcome',
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.BACK,
+        GoogleAnalyticsEventsValues.FINALISE_OUTCOME
       );
       return of(AnalyticRecorded());
     }),
