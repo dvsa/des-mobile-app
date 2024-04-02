@@ -8,6 +8,9 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
   AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
   JournalRefreshModes,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -42,6 +45,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       effects.testCentreJournalView$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -55,6 +59,11 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
           AnalyticsEvents.REFRESH_TC_JOURNAL,
+          JournalRefreshModes.AUTOMATIC,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.REFRESH,
           JournalRefreshModes.AUTOMATIC,
         );
         done();
@@ -71,13 +80,18 @@ describe('TestCentreJournalAnalyticsEffects', () => {
           AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
           AnalyticsEvents.CHANGE_LOCATION,
         );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.LOCATION,
+        );
         done();
       });
     });
   });
 
   describe('testCentreJournalTabChanged$', () => {
-    it('should log an event', (done) => {
+    it('should log an event with an option not listed in the GA4 switch', (done) => {
       actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('tab1'));
       effects.testCentreJournalTabChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
@@ -85,6 +99,28 @@ describe('TestCentreJournalAnalyticsEffects', () => {
           AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
           AnalyticsEvents.TAB_SELECTION,
           'tab1',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.TAB_SELECTION,
+          GoogleAnalyticsEventsValues.UNKNOWN,
+        );
+        done();
+      });
+    });
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('View Journals'));
+      effects.testCentreJournalTabChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.TAB_SELECTION,
+          'View Journals',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.TAB_SELECTION,
+          GoogleAnalyticsEventsValues.JOURNALS,
         );
         done();
       });
@@ -99,6 +135,11 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
           AnalyticsEvents.CANDIDATE_SELECTION,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.CANDIDATE,
         );
         done();
       });
@@ -115,6 +156,11 @@ describe('TestCentreJournalAnalyticsEffects', () => {
           AnalyticsEvents.BUTTON_SELECTION,
           'Show booking',
         );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+          GoogleAnalyticsEventsValues.BOOKINGS,
+        );
         done();
       });
     });
@@ -128,6 +174,11 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
           AnalyticsEvents.EXAMINER_SELECTION,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.EXAMINER,
         );
         done();
       });
@@ -144,13 +195,18 @@ describe('TestCentreJournalAnalyticsEffects', () => {
           AnalyticsEvents.BUTTON_SELECTION,
           'Show journals',
         );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+          GoogleAnalyticsEventsValues.JOURNALS,
+        );
         done();
       });
     });
   });
 
   describe('testCentreJournalDateNavigation$', () => {
-    it('should log an event', (done) => {
+    it('should log an event with an option not listed in the GA4 switch', (done) => {
       actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('some day'));
       effects.testCentreJournalDateNavigation$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
@@ -158,6 +214,28 @@ describe('TestCentreJournalAnalyticsEffects', () => {
           AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
           AnalyticsEvents.NAVIGATION,
           'some day',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.NAVIGATION,
+          GoogleAnalyticsEventsValues.UNKNOWN,
+        );
+        done();
+      });
+    });
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('today'));
+      effects.testCentreJournalDateNavigation$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.NAVIGATION,
+          'today',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+          GoogleAnalyticsEventsTitles.NAVIGATION,
+          GoogleAnalyticsEventsValues.TODAY,
         );
         done();
       });

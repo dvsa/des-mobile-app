@@ -267,6 +267,7 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  TEST_CENTRE_JOURNAL = 'test_centre_journal',
   RESUME_WRITE_UP = 'resume_write_up',
   BALANCE_QUESTION = 'balance_Q',
   SAFETY_QUESTION = 'safety_Q',
@@ -299,12 +300,14 @@ export enum GoogleAnalyticsEvents {
 export enum GoogleAnalyticsEventsTitles {
   QUESTION_NUMBER = 'question_number',
   BACK = 'back',
-  NAVIGATION = 'navigation',
   RESULT = 'result',
   SLOT_CHANGED = 'slot_changed',
   ERROR = 'error',
   EARLY_START_MODAL = 'early_start_modal',
   REFRESH = 'refresh',
+  NAVIGATION = 'navigation',
+  BUTTON_SELECTION = 'button_selection',
+  TAB_SELECTION = 'tab_selection',
   CHANGED_FROM = 'changed_from',
   FILTER = 'filter',
   CHANGED_TO = 'changed_to',
@@ -340,7 +343,14 @@ export enum GoogleAnalyticsEventsValues {
   COMMS_METHOD_NEW_EMAIL = 'new_email',
   COMMS_METHOD_POST = 'by_email',
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
+  CANDIDATE = 'candidate',
+  JOURNALS = 'journals',
+  LOCATION = 'location',
+  EXAMINER = 'examiner',
+  BOOKINGS = 'bookings',
   YES = 'yes',
+  TODAY = 'today',
+  TOMORROW = 'tomorrow',
   NO = 'no',
   CONTINUE = 'continue',
   DISPLAY = 'display',
@@ -352,4 +362,5 @@ export enum GoogleAnalyticsEventsValues {
   CLICKED = 'clicked',
   DARK_MODE = 'dark_mode',
   LIGHT_MODE = 'light_mode',
+  UNKNOWN = 'unknown',
 }
