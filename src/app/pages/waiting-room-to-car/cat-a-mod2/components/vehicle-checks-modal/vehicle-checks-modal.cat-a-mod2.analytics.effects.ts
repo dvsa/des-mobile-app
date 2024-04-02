@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
   AnalyticsEventCategories,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -43,7 +43,12 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       ),
     )),
     switchMap(([, tests]: [ReturnType<typeof VehicleChecksViewDidEnter>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(
+        formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
+      );
+      // GA4 Analytics
+      this.analytics.setGACurrentPage(
         formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
       );
       return of(AnalyticRecorded());
@@ -60,10 +65,17 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof SafetyQuestionSelected>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       const eventText = `safety question ${action.index + 1} changed`;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
         eventText,
+        action.safetyQuestion.code,
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        (GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1)),
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.safetyQuestion.code,
       );
       return of(AnalyticRecorded());
@@ -80,12 +92,20 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof SafetyQuestionOutcomeChanged>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       const eventText = `safety question ${action.index + 1} outcome changed`;
       const outComeText = action.safetyQuestionOutcome === 'P' ? 'correct' : 'driving fault';
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
         eventText,
         outComeText,
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        (GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1)),
+        GoogleAnalyticsEventsTitles.RESULT,
+        action.safetyQuestionOutcome === 'P' ?
+          GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
       );
       return of(AnalyticRecorded());
     }),
@@ -101,10 +121,17 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof BalanceQuestionSelected>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       const eventText = `balance question ${action.index + 1} changed`;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
         eventText,
+        action.balanceQuestion.code,
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        (GoogleAnalyticsEvents.BALANCE_QUESTION + (action.index + 1)),
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.balanceQuestion.code,
       );
       return of(AnalyticRecorded());
@@ -121,12 +148,20 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof BalanceQuestionOutcomeChanged>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       const eventText = `balance question ${action.index + 1} outcome changed`;
       const outComeText = action.balanceQuestionOutcome === 'P' ? 'correct' : 'driving fault';
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
         eventText,
         outComeText,
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        (GoogleAnalyticsEvents.BALANCE_QUESTION + (action.index + 1)),
+        GoogleAnalyticsEventsTitles.RESULT,
+        action.balanceQuestionOutcome === 'P' ?
+          GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
       );
       return of(AnalyticRecorded());
     }),

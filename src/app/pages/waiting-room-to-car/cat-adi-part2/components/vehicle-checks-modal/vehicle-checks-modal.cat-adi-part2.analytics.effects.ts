@@ -4,6 +4,9 @@ import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
   AnalyticsEventCategories,
   AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -41,7 +44,12 @@ export class VehicleChecksModalAnalyticsEffects {
       ),
     )),
     switchMap(([, tests]: [ReturnType<typeof VehicleChecksViewDidEnter>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(
+        formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
+      );
+      // GA4 Analytics
+      this.analytics.setGACurrentPage(
         formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
       );
       return of(AnalyticRecorded());
@@ -58,10 +66,17 @@ export class VehicleChecksModalAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof TellMeQuestionSelected>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       const eventText = `tell me question ${action.index + 1} changed`;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
         eventText,
+        action.tellMeQuestion.code,
+      );
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.tellMeQuestion.code,
       );
       return of(AnalyticRecorded());
@@ -78,12 +93,21 @@ export class VehicleChecksModalAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof TellMeQuestionOutcomeChanged>, TestsModel]) => {
+      // TODO - MES-9495 - remove old analytics
       const eventText = `tell me question ${action.index + 1} outcome changed`;
       const outComeText = action.tellMeQuestionOutcome === 'P' ? 'correct' : 'driving fault';
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
         eventText,
         outComeText,
+      );
+
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
+        GoogleAnalyticsEventsTitles.RESULT,
+        action.tellMeQuestionOutcome === 'P' ?
+          GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
       );
       return of(AnalyticRecorded());
     }),

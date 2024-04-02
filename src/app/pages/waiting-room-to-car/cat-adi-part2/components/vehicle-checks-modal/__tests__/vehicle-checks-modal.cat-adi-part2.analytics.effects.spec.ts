@@ -9,7 +9,13 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import * as testsActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import * as VehicleChecksActions
   from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import {
@@ -55,13 +61,14 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
   });
 
   describe('tellMeQuestionChanged$ effect', () => {
-    const questionNumber: number = 1;
+    const questionNumber: number = 0;
     const tellMeQuestion: QuestionResult = {
       code: 'T1',
     };
@@ -75,6 +82,11 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
           `tell me question ${questionNumber + 1} changed`,
           tellMeQuestion.code,
         );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          tellMeQuestion.code,
+        );
         done();
       });
     });
@@ -82,7 +94,7 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
 
   describe('tellMeQuestionOutComeChanged$', () => {
     const questionOutcome: QuestionOutcome = 'DF';
-    const questionNumber: number = 1;
+    const questionNumber: number = 0;
     it('should log an analytics event with tell me question outcome info', (done) => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.ADI2));
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
@@ -92,6 +104,11 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
           AnalyticsEventCategories.VEHICLE_CHECKS,
           `tell me question ${questionNumber + 1} outcome changed`,
           'driving fault',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT,
         );
         done();
       });
