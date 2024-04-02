@@ -6,7 +6,7 @@
 >
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col
-    (touchstart)="onTouchStart()"
+    (touchstart)="onTouchStart('fakeOffline')"
     (touchend)="onTouchEnd()"
     class="component-label ion-align-self-center"
     size="32"
@@ -38,6 +38,8 @@
           [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
+          (touchstart)="onTouchStart('realData')"
+          (touchend)="onTouchEnd()"
         >
           <ion-text class="mot-button-text">Check MOT</ion-text>
         </ion-button>
