@@ -30,6 +30,9 @@ export class VehicleDetailsApiService {
   vehicleIdentifier: string;
   vehicleDetailsResponse: VehicleDetails;
 
+
+  //This is here to help with visits and tests in places with poor connectivity,
+  // this will be deleted in the full release
   fakeMOTResults: MotDataWithStatus[] = [
     {
       status: '200',
