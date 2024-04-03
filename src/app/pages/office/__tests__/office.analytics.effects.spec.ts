@@ -503,6 +503,33 @@ describe('OfficeAnalyticsEffects', () => {
         done();
       });
     });
+    it('should call logError with pass with a an unknown severity ' +
+      'if the errorMessage does not follow the required formatting', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+      // ACT
+      actions$.next(officeActions.OfficeValidationError('faultComment-simple-useOfMirrorsSignalling'));
+      // ASSERT
+      effects.validationErrorEffect$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError)
+          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
+            'faultComment-simple-useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling',
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            GoogleAnalyticsEventsValues.UNKNOWN);
+        done();
+      });
+    });
     it('should call logError with pass, prefixed with practice mode', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
