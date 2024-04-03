@@ -403,37 +403,103 @@ describe('OfficeAnalyticsEffects', () => {
   });
 
   describe('validationErrorEffect', () => {
-    it('should call logError with pass', (done) => {
+    it('should call logError with pass with a severity', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
       // ACT
-      actions$.next(officeActions.OfficeValidationError('error message'));
+      actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
-            'error message');
+            'faultComment-simple-dangerous-useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling',
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            'dangerous');
         done();
       });
     });
-    it('should call logError with fail', (done) => {
+    it('should call logError with fail with a severity', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
       // ACT
-      actions$.next(officeActions.OfficeValidationError('error message'));
+      actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNameFail})`,
-            'error message');
+            'faultComment-simple-dangerous-useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling',
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            'dangerous');
+        done();
+      });
+    });
+    it('should call logError with pass without a severity', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+      // ACT
+      actions$.next(officeActions.OfficeValidationError('useOfMirrorsSignalling'));
+      // ASSERT
+      effects.validationErrorEffect$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError)
+          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
+            'useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling');
+        done();
+      });
+    });
+    it('should call logError with fail without a severity', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
+      // ACT
+      actions$.next(officeActions.OfficeValidationError('useOfMirrorsSignalling'));
+      // ASSERT
+      effects.validationErrorEffect$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError)
+          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNameFail})`,
+            'useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling');
         done();
       });
     });
@@ -443,14 +509,14 @@ describe('OfficeAnalyticsEffects', () => {
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
       // ACT
-      actions$.next(officeActions.OfficeValidationError('error message'));
+      actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModePass})`,
-            'error message');
+            'faultComment-simple-dangerous-useOfMirrorsSignalling');
         done();
       });
     });
@@ -460,14 +526,14 @@ describe('OfficeAnalyticsEffects', () => {
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
       // ACT
-      actions$.next(officeActions.OfficeValidationError('error message'));
+      actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModeFail})`,
-            'error message');
+            'faultComment-simple-dangerous-useOfMirrorsSignalling');
         done();
       });
     });

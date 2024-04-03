@@ -175,11 +175,13 @@ export class OfficeAnalyticsEffects {
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
-      // this.analytics.logGAEvent(
-      //   AnalyticsEventCategories.OFFICE,
-      //   AnalyticsEvents.DATE_OF_TEST_CHANGED,
-      //   `previous date: ${action.previousStartDate}; new date: ${action.customStartDate}`,
-      // );
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.DATE_OF_TEST,
+        GoogleAnalyticsEventsTitles.CHANGED_FROM,
+        action.previousStartDate,
+        GoogleAnalyticsEventsTitles.CHANGED_TO,
+        action.customStartDate,
+      );
 
       return of(AnalyticRecorded());
     }),
@@ -292,16 +294,40 @@ export class OfficeAnalyticsEffects {
       // TODO - MES-9495 - remove old analytics
       const formattedScreenName = formatAnalyticsText(screenName, tests);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`, action.errorMessage);
-
       // GA4 Analytics
-      // this.analytics.logGAEvent(GoogleAnalyticsEvents.VALIDATION_ERROR,
-      //   GoogleAnalyticsEventsTitles.REFRESH,
-      //   refreshType,
-      //   GoogleAnalyticsEventsTitles.ERROR,
-      //   action.errorMessage,
-      // );
 
-      // GA4 Analytics
+      let splitArray = action.errorMessage.split('-').map(value => {
+        return value.split(' ')[0];
+      });
+
+      let controlName = splitArray[splitArray.length - 1];
+
+      if (splitArray.length >= 3) {
+        let faultType = null;
+        switch (splitArray[2]) {
+          case 'dangerous':
+            faultType = GoogleAnalyticsEventsValues.DANGEROUS;
+            break;
+          case 'serious':
+            faultType = GoogleAnalyticsEventsValues.SERIOUS;
+            break;
+          default:
+            faultType = GoogleAnalyticsEventsValues.UNKNOWN;
+        }
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          controlName,
+          GoogleAnalyticsEventsTitles.SEVERITY,
+          faultType,
+        );
+      } else {
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          controlName,
+        );
+      }
       return of(AnalyticRecorded());
     }),
   ));
@@ -555,7 +581,7 @@ export class OfficeAnalyticsEffects {
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TRANSPORT_MODE,
         GoogleAnalyticsEventsTitles.CHANGED_TO,
-        eventValue
+        eventValue,
       );
       return of(AnalyticRecorded());
     }),
@@ -686,7 +712,7 @@ export class OfficeAnalyticsEffects {
         GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
         GoogleAnalyticsEventsValues.ECO,
         GoogleAnalyticsEventsTitles.REASON,
-        ecoCaptureReason
+        ecoCaptureReason,
       );
       return of(AnalyticRecorded());
     }),

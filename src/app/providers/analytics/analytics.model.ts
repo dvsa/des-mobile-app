@@ -267,6 +267,7 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  DATE_OF_TEST = 'date_of_test',
   FEEDBACK = 'feedback',
   ADD_FAULT = 'add_fault',
   FUEL_EFFICIENT_DRIVING= 'fuel_efficient_driving',
@@ -309,6 +310,7 @@ DEFER_WRITE_UP = 'defer_write-up',
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  SEVERITY = 'severity',
   FAULT_TYPE = 'fault_type',
   REASON = 'reason',
   FEEDBACK_CATEGORY = 'feedback_category',
@@ -392,4 +394,6 @@ export enum GoogleAnalyticsEventsValues {
   LIGHT_MODE = 'light_mode',
   UNKNOWN = 'unknown',
   TRIGGERED = 'triggered',
+  SERIOUS = 'serious',
+  DANGEROUS = 'dangerous',
 }
