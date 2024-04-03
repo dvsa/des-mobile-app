@@ -270,7 +270,7 @@ export enum GoogleAnalyticsEvents {
   DATE_OF_TEST = 'date_of_test',
   FEEDBACK = 'feedback',
   ADD_FAULT = 'add_fault',
-  FUEL_EFFICIENT_DRIVING= 'fuel_efficient_driving',
+  FUEL_EFFICIENT_DRIVING = 'fuel_efficient_driving',
   TRANSPORT_MODE = 'transport_mode',
   INDEPENDENT_DRIVING = 'independent_driving',
   CIRCUIT_CHANGED = 'circuit_changed',
@@ -305,7 +305,7 @@ export enum GoogleAnalyticsEvents {
   METADATA = 'metadata',
   APP_UPDATE = 'app_update_available',
   INCOMPLETE_TESTS = 'incomplete_tests',
-DEFER_WRITE_UP = 'defer_write-up',
+  DEFER_WRITE_UP = 'defer_write-up',
   ASAM = 'single_app_mode_modal',
 }
 
