@@ -14,6 +14,7 @@
 </ion-header>
 
 <ion-content forceOverscroll="false">
+  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -37,6 +38,7 @@
             </transmission>
 
             <vehicle-registration
+              (flipFakeOffline)="networkStateProvider.updateNetworkStatus($event)"
               (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"

@@ -17,6 +17,7 @@
 </ion-header>
 
 <ion-content force-overscroll="false">
+  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <warning-banner
       *ngIf="shouldDisplayEyesightBanner()"
@@ -46,6 +47,7 @@
         >
           <ion-col class="ion-no-padding">
             <vehicle-registration
+              (flipFakeOffline)="networkStateProvider.updateNetworkStatus($event)"
               (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
