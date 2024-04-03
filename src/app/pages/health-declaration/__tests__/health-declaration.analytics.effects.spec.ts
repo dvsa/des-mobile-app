@@ -7,7 +7,7 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEventPrefix, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -71,11 +71,17 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
+
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
       });
     });
+
     it('should call setCurrentPage with practice mode prefix', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
@@ -86,8 +92,13 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeMode);
+
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
         done();
       });
     });
@@ -104,13 +115,22 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${AnalyticsScreenNames.HEALTH_DECLARATION})`,
+            'error message');
+
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
             'error message');
         done();
       });
     });
 
+    // TODO - MES-9495 - remove old analytics
     it('should call logError with pass, prefixed with practice mode', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));

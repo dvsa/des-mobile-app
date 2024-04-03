@@ -5,11 +5,16 @@ import {
   concatMap, filter, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsErrorTypes, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsErrorTypes,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+} from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { isPracticeMode } from '@store/tests/tests.selector';
@@ -50,8 +55,12 @@ export class HealthDeclarationAnalyticsEffects {
     switchMap((
       [, tests]: [ReturnType<typeof HealthDeclarationViewDidEnter>, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       const screenName = formatAnalyticsText(AnalyticsScreenNames.HEALTH_DECLARATION, tests);
       this.analytics.setCurrentPage(screenName);
+
+      //GA4 Analytics
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.HEALTH_DECLARATION, tests));
       return of(AnalyticRecorded());
     }),
   ));
@@ -76,11 +85,21 @@ export class HealthDeclarationAnalyticsEffects {
     switchMap((
       [action, tests]: [ReturnType<typeof HealthDeclarationValidationError>, TestsModel, boolean],
     ) => {
+
+      // TODO - MES-9495 - remove old analytics
       const formattedScreenName = formatAnalyticsText(AnalyticsScreenNames.HEALTH_DECLARATION, tests);
       this.analytics.logError(
         `${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`,
         action.errorMessage,
       );
+
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        action.errorMessage,
+      );
+
       return of(AnalyticRecorded());
     }),
   ));
