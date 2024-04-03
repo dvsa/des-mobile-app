@@ -55,10 +55,7 @@
     </ion-row>
   </ion-col>
 </ion-row>
-<ion-row
-  class="ion-padding-bottom mes-row-separator"
-  *ngIf="hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline"
->
+<ion-row class="ion-padding-bottom mes-row-separator" *ngIf="hasCalledMOT">
   <mot-card
     class="full-width"
     (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"

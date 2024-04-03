@@ -19,8 +19,6 @@ export class MotCardComponent {
   @Input()
   didNotMatch: boolean = false;
   @Input()
-  fakeOffline: boolean = false;
-  @Input()
   formGroup: UntypedFormGroup;
   @Input()
   data: VehicleDetails = {
@@ -39,6 +37,11 @@ export class MotCardComponent {
   @Output()
   alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
 
+  //This is here to help with visits and tests in places with poor connectivity,
+  // this will be deleted in the full release
+  @Input()
+  fakeOffline: boolean = false;
+
   constructor(
     public networkState: NetworkStateProvider,
   ) {
@@ -48,7 +51,6 @@ export class MotCardComponent {
     return (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved')
       && this?.data?.status !== MotStatusCodes.NO_DETAILS
       && this.didNotMatch === false
-      && this.networkState.getNetworkState() === ConnectionStatus.ONLINE;
   }
 
   noDetails(): boolean {

@@ -42,10 +42,8 @@
       <ion-icon class="circle-icon" name="alert-circle"></ion-icon>
     </ion-col>
     <ion-col class="icon-text-align" size="49">
-      <ion-text class="icon-text-padding" *ngIf="!isOffline() && (noDetails() || is404())">
-        Data is not available.
-      </ion-text>
-      <ion-text class="icon-text-padding" *ngIf="!isOffline() && didNotMatch">
+      <ion-text *ngIf="!isOffline() && (noDetails() || is404())"> Data is not available. </ion-text>
+      <ion-text *ngIf="!isOffline() && didNotMatch">
         The VRN’s entered do not match.<br />Please continue or try again.
       </ion-text>
       <ion-text *ngIf="isOffline()"> You are offline. This feature is not available. </ion-text>
