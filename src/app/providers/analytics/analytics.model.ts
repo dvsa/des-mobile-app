@@ -295,7 +295,10 @@ export enum GoogleAnalyticsEvents {
   MENU = 'burger_menu',
   METADATA = 'metadata',
   APP_UPDATE = 'app_update_available',
-  INCOMPLETE_TESTS = 'incomplete_tests',}
+  INCOMPLETE_TESTS = 'incomplete_tests',
+  DEFER_WRITE_UP = 'defer_write-up',
+  ASAM = 'single_app_mode_modal',
+}
 
 export enum GoogleAnalyticsEventsTitles {
   QUESTION_NUMBER = 'question_number',
@@ -325,6 +328,8 @@ export enum GoogleAnalyticsEventsTitles {
   STATUS = 'status',
   DEVICE_THEME = 'device_theme',
   TEST_STATUS = 'test_status',
+  MODAL = 'modal_status',
+
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -363,4 +368,5 @@ export enum GoogleAnalyticsEventsValues {
   DARK_MODE = 'dark_mode',
   LIGHT_MODE = 'light_mode',
   UNKNOWN = 'unknown',
+  TRIGGERED = 'triggered',
 }
