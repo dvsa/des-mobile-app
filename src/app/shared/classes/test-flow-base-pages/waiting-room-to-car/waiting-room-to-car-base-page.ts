@@ -80,6 +80,7 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.selector';
 import {isAnyOf} from '@shared/helpers/simplifiers';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -96,6 +97,7 @@ export interface CommonWaitingRoomToCarPageState {
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
   motEvidenceProvided$: Observable<boolean>;
+  isOffline$: Observable<boolean>;
   motEvidenceDescription$: Observable<string>;
 }
 
@@ -105,6 +107,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   protected alertController = this.injector.get(AlertController);
   protected routeByCategoryProvider = this.injector.get(RouteByCategoryProvider);
   protected faultCountProvider = this.injector.get(FaultCountProvider);
+  protected networkStateProvider = this.injector.get(NetworkStateProvider);
+
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -165,6 +169,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
         select(getVehicleDetails),
         select(getMotEvidence),
       ),
+      isOffline$: this.networkStateProvider.isOffline$,
     };
   }
 

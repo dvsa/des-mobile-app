@@ -57,6 +57,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   isPressed: boolean = false;
   fakeOffline: boolean = false;
   realData: boolean = true;
+  @Output()
+  flipFakeOffline = new EventEmitter<ConnectionStatus>();
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
@@ -91,6 +93,7 @@ export class VehicleRegistrationComponent implements OnChanges {
             break;
           case 'fakeOffline':
             this.fakeOffline = !this.fakeOffline;
+            this.flipFakeOffline.emit(this.fakeOffline ? ConnectionStatus.OFFLINE : ConnectionStatus.ONLINE)
             break;
         }
       }
