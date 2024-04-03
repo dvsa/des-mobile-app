@@ -61,6 +61,56 @@ import { getTestOutcome } from '@pages/debrief/debrief.selector';
 
 @Injectable()
 export class OfficeAnalyticsEffects {
+
+  getEventValue(inputValue: string) {
+    let returnValue = null;
+
+    switch (inputValue) {
+      case 'dangerous':
+        returnValue = GoogleAnalyticsEventsValues.DANGEROUS;
+        break;
+      case 'serious':
+        returnValue = GoogleAnalyticsEventsValues.SERIOUS;
+        break;
+      case 'Fail':
+        returnValue = GoogleAnalyticsEventsValues.FAIL;
+        break;
+      case 'Pass':
+        returnValue = GoogleAnalyticsEventsValues.PASS;
+        break;
+      case 'Terminated':
+        returnValue = GoogleAnalyticsEventsValues.TERMINATED;
+        break;
+      case 'Sat nav':
+        returnValue = GoogleAnalyticsEventsValues.SAT_NAV;
+        break;
+      case 'Traffic signs':
+        returnValue = GoogleAnalyticsEventsValues.TRAFFIC_SIGNS;
+        break;
+      case 'Diagram':
+        returnValue = GoogleAnalyticsEventsValues.DIAGRAM;
+        break;
+      case 'Bike to bike':
+        returnValue = GoogleAnalyticsEventsValues.BIKE_TO_BIKE;
+        break;
+      case 'Car to bike':
+        returnValue = GoogleAnalyticsEventsValues.CAR_TO_BIKE;
+        break;
+      case 'Left':
+        returnValue = GoogleAnalyticsEventsValues.LEFT;
+        break;
+      case 'Right':
+        returnValue = GoogleAnalyticsEventsValues.RIGHT;
+        break;
+      case 'N/A':
+        returnValue = GoogleAnalyticsEventsValues.NOT_APPLICABLE;
+        break;
+      default:
+        returnValue = GoogleAnalyticsEventsValues.UNKNOWN;
+    }
+
+    return returnValue;
+  }
   constructor(
     private analytics: AnalyticsProvider,
     private actions$: Actions,
@@ -238,20 +288,7 @@ export class OfficeAnalyticsEffects {
       );
 
       // GA4 Analytics
-      let eventValue = null;
-      switch (testOutcome) {
-        case 'Fail':
-          eventValue = GoogleAnalyticsEventsValues.FAIL;
-          break;
-        case 'Pass':
-          eventValue = GoogleAnalyticsEventsValues.PASS;
-          break;
-        case 'Terminated':
-          eventValue = GoogleAnalyticsEventsValues.TERMINATED;
-          break;
-        default:
-          eventValue = GoogleAnalyticsEventsValues.UNKNOWN;
-      }
+      let eventValue = this.getEventValue(testOutcome);
 
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
@@ -303,17 +340,8 @@ export class OfficeAnalyticsEffects {
       let controlName = splitArray[splitArray.length - 1];
 
       if (splitArray.length >= 3) {
-        let faultType = null;
-        switch (splitArray[2]) {
-          case 'dangerous':
-            faultType = GoogleAnalyticsEventsValues.DANGEROUS;
-            break;
-          case 'serious':
-            faultType = GoogleAnalyticsEventsValues.SERIOUS;
-            break;
-          default:
-            faultType = GoogleAnalyticsEventsValues.UNKNOWN;
-        }
+        let faultType = this.getEventValue(splitArray[2]);
+
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.VALIDATION_ERROR,
           GoogleAnalyticsEventsTitles.BLANK_FIELD,
@@ -386,20 +414,7 @@ export class OfficeAnalyticsEffects {
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
-      let eventValue = null;
-      switch (testOutcome) {
-        case 'Fail':
-          eventValue = GoogleAnalyticsEventsValues.FAIL;
-          break;
-        case 'Pass':
-          eventValue = GoogleAnalyticsEventsValues.PASS;
-          break;
-        case 'Terminated':
-          eventValue = GoogleAnalyticsEventsValues.TERMINATED;
-          break;
-        default:
-          eventValue = GoogleAnalyticsEventsValues.UNKNOWN;
-      }
+      let eventValue = this.getEventValue(testOutcome);
 
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.UPLOAD_CONFIRMED,
@@ -444,17 +459,7 @@ export class OfficeAnalyticsEffects {
         `Circuit type ${action.circuitType} selected`,
       );
       //GA4 Analytics
-      let eventValue = null;
-      switch (action.circuitType) {
-        case 'Left':
-          eventValue = GoogleAnalyticsEventsValues.LEFT;
-          break;
-        case 'Right':
-          eventValue = GoogleAnalyticsEventsValues.RIGHT;
-          break;
-        default:
-          eventValue = GoogleAnalyticsEventsValues.UNKNOWN;
-      }
+      let eventValue = this.getEventValue(action.circuitType);
 
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logGAEvent(
@@ -500,23 +505,7 @@ export class OfficeAnalyticsEffects {
       );
 
       //GA4 Analytics
-      let eventValue = null;
-      switch (action.independentDriving) {
-        case 'Sat nav':
-          eventValue = GoogleAnalyticsEventsValues.SAT_NAV;
-          break;
-        case 'Traffic signs':
-          eventValue = GoogleAnalyticsEventsValues.TRAFFIC_SIGNS;
-          break;
-        case 'Diagram':
-          eventValue = GoogleAnalyticsEventsValues.DIAGRAM;
-          break;
-        case 'N/A':
-          eventValue = GoogleAnalyticsEventsValues.NOT_APPLICABLE;
-          break;
-        default:
-          eventValue = GoogleAnalyticsEventsValues.UNKNOWN;
-      }
+      let eventValue = this.getEventValue(action.independentDriving);
 
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logGAEvent(
@@ -563,20 +552,7 @@ export class OfficeAnalyticsEffects {
       //GA4 Analytics
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
 
-      let eventValue = null;
-      switch (action.modeOfTransport) {
-        case 'Bike to bike':
-          eventValue = GoogleAnalyticsEventsValues.BIKE_TO_BIKE;
-          break;
-        case 'Car to bike':
-          eventValue = GoogleAnalyticsEventsValues.CAR_TO_BIKE;
-          break;
-        case 'N/A':
-          eventValue = GoogleAnalyticsEventsValues.NOT_APPLICABLE;
-          break;
-        default:
-          eventValue = GoogleAnalyticsEventsValues.UNKNOWN;
-      }
+      let eventValue = this.getEventValue(action.modeOfTransport);
 
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TRANSPORT_MODE,

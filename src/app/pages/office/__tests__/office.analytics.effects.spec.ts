@@ -425,7 +425,7 @@ describe('OfficeAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
             'useOfMirrorsSignalling',
             GoogleAnalyticsEventsTitles.SEVERITY,
-            'dangerous');
+            GoogleAnalyticsEventsValues.DANGEROUS);
         done();
       });
     });
@@ -451,7 +451,7 @@ describe('OfficeAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
             'useOfMirrorsSignalling',
             GoogleAnalyticsEventsTitles.SEVERITY,
-            'dangerous');
+            GoogleAnalyticsEventsValues.DANGEROUS);
         done();
       });
     });
@@ -514,9 +514,18 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModePass})`,
             'faultComment-simple-dangerous-useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling',
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            GoogleAnalyticsEventsValues.DANGEROUS);
         done();
       });
     });
@@ -531,9 +540,18 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModeFail})`,
             'faultComment-simple-dangerous-useOfMirrorsSignalling');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'useOfMirrorsSignalling',
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            GoogleAnalyticsEventsValues.DANGEROUS);
         done();
       });
     });
