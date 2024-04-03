@@ -1,5 +1,5 @@
 <ion-row
-  [class.mes-row-separator]="!(hasCalledMOT || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline)"
+  [class.mes-row-separator]="!hasCalledMOT"
   class="mes-validated-row"
   id="registration-card"
   [formGroup]="formGroup"

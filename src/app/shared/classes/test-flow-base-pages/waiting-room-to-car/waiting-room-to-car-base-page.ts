@@ -312,9 +312,9 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motDetailsChanged(motDetails: VehicleDetails) {
-    this.store$.dispatch(VehicleMakeChanged(motDetails.make));
-    this.store$.dispatch(VehicleModelChanged(motDetails.model));
-    this.store$.dispatch(VehicleExpiryDateChanged(motDetails.testExpiryDate));
+    this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
+    this.store$.dispatch(VehicleModelChanged(motDetails?.model));
+    this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.testExpiryDate));
   }
 
   async practiceModeTestCentreAlert() {
