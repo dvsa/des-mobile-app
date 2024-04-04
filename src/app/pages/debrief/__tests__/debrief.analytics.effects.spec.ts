@@ -68,7 +68,11 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenNamePass);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenNamePass);
         done();
       });
@@ -83,7 +87,11 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenNameFail);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenNameFail);
         done();
       });
@@ -98,8 +106,12 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeModePass);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`PM_${screenNamePass}`);
         done();
       });
     });
@@ -113,8 +125,12 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeModeFail);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`PM_${screenNameFail}`);
         done();
       });
     });
