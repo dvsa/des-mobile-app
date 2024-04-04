@@ -12,6 +12,10 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
   AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
@@ -88,7 +92,11 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.passFinalisationViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
+        //GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
       });
@@ -103,8 +111,12 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.passFinalisationViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeMode);
+        //GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
         done();
       });
     });
@@ -116,14 +128,22 @@ describe('PassFinalisationAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       // ACT
-      actions$.next(passFinalisationActions.PassFinalisationValidationError('error message'));
+      actions$.next(passFinalisationActions.PassFinalisationValidationError('error is blank'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${AnalyticsScreenNames.PASS_FINALISATION})`,
-            'error message');
+            'error is blank');
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'error',
+          );
         done();
       });
     });
@@ -139,9 +159,17 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${practiceScreenName})`,
             'error message');
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            'error',
+          );
         done();
       });
     });
@@ -157,11 +185,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.code78PresentEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.TOGGLE_CODE_78,
             'Yes',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.CODE78,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+            GoogleAnalyticsEventsValues.AUTOMATIC,
           );
         done();
       });
@@ -178,11 +214,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.code78NotPresentEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.TOGGLE_CODE_78,
             'No',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.CODE78,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+            GoogleAnalyticsEventsValues.MANUAL,
           );
         done();
       });
@@ -199,11 +243,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.provisionalLicenseNotReceived$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.TOGGLE_LICENSE_RECEIVED,
             'No',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LICENCE_RECEIVED,
+            GoogleAnalyticsEventsTitles.RECEIVED,
+            GoogleAnalyticsEventsValues.NO,
           );
         done();
       });
@@ -220,11 +272,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.provisionalLicenseReceived$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.TOGGLE_LICENSE_RECEIVED,
             'Yes',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LICENCE_RECEIVED,
+            GoogleAnalyticsEventsTitles.RECEIVED,
+            GoogleAnalyticsEventsValues.YES,
           );
         done();
       });
@@ -242,11 +302,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.GEARBOX_CATEGORY_CHANGED,
             TransmissionType.Manual,
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.SET_TRANSMISSION,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+            GoogleAnalyticsEventsValues.MANUAL,
           );
         done();
       });
@@ -262,11 +330,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.GEARBOX_CATEGORY_CHANGED,
             TransmissionType.Automatic,
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.SET_TRANSMISSION,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+            GoogleAnalyticsEventsValues.AUTOMATIC,
           );
         done();
       });
@@ -282,7 +358,12 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticNotRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
           .not
           .toHaveBeenCalled();
         done();
@@ -301,11 +382,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.d255Yes$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.D255,
             'Yes',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.SET_D255,
+            GoogleAnalyticsEventsTitles.FINALISATION_D255,
+            GoogleAnalyticsEventsValues.YES,
           );
         done();
       });
@@ -323,11 +412,19 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.d255No$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.D255,
             'No',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.SET_D255,
+            GoogleAnalyticsEventsTitles.FINALISATION_D255,
+            GoogleAnalyticsEventsValues.NO,
           );
         done();
       });
@@ -345,10 +442,18 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.LANGUAGE_CHANGED,
+            Language.ENGLISH,
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+            GoogleAnalyticsEventsTitles.LANGUAGE,
             Language.ENGLISH,
           );
         done();
@@ -365,7 +470,12 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
         expect(result.type === AnalyticNotRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
           .not
           .toHaveBeenCalled();
         done();
@@ -384,10 +494,18 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.LANGUAGE_CHANGED,
+            Language.CYMRAEG,
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+            GoogleAnalyticsEventsTitles.LANGUAGE,
             Language.CYMRAEG,
           );
         done();
@@ -404,7 +522,12 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
         expect(result.type === AnalyticNotRecorded.type)
           .toBe(true);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
           .not
           .toHaveBeenCalled();
         done();
