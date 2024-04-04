@@ -109,10 +109,19 @@ export class PassFinalisationAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof PassFinalisationValidationError>, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       const formattedScreenName = formatAnalyticsText(AnalyticsScreenNames.PASS_FINALISATION, tests);
       this.analytics.logError(
         `${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`,
         action.errorMessage,
+      );
+      //GA4 Analytics
+      const valueName = action.errorMessage.split(' ')[0];
+
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        valueName,
       );
       return of(AnalyticRecorded());
     }),
@@ -139,11 +148,18 @@ export class PassFinalisationAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof passCompletionActions.Code78Present>, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_CODE_78, tests),
         'Yes',
       );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.CODE78,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.AUTOMATIC,
+      )
       return of(AnalyticRecorded());
     }),
   ));
@@ -169,11 +185,18 @@ export class PassFinalisationAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof passCompletionActions.Code78NotPresent>, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_CODE_78, tests),
         'No',
       );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.CODE78,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.MANUAL,
+      )
       return of(AnalyticRecorded());
     }),
   ));
@@ -199,11 +222,19 @@ export class PassFinalisationAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof passCompletionActions.ProvisionalLicenseNotReceived>, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LICENSE_RECEIVED, tests),
         'No',
       );
+
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.LICENCE_RECEIVED,
+        GoogleAnalyticsEventsTitles.RECEIVED,
+        GoogleAnalyticsEventsValues.NO,
+      )
       return of(AnalyticRecorded());
     }),
   ));
@@ -229,11 +260,19 @@ export class PassFinalisationAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof passCompletionActions.ProvisionalLicenseReceived>, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LICENSE_RECEIVED, tests),
         'Yes',
       );
+
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.LICENCE_RECEIVED,
+        GoogleAnalyticsEventsTitles.RECEIVED,
+        GoogleAnalyticsEventsValues.YES,
+      )
       return of(AnalyticRecorded());
     }),
   ));
@@ -266,10 +305,31 @@ export class PassFinalisationAnalyticsEffects {
     ) => {
       // Check current URL begins with PassFin prefix before recording analytic to stop duplicated events.
       if (activityCode != null && this.router.url?.startsWith(this.classPrefix)) {
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
           formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
           action.gearboxCategory,
+        );
+
+        //GA4 Analytics
+        let gearboxCategory = null;
+        switch (action.gearboxCategory) {
+          case 'Automatic':
+            gearboxCategory = GoogleAnalyticsEventsValues.AUTOMATIC
+            break;
+          case 'Manual':
+            gearboxCategory = GoogleAnalyticsEventsValues.MANUAL
+            break;
+          default:
+            gearboxCategory = GoogleAnalyticsEventsValues.UNKNOWN
+            break;
+        }
+
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.SET_TRANSMISSION,
+          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+          gearboxCategory,
         );
         return of(AnalyticRecorded());
       }
@@ -313,6 +373,7 @@ export class PassFinalisationAnalyticsEffects {
           'Yes',
         );
 
+        //GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
           GoogleAnalyticsEventsTitles.FINALISATION_D255,
@@ -360,6 +421,7 @@ export class PassFinalisationAnalyticsEffects {
           'No',
         );
 
+        //GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
           GoogleAnalyticsEventsTitles.FINALISATION_D255,
@@ -398,9 +460,16 @@ export class PassFinalisationAnalyticsEffects {
       [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode, boolean],
     ) => {
       if (activityCode !== null) {
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
           formatAnalyticsText(AnalyticsEvents.LANGUAGE_CHANGED, tests),
+          Language.ENGLISH,
+        );
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+          GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.ENGLISH,
         );
         return of(AnalyticRecorded());
@@ -436,9 +505,16 @@ export class PassFinalisationAnalyticsEffects {
       [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode, boolean],
     ) => {
       if (activityCode !== null) {
+        // TODO - MES-9495 - remove old analytics
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
           formatAnalyticsText(AnalyticsEvents.LANGUAGE_CHANGED, tests),
+          Language.CYMRAEG,
+        );
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+          GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.CYMRAEG,
         );
         return of(AnalyticRecorded());
@@ -469,9 +545,16 @@ export class PassFinalisationAnalyticsEffects {
       [ReturnType<typeof passFinalisationActions.PassFinalisationReportActivityCode>, TestsModel, boolean],
     ) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
+        `${code} - ${description}`,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.SET_ACTIVITY_CODE,
+        GoogleAnalyticsEventsTitles.ACTIVITY_CODE,
         `${code} - ${description}`,
       );
       return of(AnalyticRecorded());
@@ -506,10 +589,17 @@ export class PassFinalisationAnalyticsEffects {
       [, tests, furtherDevelopment]:
       [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.FURTHER_DEVELOPMENT_CHANGED, tests),
         `further development changed to ${furtherDevelopment ? 'Yes' : 'No'}`,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.FURTHER_DEVELOPMENT,
+        GoogleAnalyticsEventsTitles.SELECTION,
+        furtherDevelopment ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO,
       );
       return of(AnalyticRecorded());
     }),
@@ -543,10 +633,19 @@ export class PassFinalisationAnalyticsEffects {
       [, tests, reason]:
       [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED, tests),
         `reason for no advice changed ${reason}`,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.FEEDBACK,
+        GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
+        GoogleAnalyticsEventsValues.NO_ADVICE_REASON,
+        GoogleAnalyticsEventsTitles.REASON,
+        reason,
       );
       return of(AnalyticRecorded());
     }),
