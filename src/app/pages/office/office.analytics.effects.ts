@@ -10,6 +10,9 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
   AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import {
   CompleteTest,
@@ -58,6 +61,57 @@ import { getTestOutcome } from '@pages/debrief/debrief.selector';
 
 @Injectable()
 export class OfficeAnalyticsEffects {
+
+  getEventValue(inputValue: string) {
+    let returnValue = null;
+
+    switch (inputValue) {
+      case 'dangerous':
+        returnValue = GoogleAnalyticsEventsValues.DANGEROUS;
+        break;
+      case 'serious':
+        returnValue = GoogleAnalyticsEventsValues.SERIOUS;
+        break;
+      case 'Fail':
+        returnValue = GoogleAnalyticsEventsValues.FAIL;
+        break;
+      case 'Pass':
+        returnValue = GoogleAnalyticsEventsValues.PASS;
+        break;
+      case 'Terminated':
+        returnValue = GoogleAnalyticsEventsValues.TERMINATED;
+        break;
+      case 'Sat nav':
+        returnValue = GoogleAnalyticsEventsValues.SAT_NAV;
+        break;
+      case 'Traffic signs':
+        returnValue = GoogleAnalyticsEventsValues.TRAFFIC_SIGNS;
+        break;
+      case 'Diagram':
+        returnValue = GoogleAnalyticsEventsValues.DIAGRAM;
+        break;
+      case 'Bike to bike':
+        returnValue = GoogleAnalyticsEventsValues.BIKE_TO_BIKE;
+        break;
+      case 'Car to bike':
+        returnValue = GoogleAnalyticsEventsValues.CAR_TO_BIKE;
+        break;
+      case 'Left':
+        returnValue = GoogleAnalyticsEventsValues.LEFT;
+        break;
+      case 'Right':
+        returnValue = GoogleAnalyticsEventsValues.RIGHT;
+        break;
+      case 'N/A':
+        returnValue = GoogleAnalyticsEventsValues.NOT_APPLICABLE;
+        break;
+      default:
+        returnValue = GoogleAnalyticsEventsValues.UNKNOWN;
+    }
+
+    return returnValue;
+  }
+
   constructor(
     private analytics: AnalyticsProvider,
     private actions$: Actions,
@@ -109,9 +163,16 @@ export class OfficeAnalyticsEffects {
       const screenName = isTestPassed
         ? formatAnalyticsText(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
         : formatAnalyticsText(AnalyticsScreenNames.FAIL_TEST_SUMMARY, tests);
+
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
       this.analytics.setCurrentPage(screenName);
+
+      // GA4 Analytics
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.setGACurrentPage(screenName);
       return of(AnalyticRecorded());
     }),
   ));
@@ -151,7 +212,7 @@ export class OfficeAnalyticsEffects {
       [action, tests, candidateId, applicationReference]:
       [ReturnType<typeof TestStartDateChanged>, TestsModel, number, string, boolean],
     ) => {
-
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
@@ -159,6 +220,18 @@ export class OfficeAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.DATE_OF_TEST_CHANGED, tests),
         `previous date: ${action.previousStartDate}; new date: ${action.customStartDate}`,
+      );
+
+      // GA4 Analytics
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.DATE_OF_TEST,
+        GoogleAnalyticsEventsTitles.CHANGED_FROM,
+        action.previousStartDate,
+        GoogleAnalyticsEventsTitles.CHANGED_TO,
+        action.customStartDate,
       );
 
       return of(AnalyticRecorded());
@@ -205,6 +278,7 @@ export class OfficeAnalyticsEffects {
       [, tests, testOutcome, candidateId, applicationReference]:
       [ReturnType<typeof SavingWriteUpForLater>, TestsModel, string, number, string, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
@@ -212,6 +286,18 @@ export class OfficeAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.SAVE_WRITE_UP, tests),
         testOutcome,
+      );
+
+      // GA4 Analytics
+      let eventValue = this.getEventValue(testOutcome);
+
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.SAVE_WRITE_UP,
+        GoogleAnalyticsEventsTitles.RESULT,
+        eventValue,
       );
       return of(AnalyticRecorded());
     }),
@@ -243,8 +329,39 @@ export class OfficeAnalyticsEffects {
       [action, tests, isTestPassed]: [ReturnType<typeof OfficeValidationError>, TestsModel, boolean, boolean],
     ) => {
       const screenName = isTestPassed ? AnalyticsScreenNames.PASS_TEST_SUMMARY : AnalyticsScreenNames.FAIL_TEST_SUMMARY;
+      // TODO - MES-9495 - remove old analytics
       const formattedScreenName = formatAnalyticsText(screenName, tests);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`, action.errorMessage);
+      // GA4 Analytics
+
+      let controlName = null;
+      let splitArray = [];
+      if (!action.errorMessage || action.errorMessage.length === 0) {
+        controlName = GoogleAnalyticsEventsValues.UNKNOWN;
+      } else {
+
+        splitArray = action.errorMessage.split('-').map(value => {
+          return value.split(' ')[0];
+        });
+        controlName = splitArray[splitArray.length - 1];
+      }
+      if (splitArray.length >= 3) {
+        let faultType = this.getEventValue(splitArray[2]);
+
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          controlName,
+          GoogleAnalyticsEventsTitles.SEVERITY,
+          faultType,
+        );
+      } else {
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          controlName,
+        );
+      }
       return of(AnalyticRecorded());
     }),
   ));
@@ -289,6 +406,7 @@ export class OfficeAnalyticsEffects {
       [, candidateId, applicationReference, testOutcome, tests]:
       [ReturnType<typeof CompleteTest>, number, string, string, TestsModel, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
@@ -296,6 +414,18 @@ export class OfficeAnalyticsEffects {
         AnalyticsEventCategories.POST_TEST,
         AnalyticsEvents.CONFIRM_UPLOAD,
         formatAnalyticsText(`Upload confirmed - ${testOutcome}`, tests),
+      );
+
+      //GA4 Analytics
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+
+      let eventValue = this.getEventValue(testOutcome);
+
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.UPLOAD_CONFIRMED,
+        GoogleAnalyticsEventsTitles.RESULT,
+        eventValue,
       );
 
       return of(AnalyticRecorded());
@@ -327,11 +457,21 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [action, tests, category]: [ReturnType<typeof CircuitTypeChanged>, TestsModel, CategoryCode, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.CIRCUIT_CHANGED, tests),
         `Circuit type ${action.circuitType} selected`,
+      );
+      //GA4 Analytics
+      let eventValue = this.getEventValue(action.circuitType);
+
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.CIRCUIT_CHANGED,
+        GoogleAnalyticsEventsTitles.DIRECTION,
+        eventValue,
       );
       return of(AnalyticRecorded());
     }),
@@ -362,11 +502,22 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [action, tests, category]: [ReturnType<typeof IndependentDrivingTypeChanged>, TestsModel, CategoryCode, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.INDEPENDENT_DRIVING_TYPE_CHANGED, tests),
         `${action.independentDriving} selected`,
+      );
+
+      //GA4 Analytics
+      let eventValue = this.getEventValue(action.independentDriving);
+
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.INDEPENDENT_DRIVING,
+        GoogleAnalyticsEventsTitles.DRIVING_TYPE,
+        eventValue,
       );
       return of(AnalyticRecorded());
     }),
@@ -397,11 +548,22 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [action, tests, category]: [ReturnType<typeof ModeOfTransportChanged>, TestsModel, CategoryCode, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.MODE_OF_TRANSPORT_CHANGED, tests),
         `${action.modeOfTransport} selected`,
+      );
+      //GA4 Analytics
+      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+
+      let eventValue = this.getEventValue(action.modeOfTransport);
+
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.TRANSPORT_MODE,
+        GoogleAnalyticsEventsTitles.CHANGED_TO,
+        eventValue,
       );
       return of(AnalyticRecorded());
     }),
@@ -434,10 +596,17 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [, tests, fuelEfficientDriving]: [ReturnType<typeof ToggleFuelEfficientDriving>, TestsModel, boolean, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_FUEL_EFFICIENT_DRIVING, tests),
         `${fuelEfficientDriving ? 'Yes' : 'No'}`,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.FUEL_EFFICIENT_DRIVING,
+        GoogleAnalyticsEventsTitles.SELECTION,
+        `${fuelEfficientDriving ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO}`,
       );
       return of(AnalyticRecorded());
     }),
@@ -470,10 +639,17 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [, tests, ecoRelatedFault]: [ReturnType<typeof AddEcoRelatedFault>, TestsModel, string, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.ECO_RELATED_FAULT_CHANGED, tests),
         ecoRelatedFault,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.ADD_FAULT,
+        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        `${GoogleAnalyticsEventsValues.ECO}_${ecoRelatedFault}`,
       );
       return of(AnalyticRecorded());
     }),
@@ -506,9 +682,18 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [, tests, ecoCaptureReason]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string, boolean],
     ) => {
+      // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.ECO_CAPTURE_REASON_CHANGED, tests),
+        ecoCaptureReason,
+      );
+      //GA4 Analytics
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.FEEDBACK,
+        GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
+        GoogleAnalyticsEventsValues.ECO,
+        GoogleAnalyticsEventsTitles.REASON,
         ecoCaptureReason,
       );
       return of(AnalyticRecorded());
