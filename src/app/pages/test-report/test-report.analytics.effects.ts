@@ -172,9 +172,9 @@ export class TestReportAnalyticsEffects {
         );
         // GA4 Analytics
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.SELECT_MODE,
-          GoogleAnalyticsEventsTitles.MODE,
-          GoogleAnalyticsEventsValues.REMOVE,
+          formatAnalyticsText(GoogleAnalyticsEvents.SELECT_MODE, tests),
+          formatAnalyticsText(GoogleAnalyticsEventsTitles.MODE, tests),
+          formatAnalyticsText(GoogleAnalyticsEventsValues.REMOVE, tests),
         )
         return of(AnalyticRecorded());
       }
@@ -186,9 +186,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.EXIT_MODE,
-        GoogleAnalyticsEventsTitles.MODE,
-        GoogleAnalyticsEventsValues.REMOVE,
+        formatAnalyticsText(GoogleAnalyticsEvents.EXIT_MODE, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.MODE, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.REMOVE, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -225,9 +225,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.SELECT_MODE,
-        GoogleAnalyticsEventsTitles.MODE,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEvents.SELECT_MODE, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.MODE, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -264,9 +264,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.SELECT_MODE,
-        GoogleAnalyticsEventsTitles.MODE,
-        GoogleAnalyticsEventsValues.DANGEROUS,
+        formatAnalyticsText(GoogleAnalyticsEvents.SELECT_MODE, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.MODE, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -302,11 +302,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.faultPayload.competency],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -342,11 +342,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -382,11 +382,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests)
       )
       return of(AnalyticRecorded());
     }),
@@ -423,12 +423,12 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -464,11 +464,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -505,12 +505,12 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -546,11 +546,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -587,12 +587,12 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -628,11 +628,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -668,11 +668,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -708,11 +708,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -777,11 +777,11 @@ export class TestReportAnalyticsEffects {
         1,
       );
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -817,11 +817,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeHighwayCodeSafety'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -857,11 +857,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeHighwayCodeSafety'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -897,11 +897,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['showMeQuestion'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -937,11 +937,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['showMeQuestion'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -976,11 +976,11 @@ export class TestReportAnalyticsEffects {
         1,
       );
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['showMeQuestion'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1016,11 +1016,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.faultPayload.competency],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1056,11 +1056,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1096,11 +1096,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests)
       )
       return of(AnalyticRecorded());
     }),
@@ -1135,11 +1135,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        CompetencyOutcomeGA4Event(action.faultLevel),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(CompetencyOutcomeGA4Event(action.faultLevel), tests),
       );
       return of(AnalyticRecorded());
     }),
@@ -1174,11 +1174,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        CompetencyOutcomeGA4Event(action.faultLevel),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(CompetencyOutcomeGA4Event(action.faultLevel), tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1213,11 +1213,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        CompetencyOutcomeGA4Event(action.faultLevel),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(CompetencyOutcomeGA4Event(action.faultLevel), tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1252,8 +1252,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeHighwayCodeSafety'],
       )
       return of(AnalyticRecorded());
@@ -1288,11 +1288,11 @@ export class TestReportAnalyticsEffects {
         fullCompetencyLabels.showMeQuestion,
       );
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.REMOVE_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels.showMeQuestion,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        CompetencyOutcomeGA4Event(action.faultLevel),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(CompetencyOutcomeGA4Event(action.faultLevel), tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1323,12 +1323,12 @@ export class TestReportAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
         formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
-        AnalyticsLabels.TERMINATE_TEST,
+        formatAnalyticsText(AnalyticsLabels.TERMINATE_TEST, tests),
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.TEST_TERMINATED,
-      )
+        formatAnalyticsText(GoogleAnalyticsEvents.TEST_TERMINATED, tests),
+      );
       return of(AnalyticRecorded());
     }),
   ));
@@ -1358,11 +1358,11 @@ export class TestReportAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
         formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
-        AnalyticsLabels.TEST_ENDED,
+        formatAnalyticsText(AnalyticsLabels.TEST_ENDED, tests),
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.TEST_ENDED,
+        formatAnalyticsText(GoogleAnalyticsEvents.TEST_ENDED, tests),
       );
       return of(AnalyticRecorded());
     }),
@@ -1407,10 +1407,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels[action.legalRequirement],
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue
       );
 
@@ -1456,10 +1456,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels['eco'],
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue
       )
       return of(AnalyticRecorded());
@@ -1504,8 +1504,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ECO_CONTROL,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEvents.ECO_CONTROL, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue,
       )
       return of(AnalyticRecorded());
@@ -1550,8 +1550,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ECO_PLANNING,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEvents.ECO_PLANNING, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue,
       )
       return of(AnalyticRecorded());
@@ -1610,10 +1610,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ETA,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.ETA, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         etaName,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue,
       )
       return of(AnalyticRecorded());
@@ -1659,8 +1659,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.CONTROLLED_STOP,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEvents.CONTROLLED_STOP, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue,
       )
       return of(AnalyticRecorded());
@@ -1706,10 +1706,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels.highwayCodeSafety,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         toggleValue,
       )
       return of(AnalyticRecorded());
@@ -1745,10 +1745,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels.manoeuvre,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         legalRequirementToggleValues.completed,
       )
       return of(AnalyticRecorded());
@@ -1783,10 +1783,10 @@ export class TestReportAnalyticsEffects {
         `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
       );
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels.manoeuvre,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         legalRequirementToggleValues.completed,
       )
       return of(AnalyticRecorded());
@@ -1822,10 +1822,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels.manoeuvre,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         legalRequirementToggleValues.uncompleted,
       )
       return of(AnalyticRecorded());
@@ -1863,10 +1863,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels.vehicleChecks,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         legalRequirementToggleValues.completed,
       )
       return of(AnalyticRecorded());
@@ -1902,10 +1902,10 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        formatAnalyticsText(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_NAME, tests),
         legalRequirementsLabels.vehicleChecks,
-        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.ITEM_STATUS, tests),
         legalRequirementToggleValues.uncompleted,
       )
       return of(AnalyticRecorded());
@@ -1941,11 +1941,11 @@ export class TestReportAnalyticsEffects {
         1,
       );
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         competencyLabels.uncoupleRecouple,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1981,11 +1981,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         competencyLabels.uncoupleRecouple,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.SERIOUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -2021,11 +2021,11 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
+        formatAnalyticsText(GoogleAnalyticsEvents.ADD_FAULT, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         competencyLabels.uncoupleRecouple,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        GoogleAnalyticsEventsValues.DANGEROUS,
+        formatAnalyticsText(GoogleAnalyticsEventsTitles.SEVERITY, tests),
+        formatAnalyticsText(GoogleAnalyticsEventsValues.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -2738,7 +2738,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.START_TIMER
+        formatAnalyticsText(GoogleAnalyticsEvents.START_TIMER, tests),
       )
       return of(AnalyticRecorded());
     }),
