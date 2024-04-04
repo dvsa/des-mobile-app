@@ -375,7 +375,7 @@ export class PassFinalisationAnalyticsEffects {
 
         //GA4 Analytics
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.SET_D255,
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
           GoogleAnalyticsEventsTitles.FINALISATION_D255,
           GoogleAnalyticsEventsValues.YES,
         );
@@ -423,7 +423,7 @@ export class PassFinalisationAnalyticsEffects {
 
         //GA4 Analytics
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.SET_D255,
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
           GoogleAnalyticsEventsTitles.FINALISATION_D255,
           GoogleAnalyticsEventsValues.NO,
         );
