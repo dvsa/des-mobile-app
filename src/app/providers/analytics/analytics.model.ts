@@ -340,6 +340,7 @@ export enum GoogleAnalyticsEventsTitles {
   MOT_STATUS = 'mot_status',
   SLOT_VIEWED = 'slot_viewed',
   PRACTICE_TEST_SELECTED = 'practice_test_report_selected',
+  FULL_MODE_SELECTED = 'full_mode_selected',
   STATUS = 'status',
   DEVICE_THEME = 'device_theme',
   TEST_STATUS = 'test_status',
