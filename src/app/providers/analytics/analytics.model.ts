@@ -267,7 +267,12 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  FURTHER_DEVELOPMENT = 'further_development',
+  SET_ACTIVITY_CODE = 'set_activity_code',
+  LANGUAGE_CHANGED = 'language_changed',
+  LICENCE_RECEIVED = 'licence_received',
   DATE_OF_TEST = 'date_of_test',
+  CODE73 = 'code_73',
   FEEDBACK = 'feedback',
   ADD_FAULT = 'add_fault',
   FUEL_EFFICIENT_DRIVING = 'fuel_efficient_driving',
@@ -310,6 +315,9 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  ACTIVITY_CODE = 'activity_code',
+  LANGUAGE = 'language',
+  RECEIVED = 'received',
   SEVERITY = 'severity',
   FAULT_TYPE = 'fault_type',
   REASON = 'reason',
@@ -349,6 +357,7 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  NO_ADVICE_REASON = 'no_advice_reason',
   ECO = 'eco',
   CAR_TO_BIKE = 'car_to_bike',
   BIKE_TO_BIKE = 'bike_to_bike',
