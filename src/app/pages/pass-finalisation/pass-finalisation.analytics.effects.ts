@@ -156,7 +156,7 @@ export class PassFinalisationAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.CODE73,
+        GoogleAnalyticsEvents.CODE78,
         GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
         GoogleAnalyticsEventsValues.AUTOMATIC,
       )
@@ -193,7 +193,7 @@ export class PassFinalisationAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.CODE73,
+        GoogleAnalyticsEvents.CODE78,
         GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
         GoogleAnalyticsEventsValues.MANUAL,
       )

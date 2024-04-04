@@ -273,6 +273,7 @@ export enum GoogleAnalyticsEvents {
   LICENCE_RECEIVED = 'licence_received',
   DATE_OF_TEST = 'date_of_test',
   CODE73 = 'code_73',
+  CODE78 = 'code_78',
   FEEDBACK = 'feedback',
   ADD_FAULT = 'add_fault',
   FUEL_EFFICIENT_DRIVING = 'fuel_efficient_driving',

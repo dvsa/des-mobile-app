@@ -195,7 +195,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.CODE73,
+            GoogleAnalyticsEvents.CODE78,
             GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
             GoogleAnalyticsEventsValues.AUTOMATIC,
           );
@@ -224,7 +224,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.CODE73,
+            GoogleAnalyticsEvents.CODE78,
             GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
             GoogleAnalyticsEventsValues.MANUAL,
           );
