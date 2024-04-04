@@ -74,6 +74,10 @@ export class MotCardComponent {
     this.alternateEvidenceChange.emit(event);
   }
 
+  searchFailed() {
+    return +this.status === HttpStatusCodes.UNDEFINED;
+  }
+
   descriptionUpdated(event: string) {
     this.alternativeEvidenceDescriptionUpdate.emit(event);
   }
