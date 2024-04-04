@@ -530,6 +530,31 @@ describe('OfficeAnalyticsEffects', () => {
         done();
       });
     });
+    it('should call logError with pass with a an unknown severity and control name' +
+      'if the errorMessage is an empty string', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+      // ACT
+      actions$.next(officeActions.OfficeValidationError(''));
+      // ASSERT
+      effects.validationErrorEffect$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError)
+          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
+            '');
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.BLANK_FIELD,
+            GoogleAnalyticsEventsValues.UNKNOWN);
+        done();
+      });
+    });
     it('should call logError with pass, prefixed with practice mode', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
@@ -718,7 +743,7 @@ describe('OfficeAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.TRANSPORT_MODE,
             GoogleAnalyticsEventsTitles.CHANGED_TO,
-            GoogleAnalyticsEventsValues.CAR_TO_BIKE
+            GoogleAnalyticsEventsValues.CAR_TO_BIKE,
           );
         done();
       });

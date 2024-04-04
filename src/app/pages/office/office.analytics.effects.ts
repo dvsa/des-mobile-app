@@ -111,6 +111,7 @@ export class OfficeAnalyticsEffects {
 
     return returnValue;
   }
+
   constructor(
     private analytics: AnalyticsProvider,
     private actions$: Actions,
@@ -333,12 +334,17 @@ export class OfficeAnalyticsEffects {
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`, action.errorMessage);
       // GA4 Analytics
 
-      let splitArray = action.errorMessage.split('-').map(value => {
-        return value.split(' ')[0];
-      });
+      let controlName = null;
+      let splitArray = [];
+      if (!action.errorMessage || action.errorMessage.length === 0) {
+        controlName = GoogleAnalyticsEventsValues.UNKNOWN;
+      } else {
 
-      let controlName = splitArray[splitArray.length - 1];
-
+        splitArray = action.errorMessage.split('-').map(value => {
+          return value.split(' ')[0];
+        });
+        controlName = splitArray[splitArray.length - 1];
+      }
       if (splitArray.length >= 3) {
         let faultType = this.getEventValue(splitArray[2]);
 
