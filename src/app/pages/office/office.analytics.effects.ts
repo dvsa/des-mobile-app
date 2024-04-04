@@ -31,7 +31,7 @@ import {
   getCurrentTest, getJournalData, isPassed, isPracticeMode,
 } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -160,7 +160,7 @@ export class OfficeAnalyticsEffects {
       [, tests, isTestPassed, candidateId, applicationReference]:
       [ReturnType<typeof OfficeViewDidEnter>, TestsModel, boolean, number, string, boolean],
     ) => {
-      const screenName = isTestPassed
+      let screenName = isTestPassed
         ? formatAnalyticsText(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
         : formatAnalyticsText(AnalyticsScreenNames.FAIL_TEST_SUMMARY, tests);
 
@@ -170,6 +170,9 @@ export class OfficeAnalyticsEffects {
       this.analytics.setCurrentPage(screenName);
 
       // GA4 Analytics
+      screenName = isTestPassed
+        ? analyticsEventTypePrefix(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
+        : analyticsEventTypePrefix(AnalyticsScreenNames.FAIL_TEST_SUMMARY, tests);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
       this.analytics.setGACurrentPage(screenName);

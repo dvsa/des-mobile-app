@@ -25,7 +25,11 @@ import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -171,7 +175,7 @@ describe('OfficeAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModePass);
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`);
         done();
       });
     });
@@ -201,8 +205,8 @@ describe('OfficeAnalyticsEffects', () => {
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModeFail);
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`);
         done();
       });
     });
@@ -240,7 +244,19 @@ describe('OfficeAnalyticsEffects', () => {
           );
 
         // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.DATE_OF_TEST,
+            GoogleAnalyticsEventsTitles.CHANGED_FROM,
+            '2020-12-25T08:10:00',
+            GoogleAnalyticsEventsTitles.CHANGED_TO,
+            '2021-01-19T08:10:00',
+          );
         done();
       });
     });

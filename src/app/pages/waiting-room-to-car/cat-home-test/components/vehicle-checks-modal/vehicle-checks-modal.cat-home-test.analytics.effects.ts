@@ -14,7 +14,7 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { TestsModel } from '@store/tests/tests.model';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import {
   ShowMeQuestionOutcomeChanged,
   ShowMeQuestionSelected,
@@ -48,7 +48,7 @@ export class VehicleChecksModalCatHomeTestAnalyticsEffects {
       // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests));
       // GA4 Analytics
-      this.analytics.setGACurrentPage(formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests));
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.VEHICLE_CHECKS, tests));
       return of(AnalyticRecorded());
     }),
   ));
