@@ -10,7 +10,7 @@ import { DebriefViewDidEnter } from '@pages/debrief/debrief.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { select, Store } from '@ngrx/store';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPassed, isPracticeMode } from '@store/tests/tests.selector';
 import { TestsModel } from '@store/tests/tests.model';
@@ -50,10 +50,17 @@ export class DebriefAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([, tests, isTestPassed]: [ReturnType<typeof DebriefViewDidEnter>, TestsModel, boolean, boolean]) => {
-      const screenName = isTestPassed
+      // TODO - MES-9495 - remove old analytics
+      let screenName = isTestPassed
         ? formatAnalyticsText(AnalyticsScreenNames.PASS_DEBRIEF, tests)
         : formatAnalyticsText(AnalyticsScreenNames.FAIL_DEBRIEF, tests);
       this.analytics.setCurrentPage(screenName);
+      // GA4 Analytics
+      screenName = isTestPassed
+        ? analyticsEventTypePrefix(AnalyticsScreenNames.PASS_DEBRIEF, tests)
+        : analyticsEventTypePrefix(AnalyticsScreenNames.FAIL_DEBRIEF, tests);
+      this.analytics.setCurrentPage(screenName);
+      this.analytics.setGACurrentPage(screenName);
       return of(AnalyticRecorded());
     }),
   ));
