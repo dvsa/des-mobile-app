@@ -4,7 +4,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
+} from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import * as testsActions from '@store/tests/tests.actions';
@@ -111,7 +115,7 @@ describe('DebriefAnalyticsEffects', () => {
           .toHaveBeenCalledWith(screenNamePracticeModePass);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`PM_${screenNamePass}`);
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`);
         done();
       });
     });
@@ -130,7 +134,7 @@ describe('DebriefAnalyticsEffects', () => {
           .toHaveBeenCalledWith(screenNamePracticeModeFail);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`PM_${screenNameFail}`);
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`);
         done();
       });
     });
