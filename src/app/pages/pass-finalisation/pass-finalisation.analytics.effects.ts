@@ -231,7 +231,7 @@ export class PassFinalisationAnalyticsEffects {
 
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LICENCE_RECEIVED,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.LICENCE_RECEIVED, tests),
         GoogleAnalyticsEventsTitles.RECEIVED,
         GoogleAnalyticsEventsValues.NO,
       )
@@ -269,7 +269,7 @@ export class PassFinalisationAnalyticsEffects {
 
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.LICENCE_RECEIVED,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.LICENCE_RECEIVED, tests),
         GoogleAnalyticsEventsTitles.RECEIVED,
         GoogleAnalyticsEventsValues.YES,
       )
@@ -327,7 +327,7 @@ export class PassFinalisationAnalyticsEffects {
         }
 
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.SET_TRANSMISSION,
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_TRANSMISSION, tests),
           GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
           gearboxCategory,
         );
@@ -553,7 +553,7 @@ export class PassFinalisationAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.SET_ACTIVITY_CODE,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_ACTIVITY_CODE, tests),
         GoogleAnalyticsEventsTitles.ACTIVITY_CODE,
         `${code} - ${description}`,
       );
