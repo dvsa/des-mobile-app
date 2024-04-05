@@ -66,7 +66,13 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
       });
@@ -81,8 +87,14 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(practiceScreenName);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`${AnalyticsEventCategories.PRACTICE_MODE}_${screenName}`);
         done();
       });
     });
