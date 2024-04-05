@@ -12,6 +12,7 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsEventCategories,
   AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import * as VehicleChecksActions
@@ -27,6 +28,8 @@ import {
 import {
   VehicleChecksViewDidEnter
 } from '../vehicle-checks-modal.cat-home.actions';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
   let effects: VehicleChecksModalCatHomeTestAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
@@ -92,6 +95,25 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
         done();
       });
     });
+    it('should log an analytics event in practice mode with show me question info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(VehicleChecksActions.ShowMeQuestionSelected(showMeQuestion, questionNumber));
+      effects.showMeQuestionChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `show me question ${questionNumber + 1} changed`,
+          showMeQuestion.code,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2')}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          showMeQuestion.code,
+        );
+        done();
+      });
+    });
   });
 
   describe('showMeQuestionOutComeChanged$', () => {
@@ -109,6 +131,25 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.CORRECT,
+        );
+        done();
+      });
+    });
+    it('should log an analytics event in practice mode with show me question outcome info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(VehicleChecksActions.ShowMeQuestionOutcomeChanged(questionOutcome, questionNumber));
+      effects.showMeQuestionOutComeChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `show me question ${questionNumber + 1} outcome changed`,
+          'correct',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2')}`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.CORRECT,
         );
@@ -140,6 +181,25 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
         done();
       });
     });
+    it('should log an analyics event in practice mode with tell me question info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
+      effects.tellMeQuestionChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `tell me question ${questionNumber + 1} changed`,
+          tellMeQuestion.code,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '2')}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          tellMeQuestion.code,
+        );
+        done();
+      });
+    });
   });
 
   describe('tellMeQuestionOutComeChanged$', () => {
@@ -157,6 +217,25 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+        );
+        done();
+      });
+    });
+    it('should log an analytics event in practice mode with tell me question outcome info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
+      effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `tell me question ${questionNumber + 1} outcome changed`,
+          'driving fault',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '2')}`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.DRIVING_FAULT,
         );
