@@ -66,7 +66,13 @@ describe('RekeyReasonAnalyticsEffects', () => {
       effects.rekeyReasonViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
       });
@@ -84,7 +90,13 @@ describe('RekeyReasonAnalyticsEffects', () => {
       effects.rekeyReasonUploadTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalled();
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalled();
         done();
       });
