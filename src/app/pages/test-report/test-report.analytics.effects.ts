@@ -91,6 +91,7 @@ import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/
 import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
+import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
 
 @Injectable()
 export class TestReportAnalyticsEffects {
@@ -227,7 +228,7 @@ export class TestReportAnalyticsEffects {
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SELECT_MODE, tests),
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.MODE, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -266,7 +267,7 @@ export class TestReportAnalyticsEffects {
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SELECT_MODE, tests),
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.MODE, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -306,7 +307,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.faultPayload.competency],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -346,7 +347,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -386,7 +387,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests)
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests)
       )
       return of(AnalyticRecorded());
     }),
@@ -428,7 +429,7 @@ export class TestReportAnalyticsEffects {
         // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -468,7 +469,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -510,7 +511,7 @@ export class TestReportAnalyticsEffects {
         // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -550,7 +551,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -592,7 +593,7 @@ export class TestReportAnalyticsEffects {
         // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -632,7 +633,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -672,7 +673,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -712,7 +713,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -782,7 +783,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeControlledStop'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -822,7 +823,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeHighwayCodeSafety'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -862,7 +863,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['outcomeHighwayCodeSafety'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -902,7 +903,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['showMeQuestion'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -942,7 +943,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['showMeQuestion'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -981,7 +982,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels['showMeQuestion'],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1021,7 +1022,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.faultPayload.competency],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1061,7 +1062,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1101,7 +1102,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         fullCompetencyLabels[action.competency],
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests)
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests)
       )
       return of(AnalyticRecorded());
     }),
@@ -1949,7 +1950,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         competencyLabels.uncoupleRecouple,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DRIVING, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DRIVING, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -1989,7 +1990,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         competencyLabels.uncoupleRecouple,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.SERIOUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.SERIOUS, tests),
       )
       return of(AnalyticRecorded());
     }),
@@ -2029,7 +2030,7 @@ export class TestReportAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.FAULT_TYPE, tests),
         competencyLabels.uncoupleRecouple,
         analyticsEventTypePrefix(GoogleAnalyticsEventsTitles.SEVERITY, tests),
-        analyticsEventTypePrefix(GoogleAnalyticsEventsValues.DANGEROUS, tests),
+        analyticsEventTypePrefix(ValidFaultTypes.DANGEROUS, tests),
       )
       return of(AnalyticRecorded());
     }),
