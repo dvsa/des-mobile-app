@@ -78,7 +78,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.showMeQuestion.code,
       );
@@ -106,7 +106,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.RESULT,
         action.showMeQuestionOutcome === 'P' ?
           GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
@@ -134,7 +134,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.tellMeQuestion.code,
       );
@@ -162,7 +162,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.RESULT,
         action.tellMeQuestionOutcome === 'P' ?
           GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
@@ -191,7 +191,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.RESULT,
         action.safetyQuestionOutcome === 'P' ?
           GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,

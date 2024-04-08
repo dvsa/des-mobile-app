@@ -426,7 +426,7 @@ export class OfficeAnalyticsEffects {
       let eventValue = this.getEventValue(testOutcome);
 
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.UPLOAD_CONFIRMED,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.UPLOAD_CONFIRMED, tests),
         GoogleAnalyticsEventsTitles.RESULT,
         eventValue,
       );

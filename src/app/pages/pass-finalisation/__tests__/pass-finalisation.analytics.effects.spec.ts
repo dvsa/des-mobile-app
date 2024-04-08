@@ -260,6 +260,34 @@ describe('PassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should call logEvent with practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(passCompletionActions.ProvisionalLicenseNotReceived());
+      // ASSERT
+      effects.provisionalLicenseNotReceived$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.TOGGLE_LICENSE_RECEIVED}`,
+            'No',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LICENCE_RECEIVED}`,
+            GoogleAnalyticsEventsTitles.RECEIVED,
+            GoogleAnalyticsEventsValues.NO,
+          );
+        done();
+      });
+    });
   });
   describe('provisionalLicenseReceived', () => {
     it('should call logEvent', (done) => {
@@ -283,6 +311,34 @@ describe('PassFinalisationAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.LICENCE_RECEIVED,
+            GoogleAnalyticsEventsTitles.RECEIVED,
+            GoogleAnalyticsEventsValues.YES,
+          );
+        done();
+      });
+    });
+    it('should call logEvent with practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(passCompletionActions.ProvisionalLicenseReceived());
+      // ASSERT
+      effects.provisionalLicenseReceived$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.TOGGLE_LICENSE_RECEIVED}`,
+            'Yes',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LICENCE_RECEIVED}`,
             GoogleAnalyticsEventsTitles.RECEIVED,
             GoogleAnalyticsEventsValues.YES,
           );
@@ -313,6 +369,35 @@ describe('PassFinalisationAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SET_TRANSMISSION,
+            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+            GoogleAnalyticsEventsValues.MANUAL,
+          );
+        done();
+      });
+    });
+    it('should call logEvent with Manual if Gearbox Category is Manual with practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(SetActivityCode(ActivityCodes.PASS));
+      // ACT
+      actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
+      // ASSERT
+      effects.transmissionChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.GEARBOX_CATEGORY_CHANGED}`,
+            TransmissionType.Manual,
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
             GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
             GoogleAnalyticsEventsValues.MANUAL,
           );
@@ -399,6 +484,35 @@ describe('PassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should call logEvent with the practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(SetActivityCode('1'));
+      // ACT
+      actions$.next(testSummaryActions.D255Yes());
+      // ASSERT
+      effects.d255Yes$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.D255}`,
+            'Yes',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
+            GoogleAnalyticsEventsTitles.FINALISATION_D255,
+            GoogleAnalyticsEventsValues.YES,
+          );
+        done();
+      });
+    });
   });
   describe('d255No', () => {
     it('should call logEvent', (done) => {
@@ -423,6 +537,35 @@ describe('PassFinalisationAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SET_D255,
+            GoogleAnalyticsEventsTitles.FINALISATION_D255,
+            GoogleAnalyticsEventsValues.NO,
+          );
+        done();
+      });
+    });
+    it('should call logEvent with the practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(SetActivityCode('1'));
+      // ACT
+      actions$.next(testSummaryActions.D255No());
+      // ASSERT
+      effects.d255No$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.D255}`,
+            'No',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
             GoogleAnalyticsEventsTitles.FINALISATION_D255,
             GoogleAnalyticsEventsValues.NO,
           );

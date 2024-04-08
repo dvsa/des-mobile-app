@@ -11,7 +11,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsEventCategories,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -24,6 +24,8 @@ import {
 } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-adi-part2.actions';
 import { VehicleChecksModalAnalyticsEffects } from '../vehicle-checks-modal.cat-adi-part2.analytics.effects';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 describe('VehicleChecksModalAnalyticsEffects', () => {
   let effects: VehicleChecksModalAnalyticsEffects;
@@ -90,6 +92,25 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
         done();
       });
     });
+    it('should log an analyics event in practice mode with tell me question info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.ADI2));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
+      effects.tellMeQuestionChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `tell me question ${questionNumber + 1} changed`,
+          tellMeQuestion.code,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '1')}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          tellMeQuestion.code,
+        );
+        done();
+      });
+    });
   });
 
   describe('tellMeQuestionOutComeChanged$', () => {
@@ -107,6 +128,25 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+        );
+        done();
+      });
+    });
+    it('should log an analytics event in practice mode with tell me question outcome info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.ADI2));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
+      effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `tell me question ${questionNumber + 1} outcome changed`,
+          'driving fault',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '1')}`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.DRIVING_FAULT,
         );

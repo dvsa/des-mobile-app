@@ -74,7 +74,7 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.safetyQuestion.code,
       );
@@ -102,7 +102,7 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.RESULT,
         action.safetyQuestionOutcome === 'P' ?
           GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
@@ -130,7 +130,7 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.BALANCE_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.BALANCE_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.balanceQuestion.code,
       );
@@ -158,7 +158,7 @@ export class VehicleChecksModalCatAMod2AnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.BALANCE_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.BALANCE_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.RESULT,
         action.balanceQuestionOutcome === 'P' ?
           GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,

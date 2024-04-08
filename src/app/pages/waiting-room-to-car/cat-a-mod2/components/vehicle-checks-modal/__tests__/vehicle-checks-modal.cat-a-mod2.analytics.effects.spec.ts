@@ -11,7 +11,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsEventCategories,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import * as SafetyAndBalanceQuestionsActions
@@ -22,6 +22,8 @@ import {
 } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksModalCatAMod2AnalyticsEffects } from '../vehicle-checks-modal.cat-a-mod2.analytics.effects';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
   let effects: VehicleChecksModalCatAMod2AnalyticsEffects;
@@ -88,6 +90,25 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
         done();
       });
     });
+    it('should log an analytics event in practice mode with safety question info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(SafetyAndBalanceQuestionsActions.SafetyQuestionSelected(safetyQuestion, questionNumber));
+      effects.safetyQuestionChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `safety question ${questionNumber + 1} changed`,
+          safetyQuestion.code,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SAFETY_QUESTION + '2')}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          safetyQuestion.code,
+        );
+        done();
+      });
+    });
   });
 
   describe('safetyQuestionOutComeChanged$', () => {
@@ -105,6 +126,25 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.SAFETY_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.CORRECT,
+        );
+        done();
+      });
+    });
+    it('should log an analytics event in practice mode with safety question outcome info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(SafetyAndBalanceQuestionsActions.SafetyQuestionOutcomeChanged(questionOutcome, questionNumber));
+      effects.safetyQuestionOutcomeChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `safety question ${questionNumber + 1} outcome changed`,
+          'correct',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SAFETY_QUESTION + '2')}`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.CORRECT,
         );
@@ -136,6 +176,25 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
         done();
       });
     });
+    it('should log an analytics event in practice mode with balance question info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(SafetyAndBalanceQuestionsActions.BalanceQuestionSelected(balanceQuestion, questionNumber));
+      effects.balanceQuestionChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `balance question ${questionNumber + 1} changed`,
+          balanceQuestion.code,
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.BALANCE_QUESTION + '2')}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          balanceQuestion.code,
+        );
+        done();
+      });
+    });
   });
 
   describe('balanceQuestionOutcomeChanged$', () => {
@@ -153,6 +212,25 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.BALANCE_QUESTION + '2'),
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+        );
+        done();
+      });
+    });
+    it('should log an analytics event in practice mode with balance question outcome info', (done) => {
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      actions$.next(SafetyAndBalanceQuestionsActions.BalanceQuestionOutcomeChanged(questionOutcome, questionNumber));
+      effects.balanceQuestionOutcomeChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
+          `balance question ${questionNumber + 1} outcome changed`,
+          'driving fault',
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.BALANCE_QUESTION + '2')}`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.DRIVING_FAULT,
         );
