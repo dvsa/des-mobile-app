@@ -10,7 +10,7 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -45,8 +45,13 @@ export class RekeyUploadOutcomeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([, tests]: [ReturnType<typeof RekeyUploadOutcomeViewDidEnter>, TestsModel, boolean]) => {
+
+      // TODO - MES-9495 - remove old analytics
       const screenName = formatAnalyticsText(AnalyticsScreenNames.REKEY_UPLOADED, tests);
       this.analytics.setCurrentPage(screenName);
+
+      // GA4 analytics
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.REKEY_UPLOADED, tests));
       return of(AnalyticRecorded());
     }),
   ));
