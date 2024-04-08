@@ -299,6 +299,8 @@ export enum GoogleAnalyticsEvents {
   DUAL_CONTROLS = 'dual_controls',
   BIKE_CATEGORY_SELECTED = 'bike_category_selected',
   NAVIGATION = 'navigation',
+  VEHICLE_LENGTH = 'vehicle_length',
+  VEHICLE_WIDTH = 'vehicle_width',
   SET_TRANSMISSION = 'set_transmission',
   PDI_LOGBOOK = 'pdi_logbook',
   TRAINEE_LICENCE = 'trainee_licence',
@@ -345,6 +347,7 @@ export enum GoogleAnalyticsEventsTitles {
   COMMS_CHANNEL = 'comms_channel',
   FINALISATION_D255 = 'd255',
   OPENED = 'opened',
+  CLOSED = 'closed',
   SELECTION = 'selection',
   TRANSMISSION_TYPE = 'transmission_type',
   MOT_STATUS = 'mot_status',
@@ -360,6 +363,7 @@ export enum GoogleAnalyticsEventsTitles {
 
 export enum GoogleAnalyticsEventsValues {
   NO_ADVICE_REASON = 'no_advice_reason',
+  REVERSE_DIAGRAM = 'reverse_diagram',
   ECO = 'eco',
   CAR_TO_BIKE = 'car_to_bike',
   BIKE_TO_BIKE = 'bike_to_bike',
