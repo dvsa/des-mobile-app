@@ -219,8 +219,8 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.REMOVE}`,
+            GoogleAnalyticsEventsTitles.MODE,
+            GoogleAnalyticsEventsValues.REMOVE,
           );
         done();
       });
@@ -298,8 +298,8 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.MODE,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -377,8 +377,8 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.MODE,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -469,10 +469,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -538,10 +538,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -607,10 +607,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -685,11 +685,11 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -806,11 +806,11 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -928,11 +928,11 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1040,10 +1040,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1109,10 +1109,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -1178,10 +1178,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1247,10 +1247,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1316,10 +1316,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -1385,10 +1385,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1460,10 +1460,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1529,10 +1529,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -1598,10 +1598,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1676,11 +1676,11 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1786,10 +1786,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1853,10 +1853,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1908,7 +1908,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_END}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.END_TEST}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsLabels.TERMINATE_TEST}`,
+            AnalyticsLabels.TERMINATE_TEST,
           );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
@@ -2179,9 +2179,9 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.ITEM_NAME}`,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
             legalRequirementsLabels[LegalRequirements.normalStart1],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.ITEM_STATUS}`,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             legalRequirementToggleValues.completed
           );
         done();
@@ -2212,9 +2212,9 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.ITEM_NAME}`,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
             legalRequirementsLabels['eco'],
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.ITEM_STATUS}`,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             legalRequirementToggleValues.completed
           );
         done();
@@ -2353,10 +2353,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             'Uncouple recouple',
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -2422,10 +2422,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             'Uncouple recouple',
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -2491,10 +2491,10 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
             'Uncouple recouple',
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
