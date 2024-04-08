@@ -337,7 +337,7 @@ export class NonPassFinalisationAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.SET_ACTIVITY_CODE,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_ACTIVITY_CODE, tests),
         GoogleAnalyticsEventsTitles.ACTIVITY_CODE,
         `${code} - ${description}`,
       );

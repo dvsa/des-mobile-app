@@ -192,6 +192,34 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should call logEvent with the practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      // ACT
+      actions$.next(testSummaryActions.D255Yes());
+      // ASSERT
+      effects.d255Yes$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.D255}`,
+            'Yes',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
+            GoogleAnalyticsEventsTitles.FINALISATION_D255,
+            GoogleAnalyticsEventsValues.YES,
+          );
+        done();
+      });
+    });
   });
   describe('d255No', () => {
     it('should call logEvent', (done) => {
@@ -221,8 +249,36 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should call logEvent with the practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      // ACT
+      actions$.next(testSummaryActions.D255No());
+      // ASSERT
+      effects.d255No$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.D255}`,
+            'No',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
+            GoogleAnalyticsEventsTitles.FINALISATION_D255,
+            GoogleAnalyticsEventsValues.NO,
+          );
+        done();
+      });
+    });
   });
-  xdescribe('candidateChoseToProceedWithTestInEnglish$', () => {
+  describe('candidateChoseToProceedWithTestInEnglish$', () => {
     it('should call logEvent with the correct parameters', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
@@ -351,6 +407,37 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SET_ACTIVITY_CODE,
+            GoogleAnalyticsEventsTitles.ACTIVITY_CODE,
+            '4 - FAIL_PUBLIC_SAFETY',
+          );
+        done();
+      });
+    });
+    it('should call logEvent in practice mode for action NonPassFinalisationReportActivityCode', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      // ACT
+      actions$.next(nonPassFinalisationActions.NonPassFinalisationReportActivityCode(ActivityCodes.FAIL_PUBLIC_SAFETY));
+      // ASSERT
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      effects.nonPassFinalisationReportActivityCode$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
+            `practice mode - ${AnalyticsEvents.SET_ACTIVITY_CODE}`,
+            '4 - FAIL_PUBLIC_SAFETY',
+          );
+        //GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `PM_${GoogleAnalyticsEvents.SET_ACTIVITY_CODE}`,
             GoogleAnalyticsEventsTitles.ACTIVITY_CODE,
             '4 - FAIL_PUBLIC_SAFETY',
           );
