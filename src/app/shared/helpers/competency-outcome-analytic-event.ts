@@ -1,5 +1,6 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AnalyticsEvents, GoogleAnalyticsEventsValues } from '@providers/analytics/analytics.model';
+import { AnalyticsEvents } from '@providers/analytics/analytics.model';
+import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
 
 export const CompetencyOutcomeAnalyticEvent = (faultLevel: CompetencyOutcome): string => {
   switch (faultLevel) {
@@ -15,10 +16,10 @@ export const CompetencyOutcomeAnalyticEvent = (faultLevel: CompetencyOutcome): s
 export const CompetencyOutcomeGA4Event = (faultLevel: CompetencyOutcome): string => {
   switch (faultLevel) {
     case CompetencyOutcome.D:
-      return GoogleAnalyticsEventsValues.DANGEROUS;
+      return ValidFaultTypes.DANGEROUS;
     case CompetencyOutcome.S:
-      return GoogleAnalyticsEventsValues.SERIOUS;
+      return ValidFaultTypes.SERIOUS;
     default:
-      return GoogleAnalyticsEventsValues.DRIVING;
+      return ValidFaultTypes.DRIVING;
   }
 };

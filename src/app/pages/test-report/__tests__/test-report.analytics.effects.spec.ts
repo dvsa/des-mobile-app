@@ -64,6 +64,7 @@ import * as testReportCatAMod1Actions from '../cat-a-mod1/test-report.cat-a-mod1
 import * as testReportActions from '../test-report.actions';
 import { TestReportAnalyticsEffects } from '../test-report.analytics.effects';
 import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
+import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
 
 describe('TestReportAnalyticsEffects', () => {
   let effects: TestReportAnalyticsEffects;
@@ -269,7 +270,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SELECT_MODE,
             GoogleAnalyticsEventsTitles.MODE,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -298,7 +299,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -348,7 +349,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SELECT_MODE,
             GoogleAnalyticsEventsTitles.MODE,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -377,7 +378,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.MODE}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });
@@ -435,7 +436,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -471,7 +472,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels[Competencies.controlsGears],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -507,7 +508,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -540,7 +541,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels[Competencies.controlsGears],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -576,7 +577,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -609,7 +610,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels[Competencies.controlsGears],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });
@@ -650,7 +651,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -688,7 +689,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -730,7 +731,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -771,7 +772,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -809,7 +810,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -851,7 +852,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -893,7 +894,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -931,7 +932,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });
@@ -973,7 +974,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1009,7 +1010,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1042,7 +1043,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['outcomeControlledStop'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -1078,7 +1079,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -1111,7 +1112,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['outcomeControlledStop'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -1147,7 +1148,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1180,7 +1181,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['outcomeControlledStop'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });
@@ -1216,7 +1217,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1249,7 +1250,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['showMeQuestion'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -1285,7 +1286,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -1318,7 +1319,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['showMeQuestion'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -1354,7 +1355,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1387,7 +1388,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['showMeQuestion'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });
@@ -1426,7 +1427,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1462,7 +1463,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels[Competencies.controlsGears],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -1498,7 +1499,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -1531,7 +1532,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels[Competencies.controlsGears],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -1567,7 +1568,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels[Competencies.controlsGears],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -1600,7 +1601,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels[Competencies.controlsGears],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });
@@ -1641,7 +1642,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1679,7 +1680,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -1721,7 +1722,7 @@ describe('TestReportAnalyticsEffects', () => {
             // eslint-disable-next-line max-len
             `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1756,7 +1757,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['outcomeControlledStop'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1788,7 +1789,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['outcomeControlledStop'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -1823,7 +1824,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels['showMeQuestion'],
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -1855,7 +1856,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             fullCompetencyLabels['showMeQuestion'],
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -2321,7 +2322,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             'Uncouple recouple',
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DRIVING,
+            ValidFaultTypes.DRIVING,
 
           );
         done();
@@ -2355,7 +2356,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             'Uncouple recouple',
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DRIVING}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DRIVING}`,
           );
         done();
       });
@@ -2391,7 +2392,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             'Uncouple recouple',
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.SERIOUS,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -2424,7 +2425,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             'Uncouple recouple',
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.SERIOUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.SERIOUS}`,
           );
         done();
       });
@@ -2460,7 +2461,7 @@ describe('TestReportAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             'Uncouple recouple',
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -2493,7 +2494,7 @@ describe('TestReportAnalyticsEffects', () => {
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.FAULT_TYPE}`,
             'Uncouple recouple',
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsTitles.SEVERITY}`,
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEventsValues.DANGEROUS}`,
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${ValidFaultTypes.DANGEROUS}`,
           );
         done();
       });

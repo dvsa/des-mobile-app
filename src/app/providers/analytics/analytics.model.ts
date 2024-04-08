@@ -428,7 +428,6 @@ export enum GoogleAnalyticsEventsValues {
   SERIOUS = 'serious',
   DANGEROUS = 'dangerous',
   REMOVE = 'remove',
-  DRIVING = 'driving',
   ETA_PHYSICAL = 'physical',
   ETA_VERBAL = 'verbal',
 }
