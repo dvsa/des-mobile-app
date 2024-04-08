@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsScreenNames, AnalyticsEventCategories, AnalyticsEvents,
+  AnalyticsScreenNames, AnalyticsEventCategories, AnalyticsEvents, GoogleAnalyticsEvents,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { RekeySearchAnalyticsEffects } from '../rekey-search.analytics.effects';
@@ -38,7 +38,12 @@ describe('RekeySearchAnalyticsEffects', () => {
       // ASSERT
       effects.rekeySearchViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -50,9 +55,16 @@ describe('RekeySearchAnalyticsEffects', () => {
       // ASSERT
       effects.rekeySearchPerformed$.subscribe((result) => {
         expect(result?.type === AnalyticRecorded.type).toBe(true);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.REKEY_SEARCH,
           AnalyticsEvents.TEST_BOOKING_SEARCH,
+        );
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_BOOKING_SEARCH,
         );
         done();
       });

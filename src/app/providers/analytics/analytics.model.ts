@@ -316,6 +316,7 @@ export enum GoogleAnalyticsEvents {
   INCOMPLETE_TESTS = 'incomplete_tests',
   DEFER_WRITE_UP = 'defer_write-up',
   ASAM = 'single_app_mode_modal',
+  TEST_BOOKING_SEARCH = 'test_booking_search',
 }
 
 export enum GoogleAnalyticsEventsTitles {
