@@ -86,7 +86,7 @@ export class RekeyReasonAnalyticsEffects {
       this.analytics.setCurrentPage(screenName);
 
       // GA4 Analytics
-      this.analytics.setGACurrentPage(screenName);
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.REKEY_REASON, tests));
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 

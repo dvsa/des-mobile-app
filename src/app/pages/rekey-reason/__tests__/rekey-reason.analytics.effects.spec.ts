@@ -6,7 +6,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import { AnalyticsScreenNames, GoogleAnalyticsEventPrefix } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
@@ -17,6 +17,8 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as rekeyReasonActions from '../rekey-reason.actions';
 import { RekeyReasonAnalyticsEffects } from '../rekey-reason.analytics.effects';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 describe('RekeyReasonAnalyticsEffects', () => {
   let effects: RekeyReasonAnalyticsEffects;
@@ -74,6 +76,25 @@ describe('RekeyReasonAnalyticsEffects', () => {
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
+        done();
+      });
+    });
+
+    it('should call setCurrentPage with pass and practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(rekeyReasonActions.RekeyReasonViewDidEnter());
+      // ASSERT
+      effects.rekeyReasonViewDidEnter$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage)
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
         done();
       });
     });
