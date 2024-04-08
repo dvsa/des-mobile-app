@@ -10,7 +10,11 @@ import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsEventCategories,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
+} from '@providers/analytics/analytics.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -94,7 +98,7 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${AnalyticsEventCategories.PRACTICE_MODE}_${screenName}`);
+          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
         done();
       });
     });
