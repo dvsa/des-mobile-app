@@ -75,7 +75,7 @@ export class VehicleChecksModalAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
         action.tellMeQuestion.code,
       );
@@ -104,7 +104,7 @@ export class VehicleChecksModalAnalyticsEffects {
 
       // GA4 Analytics
       this.analytics.logGAEvent(
-        (GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1)),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1), tests),
         GoogleAnalyticsEventsTitles.RESULT,
         action.tellMeQuestionOutcome === 'P' ?
           GoogleAnalyticsEventsValues.CORRECT : GoogleAnalyticsEventsValues.DRIVING_FAULT,
