@@ -14,7 +14,7 @@ export class AddOrRemoveLangCyDirective {
   }
 
   assignLanguage(language: string) {
-    if (language) {
+    if (language && this.renderer && this.ref.nativeElement) {
       if (language === 'cy') {
         this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
       } else {
