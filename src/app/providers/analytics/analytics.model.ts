@@ -291,6 +291,7 @@ export enum GoogleAnalyticsEvents {
   COMPLETED_TEST_SEARCH = 'completed_test_search',
   LDTM_SEARCH = 'ldtm_search',
   SUBMIT_FORM_ERROR = 'submit_form_error',
+  SUBMIT_TEST = 'submit_test',
   VALIDATION_ERROR = 'validation_error',
   CANDIDATE_RECEIVE_TEST_RESULTS = 'send_candidate_test_results',
   SET_D255 = 'set_d255',
