@@ -367,7 +367,7 @@ export class TestsAnalyticsEffects {
         (device as DeviceInfo).realDiskFree.toString(),
       );
 
-      this.analytics.logEvent(
+      this.analytics.logGAEvent(
         GoogleAnalyticsEvents.METADATA,
         GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
         (device as DeviceInfo).realDiskTotal.toString(),
