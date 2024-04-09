@@ -160,6 +160,14 @@ export class ExaminerRecordsPage implements OnInit {
         return demonstrationMock;
       }),
       map((value) => Object.values(value)),
+      map((value) => {
+        return value.filter((test) => (
+          ([
+            test.examinerBooked,
+            test.examinerKeyed,
+            test.examinerConducted,
+          ].every( (val, i, arr) => val === arr[0] ))));
+      }),
       map(value => {
         const recordArray: ExaminerRecordModel[] = [];
         value.forEach((test) => {
