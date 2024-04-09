@@ -8,6 +8,10 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
+  GoogleAnalyticsEventPrefix,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -100,6 +104,8 @@ describe('TestsAnalyticsEffects', () => {
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -109,6 +115,18 @@ describe('TestsAnalyticsEffects', () => {
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.SUBMIT_TEST,
+            GoogleAnalyticsEventsTitles.RESULT,
+            GoogleAnalyticsEventsValues.PASS,
+          );
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
         done();
       });
@@ -127,6 +145,8 @@ describe('TestsAnalyticsEffects', () => {
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -136,6 +156,18 @@ describe('TestsAnalyticsEffects', () => {
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.SUBMIT_TEST}`,
+            GoogleAnalyticsEventsTitles.RESULT,
+            GoogleAnalyticsEventsValues.FAIL,
+          );
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
         done();
       });
@@ -150,10 +182,44 @@ describe('TestsAnalyticsEffects', () => {
       effects.sendCompletedTestsFailureEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(
             'Error connecting to microservice (test submission)',
             'No message',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.MICROSERVICE_ERROR,
+            GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
+            GoogleAnalyticsEventsValues.FULL,
+          );
+        done();
+      });
+    });
+  });
+
+  describe('sendPartialTestsFailureEffect', () => {
+    it('should send an error action', (done) => {
+      // ACT
+      actions$.next(testsActions.SendPartialTestsFailure());
+      // ASSERT
+      effects.sendPartialTestsFailureEffect$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError)
+          .toHaveBeenCalledWith(
+            'Error connecting to microservice (partial test submission)',
+            'No message',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.MICROSERVICE_ERROR,
+            GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
+            GoogleAnalyticsEventsValues.PARTIAL,
           );
         done();
       });
@@ -161,7 +227,7 @@ describe('TestsAnalyticsEffects', () => {
   });
 
   describe('testOutcomeChangedEffect', () => {
-    it('should log an event', (done) => {
+    it('should log a fail to pass event', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
@@ -174,6 +240,7 @@ describe('TestsAnalyticsEffects', () => {
       effects.testOutcomeChangedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
@@ -183,6 +250,102 @@ describe('TestsAnalyticsEffects', () => {
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+            GoogleAnalyticsEventsTitles.OLD_RESULT,
+            GoogleAnalyticsEventsValues.FAIL,
+            GoogleAnalyticsEventsTitles.NEW_RESULT,
+            GoogleAnalyticsEventsValues.PASS,
+          );
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+        done();
+      });
+    });
+    it('should log a pass to fail event', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(rekeyActions.MarkAsNonRekey());
+      const eventLabel = 'pass to fail';
+      // ACT
+      actions$.next(testsActions.TestOutcomeChanged(eventLabel));
+      // ASSERT
+      effects.testOutcomeChangedEffect$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TEST_OUTCOME_CHANGED,
+            eventLabel,
+          );
+        expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+            GoogleAnalyticsEventsTitles.OLD_RESULT,
+            GoogleAnalyticsEventsValues.PASS,
+            GoogleAnalyticsEventsTitles.NEW_RESULT,
+            GoogleAnalyticsEventsValues.FAIL,
+          );
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+        done();
+      });
+    });
+    it('should log an event that does not match the allowed format', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(rekeyActions.MarkAsNonRekey());
+      const eventLabel = 'test';
+      // ACT
+      actions$.next(testsActions.TestOutcomeChanged(eventLabel));
+      // ASSERT
+      effects.testOutcomeChangedEffect$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TEST_OUTCOME_CHANGED,
+            eventLabel,
+          );
+        expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addCustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+            GoogleAnalyticsEventsTitles.OLD_RESULT,
+            GoogleAnalyticsEventsValues.UNKNOWN,
+            GoogleAnalyticsEventsTitles.NEW_RESULT,
+            GoogleAnalyticsEventsValues.UNKNOWN,
+          );
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
         done();
       });
@@ -217,6 +380,7 @@ describe('TestsAnalyticsEffects', () => {
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(
             AnalyticsDimensionIndices.TEST_CATEGORY,
@@ -226,6 +390,16 @@ describe('TestsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.JOURNAL,
             AnalyticsEvents.START_TEST,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(
+            AnalyticsDimensionIndices.TEST_CATEGORY,
+            TestCategory.B,
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.START_TEST,
           );
         done();
       });
@@ -242,6 +416,7 @@ describe('TestsAnalyticsEffects', () => {
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(
             AnalyticsDimensionIndices.TEST_CATEGORY,
@@ -251,6 +426,60 @@ describe('TestsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.REKEY_SEARCH,
             AnalyticsEvents.START_TEST,
+          );
+
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            AnalyticsEvents.REPORT_DEVICE_STATE,
+            'batteryLevel',
+            0.9,
+          );
+
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            AnalyticsEvents.REPORT_DEVICE_STATE,
+            'realDiskFree',
+            456
+          );
+
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            AnalyticsEvents.REPORT_DEVICE_STATE,
+            'realDiskTotal',
+            1000
+          );
+
+        // GA4 Analytics
+
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(
+            AnalyticsDimensionIndices.TEST_CATEGORY,
+            TestCategory.B,
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`,
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.METADATA,
+            GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
+            '0.9',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            GoogleAnalyticsEventsTitles.HDD_FREE_MB,
+            '456',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
+            '1000',
           );
         done();
       });
