@@ -10,7 +10,7 @@ import {
 } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
-enum ValidFaultTypes {
+export enum ValidFaultTypes {
   DRIVING = 'driving',
   SERIOUS = 'serious',
   DANGEROUS = 'dangerous',
