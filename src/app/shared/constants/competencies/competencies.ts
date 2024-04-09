@@ -130,4 +130,5 @@ export enum competencyLabels {
   rearObservationChangeSpeed = 'Change speed',
   positionNormalRiding = 'Normal riding',
   judgementOvertakingFiltering = 'Overtaking / filtering',
+  uncoupleRecouple = 'Uncouple recouple',
 }
