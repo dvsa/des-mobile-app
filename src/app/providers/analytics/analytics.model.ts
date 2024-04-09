@@ -137,7 +137,7 @@ export enum AnalyticsEvents {
   TEST_OUTCOME_CHANGED = 'test outcome changed',
   TEST_BOOKING_SEARCH = 'perform test booking search',
   REVERSE_LEFT_POPOVER_OPENED = 'open reversing manoeuvre',
-  REVERSE_LEFT_POPOVER_CLOSED = 'close reversing manoevure',
+  REVERSE_LEFT_POPOVER_CLOSED = 'close reversing manoeuvre',
   REVERSE_DIAGRAM_OPENED = 'open reversing diagram',
   REVERSE_DIAGRAM_CLOSED = 'close reversing diagram',
   REVERSE_DIAGRAM_LENGTH_CHANGED = 'change vehicle length on reversing diagram',
@@ -279,7 +279,13 @@ export enum GoogleAnalyticsEvents {
   CODE73 = 'code_73',
   CODE78 = 'code_78',
   FEEDBACK = 'feedback',
+  LESSON_PLANNING = 'lesson_planning',
+  LESSON_THEME = 'lesson_theme',
+  RISK_MANAGEMENT = 'risk_management',
+  LEARNING_STRATEGY = 'learning_strategy',
+  OVERALL_ASSESSMENT = 'overall_assessment',
   ADD_FAULT = 'add_fault',
+  ADD_SINGLE_FAULT = 'add_single_fault',
   FUEL_EFFICIENT_DRIVING = 'fuel_efficient_driving',
   TRANSPORT_MODE = 'transport_mode',
   INDEPENDENT_DRIVING = 'independent_driving',
@@ -328,6 +334,7 @@ export enum GoogleAnalyticsEvents {
   SELECT_MODE = 'select_mode',
   EXIT_MODE = 'exit_mode',
   REMOVE_FAULT = 'remove_fault',
+  REMOVE_SINGLE_FAULT = 'remove_single_fault',
   TEST_ENDED = 'test_ended',
   TEST_TERMINATED = 'test_terminated',
   LEGAL_REQUIREMENT = 'legal_requirement',
@@ -336,6 +343,9 @@ export enum GoogleAnalyticsEvents {
   ETA = 'examiner_took_action',
   CONTROLLED_STOP = 'controlled_stop',
   START_TIMER = 'start_timer',
+  AVOIDANCE_MANOEUVRE = 'avoidance_manoeuvre',
+  EMERGENCY_STOP = 'emergency_stop',
+  STUDENT_EXPERIENCE = 'student_experience',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -357,6 +367,8 @@ export enum GoogleAnalyticsEventsTitles {
   DRIVING_TYPE = 'driving_type',
   DIRECTION = 'direction',
   QUESTION_NUMBER = 'question_number',
+  QUESTION_SCORE = 'question_score',
+  SCORE = 'score',
   BACK = 'back',
   RESULT = 'result',
   SLOT_CHANGED = 'slot_changed',
@@ -389,7 +401,12 @@ export enum GoogleAnalyticsEventsTitles {
   DEVICE_THEME = 'device_theme',
   TEST_STATUS = 'test_status',
   MODAL = 'modal_status',
-
+  FIRST_ATTEMPT = 'first_attempt',
+  SECOND_ATTEMPT = 'second_attempt',
+  SPEED_REQ = 'speed_req',
+  LEVEL = 'level',
+  ADDED = 'added',
+  REMOVED = 'removed',
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -451,4 +468,10 @@ export enum GoogleAnalyticsEventsValues {
   ETA_PHYSICAL = 'physical',
   ETA_VERBAL = 'verbal',
   FREE_TEXT_ENTERED = 'free_text_entered',
+  MET = 'met',
+  NOT_MET = 'not_met',
+  SPEED_REQ_NOT_MET = 'speed_req_not_met',
+  EMERGENCY_STOP = 'emergency_stop',
+  REVERSE_MANOEUVRE = 'reverse_manoeuvre',
+  OTHER_REASON = 'other_reason',
 }

@@ -2511,12 +2511,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.reverseLeftPopoverOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.NAVIGATION}`,
+            GoogleAnalyticsEventsTitles.OPENED,
+            GoogleAnalyticsEventsValues.REVERSE_MANOEUVRE,
           );
         done();
       });
@@ -2533,12 +2543,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.reverseLeftPopoverClosed$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.NAVIGATION}`,
+            GoogleAnalyticsEventsTitles.CLOSED,
+            GoogleAnalyticsEventsValues.REVERSE_MANOEUVRE,
           );
         done();
       });
@@ -2557,6 +2577,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2564,6 +2585,15 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
             `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedNotMet}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
+            GoogleAnalyticsEventsValues.NOT_MET,
           );
         done();
       });
@@ -2582,6 +2612,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2589,6 +2620,15 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
             `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedMet}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
+            GoogleAnalyticsEventsValues.MET,
           );
         done();
       });
@@ -2611,12 +2651,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordAvoidanceFirstAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT,
+            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+            GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
             `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
           );
         done();
@@ -2640,12 +2690,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordAvoidanceSecondAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT,
+            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+            GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
             `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
           );
         done();
@@ -2667,6 +2727,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.speedRequirementNotMetModalOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2675,13 +2736,22 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED,
             ModalReason.SPEED_REQUIREMENTS,
           );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            GoogleAnalyticsEventsTitles.MODAL,
+            GoogleAnalyticsEventsValues.SPEED_REQ_NOT_MET,
+          );
         done();
       });
     });
   });
 
   describe('emergencyStopDangerousFaultModelOpened', () => {
-    it('should call logEvent for ememergency stop dangererous fault modal opened', (done) => {
+    it('should call logEvent for emergency stop dangerous fault modal opened', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
@@ -2694,6 +2764,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.emergencyStopDangerousFaultModelOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2701,6 +2772,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
             ModalReason.EMERGENCY_STOP_DANGEROUS,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            GoogleAnalyticsEventsValues.EMERGENCY_STOP,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -2721,6 +2803,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.emergencyStopSeriousFaultModelOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2728,6 +2811,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
             ModalReason.EMERGENCY_STOP_SERIOUS,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            GoogleAnalyticsEventsValues.EMERGENCY_STOP,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -2747,6 +2841,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2754,6 +2849,15 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
             `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedNotMet}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EMERGENCY_STOP,
+            GoogleAnalyticsEventsTitles.SPEED_REQ,
+            GoogleAnalyticsEventsValues.NOT_MET,
           );
         done();
       });
@@ -2772,6 +2876,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2779,6 +2884,15 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
             `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedMet}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EMERGENCY_STOP,
+            GoogleAnalyticsEventsTitles.SPEED_REQ,
+            GoogleAnalyticsEventsValues.MET,
           );
         done();
       });
@@ -2801,12 +2915,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordEmergencyStopFirstAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT,
+            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EMERGENCY_STOP,
+            GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
             `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
           );
         done();
@@ -2830,12 +2954,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordEmergencyStopSecondAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT,
+            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EMERGENCY_STOP,
+            GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
             `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
           );
         done();
@@ -2859,6 +2993,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2866,6 +3001,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.ADD_SINGLE_FAULT,
             fullCompetencyLabels.slalom,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_SINGLE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.slalom,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -2886,6 +3032,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2893,6 +3040,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT,
             fullCompetencyLabels.slalom,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_SINGLE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.slalom,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -2913,6 +3071,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2920,6 +3079,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT,
             fullCompetencyLabels.slalom,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_SINGLE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.slalom,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -2942,6 +3112,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2949,6 +3120,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.REMOVE_SINGLE_FAULT,
             fullCompetencyLabels.slalom,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.slalom,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -2971,6 +3153,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSingleDangerousFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -2978,6 +3161,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT,
             fullCompetencyLabels.slalom,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.slalom,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -3000,6 +3194,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSingleSeriousFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3007,6 +3202,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT,
             fullCompetencyLabels.slalom,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.slalom,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -3023,6 +3229,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3030,6 +3237,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -3043,6 +3261,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3050,6 +3269,17 @@ describe('TestReportAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT}`,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -3066,6 +3296,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3073,6 +3304,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -3086,6 +3328,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3093,6 +3336,17 @@ describe('TestReportAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT}`,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -3109,6 +3363,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3116,6 +3371,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -3129,6 +3395,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3136,6 +3403,17 @@ describe('TestReportAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT}`,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -3152,6 +3430,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3159,6 +3438,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.REMOVE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
           );
         done();
       });
@@ -3172,6 +3462,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3180,12 +3471,23 @@ describe('TestReportAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT}`,
             fullCompetencyLabels.pcvDoorExercise,
           );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DRIVING,
+          );
         done();
       });
     });
   });
 
-  describe('pcvDoorExerciseRemoveSeriousFaultX', () => {
+  describe('pcvDoorExerciseRemoveSeriousFault', () => {
     it('should call logEvent for this competency', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
@@ -3195,6 +3497,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3202,6 +3505,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.REMOVE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -3215,6 +3529,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3222,6 +3537,17 @@ describe('TestReportAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT}`,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.SERIOUS,
           );
         done();
       });
@@ -3238,6 +3564,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3245,6 +3572,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.REMOVE_FAULT,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -3258,6 +3596,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3265,6 +3604,17 @@ describe('TestReportAnalyticsEffects', () => {
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT}`,
             fullCompetencyLabels.pcvDoorExercise,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}`,
+            GoogleAnalyticsEventsTitles.FAULT_TYPE,
+            fullCompetencyLabels.pcvDoorExercise,
+            GoogleAnalyticsEventsTitles.SEVERITY,
+            ValidFaultTypes.DANGEROUS,
           );
         done();
       });
@@ -3283,6 +3633,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleHighwayCodeSafety$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3290,6 +3641,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
             `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.completed}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
+            legalRequirementsLabels.highwayCodeSafety,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
+            legalRequirementToggleValues.completed,
           );
         done();
       });
@@ -3304,6 +3666,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleHighwayCodeSafety$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3311,6 +3674,17 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
             `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.uncompleted}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
+            legalRequirementsLabels.highwayCodeSafety,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
+            legalRequirementToggleValues.uncompleted,
           );
         done();
       });
@@ -3327,12 +3701,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoControl$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ECO_CONTROL,
+            'selected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ECO_CONTROL,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'selected',
           );
         done();
@@ -3347,12 +3731,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoControl$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ECO_CONTROL,
+            'unselected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ECO_CONTROL,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'unselected',
           );
         done();
@@ -3370,12 +3764,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoPlanning$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ECO_PLANNING,
+            'selected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ECO_PLANNING,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'selected',
           );
         done();
@@ -3390,12 +3794,22 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoPlanning$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ECO_PLANNING,
+            'unselected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ECO_PLANNING,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'unselected',
           );
         done();
@@ -3413,12 +3827,24 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
+            'selected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ETA,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
+            GoogleAnalyticsEventsValues.ETA_PHYSICAL,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'selected',
           );
         done();
@@ -3433,12 +3859,24 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
+            'unselected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ETA,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
+            GoogleAnalyticsEventsValues.ETA_PHYSICAL,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'unselected',
           );
         done();
@@ -3454,12 +3892,24 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ETA_VERBAL,
+            'selected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ETA,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
+            GoogleAnalyticsEventsValues.ETA_VERBAL,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'selected',
           );
         done();
@@ -3474,12 +3924,24 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_ETA_VERBAL,
+            'unselected',
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.ETA,
+            GoogleAnalyticsEventsTitles.ITEM_NAME,
+            GoogleAnalyticsEventsValues.ETA_VERBAL,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'unselected',
           );
         done();
@@ -3496,6 +3958,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.startTimer$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3503,6 +3966,7 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.START_TIMER,
           );
+        // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
@@ -3524,6 +3988,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleControlledStop$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3531,6 +3996,15 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
             `${legalRequirementToggleValues.completed}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.CONTROLLED_STOP,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
+            legalRequirementToggleValues.completed
           );
         done();
       });
@@ -3544,6 +4018,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleControlledStop$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent)
@@ -3551,6 +4026,15 @@ describe('TestReportAnalyticsEffects', () => {
             AnalyticsEventCategories.TEST_REPORT,
             AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
             `${legalRequirementToggleValues.uncompleted}`,
+          );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.CONTROLLED_STOP,
+            GoogleAnalyticsEventsTitles.ITEM_STATUS,
+            legalRequirementToggleValues.uncompleted
           );
         done();
       });
