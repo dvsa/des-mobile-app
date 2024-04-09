@@ -427,7 +427,33 @@ describe('TestsAnalyticsEffects', () => {
             AnalyticsEventCategories.REKEY_SEARCH,
             AnalyticsEvents.START_TEST,
           );
+
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            AnalyticsEvents.REPORT_DEVICE_STATE,
+            'batteryLevel',
+            0.9,
+          );
+
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            AnalyticsEvents.REPORT_DEVICE_STATE,
+            'realDiskFree',
+            456
+          );
+
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            AnalyticsEvents.REPORT_DEVICE_STATE,
+            'realDiskTotal',
+            1000
+          );
+
         // GA4 Analytics
+
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(
             AnalyticsDimensionIndices.TEST_CATEGORY,
@@ -436,6 +462,24 @@ describe('TestsAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`,
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.METADATA,
+            GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
+            '0.9',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            GoogleAnalyticsEventsTitles.HDD_FREE_MB,
+            '456',
+          );
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.METADATA,
+            GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
+            '1000',
           );
         done();
       });
