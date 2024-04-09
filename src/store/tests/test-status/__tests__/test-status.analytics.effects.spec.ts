@@ -6,7 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsEventCategories, AnalyticsEvents } from '@providers/analytics/analytics.model';
+import { AnalyticsEventCategories, AnalyticsEvents, GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
 import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
 import { testsReducer } from '../../tests.reducer';
 import * as testStatusActions from '../test-status.actions';
@@ -45,8 +45,14 @@ describe('TestStatusAnalyticsEffects', () => {
 
       effects.setTestStatusDecidedEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(AnalyticsEventCategories.TEST_LIFECYCLE, AnalyticsEvents.TEST_DECIDED);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_DECIDED);
         done();
       });
     });
@@ -60,8 +66,14 @@ describe('TestStatusAnalyticsEffects', () => {
 
       effects.setTestStatusWriteUpEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(AnalyticsEventCategories.TEST_LIFECYCLE, AnalyticsEvents.TEST_IN_WRITE_UP);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_IN_WRITE_UP);
         done();
       });
     });
@@ -75,8 +87,14 @@ describe('TestStatusAnalyticsEffects', () => {
 
       effects.setTestStatusAutosavedEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(AnalyticsEventCategories.TEST_LIFECYCLE, AnalyticsEvents.TEST_AUTOSAVED);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_AUTOSAVED);
         done();
       });
     });
@@ -90,8 +108,14 @@ describe('TestStatusAnalyticsEffects', () => {
 
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
+
+        // TODO - MES-9495 - remove old analytics
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(AnalyticsEventCategories.TEST_LIFECYCLE, AnalyticsEvents.TEST_SUBMITTED);
+
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_SUBMITTED);
         done();
       });
     });
