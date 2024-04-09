@@ -267,6 +267,10 @@ export enum GoogleAnalyticsEventPrefix {
 }
 
 export enum GoogleAnalyticsEvents {
+  START_TEST = 'start_test',
+  TEST_OUTCOME_CHANGED = 'test_outcome_changed',
+  MICROSERVICE_ERROR = 'microservice_error',
+  TEST_SUBMISSION = 'test_submission',
   FURTHER_DEVELOPMENT = 'further_development',
   SET_ACTIVITY_CODE = 'set_activity_code',
   LANGUAGE_CHANGED = 'language_changed',
@@ -320,6 +324,13 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  HDD_FREE_MB = 'hdd_free_mb',
+  HDD_TOTAL_MB = 'hdd_total_mb',
+  BATTERY_LEVEL = 'battery_level',
+  OLD_RESULT = 'old_result',
+  NEW_RESULT = 'new_result',
+  TEST_DETAILS = 'test_details',
+  TEST_SUBMISSION = 'test_submission',
   ACTIVITY_CODE = 'activity_code',
   LANGUAGE = 'language',
   RECEIVED = 'received',
@@ -363,6 +374,9 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  FULL = 'full',
+  PARTIAL = 'partial',
+  COMPLETED = 'completed',
   NO_ADVICE_REASON = 'no_advice_reason',
   REVERSE_DIAGRAM = 'reverse_diagram',
   ECO = 'eco',
