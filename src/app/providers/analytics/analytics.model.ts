@@ -316,7 +316,7 @@ export enum GoogleAnalyticsEvents {
   INCOMPLETE_TESTS = 'incomplete_tests',
   DEFER_WRITE_UP = 'defer_write-up',
   TEST_DECIDED = 'test_decided',
-  TEST_IN_WRITE_UP = 'test_in_write up',
+  TEST_IN_WRITE_UP = 'test_in_write_up',
   TEST_AUTOSAVED = 'test_autosaved',
   TEST_SUBMITTED = 'test_submitted',
   ASAM = 'single_app_mode_modal',
