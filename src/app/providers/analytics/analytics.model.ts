@@ -338,6 +338,7 @@ export enum GoogleAnalyticsEventsTitles {
   FAULT_TYPE = 'fault_type',
   REASON = 'reason',
   FEEDBACK_CATEGORY = 'feedback_category',
+  TEST_CATEGORY = 'test_category',
   DRIVING_TYPE = 'driving_type',
   DIRECTION = 'direction',
   QUESTION_NUMBER = 'question_number',
@@ -404,6 +405,7 @@ export enum GoogleAnalyticsEventsValues {
   COMMS_METHOD_NEW_EMAIL = 'new_email',
   COMMS_METHOD_POST = 'by_email',
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
+  ASSESSMENT_MODAL = 'assessment_modal',
   CANDIDATE = 'candidate',
   JOURNALS = 'journals',
   LOCATION = 'location',
@@ -430,4 +432,5 @@ export enum GoogleAnalyticsEventsValues {
   REMOVE = 'remove',
   ETA_PHYSICAL = 'physical',
   ETA_VERBAL = 'verbal',
+  FREE_TEXT_ENTERED = 'free_text_entered',
 }
