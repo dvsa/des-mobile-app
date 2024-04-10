@@ -2436,11 +2436,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        GoogleAnalyticsEventsValues.EMERGENCY_STOP,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        ValidFaultTypes.DANGEROUS,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
+        GoogleAnalyticsEventsTitles.OPENED,
+        GoogleAnalyticsEventsValues.DANGEROUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
       )
       return of(AnalyticRecorded());
     }),
@@ -2475,11 +2473,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        GoogleAnalyticsEventsValues.EMERGENCY_STOP,
-        GoogleAnalyticsEventsTitles.SEVERITY,
-        ValidFaultTypes.SERIOUS,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
+        GoogleAnalyticsEventsTitles.OPENED,
+        GoogleAnalyticsEventsValues.SERIOUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
       )
       return of(AnalyticRecorded());
     }),

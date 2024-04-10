@@ -2785,11 +2785,9 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.ADD_FAULT,
-            GoogleAnalyticsEventsTitles.FAULT_TYPE,
-            GoogleAnalyticsEventsValues.EMERGENCY_STOP,
-            GoogleAnalyticsEventsTitles.SEVERITY,
-            ValidFaultTypes.DANGEROUS,
+            GoogleAnalyticsEvents.NAVIGATION,
+            GoogleAnalyticsEventsTitles.OPENED,
+            GoogleAnalyticsEventsValues.DANGEROUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
           );
         done();
       });
@@ -2824,11 +2822,9 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.ADD_FAULT,
-            GoogleAnalyticsEventsTitles.FAULT_TYPE,
-            GoogleAnalyticsEventsValues.EMERGENCY_STOP,
-            GoogleAnalyticsEventsTitles.SEVERITY,
-            ValidFaultTypes.SERIOUS,
+            GoogleAnalyticsEvents.NAVIGATION,
+            GoogleAnalyticsEventsTitles.OPENED,
+            GoogleAnalyticsEventsValues.SERIOUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
           );
         done();
       });
