@@ -15475,4 +15475,198 @@ export const demonstrationMock: StartedTests = {
       'communicationMethod': 'Post'
     }
   } as TestResultCommonSchema,
+  115: {
+    'rekey': false,
+    'version': '3.42.5',
+    'category': 'ADI2',
+    'testData': {
+      'ETA': {},
+      'eco': {
+        'completed': true
+      },
+      'manoeuvres': [
+        {
+          'reverseRight': {
+            'selected': true
+          }
+        },
+        {
+          'reverseParkRoad': {
+            'selected': true
+          }
+        }
+      ],
+      'eyesightTest': {
+        'complete': true,
+        'seriousFault': false
+      },
+      'drivingFaults': {
+        'controlsAccelerator': 4
+      },
+      'seriousFaults': {},
+      'vehicleChecks': {
+        'seriousFault': false,
+        'dangerousFault': false,
+        'showMeQuestions': [
+          {
+            'code': 'A15',
+            'outcome': 'P',
+            'description': 'Rear windscreen'
+          },
+          {
+            'code': 'A16',
+            'outcome': 'P',
+            'description': 'Front windscreen'
+          }
+        ],
+        'tellMeQuestions': [
+          {
+            'code': 'T2',
+            'outcome': 'DF',
+            'description': 'Tyre pressures'
+          },
+          {
+            'code': 'T7',
+            'outcome': 'DF',
+            'description': 'Direction indicators'
+          },
+          {
+            'code': 'T8',
+            'outcome': 'DF',
+            'description': 'Brake lights'
+          }
+        ],
+        'vehicleChecksCompleted': true
+      },
+      'controlledStop': {},
+      'dangerousFaults': {},
+      'testRequirements': {
+        'angledStart': true,
+        'uphillStart': true,
+        'normalStart1': true,
+        'normalStart2': true,
+        'downhillStart': true
+      }
+    },
+    'appVersion': '4.10.0.0',
+    'journalData': {
+      'examiner': {
+        'staffNumber': '10000012',
+        'individualId': 1000012
+      },
+      'candidate': {
+        'prn': 9283749,
+        'gender': 'F',
+        'candidateId': 100,
+        'dateOfBirth': '1977-07-02',
+        'driverNumber': 'PEARS123456789DO',
+        'candidateName': {
+          'title': 'miss',
+          'lastName': 'Firstlis',
+          'firstName': 'Anna'
+        },
+        'ethnicityCode': 'D',
+        'mobileTelephone': '07654 123456',
+        'candidateAddress': {
+          'postcode': 'PO57 0DE',
+          'addressLine1': 'Address Line 1',
+          'addressLine2': 'Address Line 2',
+          'addressLine3': 'Address Line 3',
+          'addressLine4': 'Address Line 4',
+          'addressLine5': 'Address Line 5'
+        },
+        'previousADITests': 2,
+        'primaryTelephone': '01234 567890',
+        'secondaryTelephone': '04321 098765'
+      },
+      'testCentre': {
+        'centreId': 10,
+        'costCode': 'NCST',
+        'centreName': 'Newcastle Test Centre (Example)',
+      },
+      'testSlotAttributes': {
+        'start': '2024-03-07T08:00:00',
+        'slotId': 2200,
+        'slotType': 'Standard Test',
+        'fitMarker': false,
+        'welshTest': false,
+        'extendedTest': false,
+        'specialNeeds': false,
+        'vehicleTypeCode': 'C',
+        'entitlementCheck': false,
+        'examinerVisiting': false,
+        'specialNeedsCode': 'NONE',
+        'specialNeedsArray': [
+          'None'
+        ],
+        'previousCancellation': [
+          'Act of nature'
+        ],
+        'categoryEntitlementCheck': false
+      },
+      'applicationReference': {
+        'checkDigit': 1,
+        'applicationId': 112,
+        'bookingSequence': 1
+      }
+    },
+    'rekeyReason': {
+      'other': {
+        'reason': '',
+        'selected': false
+      },
+      'transfer': {
+        'selected': false
+      },
+      'ipadIssue': {
+        'lost': false,
+        'broken': false,
+        'stolen': false,
+        'selected': false,
+        'technicalFault': false
+      }
+    },
+    'testSummary': {
+      'D255': false,
+      'routeNumber': 22,
+      'identification': 'Licence',
+      'debriefWitnessed': true,
+      'weatherConditions': [
+        'Windy'
+      ],
+      'independentDriving': 'Sat nav',
+      'trueLikenessToPhoto': true
+    },
+    'activityCode': '2',
+    'changeMarker': false,
+    'accompaniment': {},
+    'delegatedTest': false,
+    'examinerKeyed': 10000012,
+    'examinerBooked': 10000012,
+    'trainerDetails': {
+      'trainingRecords': true,
+      'orditTrainedCandidate': true
+    },
+    'vehicleDetails': {
+      'gearboxCategory': 'Manual',
+      'registrationNumber': 'AUTOPCK'
+    },
+    'examinerConducted': 10000012,
+    'preTestDeclarations': {
+      'preTestSignature': '',
+      'candidateDeclarationSigned': false,
+      'insuranceDeclarationAccepted': true,
+      'residencyDeclarationAccepted': false
+    },
+    'postTestDeclarations': {
+      'postTestSignature': '',
+      'healthDeclarationAccepted': false,
+      'passCertificateNumberReceived': false
+    },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'conductedLanguage': 'English',
+      'communicationMethod': 'Post'
+    }
+  } as TestResultCommonSchema,
 };
