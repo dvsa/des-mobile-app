@@ -12,6 +12,12 @@ import * as manoeuvresADIPart2Actions from '@store/tests/test-data/cat-adi-part2
 import * as vehicleChecksActions from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import * as testRequirementsActions from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import * as ecoActions from '@store/tests/test-data/common/eco/eco.actions';
+import * as lessonThemeActions from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
+import * as lessonPlanningActions from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
+import * as riskManagementActions from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
+// eslint-disable-next-line max-len
+import * as teachingLearningStrategiesActions from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import * as testReportAdi3Actions from '@app/pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import { StoreModel } from '@shared/models/store.model';
 import {
   Competencies,
@@ -65,6 +71,7 @@ import * as testReportActions from '../test-report.actions';
 import { TestReportAnalyticsEffects } from '../test-report.analytics.effects';
 import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
 import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
+import { lessonThemeValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
 
 describe('TestReportAnalyticsEffects', () => {
   let effects: TestReportAnalyticsEffects;
@@ -4040,5 +4047,460 @@ describe('TestReportAnalyticsEffects', () => {
       });
     });
   });
-
+  describe('studentLevelChanged', () => {
+    it('should call log event for this competency', (done) => {
+      // ARRANGE
+      const studentLevel = 'beginner';
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel))
+      // ASSERT
+      effects.studentLevelChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.STUDENT_LEVEL_CHANGED,
+          `student level changed to ${studentLevel}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.STUDENT_EXPERIENCE,
+          GoogleAnalyticsEventsTitles.LEVEL,
+          studentLevel
+        );
+      });
+      done();
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const studentLevel = 'beginner';
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel))
+      // ASSERT
+      effects.studentLevelChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.STUDENT_LEVEL_CHANGED}`,
+          `student level changed to ${studentLevel}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.STUDENT_EXPERIENCE}`,
+          GoogleAnalyticsEventsTitles.LEVEL,
+          studentLevel
+        );
+      });
+      done();
+    });
+  });
+  describe('addLessonTheme', () => {
+    it('should call log event for this competency', (done) => {
+      // ARRANGE
+      const lessonTheme = 'junctions';
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.LessonThemeAdded(lessonTheme))
+      // ASSERT
+      effects.studentLevelChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.LESSON_THEME_ADDED,
+          lessonThemeValues[lessonTheme],
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.LESSON_THEME,
+          GoogleAnalyticsEventsTitles.ADDED,
+          lessonThemeValues[lessonTheme]
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const lessonTheme = 'junctions';
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.LessonThemeAdded(lessonTheme))
+      // ASSERT
+      effects.addLessonTheme$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.LESSON_THEME_ADDED}`,
+          lessonThemeValues[lessonTheme],
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_THEME}`,
+          GoogleAnalyticsEventsTitles.ADDED,
+          lessonThemeValues[lessonTheme]
+        );
+      });
+      done();
+    });
+  });
+  describe('removeLessonTheme', () => {
+    it('should call log event for this competency', (done) => {
+      // ARRANGE
+      const lessonTheme = 'junctions';
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.LessonThemeRemoved(lessonTheme))
+      // ASSERT
+      effects.removeLessonTheme$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.LESSON_THEME_REMOVED,
+          lessonThemeValues[lessonTheme],
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.LESSON_THEME,
+          GoogleAnalyticsEventsTitles.REMOVED,
+          lessonThemeValues[lessonTheme]
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const lessonTheme = 'junctions';
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.LessonThemeRemoved(lessonTheme))
+      // ASSERT
+      effects.removeLessonTheme$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.LESSON_THEME_REMOVED}`,
+          lessonThemeValues[lessonTheme],
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_THEME}`,
+          GoogleAnalyticsEventsTitles.REMOVED,
+          lessonThemeValues[lessonTheme]
+        );
+      });
+      done();
+    });
+  });
+  describe('otherReasonChanged', () => {
+    it('should call log event for this competency', (done) => {
+      // ARRANGE
+      const otherReason = 'Other Reason';
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.OtherChanged(otherReason))
+      // ASSERT
+      effects.otherReasonChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.OTHER_REASON_CHANGED,
+          `other reason changed to - ${otherReason}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.FEEDBACK,
+          GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
+          GoogleAnalyticsEventsValues.OTHER_REASON,
+          GoogleAnalyticsEventsTitles.REASON,
+          otherReason,
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const otherReason = 'Other Reason';
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonThemeActions.OtherChanged(otherReason))
+      // ASSERT
+      effects.otherReasonChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.OTHER_REASON_CHANGED}`,
+          `other reason changed to - ${otherReason}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.FEEDBACK}`,
+          GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
+          GoogleAnalyticsEventsValues.OTHER_REASON,
+          GoogleAnalyticsEventsTitles.REASON,
+          otherReason
+        );
+      });
+      done();
+    });
+  });
+  describe('lessonPlanningQuestionScoreChanged', () => {
+    it('should call log event for this competency', (done) => {
+      const question = 1;
+      const score = 2;
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonPlanningActions.LessonPlanningQuestionScoreChanged(question, score));
+      // ASSERT
+      effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.LESSON_PLANNING_CHANGED,
+          `lesson planning changed: question ${question}, score ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.LESSON_PLANNING,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          String(question),
+          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const question = 1;
+      const score = 2;
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(lessonPlanningActions.LessonPlanningQuestionScoreChanged(question, score))
+      // ASSERT
+      effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.LESSON_PLANNING_CHANGED}`,
+          `lesson planning changed: question ${question}, score ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_PLANNING}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          String(question),
+          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+  });
+  describe('riskManagementQuestionScoreChanged', () => {
+    it('should call log event for this competency', (done) => {
+      const question = 1;
+      const score = 2;
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(riskManagementActions.RiskManagementQuestionScoreChanged(question, score));
+      // ASSERT
+      effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.RISK_MANAGEMENT_CHANGED,
+          `risk management changed: question ${question}, score ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.RISK_MANAGEMENT,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          String(question),
+          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const question = 1;
+      const score = 2;
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(riskManagementActions.RiskManagementQuestionScoreChanged(question, score))
+      // ASSERT
+      effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.RISK_MANAGEMENT_CHANGED}`,
+          `risk management changed: question ${question}, score ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.RISK_MANAGEMENT}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          String(question),
+          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+  });
+  describe('teachingLearningStrategyQuestionScoreChanged', () => {
+    it('should call log event for this competency', (done) => {
+      const question = 1;
+      const score = 2;
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      // eslint-disable-next-line max-len
+      store$.dispatch(teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged(question, score));
+      // ASSERT
+      effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.TEACHING_LEARNING_STRATEGY_CHANGED,
+          `teaching learning strategy changed: question ${question}, score ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.LEARNING_STRATEGY,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          String(question),
+          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const question = 1;
+      const score = 2;
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged(question, score))
+      // ASSERT
+      effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TEACHING_LEARNING_STRATEGY_CHANGED}`,
+          `teaching learning strategy changed: question ${question}, score ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEARNING_STRATEGY}`,
+          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+          String(question),
+          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+  });
+  describe('testReportAssessmentOverallScore', () => {
+    it('should call log event for this competency', (done) => {
+      const score = 10;
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+      // ACT
+      // eslint-disable-next-line max-len
+      store$.dispatch(testReportAdi3Actions.AssessmentOverallScoreChanged(score));
+      // ASSERT
+      effects.testReportAssessmentOverallScore$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED,
+          `overall assessment score changed: ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.OVERALL_ASSESSMENT,
+          GoogleAnalyticsEventsTitles.SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+    it('should call log event for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      const score = 10;
+      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+      // ACT
+      store$.dispatch(testReportAdi3Actions.AssessmentOverallScoreChanged(score))
+      // ASSERT
+      effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED}`,
+          `overall assessment score changed: ${score}`,
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.OVERALL_ASSESSMENT}`,
+          GoogleAnalyticsEventsTitles.SCORE,
+          String(score),
+        );
+      });
+      done();
+    });
+  });
 });
