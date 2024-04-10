@@ -2438,7 +2438,7 @@ export class TestReportAnalyticsEffects {
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
         GoogleAnalyticsEventsTitles.OPENED,
-        GoogleAnalyticsEventsValues.DANGEROUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
+        ModalReason.EMERGENCY_STOP_DANGEROUS,
       )
       return of(AnalyticRecorded());
     }),
@@ -2475,7 +2475,7 @@ export class TestReportAnalyticsEffects {
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
         GoogleAnalyticsEventsTitles.OPENED,
-        GoogleAnalyticsEventsValues.SERIOUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
+        ModalReason.EMERGENCY_STOP_SERIOUS,
       )
       return of(AnalyticRecorded());
     }),

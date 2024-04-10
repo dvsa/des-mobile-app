@@ -474,6 +474,4 @@ export enum GoogleAnalyticsEventsValues {
   EMERGENCY_STOP = 'emergency_stop',
   REVERSE_MANOEUVRE = 'reverse_manoeuvre',
   OTHER_REASON = 'other_reason',
-  DANGEROUS_FAULT_RECORDED_ON_EMERGENCY_STOP = 'Dangerous fault recorded on emergency stop',
-  SERIOUS_FAULT_RECORDED_ON_EMERGENCY_STOP = 'Serious fault recorded on emergency stop',
 }

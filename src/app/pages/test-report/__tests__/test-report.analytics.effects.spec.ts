@@ -2787,7 +2787,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.NAVIGATION,
             GoogleAnalyticsEventsTitles.OPENED,
-            GoogleAnalyticsEventsValues.DANGEROUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
+            ModalReason.EMERGENCY_STOP_DANGEROUS,
           );
         done();
       });
@@ -2824,7 +2824,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.NAVIGATION,
             GoogleAnalyticsEventsTitles.OPENED,
-            GoogleAnalyticsEventsValues.SERIOUS_FAULT_RECORDED_ON_EMERGENCY_STOP,
+            ModalReason.EMERGENCY_STOP_SERIOUS,
           );
         done();
       });
