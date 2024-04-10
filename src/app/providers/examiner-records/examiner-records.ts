@@ -22,14 +22,17 @@ import {
 import { Router } from '@angular/router';
 import { LoadingProvider } from '@providers/loader/loader';
 
-export interface StaticColourScheme { colours: string[], average: string }
-export interface VariableColourScheme { bar: string[], pie: string[], emergencyStop?: string[], average: string }
+export interface ColourScheme {
+  name: ColourEnum,
+  bar: string[],
+  pie: string[],
+  emergencyStop?: string[],
+  average: string
+}
 
 export const enum ColourEnum {
   Default = 'Default',
   Monochrome = 'Monochrome',
-  Navy = 'Navy',
-  Amethyst = 'Amethyst',
 }
 
 export type ExaminerRecordsTestLimits = '100';
@@ -44,12 +47,11 @@ export type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 export class ExaminerRecordsProvider {
 
   public colours: {
-    default: VariableColourScheme,
-    monochrome: VariableColourScheme,
-    navy: StaticColourScheme,
-    amethyst: StaticColourScheme,
+    default: ColourScheme,
+    monochrome: ColourScheme,
   } = {
     default: {
+      name: ColourEnum.Default,
       pie: [
         '#008FFB',
         '#ED6926',
@@ -65,6 +67,7 @@ export class ExaminerRecordsProvider {
       average: '#000000',
     },
     monochrome: {
+      name: ColourEnum.Monochrome,
       pie: ['#474747',
         '#5A5A5A',
         '#6E6E6E',
@@ -73,26 +76,6 @@ export class ExaminerRecordsProvider {
       ],
       bar: ['#777777'],
       average: '#000000',
-    },
-    amethyst: {
-      colours: [
-        '#f95d6a',
-        '#d45087',
-        '#665191',
-        '#2f4b7c',
-        '#003f5c',
-      ],
-      average: '#00FF00',
-    },
-    navy: {
-      colours: [
-        '#008FFB',
-        '#00E396',
-        '#FEB019',
-        '#FF4560',
-        '#9070ff',
-      ],
-      average: '#FF0000',
     },
   };
 
@@ -131,6 +114,9 @@ export class ExaminerRecordsProvider {
   ) {
   }
 
+  /**
+   * checks if user has already successfully cached examiner records today, if not, dispatches the effect to do so
+   */
   async cacheOnlineRecords(staffNumber: string) {
     if (
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
@@ -141,6 +127,9 @@ export class ExaminerRecordsProvider {
     }
   }
 
+  /**
+   * handler for loading spinner while pulling backend data
+   */
   currentlyLoading: boolean = false;
   handleLoadingUI = async (isLoading: boolean) => {
     if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
@@ -157,6 +146,9 @@ export class ExaminerRecordsProvider {
     return null;
   };
 
+  /**
+   * changes test result to the ExaminerRecordModel format, which we then use for examiner records
+   */
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
     let result: ExaminerRecordModel = {
       appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
