@@ -27,6 +27,9 @@
   categoryList: pageState.categoryList$ | async
 } as data"
 >
+  <ion-row>
+    <ion-button (click)="getOnlineRecords()"></ion-button>
+  </ion-row>
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -36,6 +36,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import {
+  getIsLoadingRecords,
   selectCachedExaminerRecords,
   selectColourScheme,
 } from '@store/examiner-records/examiner-records.selectors';
@@ -55,8 +56,11 @@ import {
   StaticColourScheme,
   VariableColourScheme,
 } from '@providers/examiner-records/examiner-records';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 interface ExaminerRecordsState {
+  cachedRecords$: Observable<ExaminerRecordModel[]>;
+  isLoadingRecords$: Observable<boolean>;
   routeNumbers$: Observable<ExaminerRecordData<string>[]>;
   manoeuvres$: Observable<ExaminerRecordData<string>[]>;
   showMeQuestions$: Observable<ExaminerRecordData<string>[]>;
@@ -106,8 +110,7 @@ export class ExaminerRecordsPage implements OnInit {
   locationSelectPristine: boolean = true;
   showExpandedData: boolean = false;
   public testResults: ExaminerRecordModel[];
-
-
+  subscription: Subscription;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -124,6 +127,10 @@ export class ExaminerRecordsPage implements OnInit {
     if (!((event as HTMLElement).id?.includes('input'))) {
       (document.activeElement as HTMLElement)?.blur();
     }
+  }
+
+  async getOnlineRecords() {
+    await this.examinerRecordsProvider.cacheOnlineRecords('55555556');
   }
 
   // wrapper used to reduce/centralise code
@@ -148,10 +155,31 @@ export class ExaminerRecordsPage implements OnInit {
         this.categorySubject$.value))),
     );
 
-  getResults(): ExaminerRecordModel[] {
+  mergeWithOnlineResults(localRecords: ExaminerRecordModel[], cachedExaminerRecords: ExaminerRecordModel[]) {
+    this.cachedExaminerRecords = cachedExaminerRecords;
+
+    let result = [
+      ...localRecords,
+      ...cachedExaminerRecords === null ? [] : cachedExaminerRecords,
+    ];
+
+    return result;
+  }
+
+  removeDuplicatesAndSort(result: ExaminerRecordModel[]) {
+    //remove duplicates from array
+    return result.filter((item, index, self) => {
+      return self.findIndex(item2 => item2.appRef === item.appRef) === index;
+    })
+      //put final array in date order by most recent
+      .sort((a, b) => {
+        return Date.parse(b.startDate) - Date.parse(a.startDate);
+      });
+  }
+
+  getLocalResults(): ExaminerRecordModel[] {
 
     let result: ExaminerRecordModel[] = [];
-
     this.store$.pipe(
       select(getTests),
       map(getStartedTests),
@@ -161,6 +189,7 @@ export class ExaminerRecordsPage implements OnInit {
       }),
       map((value) => Object.values(value)),
       map((value) => {
+        //Filter out rekeyd tests for other users
         return value.filter((test) => (
           ([
             test.examinerBooked,
@@ -174,30 +203,15 @@ export class ExaminerRecordsPage implements OnInit {
           recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
         });
         return recordArray;
-      })
-    ).subscribe(value => {
-
-      this.cachedExaminerRecords = this.store$.selectSignal(selectCachedExaminerRecords)();
-
-      result = [
-        ...value,
-        ...this.cachedExaminerRecords === null ? [] : this.cachedExaminerRecords,
-      ];
-
-      //remove duplicates from array
-      result = result.filter((item, index, self) => {
-        return self.findIndex(item2 => item2.appRef === item.appRef) === index;
-      })
-        //put final array in date order by most recent
-        .sort((a, b) => {
-          return Date.parse(b.startDate) - Date.parse(a.startDate);
-        });
-    })
+      }),
+    ).subscribe((value) => {
+      result = value;
+    }).unsubscribe();
     return result;
   }
 
   async ngOnInit() {
-    this.testResults = this.getResults();
+    this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
 
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
     if (!!this.categorySubject$.value) {
@@ -208,6 +222,8 @@ export class ExaminerRecordsPage implements OnInit {
     }
 
     this.pageState = {
+      cachedRecords$: this.store$.select(selectCachedExaminerRecords),
+      isLoadingRecords$: this.store$.select(getIsLoadingRecords),
       routeNumbers$: this.filterByParameters(getRouteNumbers),
       manoeuvres$: this.filterByParameters(getManoeuvresUsed),
       balanceQuestions$: this.filterByParameters(getBalanceQuestions),
@@ -278,9 +294,31 @@ export class ExaminerRecordsPage implements OnInit {
             },
           ])),
         ),
-    };
+    }
+
+    const {
+      cachedRecords$,
+      isLoadingRecords$,
+    } = this.pageState;
+
+    this.merged$ = merge(
+      cachedRecords$.pipe(tap((value) => {
+        this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value))
+      })),
+      isLoadingRecords$.pipe(map((value) => { this.examinerRecordsProvider.handleLoadingUI(value) })),
+    );
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
 
     this.setLocationFilter();
+  }
+
+  async ionViewWillLeave(): Promise<void> {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    await ScreenOrientation.removeAllListeners();
   }
 
   async ionViewDidEnter() {

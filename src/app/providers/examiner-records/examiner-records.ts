@@ -15,9 +15,12 @@ import { get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
-import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
-import { EXAMINER_RECORDS } from '@pages/page-names.constants';
+import {
+  selectCachedExaminerRecords,
+  selectLastCachedDate,
+} from '@store/examiner-records/examiner-records.selectors';
 import { Router } from '@angular/router';
+import { LoadingProvider } from '@providers/loader/loader';
 
 export interface StaticColourScheme { colours: string[], average: string }
 export interface VariableColourScheme { bar: string[], pie: string[], emergencyStop?: string[], average: string }
@@ -124,6 +127,7 @@ export class ExaminerRecordsProvider {
     public compressionProvider: CompressionProvider,
     public store$: Store<StoreModel>,
     public router: Router,
+    public loadingProvider: LoadingProvider,
   ) {
   }
 
@@ -134,10 +138,24 @@ export class ExaminerRecordsProvider {
     ) {
       this.store$.dispatch(LoadingExaminerRecords());
       this.store$.dispatch(GetExaminerRecords(staffNumber));
-    } else {
-      await this.router.navigate([EXAMINER_RECORDS])
     }
   }
+
+  currentlyLoading: boolean = false;
+  handleLoadingUI = async (isLoading: boolean) => {
+    if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
+      this.currentlyLoading = isLoading;
+      await this.loadingProvider.handleUILoading(isLoading, {
+        id: 'examinerRecord_loading_spinner',
+        spinner: 'circles',
+        backdropDismiss: false,
+        translucent: false,
+        message: 'Loading...'
+      });
+
+    }
+    return null;
+  };
 
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
     let result: ExaminerRecordModel = {
