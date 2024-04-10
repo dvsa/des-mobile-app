@@ -9,8 +9,8 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
-  LocationChanged,
   HideChartsChanged,
+  LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import {
@@ -29,7 +29,6 @@ import {
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
 import { DateRange } from '@shared/helpers/date-time';
-import { ChartType } from 'ng-apexcharts';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -50,11 +49,9 @@ import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examin
 import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock';
 import {
   ColourEnum,
-  DESChartTypes,
   ExaminerRecordsProvider,
   SelectableDateRange,
-  StaticColourScheme,
-  VariableColourScheme,
+  ColourScheme,
 } from '@providers/examiner-records/examiner-records';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
@@ -82,17 +79,15 @@ interface ExaminerRecordsState {
 })
 export class ExaminerRecordsPage implements OnInit {
 
-  private static readonly BLACK = '#000000';
-  private static readonly WHITE = '#FFFFFF';
-
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
+  testSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
   hideMainContent = false;
-  colourOption = this.store$.selectSignal(selectColourScheme)();
+  colourOption: ColourScheme = this.getColour(this.store$.selectSignal(selectColourScheme)());
   categoryPlaceholder: string;
   locationPlaceholder: string;
   locationFilterOptions: TestCentre[] = null;
@@ -123,18 +118,17 @@ export class ExaminerRecordsPage implements OnInit {
   ) {
   }
 
-  blurElement(event: EventTarget) {
-    if (!((event as HTMLElement).id?.includes('input'))) {
-      (document.activeElement as HTMLElement)?.blur();
-    }
-  }
-
+  /**
+   * Calls function in provider to call and cache test results from the backend
+   */
   async getOnlineRecords() {
-    await this.examinerRecordsProvider.cacheOnlineRecords('55555556');
+    await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
   }
 
-  // wrapper used to reduce/centralise code
-  // take in a dynamic type, and a function with signature of fn(test, date)
+  /**
+   * wrapper used to reduce/centralise code
+   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
+   */
   private filterByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
     range: DateRange,
@@ -142,6 +136,7 @@ export class ExaminerRecordsPage implements OnInit {
     category: string,
   ) => T): Observable<T> => combineLatest(
     [
+      this.testSubject$.asObservable(),
       this.rangeSubject$.asObservable(),
       this.locationSubject$.asObservable(),
       this.categorySubject$.asObservable(),
@@ -149,23 +144,27 @@ export class ExaminerRecordsPage implements OnInit {
     .pipe(
       // return an observable using the generic `fn`
       switchMap(() => of(fn(
-        this.testResults,
+        this.testSubject$.value,
         this.rangeSubject$.value,
         this.locationSubject$.value,
         this.categorySubject$.value))),
     );
 
+  /**
+   * merge the local records pulled from the store with the cached online records, if they exist
+   */
   mergeWithOnlineResults(localRecords: ExaminerRecordModel[], cachedExaminerRecords: ExaminerRecordModel[]) {
     this.cachedExaminerRecords = cachedExaminerRecords;
 
-    let result = [
+    return [
       ...localRecords,
       ...cachedExaminerRecords === null ? [] : cachedExaminerRecords,
     ];
-
-    return result;
   }
 
+  /**
+   * removes duplicate entries from an array and sort it's content by most recent
+   */
   removeDuplicatesAndSort(result: ExaminerRecordModel[]) {
     //remove duplicates from array
     return result.filter((item, index, self) => {
@@ -177,6 +176,12 @@ export class ExaminerRecordsPage implements OnInit {
       });
   }
 
+  /**
+   * Pull local tests from the store and perform the following functions
+   * 1. Filter them so that we only use tests conducted by the examiner
+   *    and not tests they rekeyed on other examiner's behalf.
+   * 2. Format the tests into the ExaminerRecordModel format
+   */
   getLocalResults(): ExaminerRecordModel[] {
 
     let result: ExaminerRecordModel[] = [];
@@ -303,7 +308,8 @@ export class ExaminerRecordsPage implements OnInit {
 
     this.merged$ = merge(
       cachedRecords$.pipe(tap((value) => {
-        this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value))
+        this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
+        this.testSubject$.next(this.testResults ?? null);
       })),
       isLoadingRecords$.pipe(map((value) => { this.examinerRecordsProvider.handleLoadingUI(value) })),
     );
@@ -312,8 +318,12 @@ export class ExaminerRecordsPage implements OnInit {
     }
 
     this.setLocationFilter();
+    await this.getOnlineRecords();
   }
 
+  /**
+   * deactivate subscriptions and listeners
+   */
   async ionViewWillLeave(): Promise<void> {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -321,11 +331,18 @@ export class ExaminerRecordsPage implements OnInit {
     await ScreenOrientation.removeAllListeners();
   }
 
+  /**
+   * monitor orientation to manipulate graphs and fire analytics
+   */
   async ionViewDidEnter() {
     await this.orientationProvider.monitorOrientation();
     this.store$.dispatch(ExaminerRecordsViewDidEnter());
   }
 
+  /**
+   * pull the list of the current locations where tests have been conducted, then sets the most common location
+   * as the default
+   */
   setLocationFilter() {
     if (!this.locationFilterOptions) {
       this.locationFilterOptions = [];
@@ -346,6 +363,9 @@ export class ExaminerRecordsPage implements OnInit {
     }
   }
 
+  /**
+   * Find the most used element in an array and return it
+   */
   setDefault<T>(data: Omit<ExaminerRecordData<T>, 'percentage'>[]): Omit<ExaminerRecordData<T>, 'percentage'> {
     if (!data || data?.length === 0) {
       return null;
@@ -353,6 +373,9 @@ export class ExaminerRecordsPage implements OnInit {
     return data.reduce((max, obj) => (obj.count > max.count) ? obj : max);
   }
 
+  /**
+   * set date range filter to the event value and send that value to the behaviour subject
+   */
   handleDateFilter(event: CustomEvent): void {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
@@ -360,6 +383,10 @@ export class ExaminerRecordsPage implements OnInit {
     this.store$.dispatch(DateRangeChanged(event.detail?.value));
   }
 
+  /**
+   * set the current location to the selected value, change relevant variables for
+   * displaying the new value and send that value to the behaviour subject
+   */
   handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false): void {
     if (ionSelectTriggered) {
       this.locationSelectPristine = false;
@@ -374,6 +401,10 @@ export class ExaminerRecordsPage implements OnInit {
     }
   }
 
+  /**
+   * set the current category to the selected value, change relevant variables for
+   * displaying the new value and send that value to the behaviour subject
+   */
   handleCategoryFilter(event: TestCategory, ionSelectTriggered: boolean = false): void {
     if (ionSelectTriggered) {
       this.categorySelectPristine = false;
@@ -387,78 +418,38 @@ export class ExaminerRecordsPage implements OnInit {
     }
   }
 
-  colourFilterChanged(colour: ColourEnum): void {
-    this.colourOption = colour;
+  /**
+   * set the current selected colourScheme to the selected value and send that value to the behaviour subject
+   */
+  colourFilterChanged(colour: ColourEnum) {
     this.store$.dispatch(ColourFilterChanged(colour));
+    this.colourOption = this.getColour(colour)
   }
 
+  /**
+   * set the variables determining whether a card is expanded and the graphs are hidden
+   */
   hideChart(): void {
     this.hideMainContent = !this.hideMainContent;
     this.showExpandedData = !this.showExpandedData
     this.store$.dispatch(HideChartsChanged(this.hideMainContent));
   }
 
-  colourSelect(chartType?: ChartType, isEmergencyStop: boolean = false): string[] {
-    const charType: DESChartTypes = (chartType === 'bar') ? 'bar' : 'pie';
-
-    switch (this.colourOption) {
-      case ColourEnum.Monochrome:
-        return this.examinerRecordsProvider.colours.monochrome[charType];
-      case ColourEnum.Amethyst:
-        return this.examinerRecordsProvider.colours.amethyst.colours;
-      case ColourEnum.Navy:
-        return this.examinerRecordsProvider.colours.navy.colours;
-      default:
-        return isEmergencyStop ?
-          this.examinerRecordsProvider.colours.default.emergencyStop :
-          this.examinerRecordsProvider.colours.default[charType];
-    }
-  }
-
-  getColour(): StaticColourScheme | VariableColourScheme {
-    switch (this.colourOption) {
+  /**
+   * return the colour scheme associated with the name passed
+   */
+  getColour(colourOption: ColourEnum): ColourScheme {
+    switch (colourOption) {
       case ColourEnum.Monochrome:
         return this.examinerRecordsProvider.colours.monochrome;
-      case ColourEnum.Amethyst:
-        return this.examinerRecordsProvider.colours.amethyst;
-      case ColourEnum.Navy:
-        return this.examinerRecordsProvider.colours.navy;
       default:
         return this.examinerRecordsProvider.colours.default;
     }
   }
 
-  averageSelect(): string {
-    switch (this.colourOption) {
-      case ColourEnum.Monochrome:
-        return this.examinerRecordsProvider.colours.monochrome.average;
-      case ColourEnum.Amethyst:
-        return this.examinerRecordsProvider.colours.amethyst.average;
-      case ColourEnum.Navy:
-        return this.examinerRecordsProvider.colours.navy.average;
-      default:
-        return this.examinerRecordsProvider.colours.default.average;
-    }
-  }
-
-  filterDataForGrid<T>(examinerRecordData: ExaminerRecordData<T>[]): T[][] {
-    if (!!examinerRecordData) {
-      return examinerRecordData.map((obj) => Object.values(obj) as T[]);
-    }
-    return [[]];
-  }
-
-  getTotal = <T>(
-    value: ExaminerRecordData<T>[],
-  ): number => value.reduce((total, val) => total + Number(val.count), 0);
-
-  getLabelColour(value: VariableColourScheme | StaticColourScheme, type: DESChartTypes) {
-    if (value === this.examinerRecordsProvider.colours.navy) {
-      return (type === 'bar') ? ExaminerRecordsPage.WHITE : ExaminerRecordsPage.BLACK;
-    }
-    return ExaminerRecordsPage.BLACK;
-  }
-
+  /**
+   * returns whether the category uses optional emergency stop
+   */
   showEmergencyStop() {
     return isAnyOf(this.currentCategory, [
       TestCategory.B,
@@ -469,20 +460,32 @@ export class ExaminerRecordsPage implements OnInit {
     ]);
   }
 
+  /**
+   * toggle whether the accordion is open
+   */
   accordionSelect() {
     this.accordionOpen = !this.accordionOpen;
     this.store$.dispatch(AccordionChanged(this.accordionOpen));
   }
 
+  /**
+   * Navigate back to dashboard
+   */
   async goToDashboard(): Promise<void> {
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 
+  /**
+   * returns whether the current category is a mod1 test
+   */
   public isMod1 = (): boolean => isAnyOf(this.currentCategory, [
     // Cat Mod1
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
   ]);
 
+  /**
+   * returns whether the current category is a bike test (mod1/mod2)
+   */
   public isBike = (): boolean => isAnyOf(this.currentCategory, [
     // Cat Mod1
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
@@ -490,6 +493,10 @@ export class ExaminerRecordsPage implements OnInit {
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
   ]);
 
+  /**
+   * calculates the ratio between 2 numbers, using the comparison number as the reference point
+   * example: (1,2,10) will return 5.0:10
+   */
   calculateRatio(a: number, b: number, comparisonNumber: number) {
     let finalA = (b !== 0 ? (a / b) : a);
     return `${ finalA % 1 !== 0 ? ((finalA)*comparisonNumber).toFixed(1) : finalA}

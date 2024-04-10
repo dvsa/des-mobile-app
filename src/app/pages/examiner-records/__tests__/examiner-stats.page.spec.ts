@@ -163,21 +163,6 @@ describe('ExaminerStatsPage', () => {
     expect(store$).toBeTruthy();
   });
 
-  describe('blurElement', () => {
-    it('should run blur on the active Element if the id does not contain input', () => {
-      document.getElementById('chart-toggle-input').focus();
-      spyOn(document.activeElement as HTMLElement, 'blur');
-      component.blurElement({ id: 'string' } as HTMLElement);
-      expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
-    });
-    it('should run blur on the active Element if the id contains input', () => {
-      document.getElementById('chart-toggle-input').focus();
-      spyOn(document.activeElement as HTMLElement, 'blur');
-      component.blurElement({ id: 'input' } as HTMLElement);
-      expect((document.activeElement as HTMLElement).blur).not.toHaveBeenCalled();
-    });
-  });
-
   describe('calculatePercentage', () => {
     it('should accurately calculate the percentage value of ' +
       'input 1 compared to input 2 to the first decimal place', () => {
@@ -352,15 +337,14 @@ describe('ExaminerStatsPage', () => {
 
   describe('colourFilterChanged', () => {
     it('should set colourOption to the value passed', () => {
-      component.colourOption = ColourEnum.Default;
-      component.colourFilterChanged(ColourEnum.Navy);
-      expect(component.colourOption).toEqual(ColourEnum.Navy);
+      component.colourOption = component.examinerRecordsProvider.colours.default;
+      component.colourFilterChanged(ColourEnum.Monochrome);
+      expect(component.colourOption).toEqual(component.examinerRecordsProvider.colours.monochrome);
     });
     it('should dispatch ColourFilterChanged with the colour passed', () => {
       spyOn(component.store$, 'dispatch');
-
-      component.colourFilterChanged(ColourEnum.Navy);
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Navy));
+      component.colourFilterChanged(ColourEnum.Monochrome);
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Monochrome));
     });
   });
 
@@ -383,71 +367,6 @@ describe('ExaminerStatsPage', () => {
 
       component.hideChart();
       expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(false));
-    });
-  });
-
-  describe('colourSelect', () => {
-    it('should return colors.default.pie if the colourOption ' +
-      'is not within the switch options and the input is not bar', () => {
-      component.colourOption = null;
-      expect(component.colourSelect('pie')).toEqual(component.examinerRecordsProvider.colours.default.pie);
-    });
-    it('should return colors.default.pie if the colourOption is Default and the input is not bar', () => {
-      component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('pie')).toEqual(component.examinerRecordsProvider.colours.default.pie);
-    });
-    it('should return colors.default.bar if the colourOption is Default and the input is bar', () => {
-      component.colourOption = ColourEnum.Default;
-      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.default.bar);
-    });
-    it('should return colors.monochrome.pie if the colourOption is Monochrome and the input is not bar', () => {
-      component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('pie')).toEqual(component.examinerRecordsProvider.colours.monochrome.pie);
-    });
-    it('should return colors.monochrome.bar if the colourOption is Monochrome and the input is bar', () => {
-      component.colourOption = ColourEnum.Monochrome;
-      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.monochrome.bar);
-    });
-    it('should return colors.amethyst if the colourOption is Amethyst', () => {
-      component.colourOption = ColourEnum.Amethyst;
-      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.amethyst.colours);
-    });
-    it('should return colors.navy if the colourOption is Navy', () => {
-      component.colourOption = ColourEnum.Navy;
-      expect(component.colourSelect('bar')).toEqual(component.examinerRecordsProvider.colours.navy.colours);
-    });
-  });
-
-  describe('filterDataForGrid', () => {
-    it('should return an array filled with object values of the object passed in', () => {
-      component['currentCategory'] = TestCategory.B;
-      expect(component.filterDataForGrid<any>([
-        { item: 'value1', count: 1, percentage: '1' },
-        { item: 'value2', count: 2, percentage: '2' }])).toEqual([['value1', 1, '1'], ['value2', 2, '2']]);
-    });
-    it('should return an empty array if nothing is passed into the function', () => {
-      expect(component.filterDataForGrid(null)).toEqual([[]]);
-    });
-  });
-
-  describe('getTotal', () => {
-    it('should return the total counts of the array passed in', () => {
-      expect(component.getTotal([
-        { count: 1, percentage: '1%', item: '1' },
-        { count: 8, percentage: '1%', item: '1' },
-      ])).toEqual(9);
-    });
-  });
-
-  describe('getLabelColour', () => {
-    it('should return #FFFFFF if type is bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.examinerRecordsProvider.colours.navy, 'bar')).toEqual('#FFFFFF');
-    });
-    it('should return #000000 if type is not bar and the passed value is colors.navy', () => {
-      expect(component.getLabelColour(component.examinerRecordsProvider.colours.navy, 'pie')).toEqual('#000000');
-    });
-    it('should return #000000 if the passed value is not colors.navy', () => {
-      expect(component.getLabelColour(component.examinerRecordsProvider.colours.amethyst, 'pie')).toEqual('#000000');
     });
   });
 
