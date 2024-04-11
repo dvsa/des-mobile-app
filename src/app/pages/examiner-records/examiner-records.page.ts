@@ -218,6 +218,7 @@ export class ExaminerRecordsPage implements OnInit {
   async ngOnInit() {
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
 
+    //Set default date
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
     if (!!this.categorySubject$.value) {
       this.categorySelectPristine = false;
@@ -243,12 +244,15 @@ export class ExaminerRecordsPage implements OnInit {
           tap((value) => {
             this.locationFilterOptions = [];
 
+            //add every visited location to location array
             value.forEach((val) => {
               this.locationFilterOptions.push(val.item);
             });
 
+
             if (!this.locationFilterOptions.map(({ centreId }) => centreId)
               .includes(this.locationSubject$.value)) {
+              //find most common location and set it as the default
               const mostUsed = this.setDefault(value);
               if (!!mostUsed) {
                 this.locationPlaceholder = mostUsed.item.centreName;
@@ -268,11 +272,13 @@ export class ExaminerRecordsPage implements OnInit {
           tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
             this.categoryFilterOptions = [];
 
+            //add every completed category to category array
             value.forEach((val) => {
               this.categoryFilterOptions.push(val.item);
             });
 
             if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
+              //find most common category and set it as the default
               const mostUsed = this.setDefault(value);
 
               if (!!mostUsed) {
@@ -286,6 +292,7 @@ export class ExaminerRecordsPage implements OnInit {
       emergencyStops$: this.filterByParameters(getStartedTestCount)
         .pipe(
           withLatestFrom(this.filterByParameters(getEmergencyStopCount)),
+          //Turn emergency stop count into two objects containing tests with stops and tests without
           map(([testCount, emergencyStopCount]) => ([
             {
               item: 'Stop',
@@ -307,10 +314,12 @@ export class ExaminerRecordsPage implements OnInit {
     } = this.pageState;
 
     this.merged$ = merge(
+      //listen for changes to test result and send the result to the behaviour subject
       cachedRecords$.pipe(tap((value) => {
         this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
         this.testSubject$.next(this.testResults ?? null);
       })),
+      //deactivate loading ui when no longer loading
       isLoadingRecords$.pipe(map((value) => { this.examinerRecordsProvider.handleLoadingUI(value) })),
     );
     if (this.merged$) {
