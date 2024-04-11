@@ -6,6 +6,7 @@
 
   .modal-alert {
     width: 450px;
+    height: 480px;
   }
 
   .modal-alert-message {
@@ -19,6 +20,14 @@
     li {
       line-height: 32px;
     }
+  }
+
+  .increase-height-64 {
+    height: 64px;
+  }
+
+  #end-test-text {
+    color: var(--mes-white) !important;
   }
 
   .end-test-button {
