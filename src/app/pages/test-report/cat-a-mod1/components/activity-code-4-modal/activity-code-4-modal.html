@@ -3,7 +3,9 @@
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" size="72">
       <ion-button class="end-test-button" mode="ios" (click)="onEndTest()">
-        <ion-text class="des-header-style-3">End test now</ion-text>
+        <ion-text id="end-test-text" class="display-flex ion-align-items-center des-header-style-3"
+          >End test now</ion-text
+        >
       </ion-button>
     </ion-col>
   </ion-row>
@@ -14,9 +16,9 @@
       </div>
     </ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row class="increase-height-64">
     <ion-col class="column-border-top ion-no-padding">
-      <ion-button class="return-button" fill="clear" (click)="onCancel()">Return to test</ion-button>
+      <ion-button class="increase-height-64 return-button" fill="clear" (click)="onCancel()">Return to test</ion-button>
     </ion-col>
   </ion-row>
 </ion-card>
