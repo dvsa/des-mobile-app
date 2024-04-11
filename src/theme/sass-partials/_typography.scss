@@ -89,6 +89,10 @@ html .text-zoom-regular {
     line-height: 26px;
   }
 
+  .burger-menu-item {
+    font-size: 20px;
+  }
+
 }
 
 .text-zoom-large {
@@ -154,6 +158,10 @@ html .text-zoom-regular {
     font-size: 22px;
     line-height: 28px;
   }
+
+  .burger-menu-item {
+    font-size: 22px;
+  }
 }
 
 .text-zoom-x-large {
@@ -218,5 +226,9 @@ html .text-zoom-regular {
   div, ion-select, span {
     font-size: 24px;
     line-height: 32px;
+  }
+
+  .burger-menu-item {
+    font-size: 24px;
   }
 }
