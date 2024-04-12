@@ -52,6 +52,7 @@ export class SlotSelectorProvider {
   }
 
   public hasSlotBeenTested(slotData: TestSlot, completedTests: SearchResultTestSchema[]): ActivityCode | null {
+    console.log('hasSlotBeenTested called');
     const completedTest = this.getCompletedTest(slotData, completedTests);
     if (!completedTest) {
       return null;
@@ -59,7 +60,7 @@ export class SlotSelectorProvider {
     return completedTest.activityCode;
   }
 
-  private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[] = []) => {
+  private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
     if (isEmpty(completedTests)) {
       return null;
     }
@@ -71,6 +72,7 @@ export class SlotSelectorProvider {
     };
 
     return completedTests.find((compTest) => {
+      console.log('compTest.applicationReference', compTest.applicationReference);
       return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
     });
   };

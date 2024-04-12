@@ -41,6 +41,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -74,6 +75,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -147,6 +149,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       .format('dddd Do MMMM YYYY');
 
     await this.appConfigProvider.getAppConfigAsync();
+    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
 
     return true;
   }

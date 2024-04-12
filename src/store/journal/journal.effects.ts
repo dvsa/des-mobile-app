@@ -230,13 +230,21 @@ export class JournalEffects {
     }),
     switchMap(([, staffNumber]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
-      const dateTime = new DateTime();
+
+      const startDate = new DateTime()
+        .subtract(numberOfDaysToView, Duration.DAY)
+        .format('YYYY-MM-DD');
+
+      const endDate = new DateTime()
+        .format('YYYY-MM-DD');
+
+      console.log('numberOfDaysToView', numberOfDaysToView);
+      console.log('startDate', startDate);
+      console.log('endDate', endDate);
+
       const advancedSearchParams: AdvancedSearchParams = {
-        startDate: dateTime
-          .subtract(numberOfDaysToView, Duration.DAY)
-          .format('YYYY-MM-DD'),
-        endDate: dateTime
-          .format('YYYY-MM-DD'),
+        startDate,
+        endDate,
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
         excludeAutoSavedTests: 'true',
