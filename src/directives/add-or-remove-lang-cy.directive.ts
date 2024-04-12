@@ -31,7 +31,6 @@ export class AddOrRemoveLangCyDirective {
   ngOnInit() {
     this.assignLanguage(this.translateService.store.currentLang);
     this.translateService.store.onLangChange.subscribe((value) => {
-      console.log('subscribeLang', value.lang);
       this.assignLanguage(value.lang);
     });
   }
