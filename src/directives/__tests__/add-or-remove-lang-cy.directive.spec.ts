@@ -11,14 +11,17 @@ describe('AddOrRemoveLangCyDirective', () => {
   let elementRefMock: jasmine.SpyObj<ElementRef>;
   let translateMock: jasmine.SpyObj<TranslateService>;
   let renderMock: jasmine.SpyObj<Renderer2>;
+  let elementHasMock: boolean;
 
   beforeEach(() => {
+    elementHasMock = true;
     elementRefMock = {
       nativeElement: {
+        attributes: {},
         value: '',
         setAttribute: jasmine.createSpy(),
         getAttribute: jasmine.createSpy(),
-        hasAttribute: jasmine.createSpy(),
+        hasAttribute: jasmine.createSpy().and.returnValue(elementHasMock),
       },
     };
     renderMock = {
@@ -47,7 +50,18 @@ describe('AddOrRemoveLangCyDirective', () => {
     expect(renderMock.setAttribute)
       .toHaveBeenCalledWith(elementRefMock.nativeElement,'lang', 'cy');
   });
-  it('should delete lang attribute if the value of onLangChange is not cy', () => {
+  it('should delete lang attribute if the value of onLangChange is not cy and the element has a lang value', () => {
+    elementRefMock.nativeElement.attributes = {lang: 'ref'}
+    directive.ngOnInit();
+    translateMock.use('test');
+
+    expect(renderMock.removeAttribute)
+      .toHaveBeenCalledWith(elementRefMock.nativeElement,'lang');
+  });
+  it('should not interact with attribute if the value of onLangChange is not cy ' +
+    'and the element does not have a lang value', () => {
+    elementRefMock.nativeElement.attributes = {lang: 'ref'};
+    elementHasMock = false;
     directive.ngOnInit();
     translateMock.use('test');
 
