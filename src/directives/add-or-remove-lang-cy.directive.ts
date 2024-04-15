@@ -14,10 +14,15 @@ export class AddOrRemoveLangCyDirective {
   }
 
   assignLanguage(language: string) {
-    if (language && this.renderer && this.ref.nativeElement) {
+    if (
+      !!language &&
+      ('hasAttribute' in this.ref.nativeElement) &&
+      ('setAttribute' in this.renderer) &&
+      ('removeAttribute' in this.renderer)
+    ) {
       if (language === 'cy') {
         this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');
-      } else {
+      } else if (this.ref.nativeElement.hasAttribute('lang')) {
         this.renderer.removeAttribute(this.ref.nativeElement, 'lang');
       }
     }
