@@ -56,18 +56,23 @@ export class ChartComponent implements OnInit, OnChanges {
     await this.chart.render();
   }
 
-  async ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges)
+  {
+    //check if there are any changed elements
     const dataChanged = Object.keys(changes)
       .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
 
     if (!!this.chart && dataChanged) {
+      //if data has changed, re-filter data
       this.filterData();
 
+      //if we want to change chart type, render an entirely new chart
       if (Object.keys(changes).includes('chartType')) {
         this.chart = new ApexCharts(document.getElementById(this.chartId), this.options);
         await this.chart.render();
       } else {
       }
+      //update chart with new options
       await this.chart.updateOptions(this.options);
     }
   }
