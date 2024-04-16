@@ -410,7 +410,8 @@ describe('DashboardPage', () => {
           .toBeNull();
       });
     });
-    describe('delegatedExaminerRekey', () => {
+
+    describe('showDelegatedExaminerRekey', () => {
       it('should show the delegated examiner rekey card when showDelegatedExaminerRekey returns true', () => {
         spyOn(component, 'showDelegatedExaminerRekey')
           .and
@@ -421,6 +422,34 @@ describe('DashboardPage', () => {
           .toBeNull();
       });
     });
+
+    describe('isDelegatedExaminer', () => {
+      it('should return true when the role is DLG', () => {
+
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+        expect(component.isDelegatedExaminer()).toBeTrue();
+      });
+
+      it('should return false when the role is not DLG', () => {
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and.returnValue({ role: ExaminerRole.DE } as AppConfig);
+        expect(component.isDelegatedExaminer()).toBeFalse();
+      });
+
+      it('should return false when the role is undefined', () => {
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and.returnValue({} as AppConfig);
+        expect(component.isDelegatedExaminer()).toBeFalse();
+      });
+
+      it('should return false when the app config is undefined', () => {
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and.returnValue(undefined);
+        expect(component.isDelegatedExaminer()).toBeFalse();
+      });
+    });
+
     describe('rekeySearchCard', () => {
       it('should NOT hide the rekey search card when showDelegatedExaminerRekey returns true', () => {
         spyOn(component, 'showDelegatedExaminerRekey')
