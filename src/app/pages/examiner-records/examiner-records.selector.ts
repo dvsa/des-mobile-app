@@ -40,22 +40,17 @@ const getIndex = (item: string) => {
  */
 export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
+  category: TestCategory = null,
   range: ExaminerRecordsRange = null,
   centreId: number = null,
-  category: TestCategory = null,
-  filterByCategoryAndCentre: boolean = true,
+  filterByLocation: boolean = true,
+  filterByCategory: boolean = true,
 ): ExaminerRecordModel[] => {
-
-  let trimmedArray = false
-  if (!!Number(range)) {
-    trimmedArray = true
-    startedTests = startedTests.slice(0, Number(range));
-  }
-
-  return startedTests.filter((value: ExaminerRecordModel) => (
-    (!trimmedArray ? (dateFilter(value, range as DateRange)): true) &&
-    (filterByCategoryAndCentre ?
-      (get(value, 'testCentre.centreId') === centreId && get(value, 'testCategory') === category) : true)));
+  return startedTests.filter((value: ExaminerRecordModel) => {
+    return (!!range ? dateFilter(value, range as DateRange) : true) &&
+        (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&
+        (filterByLocation ? (!!centreId ? (get(value, 'testCentre.centreId') === centreId) : true) : true);
+  });
 };
 
 /**
@@ -63,34 +58,29 @@ export const getEligibleTests = (
  */
 export const getEmergencyStopCount = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
-  category: TestCategory = null,
-): number =>
-  getEligibleTests(startedTests, range, centreId, category)
-    .map((record: ExaminerRecordModel) => get(record, 'controlledStop', null))
-    .filter((controlledStop) => (!!controlledStop && (controlledStop === 'true')))
+): number => {
+
+  return (startedTests)
+    .filter((controlledStop) => ((get(controlledStop, 'controlledStop', null) === 'true')))
     .length;
+};
+
 
 /**
  * Returns an array of locations the examiner has conducted a test in within the date range and
  * the amount of tests they have conducted there
  */
 export const getLocations = (
-  startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
+  eligibleTests: ExaminerRecordModel[],
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
-  const data = getEligibleTests(startedTests, range, null, null, false)
-    // extract cost codes
-    .map((record) => get(record, 'testCentre', null))
-    // filter for any nulls
-    .filter((testCentre) => !!testCentre.centreId);
+  const data = (eligibleTests)
+    .filter((record) => !!get(record, 'testCentre', null).centreId);
 
-  return uniqBy(data.map((item: TestCentre) => {
+  return uniqBy(data.map(({ testCentre }) => {
     return {
-      item,
-      count: data.filter((val: TestCentre) => val.centreId === item.centreId).length,
+      item: testCentre,
+      count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
     };
   }), 'item.centreId')
     .sort((item1, item2) =>
@@ -102,12 +92,10 @@ export const getLocations = (
  */
 export const getIndependentDrivingStats = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number,
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
-  if (isAnyOf(category, [undefined, null,
+  if (!category || isAnyOf(category, [
     TestCategory.ADI3,
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
     TestCategory.CCPC, TestCategory.DCPC,
@@ -127,7 +115,7 @@ export const getIndependentDrivingStats = (
     indDrivingOptions = ['Traffic signs', 'Sat nav'];
   }
 
-  const data: string[] = getEligibleTests(startedTests, range, centreId, category)
+  const data: string[] = getEligibleTests(startedTests)
     // extract cost codes
     .map((record: ExaminerRecordModel) => get(record, 'independentDriving', null))
     // filter for any nulls
@@ -150,19 +138,17 @@ export const getIndependentDrivingStats = (
  */
 export const getCircuits = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number,
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
   //getCircuits is not applicable to the following categories, and so we can avoid the entire function
-  if (!isAnyOf(category, [undefined, null,
+  if (!category || !isAnyOf(category, [
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
   ])) {
     return [];
   }
   const circuitOptions = ['Left', 'Right'];
 
-  const data: string[] = getEligibleTests(startedTests, range, centreId, category)
+  const data: string[] = (startedTests)
     // extract cost codes
     .map((record: ExaminerRecordModel) => get(record, 'circuit', null))
     // filter for any nulls
@@ -186,24 +172,20 @@ export const getCircuits = (
  */
 export const getCategories = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
+  category: TestCategory,
+  range: ExaminerRecordsRange,
   centreId: number,
 ): {
   item: TestCategory;
   count: number
 }[] => {
+  const data = (startedTests)
+    .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId', null) === centreId);
 
-  const data = getEligibleTests(startedTests, range, null, null, false)
-    .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId') === centreId)
-    // extract categories
-    .map((record: ExaminerRecordModel) => get(record, 'testCategory', null))
-    // filter for any nulls
-    .filter((category) => !!category);
-
-  return uniqBy(data.map((item: TestCategory) => {
+  return uniqBy(data.map(({ testCategory }) => {
     return {
-      item,
-      count: data.filter((val: TestCategory) => val === item).length,
+      item: testCategory,
+      count: data.filter((val) => val.testCategory === testCategory).length,
     };
   }), 'item')
     .sort((item1, item2) =>
@@ -216,11 +198,8 @@ export const getCategories = (
  */
 export const getStartedTestCount = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
-  category: TestCategory = null,
 ): number =>
-  getEligibleTests(startedTests, range, centreId, category).length;
+  (startedTests).length;
 
 
 /**
@@ -228,21 +207,15 @@ export const getStartedTestCount = (
  */
 export const getRouteNumbers = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
-  category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
 
-  const data = getEligibleTests(startedTests, range, centreId, category)
-    // extract route number
-    .map((record: ExaminerRecordModel) => (get(record, 'routeNumber', null)))
-    // filter for any nulls
-    .filter((route) => route !== null);
+  const data = (startedTests)
+    .filter((record: ExaminerRecordModel) => get(record, 'routeNumber', null) !== null);
 
-  return uniqBy(data.map((item) => {
-    const count = data.filter((val) => val === item).length;
+  return uniqBy(data.map(({ routeNumber }) => {
+    const count = data.filter((val) => val.routeNumber === routeNumber).length;
     return {
-      item: `R${item} - Route ${item}`,
+      item: `R${routeNumber} - Route ${routeNumber}`,
       count,
       percentage: `${((count) / data.length * 100).toFixed(1)}%`,
     };
@@ -256,8 +229,6 @@ export const getRouteNumbers = (
  */
 export const getSafetyQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
@@ -270,11 +241,10 @@ export const getSafetyQuestions = (
       })),
   ];
 
-  const data = getEligibleTests(startedTests, range, centreId, category)
-    .map((record: ExaminerRecordModel) => [
+  const data = (startedTests)
+    .flatMap((record: ExaminerRecordModel) => [
       ...get(record, 'safetyQuestions', []) as QuestionResult[],
     ])
-    .flat()
     // filter for any empty string/null values
     .filter((question: SafetyQuestionResult | QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
@@ -296,8 +266,6 @@ export const getSafetyQuestions = (
  */
 export const getBalanceQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
@@ -310,10 +278,8 @@ export const getBalanceQuestions = (
       })),
   ];
 
-
-  const data = getEligibleTests(startedTests, range, centreId, category)
-    .map((record: ExaminerRecordModel) => get(record, 'balanceQuestions', []) as QuestionResult[])
-    .flat()
+  const data = (startedTests)
+    .flatMap((record: ExaminerRecordModel) => get(record, 'balanceQuestions', []) as QuestionResult[])
     // filter for any empty string/null values
     .filter((question: QuestionResult) =>
       ('code' in question) ? !!question?.code : !!question?.description);
@@ -335,17 +301,14 @@ export const getBalanceQuestions = (
  */
 export const getShowMeQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
   const questions = qp.getShowMeQuestions(category).filter((q) => q.code !== 'N/A');
 
-  const data = getEligibleTests(startedTests, range, centreId, category)
-    .map((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])
-    .flat()
+  const data = (startedTests)
+    .flatMap((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])
     // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
 
@@ -366,15 +329,12 @@ export const getShowMeQuestions = (
  */
 export const getTellMeQuestions = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
   const questions = qp.getTellMeQuestions(category);
-  const data = getEligibleTests(startedTests, range, centreId, category)
-    .map((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
-    .flat()
+  const data = (startedTests)
+    .flatMap((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
     // filter for any empty string/null values
     .filter((question: QuestionResult) => !!question?.code);
 
@@ -410,8 +370,6 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
  */
 export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
-  centreId: number = null,
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
   let faultsEncountered: string[] = [];
@@ -423,7 +381,7 @@ export const getManoeuvresUsed = (
     return [];
   }
 
-  getEligibleTests(startedTests, range, centreId, category)
+  (startedTests)
     .forEach((record: ExaminerRecordModel) => {
       const manoeuvres = get(record, 'manoeuvres');
       if (!manoeuvres) return;
