@@ -29,7 +29,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
-import { CacheExaminerRecords } from '@pages/examiner-records/examiner-records.actions';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -225,7 +224,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   navPage = async (page: Page): Promise<void> => {
-    this.store$.dispatch(CacheExaminerRecords(null));
     await this.router.navigate([page.title]);
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(page.descriptor));

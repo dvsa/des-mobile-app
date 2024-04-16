@@ -11,14 +11,16 @@ import { ExaminerRecordsRoutingModule } from '@pages/examiner-records/examiner-r
 import { ExaminerRecordsAnalyticsEffects } from '@pages/examiner-records/examiner-records.analytics.effects';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/examiner-records-components.module';
+import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { ExaminerRecordsEffects } from '@pages/examiner-records/examiner-records.effects';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    NgbModule,
     ExaminerRecordsComponentsModule,
     ExaminerRecordsRoutingModule,
     EffectsModule.forFeature([

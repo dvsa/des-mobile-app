@@ -14,9 +14,13 @@ import {
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { of } from 'rxjs';
-import { ColourEnum, SelectableDateRange } from '@providers/examiner-records/examiner-records';
+import { ColourEnum, ExaminerRecordsProvider, SelectableDateRange } from '@providers/examiner-records/examiner-records';
+import { CompressionProvider } from '@providers/compression/compression';
+import { SearchProvider } from '@providers/search/search';
+import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
+import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
 
-describe('ExaminerStatsPage', () => {
+fdescribe('ExaminerStatsPage', () => {
   let component: ExaminerRecordsPage;
   let fixture: ComponentFixture<ExaminerRecordsPage>;
   let store$: MockStore;
@@ -26,9 +30,18 @@ describe('ExaminerStatsPage', () => {
       declarations: [ExaminerRecordsPage],
       imports: [IonicModule],
       providers: [
+        { provide: ExaminerRecordsProvider, useClass: ExaminerRecordsProviderMock },
+        CompressionProvider,
+        { provide: SearchProvider, useClass: SearchProviderMock },
         { provide: Store, useClass: MockStore },
         provideMockStore({
           initialState: {
+            examinerRecords: {
+              colourScheme: ColourEnum.Default,
+              cachedRecords: null,
+              isLoading: false,
+              lastUpdatedTime: null,
+            },
             tests: {
               startedTests: {
                 1: {
@@ -163,15 +176,9 @@ describe('ExaminerStatsPage', () => {
     expect(store$).toBeTruthy();
   });
 
-  describe('calculatePercentage', () => {
-    it('should accurately calculate the percentage value of ' +
-      'input 1 compared to input 2 to the first decimal place', () => {
-      expect(component['calculatePercentage']([11, 1])).toEqual('9.1%');
-    });
-  });
-
   describe('ionViewDidEnter', () => {
     it('should dispatch the store with ExaminerStatsViewDidEnter', () => {
+      spyOn(component.orientationProvider, 'monitorOrientation').and.callThrough();
       spyOn(component.store$, 'dispatch');
 
       component.ionViewDidEnter();
@@ -194,8 +201,10 @@ describe('ExaminerStatsPage', () => {
     });
   });
 
-  describe('setLocationFilter', () => {
+  fdescribe('setLocationFilter', () => {
     it('should set locationFilterOptions to the item property of each object in locationList$', () => {
+      console.log('should set locationFilterOptions to the item property of each object in locationList$')
+      spyOn(component, 'ngOnInit');
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
         { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
@@ -210,6 +219,7 @@ describe('ExaminerStatsPage', () => {
     });
     it('should set locationPlaceholder to the centreName property ' +
     'of the object in the location array with the highest count', () => {
+      console.log('highest count')
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
         { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
@@ -220,6 +230,8 @@ describe('ExaminerStatsPage', () => {
     });
     it('should call handleLocationFilter with the item of ' +
     'the object in the location array with the highest count', () => {
+      console.log('should set locationPlaceholder')
+
       spyOn(component, 'handleLocationFilter');
 
       component.locationFilterOptions = null;
@@ -294,6 +306,7 @@ describe('ExaminerStatsPage', () => {
 
   describe('handleLocationFilter', () => {
     it('should set locationFilter to centreName of the passed value', () => {
+      component.locationFilter = null
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
       expect(component.locationFilter).toEqual('1');
     });

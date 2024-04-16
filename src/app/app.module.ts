@@ -75,6 +75,7 @@ import { CompressionProvider } from '@providers/compression/compression';
 import { LoadingProvider } from '@providers/loader/loader';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
+import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -153,6 +154,7 @@ if (enableRehydrationPlugin) {
       },
     }),
     HammerModule,
+    ExaminerRecordsComponentsModule,
     PipesModule,
   ],
   providers: [

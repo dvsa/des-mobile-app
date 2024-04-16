@@ -251,4 +251,13 @@ describe('ChartComponent', () => {
     });
   });
 
+  describe('getTickCount', () => {
+    it('should return the largest number in the passed array if it is equal to or less than 5', () => {
+      expect(component.getTickCount([1,2,3,4])).toBe(4);
+    });
+    it('should return null if the largest number in the passed array if it is more than 5', () => {
+      expect(component.getTickCount([1,2,3,6])).toBe(null);
+    });
+  })
+
 });

@@ -27,7 +27,6 @@ export class DataGridComponent implements OnInit {
   }
 
   ngOnInit() {
-
     if ((this.rowCropCount && this.passedData) && this.croppedRows === null) {
       this.cropData();
     }
@@ -35,7 +34,6 @@ export class DataGridComponent implements OnInit {
     if (this.colourScheme && !this.finalColourArray) {
       this.finalColourArray = this.loopColours();
     }
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -52,6 +50,10 @@ export class DataGridComponent implements OnInit {
       }
     }
   }
+
+  /**
+   * Loops the given colour scheme if there are more elements in the data than there are colours in the colour scheme
+   */
   loopColours() {
     const loopCount = Math.ceil((this.passedData.length) / this.colourScheme.length);
 
@@ -63,6 +65,9 @@ export class DataGridComponent implements OnInit {
 
   trackByIndex = (index: number) => index;
 
+  /**
+   * Cuts data into 2 different arrays to support a "show more" view
+   */
   cropData() {
     this.croppedRows = {
       preCrop: this.passedData.slice(0, this.rowCropCount),

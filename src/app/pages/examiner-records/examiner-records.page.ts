@@ -204,6 +204,7 @@ export class ExaminerRecordsPage implements OnInit {
       }),
       map(value => {
         const recordArray: ExaminerRecordModel[] = [];
+        //format tests into ExaminerRecordModel
         value.forEach((test) => {
           recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
         });
