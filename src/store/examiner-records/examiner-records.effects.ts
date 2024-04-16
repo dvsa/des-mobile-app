@@ -5,6 +5,7 @@ import { StoreModel } from '@shared/models/store.model';
 import {
   CacheExaminerRecords,
   ColourFilterChanged,
+  NoExaminerRecordSetting,
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -57,9 +58,10 @@ export class ExaminerRecordsEffects {
       } = JSON.parse(examinerRecords) as ExaminerRecordStateModel;
 
       return [
-        (!!colourScheme) ? ColourFilterChanged(colourScheme) : null,
-        (!!cachedRecords && cachedRecords.length) ? CacheExaminerRecords(cachedRecords) : null,
-        (!!lastUpdatedTime) ? (UpdateLastCached(lastUpdatedTime)) : null,
+        (!!colourScheme) ? ColourFilterChanged(colourScheme) : NoExaminerRecordSetting('colour scheme'),
+        (!!cachedRecords && cachedRecords.length) ?
+          CacheExaminerRecords(cachedRecords) : NoExaminerRecordSetting('cached records'),
+        (!!lastUpdatedTime) ? (UpdateLastCached(lastUpdatedTime)) : NoExaminerRecordSetting('last updated time'),
       ];
     }),
   ));

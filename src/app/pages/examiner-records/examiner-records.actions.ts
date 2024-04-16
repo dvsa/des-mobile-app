@@ -52,3 +52,7 @@ export const AccordionChanged = createAction(
   '[ExaminerRecordsPage] Accordion toggled',
   (isOpen: boolean) => ({ isOpen }),
 );
+export const NoExaminerRecordSetting = createAction(
+  '[ExaminerRecordsPage] No Examiner record setting was found',
+  (setting: string) => ({ setting }),
+);
