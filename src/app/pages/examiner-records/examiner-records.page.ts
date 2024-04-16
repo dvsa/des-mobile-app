@@ -17,7 +17,7 @@ import {
   ExaminerRecordData,
   getBalanceQuestions,
   getCategories,
-  getCircuits,
+  getCircuits, getEligibleTests,
   getEmergencyStopCount,
   getIndependentDrivingStats,
   getLocations,
@@ -131,10 +131,13 @@ export class ExaminerRecordsPage implements OnInit {
    */
   private filterByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
+    category: string,
     range: DateRange,
     location: number,
-    category: string,
-  ) => T): Observable<T> => combineLatest(
+  ) => T,
+    filterByLocation: boolean = true,
+    filterByCategory: boolean = true
+  ): Observable<T> => combineLatest(
     [
       this.testSubject$.asObservable(),
       this.rangeSubject$.asObservable(),
@@ -143,11 +146,24 @@ export class ExaminerRecordsPage implements OnInit {
     ])
     .pipe(
       // return an observable using the generic `fn`
-      switchMap(() => of(fn(
-        this.testSubject$.value,
-        this.rangeSubject$.value,
-        this.locationSubject$.value,
-        this.categorySubject$.value))),
+      switchMap(() => {
+
+        const eligTest = getEligibleTests(
+          this.testSubject$.value,
+          this.categorySubject$.value,
+          this.rangeSubject$.value,
+          this.locationSubject$.value,
+          filterByLocation,
+          filterByCategory,
+        );
+
+        return of(fn(
+          eligTest,
+          this.categorySubject$.value,
+          this.rangeSubject$.value,
+          this.locationSubject$.value,
+        ))
+      }),
     );
 
   /**
@@ -240,7 +256,7 @@ export class ExaminerRecordsPage implements OnInit {
       tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
       testCount$: this.filterByParameters(getStartedTestCount),
       circuits$: this.filterByParameters(getCircuits),
-      locationList$: this.filterByParameters(getLocations)
+      locationList$: this.filterByParameters(getLocations, false, false)
         .pipe(
           tap((value) => {
             this.locationFilterOptions = [];
@@ -268,7 +284,7 @@ export class ExaminerRecordsPage implements OnInit {
 
           }),
         ),
-      categoryList$: this.filterByParameters(getCategories)
+      categoryList$: this.filterByParameters(getCategories, true, false)
         .pipe(
           tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
             this.categoryFilterOptions = [];
