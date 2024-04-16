@@ -26,12 +26,18 @@ const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean
   // return true to get all tests when no range provided
   : true;
 
+/**
+ * strip out the prefix letter to get the numerical value in the code of the string
+ */
 const getIndex = (item: string) => {
   const regex = /[A-Za-z]*(\d+)/;
   const match = item.match(regex);
   return match && match[1] ? Number(match[1]) : null;
 };
 
+/**
+ * returns all the tests that fall within the filters given
+ */
 export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -52,6 +58,9 @@ export const getEligibleTests = (
       (get(value, 'testCentre.centreId') === centreId && get(value, 'testCategory') === category) : true)));
 };
 
+/**
+ * Return the total amount of tests with an emergency stop from the eligible tests
+ */
 export const getEmergencyStopCount = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -63,6 +72,10 @@ export const getEmergencyStopCount = (
     .filter((controlledStop) => (!!controlledStop && (controlledStop === 'true')))
     .length;
 
+/**
+ * Returns an array of locations the examiner has conducted a test in within the date range and
+ * the amount of tests they have conducted there
+ */
 export const getLocations = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -84,6 +97,9 @@ export const getLocations = (
       (item1.item.centreName) > (item2.item.centreName) ? 1 : -1);
 };
 
+/**
+ * Returns an array containing the counts of both independent driving options within the tests for the given category
+ */
 export const getIndependentDrivingStats = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -129,13 +145,16 @@ export const getIndependentDrivingStats = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns an array containing the counts of both circuit options within the given tests
+ */
 export const getCircuits = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
   centreId: number,
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
-  //getCircuits is only applicable to the following categories, and so we can avoid the entire function
+  //getCircuits is not applicable to the following categories, and so we can avoid the entire function
   if (!isAnyOf(category, [undefined, null,
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
   ])) {
@@ -152,7 +171,7 @@ export const getCircuits = (
   return circuitOptions.map((item: string, index) => {
     const count = data.filter((val) => val === item).length;
     return {
-      item: `I${index + 1} - ${item}`,
+      item: `C${index + 1} - ${item}`,
       count,
       percentage: `${(count / data.length * 100).toFixed(1)}%`,
     };
@@ -161,6 +180,10 @@ export const getCircuits = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns an array of categories the examiner has conducted a test in within the date range
+ * at the selected location and the amount of tests of that type they have conducted
+ */
 export const getCategories = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -187,6 +210,10 @@ export const getCategories = (
       (item1.item as string) > (item2.item as string) ? 1 : -1);
 };
 
+/**
+ * Returns the total number of conducted tests of the selected category at the selected location within
+ * the selected time frame
+ */
 export const getStartedTestCount = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -195,6 +222,10 @@ export const getStartedTestCount = (
 ): number =>
   getEligibleTests(startedTests, range, centreId, category).length;
 
+
+/**
+ * Returns an array containing the conducted test routes within the given tests and their frequency of appearance
+ */
 export const getRouteNumbers = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -208,10 +239,6 @@ export const getRouteNumbers = (
     // filter for any nulls
     .filter((route) => route !== null);
 
-  console.log(data);
-  console.log(startedTests);
-
-
   return uniqBy(data.map((item) => {
     const count = data.filter((val) => val === item).length;
     return {
@@ -224,6 +251,9 @@ export const getRouteNumbers = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns an array containing the selected safety questions within the given tests and their frequency of appearance
+ */
 export const getSafetyQuestions = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -261,6 +291,9 @@ export const getSafetyQuestions = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns an array containing the selected balance questions within the given tests and their frequency of appearance
+ */
 export const getBalanceQuestions = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -297,6 +330,9 @@ export const getBalanceQuestions = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns an array containing the selected show me questions within the given tests and their frequency of appearance
+ */
 export const getShowMeQuestions = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -325,6 +361,9 @@ export const getShowMeQuestions = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns an array containing the selected tell me questions within the given tests and their frequency of appearance
+ */
 export const getTellMeQuestions = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,
@@ -351,6 +390,9 @@ export const getTellMeQuestions = (
       getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
+/**
+ * Returns the correct labels for manoeuvres in a specified category
+ */
 export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreTypes) => {
   if ([TestCategory.B].includes(category)) {
     return type ? manoeuvreTypeLabelsCatB[type] : manoeuvreTypeLabelsCatB;
@@ -363,6 +405,9 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
   }
 };
 
+/**
+ * Returns an array containing the selected manoeuvres within the given tests and their frequency of appearance
+ */
 export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
   range: ExaminerRecordsRange = null,

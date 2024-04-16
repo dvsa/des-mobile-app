@@ -104,6 +104,8 @@ export class ExaminerRecordsProvider {
     },
   ];
 
+  currentlyLoading: boolean = false;
+
 
   constructor(
     public searchProvider: SearchProvider,
@@ -130,7 +132,6 @@ export class ExaminerRecordsProvider {
   /**
    * handler for loading spinner while pulling backend data
    */
-  currentlyLoading: boolean = false;
   handleLoadingUI = async (isLoading: boolean) => {
     if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
       this.currentlyLoading = isLoading;

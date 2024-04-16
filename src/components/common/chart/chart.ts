@@ -75,7 +75,7 @@ export class ChartComponent implements OnInit, OnChanges {
   get options() {
     return {
       states: {
-        //disable chart section darkening on click if the chart is a pie
+        //disable chart section darkening on click
         active: {
           filter: {
             type: 'none',
@@ -83,7 +83,7 @@ export class ChartComponent implements OnInit, OnChanges {
         },
       },
       annotations: {
-        //draw a line across the y-axis depicting the average value
+        //draws a line across the y-axis depicting the average value
         yaxis: [
           {
             y: this.average,
@@ -93,40 +93,63 @@ export class ChartComponent implements OnInit, OnChanges {
           },
         ],
       },
-      fill: { opacity: 1 },
+      fill: {
+        //opacity for the graph's elements
+        opacity: 1,
+      },
       chart: {
+        //disable toolbar that would provide export options
         toolbar: {
           show: false,
         },
+        //disable animations
         animations: {
           enabled: false,
         },
+        //set font options
         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
         fontSize: '24px',
+        //Sets the colour for the text used ON the chart
         foreColor: this.labelColour,
+        //set width and height of chart based on whether the device is in portrait mode
         width: this.isPortrait ? this.transformOptions.portrait.width : this.transformOptions.landscape.width,
         height: this.isPortrait ? this.transformOptions.portrait.height : this.transformOptions.landscape.height,
+        //type of chart (pie, bar, etc.)
         type: this.chartType,
       },
       dataLabels: {
+        //enables an external display of the value of the chart element on any chart that isn't a bar
         enabled: this.chartType !== 'bar',
+        //styling for this label
         style: {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
           fontSize: '18px',
           fontWeight: 'bold',
           colors: [this.labelColour],
         },
+        //gives the label a background color
         background: {
           enabled: this.chartType !== 'bar',
         },
+        //disables drop shadow on the label
         dropShadow: {
           enabled: false,
         },
+        //Applies an offset to the label for better positioning
         offsetY: this.chartType === 'bar' ? -30 : 0,
+
         formatter: (val, opts) => {
+          //apply no styling if it's a bar chart
           if (this.chartType === 'bar') {
             return val;
           }
+          /*
+          If the label itself contains the full name of the value, trim that section off and only take the code,
+          then display either the percentage of the total or the value.
+          Example, where the label is split and the total is 10:
+          name: "M1 - Test Question" value: 2
+          returns "M1: 20%"
+          */
           if (this.splitLabel) {
             return this.calculatePercentages ?
               opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
@@ -141,18 +164,29 @@ export class ChartComponent implements OnInit, OnChanges {
             this.passedData[opts.seriesIndex].percentage;
         },
       },
+      //Applies a border to the chart elements
       stroke: { show: true, colors: [this.strokeColour] },
       xaxis: {
         //disable the x-axis from darkening when the user clicks on it
         crosshairs: {
           show: false,
         },
+        //render the labels that appear on the bottom of the graphs
         labels: {
+          //apply an offset
           offsetY: this.horizontal ? 10 : 0,
+          //style the font
           style: {
             fontSize: '24px',
             colors: this.labelColour,
           },
+          /**due to the chart having rotate functionality, we should account for both possibilities
+           * if horizontal is set to true (the values on the side and the amount at the bottom), return the number with
+           * no decimal point.
+           *
+           * otherwise, split the value sent in by spaces and return the first element,
+           * which will be the code we use to refer to the full value. (M1 - test question = M1)
+           */
           formatter: (val) => {
             if (this.horizontal) {
               return Number(val).toFixed(0);
@@ -166,13 +200,24 @@ export class ChartComponent implements OnInit, OnChanges {
         crosshairs: {
           show: false,
         },
+        //value used to determine how many "steps" are allowed to appear for the values
         tickAmount: this.tickCount,
+        //render the labels that appear on the side of the graphs
         labels: {
+          //apply an offset
           offsetY: this.horizontal ? 7 : 6,
+          //style the font
           style: {
             fontSize: '24px',
             colors: this.labelColour,
           },
+          /**due to the chart having rotate functionality, we should account for both possibilities
+           * if horizontal is set to false (the values on the side and the amount at the bottom), return the number with
+           * no decimal point.
+           *
+           * otherwise, split the value sent in by spaces and return the first element,
+           * which will be the code we use to refer to the full value. (M1 - test question = M1)
+           */
           formatter: (val) => {
             if (this.horizontal) {
               return this.splitLabel ? val.toString().split(/[ ,]+/)[0] : val.toString();
@@ -182,15 +227,24 @@ export class ChartComponent implements OnInit, OnChanges {
           },
         },
       },
+      //define the colours that should be used by the chart's elements
       colors: this.colors,
+      //data to be used by the chart
       series: this.dataValues,
+      //labels for the graph to describe the elements
       labels: this.labels,
+      //value determining whether the graph should render a box which explains the elements on the graph
       legend: {
         show: this.showLegend,
       },
+      //options for the "tooltip", a popup that appears whenever the graph is clicked
       tooltip: {
+        //value that determines whether the tooltip appears where the mouse clicked
+        // or on a set point on the graph element
         followCursor: false,
+        //whether the tooltip appears at all or not
         enabled: false,
+        //formatting for the tooltip
         custom: function({ series, seriesIndex, dataPointIndex, w }) {
           return '<div class="ion-padding">' +
             '<ion-text class="mes-data">' +
@@ -199,48 +253,30 @@ export class ChartComponent implements OnInit, OnChanges {
             '</div>';
         },
       },
-      responsive: [
-        {
-          breakpoint: 1000,
-          options: {
-            legend: {
-              show: this.showLegend,
-              fontSize: '24px',
-              position: 'left',
-            },
-          },
-        },
-      ],
+      //options for specific graph types
       plotOptions: {
         bar: {
+          //border for the elements to give them a curved appearance
           borderRadius: 10,
-          distributed: true,
+          //determines whether the graph should render horizontally
           horizontal: this.horizontal,
-          dataLabels: {
-            position: 'top',
-          },
         },
         pie: {
           dataLabels: {
+            //offset the data labels
             offset: -15,
           },
+          //set whether the graph elements should expand on click
           expandOnClick: false,
-          donut: {
-            labels: {
-              show: this.chartType === 'donut',
-              color: this.labelColour,
-              total: {
-                color: this.labelColour,
-                show: this.chartType === 'donut',
-                showAlways: this.chartType === 'donut',
-              },
-            },
-          },
         },
       },
     } as ApexOptions;
   }
 
+  /**
+   * Morphs the passed data into a format that can be used by the graph, and calculates the average and tick count
+   * for the graph.
+   **/
   filterData() {
     this.labels = this.passedData.map((val) => val.item);
     const values: number[] = this.passedData.map((val) => val.count);
@@ -252,6 +288,11 @@ export class ChartComponent implements OnInit, OnChanges {
       : [{ data: values }] as ApexAxisChartSeries;
   }
 
+  /**
+  Returns the largest value in an array if that value is equal to or less than 5
+   The purpose of this is to stop the chart's y-axis from attempting to draw numbers with decimal points, as we do
+   not allow them.
+   **/
   getTickCount(numbers: number[]) {
     const max = Math.max(...numbers)
     return max <= 5 ? max : null;
