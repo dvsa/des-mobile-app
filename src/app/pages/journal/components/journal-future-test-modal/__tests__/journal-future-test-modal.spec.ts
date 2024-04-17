@@ -7,8 +7,8 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { ModalEvent } from '../journal-future-test-modal.constants';
 import { JournalFutureTestModal } from '../journal-future-test-modal';
+import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 
 describe('JournalRekeyModal', () => {
   let fixture: ComponentFixture<JournalFutureTestModal>;
@@ -48,16 +48,6 @@ describe('JournalRekeyModal', () => {
       expect(component.onStartTest).toHaveBeenCalled();
     });
 
-    it('should call onRekeyTest when the Rekey a paper test button is clicked', () => {
-      fixture.detectChanges();
-      spyOn(component, 'onRekeyTest');
-      const button = fixture.debugElement.query(By.css('ion-button.rekey-test-button'));
-      button.triggerEventHandler('click', null);
-
-      fixture.detectChanges();
-      expect(component.onRekeyTest).toHaveBeenCalled();
-    });
-
     it('should call onCancel when the Cancel button is clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'onCancel');
@@ -71,23 +61,16 @@ describe('JournalRekeyModal', () => {
 
   describe('onCancel', () => {
     it('should call dismiss with CANCEL', async () => {
-      spyOn(modalController, 'dismiss');
+      spyOn(modalController, 'dismiss').and.callThrough();
       await component.onCancel();
-      expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
   describe('onStartTest', () => {
     it('should call dismiss with START', async () => {
-      spyOn(modalController, 'dismiss');
+      spyOn(modalController, 'dismiss').and.callThrough();
       await component.onStartTest();
-      expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.START);
-    });
-  });
-  describe('onRekeyTest', () => {
-    it('should call dismiss with REKEY', async () => {
-      spyOn(modalController, 'dismiss');
-      await component.onRekeyTest();
-      expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.REKEY);
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.START);
     });
   });
 });
