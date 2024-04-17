@@ -131,7 +131,7 @@
     "@angular/compiler": "^17.3.4",
     "@angular/compiler-cli": "^17.3.4",
     "@angular/language-service": "^17.3.4",
-    "@capacitor/cli": "^5.5.1",
+    "@capacitor/cli": "^6.0.0",
     "@ionic/angular-toolkit": "^10.0.0",
     "@ionic/cli": "^7.1.5",
     "@sentry/cli": "^2.22.2",
