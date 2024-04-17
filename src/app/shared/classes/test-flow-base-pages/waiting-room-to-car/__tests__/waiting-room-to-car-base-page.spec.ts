@@ -63,6 +63,8 @@ import {
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
   let router: Router;
@@ -112,6 +114,10 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
         {
           provide: Platform,
           useClass: PlatformMock,

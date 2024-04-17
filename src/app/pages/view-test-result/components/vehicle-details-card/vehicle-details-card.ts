@@ -237,11 +237,13 @@ export class VehicleDetailsCardComponent {
   getPreviousFilteredVRNs(): string[] {
     const filteredVRN: string[] = [];
 
-    this.data.previouslySearchedRegNumbers.forEach((value) => {
-      if (!filteredVRN.includes(value)) {
-        filteredVRN.push(value);
-      }
-    });
+    if (this.data.previouslySearchedRegNumbers) {
+      this.data.previouslySearchedRegNumbers.forEach((value) => {
+        if (!filteredVRN.includes(value)) {
+          filteredVRN.push(value);
+        }
+      });
+    }
 
     return filteredVRN;
   }
