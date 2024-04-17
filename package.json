@@ -115,7 +115,7 @@
     "jsonschema": "^1.4.1",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
-    "ngrx-store-localstorage": "^16.0.0",
+    "ngrx-store-localstorage": "^17.0.0",
     "rxjs": "~7.8.1",
     "rxjs-compat": "^6.6.7",
     "stream-browserify": "^3.0.0",
@@ -188,12 +188,5 @@
     "./src/**/*.html": [
       "npm run format"
     ]
-  },
-  "overrides": {
-    "ngrx-store-localstorage": {
-      "@angular/common": "$@angular/common",
-      "@angular/core": "$@angular/core",
-      "@ngrx/store": "$@ngrx/store"
-    }
   }
 }
