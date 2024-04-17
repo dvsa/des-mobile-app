@@ -245,7 +245,8 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async rekeyDelegatedTest(): Promise<void> {
-    if (new Date(this.slot.slotDetail.start) > new Date()) {
+    //compare the current date to the date of the test without factoring in time to see if the test is in the future
+    if (new Date(new Date(this.slot.slotDetail.start).toDateString()) > new Date(new Date().toDateString())) {
       const modal: HTMLIonModalElement = await this.modalController.create({
         component: JournalFutureTestModal,
         cssClass: 'mes-modal-alert text-zoom-regular',
