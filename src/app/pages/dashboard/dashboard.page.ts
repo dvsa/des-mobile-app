@@ -29,7 +29,9 @@ import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
-import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import {
+  StoreUnuploadedSlotsInTests,
+} from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
@@ -134,6 +136,10 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());
     }
+
+    // acquire previously completed tests
+    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     await super.unlockDevice();
 

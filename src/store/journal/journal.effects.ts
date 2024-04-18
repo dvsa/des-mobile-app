@@ -238,10 +238,6 @@ export class JournalEffects {
       const endDate = new DateTime()
         .format('YYYY-MM-DD');
 
-      console.log('numberOfDaysToView', numberOfDaysToView);
-      console.log('startDate', startDate);
-      console.log('endDate', endDate);
-
       const advancedSearchParams: AdvancedSearchParams = {
         startDate,
         endDate,
