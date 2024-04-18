@@ -128,7 +128,10 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
-    this.store$.dispatch(journalActions.LoadJournalSilent());
+    //guard against calling journal if the user type is a delegated examiner
+    if (!this.isDelegatedExaminer()) {
+      this.store$.dispatch(journalActions.LoadJournalSilent());
+    }
 
     await super.unlockDevice();
 
@@ -163,6 +166,18 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.appConfigProvider.getAppConfig()?.journal.enableEndToEndPracticeMode;
 
   showDelegatedExaminerRekey = (): boolean =>
+    this.isDelegatedExaminer();
+
+  /**
+   * This method checks if the current user is a delegated examiner.
+   *
+   * It retrieves the application configuration using the AppConfigProvider
+   * and checks if the role property is equal to 'DLG'.
+   * 'DLG' is a constant that represents a delegated examiner.
+   *
+   * @returns {boolean} - Returns true if the user's role is 'DLG', false otherwise.
+   */
+  isDelegatedExaminer = (): boolean =>
     this.appConfigProvider.getAppConfig()?.role === ExaminerRole.DLG;
 
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
