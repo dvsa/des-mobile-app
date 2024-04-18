@@ -226,9 +226,11 @@ export class JournalEffects {
       if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
       if (action.callThrough) return true;
 
+
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
     switchMap(([, staffNumber]) => {
+      console.log('staffNumber', staffNumber);
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
 
       const startDate = new DateTime()

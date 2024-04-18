@@ -137,7 +137,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());
 
-      // acquire previously completed tests
+      // // acquire previously completed tests
       await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
       this.store$.dispatch(journalActions.LoadCompletedTests(true));
     }
@@ -156,7 +156,10 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       .format('dddd Do MMMM YYYY');
 
     await this.appConfigProvider.getAppConfigAsync();
-    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+
+    // // acquire previously completed tests
+    // await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+    // this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     return true;
   }
