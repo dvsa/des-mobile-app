@@ -157,10 +157,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
 
     await this.appConfigProvider.getAppConfigAsync();
 
-    // // acquire previously completed tests
-    // await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-    // this.store$.dispatch(journalActions.LoadCompletedTests(true));
-
     return true;
   }
 

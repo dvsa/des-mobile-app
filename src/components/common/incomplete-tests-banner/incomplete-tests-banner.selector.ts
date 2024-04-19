@@ -5,12 +5,10 @@ import { getPermittedSlotIdsBeforeToday } from '@store/journal/journal.selector'
 import { DateTime } from '@shared/helpers/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 export const getIncompleteTests = (
   journal: JournalModel,
   tests: TestsModel,
-  completedTests: SearchResultTestSchema[],
   today: DateTime,
   slotProvider: SlotProvider,
 ): SlotItem[] => {
@@ -29,17 +27,12 @@ export const getIncompleteTests = (
     * an incomplete tests (count it too)
     */
 
-  console.log('completedTests', completedTests);
-
   const slotIdsBeforeToday = getPermittedSlotIdsBeforeToday(journal, today, slotProvider);
 
   // includes tests with status of Started, Decided and WriteUp, but not un-started rekeys
   const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
   const completedTestSlotIds = testsSelectors.getCompletedTestSlotIdsBeforeToday(tests);
   const slotIdsOfAllStartedTests = Object.keys(tests.testStatus);
-
-  console.log('completedTestSlotIds', completedTestSlotIds);
-  // const completedTests
 
   return slotIdsBeforeToday.filter((slotItem) => {
     const { slotId } = slotItem.slotData.slotDetail;

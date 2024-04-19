@@ -8,7 +8,6 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
-import { getCompletedTests } from '@store/journal/journal.selector';
 
 export const unsubmittedTestSlots$ = (
   store$: Store<StoreModel>,
@@ -16,15 +15,8 @@ export const unsubmittedTestSlots$ = (
   slotProvider: SlotProvider,
 ): Observable<SlotItem[]> => store$.pipe(
   select(getJournalState),
-  withLatestFrom(
-    store$.pipe(select(getTests)),
-    store$.pipe(
-      select(getJournalState),
-      select(getCompletedTests),
-    ),
-  ),
-  map(([journal, tests, completedTests]) =>
-    getIncompleteTests(journal, tests, completedTests, dateTimeProvider.now(), slotProvider)),
+  withLatestFrom(store$.pipe(select(getTests))),
+  map(([journal, tests]) => getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider)),
 );
 
 export const unsubmittedTestSlotsInDateOrder$ = (
@@ -32,20 +24,18 @@ export const unsubmittedTestSlotsInDateOrder$ = (
   dateTimeProvider: DateTimeProvider,
   slotProvider: SlotProvider,
 ): Observable<SlotItem[]> =>
-  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider)
-    .pipe(
-      map((slotItems: SlotItem[]) =>
-        // sort oldest to newest
-        slotItems.sort((a, b) =>
-          new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
-    );
+  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider).pipe(
+    map((slotItems: SlotItem[]) =>
+      // sort oldest to newest
+      slotItems.sort((a, b) =>
+        new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
+  );
 
 export const unsubmittedTestSlotsCount$ = (
   store$: Store<StoreModel>,
   dateTimeProvider: DateTimeProvider,
   slotProvider: SlotProvider,
 ): Observable<number> =>
-  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider)
-    .pipe(
-      map((slotItems: SlotItem[]) => slotItems.length),
-    );
+  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider).pipe(
+    map((slotItems: SlotItem[]) => slotItems.length),
+  );

@@ -77,7 +77,7 @@ export class UnuploadedTestsEffects {
             withLatestFrom(this.store$.pipe(select(getTests))),
             map((
               [journal, tests],
-            ) => getIncompleteTests(journal, tests, null, this.dateTimeProvider.now(), this.slotProvider)),
+            ) => getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider)),
             map((slotItems: SlotItem[]) =>
               slotItems.sort((a, b) =>
                 new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),

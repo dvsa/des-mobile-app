@@ -36,7 +36,6 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
@@ -51,6 +50,7 @@ import {
   getSelectedDate,
   getSlots,
 } from './journal.selector';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 @Injectable()
 export class JournalEffects {
@@ -204,9 +204,7 @@ export class JournalEffects {
       .pipe(
         withLatestFrom(
           this.store$.pipe(
-            select(getJournalState),
-            select(getExaminer),
-            select(getStaffNumber),
+            select(selectEmployeeId)
           ),
           this.store$.pipe(
             select(getTests),
@@ -230,7 +228,6 @@ export class JournalEffects {
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
     switchMap(([, staffNumber]) => {
-      console.log('staffNumber', staffNumber);
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
 
       const startDate = new DateTime()

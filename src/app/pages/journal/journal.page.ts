@@ -246,13 +246,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
 
+  // DOCBLOCK
   private loadCompletedTestsWithCallThrough = () => {
     // When manually refreshing the journal we want to check
     // if any of the tests have already been submitted by another device
     // So we must make the Load Completed Tests request
     // And that's why we set the callThrough property to true
-    const callThrough = true;
-    console.log('loadCompletedTestsWithCallThrough');
-    this.store$.dispatch(journalActions.LoadCompletedTests(callThrough));
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
   };
 }

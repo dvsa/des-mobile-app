@@ -31,7 +31,6 @@ export class CompletedTestPersistenceProvider {
   async loadCompletedPersistedTests(): Promise<void> {
     let completedTests: SearchResultTestSchema[] | null = null;
     try {
-      console.log('Loading persisted completed tests');
       const persistedTestJson = await this.dataStoreProvider.getItem(this.completedTestKeychainKey);
       completedTests = persistedTestJson.length > 0 ? JSON.parse(persistedTestJson) : null;
       if (completedTests) {
