@@ -10,6 +10,7 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
   AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -173,8 +174,10 @@ export class OfficeAnalyticsEffects {
       screenName = isTestPassed
         ? analyticsEventTypePrefix(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
         : analyticsEventTypePrefix(AnalyticsScreenNames.FAIL_TEST_SUMMARY, tests);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
       this.analytics.setGACurrentPage(screenName);
       return of(AnalyticRecorded());
     }),
@@ -226,8 +229,10 @@ export class OfficeAnalyticsEffects {
       );
 
       // GA4 Analytics
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
 
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.DATE_OF_TEST,
@@ -294,8 +299,10 @@ export class OfficeAnalyticsEffects {
       // GA4 Analytics
       let eventValue = this.getEventValue(testOutcome);
 
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
 
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.SAVE_WRITE_UP,
@@ -420,8 +427,10 @@ export class OfficeAnalyticsEffects {
       );
 
       //GA4 Analytics
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
 
       let eventValue = this.getEventValue(testOutcome);
 
@@ -470,7 +479,7 @@ export class OfficeAnalyticsEffects {
       //GA4 Analytics
       let eventValue = this.getEventValue(action.circuitType);
 
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.CIRCUIT_CHANGED,
         GoogleAnalyticsEventsTitles.DIRECTION,
@@ -516,7 +525,7 @@ export class OfficeAnalyticsEffects {
       //GA4 Analytics
       let eventValue = this.getEventValue(action.independentDriving);
 
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.INDEPENDENT_DRIVING,
         GoogleAnalyticsEventsTitles.DRIVING_TYPE,
@@ -559,7 +568,7 @@ export class OfficeAnalyticsEffects {
         `${action.modeOfTransport} selected`,
       );
       //GA4 Analytics
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
 
       let eventValue = this.getEventValue(action.modeOfTransport);
 

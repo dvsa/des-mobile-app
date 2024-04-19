@@ -9,7 +9,11 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -120,8 +124,10 @@ export class BackToOfficeAnalyticsEffects {
       );
 
       //GA4 Analytics
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
 
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.DEFER_WRITE_UP, tests),

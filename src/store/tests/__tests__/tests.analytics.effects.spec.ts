@@ -7,7 +7,7 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
-  AnalyticsEvents,
+  AnalyticsEvents, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -125,9 +125,9 @@ describe('TestsAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.PASS,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
@@ -166,9 +166,9 @@ describe('TestsAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.FAIL,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
@@ -262,9 +262,9 @@ describe('TestsAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.PASS,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
@@ -303,9 +303,9 @@ describe('TestsAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.FAIL,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
@@ -344,9 +344,9 @@ describe('TestsAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.UNKNOWN,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
@@ -394,7 +394,7 @@ describe('TestsAnalyticsEffects', () => {
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(
-            AnalyticsDimensionIndices.TEST_CATEGORY,
+            GoogleAnalyticsCustomDimension.TEST_CATEGORY,
             TestCategory.B,
           );
         expect(analyticsProviderMock.logGAEvent)
@@ -456,7 +456,7 @@ describe('TestsAnalyticsEffects', () => {
 
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(
-            AnalyticsDimensionIndices.TEST_CATEGORY,
+            GoogleAnalyticsCustomDimension.TEST_CATEGORY,
             TestCategory.B,
           );
         expect(analyticsProviderMock.logGAEvent)

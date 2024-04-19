@@ -266,6 +266,18 @@ export enum GoogleAnalyticsEventPrefix {
   REKEY = 'RM',
 }
 
+export enum GoogleAnalyticsCustomDimension {
+  DEVICE_ID = 'device_id',
+  JOURNAL_DAYS_FROM_TODAY = 'journal_days_from_today',
+  CANDIDATE_WITH_SPECIAL_NEEDS = 'candidate_with_special_needs',
+  CANDIDATE_WITH_CHECK = 'candidate_with_check',
+  CANDIDATE_ID = 'candidate_id',
+  APPLICATION_REFERENCE = 'application_reference',
+  TEST_CATEGORY = 'test_category',
+  USER_ID = 'user_id',
+  DEVICE_MODEL = 'device_model',
+}
+
 export enum GoogleAnalyticsEvents {
   START_TEST = 'start_test',
   TEST_OUTCOME_CHANGED = 'test_outcome_changed',

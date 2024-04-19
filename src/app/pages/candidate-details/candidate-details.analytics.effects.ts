@@ -9,7 +9,7 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
@@ -69,10 +69,13 @@ export class CandidateDetailsAnalyticsEffects {
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, candidateId?.toString());
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS,
-        specNeeds ? '1' : '0');
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, candidateCheck ? '1' : '0');
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, candidateId?.toString());
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS,
+        specNeeds ? '1' : '0'
+      );
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK,
+        candidateCheck ? '1' : '0'
+      );
 
       return of(AnalyticRecorded());
     }),
@@ -102,9 +105,9 @@ export class CandidateDetailsAnalyticsEffects {
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(mapAnalyticsScreenName(sourcePage));
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, null);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, null);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, null);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS, null);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK, null);
 
       return of(AnalyticRecorded());
     }),

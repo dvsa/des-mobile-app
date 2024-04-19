@@ -25,7 +25,7 @@ import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -109,9 +109,9 @@ describe('OfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenNamePass);
         done();
@@ -140,9 +140,9 @@ describe('OfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenNameFail);
         done();
@@ -171,9 +171,9 @@ describe('OfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`);
         done();
@@ -245,9 +245,9 @@ describe('OfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
 
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -329,9 +329,9 @@ describe('OfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SAVE_WRITE_UP,
@@ -367,9 +367,9 @@ describe('OfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.SAVE_WRITE_UP,
@@ -658,9 +658,9 @@ describe('OfficeAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.PASS,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
@@ -697,9 +697,9 @@ describe('OfficeAnalyticsEffects', () => {
             GoogleAnalyticsEventsValues.PASS,
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         done();
       });
     });
