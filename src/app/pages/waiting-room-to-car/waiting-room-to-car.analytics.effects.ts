@@ -11,7 +11,7 @@ import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -133,9 +133,11 @@ export class WaitingRoomToCarAnalyticsEffects {
       //GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests));
 
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
 
       return of(AnalyticRecorded());
     }),

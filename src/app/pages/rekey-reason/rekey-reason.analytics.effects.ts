@@ -8,7 +8,7 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -87,8 +87,10 @@ export class RekeyReasonAnalyticsEffects {
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.REKEY_REASON, tests));
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
 
       return of(AnalyticRecorded());
     }),

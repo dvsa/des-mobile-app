@@ -8,7 +8,7 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -100,11 +100,11 @@ describe('CandidateDetailsAnalyticsEffects', () => {
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '123');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '123');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK, '1');
         done();
       });
     });
@@ -134,11 +134,11 @@ describe('CandidateDetailsAnalyticsEffects', () => {
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(AnalyticsScreenNames.JOURNAL);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, null);
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, null);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, null);
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS, null);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK, null);
         done();
       });
     });

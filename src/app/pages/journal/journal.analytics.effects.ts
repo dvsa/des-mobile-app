@@ -25,7 +25,7 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -52,8 +52,9 @@ export class JournalAnalyticsEffects {
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.JOURNAL);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
+      // reset values
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
       return of(AnalyticRecorded());
     }),
   ));
@@ -81,7 +82,7 @@ export class JournalAnalyticsEffects {
       );
 
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.JOURNAL_DAYS_FROM_TODAY,
+        GoogleAnalyticsCustomDimension.JOURNAL_DAYS_FROM_TODAY,
         this.analytics.getDiffDays(action.day).toString(),
       );
 
@@ -219,11 +220,12 @@ export class JournalAnalyticsEffects {
         isTestPassed ? GoogleAnalyticsEventsValues.PASS : GoogleAnalyticsEventsValues.FAIL);
 
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
         formatApplicationReference(journalDataOfTest.applicationReference),
       );
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.CANDIDATE_ID, journalDataOfTest.candidate.candidateId.toString(),
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        journalDataOfTest.candidate.candidateId.toString(),
       );
 
       return of(AnalyticRecorded());

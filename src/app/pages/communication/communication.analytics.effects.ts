@@ -10,7 +10,11 @@ import {
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -108,9 +112,11 @@ export class CommunicationAnalyticsEffects {
       //GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.COMMUNICATION, tests));
 
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference
+      );
       return of(AnalyticRecorded());
     }),
   ));

@@ -3,7 +3,11 @@ import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticsScreenNames, AnalyticsDimensionIndices } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsScreenNames,
+  AnalyticsDimensionIndices,
+  GoogleAnalyticsCustomDimension,
+} from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as viewTestResultActions from '../view-test-result.actions';
 import { ViewTestResultAnalyticsEffects } from '../view-test-result.analytics.effects';
@@ -43,7 +47,7 @@ describe('ViewTestResultAnalyticsEffects', () => {
 
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           '12345',
         );
         done();
