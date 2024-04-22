@@ -266,6 +266,10 @@ export enum GoogleAnalyticsEventPrefix {
   REKEY = 'RM',
 }
 
+/**
+ * Enum representing the custom dimensions for Google Analytics.
+ * @enum {string}
+ */
 export enum GoogleAnalyticsCustomDimension {
   DEVICE_ID = 'device_id',
   JOURNAL_DAYS_FROM_TODAY = 'journal_days_from_today',
