@@ -7,7 +7,11 @@ import {
   AnalyticsScreenNames,
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
-  AnalyticsEvents, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  AnalyticsEvents,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
+  GoogleAnalyticsCustomDimension,
 } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, select } from '@ngrx/store';
@@ -78,9 +82,9 @@ export class ReverseDiagramModalAnalyticsEffects {
         formatAnalyticsText(AnalyticsScreenNames.REVERSE_DIAGRAM, tests),
       );
       // GA4 Analytics
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, applicationReference);
       this.analytics.setGACurrentPage(
         analyticsEventTypePrefix(AnalyticsScreenNames.REVERSE_DIAGRAM, tests),
       );

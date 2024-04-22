@@ -12,7 +12,7 @@ import {
   JournalRefreshModes,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
-  GoogleAnalyticsEventsValues,
+  GoogleAnalyticsEventsValues, GoogleAnalyticsCustomDimension,
 } from '@providers/analytics/analytics.model';
 import * as slotActions from '@providers/slot/slot.actions';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -86,9 +86,9 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
         done();
       });
     });
@@ -114,7 +114,7 @@ describe('JournalAnalyticsEffects', () => {
             'Tomorrow',
           );
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.JOURNAL_DAYS_FROM_TODAY, '4');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.JOURNAL_DAYS_FROM_TODAY, '4');
 
         done();
       });
@@ -303,9 +303,9 @@ describe('JournalAnalyticsEffects', () => {
             GoogleAnalyticsEventsTitles.RESULT,
             GoogleAnalyticsEventsValues.PASS);
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '1011');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '1011');
         done();
       });
     });
