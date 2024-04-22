@@ -179,6 +179,13 @@ export class VehicleChecksComponent implements OnChanges {
     return this.everyQuestionHasOutcome() ? null : this.incompleteVehicleChecks();
   }
 
+  drivingFaultsLabel(count: number): string {
+    let label: string = 'driving fault';
+    if(count > 1) {
+      label = 'driving faults'
+    } return label;
+  }
+
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }

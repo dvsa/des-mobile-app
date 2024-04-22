@@ -246,6 +246,18 @@ describe('VehicleChecksComponent', () => {
       });
     });
 
+    describe('drivingFaultsLabel', () => {
+      it('should return "driving fault" when count is 1', () => {
+        const result = component.drivingFaultsLabel(1);
+        expect(result).toEqual('driving fault');
+      });
+
+      it('should return "driving faults" when count is greater than 1', () => {
+        const result = component.drivingFaultsLabel(2);
+        expect(result).toEqual('driving faults');
+      });
+    });
+
     describe('invalid', () => {
       beforeEach(() => {
         store$.dispatch(StartTest(12345, TestCategory.C));
