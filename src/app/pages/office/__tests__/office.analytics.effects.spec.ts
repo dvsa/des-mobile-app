@@ -40,17 +40,17 @@ import * as officeActions from '../office.actions';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-describe('OfficeAnalyticsEffects', () => {
+fdescribe('OfficeAnalyticsEffects', () => {
   let effects: OfficeAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_TEST_SUMMARY;
   const screenNameFail = AnalyticsScreenNames.FAIL_TEST_SUMMARY;
-  // eslint-disable-next-line max-len
-  const screenNamePracticeModePass = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_TEST_SUMMARY}`;
-  // eslint-disable-next-line max-len
-  const screenNamePracticeModeFail = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.FAIL_TEST_SUMMARY}`;
+  const screenNamePracticeModePass =
+    `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_TEST_SUMMARY}`;
+  const screenNamePracticeModeFail =
+    `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.FAIL_TEST_SUMMARY}`;
   const mockApplication: Application = {
     applicationId: 123456,
     bookingSequence: 78,
