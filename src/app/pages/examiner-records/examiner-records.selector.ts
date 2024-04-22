@@ -46,6 +46,7 @@ export const getEligibleTests = (
   filterByLocation: boolean = true,
   filterByCategory: boolean = true,
 ): ExaminerRecordModel[] => {
+  console.log('runningElig');
   return startedTests.filter((value: ExaminerRecordModel) => {
     return (!!range ? dateFilter(value, range as DateRange) : true) &&
         (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&

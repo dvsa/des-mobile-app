@@ -82,6 +82,7 @@ export class ExaminerRecordsPage implements OnInit {
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
   testSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
+  eligTestSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
@@ -92,7 +93,7 @@ export class ExaminerRecordsPage implements OnInit {
   locationPlaceholder: string;
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
-  cachedExaminerRecords: ExaminerRecordModel[] = null
+  cachedExaminerRecords: ExaminerRecordModel[] = null;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
@@ -125,6 +126,22 @@ export class ExaminerRecordsPage implements OnInit {
     await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
   }
 
+  private changeEligableTests(
+    filterByLocation = true,
+    filterByCategory = true
+  ) {
+    this.eligTestSubject$.next(
+      getEligibleTests(
+        this.testSubject$.value,
+        this.categorySubject$.value,
+        this.rangeSubject$.value,
+        this.locationSubject$.value,
+        filterByLocation,
+        filterByCategory,
+      ));
+    console.log(this.eligTestSubject$.value);
+  }
+
   /**
    * wrapper used to reduce/centralise code
    * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
@@ -135,34 +152,19 @@ export class ExaminerRecordsPage implements OnInit {
     range: DateRange,
     location: number,
   ) => T,
-    filterByLocation: boolean = true,
-    filterByCategory: boolean = true
   ): Observable<T> => combineLatest(
     [
-      this.testSubject$.asObservable(),
-      this.rangeSubject$.asObservable(),
-      this.locationSubject$.asObservable(),
-      this.categorySubject$.asObservable(),
+      this.eligTestSubject$.asObservable(),
     ])
     .pipe(
       // return an observable using the generic `fn`
       switchMap(() => {
-
-        const eligTest = getEligibleTests(
-          this.testSubject$.value,
-          this.categorySubject$.value,
-          this.rangeSubject$.value,
-          this.locationSubject$.value,
-          filterByLocation,
-          filterByCategory,
-        );
-
         return of(fn(
-          eligTest,
+          this.eligTestSubject$.value,
           this.categorySubject$.value,
           this.rangeSubject$.value,
           this.locationSubject$.value,
-        ))
+        ));
       }),
     );
 
@@ -216,7 +218,7 @@ export class ExaminerRecordsPage implements OnInit {
             test.examinerBooked,
             test.examinerKeyed,
             test.examinerConducted,
-          ].every( (val, i, arr) => val === arr[0] ))));
+          ].every((val, i, arr) => val === arr[0]))));
       }),
       map(value => {
         const recordArray: ExaminerRecordModel[] = [];
@@ -234,6 +236,8 @@ export class ExaminerRecordsPage implements OnInit {
 
   async ngOnInit() {
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
+    this.testSubject$.next(this.testResults ?? null);
+    this.changeEligableTests(false,false)
 
     //Set default date
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
@@ -256,7 +260,7 @@ export class ExaminerRecordsPage implements OnInit {
       tellMeQuestions$: this.filterByParameters(getTellMeQuestions),
       testCount$: this.filterByParameters(getStartedTestCount),
       circuits$: this.filterByParameters(getCircuits),
-      locationList$: this.filterByParameters(getLocations, false, false)
+      locationList$: this.filterByParameters(getLocations)
         .pipe(
           tap((value) => {
             this.locationFilterOptions = [];
@@ -284,7 +288,7 @@ export class ExaminerRecordsPage implements OnInit {
 
           }),
         ),
-      categoryList$: this.filterByParameters(getCategories, true, false)
+      categoryList$: this.filterByParameters(getCategories)
         .pipe(
           tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
             this.categoryFilterOptions = [];
@@ -323,7 +327,7 @@ export class ExaminerRecordsPage implements OnInit {
             },
           ])),
         ),
-    }
+    };
 
     const {
       cachedRecords$,
@@ -335,9 +339,12 @@ export class ExaminerRecordsPage implements OnInit {
       cachedRecords$.pipe(tap((value) => {
         this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
         this.testSubject$.next(this.testResults ?? null);
+        this.changeEligableTests(false, false);
       })),
       //deactivate loading ui when no longer loading
-      isLoadingRecords$.pipe(map((value) => { this.examinerRecordsProvider.handleLoadingUI(value) })),
+      isLoadingRecords$.pipe(map((value) => {
+        this.examinerRecordsProvider.handleLoadingUI(value);
+      })),
     );
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -405,6 +412,7 @@ export class ExaminerRecordsPage implements OnInit {
   handleDateFilter(event: CustomEvent): void {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
+    this.changeEligableTests(false, false);
 
     this.store$.dispatch(DateRangeChanged(event.detail?.value));
   }
@@ -421,6 +429,7 @@ export class ExaminerRecordsPage implements OnInit {
     if (event && (event.centreName !== this.locationFilter)) {
       this.locationFilter = event.centreName ?? null;
       this.locationSubject$.next(event.centreId ?? null);
+      this.changeEligableTests(true, false);
       this.currentTestCentre = event;
 
       this.store$.dispatch(LocationChanged(event));
@@ -439,6 +448,8 @@ export class ExaminerRecordsPage implements OnInit {
       this.categoryDisplay = `Test category: ${event}`;
       this.currentCategory = event;
       this.categorySubject$.next(event ?? null);
+      this.changeEligableTests(true, false);
+
 
       this.store$.dispatch(TestCategoryChanged(event));
     }
@@ -449,7 +460,7 @@ export class ExaminerRecordsPage implements OnInit {
    */
   colourFilterChanged(colour: ColourEnum) {
     this.store$.dispatch(ColourFilterChanged(colour));
-    this.colourOption = this.getColour(colour)
+    this.colourOption = this.getColour(colour);
   }
 
   /**
@@ -457,7 +468,7 @@ export class ExaminerRecordsPage implements OnInit {
    */
   hideChart(): void {
     this.hideMainContent = !this.hideMainContent;
-    this.showExpandedData = !this.showExpandedData
+    this.showExpandedData = !this.showExpandedData;
     this.store$.dispatch(HideChartsChanged(this.hideMainContent));
   }
 
@@ -525,7 +536,7 @@ export class ExaminerRecordsPage implements OnInit {
    */
   calculateRatio(a: number, b: number, comparisonNumber: number) {
     let finalA = (b !== 0 ? (a / b) : a);
-    return `${ finalA % 1 !== 0 ? ((finalA)*comparisonNumber).toFixed(1) : finalA}
-    : ${(b !== 0 ? (b / b) : 0)*comparisonNumber }`;
+    return `${finalA % 1 !== 0 ? ((finalA) * comparisonNumber).toFixed(1) : finalA}
+    : ${(b !== 0 ? (b / b) : 0) * comparisonNumber}`;
   }
 }
