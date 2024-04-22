@@ -12,7 +12,6 @@ import {
   IAnalyticsProvider,
 } from './analytics.model';
 import { AuthenticationProvider } from '../authentication/authentication';
-import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 
 declare const gtag: Function;
 
@@ -125,7 +124,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   /**
    * Adds a custom dimension for Google Analytics.
-   * Custom events need to exist in the analytic dimension enum
    *
    * @param {number} key - The key representing the custom dimension index.
    * @param {string} value - The value to be associated with the custom dimension.
@@ -133,7 +131,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   addGACustomDimension(key: GoogleAnalyticsCustomDimension, value: string): void {
     if (this.isIos()) {
       try {
-        // const [dimension] = getEnumKeyByValue(AnalyticsDimensionIndices, key);
         if (key) { // Guard to check if dimension is not undefined or null
           gtag('set', 'user_properties', { [key]: value });
         } else {
