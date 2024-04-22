@@ -195,7 +195,11 @@ export class TestOutcomeComponent implements OnInit {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
 
     if (this.testStatus === TestStatus.Started) {
-      await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
+      await this.router.navigate([
+        this.category !== TestCategory.SC
+          ? TestFlowPageNames.WAITING_ROOM_PAGE
+          : TestFlowPageNames.COMMUNICATION_PAGE
+      ]);
     } else if (this.activityCode === ActivityCodes.PASS) {
       await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
     } else {
