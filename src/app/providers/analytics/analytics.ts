@@ -5,9 +5,13 @@ import { Platform } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
 import { DeviceProvider } from '../device/device';
 import { AppConfigProvider } from '../app-config/app-config';
-import { AnalyticsDimensionIndices, AnalyticsEventCategories, IAnalyticsProvider } from './analytics.model';
+import {
+  AnalyticsDimensionIndices,
+  AnalyticsEventCategories,
+  GoogleAnalyticsCustomDimension,
+  IAnalyticsProvider,
+} from './analytics.model';
 import { AuthenticationProvider } from '../authentication/authentication';
-import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 
 declare const gtag: Function;
 
@@ -45,7 +49,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
       this.setGAUserId(this.googleAnalytics4Key, employeeId);
       this.setGADeviceId(uniqueDeviceId);
-      this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, deviceModel);
+      this.addGACustomDimension(GoogleAnalyticsCustomDimension.DEVICE_MODEL, deviceModel);
     } catch (error) {
       console.error('Analytics - Error initializing Google Analytics:', error);
     }
@@ -94,7 +98,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
           .update(userId || 'unavailable')
           .digest('hex');
         console.log(`set GA user id: ${uniqueUserId}`);
-        this.addGACustomDimension(AnalyticsDimensionIndices.USER_ID, uniqueUserId);
+        this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, uniqueUserId);
         gtag('config', key, {
           send_page_view: false,
           user_id: uniqueUserId,
@@ -115,22 +119,20 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     const uniqueDeviceId = createHash('sha256')
       .update(deviceId || 'defaultDevice')
       .digest('hex');
-    this.addGACustomDimension(AnalyticsDimensionIndices.DEVICE_ID, uniqueDeviceId);
+    this.addGACustomDimension(GoogleAnalyticsCustomDimension.DEVICE_ID, uniqueDeviceId);
   }
 
   /**
    * Adds a custom dimension for Google Analytics.
-   * Custom events need to exist in the analytic dimension enum
    *
    * @param {number} key - The key representing the custom dimension index.
    * @param {string} value - The value to be associated with the custom dimension.
    */
-  addGACustomDimension(key: number, value: string): void {
+  addGACustomDimension(key: GoogleAnalyticsCustomDimension, value: string): void {
     if (this.isIos()) {
       try {
-        const [dimension] = getEnumKeyByValue(AnalyticsDimensionIndices, key);
-        if (dimension) { // Guard to check if dimension is not undefined or null
-          gtag('event', dimension, { key: value });
+        if (key) { // Guard to check if dimension is not undefined or null
+          gtag('set', 'user_properties', { [key]: value });
         } else {
           console.error('Analytics - addGACustomDimension: Dimension not found for key', key);
         }

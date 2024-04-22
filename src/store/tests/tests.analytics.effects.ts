@@ -7,7 +7,7 @@ import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
-  AnalyticsEvents,
+  AnalyticsEvents, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -103,11 +103,11 @@ export class TestsAnalyticsEffects {
       );
 
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
         formatApplicationReference(journalDataOfTest.applicationReference),
       );
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.CANDIDATE_ID,
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
         journalDataOfTest.candidate.candidateId ? journalDataOfTest.candidate.candidateId.toString() : null,
       );
 
@@ -264,11 +264,11 @@ export class TestsAnalyticsEffects {
       );
 
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
         formatApplicationReference(journalDataOfTest.applicationReference),
       );
       this.analytics.addGACustomDimension(
-        AnalyticsDimensionIndices.CANDIDATE_ID,
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
         journalDataOfTest.candidate.candidateId.toString(),
       );
 
@@ -344,11 +344,11 @@ export class TestsAnalyticsEffects {
       const prefix = this.navigationStateProvider.isRekeySearch()
         ? 'RM_'
         : '';
-      this.analytics.addGACustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, action.category);
 
       if (applicationReference) {
         this.analytics.addGACustomDimension(
-          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           formatApplicationReference(applicationReference),
         );
       }

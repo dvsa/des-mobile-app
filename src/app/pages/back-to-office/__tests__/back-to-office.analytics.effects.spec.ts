@@ -8,7 +8,7 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames,
+  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -149,9 +149,9 @@ describe('BackToOfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.DEFER_WRITE_UP,
@@ -188,9 +188,9 @@ describe('BackToOfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.DEFER_WRITE_UP,
@@ -227,9 +227,9 @@ describe('BackToOfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
@@ -266,9 +266,9 @@ describe('BackToOfficeAnalyticsEffects', () => {
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
