@@ -273,15 +273,29 @@ describe('TestOutcomeComponent', () => {
           .toHaveBeenCalledWith(ContinueUnuploadedTest('Resume'));
       });
       categoryPages.forEach((cat) => {
-        it(`Cat ${cat.category} should dispatch an ActivateTest action and navigate to the Waiting Room page`, () => {
-          component.testStatus = TestStatus.Started;
-          component.category = cat.category;
-          component.resumeTest();
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          expect(router.navigate)
-            .toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
-        });
+        if (cat.category !== TestCategory.SC) {
+          it(`Cat ${cat.category} should dispatch an ActivateTest action
+        and navigate to the Waiting Room page if the category is not Standards Checks`, () => {
+            component.testStatus = TestStatus.Started;
+            component.category = cat.category;
+            component.resumeTest();
+            expect(store$.dispatch)
+              .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+            expect(router.navigate)
+              .toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
+          });
+        } else {
+          it(`Cat ${cat.category} should dispatch an ActivateTest action
+        and navigate to the Communication page`, () => {
+            component.testStatus = TestStatus.Started;
+            component.category = cat.category;
+            component.resumeTest();
+            expect(store$.dispatch)
+              .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+            expect(router.navigate)
+              .toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
+          });
+        }
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, () => {
           component.testStatus = TestStatus.Decided;
