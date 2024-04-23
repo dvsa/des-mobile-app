@@ -47,8 +47,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
       const deviceModel = await this.device.getDeviceName();
 
-      this.setGAGlobalConfig(this.googleAnalytics4Key);
-      this.setGAUserId(employeeId);
+      this.setGAUserId(this.googleAnalytics4Key, employeeId);
       this.setGADeviceId(uniqueDeviceId);
       this.addGACustomDimension(GoogleAnalyticsCustomDimension.DEVICE_MODEL, deviceModel);
     } catch (error) {
@@ -82,37 +81,23 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   };
 
   /**
-   * Sets the Google Analytics global configuration for the provided key.
-   * Disables the default page view tracking for all events by this user for this session.
-   *
-   * @param {string} key - The Google Analytics key to set the global configuration for.
-   */
-  setGAGlobalConfig(key: string): void {
-    if (this.isIos()) {
-      try {
-        gtag('config', key, {
-          send_page_view: false,
-        });
-
-      } catch (error) {
-        console.log('Analytics - setGAGlobalConfig error', error);
-      }
-    }
-  }
-
-  /**
    * Sets the Google Analytics user ID custom dimension.
    * Generates a unique user ID based on the provided user ID or a default value.
+   * Set config to send page view false to prevent duplicate page views.
+   * @param key
    * @param userId
    */
-  setGAUserId(userId: string): void {
+  setGAUserId(key: string, userId: string): void {
     if (this.isIos()) {
       try {
-        console.log('set GA user id');
         const uniqueUserId = createHash('sha256')
           .update(userId || 'unavailable')
           .digest('hex');
-        console.log(`set GA user id: ${uniqueUserId}`);
+
+        gtag('config', key, {
+          send_page_view: false,
+          user_id: uniqueUserId,
+        });
 
         this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, uniqueUserId);
       } catch (error) {
