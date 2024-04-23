@@ -81,28 +81,25 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   };
 
   /**
-   * Sets the Google Analytics user ID and custom dimension.
-   *
-   * Hashes the provided user ID to create a unique user ID,
-   * sets it as a custom dimension in Google Analytics, and configures Google Analytics
-   * to use the unique user ID for tracking for all events by this user for this session
-   *
-   * @param {string} key
-   * @param {string} userId
+   * Sets the Google Analytics user ID custom dimension.
+   * Generates a unique user ID based on the provided user ID or a default value.
+   * Set config to send page view false to prevent duplicate page views.
+   * @param key
+   * @param userId
    */
   setGAUserId(key: string, userId: string): void {
     if (this.isIos()) {
       try {
-        console.log('set GA user id');
         const uniqueUserId = createHash('sha256')
           .update(userId || 'unavailable')
           .digest('hex');
-        console.log(`set GA user id: ${uniqueUserId}`);
-        this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, uniqueUserId);
+
         gtag('config', key, {
           send_page_view: false,
           user_id: uniqueUserId,
         });
+
+        this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, uniqueUserId);
       } catch (error) {
         console.log('Analytics - setGAUserId error', error);
       }
@@ -171,8 +168,11 @@ export class AnalyticsProvider implements IAnalyticsProvider {
    * @param title3
    * @param value3
    */
-  logGAEvent(eventName: string, title1?: string, value1?: string,
-    title2?: string, value2?: string, title3?: string, value3?: string,
+  logGAEvent(
+    eventName: string,
+    title1?: string, value1?: string,
+    title2?: string, value2?: string,
+    title3?: string, value3?: string,
   ): void {
     this.platform.ready()
       .then(() => {
