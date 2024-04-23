@@ -171,7 +171,7 @@ export class JournalEffects {
   pollingSetup$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SetupPolling),
     switchMap(() => {
-      // Switch map the manual refreshes so they restart the timer.
+      // Switch map the manual refreshes, restarting the timer.
       const manualRefreshes$ = this.actions$.pipe(
         ofType(journalActions.LoadJournal),
         // Initial emission so poll doesn't wait until the first manual refresh

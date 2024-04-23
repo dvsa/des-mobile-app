@@ -20,7 +20,7 @@ import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { LoadJournalSilent } from '@store/journal/journal.actions';
+import { LoadCompletedTests, LoadJournalSilent } from '@store/journal/journal.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import {
   CompletedTestPersistenceProviderMock,
@@ -226,6 +226,21 @@ describe('DashboardPage', () => {
           .toHaveBeenCalled();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(LoadJournalSilent());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(LoadCompletedTests(true));
+      });
+      it('should exclude various actions when delegated examiner', async () => {
+        spyOn(BasePageComponent.prototype, 'isIos')
+          .and
+          .returnValue(true);
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and
+          .returnValue({ role: ExaminerRole.DLG } as AppConfig);
+        await component.ionViewDidEnter();
+        expect(store$.dispatch)
+          .not.toHaveBeenCalledWith(LoadJournalSilent());
+        expect(store$.dispatch)
+          .not.toHaveBeenCalledWith(LoadCompletedTests(true));
       });
     });
     describe('showTestReportPracticeMode', () => {
