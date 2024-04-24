@@ -54,6 +54,7 @@ describe('JournalPage', () => {
   let component: JournalPage;
   let store$: Store<StoreModel>;
   let loaderService: LoadingProvider;
+  let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   const loadingOpts: LoadingOptions = {
     id: 'journal_loading_spinner',
     spinner: 'circles',
@@ -137,6 +138,7 @@ describe('JournalPage', () => {
           provide: ActivatedRoute,
           useClass: ActivatedRouteMock,
         },
+
       ],
     });
 
@@ -146,6 +148,7 @@ describe('JournalPage', () => {
     component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
+    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     spyOn(store$, 'dispatch');
     spyOn(loaderService, 'handleUILoading');
     spyOn(BasePageComponent.prototype, 'isIos')
@@ -288,17 +291,22 @@ describe('JournalPage', () => {
           .toHaveBeenCalled();
         expect(component.configurePlatformSubscriptions)
           .toHaveBeenCalled();
+        expect(completedTestPersistenceProvider.loadCompletedPersistedTests)
+          .toHaveBeenCalled();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(journalActions.LoadCompletedTests(true));
       });
     });
 
     describe('refreshJournal', () => {
       it('should run loadJournalManually', async () => {
-        spyOn(component, 'loadJournalManually')
-          .and
-          .callThrough();
+        spyOn(component, 'loadJournalManually').and.callThrough();
+        spyOn(component, 'loadCompletedTestsWithCallThrough').and.callThrough();
 
         await component.refreshJournal();
         expect(component.loadJournalManually)
+          .toHaveBeenCalled();
+        expect(component.loadCompletedTestsWithCallThrough)
           .toHaveBeenCalled();
       });
     });
