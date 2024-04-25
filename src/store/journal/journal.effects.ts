@@ -242,7 +242,7 @@ export class JournalEffects {
         endDate,
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
-        excludeAutoSavedTests: 'true',
+        excludeAutoSavedTests: 'false',
         activityCode: '',
         category: '',
       };

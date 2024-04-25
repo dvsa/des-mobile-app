@@ -118,15 +118,22 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
+        select((tests) => {
+          const testStatus = getTestStatus(tests, slotId);
+          return testStatus === TestStatus.Autosaved ? testStatus : this.derivedTestStatus || testStatus;
+        }),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
-        map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
+        map((tests) => {
+          return this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId);
+        }),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
-        map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId)),
+        map((tests) => {
+          return this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId);
+        }),
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
