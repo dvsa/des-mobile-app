@@ -46,7 +46,6 @@ export const getEligibleTests = (
   filterByLocation: boolean = true,
   filterByCategory: boolean = true,
 ): ExaminerRecordModel[] => {
-  console.log('runningElig');
   return startedTests.filter((value: ExaminerRecordModel) => {
     return (!!range ? dateFilter(value, range as DateRange) : true) &&
         (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&
@@ -60,10 +59,13 @@ export const getEligibleTests = (
 export const getEmergencyStopCount = (
   startedTests: ExaminerRecordModel[],
 ): number => {
-
-  return (startedTests)
-    .filter((controlledStop) => ((get(controlledStop, 'controlledStop', null) === 'true')))
-    .length;
+  if (startedTests) {
+    return (startedTests)
+      .filter((controlledStop) => ((get(controlledStop, 'controlledStop', null) === 'true')))
+      .length;
+  } else {
+    return 0;
+  }
 };
 
 
@@ -72,10 +74,11 @@ export const getEmergencyStopCount = (
  * the amount of tests they have conducted there
  */
 export const getLocations = (
-  eligibleTests: ExaminerRecordModel[],
+  startedTests: ExaminerRecordModel[],
+  range: ExaminerRecordsRange = null,
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
-  const data = (eligibleTests)
+  const data = getEligibleTests(startedTests, null, range, null)
     .filter((record) => !!get(record, 'testCentre', null).centreId);
 
   return uniqBy(data.map(({ testCentre }) => {
@@ -116,7 +119,7 @@ export const getIndependentDrivingStats = (
     indDrivingOptions = ['Traffic signs', 'Sat nav'];
   }
 
-  const data: string[] = getEligibleTests(startedTests)
+  const data: string[] = (startedTests)
     // extract cost codes
     .map((record: ExaminerRecordModel) => get(record, 'independentDriving', null))
     // filter for any nulls
@@ -173,14 +176,14 @@ export const getCircuits = (
  */
 export const getCategories = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory,
   range: ExaminerRecordsRange,
+  category: TestCategory,
   centreId: number,
 ): {
   item: TestCategory;
   count: number
 }[] => {
-  const data = (startedTests)
+  const data = getEligibleTests(startedTests, null, range, null, false)
     .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId', null) === centreId);
 
   return uniqBy(data.map(({ testCategory }) => {
@@ -200,7 +203,7 @@ export const getCategories = (
 export const getStartedTestCount = (
   startedTests: ExaminerRecordModel[],
 ): number =>
-  (startedTests).length;
+  !!startedTests ? startedTests.length : 0;
 
 
 /**
@@ -209,20 +212,23 @@ export const getStartedTestCount = (
 export const getRouteNumbers = (
   startedTests: ExaminerRecordModel[],
 ): ExaminerRecordData<string>[] => {
+  if (startedTests) {
+    const data = (startedTests)
+      .filter((record: ExaminerRecordModel) => get(record, 'routeNumber', null) !== null);
 
-  const data = (startedTests)
-    .filter((record: ExaminerRecordModel) => get(record, 'routeNumber', null) !== null);
-
-  return uniqBy(data.map(({ routeNumber }) => {
-    const count = data.filter((val) => val.routeNumber === routeNumber).length;
-    return {
-      item: `R${routeNumber} - Route ${routeNumber}`,
-      count,
-      percentage: `${((count) / data.length * 100).toFixed(1)}%`,
-    };
-  }), 'item')
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+    return uniqBy(data.map(({ routeNumber }) => {
+      const count = data.filter((val) => val.routeNumber === routeNumber).length;
+      return {
+        item: `R${routeNumber} - Route ${routeNumber}`,
+        count,
+        percentage: `${((count) / data.length * 100).toFixed(1)}%`,
+      };
+    }), 'item')
+      .sort((item1, item2) =>
+        getIndex(item1.item as string) - getIndex(item2.item as string));
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -234,32 +240,36 @@ export const getSafetyQuestions = (
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
-  const questions = [
-    ...qp.getSafetyQuestions(category)
-      .map((q) => ({
-        code: q.code,
-        description: q.shortName,
-      })),
-  ];
+  if (startedTests) {
+    const questions = [
+      ...qp.getSafetyQuestions(category)
+        .map((q) => ({
+          code: q.code,
+          description: q.shortName,
+        })),
+    ];
 
-  const data = (startedTests)
-    .flatMap((record: ExaminerRecordModel) => [
-      ...get(record, 'safetyQuestions', []) as QuestionResult[],
-    ])
-    // filter for any empty string/null values
-    .filter((question: SafetyQuestionResult | QuestionResult) =>
-      ('code' in question) ? !!question?.code : !!question?.description);
+    const data = (startedTests)
+      .flatMap((record: ExaminerRecordModel) => [
+        ...get(record, 'safetyQuestions', []) as QuestionResult[],
+      ])
+      // filter for any empty string/null values
+      .filter((question: SafetyQuestionResult | QuestionResult) =>
+        ('code' in question) ? !!question?.code : !!question?.description);
 
-  return questions.map((q) => {
-    const count = data.filter((val) => val.code === q.code).length;
-    return {
-      item: `${q.code} - ${q.description}`,
-      count,
-      percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions.map((q) => {
+      const count = data.filter((val) => val.code === q.code).length;
+      return {
+        item: `${q.code} - ${q.description}`,
+        count,
+        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+      };
+    })
+      .sort((item1, item2) =>
+        getIndex(item1.item as string) - getIndex(item2.item as string));
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -271,30 +281,34 @@ export const getBalanceQuestions = (
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
-  const questions = [
-    ...qp.getBalanceQuestions(category)
-      .map((q) => ({
-        code: q.code,
-        description: q.shortName,
-      })),
-  ];
+  if (startedTests) {
+    const questions = [
+      ...qp.getBalanceQuestions(category)
+        .map((q) => ({
+          code: q.code,
+          description: q.shortName,
+        })),
+    ];
 
-  const data = (startedTests)
-    .flatMap((record: ExaminerRecordModel) => get(record, 'balanceQuestions', []) as QuestionResult[])
-    // filter for any empty string/null values
-    .filter((question: QuestionResult) =>
-      ('code' in question) ? !!question?.code : !!question?.description);
+    const data = (startedTests)
+      .flatMap((record: ExaminerRecordModel) => get(record, 'balanceQuestions', []) as QuestionResult[])
+      // filter for any empty string/null values
+      .filter((question: QuestionResult) =>
+        ('code' in question) ? !!question?.code : !!question?.description);
 
-  return questions.map((q) => {
-    const count = data.filter((val) => val.code === q.code).length;
-    return {
-      item: `${q.code} - ${q.description}`,
-      count,
-      percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions.map((q) => {
+      const count = data.filter((val) => val.code === q.code).length;
+      return {
+        item: `${q.code} - ${q.description}`,
+        count,
+        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+      };
+    })
+      .sort((item1, item2) =>
+        getIndex(item1.item as string) - getIndex(item2.item as string));
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -306,23 +320,27 @@ export const getShowMeQuestions = (
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
 
-  const questions = qp.getShowMeQuestions(category).filter((q) => q.code !== 'N/A');
+  if (startedTests) {
+    const questions = qp.getShowMeQuestions(category).filter((q) => q.code !== 'N/A');
 
-  const data = (startedTests)
-    .flatMap((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])
-    // filter for any empty string/null values
-    .filter((question: QuestionResult) => !!question?.code);
+    const data = (startedTests)
+      .flatMap((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])
+      // filter for any empty string/null values
+      .filter((question: QuestionResult) => !!question?.code);
 
-  return questions.map((q) => {
-    const count = data.filter((val) => val.code === q.code).length;
-    return {
-      item: `${q.code} - ${q.shortName}`,
-      count,
-      percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions.map((q) => {
+      const count = data.filter((val) => val.code === q.code).length;
+      return {
+        item: `${q.code} - ${q.shortName}`,
+        count,
+        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+      };
+    })
+      .sort((item1, item2) =>
+        getIndex(item1.item as string) - getIndex(item2.item as string));
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -333,22 +351,27 @@ export const getTellMeQuestions = (
   category: TestCategory = null,
 ): ExaminerRecordData<string>[] => {
   const qp = new QuestionProvider();
-  const questions = qp.getTellMeQuestions(category);
-  const data = (startedTests)
-    .flatMap((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
-    // filter for any empty string/null values
-    .filter((question: QuestionResult) => !!question?.code);
 
-  return questions.map((q) => {
-    const count = data.filter((val) => val.code === q.code).length;
-    return {
-      item: `${q.code} - ${q.shortName}`,
-      count,
-      percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+  if (startedTests) {
+    const questions = qp.getTellMeQuestions(category);
+    const data = (startedTests)
+      .flatMap((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
+    // filter for any empty string/null values
+      .filter((question: QuestionResult) => !!question?.code);
+
+    return questions.map((q) => {
+      const count = data.filter((val) => val.code === q.code).length;
+      return {
+        item: `${q.code} - ${q.shortName}`,
+        count,
+        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+      };
+    })
+      .sort((item1, item2) =>
+        getIndex(item1.item as string) - getIndex(item2.item as string));
+  } else {
+    return [];
+  }
 };
 
 /**
