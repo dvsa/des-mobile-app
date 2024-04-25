@@ -43,11 +43,14 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       await this.setGoogleTagManager(this.googleAnalytics4Key);
       await this.platform.ready();
 
-      const employeeId = this.authProvider.getEmployeeId();
+      const employeeId = createHash('sha256')
+        .update(this.authProvider.getEmployeeId() || 'unavailable')
+        .digest('hex');
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
       const deviceModel = await this.device.getDeviceName();
 
-      this.setGAUserId(this.googleAnalytics4Key, employeeId);
+      this.setGAGlobalConfig(this.googleAnalytics4Key, employeeId);
+      this.setGAUserId(employeeId);
       this.setGADeviceId(uniqueDeviceId);
       this.addGACustomDimension(GoogleAnalyticsCustomDimension.DEVICE_MODEL, deviceModel);
     } catch (error) {
@@ -81,25 +84,34 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   };
 
   /**
-   * Sets the Google Analytics user ID custom dimension.
-   * Generates a unique user ID based on the provided user ID or a default value.
-   * Set config to send page view false to prevent duplicate page views.
-   * @param key
-   * @param userId
+   * Sets the Google Analytics global configuration for the provided key.
+   * Disables the default page view tracking for all events by this user for this session.
+   *
+   * @param {string} key - The Google Analytics key to set the global configuration for.
+   * @param {string} userId
    */
-  setGAUserId(key: string, userId: string): void {
+  setGAGlobalConfig(key: string, userId: string): void {
     if (this.isIos()) {
       try {
-        const uniqueUserId = createHash('sha256')
-          .update(userId || 'unavailable')
-          .digest('hex');
-
         gtag('config', key, {
           send_page_view: false,
-          user_id: uniqueUserId,
+          user_id: userId,
         });
 
-        this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, uniqueUserId);
+      } catch (error) {
+        console.log('Analytics - setGAGlobalConfig error', error);
+      }
+    }
+  }
+
+  /**
+   * Sets the Google Analytics user ID custom dimension.
+   * @param userId
+   */
+  setGAUserId(userId: string): void {
+    if (this.isIos()) {
+      try {
+        this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, userId);
       } catch (error) {
         console.log('Analytics - setGAUserId error', error);
       }

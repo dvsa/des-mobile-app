@@ -278,7 +278,7 @@ export enum GoogleAnalyticsCustomDimension {
   CANDIDATE_ID = 'candidate_id',
   APPLICATION_REFERENCE = 'application_reference',
   TEST_CATEGORY = 'test_category',
-  USER_ID = 'user_id',
+  USER_ID = 'unique_user_id',
   DEVICE_MODEL = 'device_model',
 }
 
