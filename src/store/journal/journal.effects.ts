@@ -36,7 +36,6 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
@@ -51,6 +50,7 @@ import {
   getSelectedDate,
   getSlots,
 } from './journal.selector';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 @Injectable()
 export class JournalEffects {
@@ -171,7 +171,7 @@ export class JournalEffects {
   pollingSetup$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SetupPolling),
     switchMap(() => {
-      // Switch map the manual refreshes so they restart the timer.
+      // Switch map the manual refreshes, restarting the timer.
       const manualRefreshes$ = this.actions$.pipe(
         ofType(journalActions.LoadJournal),
         // Initial emission so poll doesn't wait until the first manual refresh
@@ -204,9 +204,7 @@ export class JournalEffects {
       .pipe(
         withLatestFrom(
           this.store$.pipe(
-            select(getJournalState),
-            select(getExaminer),
-            select(getStaffNumber),
+            select(selectEmployeeId)
           ),
           this.store$.pipe(
             select(getTests),
@@ -226,20 +224,25 @@ export class JournalEffects {
       if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
       if (action.callThrough) return true;
 
+
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
     switchMap(([, staffNumber]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
-      const dateTime = new DateTime();
+
+      const startDate = new DateTime()
+        .subtract(numberOfDaysToView, Duration.DAY)
+        .format('YYYY-MM-DD');
+
+      const endDate = new DateTime()
+        .format('YYYY-MM-DD');
+
       const advancedSearchParams: AdvancedSearchParams = {
-        startDate: dateTime
-          .subtract(numberOfDaysToView, Duration.DAY)
-          .format('YYYY-MM-DD'),
-        endDate: dateTime
-          .format('YYYY-MM-DD'),
+        startDate,
+        endDate,
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
-        excludeAutoSavedTests: 'true',
+        excludeAutoSavedTests: 'false',
         activityCode: '',
         category: '',
       };

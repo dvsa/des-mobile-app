@@ -59,7 +59,7 @@ export class SlotSelectorProvider {
     return completedTest.activityCode;
   }
 
-  private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[] = []) => {
+  private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
     if (isEmpty(completedTests)) {
       return null;
     }
