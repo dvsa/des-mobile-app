@@ -20,10 +20,9 @@ import { WarningBannerComponent } from '@components/common/warning-banner/warnin
 import {
   LicenceProvidedWarningBannerComponent,
 } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -66,7 +65,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterModule.forRoot([]),
         AppModule,
       ],
       providers: [
