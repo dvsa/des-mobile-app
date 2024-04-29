@@ -23,8 +23,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TransmissionType } from '@shared/models/transmission-type';
@@ -270,7 +269,7 @@ describe('PassFinalisationCatCPage', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterModule.forRoot([]),
         AppModule,
       ],
       providers: [

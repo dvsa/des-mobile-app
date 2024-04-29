@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -11,7 +11,6 @@ import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
 import {
   FurtherDevelopmentComponent,
@@ -118,7 +117,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
         MockComponent(FurtherDevelopmentComponent),
       ],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterModule.forRoot([]),
         AppModule,
       ],
       providers: [

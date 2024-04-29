@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, ModalController, Platform } from '@ionic/angular';
 import { AlertControllerMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, Subscription } from 'rxjs';
@@ -78,7 +77,7 @@ describe('DashboardPage', () => {
     TestBed.configureTestingModule({
       declarations: [DashboardPage],
       imports: [
-        RouterTestingModule.withRoutes(
+        RouterModule.forRoot(
           [
             {
               path: '',

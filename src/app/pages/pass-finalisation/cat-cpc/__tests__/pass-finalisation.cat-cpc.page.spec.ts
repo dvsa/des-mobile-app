@@ -17,8 +17,7 @@ import {
 import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -46,7 +45,7 @@ describe('PassFinalisationCatCPCPage', () => {
         MockComponent(WarningBannerComponent),
       ],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterModule.forRoot([]),
         AppModule,
       ],
       providers: [
