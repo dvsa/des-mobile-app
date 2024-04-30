@@ -83,6 +83,7 @@ export class ExaminerRecordsPage implements OnInit {
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
   testSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
+  testsInRangeSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
   eligTestSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
   rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
   locationSubject$ = new BehaviorSubject<number | null>(null);
@@ -136,6 +137,15 @@ export class ExaminerRecordsPage implements OnInit {
         this.locationSubject$.value,
       ));
   }
+  private filterDates() {
+    this.testsInRangeSubject$.next(
+      getEligibleTests(
+        this.testSubject$.value,
+        null,
+        this.rangeSubject$.value,
+        null,
+      ));
+  }
 
   /**
    * wrapper used to reduce/centralise code
@@ -172,14 +182,14 @@ export class ExaminerRecordsPage implements OnInit {
   ): Observable<T> => combineLatest(
     [
       this.locationSubject$.asObservable(),
-      this.rangeSubject$.asObservable(),
+      this.testsInRangeSubject$.asObservable(),
 
     ])
     .pipe(
       // return an observable using the generic `fn`
       switchMap(() => {
         return of(fn(
-          this.testSubject$.value,
+          this.testsInRangeSubject$.value,
           this.rangeSubject$.value,
           this.categorySubject$.value,
           this.locationSubject$.value,
@@ -198,13 +208,13 @@ export class ExaminerRecordsPage implements OnInit {
   ) => T,
   ): Observable<T> => combineLatest(
     [
-      this.rangeSubject$.asObservable(),
+      this.testsInRangeSubject$.asObservable(),
     ])
     .pipe(
       // return an observable using the generic `fn`
       switchMap(() => {
         return of(fn(
-          this.testSubject$.value,
+          this.testsInRangeSubject$.value,
           this.rangeSubject$.value,
           this.categorySubject$.value,
           this.locationSubject$.value,
@@ -459,6 +469,7 @@ export class ExaminerRecordsPage implements OnInit {
   handleDateFilter(event: CustomEvent): void {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
+    this.filterDates();
 
     this.store$.dispatch(DateRangeChanged(event.detail?.value));
   }
