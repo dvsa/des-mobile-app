@@ -40,7 +40,7 @@ export class ExaminerRecordsEffects {
           this.store$.select(selectExaminerRecords),
         ),
       )),
-    switchMap(async (
+    concatMap(async (
       [, examinerRecordsPreferences],
     ) => this.dataStore.setItem(
       ExaminerRecordsEffects.EXAMINER_RECORDS_KEY, JSON.stringify(examinerRecordsPreferences))
