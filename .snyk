@@ -1,18 +1,11 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
 version: v1.25.0
 
-# TEMPLATE
-#  SNYK-LANG-PKG-NUM:
-#    - '*':
-#        reason: Remediation not yet available
-#        expires: 2023-08-27T09:01:15.119Z
-#        created: 2022-08-08T09:01:15.122Z
-
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-JS-INFLIGHT-6095116:
     - '*':
         reason: Missing Release of Resource after Effective Lifetime - Remediation not yet available
-        expires: 2024-05-01T09:00:00.119Z
+        expires: 2024-06-01T09:00:00.119Z
         created: 2023-12-04T09:00:00.122Z
 patch: {}
