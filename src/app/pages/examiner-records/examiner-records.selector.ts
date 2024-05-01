@@ -119,14 +119,12 @@ export const getIndependentDrivingStats = (
     indDrivingOptions = ['Traffic signs', 'Sat nav'];
   }
 
-  const data: string[] = (startedTests)
+  const data: ExaminerRecordModel[] = (startedTests)
     // extract cost codes
-    .map((record: ExaminerRecordModel) => get(record, 'independentDriving', null))
-    // filter for any nulls
-    .filter((driving) => !!driving);
+    .filter((record) => !!get(record, 'independentDriving', null));
 
   return indDrivingOptions.map((item: string, index) => {
-    const count = data.filter((val) => val === item).length;
+    const count = data.filter((val) => val.independentDriving === item).length;
     return {
       item: `I${index + 1} - ${item}`,
       count,
@@ -152,14 +150,13 @@ export const getCircuits = (
   }
   const circuitOptions = ['Left', 'Right'];
 
-  const data: string[] = (startedTests)
-    // extract cost codes
-    .map((record: ExaminerRecordModel) => get(record, 'circuit', null))
-    // filter for any nulls
-    .filter((driving) => !!driving);
+  const data: ExaminerRecordModel[] = (startedTests)
+    // extract circuits
+    .filter((record) => !!get(record, 'circuit', null));
+
 
   return circuitOptions.map((item: string, index) => {
-    const count = data.filter((val) => val === item).length;
+    const count = data.filter((val) => val.circuit === item).length;
     return {
       item: `C${index + 1} - ${item}`,
       count,
