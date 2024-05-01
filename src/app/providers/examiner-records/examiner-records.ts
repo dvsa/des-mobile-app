@@ -68,7 +68,8 @@ export class ExaminerRecordsProvider {
     },
     monochrome: {
       name: ColourEnum.Monochrome,
-      pie: ['#474747',
+      pie: [
+        '#474747',
         '#5A5A5A',
         '#6E6E6E',
         '#818181',

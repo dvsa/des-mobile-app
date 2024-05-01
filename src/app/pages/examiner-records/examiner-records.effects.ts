@@ -57,7 +57,7 @@ export class ExaminerRecordsEffects {
     //cache results
     map((examinerRecords: ExaminerRecordModel[]) => {
       this.store$.dispatch(CacheExaminerRecords(examinerRecords));
-      if (examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
+      if (!!examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
     }),
   ), { dispatch: false });
 }

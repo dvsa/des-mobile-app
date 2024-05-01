@@ -20,7 +20,7 @@ import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-recor
 
 @Injectable()
 export class ExaminerRecordsEffects {
-  private static readonly EXAMINER_STATS_KEY: StorageKey = LocalStorageKey.EXAMINER_STATS_KEY;
+  private static readonly EXAMINER_RECORDS_KEY: StorageKey = LocalStorageKey.EXAMINER_STATS_KEY;
 
   constructor(
     private actions$: Actions,
@@ -32,6 +32,7 @@ export class ExaminerRecordsEffects {
     ofType(
       ColourFilterChanged,
       CacheExaminerRecords,
+      UpdateLastCached,
     ),
     concatMap((action) => of(action)
       .pipe(
@@ -40,13 +41,15 @@ export class ExaminerRecordsEffects {
         ),
       )),
     switchMap(async (
-      [, examinerStatPreferences],
-    ) => this.dataStore.setItem(ExaminerRecordsEffects.EXAMINER_STATS_KEY, JSON.stringify(examinerStatPreferences))),
+      [, examinerRecordsPreferences],
+    ) => this.dataStore.setItem(
+      ExaminerRecordsEffects.EXAMINER_RECORDS_KEY, JSON.stringify(examinerRecordsPreferences))
+    ),
   ), { dispatch: false });
 
   loadExaminerRecordsPreferences$ = createEffect(() => this.actions$.pipe(
     ofType(LoadExaminerRecordsPreferences),
-    concatMap(() => this.dataStore.getItem(ExaminerRecordsEffects.EXAMINER_STATS_KEY)),
+    concatMap(() => this.dataStore.getItem(ExaminerRecordsEffects.EXAMINER_RECORDS_KEY)),
     switchMap((examinerRecords) => {
       if (!examinerRecords) {
         return [LoadExaminerRecordsFailure('Examiner stats preferences not found')];
