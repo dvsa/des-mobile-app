@@ -128,6 +128,9 @@ export class ExaminerRecordsPage implements OnInit {
     await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
   }
 
+  /**
+   * get and save the tests we will use to get the data used for record cards
+   */
   private changeEligibleTests() {
     this.eligTestSubject$.next(
       getEligibleTests(
@@ -137,6 +140,10 @@ export class ExaminerRecordsPage implements OnInit {
         this.locationSubject$.value,
       ));
   }
+
+  /**
+   * get and save the tests that are within the selected date range
+   */
   private filterDates() {
     this.testsInRangeSubject$.next(
       getEligibleTests(
