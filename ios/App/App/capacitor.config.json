@@ -13,5 +13,26 @@
 	"cordova": {},
 	"ios": {
 		"preferredContentMode": "mobile"
-	}
+	},
+	"packageClassList": [
+		"KeepAwakePlugin",
+		"KeepAwakePlugin",
+		"AppPlugin",
+		"AppLauncherPlugin",
+		"DevicePlugin",
+		"SplashScreenPlugin",
+		"StatusBarPlugin",
+		"TextZoomPlugin",
+		"ManagedConfigurationsPlugin",
+		"ManagedConfigurationsPlugin",
+		"ScreenOrientationPlugin",
+		"ScreenOrientationPlugin",
+		"AsamPlugin",
+		"AsamPlugin",
+		"SentryCapacitor",
+		"SentryCapacitor",
+		"NativeBiometric",
+		"NativeBiometric",
+		"CDVPlugin"
+	]
 }

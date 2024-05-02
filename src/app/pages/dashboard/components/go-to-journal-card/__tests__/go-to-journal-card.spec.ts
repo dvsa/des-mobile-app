@@ -1,5 +1,4 @@
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { JournalPage } from '@pages/journal/journal.page';
@@ -17,7 +16,7 @@ describe('GoToJournalCard', () => {
       declarations: [GoToJournalCardComponent],
       imports: [
         IonicModule,
-        RouterTestingModule.withRoutes(
+        RouterModule.forRoot(
           [
             {
               path: 'journal',

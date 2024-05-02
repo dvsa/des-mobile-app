@@ -1,10 +1,9 @@
 import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, LoadingController, MenuController, Platform } from '@ionic/angular';
-import { Navigation, NavigationExtras, Router } from '@angular/router';
+import { Navigation, NavigationExtras, Router, RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -52,7 +51,7 @@ describe('LoginPage', () => {
     TestBed.configureTestingModule({
       declarations: [LoginPage],
       imports: [
-        RouterTestingModule.withRoutes(
+        RouterModule.forRoot(
           [
             {
               path: '',
