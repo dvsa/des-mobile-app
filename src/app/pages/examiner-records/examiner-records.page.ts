@@ -356,7 +356,15 @@ export class ExaminerRecordsPage implements OnInit {
 
             //add every completed category to category array
             value.forEach((val) => {
-              this.categoryFilterOptions.push(val.item);
+              if (!([
+                TestCategory.ADI2,
+                TestCategory.ADI3,
+                TestCategory.SC,
+                TestCategory.CCPC,
+                TestCategory.DCPC,
+              ].includes(val.item))) {
+                this.categoryFilterOptions.push(val.item);
+              }
             });
 
             if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
