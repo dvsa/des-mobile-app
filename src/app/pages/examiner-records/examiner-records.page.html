@@ -144,70 +144,76 @@
       </ion-col>
       <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
-          [showExpandedData]="showExpandedData"
-          [showMainContent]="!hideMainContent"
-          [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
-          [averageColour]="colourOption.average"
-          [hasCustomExpandedContent]="!isBike()"
-          [chartSubtitle]="!isBike()"
-          [isPortrait]="orientationProvider.isPortraitMode$ | async"
-          [gridHeaders]="['Type', 'Amount', '%']"
-          [displayColoursOnDataGrid]="!hideMainContent"
           [canExpand]="!hideMainContent"
-          [useGrid]="isBike()"
-          [chartID]="'independentDriving'"
-          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-          [splitChartLabel]="true"
-          [chartType]="'pie'"
-          [colourScheme]="colourOption.pie"
+          [showExpandedData]="showExpandedData"
+          [hasChart]="false"
+          [hasCustomMainContent]="true"
+          [hasCustomExpandedContent]="true"
+          [useGrid]="false"
+          [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [passedData]="data.independentDrivingGrid"
         >
-          <div subtitle>
-            {{'Ratio of tests using traffic signs is' }}
-            <br />
-            {{calculateRatio(data.independentDrivingGrid[0].count,data.independentDrivingGrid[1].count, 5)}}
+          <div head class="width-100-percent">
+            <ion-row>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ data.independentDrivingGrid[0].percentage }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="ion-justify-content-center padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6">
+                    {{(data.independentDrivingGrid[0].item).split("- ")[1]}}
+                  </ion-text>
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ data.independentDrivingGrid[1].percentage }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="ion-justify-content-center padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6">
+                    {{(data.independentDrivingGrid[1].item).split("- ")[1]}}
+                  </ion-text>
+                </ion-row>
+              </ion-col>
+            </ion-row>
           </div>
           <div body>
             <data-row
-              class="additional-data-row padding-top-10"
+              class="additional-data-row target-padding"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
               [centreData]="true"
-              [value]="data.testCount"
-              label="Number of tests in range"
-            >
-            </data-row>
-            <ion-row *ngFor="let drive of data.independentDrivingGrid; let i = index">
-              <ion-col *ngIf="!hideMainContent" class="display-flex ion-align-items-center" size="10">
-                <span [style.background-color]="colourOption.pie[i]" class="dot"></span>
-              </ion-col>
-              <ion-col [size]="hideMainContent ? 56 : 46">
-                <label class="regular-weight"> {{ data.independentDrivingGrid[i].item }} </label>
-              </ion-col>
-              <ion-col class="display-flex ion-align-items-center ion-justify-content-center">
-                <label class="regular-weight"> {{ data.independentDrivingGrid[i].count }} </label>
-              </ion-col>
-            </ion-row>
-            <data-row
-              class="additional-data-row padding-top-10"
-              [customLabelWidth]="50"
-              [rowStyling]="{'padding': '0'}"
-              [value]="'33%'"
-              [shouldHaveSeperator]="false"
-              [centreData]="true"
-              label="Target percentage"
+              [value]="data.independentDrivingGrid[0].count + ' ('+data.independentDrivingGrid[0].percentage+')'"
+              label='Tests using {{(data.independentDrivingGrid[0].item).split("- ")[1].toLowerCase()}}'
             >
             </data-row>
             <data-row
-              class="additional-data-row padding-top-10"
+              class="additional-data-row target-padding"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0'}"
-              [value]="'1 : 5'"
+              [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
               [centreData]="true"
-              label="Target ratio"
+              [value]="data.independentDrivingGrid[1].count + ' ('+data.independentDrivingGrid[1].percentage+')'"
+              label='Tests using {{(data.independentDrivingGrid[1].item).split("- ")[1].toLowerCase()}}'
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [centreData]="true"
+              [value]="'20%'"
+              label='Target percentage of tests using {{(data.independentDrivingGrid[0].item).split("-")[1].toLowerCase()}}'
             >
             </data-row>
           </div>
@@ -225,7 +231,7 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [passedData]="data.emergencyStops"
         >
-          <div head>
+          <div head class="width-100-percent">
             <ion-row>
               <ion-col>
                 <ion-row class="ion-justify-content-center">
@@ -233,20 +239,8 @@
                     {{ data.emergencyStops[0].percentage }}
                   </ion-text>
                 </ion-row>
-                <ion-row class="padding-top-10">
-                  <ion-text class="ion-text-center des-header-style-6"> % of tests with an emergency stop</ion-text>
-                </ion-row>
-              </ion-col>
-              <ion-col>
-                <ion-row class="ion-justify-content-center">
-                  <ion-text class="ion-text-center des-header-style-1">
-                    {{ calculateRatio(data.emergencyStops[0].count, data.emergencyStops[1].count, 3) }}
-                  </ion-text>
-                </ion-row>
-                <ion-row class="padding-top-10">
-                  <ion-text class="ion-text-center des-header-style-6">
-                    Ratio of tests with an emergency stop
-                  </ion-text>
+                <ion-row class="ion-justify-content-center padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6"> Emergency stop</ion-text>
                 </ion-row>
               </ion-col>
             </ion-row>
@@ -259,38 +253,30 @@
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
               [centreData]="true"
-              [value]="data.testCount"
-              label="Number of tests in range"
-            >
-            </data-row>
-            <data-row
-              class="additional-data-row padding-top-10"
-              [customLabelWidth]="50"
-              [rowStyling]="{'padding': '0'}"
-              [value]="data.emergencyStops[0].count"
-              [shouldHaveSeperator]="false"
-              [centreData]="true"
-              label="Emergency stops performed"
+              [value]="data.emergencyStops[0].count + ' ('+data.emergencyStops[0].percentage+')'"
+              label="Tests with an emergency stop"
             >
             </data-row>
             <data-row
               class="additional-data-row target-padding"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0'}"
-              [value]="'33%'"
+              [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
               [centreData]="true"
-              label="Target percentage"
+              [value]="data.emergencyStops[1].count + ' ('+data.emergencyStops[1].percentage+')'"
+              label="Tests without emergency stop"
             >
             </data-row>
             <data-row
-              class="additional-data-row padding-top-10"
+              class="additional-data-row target-padding"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0'}"
-              [value]="'1 : 3'"
+              [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
               [centreData]="true"
-              label="Target ratio"
+              [value]="'33%'"
+              label="Target percentage of tests with an emergency stop"
             >
             </data-row>
           </div>
