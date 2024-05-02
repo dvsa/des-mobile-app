@@ -124,24 +124,24 @@ export class ChartComponent implements OnInit, OnChanges {
       },
       dataLabels: {
         //enables an external display of the value of the chart element on any chart that isn't a bar
-        enabled: this.chartType !== 'bar',
+        enabled: true,
         //styling for this label
         style: {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
-          fontSize: '18px',
+          fontSize: '16px',
           fontWeight: 'bold',
           colors: [this.labelColour],
         },
         //gives the label a background color
         background: {
-          enabled: this.chartType !== 'bar',
+          enabled: true,
         },
         //disables drop shadow on the label
         dropShadow: {
           enabled: false,
         },
         //Applies an offset to the label for better positioning
-        offsetY: this.chartType === 'bar' ? -30 : 0,
+        offsetY: 5,
 
         formatter: (val, opts) => {
           //apply no styling if it's a bar chart
@@ -261,10 +261,12 @@ export class ChartComponent implements OnInit, OnChanges {
       //options for specific graph types
       plotOptions: {
         bar: {
-          //border for the elements to give them a curved appearance
-          borderRadius: 10,
           //determines whether the graph should render horizontally
           horizontal: this.horizontal,
+          dataLabels: {
+            orientation: 'horizontal',
+            position: 'bottom'
+          }
         },
         pie: {
           dataLabels: {
