@@ -122,6 +122,11 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
+  <ion-row>
+    <ion-text class="mes-padding-left mes-data">
+      Displaying <b>{{ data.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to <b>{{ endDateFilter }}</b>
+    </ion-text>
+  </ion-row>
 
   <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">
@@ -189,7 +194,6 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [centreData]="true"
               [value]="data.independentDrivingGrid[0].count + ' ('+data.independentDrivingGrid[0].percentage+')'"
               label='Tests using {{(data.independentDrivingGrid[0].item).split("- ")[1].toLowerCase()}}'
             >
@@ -200,7 +204,6 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [centreData]="true"
               [value]="data.independentDrivingGrid[1].count + ' ('+data.independentDrivingGrid[1].percentage+')'"
               label='Tests using {{(data.independentDrivingGrid[1].item).split("- ")[1].toLowerCase()}}'
             >
@@ -252,7 +255,6 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [centreData]="true"
               [value]="data.emergencyStops[0].count + ' ('+data.emergencyStops[0].percentage+')'"
               label="Tests with an emergency stop"
             >
@@ -263,7 +265,6 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [centreData]="true"
               [value]="data.emergencyStops[1].count + ' ('+data.emergencyStops[1].percentage+')'"
               label="Tests without emergency stop"
             >
