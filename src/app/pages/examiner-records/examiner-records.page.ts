@@ -29,7 +29,7 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
-import { DateRange } from '@shared/helpers/date-time';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -96,6 +96,8 @@ export class ExaminerRecordsPage implements OnInit {
   locationFilterOptions: TestCentre[] = null;
   categoryFilterOptions: TestCategory[] = null;
   cachedExaminerRecords: ExaminerRecordModel[] = null;
+  startDateFilter: string;
+  endDateFilter: string = new DateTime().format('DD/MM/YYYY');
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
@@ -484,6 +486,7 @@ export class ExaminerRecordsPage implements OnInit {
   handleDateFilter(event: CustomEvent): void {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
+    this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
     this.filterDates();
 
     this.store$.dispatch(DateRangeChanged(event.detail?.value));

@@ -21,6 +21,7 @@ import {
 } from '@store/examiner-records/examiner-records.selectors';
 import { Router } from '@angular/router';
 import { LoadingProvider } from '@providers/loader/loader';
+import moment from 'moment';
 
 export interface ColourScheme {
   name: ColourEnum,
@@ -147,6 +148,38 @@ export class ExaminerRecordsProvider {
     }
     return null;
   };
+
+  /**
+  Get the date from a set date range ago in order to display on screen
+   */
+  getRangeDate(range: DateRange) {
+    let dateRange: moment.Moment = null;
+
+    switch (range) {
+      case 'today':
+        dateRange = moment(new Date())
+          .subtract(1, 'day');
+        break;
+      case 'week':
+        dateRange = moment(new Date())
+          .subtract(1, 'week');
+        break;
+      case 'fortnight':
+        dateRange = moment(new Date())
+          .subtract(2, 'week');
+        break;
+      case '1 year':
+        dateRange = moment(new Date())
+          .subtract(1, 'year');
+        break;
+      case '2 years':
+        dateRange = moment(new Date())
+          .subtract(2, 'year');
+        break;
+    }
+
+    return dateRange;
+  }
 
   /**
    * changes test result to the ExaminerRecordModel format, which we then use for examiner records
