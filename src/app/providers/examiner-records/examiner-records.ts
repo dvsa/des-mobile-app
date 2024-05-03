@@ -161,6 +161,7 @@ export class ExaminerRecordsProvider {
 
     [
       { field: 'controlledStop', value: get(testResult, 'testData.controlledStop.selected') },
+      { field: 'extendedTest', value: get(testResult, 'journalData.testSlotAttributes.extendedTest') },
       { field: 'independentDriving', value: get(testResult, 'testSummary.independentDriving') },
       { field: 'circuit', value: get(testResult, 'testSummary.circuit') },
       { field: 'safetyQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.safetyQuestions') },

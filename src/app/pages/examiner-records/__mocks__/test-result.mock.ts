@@ -1546,7 +1546,7 @@ export const demonstrationMock: StartedTests = {
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
         'vehicleTypeCode': 'C',
-        'extendedTest': false,
+        'extendedTest': true,
         'examinerVisiting': false,
         'previousCancellation': ['Act of nature'],
         'entitlementCheck': false,
