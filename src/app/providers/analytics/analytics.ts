@@ -12,6 +12,7 @@ import {
   IAnalyticsProvider,
 } from './analytics.model';
 import { AuthenticationProvider } from '../authentication/authentication';
+import { AppInfoProvider } from '@providers/app-info/app-info';
 
 declare const gtag: Function;
 
@@ -29,6 +30,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     private platform: Platform,
     private device: DeviceProvider,
     private authProvider: AuthenticationProvider,
+    protected appInfo: AppInfoProvider,
   ) {
   }
 
@@ -48,11 +50,13 @@ export class AnalyticsProvider implements IAnalyticsProvider {
         .digest('hex');
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
       const deviceModel = await this.device.getDeviceName();
+      const appVersion: string = await this.appInfo.getFullVersionNumber();
 
       this.setGAGlobalConfig(this.googleAnalytics4Key, employeeId);
       this.setGAUserId(employeeId);
       this.setGADeviceId(uniqueDeviceId);
       this.addGACustomDimension(GoogleAnalyticsCustomDimension.DEVICE_MODEL, deviceModel);
+      this.addGACustomDimension(GoogleAnalyticsCustomDimension.APP_VERSION, appVersion);
     } catch (error) {
       console.error('Analytics - Error initializing Google Analytics:', error);
     }

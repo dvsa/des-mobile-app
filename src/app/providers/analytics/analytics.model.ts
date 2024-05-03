@@ -280,6 +280,7 @@ export enum GoogleAnalyticsCustomDimension {
   TEST_CATEGORY = 'test_category',
   USER_ID = 'unique_user_id',
   DEVICE_MODEL = 'device_model',
+  APP_VERSION = 'app_version',
 }
 
 export enum GoogleAnalyticsEvents {
