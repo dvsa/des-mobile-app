@@ -424,7 +424,7 @@ export const getManoeuvresUsed = (
   return manoeuvreTypeLabels.map((q, index) => {
     const count = faultsEncountered.filter((val) => val === q).length;
     return {
-      item: `M${index + 1} - ${q}`,
+      item: `E${index + 1} - ${q}`,
       count,
       percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
     };
