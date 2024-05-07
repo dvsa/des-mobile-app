@@ -8,13 +8,14 @@
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
     <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
   </div>
-  <ion-row class="position-fixed" *ngIf="displayScrollBanner">
-    <div class="background-colour ion-padding-top ion-padding-bottom width-1500">
-      <ion-text class="mes-padding-left mes-data">
-        Displaying <b>{{ pageState.testCount$ | async }}</b> tests, from <b>{{ startDateFilter }}</b> to
-        <b>{{ endDateFilter }}</b>
-      </ion-text>
-    </div>
+  <ion-row
+    class="background-colour ion-padding-top ion-padding-bottom position-fixed width-100-percent"
+    *ngIf="displayScrollBanner"
+  >
+    <ion-text class="mes-padding-left mes-data">
+      Displaying <b>{{ pageState.testCount$ | async }}</b> tests, from <b>{{ startDateFilter }}</b> to
+      <b>{{ endDateFilter }}</b>
+    </ion-text>
   </ion-row>
 </ion-header>
 
@@ -133,7 +134,7 @@
     </ion-col>
   </ion-row>
   <ion-row class="ion-padding-top ion-padding-bottom">
-    <ion-text class="mes-padding-left mes-data">
+    <ion-text [style.color]="displayScrollBanner ? 'transparent' : 'black'" class="mes-padding-left mes-data">
       Displaying <b>{{ data.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to <b>{{ endDateFilter }}</b>
     </ion-text>
   </ion-row>
@@ -179,7 +180,7 @@
                 </ion-row>
                 <ion-row class="ion-justify-content-center padding-top-10">
                   <ion-text class="ion-text-center des-header-style-6">
-                    {{(data.independentDrivingGrid[0].item).split("- ")[1]}}
+                    {{ (data.independentDrivingGrid[0].item).split("- ")[1] }}
                   </ion-text>
                 </ion-row>
               </ion-col>
@@ -191,7 +192,7 @@
                 </ion-row>
                 <ion-row class="ion-justify-content-center padding-top-10">
                   <ion-text class="ion-text-center des-header-style-6">
-                    {{(data.independentDrivingGrid[1].item).split("- ")[1]}}
+                    {{ (data.independentDrivingGrid[1].item).split("- ")[1] }}
                   </ion-text>
                 </ion-row>
               </ion-col>

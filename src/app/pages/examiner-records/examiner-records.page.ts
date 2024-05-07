@@ -127,7 +127,7 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    this.displayScrollBanner = ev.detail.scrollTop > 204;
+    this.displayScrollBanner = (ev.detail.scrollTop > 203)
   }
 
   /**
