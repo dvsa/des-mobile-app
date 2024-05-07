@@ -8,10 +8,20 @@
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
     <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
   </div>
+  <ion-row class="position-fixed" *ngIf="displayScrollBanner">
+    <div class="background-colour ion-padding-top ion-padding-bottom width-1500">
+      <ion-text class="mes-padding-left mes-data">
+        Displaying <b>{{ pageState.testCount$ | async }}</b> tests, from <b>{{ startDateFilter }}</b> to
+        <b>{{ endDateFilter }}</b>
+      </ion-text>
+    </div>
+  </ion-row>
 </ion-header>
 
 <ion-content
   [fullscreen]="true"
+  [scrollEvents]="true"
+  (ionScroll)="handleScroll($any($event))"
   *ngIf="{
   routeGrid: pageState.routeNumbers$ | async,
   manoeuvresGrid: pageState.manoeuvres$ | async,
@@ -122,7 +132,7 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row class="ion-padding-top ion-padding-bottom">
     <ion-text class="mes-padding-left mes-data">
       Displaying <b>{{ data.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to <b>{{ endDateFilter }}</b>
     </ion-text>

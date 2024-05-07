@@ -55,6 +55,7 @@ import {
   ColourScheme,
 } from '@providers/examiner-records/examiner-records';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ScrollDetail } from '@ionic/core';
 
 interface ExaminerRecordsState {
   cachedRecords$: Observable<ExaminerRecordModel[]>;
@@ -98,6 +99,7 @@ export class ExaminerRecordsPage implements OnInit {
   cachedExaminerRecords: ExaminerRecordModel[] = null;
   startDateFilter: string;
   endDateFilter: string = new DateTime().format('DD/MM/YYYY');
+  scrollValue: number = 0;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
@@ -105,6 +107,7 @@ export class ExaminerRecordsPage implements OnInit {
   public categoryDisplay: string;
   public currentCategory: string;
   accordionOpen: boolean = false;
+  displayScrollBanner: boolean = false;
   categorySelectPristine: boolean = true;
   currentTestCentre: TestCentre;
   locationSelectPristine: boolean = true;
@@ -121,6 +124,10 @@ export class ExaminerRecordsPage implements OnInit {
     public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
   ) {
+  }
+
+  handleScroll(ev: CustomEvent<ScrollDetail>) {
+    this.displayScrollBanner = ev.detail.scrollTop > 204;
   }
 
   /**
