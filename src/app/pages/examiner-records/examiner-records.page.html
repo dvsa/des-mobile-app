@@ -403,16 +403,22 @@
     </ion-row>
   </div>
 
-  <div
-    class="text-align-center ion-justify-content-center ion-align-items-center display-flex height-65-percent direction-column"
-    *ngIf="data.categoryList?.length === 0 || data.locationList?.length === 0"
-  >
-    <ion-row>
+  <ion-card *ngIf="data.categoryList?.length === 0 || data.locationList?.length === 0">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-row>
+          <ion-col>
+            <ion-text class="des-header-style-4 fault-heading">No data available</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="text-align-center">
       <ion-text class="mes-data">
-        No driving test data available for this period.<br />Select another date range.
+        No driving test data available for this period.<br /><br />Select another date range.
       </ion-text>
-    </ion-row>
-  </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
 
 <ion-footer class="footer-styling">
