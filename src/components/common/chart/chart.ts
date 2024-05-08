@@ -9,6 +9,7 @@ import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.sel
   templateUrl: 'chart.html',
 })
 export class ChartComponent implements OnInit, OnChanges {
+  @Input() public zoomSize: string = '16px';
   @Input() public chartId: string = '';
   @Input() public chartType: ChartType = 'pie';
   @Input() public passedData: ExaminerRecordData<any>[] = null;
@@ -128,7 +129,7 @@ export class ChartComponent implements OnInit, OnChanges {
         //styling for this label
         style: {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
-          fontSize: '16px',
+          fontSize: this.getFontSize(),
           fontWeight: 'bold',
           colors: [this.labelColour],
         },
@@ -303,5 +304,16 @@ export class ChartComponent implements OnInit, OnChanges {
   getTickCount(numbers: number[]) {
     const max = Math.max(...numbers)
     return max <= 5 ? max : null;
+  }
+
+  getFontSize() {
+    switch (this.zoomSize) {
+      case 'text-zoom-regular':
+        return '16px';
+      case 'text-zoom-large':
+        return '18px';
+      case 'text-zoom-x-large':
+        return '20px';
+    }
   }
 }

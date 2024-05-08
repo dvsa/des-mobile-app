@@ -25,6 +25,7 @@
         <ion-col class="ion-justify-content-center display-flex">
           <chart
             *ngIf="showMainContent"
+            [zoomSize]="this.accessibilityService.getTextZoomClass()"
             [chartId]="chartID"
             [splitLabel]="splitChartLabel"
             [isPortrait]="isPortrait"
