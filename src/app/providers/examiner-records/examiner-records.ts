@@ -97,6 +97,10 @@ export class ExaminerRecordsProvider {
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
+      display: 'Last 90 days',
+      val: '90 days',
+    },
+    {
       display: 'Last 1 year',
       val: '1 year',
     },
@@ -167,6 +171,10 @@ export class ExaminerRecordsProvider {
       case 'fortnight':
         dateRange = moment(new Date())
           .subtract(2, 'week');
+        break;
+      case '90 days':
+        dateRange = moment(new Date())
+          .subtract(90, 'days');
         break;
       case '1 year':
         dateRange = moment(new Date())
