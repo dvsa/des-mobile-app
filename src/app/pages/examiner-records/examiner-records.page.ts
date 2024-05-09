@@ -558,8 +558,8 @@ export class ExaminerRecordsPage implements OnInit {
    */
   getColour(colourOption: ColourEnum): ColourScheme {
     switch (colourOption) {
-      case ColourEnum.Monochrome:
-        return this.examinerRecordsProvider.colours.monochrome;
+      case ColourEnum.Greyscale:
+        return this.examinerRecordsProvider.colours.greyscale;
       default:
         return this.examinerRecordsProvider.colours.default;
     }

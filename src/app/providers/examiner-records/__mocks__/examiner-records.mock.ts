@@ -5,7 +5,7 @@ export class ExaminerRecordsProviderMock {
 
   public colours: {
     default: ColourScheme,
-    monochrome: ColourScheme,
+    greyscale: ColourScheme,
   } = {
     default: {
       name: ColourEnum.Default,
@@ -23,8 +23,8 @@ export class ExaminerRecordsProviderMock {
       ],
       average: '#000000',
     },
-    monochrome: {
-      name: ColourEnum.Monochrome,
+    greyscale: {
+      name: ColourEnum.Greyscale,
       pie: ['#474747',
         '#5A5A5A',
         '#6E6E6E',

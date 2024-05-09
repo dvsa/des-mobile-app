@@ -118,7 +118,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   describe('colourFilterChanged$', () => {
     it('should log an event', (done) => {
       // ACT
-      actions$.next(ColourFilterChanged(ColourEnum.Monochrome));
+      actions$.next(ColourFilterChanged(ColourEnum.Greyscale));
       // ASSERT
       effects.colourFilterChanged$.subscribe((result) => {
         expect(result.type)
@@ -127,7 +127,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.EXAMINER_STATS,
             AnalyticsEvents.COLOUR_SCHEME_CHANGED,
-            ColourEnum.Monochrome,
+            ColourEnum.Greyscale,
           );
         done();
       });

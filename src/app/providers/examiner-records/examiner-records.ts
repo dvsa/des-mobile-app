@@ -33,7 +33,7 @@ export interface ColourScheme {
 
 export const enum ColourEnum {
   Default = 'Default',
-  Monochrome = 'Monochrome',
+  Greyscale = 'Greyscale',
 }
 
 export type ExaminerRecordsTestLimits = '100';
@@ -49,7 +49,7 @@ export class ExaminerRecordsProvider {
 
   public colours: {
     default: ColourScheme,
-    monochrome: ColourScheme,
+    greyscale: ColourScheme,
   } = {
     default: {
       name: ColourEnum.Default,
@@ -67,13 +67,13 @@ export class ExaminerRecordsProvider {
       ],
       average: '#000000',
     },
-    monochrome: {
-      name: ColourEnum.Monochrome,
+    greyscale: {
+      name: ColourEnum.Greyscale,
       pie: [
         '#474747',
-        '#5A5A5A',
         '#6E6E6E',
-        '#818181',
+        '#222222',
+        '#606060',
         '#949494',
       ],
       bar: ['#777777'],
