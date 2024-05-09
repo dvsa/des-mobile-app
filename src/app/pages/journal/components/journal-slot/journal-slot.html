@@ -32,6 +32,7 @@
       [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
       [derivedPassCertificate]="didSlotPass(slot.slotData, completedTests)"
       [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
+      [derivedAutosaveStatus]="derivedAutosaveStatus(slot?.slotData, completedTests)"
       [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
       [hasSlotChanged]="slot?.hasSlotChanged"
       [isPortrait]="isPortrait"

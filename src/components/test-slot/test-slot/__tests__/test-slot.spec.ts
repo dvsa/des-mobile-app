@@ -315,6 +315,26 @@ describe('TestSlotComponent', () => {
       });
     });
 
+    describe('isAutosavedTest', () => {
+      it('should return true when remoteAutosaved is true and testStatus is not Autosaved', () => {
+        const result = component.isAutosavedTest(true, TestStatus.Completed);
+        expect(result).toEqual(true);
+      });
+
+      it('should return false when remoteAutosaved is true and testStatus is Autosaved', () => {
+        const result = component.isAutosavedTest(true, TestStatus.Autosaved);
+        expect(result).toEqual(false);
+      });
+
+      it('should return false when remoteAutosaved is false regardless of testStatus', () => {
+        const resultWithAutosavedStatus = component.isAutosavedTest(false, TestStatus.Autosaved);
+        const resultWithCompletedStatus = component.isAutosavedTest(false, TestStatus.Completed);
+
+        expect(resultWithAutosavedStatus).toEqual(false);
+        expect(resultWithCompletedStatus).toEqual(false);
+      });
+    });
+
     describe('DOM', () => {
       describe('Component Interaction', () => {
         it('should pass the special needs status to a indicator component', () => {

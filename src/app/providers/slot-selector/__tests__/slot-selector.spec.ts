@@ -36,8 +36,60 @@ describe('SlotSelectorProvider', () => {
         applicationReference: 111222333,
         category: 'A',
         activityCode: '4',
+        autosave: 1,
       }]))
         .toEqual('4');
+    });
+  });
+
+  describe('hasSlotBeenPartiallyCompleted', () => {
+    it('should return null if completedTest is empty', () => {
+      expect(slotSelector.hasSlotBeenPartiallyCompleted(null, null))
+        .toEqual(null);
+    });
+
+    it('should return autosave status if the searched test entry exists', () => {
+      expect(slotSelector.hasSlotBeenPartiallyCompleted({
+        booking: {
+          application: {
+            applicationId: 111,
+            bookingSequence: 222,
+            checkDigit: 333,
+          },
+        },
+      }, [{
+        costCode: '123456',
+        testDate: '11/1/11',
+        driverNumber: '1234',
+        candidateName: { firstName: 'name' },
+        applicationReference: 111222333,
+        category: 'A',
+        activityCode: '4',
+        autosave: 1,
+      }]))
+        .toEqual(1);
+    });
+
+    it('should return null if the searched test entry does not exist', () => {
+      expect(slotSelector.hasSlotBeenPartiallyCompleted({
+        booking: {
+          application: {
+            applicationId: 111,
+            bookingSequence: 222,
+            checkDigit: 333,
+          },
+        },
+      }, [{
+        costCode: '123456',
+        testDate: '11/1/11',
+        driverNumber: '1234',
+        candidateName: { firstName: 'name' },
+        applicationReference: 999999999,
+        category: 'A',
+        activityCode: '4',
+        autosave: 1,
+      }]))
+        .toEqual(null);
     });
   });
 
@@ -63,6 +115,7 @@ describe('SlotSelectorProvider', () => {
         applicationReference: 111222333,
         category: 'A',
         activityCode: '4',
+        autosave: 1,
       }]))
         .toEqual(undefined);
     });
@@ -84,6 +137,7 @@ describe('SlotSelectorProvider', () => {
         category: 'A',
         activityCode: '4',
         passCertificateNumber: '123456789',
+        autosave: 1,
       }]))
         .toEqual('123456789');
     });

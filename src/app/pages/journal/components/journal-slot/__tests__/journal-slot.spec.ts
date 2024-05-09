@@ -42,6 +42,16 @@ describe('JournalSlotComponent', () => {
       expect(component.derivedTestStatus({} as TestSlot, [])).toEqual(TestStatus.Submitted);
     });
   });
+  describe('derivedAutosaveStatus', () => {
+    it('should return null when slot not completed', () => {
+      spyOn(slotSelector, 'hasSlotBeenPartiallyCompleted').and.returnValue(null);
+      expect(component.derivedAutosaveStatus({} as TestSlot, [])).toEqual(null);
+    });
+    it('should return true when remote slot status is autosaved', () => {
+      spyOn(slotSelector, 'hasSlotBeenPartiallyCompleted').and.returnValue(1);
+      expect(component.derivedAutosaveStatus({} as TestSlot, [])).toEqual(true);
+    });
+  });
   describe('hasSlotBeenTested', () => {
     it('should return null when hasSlotBeenTested returns null', () => {
       spyOn(slotSelector, 'hasSlotBeenTested').and.returnValue(null);

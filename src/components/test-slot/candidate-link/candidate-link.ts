@@ -25,6 +25,9 @@ export class CandidateLinkComponent {
   isTeamJournal: boolean = false;
 
   @Input()
+  isRecovered: boolean = false;
+
+  @Input()
   applicationId: number;
 
   @Input()
@@ -56,6 +59,7 @@ export class CandidateLinkComponent {
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: this.isTeamJournal,
+        isRecovered: this.isRecovered,
       },
     });
     await profileModal.present();

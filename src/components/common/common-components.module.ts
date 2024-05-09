@@ -47,6 +47,7 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { DirectivesModule } from '@directives/directives.module';
+import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { DirectivesModule } from '@directives/directives.module';
     PracticeModeBanner,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,
+    TestRecoveredBannerComponent,
     TickIndicatorComponent,
     TransmissionComponent,
     SignatureComponent,
@@ -121,6 +123,7 @@ import { DirectivesModule } from '@directives/directives.module';
     PracticeModeBanner,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,
+    TestRecoveredBannerComponent,
     TickIndicatorComponent,
     TransmissionComponent,
     SignatureComponent,

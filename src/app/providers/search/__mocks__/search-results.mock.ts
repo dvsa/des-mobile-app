@@ -13,6 +13,7 @@ export const searchResultsMock: SearchResultTestSchema [] = [
       lastName: 'Blogs',
       title: 'Mr',
     },
+    autosave: 1,
   },
   {
     activityCode: '2',
@@ -26,5 +27,6 @@ export const searchResultsMock: SearchResultTestSchema [] = [
       lastName: 'Smith',
       title: 'Mr',
     },
+    autosave: 1,
   },
 ];

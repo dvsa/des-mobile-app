@@ -34,6 +34,12 @@ export class JournalSlotComponent {
     completedTests: SearchResultTestSchema[],
   ): TestStatus | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests) ? TestStatus.Submitted : null;
 
+  derivedAutosaveStatus = (
+    slotData: TestSlot,
+    completedTests: SearchResultTestSchema[],
+  ): boolean | null =>
+    this.slotSelector.hasSlotBeenPartiallyCompleted(slotData, completedTests) ? true : null;
+
   hasSlotBeenTested = (
     slotData: TestSlot,
     completedTests: SearchResultTestSchema[],

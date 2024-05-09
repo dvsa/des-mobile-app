@@ -29,6 +29,11 @@
               class="full-width"
             >
             </integrity-marker>
+            <autosave-status
+              *ngIf="!isTeamJournal && isAutosavedTest(derivedAutosaveStatus, componentState.testStatus$ | async)"
+              class="full-width"
+            >
+            </autosave-status>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -157,6 +162,7 @@
     [isTeamJournal]="isTeamJournal"
     [name]="slot.booking.candidate.candidateName"
     [slotChanged]="hasSlotChanged"
+    [isRecovered]="isAutosavedTest(derivedAutosaveStatus, componentState.testStatus$ | async)"
     [slot]="slot"
     [slots]="slots"
   >

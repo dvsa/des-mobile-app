@@ -55,6 +55,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   slots: TestSlot[];
   slotChanged: boolean = false;
   isTeamJournal: boolean = false;
+  isRecovered: boolean = false;
   testCategory: TestCategory = null;
   idPrefix: string = 'candidate-details';
   prevSlot: TestSlot;
@@ -81,6 +82,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     const navSlots = this.navParams.get('slots');
     this.slotChanged = this.navParams.get('slotChanged');
     this.isTeamJournal = this.navParams.get('isTeamJournal');
+    this.isRecovered = this.navParams.get('isRecovered');
 
     // if `slot` is not defined, then use the slot value from `navParams`
     // it will be undefined, when using the next/prev buttons as the value wouldn't be set via the Journal navigation

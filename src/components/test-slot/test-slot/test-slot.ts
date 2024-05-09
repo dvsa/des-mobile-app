@@ -71,6 +71,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   derivedTestStatus: TestStatus | null = null;
 
   @Input()
+  derivedAutosaveStatus: boolean | null = null;
+
+  @Input()
   derivedActivityCode: ActivityCode | null = null;
 
   @Input()
@@ -204,6 +207,16 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
+
+  /**
+   * Determines if the test held locally in an autosaved state
+   * and exists remotely as autosaved
+   * @param autosaved
+   * @param testStatus
+   */
+  isAutosavedTest = (remoteAutosaved: boolean, testStatus: TestStatus): boolean => {
+    return remoteAutosaved && testStatus !== TestStatus.Autosaved;
+  }
 
   showOutcome(status: TestStatus): boolean {
     return [TestStatus.Completed, TestStatus.Submitted].includes(status);
