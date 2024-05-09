@@ -1,7 +1,8 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
@@ -23,7 +24,7 @@ describe('PostDebriefHoldingPage', () => {
         MockComponent(PracticeModeBanner),
       ],
       imports: [
-        RouterModule.forRoot([]),
+        RouterTestingModule.withRoutes([]),
         AppModule,
         StoreModule.forFeature('tests', () => ({})),
       ],

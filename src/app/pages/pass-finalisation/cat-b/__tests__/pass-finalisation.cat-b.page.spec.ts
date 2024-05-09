@@ -28,7 +28,8 @@ import {
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -135,7 +136,7 @@ describe('PassFinalisationCatBPage', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       imports: [
-        RouterModule.forRoot([]),
+        RouterTestingModule.withRoutes([]),
         AppModule,
       ],
       providers: [

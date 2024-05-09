@@ -24,7 +24,8 @@ import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommunicationPage } from '@pages/communication/communication.page';
 import { CommunicationSubmitInfo, CommunicationViewDidEnter } from '@pages/communication/communication.actions';
@@ -52,7 +53,7 @@ describe('CommunicationPage', () => {
         MockComponent(CandidateSectionComponent),
       ],
       imports: [
-        RouterModule.forRoot([]),
+        RouterTestingModule.withRoutes([]),
         AppModule,
         TranslateModule,
         ReactiveFormsModule,

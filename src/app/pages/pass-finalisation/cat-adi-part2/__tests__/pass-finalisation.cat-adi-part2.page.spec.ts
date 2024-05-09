@@ -20,7 +20,8 @@ import { NavController, Platform } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -54,7 +55,7 @@ describe('PassFinalisationCatADI2Page', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       imports: [
-        RouterModule.forRoot([]),
+        RouterTestingModule.withRoutes([]),
         AppModule,
       ],
       providers: [

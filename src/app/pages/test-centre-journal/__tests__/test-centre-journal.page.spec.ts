@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
@@ -32,7 +33,7 @@ import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { HttpStatusCode } from '@angular/common/http';
 
@@ -56,7 +57,7 @@ describe('TestCenterJournalPage', () => {
         CommonModule,
         ComponentsModule,
         TestCentreJournalComponentsModule,
-        RouterModule.forRoot(
+        RouterTestingModule.withRoutes(
           [
             {
               path: '',

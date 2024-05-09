@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { MockComponent } from 'ng-mocks';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -149,7 +150,7 @@ describe('WaitingRoomPage', () => {
         MockComponent(CBTNumberComponent),
       ],
       imports: [
-        RouterModule.forRoot([]),
+        RouterTestingModule.withRoutes([]),
         AppModule,
         TranslateModule,
         StoreModule.forFeature('tests', () => ({

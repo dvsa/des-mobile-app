@@ -8,6 +8,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { JournalPage } from '@pages/journal/journal.page';
 import { JournalComponentsModule } from '@pages/journal/components/journal-components.module';
@@ -45,7 +46,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpStatusCode } from '@angular/common/http';
 
 describe('JournalPage', () => {
@@ -68,7 +69,7 @@ describe('JournalPage', () => {
         JournalPage,
       ],
       imports: [
-        RouterModule.forRoot([]),
+        RouterTestingModule.withRoutes([]),
         JournalComponentsModule,
         TestSlotComponentsModule,
         StoreModule.forRoot({

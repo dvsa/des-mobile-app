@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
@@ -11,7 +12,6 @@ import {
 } from '@pages/journal/components/journal-early-start-modal/__mocks__/journal-early-start-modal.mock';
 import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
 import { HealthDeclarationModal } from '../health-declaration-modal';
-import { RouterModule } from '@angular/router';
 
 describe('healthDeclarationModal', () => {
   let modalFixture: ComponentFixture<HealthDeclarationModal>;
@@ -25,7 +25,7 @@ describe('healthDeclarationModal', () => {
         HealthDeclarationModal,
       ],
       imports: [
-        RouterModule,
+        RouterTestingModule,
         CommonModule,
         FormsModule,
         IonicModule,

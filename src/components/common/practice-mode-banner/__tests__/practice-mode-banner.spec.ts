@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
@@ -16,7 +17,7 @@ describe('PracticeModeBanner', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeBanner],
-      imports: [IonicModule, RouterModule, StoreModule.forRoot({
+      imports: [IonicModule, RouterTestingModule, StoreModule.forRoot({
         tests: () => ({
           currentTest: { testCategory: TestCategory.B },
           testStatus: {},
