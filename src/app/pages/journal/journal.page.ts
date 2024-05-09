@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
-import { merge, Observable, Subscription } from 'rxjs';
+import { merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -18,7 +18,6 @@ import * as journalActions from '@store/journal/journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getCompletedTests,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -32,7 +31,6 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -74,7 +72,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -124,10 +121,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map((selectedDate) => selectedDate === this.dateTimeProvider.now()
           .format('YYYY-MM-DD')),
       ),
-      completedTests$: this.store$.pipe(
-        select(getJournalState),
-        select(getCompletedTests),
-      ),
+      completedTests$: of([]),
     };
 
     const {
@@ -153,9 +147,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await this.loadJournalManually();
     this.setupPolling();
     this.configurePlatformSubscriptions();
-
-    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -235,7 +226,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public refreshJournal = async () => {
     await this.loadJournalManually();
-    this.loadCompletedTestsWithCallThrough();
   };
 
   onPreviousDayClick(): void {
@@ -245,14 +235,4 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
-
-  /**
-   * Load the completed tests with the callThrough property set to true (default false)
-   * This will make the request to the backend to check if any of the tests have already been submitted
-   * by another device
-   * *
-   */
-  loadCompletedTestsWithCallThrough = (): void => {
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
-  };
 }

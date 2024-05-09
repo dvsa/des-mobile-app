@@ -68,15 +68,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult: boolean = false;
 
   @Input()
-  derivedTestStatus: TestStatus | null = null;
-
-  @Input()
-  derivedActivityCode: ActivityCode | null = null;
-
-  @Input()
-  derivedPassCertificate?: string;
-
-  @Input()
   examinerName: string = null;
 
   @Input()
@@ -118,26 +109,19 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => {
-          const testStatus = getTestStatus(tests, slotId);
-          return testStatus === TestStatus.Autosaved ? testStatus : this.derivedTestStatus || testStatus;
-        }),
+        select((tests) => getTestStatus(tests, slotId)),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
-        map((tests) => {
-          return this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId);
-        }),
+        map((tests) => getActivityCodeBySlotId(tests, slotId)),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
-        map((tests) => {
-          return this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId);
-        }),
+        map((tests) => getPassCertificateBySlotId(tests, slotId)),
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
-        map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
+        map((tests) => getTestById(tests, slotId?.toString())),
         filter((test) => test !== undefined),
         select(getRekeyIndicator),
         select(isRekey),

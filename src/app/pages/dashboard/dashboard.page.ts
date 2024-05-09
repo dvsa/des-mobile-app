@@ -29,9 +29,7 @@ import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
-import {
-  StoreUnuploadedSlotsInTests,
-} from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
@@ -43,7 +41,6 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -77,7 +74,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -132,14 +128,9 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
-
-    //guard against calling various services if the user type is a delegated examiner
+    //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());
-
-      // acquire previously completed tests
-      await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-      this.store$.dispatch(journalActions.LoadCompletedTests(true));
     }
 
     await super.unlockDevice();
