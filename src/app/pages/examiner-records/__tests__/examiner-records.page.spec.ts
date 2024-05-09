@@ -351,13 +351,13 @@ fdescribe('ExaminerStatsPage', () => {
   describe('colourFilterChanged', () => {
     it('should set colourOption to the value passed', () => {
       component.colourOption = component.examinerRecordsProvider.colours.default;
-      component.colourFilterChanged(ColourEnum.Monochrome);
-      expect(component.colourOption).toEqual(component.examinerRecordsProvider.colours.monochrome);
+      component.colourFilterChanged(ColourEnum.Greyscale);
+      expect(component.colourOption).toEqual(component.examinerRecordsProvider.colours.greyscale);
     });
     it('should dispatch ColourFilterChanged with the colour passed', () => {
       spyOn(component.store$, 'dispatch');
-      component.colourFilterChanged(ColourEnum.Monochrome);
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Monochrome));
+      component.colourFilterChanged(ColourEnum.Greyscale);
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Greyscale));
     });
   });
 
