@@ -161,8 +161,7 @@ export class ExaminerRecordsProvider {
 
     switch (range) {
       case 'today':
-        dateRange = moment(new Date())
-          .subtract(1, 'day');
+        dateRange = moment(new Date());
         break;
       case 'week':
         dateRange = moment(new Date())
