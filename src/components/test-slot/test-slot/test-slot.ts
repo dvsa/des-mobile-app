@@ -31,6 +31,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { RehydrationDetails } from '@pages/journal/components/journal-slot/journal-slot';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -68,16 +69,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult: boolean = false;
 
   @Input()
-  derivedTestStatus: TestStatus | null = null;
-
-  @Input()
-  derivedAutosaveStatus: boolean | null = null;
-
-  @Input()
-  derivedActivityCode: ActivityCode | null = null;
-
-  @Input()
-  derivedPassCertificate?: string;
+  completedTestRecord?: RehydrationDetails;
 
   @Input()
   examinerName: string = null;
@@ -118,24 +110,27 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   ngOnInit(): void {
     const { slotId } = this.slot.slotDetail;
 
+    console.log(this.completedTestRecord);
+
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests) => {
           const testStatus = getTestStatus(tests, slotId);
-          return testStatus === TestStatus.Autosaved ? testStatus : this.derivedTestStatus || testStatus;
+          return testStatus === TestStatus.Autosaved
+            ? testStatus : this.completedTestRecord?.hasBeenTested || testStatus;
         }),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
         map((tests) => {
-          return this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId);
+          return this.completedTestRecord?.activityCode || getActivityCodeBySlotId(tests, slotId);
         }),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
         map((tests) => {
-          return this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId);
+          return this.completedTestRecord?.passCertificateNumber || getPassCertificateBySlotId(tests, slotId);
         }),
       ),
       isRekey$: this.store$.pipe(

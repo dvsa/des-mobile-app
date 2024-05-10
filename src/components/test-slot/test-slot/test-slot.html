@@ -30,7 +30,7 @@
             >
             </integrity-marker>
             <autosave-status
-              *ngIf="!isTeamJournal && isAutosavedTest(derivedAutosaveStatus, componentState.testStatus$ | async)"
+              *ngIf="!isTeamJournal && isAutosavedTest(completedTestRecord?.autosave, componentState.testStatus$ | async)"
               class="full-width"
             >
             </autosave-status>
@@ -162,7 +162,7 @@
     [isTeamJournal]="isTeamJournal"
     [name]="slot.booking.candidate.candidateName"
     [slotChanged]="hasSlotChanged"
-    [isRecovered]="isAutosavedTest(derivedAutosaveStatus, componentState.testStatus$ | async)"
+    [isRecovered]="isAutosavedTest(completedTestRecord?.autosave, componentState.testStatus$ | async)"
     [slot]="slot"
     [slots]="slots"
   >

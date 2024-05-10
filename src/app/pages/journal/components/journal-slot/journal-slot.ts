@@ -5,6 +5,16 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { get, has, isEmpty } from 'lodash-es';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+
+export interface RehydrationDetails {
+  applicationReference: number,
+  activityCode: ActivityCode,
+  autosave: boolean,
+  passCertificateNumber: string,
+  hasBeenTested: TestStatus.Submitted | null,
+}
 
 @Component({
   selector: 'journal-slots',
@@ -24,9 +34,54 @@ export class JournalSlotComponent {
   @Input()
   isPortrait: boolean = false;
 
+  completedDetails: RehydrationDetails[] = []
+
+
   constructor(
     private slotSelector: SlotSelectorProvider,
   ) {
+  }
+
+  ngOnInit() {
+    this.getListOfRehydratedTests();
+  }
+
+  getListOfRehydratedTests() {
+    let tempArray1 = this.slots.map((slot: SlotItem) => {
+      return parseInt(formatApplicationReference({
+        applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
+        bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
+        checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
+      } as ApplicationReference), 10);
+    })
+
+    let matchingTests = tempArray1
+      .filter(element => this.completedTests
+        .map(value => value.applicationReference).includes(element));
+
+    this.completedDetails = this.completedTests
+      .filter(value => matchingTests.includes(value.applicationReference))
+      .map(value => {
+        return {
+          applicationReference: value.applicationReference,
+          activityCode: value.activityCode,
+          autosave: !!(value.autosave),
+          passCertificateNumber: value.passCertificateNumber,
+          hasBeenTested: !!(value.activityCode) ? TestStatus.Submitted : null,
+        };
+      });
+  }
+
+  getRehydratedTest(
+    slotData: TestSlot
+  ) {
+    let tempAppRef = parseInt(formatApplicationReference({
+      applicationId: slotData.booking.application.applicationId,
+      bookingSequence: slotData.booking.application.bookingSequence,
+      checkDigit: slotData.booking.application.checkDigit,
+    } as ApplicationReference), 10);
+
+    return this.completedDetails.find(value => value.applicationReference === tempAppRef)
   }
 
   derivedTestStatus = (
