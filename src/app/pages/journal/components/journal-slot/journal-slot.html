@@ -29,7 +29,7 @@
     <test-slot
       *ngSwitchCase="'test-slot'"
       [delegatedTest]="false"
-      [completedTestRecord]="getRehydratedTest(slot.slotData)"
+      [completedTestRecord]="findCompletedTest(slot.slotData)"
       [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
       [hasSlotChanged]="slot?.hasSlotChanged"
       [isPortrait]="isPortrait"

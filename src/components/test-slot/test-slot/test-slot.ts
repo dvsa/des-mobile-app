@@ -31,7 +31,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { RehydrationDetails } from '@pages/journal/components/journal-slot/journal-slot';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -39,6 +39,7 @@ interface TestSlotComponentState {
   testPassCertificate$: Observable<String>;
   isRekey$: Observable<boolean>;
 }
+
 
 @Component({
   selector: 'test-slot',
@@ -69,7 +70,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult: boolean = false;
 
   @Input()
-  completedTestRecord?: RehydrationDetails;
+  completedTestRecord?: SearchResultTestSchema;
 
   @Input()
   examinerName: string = null;
@@ -110,15 +111,13 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   ngOnInit(): void {
     const { slotId } = this.slot.slotDetail;
 
-    console.log(this.completedTestRecord);
-
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests) => {
           const testStatus = getTestStatus(tests, slotId);
           return testStatus === TestStatus.Autosaved
-            ? testStatus : this.completedTestRecord?.hasBeenTested || testStatus;
+            ? testStatus : !!(this.completedTestRecord?.activityCode) ? TestStatus.Submitted : testStatus;
         }),
       ),
       testActivityCode$: this.store$.pipe(
@@ -147,15 +146,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
       this.slot, this.isTeamJournal,
     );
-  }
-
-  getColSize(): string {
-    switch (this.accessibilityService.getTextZoomClass()) {
-      case 'text-zoom-x-large':
-        return '40';
-      default:
-        return '44';
-    }
   }
 
   isIndicatorNeededForSlot(): boolean {
@@ -206,10 +196,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   /**
    * Determines if the test held locally in an autosaved state
    * and exists remotely as autosaved
-   * @param autosaved
+   * @param remoteAutosaved
    * @param testStatus
    */
-  isAutosavedTest = (remoteAutosaved: boolean, testStatus: TestStatus): boolean => {
+  isAutosavedTest = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
     return remoteAutosaved && testStatus !== TestStatus.Autosaved;
   }
 

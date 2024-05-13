@@ -14,34 +14,6 @@ describe('SlotSelectorProvider', () => {
     slotSelector = TestBed.inject(SlotSelectorProvider);
   });
 
-  describe('hasSlotBeenTested', () => {
-    it('should return null if completedTest is empty', () => {
-      expect(slotSelector.hasSlotBeenTested(null, null))
-        .toEqual(null);
-    });
-    it('should return activity code of the searched test entry', () => {
-      expect(slotSelector.hasSlotBeenTested({
-        booking: {
-          application: {
-            applicationId: 111,
-            bookingSequence: 222,
-            checkDigit: 333,
-          },
-        },
-      }, [{
-        costCode: '123456',
-        testDate: '11/1/11',
-        driverNumber: '1234',
-        candidateName: { firstName: 'name' },
-        applicationReference: 111222333,
-        category: 'A',
-        activityCode: '4',
-        autosave: 1,
-      }]))
-        .toEqual('4');
-    });
-  });
-
   describe('hasSlotBeenPartiallyCompleted', () => {
     it('should return null if completedTest is empty', () => {
       expect(slotSelector.hasSlotBeenPartiallyCompleted(null, null))
