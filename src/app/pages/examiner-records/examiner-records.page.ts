@@ -100,6 +100,7 @@ export class ExaminerRecordsPage implements OnInit {
   startDateFilter: string;
   endDateFilter: string = new DateTime().format('DD/MM/YYYY');
   scrollValue: number = 0;
+  isLoading: boolean = false;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
@@ -177,12 +178,10 @@ export class ExaminerRecordsPage implements OnInit {
     ])
     .pipe(
       // return an observable using the generic `fn`
-      switchMap(() => {
-        return of(fn(
-          this.eligTestSubject$.value,
-          this.categorySubject$.value,
-        ));
-      }),
+      switchMap(() => of(fn(
+        this.eligTestSubject$.value,
+        this.categorySubject$.value,
+      ))),
     );
 
   /**
@@ -414,6 +413,27 @@ export class ExaminerRecordsPage implements OnInit {
       isLoadingRecords$,
     } = this.pageState;
 
+    combineLatest(
+      [
+        this.pageState.routeNumbers$,
+        this.pageState.manoeuvres$,
+        this.pageState.locationList$,
+        this.pageState.balanceQuestions$,
+        this.pageState.safetyQuestions$,
+        this.pageState.independentDriving$,
+        this.pageState.showMeQuestions$,
+        this.pageState.tellMeQuestions$,
+        this.pageState.testCount$,
+        this.pageState.circuits$,
+        this.pageState.locationList$,
+        this.pageState.categoryList$,
+        this.pageState.emergencyStops$
+      ]
+    ).pipe().subscribe((value) => {
+      console.log('combine call', value)
+      this.examinerRecordsProvider.handleLoadingUI(false);
+    });
+
     this.merged$ = merge(
       //listen for changes to test result and send the result to the behaviour subject
       cachedRecords$.pipe(tap((value) => {
@@ -421,6 +441,7 @@ export class ExaminerRecordsPage implements OnInit {
         if (this.testResults.length > 0) {
           this.testSubject$.next(this.testResults);
         }
+        this.examinerRecordsProvider.handleLoadingUI(false);
       })),
       //deactivate loading ui when no longer loading
       isLoadingRecords$.pipe(map((value) => {
@@ -490,7 +511,10 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * set date range filter to the event value and send that value to the behaviour subject
    */
-  handleDateFilter(event: CustomEvent): void {
+  async handleDateFilter(event: CustomEvent, triggerLoad: boolean = false): Promise<void> {
+    if (triggerLoad) {
+      await this.examinerRecordsProvider.handleLoadingUI(true);
+    }
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
     this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
@@ -503,7 +527,9 @@ export class ExaminerRecordsPage implements OnInit {
    * set the current location to the selected value, change relevant variables for
    * displaying the new value and send that value to the behaviour subject
    */
-  handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false): void {
+  async handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
+    // await this.examinerRecordsProvider.handleLoadingUI(true);
+
     if (ionSelectTriggered) {
       this.locationSelectPristine = false;
     }
