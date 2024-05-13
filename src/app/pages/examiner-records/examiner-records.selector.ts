@@ -50,9 +50,9 @@ export const getEligibleTests = (
 
   return startedTests.filter((value: ExaminerRecordModel) => {
     return (!!range ? dateFilter(value, range as DateRange) : true) &&
-        (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&
-        (filterByLocation ? (!!centreId ? (get(value, 'testCentre.centreId') === centreId) : true) : true) &&
-        (allowExtendedTests ? true : !(get(value, 'extendedTest') === true));
+      (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&
+      (filterByLocation ? (!!centreId ? (get(value, 'testCentre.centreId') === centreId) : true) : true) &&
+      (allowExtendedTests ? true : !(get(value, 'extendedTest') === true));
   });
 };
 
@@ -70,7 +70,6 @@ export const getEmergencyStopCount = (
     return 0;
   }
 };
-
 
 /**
  * Returns an array of locations the examiner has conducted a test in within the date range and
@@ -157,7 +156,6 @@ export const getCircuits = (
     // extract circuits
     .filter((record) => !!get(record, 'circuit', null));
 
-
   return circuitOptions.map((item: string, index) => {
     const count = data.filter((val) => val.circuit === item).length;
     return {
@@ -204,7 +202,6 @@ export const getStartedTestCount = (
   startedTests: ExaminerRecordModel[],
 ): number =>
   !!startedTests ? startedTests.length : 0;
-
 
 /**
  * Returns an array containing the conducted test routes within the given tests and their frequency of appearance
@@ -321,7 +318,8 @@ export const getShowMeQuestions = (
   const qp = new QuestionProvider();
 
   if (startedTests) {
-    const questions = qp.getShowMeQuestions(category).filter((q) => q.code !== 'N/A');
+    const questions = qp.getShowMeQuestions(category)
+      .filter((q) => q.code !== 'N/A');
 
     const data = (startedTests)
       .flatMap((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])
@@ -356,7 +354,7 @@ export const getTellMeQuestions = (
     const questions = qp.getTellMeQuestions(category);
     const data = (startedTests)
       .flatMap((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
-    // filter for any empty string/null values
+      // filter for any empty string/null values
       .filter((question: QuestionResult) => !!question?.code);
 
     return questions.map((q) => {

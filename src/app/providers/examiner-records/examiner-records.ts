@@ -3,22 +3,14 @@ import { SearchProvider } from '@providers/search/search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  GetExaminerRecords,
-  LoadingExaminerRecords,
-} from '@pages/examiner-records/examiner-records.actions';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { DateRange } from '@shared/helpers/date-time';
 import { ChartType } from 'ng-apexcharts';
-import {
-  selectCachedExaminerRecords,
-  selectLastCachedDate,
-} from '@store/examiner-records/examiner-records.selectors';
 import { Router } from '@angular/router';
 import { LoadingProvider } from '@providers/loader/loader';
 import moment from 'moment';
@@ -43,7 +35,9 @@ export interface SelectableDateRange {
   display: string;
   val: ExaminerRecordsRange;
 }
+
 export type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
+
 @Injectable()
 export class ExaminerRecordsProvider {
 
@@ -63,7 +57,7 @@ export class ExaminerRecordsProvider {
       bar: ['#008FFB'],
       emergencyStop: [
         '#ED6926',
-        '#777777'
+        '#777777',
       ],
       average: '#000000',
     },
@@ -112,7 +106,6 @@ export class ExaminerRecordsProvider {
 
   currentlyLoading: boolean = false;
 
-
   constructor(
     public searchProvider: SearchProvider,
     public compressionProvider: CompressionProvider,
@@ -120,19 +113,6 @@ export class ExaminerRecordsProvider {
     public router: Router,
     public loadingProvider: LoadingProvider,
   ) {
-  }
-
-  /**
-   * checks if user has already successfully cached examiner records today, if not, dispatches the effect to do so
-   */
-  async cacheOnlineRecords(staffNumber: string) {
-    if (
-      !this.store$.selectSignal(selectCachedExaminerRecords)() ||
-      this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
-    ) {
-      this.store$.dispatch(LoadingExaminerRecords());
-      this.store$.dispatch(GetExaminerRecords(staffNumber));
-    }
   }
 
   /**
@@ -146,7 +126,7 @@ export class ExaminerRecordsProvider {
         spinner: 'circles',
         backdropDismiss: false,
         translucent: false,
-        message: 'Loading...'
+        message: 'Loading...',
       });
 
     }
@@ -154,7 +134,7 @@ export class ExaminerRecordsProvider {
   };
 
   /**
-  Get the date from a set date range ago in order to display on screen
+   Get the date from a set date range ago in order to display on screen
    */
   getRangeDate(range: DateRange) {
     let dateRange: moment.Moment = null;
@@ -200,16 +180,40 @@ export class ExaminerRecordsProvider {
     };
 
     [
-      { field: 'controlledStop', value: get(testResult, 'testData.controlledStop.selected') },
-      { field: 'extendedTest', value: get(testResult, 'journalData.testSlotAttributes.extendedTest') },
-      { field: 'independentDriving', value: get(testResult, 'testSummary.independentDriving') },
-      { field: 'circuit', value: get(testResult, 'testSummary.circuit') },
-      { field: 'safetyQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.safetyQuestions') },
-      { field: 'balanceQuestions', value: get(testResult, 'testData.safetyAndBalanceQuestions.balanceQuestions') },
-      { field: 'manoeuvres', value: get(testResult, 'testData.manoeuvres') },
+      {
+        field: 'controlledStop',
+        value: get(testResult, 'testData.controlledStop.selected'),
+      },
+      {
+        field: 'extendedTest',
+        value: get(testResult, 'journalData.testSlotAttributes.extendedTest'),
+      },
+      {
+        field: 'independentDriving',
+        value: get(testResult, 'testSummary.independentDriving'),
+      },
+      {
+        field: 'circuit',
+        value: get(testResult, 'testSummary.circuit'),
+      },
+      {
+        field: 'safetyQuestions',
+        value: get(testResult, 'testData.safetyAndBalanceQuestions.safetyQuestions'),
+      },
+      {
+        field: 'balanceQuestions',
+        value: get(testResult, 'testData.safetyAndBalanceQuestions.balanceQuestions'),
+      },
+      {
+        field: 'manoeuvres',
+        value: get(testResult, 'testData.manoeuvres'),
+      },
     ].forEach(item => {
       if (item.value) {
-        result = { ...result, [item.field]: item.value, };
+        result = {
+          ...result,
+          [item.field]: item.value,
+        };
       }
     });
 

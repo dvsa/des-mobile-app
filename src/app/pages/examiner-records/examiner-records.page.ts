@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -9,7 +9,9 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
+  GetExaminerRecords,
   HideChartsChanged,
+  LoadingExaminerRecords,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -50,9 +52,9 @@ import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examin
 import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock';
 import {
   ColourEnum,
+  ColourScheme,
   ExaminerRecordsProvider,
   SelectableDateRange,
-  ColourScheme,
 } from '@providers/examiner-records/examiner-records';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
@@ -128,14 +130,22 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    this.displayScrollBanner = (ev.detail.scrollTop > 203)
+    this.displayScrollBanner = (ev.detail.scrollTop > 203);
   }
 
   /**
    * Calls function in provider to call and cache test results from the backend
    */
   async getOnlineRecords() {
-    await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
+    const staffNumber = '55555555';
+
+    if (true
+    ) {
+      // @TODO: `LoadingExaminerRecords` is not needed
+      // we can use `GetExaminerRecords` to update the reduce to loading = true
+      this.store$.dispatch(LoadingExaminerRecords());
+      this.store$.dispatch(GetExaminerRecords(staffNumber));
+    }
   }
 
   /**
@@ -169,9 +179,9 @@ export class ExaminerRecordsPage implements OnInit {
    * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
    */
   private getTestsByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    category: string,
-  ) => T,
+                                       tests: ExaminerRecordModel[],
+                                       category: string,
+                                     ) => T,
   ): Observable<T> => combineLatest(
     [
       this.eligTestSubject$.asObservable(),
@@ -189,11 +199,11 @@ export class ExaminerRecordsPage implements OnInit {
    * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
    */
   private getCategoriesByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    range: DateRange,
-    category: string,
-    location: number,
-  ) => T,
+                                            tests: ExaminerRecordModel[],
+                                            range: DateRange,
+                                            category: string,
+                                            location: number,
+                                          ) => T,
   ): Observable<T> => combineLatest(
     [
       this.locationSubject$.asObservable(),
@@ -216,11 +226,11 @@ export class ExaminerRecordsPage implements OnInit {
    * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
    */
   private getLocationsByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    range: DateRange,
-    category: string,
-    location: number,
-  ) => T,
+                                           tests: ExaminerRecordModel[],
+                                           range: DateRange,
+                                           category: string,
+                                           location: number,
+                                         ) => T,
   ): Observable<T> => combineLatest(
     [
       this.testsInRangeSubject$.asObservable(),
@@ -297,9 +307,11 @@ export class ExaminerRecordsPage implements OnInit {
         });
         return recordArray;
       }),
-    ).subscribe((value) => {
-      result = value;
-    }).unsubscribe();
+    )
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
     return result;
   }
 
@@ -339,7 +351,6 @@ export class ExaminerRecordsPage implements OnInit {
               this.locationFilterOptions.push(val.item);
             });
 
-
             if (!this.locationFilterOptions.map(({ centreId }) => centreId)
               .includes(this.locationSubject$.value)) {
               //find most common location and set it as the default
@@ -350,7 +361,11 @@ export class ExaminerRecordsPage implements OnInit {
                 this.locationSelectPristine = true;
               } else if (value.length === 0) {
                 this.locationPlaceholder = '';
-                this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+                this.handleLocationFilter({
+                  centreId: null,
+                  centreName: '',
+                  costCode: '',
+                });
                 this.locationSelectPristine = true;
               }
             }
@@ -427,12 +442,15 @@ export class ExaminerRecordsPage implements OnInit {
         this.pageState.circuits$,
         this.pageState.locationList$,
         this.pageState.categoryList$,
-        this.pageState.emergencyStops$
-      ]
-    ).pipe().subscribe((value) => {
-      console.log('combine call', value)
-      this.examinerRecordsProvider.handleLoadingUI(false);
-    });
+        this.pageState.emergencyStops$,
+      ],
+    )
+      .pipe(
+        // debounceTime added to not emit many times
+        debounceTime(0),
+        switchMap(() => this.examinerRecordsProvider.handleLoadingUI(false)),
+      )
+      .subscribe();
 
     this.merged$ = merge(
       //listen for changes to test result and send the result to the behaviour subject
@@ -441,11 +459,11 @@ export class ExaminerRecordsPage implements OnInit {
         if (this.testResults.length > 0) {
           this.testSubject$.next(this.testResults);
         }
-        this.examinerRecordsProvider.handleLoadingUI(false);
+        // this.examinerRecordsProvider.handleLoadingUI(false);
       })),
       //deactivate loading ui when no longer loading
-      isLoadingRecords$.pipe(map((value) => {
-        this.examinerRecordsProvider.handleLoadingUI(value);
+      isLoadingRecords$.pipe(tap(async (value) => {
+        await this.examinerRecordsProvider.handleLoadingUI(value);
       })),
     );
     if (this.merged$) {
@@ -517,7 +535,8 @@ export class ExaminerRecordsPage implements OnInit {
     }
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
-    this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
+    this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val)
+      .format('DD/MM/YYYY');
     this.filterDates();
 
     this.store$.dispatch(DateRangeChanged(event.detail?.value));
@@ -556,7 +575,6 @@ export class ExaminerRecordsPage implements OnInit {
       this.currentCategory = event;
       this.categorySubject$.next(event ?? null);
       this.changeEligibleTests();
-
 
       this.store$.dispatch(TestCategoryChanged(event));
     }

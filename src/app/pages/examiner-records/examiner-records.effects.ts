@@ -33,25 +33,20 @@ export class ExaminerRecordsEffects {
 
   onlineExaminerRecordsCalled$ = createEffect(() => this.actions$.pipe(
     ofType(GetExaminerRecords),
-    switchMap(({ staffNumber }) => {
-      //Get backend tests in the examiner records format
-      return this.searchProvider.examinerRecordsSearch(
-        staffNumber,
-      ).pipe(
-        catchError((err) => {
-          this.store$.dispatch(SaveLog({
-            payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving examiner records', err.error),
-          }));
-          return of(null);
-        }),
-      );
+    switchMap(({ staffNumber }) => this.searchProvider.examinerRecordsSearch(staffNumber)),
+    catchError((err) => {
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving examiner records', err.error),
+      }));
+      return of(null);
     }),
     //Remove blank properties from returned records
     map((examinerHash: string) =>
       (examinerHash ? this.compressionProvider.extract(examinerHash) : null) as ExaminerRecordModel[]),
     map((examinerRecords) => {
       return examinerRecords ? examinerRecords.map((examinerRecord) => {
-        return Object.fromEntries(Object.entries(examinerRecord).filter(([, v]) => v != null)) as ExaminerRecordModel;
+        return Object.fromEntries(Object.entries(examinerRecord)
+          .filter(([, v]) => v != null)) as ExaminerRecordModel;
       }) : null;
     }),
     //cache results

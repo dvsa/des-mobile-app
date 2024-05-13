@@ -6,9 +6,9 @@ import {
   CacheExaminerRecords,
   ColourFilterChanged,
   DateRangeChanged,
+  HideChartsChanged,
   LoadingExaminerRecords,
   LocationChanged,
-  HideChartsChanged,
   TestCategoryChanged,
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -19,7 +19,7 @@ export const initialState: ExaminerRecordStateModel = {
   cachedRecords: null,
   colourScheme: ColourEnum.Default,
   isLoading: false,
-  lastUpdatedTime: null
+  lastUpdatedTime: null,
 };
 
 export const examinerRecordsReducer = createReducer(
@@ -33,7 +33,7 @@ export const examinerRecordsReducer = createReducer(
     cachedRecords: tests,
     isLoading: false,
   })),
-  on(LoadingExaminerRecords, (state: ExaminerRecordStateModel, { }) => ({
+  on(LoadingExaminerRecords, (state: ExaminerRecordStateModel, {}) => ({
     ...state,
     isLoading: true,
   })),
