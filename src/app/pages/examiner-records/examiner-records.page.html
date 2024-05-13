@@ -93,7 +93,7 @@
         <ion-select
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
-          (ionChange)="handleDateFilter($event)"
+          (ionChange)="handleDateFilter($event, true)"
           labelPlacement="stacked"
           [placeholder]="defaultDate.display"
         >
