@@ -316,21 +316,23 @@ describe('TestSlotComponent', () => {
     });
 
     describe('isAutosavedTest', () => {
-      it('should return true when remoteAutosaved is true and testStatus is not Autosaved', () => {
-        const result = component.isAutosavedTest(true, TestStatus.Completed);
+      it('should return true when remoteAutosaved is 1 and testStatus is not Autosaved', () => {
+        const result = component.isAutosavedTest(1, TestStatus.Completed);
         expect(result).toEqual(true);
       });
 
-      it('should return false when remoteAutosaved is true and testStatus is Autosaved', () => {
-        const result = component.isAutosavedTest(true, TestStatus.Autosaved);
+      it('should return false when remoteAutosaved is 1 and testStatus is Autosaved', () => {
+        const result = component.isAutosavedTest(1, TestStatus.Autosaved);
         expect(result).toEqual(false);
       });
 
-      it('should return false when remoteAutosaved is false regardless of testStatus', () => {
-        const resultWithAutosavedStatus = component.isAutosavedTest(false, TestStatus.Autosaved);
-        const resultWithCompletedStatus = component.isAutosavedTest(false, TestStatus.Completed);
-
+      it('should return false when remoteAutosaved is 0 and testStatus is Autosaved', () => {
+        const resultWithAutosavedStatus = component.isAutosavedTest(0, TestStatus.Autosaved);
         expect(resultWithAutosavedStatus).toEqual(false);
+      });
+
+      it('should return false when remoteAutosaved is 0 and testStatus is not Autosaved', () => {
+        const resultWithCompletedStatus = component.isAutosavedTest(0, TestStatus.Completed);
         expect(resultWithCompletedStatus).toEqual(false);
       });
     });

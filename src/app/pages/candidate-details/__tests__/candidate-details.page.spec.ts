@@ -34,6 +34,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
@@ -202,6 +203,32 @@ describe('CandidateDetailsPage', () => {
         },
       }));
       expect(store$.dispatch).toHaveBeenCalledWith(journalActions.CandidateDetailsSeen({ slotId: 123 }));
+    });
+  });
+
+  describe('isRecovered', () => {
+    it('should return true when autosave remotely is true and test status is not autosaved', () => {
+      const completedTests = [{ applicationReference: 112233, autosave: 1 }];
+      const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
+      const testStatus = TestStatus.Completed;
+      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus))
+        .toEqual(true);
+    });
+
+    it('should return false when autosave remotely is false', () => {
+      const completedTests = [{ applicationReference: 112233, autosave: 0 }];
+      const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
+      const testStatus = TestStatus.Completed;
+      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus))
+        .toEqual(false);
+    });
+
+    it('should return false when test status is autosaved', () => {
+      const completedTests = [{ applicationReference: 112233, autosave: 0 }];
+      const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
+      const testStatus = TestStatus.Autosaved;
+      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus))
+        .toEqual(false);
     });
   });
 

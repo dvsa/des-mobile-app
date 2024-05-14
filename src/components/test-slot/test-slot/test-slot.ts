@@ -200,7 +200,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
    * @param testStatus
    */
   isAutosavedTest = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
-    return remoteAutosaved && testStatus !== TestStatus.Autosaved;
+    return Boolean(remoteAutosaved) && testStatus !== TestStatus.Autosaved;
   }
 
   showOutcome(status: TestStatus): boolean {
