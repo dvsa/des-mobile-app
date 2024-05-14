@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable, Subscription, timer } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import {
   AccordionChanged,
@@ -60,18 +60,21 @@ import { ScrollDetail } from '@ionic/core';
 interface ExaminerRecordsState {
   cachedRecords$: Observable<ExaminerRecordModel[]>;
   isLoadingRecords$: Observable<boolean>;
-  routeNumbers$: Observable<ExaminerRecordData<string>[]>;
-  manoeuvres$: Observable<ExaminerRecordData<string>[]>;
-  showMeQuestions$: Observable<ExaminerRecordData<string>[]>;
-  tellMeQuestions$: Observable<ExaminerRecordData<string>[]>;
-  safetyQuestions$: Observable<ExaminerRecordData<string>[]>;
-  balanceQuestions$: Observable<ExaminerRecordData<string>[]>;
-  independentDriving$: Observable<ExaminerRecordData<string>[]>;
-  testCount$: Observable<number>;
-  locationList$: Observable<{ item: TestCentre, count: number }[]>;
-  categoryList$: Observable<{ item: TestCategory, count: number }[]>;
-  emergencyStops$: Observable<ExaminerRecordData<string>[]>;
-  circuits$: Observable<ExaminerRecordData<string>[]>;
+}
+
+interface ExaminerRecordGraphItems {
+  routeNumbers: ExaminerRecordData<string>[];
+  manoeuvres: ExaminerRecordData<string>[];
+  showMeQuestions: ExaminerRecordData<string>[];
+  tellMeQuestions: ExaminerRecordData<string>[];
+  safetyQuestions: ExaminerRecordData<string>[];
+  balanceQuestions: ExaminerRecordData<string>[];
+  independentDriving: ExaminerRecordData<string>[];
+  testCount: number;
+  locationList: { item: TestCentre, count: number }[];
+  categoryList: { item: TestCategory, count: number }[];
+  emergencyStops: ExaminerRecordData<string>[];
+  circuits: ExaminerRecordData<string>[];
 }
 
 @Component({
@@ -90,6 +93,20 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$ = new BehaviorSubject<number | null>(null);
   categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
   pageState: ExaminerRecordsState;
+  graphVariables: ExaminerRecordGraphItems = {
+    balanceQuestions: [],
+    categoryList: [],
+    circuits: [],
+    emergencyStops: [],
+    independentDriving: [],
+    locationList: [],
+    manoeuvres: [],
+    routeNumbers: [],
+    safetyQuestions: [],
+    showMeQuestions: [],
+    tellMeQuestions: [],
+    testCount: 0
+  };
   hideMainContent = false;
   colourOption: ColourScheme = this.getColour(this.store$.selectSignal(selectColourScheme)());
   categoryPlaceholder: string;
@@ -128,7 +145,7 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    this.displayScrollBanner = (ev.detail.scrollTop > 203)
+    this.displayScrollBanner = (ev.detail.scrollTop > 203);
   }
 
   /**
@@ -163,79 +180,6 @@ export class ExaminerRecordsPage implements OnInit {
         null,
       ));
   }
-
-  /**
-   * wrapper used to reduce/centralise code
-   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
-   */
-  private getTestsByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    category: string,
-  ) => T,
-  ): Observable<T> => combineLatest(
-    [
-      this.eligTestSubject$.asObservable(),
-    ])
-    .pipe(
-      // return an observable using the generic `fn`
-      switchMap(() => of(fn(
-        this.eligTestSubject$.value,
-        this.categorySubject$.value,
-      ))),
-    );
-
-  /**
-   * wrapper used to reduce/centralise code
-   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
-   */
-  private getCategoriesByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    range: DateRange,
-    category: string,
-    location: number,
-  ) => T,
-  ): Observable<T> => combineLatest(
-    [
-      this.locationSubject$.asObservable(),
-      this.testsInRangeSubject$.asObservable(),
-
-    ])
-    .pipe(
-      // return an observable using the generic `fn`
-      switchMap(() => {
-        return of(fn(
-          this.testsInRangeSubject$.value,
-          this.rangeSubject$.value,
-          this.categorySubject$.value,
-          this.locationSubject$.value,
-        ));
-      }),
-    );
-  /**
-   * wrapper used to reduce/centralise code
-   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
-   */
-  private getLocationsByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    range: DateRange,
-    category: string,
-    location: number,
-  ) => T,
-  ): Observable<T> => combineLatest(
-    [
-      this.testsInRangeSubject$.asObservable(),
-    ])
-    .pipe(
-      // return an observable using the generic `fn`
-      switchMap(() => {
-        return of(fn(
-          this.testsInRangeSubject$.value,
-          this.rangeSubject$.value,
-          this.categorySubject$.value,
-          this.locationSubject$.value,
-        ));
-      }),
-    );
 
   /**
    * merge the local records pulled from the store with the cached online records, if they exist
@@ -303,7 +247,136 @@ export class ExaminerRecordsPage implements OnInit {
     return result;
   }
 
+  filterLocations(locations: { item: TestCentre, count: number }[]) {
+    this.locationFilterOptions = [];
+
+    //add every visited location to location array
+    locations.forEach((val) => {
+      this.locationFilterOptions.push(val.item);
+    });
+
+    if (!this.locationFilterOptions.map(({ centreId }) => centreId)
+      .includes(this.locationSubject$.value)) {
+      //find most common location and set it as the default
+      const mostUsed = this.setDefault(locations);
+      if (!!mostUsed) {
+        this.locationPlaceholder = mostUsed.item.centreName;
+        this.handleLocationFilter(mostUsed.item);
+        this.locationSelectPristine = true;
+      } else if (locations.length === 0) {
+        this.locationPlaceholder = '';
+        this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+        this.locationSelectPristine = true;
+      }
+    }
+
+  }
+
+  filterCategories(categories: { item: TestCategory, count: number }[]) {
+    this.categoryFilterOptions = [];
+
+    //add every completed category to category array
+    categories.forEach((val) => {
+      if (!([
+        TestCategory.ADI2,
+        TestCategory.ADI3,
+        TestCategory.SC,
+        TestCategory.CCPC,
+        TestCategory.DCPC,
+        TestCategory.DM,
+        TestCategory.DEM,
+        TestCategory.D1M,
+        TestCategory.D1EM,
+        TestCategory.CM,
+        TestCategory.CEM,
+        TestCategory.C1M,
+        TestCategory.C1EM,
+      ].includes(val.item))) {
+        this.categoryFilterOptions.push(val.item);
+      }
+    });
+
+    if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
+      //find most common category and set it as the default
+      const mostUsed = this.setDefault(categories);
+
+      if (!!mostUsed) {
+        this.categoryPlaceholder = mostUsed.item;
+        this.handleCategoryFilter(mostUsed.item);
+        this.categorySelectPristine = true;
+      }
+    } else {
+      this.changeEligibleTests();
+    }
+  }
+
+  filterEmergencyStops(testCount: number, emergencyStopCount: number) {
+    return [
+      {
+        item: 'Stop',
+        count: emergencyStopCount,
+        percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
+      },
+      {
+        item: 'No stop',
+        count: testCount - emergencyStopCount,
+        percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
+      },
+    ]
+  }
+
+  async getValues(): Promise<void> {
+    this.filterDates();
+    this.changeEligibleTests();
+    this.graphVariables.routeNumbers = getRouteNumbers(this.eligTestSubject$.value);
+    this.graphVariables.manoeuvres = getManoeuvresUsed(this.eligTestSubject$.value, this.categorySubject$.value);
+    this.graphVariables.balanceQuestions = getBalanceQuestions(
+      this.eligTestSubject$.value, this.categorySubject$.value
+    );
+    this.graphVariables.safetyQuestions = getSafetyQuestions(this.eligTestSubject$.value, this.categorySubject$.value);
+    this.graphVariables.independentDriving = getIndependentDrivingStats(
+      this.eligTestSubject$.value, this.categorySubject$.value
+    );
+    this.graphVariables.showMeQuestions = getShowMeQuestions(this.eligTestSubject$.value, this.categorySubject$.value);
+    this.graphVariables.tellMeQuestions = getTellMeQuestions(this.eligTestSubject$.value, this.categorySubject$.value);
+    this.graphVariables.testCount = getStartedTestCount(this.eligTestSubject$.value);
+    this.graphVariables.circuits = getCircuits(this.eligTestSubject$.value, this.categorySubject$.value);
+    this.graphVariables.locationList = getLocations(this.testsInRangeSubject$.value);
+    this.filterLocations(this.graphVariables.locationList);
+
+    this.graphVariables.categoryList = getCategories(
+      this.testsInRangeSubject$.value,
+      this.rangeSubject$.value,
+      this.categorySubject$.value,
+      this.locationSubject$.value,
+    );
+    this.filterCategories(this.graphVariables.categoryList);
+
+    this.graphVariables.emergencyStops = this.filterEmergencyStops(
+      this.graphVariables.testCount,
+      getEmergencyStopCount(this.eligTestSubject$.value)
+    );
+  }
+
+  async updateFieldsWithSelectors() {
+    let isLoading = true;
+
+    setTimeout(async () => {
+      if (isLoading) {
+        await this.examinerRecordsProvider.handleLoadingUI(true);
+      }
+      console.log('handle timeout');
+    }, 400);
+
+    await this.getValues().then( async () => {
+      isLoading = false;
+      console.log('processing done');
+      await this.examinerRecordsProvider.handleLoadingUI(false);
+    })
+  }
+
   async ngOnInit() {
+
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
@@ -317,130 +390,17 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationSelectPristine = false;
     }
 
+    await this.updateFieldsWithSelectors();
+
     this.pageState = {
       cachedRecords$: this.store$.select(selectCachedExaminerRecords),
       isLoadingRecords$: this.store$.select(getIsLoadingRecords),
-      routeNumbers$: this.getTestsByParameters(getRouteNumbers),
-      manoeuvres$: this.getTestsByParameters(getManoeuvresUsed),
-      balanceQuestions$: this.getTestsByParameters(getBalanceQuestions),
-      safetyQuestions$: this.getTestsByParameters(getSafetyQuestions),
-      independentDriving$: this.getTestsByParameters(getIndependentDrivingStats),
-      showMeQuestions$: this.getTestsByParameters(getShowMeQuestions),
-      tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
-      testCount$: this.getTestsByParameters(getStartedTestCount),
-      circuits$: this.getTestsByParameters(getCircuits),
-      locationList$: this.getLocationsByParameters(getLocations)
-        .pipe(
-          tap((value) => {
-            this.locationFilterOptions = [];
-
-            //add every visited location to location array
-            value.forEach((val) => {
-              this.locationFilterOptions.push(val.item);
-            });
-
-
-            if (!this.locationFilterOptions.map(({ centreId }) => centreId)
-              .includes(this.locationSubject$.value)) {
-              //find most common location and set it as the default
-              const mostUsed = this.setDefault(value);
-              if (!!mostUsed) {
-                this.locationPlaceholder = mostUsed.item.centreName;
-                this.handleLocationFilter(mostUsed.item);
-                this.locationSelectPristine = true;
-              } else if (value.length === 0) {
-                this.locationPlaceholder = '';
-                this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
-                this.locationSelectPristine = true;
-              }
-            }
-
-          }),
-        ),
-      categoryList$: this.getCategoriesByParameters(getCategories)
-        .pipe(
-          tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
-            this.categoryFilterOptions = [];
-
-            //add every completed category to category array
-            value.forEach((val) => {
-              if (!([
-                TestCategory.ADI2,
-                TestCategory.ADI3,
-                TestCategory.SC,
-                TestCategory.CCPC,
-                TestCategory.DCPC,
-                TestCategory.DM,
-                TestCategory.DEM,
-                TestCategory.D1M,
-                TestCategory.D1EM,
-                TestCategory.CM,
-                TestCategory.CEM,
-                TestCategory.C1M,
-                TestCategory.C1EM,
-              ].includes(val.item))) {
-                this.categoryFilterOptions.push(val.item);
-              }
-            });
-
-            if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
-              //find most common category and set it as the default
-              const mostUsed = this.setDefault(value);
-
-              if (!!mostUsed) {
-                this.categoryPlaceholder = mostUsed.item;
-                this.handleCategoryFilter(mostUsed.item);
-                this.categorySelectPristine = true;
-              }
-            } else {
-              this.changeEligibleTests();
-            }
-          }),
-        ),
-      emergencyStops$: this.getTestsByParameters(getStartedTestCount)
-        .pipe(
-          withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
-          //Turn emergency stop count into two objects containing tests with stops and tests without
-          map(([testCount, emergencyStopCount]) => ([
-            {
-              item: 'Stop',
-              count: emergencyStopCount,
-              percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
-            },
-            {
-              item: 'No stop',
-              count: testCount - emergencyStopCount,
-              percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
-            },
-          ])),
-        ),
     };
 
     const {
       cachedRecords$,
       isLoadingRecords$,
     } = this.pageState;
-
-    combineLatest(
-      [
-        this.pageState.routeNumbers$,
-        this.pageState.manoeuvres$,
-        this.pageState.locationList$,
-        this.pageState.balanceQuestions$,
-        this.pageState.safetyQuestions$,
-        this.pageState.independentDriving$,
-        this.pageState.showMeQuestions$,
-        this.pageState.tellMeQuestions$,
-        this.pageState.testCount$,
-        this.pageState.circuits$,
-        this.pageState.locationList$,
-        this.pageState.categoryList$,
-        this.pageState.emergencyStops$
-      ]
-    ).pipe().subscribe((value) => {
-      console.log('combine call', value)
-      this.examinerRecordsProvider.handleLoadingUI(false);
-    });
 
     this.merged$ = merge(
       //listen for changes to test result and send the result to the behaviour subject
@@ -491,13 +451,11 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationFilterOptions = [];
       let mostUsed = null;
 
-      this.pageState.locationList$.subscribe(value => {
-        value.forEach((val) => {
-          this.locationFilterOptions.push(val.item);
-        });
-        mostUsed = this.setDefault(value);
-      })
-        .unsubscribe();
+
+      this.graphVariables.locationList.forEach((val) => {
+        this.locationFilterOptions.push(val.item);
+      });
+      mostUsed = this.setDefault(this.graphVariables.locationList);
 
       if (!!mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
@@ -519,24 +477,20 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * set date range filter to the event value and send that value to the behaviour subject
    */
-  async handleDateFilter(event: CustomEvent, triggerLoad: boolean = false): Promise<void> {
-    if (triggerLoad) {
-      await this.examinerRecordsProvider.handleLoadingUI(true);
-    }
+  async handleDateFilter(event: CustomEvent): Promise<void> {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
     this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
     this.filterDates();
-
     this.store$.dispatch(DateRangeChanged(event.detail?.value));
+    this.updateFieldsWithSelectors();
   }
 
   /**
    * set the current location to the selected value, change relevant variables for
    * displaying the new value and send that value to the behaviour subject
    */
-  async handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
-    // await this.examinerRecordsProvider.handleLoadingUI(true);
+  handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
 
     if (ionSelectTriggered) {
       this.locationSelectPristine = false;
@@ -546,6 +500,7 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationFilter = event.centreName ?? null;
       this.locationSubject$.next(event.centreId ?? null);
       this.currentTestCentre = event;
+      this.updateFieldsWithSelectors();
 
       this.store$.dispatch(LocationChanged(event));
     }
@@ -564,7 +519,7 @@ export class ExaminerRecordsPage implements OnInit {
       this.currentCategory = event;
       this.categorySubject$.next(event ?? null);
       this.changeEligibleTests();
-
+      this.updateFieldsWithSelectors();
 
       this.store$.dispatch(TestCategoryChanged(event));
     }

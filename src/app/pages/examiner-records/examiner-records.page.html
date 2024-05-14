@@ -13,7 +13,7 @@
     *ngIf="displayScrollBanner"
   >
     <ion-text class="mes-padding-left mes-data">
-      Displaying <b>{{ pageState.testCount$ | async }}</b> tests, from <b>{{ startDateFilter }}</b> to
+      Displaying <b>{{ graphVariables.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to
       <b>{{ endDateFilter }}</b>
     </ion-text>
   </ion-row>
@@ -23,20 +23,6 @@
   [fullscreen]="true"
   [scrollEvents]="true"
   (ionScroll)="handleScroll($any($event))"
-  *ngIf="{
-  routeGrid: pageState.routeNumbers$ | async,
-  manoeuvresGrid: pageState.manoeuvres$ | async,
-  showMeQuestionsGrid: pageState.showMeQuestions$ | async,
-  independentDrivingGrid: pageState.independentDriving$ | async,
-  tellMeQuestionsGrid: pageState.tellMeQuestions$ | async,
-  safetyGrid: pageState.safetyQuestions$ | async,
-  balanceGrid: pageState.balanceQuestions$ | async,
-  testCount: pageState.testCount$ | async,
-  emergencyStops: pageState.emergencyStops$ | async,
-  circuits: pageState.circuits$ | async,
-  locationList: pageState.locationList$ | async,
-  categoryList: pageState.categoryList$ | async
-} as data"
 >
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
@@ -45,7 +31,7 @@
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
-          *ngIf="data.locationList?.length > 0"
+          *ngIf="graphVariables?.locationList?.length > 0"
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
           id="locationSelect"
@@ -58,7 +44,7 @@
             {{ option.centreName }}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available</ion-text>
+        <ion-text *ngIf="graphVariables?.locationList?.length == 0" class="mes-data">No locations available</ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -68,7 +54,7 @@
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
-          *ngIf="data.categoryList?.length > 0"
+          *ngIf="graphVariables?.categoryList?.length > 0"
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
           (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
@@ -81,7 +67,7 @@
             {{ option }}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
+        <ion-text *ngIf="graphVariables?.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -135,13 +121,13 @@
   </ion-row>
   <ion-row class="ion-padding-top ion-padding-bottom">
     <ion-text [style.color]="displayScrollBanner ? 'transparent' : 'black'" class="mes-padding-left mes-data">
-      Displaying <b>{{ data.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to <b>{{ endDateFilter }}</b>
+      Displaying <b>{{ graphVariables?.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to <b>{{ endDateFilter }}</b>
     </ion-text>
   </ion-row>
 
-  <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
+  <div *ngIf="graphVariables?.categoryList?.length > 0 && graphVariables?.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">
-      <ion-col *ngIf="data.routeGrid?.length && !isMod1()" class="ion-no-padding" size="auto">
+      <ion-col *ngIf="graphVariables?.routeNumbers?.length && !isMod1()" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -154,11 +140,11 @@
           [splitChartLabel]="true"
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
-          [passedData]="data.routeGrid"
+          [passedData]="graphVariables?.routeNumbers"
         >
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
+      <ion-col *ngIf="graphVariables?.independentDriving?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -168,31 +154,31 @@
           [useGrid]="false"
           [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
-          [passedData]="data.independentDrivingGrid"
+          [passedData]="graphVariables?.independentDriving"
         >
           <div head class="width-100-percent">
             <ion-row>
               <ion-col>
                 <ion-row class="ion-justify-content-center">
                   <ion-text class="ion-text-center des-header-style-1">
-                    {{ data.independentDrivingGrid[0].percentage }}
+                    {{ graphVariables?.independentDriving[0].percentage }}
                   </ion-text>
                 </ion-row>
                 <ion-row class="ion-justify-content-center padding-top-10">
                   <ion-text class="ion-text-center des-header-style-6">
-                    {{ (data.independentDrivingGrid[0].item).split("- ")[1] }}
+                    {{ (graphVariables?.independentDriving[0].item).split("- ")[1] }}
                   </ion-text>
                 </ion-row>
               </ion-col>
               <ion-col>
                 <ion-row class="ion-justify-content-center">
                   <ion-text class="ion-text-center des-header-style-1">
-                    {{ data.independentDrivingGrid[1].percentage }}
+                    {{ graphVariables?.independentDriving[1].percentage }}
                   </ion-text>
                 </ion-row>
                 <ion-row class="ion-justify-content-center padding-top-10">
                   <ion-text class="ion-text-center des-header-style-6">
-                    {{ (data.independentDrivingGrid[1].item).split("- ")[1] }}
+                    {{ (graphVariables?.independentDriving[1].item).split("- ")[1] }}
                   </ion-text>
                 </ion-row>
               </ion-col>
@@ -205,8 +191,8 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [value]="data.independentDrivingGrid[0].count + ' ('+data.independentDrivingGrid[0].percentage+')'"
-              label='Tests using {{(data.independentDrivingGrid[0].item).split("- ")[1].toLowerCase()}}'
+              [value]="graphVariables?.independentDriving[0].count + ' ('+graphVariables?.independentDriving[0].percentage+')'"
+              label='Tests using {{(graphVariables?.independentDriving[0].item).split("- ")[1].toLowerCase()}}'
             >
             </data-row>
             <data-row
@@ -215,8 +201,8 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [value]="data.independentDrivingGrid[1].count + ' ('+data.independentDrivingGrid[1].percentage+')'"
-              label='Tests using {{(data.independentDrivingGrid[1].item).split("- ")[1].toLowerCase()}}'
+              [value]="graphVariables?.independentDriving[1].count + ' ('+graphVariables?.independentDriving[1].percentage+')'"
+              label='Tests using {{(graphVariables?.independentDriving[1].item).split("- ")[1].toLowerCase()}}'
             >
             </data-row>
             <data-row
@@ -227,13 +213,13 @@
               [shouldHaveSeperator]="false"
               [centreData]="true"
               [value]="'20%'"
-              label='Target percentage of tests using {{(data.independentDrivingGrid[0].item).split("-")[1].toLowerCase()}}'
+              label='Target percentage of tests using {{(graphVariables?.independentDriving[0].item).split("-")[1].toLowerCase()}}'
             >
             </data-row>
           </div>
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
+      <ion-col *ngIf="graphVariables?.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -243,14 +229,14 @@
           [useGrid]="false"
           [cardTitle]="'Emergency stops'"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
-          [passedData]="data.emergencyStops"
+          [passedData]="graphVariables?.emergencyStops"
         >
           <div head class="width-100-percent">
             <ion-row>
               <ion-col>
                 <ion-row class="ion-justify-content-center">
                   <ion-text class="ion-text-center des-header-style-1">
-                    {{ data.emergencyStops[0].percentage }}
+                    {{ graphVariables?.emergencyStops[0].percentage }}
                   </ion-text>
                 </ion-row>
                 <ion-row class="ion-justify-content-center padding-top-10">
@@ -266,7 +252,7 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [value]="data.emergencyStops[0].count + ' ('+data.emergencyStops[0].percentage+')'"
+              [value]="graphVariables?.emergencyStops[0].count + ' ('+graphVariables?.emergencyStops[0].percentage+')'"
               label="Tests with an emergency stop"
             >
             </data-row>
@@ -276,7 +262,7 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [value]="data.emergencyStops[1].count + ' ('+data.emergencyStops[1].percentage+')'"
+              [value]="graphVariables?.emergencyStops[1].count + ' ('+graphVariables?.emergencyStops[1].percentage+')'"
               label="Tests without emergency stop"
             >
             </data-row>
@@ -294,7 +280,7 @@
           </div>
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
+      <ion-col *ngIf="graphVariables?.manoeuvres?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -307,11 +293,11 @@
           [splitChartLabel]="true"
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
-          [passedData]="data.manoeuvresGrid"
+          [passedData]="graphVariables?.manoeuvres"
         >
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+      <ion-col *ngIf="graphVariables?.showMeQuestions?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -324,11 +310,11 @@
           [splitChartLabel]="true"
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
-          [passedData]="data.showMeQuestionsGrid"
+          [passedData]="graphVariables?.showMeQuestions"
         >
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.tellMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+      <ion-col *ngIf="graphVariables?.tellMeQuestions?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -341,11 +327,11 @@
           [splitChartLabel]="true"
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
-          [passedData]="data.tellMeQuestionsGrid"
+          [passedData]="graphVariables?.tellMeQuestions"
         >
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.balanceGrid?.length" class="ion-no-padding" size="48">
+      <ion-col *ngIf="graphVariables.balanceQuestions?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -360,11 +346,11 @@
           [splitChartLabel]="true"
           [chartType]="'pie'"
           [colourScheme]="colourOption.pie"
-          [passedData]="data.balanceGrid"
+          [passedData]="graphVariables.balanceQuestions"
         >
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.safetyGrid?.length" class="ion-no-padding" size="auto">
+      <ion-col *ngIf="graphVariables?.safetyQuestions?.length" class="ion-no-padding" size="auto">
         <examiner-reports-card
           [canExpand]="!hideMainContent"
           [showExpandedData]="showExpandedData"
@@ -377,11 +363,11 @@
           [splitChartLabel]="true"
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
-          [passedData]="data.safetyGrid"
+          [passedData]="graphVariables?.safetyQuestions"
         >
         </examiner-reports-card>
       </ion-col>
-      <ion-col *ngIf="data.circuits?.length" class="ion-no-padding" size="48">
+      <ion-col *ngIf="graphVariables?.circuits?.length" class="ion-no-padding" size="48">
         <examiner-reports-card
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
@@ -396,14 +382,14 @@
           [splitChartLabel]="true"
           [chartType]="'pie'"
           [colourScheme]="colourOption.pie"
-          [passedData]="data.circuits"
+          [passedData]="graphVariables?.circuits"
         >
         </examiner-reports-card>
       </ion-col>
     </ion-row>
   </div>
 
-  <ion-card *ngIf="data.categoryList?.length === 0 || data.locationList?.length === 0">
+  <ion-card *ngIf="graphVariables?.categoryList?.length === 0 || graphVariables?.locationList?.length === 0">
     <ion-card-header>
       <ion-card-title>
         <ion-row>
