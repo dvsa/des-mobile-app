@@ -31,6 +31,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -38,6 +39,7 @@ interface TestSlotComponentState {
   testPassCertificate$: Observable<String>;
   isRekey$: Observable<boolean>;
 }
+
 
 @Component({
   selector: 'test-slot',
@@ -68,13 +70,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult: boolean = false;
 
   @Input()
-  derivedTestStatus: TestStatus | null = null;
-
-  @Input()
-  derivedActivityCode: ActivityCode | null = null;
-
-  @Input()
-  derivedPassCertificate?: string;
+  completedTestRecord?: SearchResultTestSchema;
 
   @Input()
   examinerName: string = null;
@@ -120,19 +116,20 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         select(getTests),
         select((tests) => {
           const testStatus = getTestStatus(tests, slotId);
-          return testStatus === TestStatus.Autosaved ? testStatus : this.derivedTestStatus || testStatus;
+          return testStatus === TestStatus.Autosaved
+            ? testStatus : !!(this.completedTestRecord?.activityCode) ? TestStatus.Submitted : testStatus;
         }),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
         map((tests) => {
-          return this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId);
+          return this.completedTestRecord?.activityCode || getActivityCodeBySlotId(tests, slotId);
         }),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
         map((tests) => {
-          return this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId);
+          return this.completedTestRecord?.passCertificateNumber || getPassCertificateBySlotId(tests, slotId);
         }),
       ),
       isRekey$: this.store$.pipe(
@@ -149,15 +146,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
       this.slot, this.isTeamJournal,
     );
-  }
-
-  getColSize(): string {
-    switch (this.accessibilityService.getTextZoomClass()) {
-      case 'text-zoom-x-large':
-        return '40';
-      default:
-        return '44';
-    }
   }
 
   isIndicatorNeededForSlot(): boolean {
@@ -204,6 +192,16 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
+
+  /**
+   * Determines if the test held locally in an autosaved state
+   * and exists remotely as autosaved
+   * @param remoteAutosaved
+   * @param testStatus
+   */
+  isAutosavedTest = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
+    return Boolean(remoteAutosaved) && testStatus !== TestStatus.Autosaved;
+  }
 
   showOutcome(status: TestStatus): boolean {
     return [TestStatus.Completed, TestStatus.Submitted].includes(status);

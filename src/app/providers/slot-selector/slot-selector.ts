@@ -59,6 +59,19 @@ export class SlotSelectorProvider {
     return completedTest.activityCode;
   }
 
+  /**
+   * Returns the autosave status of a test if held remotely
+   * @param slotData
+   * @param completedTests
+   */
+  public hasSlotBeenPartiallyCompleted(slotData: TestSlot, completedTests: SearchResultTestSchema[]): number | null {
+    const completedTest = this.getCompletedTest(slotData, completedTests);
+    if (!completedTest) {
+      return null;
+    }
+    return completedTest.autosave;
+  }
+
   private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
     if (isEmpty(completedTests)) {
       return null;

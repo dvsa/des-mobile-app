@@ -29,6 +29,11 @@
               class="full-width"
             >
             </integrity-marker>
+            <autosave-status
+              *ngIf="!isTeamJournal && isAutosavedTest(completedTestRecord?.autosave, componentState.testStatus$ | async)"
+              class="full-width"
+            >
+            </autosave-status>
           </ion-col>
         </ion-row>
         <ion-row>

@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { get, has, isEmpty } from 'lodash-es';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+
+
 
 @Component({
   selector: 'journal-slots',
@@ -29,15 +32,19 @@ export class JournalSlotComponent {
   ) {
   }
 
-  derivedTestStatus = (
-    slotData: TestSlot,
-    completedTests: SearchResultTestSchema[],
-  ): TestStatus | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests) ? TestStatus.Submitted : null;
+  /**
+   * Find the completed test for the given slot if exists
+   * @param slotData
+   */
+  findCompletedTest(slotData: TestSlot): SearchResultTestSchema | null {
+    const tempAppRef = parseInt(formatApplicationReference({
+      applicationId: slotData.booking.application.applicationId,
+      bookingSequence: slotData.booking.application.bookingSequence,
+      checkDigit: slotData.booking.application.checkDigit,
+    } as ApplicationReference), 10);
 
-  hasSlotBeenTested = (
-    slotData: TestSlot,
-    completedTests: SearchResultTestSchema[],
-  ): ActivityCode | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests);
+    return this.completedTests.find(value => value.applicationReference === tempAppRef)
+  }
 
   didSlotPass = (
     slotData: TestSlot,

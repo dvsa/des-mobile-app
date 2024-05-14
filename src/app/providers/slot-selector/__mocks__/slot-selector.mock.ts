@@ -36,6 +36,10 @@ export class SlotSelectorProviderMock {
     return '1';
   }
 
+  hasSlotBeenPartiallyCompleted(): number | null {
+    return 1;
+  }
+
   createSlots = (): void => { };
 
 }

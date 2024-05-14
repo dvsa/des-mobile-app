@@ -4,8 +4,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 
 describe('JournalSlotComponent', () => {
@@ -32,26 +30,6 @@ describe('JournalSlotComponent', () => {
     slotSelector = TestBed.inject(SlotSelectorProvider);
   }));
 
-  describe('derivedTestStatus', () => {
-    it('should return null when hasSlotBeenTested returns null', () => {
-      spyOn(slotSelector, 'hasSlotBeenTested').and.returnValue(null);
-      expect(component.derivedTestStatus({} as TestSlot, [])).toEqual(null);
-    });
-    it('should return Submitted when hasSlotBeenTested returns an activity code', () => {
-      spyOn(slotSelector, 'hasSlotBeenTested').and.returnValue('1');
-      expect(component.derivedTestStatus({} as TestSlot, [])).toEqual(TestStatus.Submitted);
-    });
-  });
-  describe('hasSlotBeenTested', () => {
-    it('should return null when hasSlotBeenTested returns null', () => {
-      spyOn(slotSelector, 'hasSlotBeenTested').and.returnValue(null);
-      expect(component.hasSlotBeenTested({} as TestSlot, [])).toEqual(null);
-    });
-    it('should return the activity code from the completed test when hasSlotBeenTested', () => {
-      spyOn(slotSelector, 'hasSlotBeenTested').and.returnValue('1');
-      expect(component.hasSlotBeenTested({} as TestSlot, [])).toEqual('1');
-    });
-  });
   describe('slotType', () => {
     it('should return `personal` when personalCommitment is empty', () => {
       const slotItem = { personalCommitment: [{}], slotData: null } as SlotItem;

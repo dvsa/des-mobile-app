@@ -17,10 +17,12 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { LocationComponent } from './location/location';
 import { AdditionalCandidateDetailsComponent } from './additional-candidate-details/additional-candidate-details';
 import { ExaminerNameComponent } from './examiner-name/examiner-name';
+import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
 
 @NgModule({
   declarations: [
     AdditionalCandidateDetailsComponent,
+    AutosaveStatusComponent,
     CandidateLinkComponent,
     IndicatorsComponent,
     LanguageComponent,
@@ -43,6 +45,7 @@ import { ExaminerNameComponent } from './examiner-name/examiner-name';
   ],
   exports: [
     AdditionalCandidateDetailsComponent,
+    AutosaveStatusComponent,
     CandidateLinkComponent,
     IndicatorsComponent,
     LanguageComponent,

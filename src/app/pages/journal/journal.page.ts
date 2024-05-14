@@ -33,6 +33,9 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -255,4 +258,34 @@ export class JournalPage extends BasePageComponent implements OnInit {
   loadCompletedTestsWithCallThrough = (): void => {
     this.store$.dispatch(journalActions.LoadCompletedTests(true));
   };
+
+  /**
+   * Limit payload to only the required fields for test that match current journal slots
+   * @param completedTests
+   * @param testSlots
+   */
+  formatCompleteTests(completedTests, testSlots) {
+    let arrayOfTests = testSlots.map((slot: SlotItem) => {
+      return parseInt(formatApplicationReference({
+        applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
+        bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
+        checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
+      } as ApplicationReference), 10);
+    })
+
+    let matchingTests = arrayOfTests
+      .filter(element => completedTests
+        .map(value => value.applicationReference).includes(element));
+
+    return completedTests
+      .filter(value => matchingTests.includes(value.applicationReference))
+      .map(value => {
+        return {
+          applicationReference: value.applicationReference,
+          activityCode: value.activityCode,
+          autosave: !!(value.autosave),
+          passCertificateNumber: value.passCertificateNumber,
+        };
+      });
+  }
 }

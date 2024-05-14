@@ -51,6 +51,9 @@
         <h2 class="des-header-style-4" id="candidate-details-title">Candidate details</h2>
       </ion-card-header>
       <ion-card-content>
+        <test-recovered-banner
+          *ngIf="isRecovered(pageState.completedTests$ | async, slot, pageState.testStatus$ | async)"
+        ></test-recovered-banner>
         <inappropriate-use-banner></inappropriate-use-banner>
         <ion-grid>
           <data-row [idPrefix]="idPrefix" [label]="'Test category'" [value]="pageState.details.testCategory">

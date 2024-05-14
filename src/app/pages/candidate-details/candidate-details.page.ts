@@ -24,10 +24,12 @@ import { getTestStatus } from '@store/tests/tests.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getCompletedTestOutcome, getCompletedTests } from '@store/journal/journal.selector';
-import { ActivityCode } from '@dvsa/mes-search-schema';
+import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { map } from 'rxjs/operators';
 import { SlotProvider } from '@providers/slot/slot';
 import { Details } from './candidate-details.page.model';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 
 interface CandidateDetailsPageState {
   name: string;
@@ -41,6 +43,7 @@ interface CandidateDetailsPageState {
   fitCaseNumber: string;
   testStatus$: Observable<TestStatus>;
   completedTestOutcome$: Observable<ActivityCode>;
+  completedTests$: Observable<SearchResultTestSchema[]>;
 }
 
 @Component({
@@ -123,6 +126,10 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
         select(getCompletedTests),
         map((completedTests) => getCompletedTestOutcome(completedTests, this.pageState.details.applicationRef)),
       ),
+      completedTests$: this.store$.pipe(
+        select(getJournalState),
+        select(getCompletedTests),
+      ),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
@@ -148,6 +155,25 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     if (!this.isTeamJournal) {
       this.store$.dispatch(journalActions.CandidateDetailsSeen({ slotId: this.slot.slotDetail.slotId }));
     }
+  }
+
+  /**
+   * Determine if slot has an outcome locally that is unavailable but exists remotely as autosaved
+   * to correctly display recovered banner
+   * @param completedTests
+   * @param slot
+   * @param testStatus
+   */
+  isRecovered(completedTests: SearchResultTestSchema[], slot: TestSlot, testStatus: TestStatus): boolean {
+    const tempAppRef = parseInt(formatApplicationReference({
+      applicationId: slot.booking.application.applicationId,
+      bookingSequence: slot.booking.application.bookingSequence,
+      checkDigit: slot.booking.application.checkDigit,
+    } as ApplicationReference), 10);
+
+    const currentCompletedTest =
+      completedTests.find(value => value.applicationReference === tempAppRef);
+    return Boolean(currentCompletedTest?.autosave) && testStatus !== TestStatus.Autosaved;
   }
 
   public specialNeedsIsPopulated(specialNeeds: string[]): boolean {

@@ -412,6 +412,7 @@ describe('JournalSelector', () => {
             applicationReference: 1234561014,
             category: 'B',
             activityCode: '1',
+            autosave: 1,
           },
         ],
       };
@@ -444,6 +445,7 @@ describe('JournalSelector', () => {
             applicationReference: 1234567031,
             category: 'category',
             activityCode: '2',
+            autosave: 1,
           },
           {
             costCode: 'costCode',
@@ -453,6 +455,7 @@ describe('JournalSelector', () => {
             applicationReference: 1234569019,
             category: 'category',
             activityCode: '11',
+            autosave: 1,
           },
         ],
       };

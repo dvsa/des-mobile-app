@@ -31,9 +31,6 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-// import {
-//   JournalFutureTestModal,
-// } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal';
 
 @Component({
   selector: 'test-outcome',
