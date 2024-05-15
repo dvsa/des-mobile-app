@@ -27,7 +27,6 @@
             <integrity-marker
               *ngIf="slot.booking.application.fitMarker &&
               !isCompletedTest(componentState.testStatus$ | async) &&
-              !isTeamJournal &&
               !isAutosavedTest(completedTestRecord?.autosave, componentState.testStatus$ | async)"
               class="full-width"
             >
