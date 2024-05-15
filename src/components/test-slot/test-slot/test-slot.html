@@ -25,7 +25,9 @@
             >
             </submission-status>
             <integrity-marker
-              *ngIf="slot.booking.application.fitMarker && !isCompletedTest(componentState.testStatus$ | async)"
+              *ngIf="slot.booking.application.fitMarker &&
+              !isCompletedTest(componentState.testStatus$ | async) &&
+              !isAutosavedTest(completedTestRecord?.autosave, componentState.testStatus$ | async)"
               class="full-width"
             >
             </integrity-marker>
