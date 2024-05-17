@@ -9,7 +9,9 @@ import {
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
+  GetExaminerRecords,
   HideChartsChanged,
+  LoadingExaminerRecords,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -39,6 +41,7 @@ import {
   getIsLoadingRecords,
   selectCachedExaminerRecords,
   selectColourScheme,
+  selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -132,10 +135,17 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * Calls function in provider to call and cache test results from the backend
+   * checks if user has already successfully cached examiner records today, if not, dispatches the effect to do so
    */
   async getOnlineRecords() {
-    await this.examinerRecordsProvider.cacheOnlineRecords('55555555');
+    let staffNumber: string = '55555555';
+    if (
+      !this.store$.selectSignal(selectCachedExaminerRecords)() ||
+      this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
+    ) {
+      this.store$.dispatch(LoadingExaminerRecords());
+      this.store$.dispatch(GetExaminerRecords(staffNumber));
+    }
   }
 
   /**
@@ -413,27 +423,6 @@ export class ExaminerRecordsPage implements OnInit {
       isLoadingRecords$,
     } = this.pageState;
 
-    combineLatest(
-      [
-        this.pageState.routeNumbers$,
-        this.pageState.manoeuvres$,
-        this.pageState.locationList$,
-        this.pageState.balanceQuestions$,
-        this.pageState.safetyQuestions$,
-        this.pageState.independentDriving$,
-        this.pageState.showMeQuestions$,
-        this.pageState.tellMeQuestions$,
-        this.pageState.testCount$,
-        this.pageState.circuits$,
-        this.pageState.locationList$,
-        this.pageState.categoryList$,
-        this.pageState.emergencyStops$
-      ]
-    ).pipe().subscribe((value) => {
-      console.log('combine call', value)
-      this.examinerRecordsProvider.handleLoadingUI(false);
-    });
-
     this.merged$ = merge(
       //listen for changes to test result and send the result to the behaviour subject
       cachedRecords$.pipe(tap((value) => {
@@ -441,7 +430,6 @@ export class ExaminerRecordsPage implements OnInit {
         if (this.testResults.length > 0) {
           this.testSubject$.next(this.testResults);
         }
-        this.examinerRecordsProvider.handleLoadingUI(false);
       })),
       //deactivate loading ui when no longer loading
       isLoadingRecords$.pipe(map((value) => {
@@ -511,10 +499,7 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * set date range filter to the event value and send that value to the behaviour subject
    */
-  async handleDateFilter(event: CustomEvent, triggerLoad: boolean = false): Promise<void> {
-    if (triggerLoad) {
-      await this.examinerRecordsProvider.handleLoadingUI(true);
-    }
+  async handleDateFilter(event: CustomEvent): Promise<void> {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
     this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
@@ -527,9 +512,7 @@ export class ExaminerRecordsPage implements OnInit {
    * set the current location to the selected value, change relevant variables for
    * displaying the new value and send that value to the behaviour subject
    */
-  async handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
-    // await this.examinerRecordsProvider.handleLoadingUI(true);
-
+  handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
     if (ionSelectTriggered) {
       this.locationSelectPristine = false;
     }
