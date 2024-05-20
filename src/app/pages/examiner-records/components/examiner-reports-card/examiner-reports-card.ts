@@ -91,4 +91,15 @@ export class ExaminerReportsCard {
       this.showExpandedData = !this.showExpandedData;
     }
   }
+
+  setMinWidth(): string {
+    let minWidth: number = null;
+    if (this.hasChart) {
+      minWidth = (this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)
+    }
+    if (this.chartType === 'bar') {
+      minWidth += (this.isPortrait ? minWidth * 0.07 : minWidth * 0.04)
+    }
+    return minWidth + 'px';
+  }
 }

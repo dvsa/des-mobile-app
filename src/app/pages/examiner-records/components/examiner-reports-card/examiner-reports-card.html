@@ -1,6 +1,6 @@
 <ion-card
   id="record-card-{{chartID}}"
-  [style.min-width]=" this.hasChart ? (this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width)+'px' : null"
+  [style.min-width]="setMinWidth()"
   (click)="handleCardClick()"
   [class.ion-activatable]="canExpand && getTotal(passedData)"
   [class]="darkColours ? [
