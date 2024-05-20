@@ -237,7 +237,11 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
     }
-    await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
+    await this.router.navigate(
+      [this.category !== TestCategory.SC
+        ? TestFlowPageNames.WAITING_ROOM_PAGE
+        : TestFlowPageNames.COMMUNICATION_PAGE],
+    );
   }
 
   async rekeyDelegatedTestStart() {
