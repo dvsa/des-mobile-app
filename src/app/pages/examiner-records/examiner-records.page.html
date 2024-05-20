@@ -13,8 +13,10 @@
     *ngIf="displayScrollBanner"
   >
     <ion-text class="mes-padding-left mes-data">
-      Displaying <b>{{ pageState.testCount$ | async }}</b> tests, from <b>{{ startDateFilter }}</b> to
-      <b>{{ endDateFilter }}</b>
+      Displaying <strong>{{ pageState.testCount$ | async }}</strong> Category
+      <strong>{{currentCategory}}</strong> tests, from <strong>{{ startDateFilter }}</strong> to
+      <strong>{{ endDateFilter }}</strong> <br />
+      at <strong> {{ locationFilter }}</strong>
     </ion-text>
   </ion-row>
 </ion-header>
@@ -135,7 +137,9 @@
   </ion-row>
   <ion-row class="ion-padding-top ion-padding-bottom">
     <ion-text [style.color]="displayScrollBanner ? 'transparent' : 'black'" class="mes-padding-left mes-data">
-      Displaying <b>{{ data.testCount }}</b> tests, from <b>{{ startDateFilter }}</b> to <b>{{ endDateFilter }}</b>
+      Displaying <strong>{{ data.testCount }}</strong> Category <strong>{{currentCategory}}</strong> tests, from
+      <strong>{{ startDateFilter }}</strong> to <strong>{{ endDateFilter }}</strong> <br />
+      at <strong> {{ locationFilter }}</strong>
     </ion-text>
   </ion-row>
 
