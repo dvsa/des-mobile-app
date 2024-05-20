@@ -61,6 +61,7 @@
           <data-grid
             [headers]="gridHeaders"
             [colourScheme]="colourScheme"
+            [padDataTable]="chartType === 'pie'"
             [displayColour]="displayColoursOnDataGrid"
             [passedData]="filterDataForGrid(passedData)"
           >

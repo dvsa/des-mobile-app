@@ -11,7 +11,10 @@
 <ion-row *ngIf="showSeparator" class="mes-row-separator"></ion-row>
 <br *ngIf="showSeparator" />
 
-<ion-row *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;">
+<ion-row
+  [class.data-row-padding]="padDataTable && (i != passedData.length-1)"
+  *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;"
+>
   <ion-col
     class="colour-col"
     [class.padding-top-10]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"

@@ -18,6 +18,7 @@ export class DataGridComponent implements OnInit {
   @Input() displayColour: boolean = false;
   @Input() showSeparator: boolean = true;
   @Input() showHeaders: boolean = true;
+  @Input() padDataTable: boolean = false;
 
   public finalColourArray: string[] = null;
   public croppedRows: { preCrop: unknown[], postCrop: unknown[] } = null;

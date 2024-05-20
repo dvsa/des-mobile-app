@@ -9,7 +9,10 @@ span, label {
 }
 .colour-col {
   display: flex;
-  align-items: center;
+  align-items: start;
+}
+.data-row-padding {
+  padding-bottom: 10px;
 }
 .dot {
   height: 25px;
