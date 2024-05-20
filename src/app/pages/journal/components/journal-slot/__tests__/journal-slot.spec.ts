@@ -5,6 +5,8 @@ import { JournalSlotComponent } from '@pages/journal/components/journal-slot/jou
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 describe('JournalSlotComponent', () => {
   let fixture: ComponentFixture<JournalSlotComponent>;
@@ -66,6 +68,41 @@ describe('JournalSlotComponent', () => {
     it('should return the slotId from the slotDetail', () => {
       const slotItem = { slotData: { slotDetail: { slotId: 1234 } } } as SlotItem;
       expect(component.trackBySlotID(null, slotItem)).toEqual(1234);
+    });
+  });
+  describe('findCompletedTest', () => {
+    it('should return null when booking is not present in slotData', () => {
+      const slotData = {} as TestSlot;
+      expect(component.findCompletedTest(slotData)).toBeNull();
+    });
+
+    it('should return undefined when no completed test matches the application reference', () => {
+      const slotData = {
+        booking: {
+          application: {
+            applicationId: 1,
+            bookingSequence: 2,
+            checkDigit: 3,
+          },
+        },
+      } as TestSlot;
+      component.completedTests = [{ applicationReference: 9999 }] as SearchResultTestSchema[];
+      expect(component.findCompletedTest(slotData)).toBeUndefined();
+    });
+
+    it('should return the completed test when it matches the application reference', () => {
+      const slotData = {
+        booking: {
+          application: {
+            applicationId: 1,
+            bookingSequence: 2,
+            checkDigit: 3,
+          },
+        },
+      } as TestSlot;
+      const completedTest = { applicationReference: 1023 } as SearchResultTestSchema;
+      component.completedTests = [completedTest];
+      expect(component.findCompletedTest(slotData)).toEqual(completedTest);
     });
   });
   describe('getSlots', () => {

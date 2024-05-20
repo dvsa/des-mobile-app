@@ -4,7 +4,7 @@ import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
@@ -36,6 +36,7 @@ import { CompletedTestPersistenceProvider } from '@providers/completed-test-pers
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { get } from 'lodash-es';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -49,6 +50,13 @@ interface JournalPageState {
   canNavigateToPreviousDay$: Observable<boolean>;
   canNavigateToNextDay$: Observable<boolean>;
   isSelectedDateToday$: Observable<boolean>;
+}
+
+export interface CompletedJournalSlot {
+  applicationReference: number,
+  activityCode: ActivityCode,
+  autosave: boolean,
+  passCertificateNumber: string
 }
 
 @Component({
@@ -264,13 +272,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
    * @param completedTests
    * @param testSlots
    */
-  formatCompleteTests(completedTests, testSlots) {
+  formatCompleteTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]): CompletedJournalSlot[] {
     let arrayOfTests = testSlots.map((slot: SlotItem) => {
-      return parseInt(formatApplicationReference({
-        applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
-        bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
-        checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
-      } as ApplicationReference), 10);
+      if (get(slot, 'slotData.booking')) {
+        return parseInt(formatApplicationReference({
+          applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
+          bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
+          checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
+        } as ApplicationReference), 10);
+      }
     })
 
     let matchingTests = arrayOfTests
@@ -279,7 +289,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     return completedTests
       .filter(value => matchingTests.includes(value.applicationReference))
-      .map(value => {
+      .map((value): CompletedJournalSlot => {
         return {
           applicationReference: value.applicationReference,
           activityCode: value.activityCode,
