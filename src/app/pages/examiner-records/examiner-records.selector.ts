@@ -20,7 +20,7 @@ export interface ExaminerRecordData<T> {
 }
 
 // add date range filter
-const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean => (range)
+export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean => (range)
   // use range when provided
   ? new DateTime(get(test, 'startDate')).isDuring(range)
   // return true to get all tests when no range provided
@@ -29,7 +29,7 @@ const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean
 /**
  * strip out the prefix letter to get the numerical value in the code of the string
  */
-const getIndex = (item: string) => {
+export const getIndex = (item: string) => {
   const regex = /[A-Za-z]*(\d+)/;
   const match = item.match(regex);
   return match && match[1] ? Number(match[1]) : null;
@@ -70,7 +70,6 @@ export const getEmergencyStopCount = (
     return 0;
   }
 };
-
 
 /**
  * Returns an array of locations the examiner has conducted a test in within the date range and
