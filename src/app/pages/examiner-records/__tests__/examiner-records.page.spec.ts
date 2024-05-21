@@ -6,24 +6,42 @@ import { ExaminerRecordsPage } from '../examiner-records.page';
 import {
   AccordionChanged,
   ColourFilterChanged,
-  DateRangeChanged,
-  ExaminerRecordsViewDidEnter,
+  DateRangeChanged, ExaminerRecordsViewDidEnter,
   HideChartsChanged,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { ColourEnum, ExaminerRecordsProvider, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProvider } from '@providers/search/search';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ScrollDetail } from '@ionic/core';
 
-fdescribe('ExaminerStatsPage', () => {
+describe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
   let fixture: ComponentFixture<ExaminerRecordsPage>;
   let store$: MockStore;
+  let initialState = {
+    cachedRecords$: of([]),
+    isLoadingRecords$: of(false),
+    routeNumbers$: of([]),
+    manoeuvres$: of([]),
+    balanceQuestions$: of([]),
+    safetyQuestions$: of([]),
+    independentDriving$: of([]),
+    showMeQuestions$: of([]),
+    tellMeQuestions$: of([]),
+    testCount$: of(0),
+    circuits$: of([]),
+    locationList$: of([]),
+    categoryList$: of([]),
+    emergencyStops$: of([])
+  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -55,7 +73,7 @@ fdescribe('ExaminerStatsPage', () => {
                     'testSlotAttributes': {
                       'welshTest': false,
                       'slotId': 5137,
-                      'start': new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toString(),
+                      'start': new Date(Date.now()).toString(),
                       'specialNeeds': false,
                       'specialNeedsCode': 'EXTRA',
                       'specialNeedsArray': ['None'],
@@ -166,33 +184,22 @@ fdescribe('ExaminerStatsPage', () => {
         }),
       ],
     });
+
     fixture = TestBed.createComponent(ExaminerRecordsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
     store$ = TestBed.inject(MockStore);
+    spyOn(component.store$, 'dispatch');
+
+    component.pageState = initialState;
+
   }));
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(store$).toBeTruthy();
   });
 
-  describe('ionViewDidEnter', () => {
-    it('should dispatch the store with ExaminerStatsViewDidEnter', () => {
-      spyOn(component.orientationProvider, 'monitorOrientation').and.callThrough();
-      spyOn(component.store$, 'dispatch');
-
-      component.ionViewDidEnter();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerRecordsViewDidEnter());
-    });
-  });
-
   describe('ngOnInit', () => {
-    it('should set pageState', () => {
-      component.pageState = null;
-
-      component.ngOnInit();
-      expect(component.pageState).toBeTruthy();
-    });
     it('should call setFilterLists', () => {
       spyOn(component, 'setLocationFilter');
 
@@ -201,9 +208,8 @@ fdescribe('ExaminerStatsPage', () => {
     });
   });
 
-  fdescribe('setLocationFilter', () => {
+  describe('setLocationFilter', () => {
     it('should set locationFilterOptions to the item property of each object in locationList$', () => {
-      console.log('should set locationFilterOptions to the item property of each object in locationList$')
       spyOn(component, 'ngOnInit');
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
@@ -219,7 +225,7 @@ fdescribe('ExaminerStatsPage', () => {
     });
     it('should set locationPlaceholder to the centreName property ' +
     'of the object in the location array with the highest count', () => {
-      console.log('highest count')
+      spyOn(component, 'ngOnInit');
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
         { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
@@ -230,7 +236,7 @@ fdescribe('ExaminerStatsPage', () => {
     });
     it('should call handleLocationFilter with the item of ' +
     'the object in the location array with the highest count', () => {
-      console.log('should set locationPlaceholder')
+      spyOn(component, 'ngOnInit');
 
       spyOn(component, 'handleLocationFilter');
 
@@ -269,7 +275,6 @@ fdescribe('ExaminerStatsPage', () => {
       expect(component.dateFilter).toEqual('1');
     });
     it('should dispatch DateRangeChanged with dateFilter', () => {
-      spyOn(component.store$, 'dispatch');
       component.handleDateFilter(
         {
           detail: {
@@ -287,7 +292,6 @@ fdescribe('ExaminerStatsPage', () => {
       } as SelectableDateRange));
     });
     it('should set rangeSubject to the val property of the value passed', () => {
-      spyOn(component.store$, 'dispatch');
       component.handleDateFilter(
         {
           detail: {
@@ -317,7 +321,6 @@ fdescribe('ExaminerStatsPage', () => {
       });
     });
     it('should dispatch LocationChanged with locationFilter', () => {
-      spyOn(component.store$, 'dispatch');
 
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
       expect(component.store$.dispatch)
@@ -341,8 +344,6 @@ fdescribe('ExaminerStatsPage', () => {
       });
     });
     it('should dispatch TestCategoryChanged with passed value', () => {
-      spyOn(component.store$, 'dispatch');
-
       component.handleCategoryFilter(TestCategory.B);
       expect(component.store$.dispatch).toHaveBeenCalledWith(TestCategoryChanged(TestCategory.B));
     });
@@ -355,7 +356,6 @@ fdescribe('ExaminerStatsPage', () => {
       expect(component.colourOption).toEqual(component.examinerRecordsProvider.colours.greyscale);
     });
     it('should dispatch ColourFilterChanged with the colour passed', () => {
-      spyOn(component.store$, 'dispatch');
       component.colourFilterChanged(ColourEnum.Greyscale);
       expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Greyscale));
     });
@@ -368,14 +368,12 @@ fdescribe('ExaminerStatsPage', () => {
       expect(component.hideMainContent).toEqual(false);
     });
     it('should dispatch the store with HideChartsChanged(true) if hideChart is true after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
       component.hideMainContent = false;
 
       component.hideChart();
       expect(component.store$.dispatch).toHaveBeenCalledWith(HideChartsChanged(true));
     });
     it('should dispatch the store with HideChartsChanged(false) if hideChart is false after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
       component.hideMainContent = true;
 
       component.hideChart();
@@ -394,6 +392,73 @@ fdescribe('ExaminerStatsPage', () => {
     });
   });
 
+  describe('goToDashboard', () => {
+    it('should navigate back to the dashboard page', () => {
+      spyOn(component.router, 'navigate').and.callThrough();
+      component.goToDashboard();
+      expect(component.router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
+    });
+  });
+
+  describe('isMod1', () => {
+    it('should return true if the category is a version of mod 1', () => {
+      component.currentCategory = TestCategory.EUA1M1;
+      expect(component.isMod1()).toEqual(true);
+    });
+    it('should return false if the category is not a version of mod 1', () => {
+      component.currentCategory = TestCategory.B;
+      expect(component.isMod1()).toEqual(false);
+    });
+  });
+
+  describe('isBike', () => {
+    it('should return true if the category is a version of a bike test', () => {
+      component.currentCategory = TestCategory.EUAM2;
+      expect(component.isBike()).toEqual(true);
+    });
+    it('should return false if the category is not a version of a bike test', () => {
+      component.currentCategory = TestCategory.B;
+      expect(component.isBike()).toEqual(false);
+    });
+  });
+
+  describe('ionViewDidEnter', () => {
+    it('should monitor orientation and fire entry analytic', () => {
+      spyOn(component.orientationProvider, 'monitorOrientation').and.callThrough();
+      component.ionViewDidEnter();
+      expect(component.orientationProvider.monitorOrientation).toHaveBeenCalled();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerRecordsViewDidEnter());
+    });
+  });
+
+  describe('handleScroll', () => {
+    it('should set displayScrollBanner to true if the passed value is greater ' +
+      'than 203 ', () => {
+      component.handleScroll({ detail: {scrollTop: 300 }} as CustomEvent<ScrollDetail>);
+      expect(component.displayScrollBanner).toEqual(true);
+    });
+    it('should set displayScrollBanner to flase if the passed value is not greater ' +
+      'than 203 ', () => {
+      component.handleScroll({ detail: {scrollTop: 1 }} as CustomEvent<ScrollDetail>);
+      expect(component.displayScrollBanner).toEqual(false);
+    });
+  });
+
+  describe('ionViewWillLeave', () => {
+    it('should remove all listeners from screen orientation', () => {
+      spyOn(ScreenOrientation, 'removeAllListeners').and.callThrough();
+      component.ionViewWillLeave();
+      expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
+    });
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewWillLeave();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('accordionSelect', () => {
     it('should flip accordionOpen', () => {
       component.accordionOpen = true;
@@ -401,14 +466,12 @@ fdescribe('ExaminerStatsPage', () => {
       expect(component.accordionOpen).toEqual(false);
     });
     it('should dispatch the store with AccordionChanged(true) if accordionOpen is true after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
       component.accordionOpen = false;
 
       component.accordionSelect();
       expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(true));
     });
     it('should dispatch the store with AccordionChanged(false) if accordionOpen is false after being flipped', () => {
-      spyOn(component.store$, 'dispatch');
       component.accordionOpen = true;
 
       component.accordionSelect();

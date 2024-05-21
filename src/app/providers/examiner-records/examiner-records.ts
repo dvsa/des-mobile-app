@@ -28,8 +28,7 @@ export const enum ColourEnum {
   Greyscale = 'Greyscale',
 }
 
-export type ExaminerRecordsTestLimits = '100';
-export type ExaminerRecordsRange = DateRange | ExaminerRecordsTestLimits;
+export type ExaminerRecordsRange = DateRange;
 
 export interface SelectableDateRange {
   display: string;
@@ -135,7 +134,7 @@ export class ExaminerRecordsProvider {
   /**
   Get the date from a set date range ago in order to display on screen
    */
-  getRangeDate(range: DateRange) {
+  getRangeDate(range: DateRange): moment.Moment {
     let dateRange: moment.Moment = null;
 
     switch (range) {

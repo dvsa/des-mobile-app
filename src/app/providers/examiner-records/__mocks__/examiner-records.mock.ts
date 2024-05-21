@@ -1,5 +1,6 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ColourEnum, ColourScheme, SelectableDateRange } from '@providers/examiner-records/examiner-records';
+import moment from 'moment/moment';
 
 export class ExaminerRecordsProviderMock {
 
@@ -61,11 +62,11 @@ export class ExaminerRecordsProviderMock {
     },
   ];
 
-  cacheOnlineRecords = jasmine.createSpy('examinerRecordsSearch')
+  getRangeDate = jasmine.createSpy('getRangeDate').and.returnValue(moment(new Date()))
 
-  handleLoadingUI = jasmine.createSpy('driverNumberSearch')
+  handleLoadingUI = jasmine.createSpy('handleLoadingUI')
 
-  formatForExaminerRecords = jasmine.createSpy('applicationReferenceSearch')
+  formatForExaminerRecords = jasmine.createSpy('formatForExaminerRecords')
     .and
     .returnValue({
       appRef: 1,

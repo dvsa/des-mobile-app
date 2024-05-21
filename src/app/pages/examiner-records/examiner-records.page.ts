@@ -458,8 +458,8 @@ export class ExaminerRecordsPage implements OnInit {
    * monitor orientation to manipulate graphs and fire analytics
    */
   async ionViewDidEnter() {
-    await this.orientationProvider.monitorOrientation();
     this.store$.dispatch(ExaminerRecordsViewDidEnter());
+    await this.orientationProvider.monitorOrientation();
   }
 
   /**
@@ -499,7 +499,7 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * set date range filter to the event value and send that value to the behaviour subject
    */
-  async handleDateFilter(event: CustomEvent): Promise<void> {
+  handleDateFilter(event: CustomEvent) {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
     this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');

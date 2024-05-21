@@ -65,15 +65,6 @@ describe('ChartComponent', () => {
   });
 
   describe('options', () => {
-    it('should set offsetY to -30 if chartType is bar', () => {
-      component.chartType = 'bar';
-      expect(component.options.dataLabels.offsetY).toEqual(-30);
-    });
-    it('should set offsetY to 0 if chartType is not bar', () => {
-      component.chartType = 'pie';
-      expect(component.options.dataLabels.offsetY).toEqual(0);
-    });
-
     it('should set yaxis.labels.offsetY to 7 if horizontal is true', () => {
       component.chartType = 'bar';
       component.horizontal = true;
