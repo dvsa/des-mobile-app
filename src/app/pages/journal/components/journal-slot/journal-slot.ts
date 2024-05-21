@@ -37,13 +37,15 @@ export class JournalSlotComponent {
    * @param slotData
    */
   findCompletedTest(slotData: TestSlot): SearchResultTestSchema | null {
-    const tempAppRef = parseInt(formatApplicationReference({
-      applicationId: slotData.booking.application.applicationId,
-      bookingSequence: slotData.booking.application.bookingSequence,
-      checkDigit: slotData.booking.application.checkDigit,
-    } as ApplicationReference), 10);
-
-    return this.completedTests.find(value => value.applicationReference === tempAppRef)
+    if (!!get(slotData, 'booking')) {
+      const tempAppRef = parseInt(formatApplicationReference({
+        applicationId: slotData.booking.application.applicationId,
+        bookingSequence: slotData.booking.application.bookingSequence,
+        checkDigit: slotData.booking.application.checkDigit,
+      } as ApplicationReference), 10);
+      return this.completedTests.find(value => value.applicationReference === tempAppRef)
+    }
+    return null;
   }
 
   didSlotPass = (
