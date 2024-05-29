@@ -49,9 +49,16 @@ export class ExaminerRecordsEffects {
     //Remove blank properties from returned records
     map((examinerHash: string) =>
       (examinerHash ? this.compressionProvider.extract(examinerHash) : null) as ExaminerRecordModel[]),
-    map((examinerRecords) => {
+    map((examinerRecords): ExaminerRecordModel[] => {
       return examinerRecords ? examinerRecords.map((examinerRecord) => {
-        return Object.fromEntries(Object.entries(examinerRecord).filter(([, v]) => v != null)) as ExaminerRecordModel;
+        let newRecord = Object.fromEntries(Object.entries(examinerRecord).filter(([, v]) => v != null));
+        if (newRecord.controlledStop) {
+          newRecord.controlledStop = JSON.parse(newRecord.controlledStop)
+        }
+        if (newRecord.extendedTest) {
+          newRecord.extendedTest = JSON.parse(newRecord.extendedTest)
+        }
+        return newRecord as ExaminerRecordModel
       }) : null;
     }),
     //cache results

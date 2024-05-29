@@ -380,6 +380,8 @@ export class ExaminerRecordsPage implements OnInit {
                 TestCategory.SC,
                 TestCategory.CCPC,
                 TestCategory.DCPC,
+                TestCategory.CM,
+                TestCategory.DM
               ].includes(val.item))) {
                 this.categoryFilterOptions.push(val.item);
               }

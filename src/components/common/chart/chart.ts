@@ -53,8 +53,11 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   async ngAfterViewInit() {
-    this.chart = new ApexCharts(document.getElementById(this.chartId), this.options);
-    await this.chart.render();
+    let chartElement: HTMLElement = document.getElementById(this.chartId)
+    if (chartElement) {
+      this.chart = new ApexCharts(chartElement, this.options);
+      await this.chart.render();
+    }
   }
 
   async ngOnChanges(changes: SimpleChanges)

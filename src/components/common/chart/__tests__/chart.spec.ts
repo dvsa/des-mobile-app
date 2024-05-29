@@ -251,4 +251,19 @@ describe('ChartComponent', () => {
     });
   })
 
+  describe('getFontSize', () => {
+    it('should return 16px if the font size is set to text-zoom-regular', () => {
+      component.zoomSize = 'text-zoom-regular'
+      expect(component.getFontSize()).toBe('16px');
+    });
+    it('should return 18px if the font size is set to text-zoom-large', () => {
+      component.zoomSize = 'text-zoom-large'
+      expect(component.getFontSize()).toBe('18px');
+    });
+    it('should return 20px if the font size is set to text-zoom-x-large', () => {
+      component.zoomSize = 'text-zoom-x-large'
+      expect(component.getFontSize()).toBe('20px');
+    });
+  })
+
 });

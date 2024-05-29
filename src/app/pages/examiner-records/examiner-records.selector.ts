@@ -64,7 +64,7 @@ export const getEmergencyStopCount = (
 ): number => {
   if (startedTests) {
     return (startedTests)
-      .filter((controlledStop) => ((get(controlledStop, 'controlledStop', null) === 'true')))
+      .filter((controlledStop) => (get(controlledStop, 'controlledStop', null) === true))
       .length;
   } else {
     return 0;
@@ -144,7 +144,7 @@ export const getCircuits = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
-  //getCircuits is not applicable to the following categories, and so we can avoid the entire function
+  //getCircuits is only applicable to the following categories, and so we can avoid the entire function
   if (!category || !isAnyOf(category, [
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
   ])) {
@@ -182,7 +182,7 @@ export const getCategories = (
   item: TestCategory;
   count: number
 }[] => {
-  const data = getEligibleTests(startedTests, null, range, null, false)
+  const data = startedTests
     .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId', null) === centreId);
 
   return uniqBy(data.map(({ testCategory }) => {
