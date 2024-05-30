@@ -19,6 +19,23 @@ export interface ExaminerRecordData<T> {
   percentage: string;
 }
 
+let unwantedCategories: TestCategory[] = [
+  TestCategory.ADI2,
+  TestCategory.ADI3,
+  TestCategory.SC,
+  TestCategory.CCPC,
+  TestCategory.DCPC,
+  TestCategory.CM,
+  TestCategory.DM,
+  TestCategory.D1M,
+  TestCategory.D1EM,
+  TestCategory.DEM,
+  TestCategory.CM,
+  TestCategory.C1M,
+  TestCategory.C1EM,
+  TestCategory.CEM
+]
+
 // add date range filter
 export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean => (range)
   // use range when provided
@@ -102,7 +119,7 @@ export const getIndependentDrivingStats = (
 ): ExaminerRecordData<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
   if (!category || isAnyOf(category, [
-    TestCategory.ADI3,
+    TestCategory.ADI3, TestCategory.SC,
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
     TestCategory.CCPC, TestCategory.DCPC,
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
@@ -183,7 +200,9 @@ export const getCategories = (
   count: number
 }[] => {
   const data = startedTests
-    .filter((record: ExaminerRecordModel) => get(record, 'testCentre.centreId', null) === centreId);
+    .filter((record: ExaminerRecordModel) =>
+      (get(record, 'testCentre.centreId', null) === centreId)
+      && !isAnyOf(get(record, 'testCategory', null), unwantedCategories))
 
   return uniqBy(data.map(({ testCategory }) => {
     return {

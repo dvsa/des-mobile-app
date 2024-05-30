@@ -9,7 +9,7 @@ export enum Duration {
   SECOND = 'second',
 }
 
-export type DateRange = 'today' | 'week' | 'fortnight' | '90 days' | '1 year' | '2 years';
+export type DateRange = 'today' | 'week' | 'fortnight' | '90 days' | '1 year' | '18 months';
 
 export class DateTime {
   moment: moment.Moment;
@@ -110,9 +110,9 @@ export class DateTime {
         dateRange = moment(new Date())
           .subtract(1, 'year');
         break;
-      case '2 years':
+      case '18 months':
         dateRange = moment(new Date())
-          .subtract(2, 'year');
+          .subtract(18, 'months');
         break;
     }
 

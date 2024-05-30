@@ -96,8 +96,8 @@ export class ExaminerRecordsProvider {
       val: '1 year',
     },
     {
-      display: 'Last 2 years',
-      val: '2 years',
+      display: 'Last 18 months',
+      val: '18 months',
     },
   ];
 
@@ -157,9 +157,9 @@ export class ExaminerRecordsProvider {
         dateRange = moment(new Date())
           .subtract(1, 'year');
         break;
-      case '2 years':
+      case '18 months':
         dateRange = moment(new Date())
-          .subtract(2, 'year');
+          .subtract(18, 'months');
         break;
     }
 

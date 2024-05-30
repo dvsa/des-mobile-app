@@ -102,8 +102,12 @@
           <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.localFilterOptions;">
             {{ option.display }}
           </ion-select-option>
-          <div *ngIf="cachedExaminerRecords">
-            <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;">
+          <div>
+            <ion-select-option
+              [disabled]="!cachedExaminerRecords"
+              [value]="option"
+              *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;"
+            >
               {{ option.display }}
             </ion-select-option>
           </div>
