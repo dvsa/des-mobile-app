@@ -56,7 +56,10 @@ export type AppConfig = {
     photographUrl: string;
     signatureUrl: string;
     standardUrl: string;
-  };
+  },
+  mot: {
+    motHistoryUrl: string;
+  },
   vehicle: {
     taxMotUrl: string;
   };

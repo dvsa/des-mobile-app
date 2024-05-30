@@ -34,8 +34,9 @@ export class UrlProvider {
     return this.appConfigProvider.getAppConfig()?.taxMotApiKey;
   }
 
-  getTaxMotUrl(): string {
-    return this.appConfigProvider.getAppConfig()?.vehicle.taxMotUrl;
+  getTaxMotUrl(vehicleRegistration: string): string {
+    let urlTemplate = this.appConfigProvider.getAppConfig()?.mot.motHistoryUrl
+    return urlTemplate.replace('{vrn}', vehicleRegistration);
   }
 
   getDelegatedExaminerSearchBookingUrl(applicationReference: string): string {
