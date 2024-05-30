@@ -53,17 +53,13 @@ describe('ExaminerRecordsProvider', () => {
       expect(provider.getRangeDate('90 days').format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(90, 'days').format('DD/MM/YYYY'));
     });
-    it('should return the date 90 days ago if the range is "90 days"', () => {
-      expect(provider.getRangeDate('90 days').format('DD/MM/YYYY'))
-        .toEqual(moment(new Date()).subtract(90, 'days').format('DD/MM/YYYY'));
-    });
     it('should return the date 1 year ago if the range is "1 year"', () => {
       expect(provider.getRangeDate('1 year').format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(1, 'year').format('DD/MM/YYYY'));
     });
-    it('should return the date 2 years ago if the range is "1 years"', () => {
-      expect(provider.getRangeDate('2 years').format('DD/MM/YYYY'))
-        .toEqual(moment(new Date()).subtract(2, 'years').format('DD/MM/YYYY'));
+    it('should return the date 18 months ago if the range is "18 months"', () => {
+      expect(provider.getRangeDate('18 months').format('DD/MM/YYYY'))
+        .toEqual(moment(new Date()).subtract(18, 'months').format('DD/MM/YYYY'));
     });
   });
 

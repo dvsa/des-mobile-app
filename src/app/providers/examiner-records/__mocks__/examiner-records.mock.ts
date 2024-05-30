@@ -53,14 +53,18 @@ export class ExaminerRecordsProviderMock {
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
+      display: 'Last 90 days',
+      val: '90 days',
+    },
+    {
       display: 'Last 1 year',
       val: '1 year',
     },
     {
-      display: 'Last 2 years',
-      val: '2 years',
+      display: 'Last 18 months',
+      val: '18 months',
     },
-  ];
+  ]
 
   getRangeDate = jasmine.createSpy('getRangeDate').and.returnValue(moment(new Date()))
 
