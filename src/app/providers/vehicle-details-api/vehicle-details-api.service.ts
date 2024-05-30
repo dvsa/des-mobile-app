@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpClient, HttpHeaders, HttpParams, HttpResponse,
+  HttpClient, HttpHeaders, HttpResponse,
 } from '@angular/common/http';
 import {
   timeout, tap, map, catchError,
@@ -90,9 +90,8 @@ export class VehicleDetailsApiService {
     }
 
     const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
-    const params = new HttpParams().set('identifier', vehicleRegistration);
 
-    return this.http.get(this.urlProvider.getTaxMotUrl(), { observe: 'response', headers, params }).pipe(
+    return this.http.get(this.urlProvider.getTaxMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
       tap((response: HttpResponse<VehicleDetails>) => {
         if (response.status === HttpStatusCodes.OK) {
           this.vehicleIdentifier = response.body.registration;
@@ -100,10 +99,6 @@ export class VehicleDetailsApiService {
         }
       }),
       map((value):MotDataWithStatus => {
-        console.log({
-          status: value.status.toString(),
-          data: value.body,
-        })
         return {
           status: value.status.toString(),
           data: value.body,
