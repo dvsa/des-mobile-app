@@ -82,6 +82,9 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
   user: {
     findUserUrl: 'https://www.example.com/api/v1/users/{staffNumber}',
   },
+  mot: {
+    motHistoryUrl: null,
+  },
   vehicle: {
     taxMotUrl: null,
   },
