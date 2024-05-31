@@ -337,6 +337,39 @@ describe('TestSlotComponent', () => {
       });
     });
 
+    describe('showRecoveredBanner', () => {
+      it('should return true when remoteAutosaved is 1 and ' +
+        'testStatus is not Autosaved or Completed or Submitted', () => {
+        const result = component.showRecoveredBanner(1, TestStatus.Started);
+        expect(result).toEqual(true);
+      });
+
+      it('should return false when remoteAutosaved is 1 and testStatus is Autosaved', () => {
+        const result = component.showRecoveredBanner(1, TestStatus.Autosaved);
+        expect(result).toEqual(false);
+      });
+
+      it('should return false when remoteAutosaved is 1 and testStatus is Completed', () => {
+        const result = component.showRecoveredBanner(1, TestStatus.Completed);
+        expect(result).toEqual(false);
+      });
+
+      it('should return false when remoteAutosaved is 1 and testStatus is Submitted', () => {
+        const result = component.showRecoveredBanner(1, TestStatus.Submitted);
+        expect(result).toEqual(false);
+      });
+
+      it('should return false when remoteAutosaved is 0 and testStatus is Autosaved', () => {
+        const resultWithAutosavedStatus = component.showRecoveredBanner(0, TestStatus.Autosaved);
+        expect(resultWithAutosavedStatus).toEqual(false);
+      });
+
+      it('should return false when remoteAutosaved is 0 and testStatus is not Autosaved', () => {
+        const resultWithCompletedStatus = component.showRecoveredBanner(0, TestStatus.Completed);
+        expect(resultWithCompletedStatus).toEqual(false);
+      });
+    });
+
     describe('DOM', () => {
       describe('Component Interaction', () => {
         it('should pass the special needs status to a indicator component', () => {
