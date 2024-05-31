@@ -31,7 +31,11 @@
       <data-row-custom
         *ngIf="vehicleDetails"
         [label]="'Vehicle details'"
-        [shouldHaveSeperator]="!!instructorRegistrationNumber || shouldShowDimensions"
+        [shouldHaveSeperator]="!!(instructorRegistrationNumber
+         || shouldShowDimensions
+         || schoolBike
+         || (!isADI3() && trainerPRN)
+         || (isADI2() || isADI3()))"
       >
         <span class="mes-data" *ngIf="vehicleDetails?.length === 0">None</span>
         <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
@@ -90,16 +94,8 @@
       <data-row
         *ngIf="isADI2()"
         [label]="'Training Records'"
-        [shouldHaveSeperator]="(displayVehicleDetails && !isADI3()) || isADI3()"
+        [shouldHaveSeperator]="isADI3()"
         [value]="trainingRecords"
-      >
-      </data-row>
-
-      <data-row
-        *ngIf="displayVehicleDetails && !isADI3()"
-        [shouldHaveSeperator]="false"
-        [label]="'Vehicle Details'"
-        [value]="schoolCarDualControls"
       >
       </data-row>
 

@@ -189,7 +189,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   getVehicleDetails(): string[] {
-    if (!this.testResult || !this.isCategoryB()) {
+    if (!this.testResult || !isAnyOf(this.testCategory, [TestCategory.B, TestCategory.ADI2])) {
       return null;
     }
 
