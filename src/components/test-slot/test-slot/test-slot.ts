@@ -203,6 +203,15 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return Boolean(remoteAutosaved) && testStatus !== TestStatus.Autosaved;
   }
 
+  showRecoveredBanner = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
+    return Boolean(remoteAutosaved) &&
+      !isAnyOf(testStatus, [
+        TestStatus.Autosaved,
+        TestStatus.Completed,
+        TestStatus.Submitted
+      ]) ;
+  }
+
   showOutcome(status: TestStatus): boolean {
     return [TestStatus.Completed, TestStatus.Submitted].includes(status);
   }
