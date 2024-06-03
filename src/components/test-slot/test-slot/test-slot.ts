@@ -203,6 +203,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return Boolean(remoteAutosaved) && testStatus !== TestStatus.Autosaved;
   }
 
+  /**
+   * Returns true if the test is autosaved, completed or submitted, we need to use a new function as
+   * integrity-marker needs to display on a submitted test.
+   */
   showRecoveredBanner = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
     return Boolean(remoteAutosaved) &&
       !isAnyOf(testStatus, [
