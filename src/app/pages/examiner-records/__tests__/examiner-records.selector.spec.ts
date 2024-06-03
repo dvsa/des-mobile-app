@@ -527,7 +527,7 @@ describe('examiner records selector', () => {
   });
 
   describe('getManoeuvreTypeLabels', () => {
-    it('should return a list of relevant manoeuvre labels for the category passed if type is not included', () => {
+    it('should return a list of relevant manoeuvre labels for cat B if type is not included', () => {
       expect(
         getManoeuvreTypeLabels(
           TestCategory.B),
@@ -542,6 +542,37 @@ describe('examiner records selector', () => {
       expect(
         getManoeuvreTypeLabels(
           TestCategory.B, ManoeuvreTypes.reverseRight),
+      ).toEqual('Reverse right');
+    });
+    it('should return a list of relevant manoeuvre labels for cat BE if type is not included', () => {
+      expect(
+        getManoeuvreTypeLabels(
+          TestCategory.BE),
+      ).toEqual({
+        reverseLeft: 'Reverse'
+      });
+    });
+    it('should return the string value for the manoeuvre from the list of relevant manoeuvres for the category', () => {
+      expect(
+        getManoeuvreTypeLabels(
+          TestCategory.BE, ManoeuvreTypes.reverseLeft),
+      ).toEqual('Reverse');
+    });
+    it('should return a list of relevant manoeuvre labels for cat ADI2 if type is not included', () => {
+      expect(
+        getManoeuvreTypeLabels(
+          TestCategory.ADI2),
+      ).toEqual({
+        reverseRight: 'Reverse right',
+        reverseParkRoad: 'Reverse park (road)',
+        reverseParkCarpark: 'Reverse park (car park)',
+        forwardPark: 'Forward park'
+      });
+    });
+    it('should return the string value for the manoeuvre from the list of relevant manoeuvres for the category', () => {
+      expect(
+        getManoeuvreTypeLabels(
+          TestCategory.ADI2, ManoeuvreTypes.reverseRight),
       ).toEqual('Reverse right');
     });
     it('should return an empty object if an invalid category is passed', () => {
