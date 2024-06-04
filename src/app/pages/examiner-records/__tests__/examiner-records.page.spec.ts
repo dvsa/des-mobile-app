@@ -311,13 +311,15 @@ describe('ExaminerRecordsPage', () => {
   describe('handleLocationFilter', () => {
     it('should set locationFilter to centreName of the passed value', () => {
       component.locationFilter = null
-      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
+      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' }, true);
       expect(component.locationFilter).toEqual('1');
+      expect(component.locationSelectPristine).toEqual(false);
     });
     it('should set locationSubject$ to centreId of the passed value', () => {
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
       component.locationSubject$.subscribe((i) => {
         expect(i).toEqual(1);
+        expect(component.locationSelectPristine).toEqual(true);
       });
     });
     it('should dispatch LocationChanged with locationFilter', () => {
@@ -330,12 +332,14 @@ describe('ExaminerRecordsPage', () => {
 
   describe('handleCategoryFilter', () => {
     it('should set categoryDisplay to "Test category: B" if the passed value is B', () => {
-      component.handleCategoryFilter(TestCategory.B);
+      component.handleCategoryFilter(TestCategory.B, true);
       expect(component.categoryDisplay).toEqual('Test category: B');
+      expect(component.categorySelectPristine).toEqual(false);
     });
     it('should set currentCategory to the passed value', () => {
       component.handleCategoryFilter(TestCategory.B);
       expect(component['currentCategory']).toEqual(TestCategory.B);
+      expect(component.categorySelectPristine).toEqual(true);
     });
     it('should set categorySubject$ to the passed value', () => {
       component.handleCategoryFilter(TestCategory.B);
