@@ -317,23 +317,51 @@ describe('TestSlotComponent', () => {
 
     describe('isAutosavedTest', () => {
       it('should return true when remoteAutosaved is 1 and testStatus is not Autosaved', () => {
-        const result = component.isAutosavedTest(1, TestStatus.Completed);
+        const result = component.isAutosavedTest(true, TestStatus.Completed);
         expect(result).toEqual(true);
       });
 
       it('should return false when remoteAutosaved is 1 and testStatus is Autosaved', () => {
-        const result = component.isAutosavedTest(1, TestStatus.Autosaved);
+        const result = component.isAutosavedTest(true, TestStatus.Autosaved);
         expect(result).toEqual(false);
       });
 
       it('should return false when remoteAutosaved is 0 and testStatus is Autosaved', () => {
-        const resultWithAutosavedStatus = component.isAutosavedTest(0, TestStatus.Autosaved);
+        const resultWithAutosavedStatus = component.isAutosavedTest(false, TestStatus.Autosaved);
         expect(resultWithAutosavedStatus).toEqual(false);
       });
 
       it('should return false when remoteAutosaved is 0 and testStatus is not Autosaved', () => {
-        const resultWithCompletedStatus = component.isAutosavedTest(0, TestStatus.Completed);
+        const resultWithCompletedStatus = component.isAutosavedTest(false, TestStatus.Completed);
         expect(resultWithCompletedStatus).toEqual(false);
+      });
+    });
+
+    describe('showRecoveredBanner', () => {
+      it('should return false when isRehydrated is true and ' +
+        'testStatus is not Autosaved or Completed or Submitted', () => {
+        const result = component.showRecoveredBanner(true, TestStatus.Started);
+        expect(result).toEqual(false);
+      });
+
+      it('should return true when isRehydrated is true and testStatus is Autosaved', () => {
+        const result = component.showRecoveredBanner(true, TestStatus.Autosaved);
+        expect(result).toEqual(true);
+      });
+
+      it('should return true when isRehydrated is true and testStatus is Completed', () => {
+        const result = component.showRecoveredBanner(true, TestStatus.Completed);
+        expect(result).toEqual(true);
+      });
+
+      it('should return true when isRehydrated is true and testStatus is Submitted', () => {
+        const result = component.showRecoveredBanner(true, TestStatus.Submitted);
+        expect(result).toEqual(true);
+      });
+
+      it('should return false when isRehydrated is false', () => {
+        const resultWithAutosavedStatus = component.showRecoveredBanner(false, TestStatus.Autosaved);
+        expect(resultWithAutosavedStatus).toEqual(false);
       });
     });
 
@@ -389,6 +417,7 @@ describe('TestSlotComponent', () => {
             testActivityCode$: of(ActivityCodes.PASS),
             testPassCertificate$: of('C123456X'),
             isRekey$: of(false),
+            isRehydrated$: of(false)
           };
           fixture.detectChanges();
           const subByDirective = fixture.debugElement.query(

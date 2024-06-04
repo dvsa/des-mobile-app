@@ -6,6 +6,7 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { CompletedJournalSlot } from '@pages/journal/journal.page';
 
 
 
@@ -16,7 +17,7 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 export class JournalSlotComponent {
 
   @Input()
-  completedTests: SearchResultTestSchema[] = [];
+  completedTests: CompletedJournalSlot[] = [];
 
   @Input()
   slots: SlotItem[] = [];
@@ -36,7 +37,7 @@ export class JournalSlotComponent {
    * Find the completed test for the given slot if exists
    * @param slotData
    */
-  findCompletedTest(slotData: TestSlot): SearchResultTestSchema | null {
+  findCompletedTest(slotData: TestSlot): CompletedJournalSlot {
     if (!!get(slotData, 'booking')) {
       const tempAppRef = parseInt(formatApplicationReference({
         applicationId: slotData.booking.application.applicationId,
