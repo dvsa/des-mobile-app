@@ -31,10 +31,12 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { CompletedJournalSlot } from '@pages/journal/journal.page';
+import { TestsModel } from '@store/tests/tests.model';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
+  isRehydrated$: Observable<boolean>;
   testActivityCode$: Observable<ActivityCode>;
   testPassCertificate$: Observable<String>;
   isRekey$: Observable<boolean>;
@@ -70,7 +72,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult: boolean = false;
 
   @Input()
-  completedTestRecord?: SearchResultTestSchema;
+  completedTestRecord?: CompletedJournalSlot;
 
   @Input()
   examinerName: string = null;
@@ -114,10 +116,16 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => {
+        select((tests): TestStatus => {
           const testStatus = getTestStatus(tests, slotId);
           return testStatus === TestStatus.Autosaved
             ? testStatus : !!(this.completedTestRecord?.activityCode) ? TestStatus.Submitted : testStatus;
+        }),
+      ),
+      isRehydrated$: this.store$.pipe(
+        select(getTests),
+        map((tests: TestsModel) => {
+          return (this.completedTestRecord && !(getActivityCodeBySlotId(tests, slotId)));
         }),
       ),
       testActivityCode$: this.store$.pipe(
@@ -199,21 +207,21 @@ export class TestSlotComponent implements SlotComponent, OnInit {
    * @param remoteAutosaved
    * @param testStatus
    */
-  isAutosavedTest = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
-    return Boolean(remoteAutosaved) && testStatus !== TestStatus.Autosaved;
+  isAutosavedTest = (remoteAutosaved: boolean, testStatus: TestStatus): boolean => {
+    return (remoteAutosaved) && testStatus !== TestStatus.Autosaved;
   }
 
   /**
    * Returns true if the test is autosaved, completed or submitted, we need to use a new function as
    * integrity-marker needs to display on a submitted test.
    */
-  showRecoveredBanner = (remoteAutosaved: number, testStatus: TestStatus): boolean => {
-    return Boolean(remoteAutosaved) &&
-      !isAnyOf(testStatus, [
-        TestStatus.Autosaved,
-        TestStatus.Completed,
-        TestStatus.Submitted
-      ]) ;
+  showRecoveredBanner = (isRehydrated: boolean, testStatus: TestStatus): boolean => {
+    return isRehydrated &&
+    isAnyOf(testStatus, [
+      TestStatus.Autosaved,
+      TestStatus.Completed,
+      TestStatus.Submitted
+    ]);
   }
 
   showOutcome(status: TestStatus): boolean {
