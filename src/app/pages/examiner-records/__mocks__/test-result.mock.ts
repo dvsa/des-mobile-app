@@ -1543,7 +1543,7 @@ export const demonstrationMock: StartedTests ={
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
@@ -1653,7 +1653,7 @@ export const demonstrationMock: StartedTests ={
       'testSlotAttributes': {
         'welshTest': false,
         'slotId': 5137,
-        'start': new Date(Date.now()).toString(),
+        'start': new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toString(),
         'specialNeeds': false,
         'specialNeedsCode': 'EXTRA',
         'specialNeedsArray': ['None'],
