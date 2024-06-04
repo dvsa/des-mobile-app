@@ -273,7 +273,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
    * @param testSlots
    */
   formatCompleteTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]): CompletedJournalSlot[] {
-    let arrayOfTests = testSlots.map((slot: SlotItem) => {
+    let arrayOfTests: number[] = testSlots.map((slot: SlotItem) => {
       if (get(slot, 'slotData.booking')) {
         return parseInt(formatApplicationReference({
           applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
@@ -283,13 +283,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
       }
     })
 
-    let matchingTests = arrayOfTests
+    let matchingTests: number[] = arrayOfTests
       .filter(element => completedTests
         .map(value => value.applicationReference).includes(element));
 
     return completedTests
-      .filter(value => matchingTests.includes(value.applicationReference))
-      .map((value): CompletedJournalSlot => {
+      .filter((value: SearchResultTestSchema) => matchingTests.includes(value.applicationReference))
+      .map((value: SearchResultTestSchema): CompletedJournalSlot => {
         return {
           applicationReference: value.applicationReference,
           activityCode: value.activityCode,
