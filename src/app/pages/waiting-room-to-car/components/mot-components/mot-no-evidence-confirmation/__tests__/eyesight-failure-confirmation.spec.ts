@@ -11,18 +11,18 @@ import { RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { EyesightFailureConfirmationComponent } from '../mot-no-evidence-confirmation';
+import { MotNoEvidenceConfirmationComponent } from '../mot-no-evidence-confirmation';
 
-describe('EyesightFailureConfirmationComponent', () => {
-  let fixture: ComponentFixture<EyesightFailureConfirmationComponent>;
-  let component: EyesightFailureConfirmationComponent;
+describe('MotNoEvidenceConfirmationComponent', () => {
+  let fixture: ComponentFixture<MotNoEvidenceConfirmationComponent>;
+  let component: MotNoEvidenceConfirmationComponent;
   let router: Router;
   let store$: Store<StoreModel>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
-        EyesightFailureConfirmationComponent,
+        MotNoEvidenceConfirmationComponent,
       ],
       imports: [
         IonicModule,
@@ -40,7 +40,7 @@ describe('EyesightFailureConfirmationComponent', () => {
       ],
     });
 
-    fixture = TestBed.createComponent(EyesightFailureConfirmationComponent);
+    fixture = TestBed.createComponent(MotNoEvidenceConfirmationComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     store$ = TestBed.inject(Store);
@@ -51,14 +51,14 @@ describe('EyesightFailureConfirmationComponent', () => {
     it('should call the cancel function when cancel is pressed', () => {
       const cancelSpy = jasmine.createSpy('onCancel');
       component.cancelFn = cancelSpy;
-      const cancelButton = fixture.debugElement.query(By.css('#cancel-eyesight-failure'));
+      const cancelButton = fixture.debugElement.query(By.css('#cancel-mot-no-evidence'));
       cancelButton.triggerEventHandler('click', null);
       expect(cancelSpy)
         .toHaveBeenCalled();
     });
     it('should navigate to debrief when continue is pressed', () => {
       spyOn(router, 'navigate');
-      const confirmButton = fixture.debugElement.query(By.css('#confirm-eyesight-failure'));
+      const confirmButton = fixture.debugElement.query(By.css('#confirm-mot-no-evidence'));
       component.nextPageOnFail = CAT_B.DEBRIEF_PAGE;
       confirmButton.triggerEventHandler('click', null);
       expect(router.navigate)
@@ -68,10 +68,10 @@ describe('EyesightFailureConfirmationComponent', () => {
 
   describe('Class', () => {
     describe('onContinue', () => {
-      it('should dispatch an action to set the activity code to an eyesight failure', async () => {
+      it('should dispatch an action to set the activity code to failed mot', async () => {
         await component.onContinue();
         expect(store$.dispatch)
-          .toHaveBeenCalledWith(SetActivityCode('3'));
+          .toHaveBeenCalledWith(SetActivityCode('12'));
       });
     });
   });
