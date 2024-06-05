@@ -31,7 +31,11 @@ import { QuestionProvider } from '@providers/question/question';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { MotEvidenceChanged, MotEvidenceProvidedToggled } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  MotEvidenceChanged,
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -108,6 +112,13 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   eyesightFailCancelled = (): void => {
     this.form.get('eyesightCtrl')?.reset();
     this.store$.dispatch(EyesightTestReset());
+  };
+
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')
+      ?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
   };
 
   tellMeQuestionChanged(newTellMeQuestion: VehicleChecksQuestion): void {

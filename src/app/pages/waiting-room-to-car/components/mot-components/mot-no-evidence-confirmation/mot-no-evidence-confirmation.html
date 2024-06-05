@@ -1,0 +1,39 @@
+<ion-grid>
+  <ion-row>
+    <ion-col id="eyesight-failure-confirmation">
+      <ion-row>
+        <ion-col size="auto"></ion-col>
+        <ion-icon
+          id="eyesight-failure-icon"
+          class="alert-icon"
+          name="alert-circle-outline"
+          aria-label="Eyesight failure icon"
+        >
+        </ion-icon>
+        <ion-col>
+          <ion-row>
+            <ion-text class="des-header-style-2" id="eyesight-failure-title"
+              >The vehicle details provided do not have a valid MOT or alternative evidence.
+            </ion-text>
+          </ion-row>
+          <ion-row>
+            <label id="eyesight-failure-subtitle">Do you want to continue?</label>
+          </ion-row>
+          <br />
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="48">
+              <ion-button id="confirm-eyesight-failure" class="mes-neutral-button" (click)="onContinue()">
+                <label>Terminate Test</label>
+              </ion-button>
+            </ion-col>
+            <ion-col size="48">
+              <ion-button id="cancel-eyesight-failure" class="mes-neutral-button cancel-button" (click)="onCancel()">
+                <label>Cancel</label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>

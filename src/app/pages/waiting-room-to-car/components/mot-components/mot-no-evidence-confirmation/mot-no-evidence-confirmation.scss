@@ -1,0 +1,30 @@
+:host {
+  width: 100%;
+  #eyesight-failure-confirmation {
+    margin: 12px;
+    padding: 40px;
+    background: var(--gds-red);
+    color: var(--mes-white);
+    #eyesight-failure-title {
+      color: inherit;
+    }
+    #eyesight-failure-subtitle {
+      margin-top: 18px;
+      color: inherit;
+    }
+    button {
+      width: 85%;
+      min-height: 56px;
+      margin-top: 62px;
+    }
+  }
+
+  .cancel-button {
+    min-width: 225px;
+  }
+  .alert-icon {
+    color: var(--mes-white);
+    font-size: 100px;
+    padding-right: 5px;
+  }
+}
