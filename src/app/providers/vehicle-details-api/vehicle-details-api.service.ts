@@ -75,7 +75,7 @@ export class VehicleDetailsApiService {
     }
   ]
 
-  getFakeVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
+  getMockVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
     console.log(this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration));
     let returnData = this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration);
     if (returnData) {

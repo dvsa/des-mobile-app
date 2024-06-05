@@ -56,52 +56,59 @@
             >
             </vehicle-registration>
 
-            <tell-me-question-card
-              (tellMeQuestionChange)="tellMeQuestionChanged($event)"
-              (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
-              [formGroup]="form"
-              [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
-              [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
-              [tellMeQuestion]="pageState.tellMeQuestion$ | async"
-              [tellMeQuestions]="tellMeQuestions"
-            >
-            </tell-me-question-card>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
 
-            <transmission
-              (transmissionChange)="transmissionChanged($event)"
-              [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-            >
-            </transmission>
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+              <tell-me-question-card
+                (tellMeQuestionChange)="tellMeQuestionChanged($event)"
+                (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
+                [formGroup]="form"
+                [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
+                [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
+                [tellMeQuestion]="pageState.tellMeQuestion$ | async"
+                [tellMeQuestions]="tellMeQuestions"
+              >
+              </tell-me-question-card>
 
-            <instructor-registration
-              (instructorRegistrationChange)="instructorRegistrationChanged($event)"
-              [formGroup]="form"
-              [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
-            >
-            </instructor-registration>
+              <transmission
+                (transmissionChange)="transmissionChanged($event)"
+                [formGroup]="form"
+                [transmission]="pageState.transmission$ | async"
+              >
+              </transmission>
 
-            <accompaniment-card
-              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-            >
-            </accompaniment-card>
+              <instructor-registration
+                (instructorRegistrationChange)="instructorRegistrationChanged($event)"
+                [formGroup]="form"
+                [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
+              >
+              </instructor-registration>
 
-            <vehicle-details-card
-              (dualVehicleDetailsChange)="dualControlsToggled()"
-              (schoolVehicleDetailsChange)="schoolCarToggled()"
-              [dualVehicleDetails]="pageState.dualControls$ | async"
-              [formGroup]="form"
-              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-            >
-            </vehicle-details-card>
+              <accompaniment-card
+                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                [formGroup]="form"
+                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              >
+              </accompaniment-card>
+
+              <vehicle-details-card
+                (dualVehicleDetailsChange)="dualControlsToggled()"
+                (schoolVehicleDetailsChange)="schoolCarToggled()"
+                [dualVehicleDetails]="pageState.dualControls$ | async"
+                [formGroup]="form"
+                [schoolVehicleDetails]="pageState.schoolCar$ | async"
+              >
+              </vehicle-details-card>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>

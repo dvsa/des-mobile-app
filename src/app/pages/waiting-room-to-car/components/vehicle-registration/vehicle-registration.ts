@@ -113,7 +113,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     //This is here to help with visits and tests in places with poor connectivity,
     // it will always point towards the real data when released
     let apiCall$ = this.realData ?
-      this.motApiService.getVehicleByIdentifier(value) : this.motApiService.getFakeVehicleByIdentifier(value)
+      this.motApiService.getVehicleByIdentifier(value) : this.motApiService.getMockVehicleByIdentifier(value)
 
     apiCall$.subscribe(async (val) => {
       this.motData = val;

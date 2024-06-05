@@ -27,6 +27,9 @@ import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
 import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
+import {
+  MotNoEvidenceConfirmationComponent
+} from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     MotFailedModal,
     AlternateMotEvidenceComponent,
     AlternateEvidenceDescriptionComponent,
+    MotNoEvidenceConfirmationComponent
   ],
   imports: [
     CommonModule,
@@ -75,6 +79,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     MotFailedModal,
     AlternateMotEvidenceComponent,
     AlternateEvidenceDescriptionComponent,
+    MotNoEvidenceConfirmationComponent
   ],
 })
 export class WaitingRoomToCarComponentsModule {

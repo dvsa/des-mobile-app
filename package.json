@@ -77,7 +77,7 @@
     "@dvsa/mes-journal-schema": "1.3.1",
     "@dvsa/mes-microservice-common": "^1.1.9",
     "@dvsa/mes-search-schema": "1.3.0",
-    "@dvsa/mes-test-schema": "3.42.5",
+    "@dvsa/mes-test-schema": "3.43.0",
     "@ionic-enterprise/auth": "3.9.5",
     "@ionic/angular": "~7.5.7",
     "@ionic/core": "~7.5.7",
