@@ -16,39 +16,44 @@
       >
       </transmission-display>
 
-      <data-row
-        *ngIf="registrationNumber"
-        [shouldHaveSeperator]="showRegistrationNumberSeparator"
+      <data-row-custom
+        [centeredLabel]="false"
         [label]="'Vehicle registration number'"
-        [value]="registrationNumber"
+        [customLabelStyling]="{'padding-top': '4%'}"
       >
-      </data-row>
-
-      <data-row-custom [label]="'Vehicle registration number'">
-        <span>
-          {{registrationNumber}}
+        <ion-text class="mes-data">
+          {{ registrationNumber ? registrationNumber : 'No VRN was checked' }}
           <br />
           <br />
-        </span>
+        </ion-text>
         <ion-accordion-group>
-          <ion-accordion value="first">
+          <ion-accordion
+            [readonly]="getPreviousFilteredVRNs().length == 0"
+            [toggleIcon]="getPreviousFilteredVRNs().length == 0 ? null : 'chevron-down'"
+            value="first"
+          >
             <ion-item slot="header">
-              <label>{{getPreviousFilteredVRNs() ? 'Other VRNs searched' : 'No other VRNs were checked' }}</label>
+              <label
+                >{{ getPreviousFilteredVRNs().length > 0 ? 'Other VRNs searched' : 'No other VRNs were checked'
+                }}</label
+              >
             </ion-item>
-            <div class="ion-padding" style="color: black" slot="content">
-              <ion-text *ngFor="let VRN of getPreviousFilteredVRNs()">{{VRN}}<br /></ion-text>
+            <div class="ion-padding mes-black" slot="content">
+              <ion-text *ngFor="let VRN of getPreviousFilteredVRNs()">{{ VRN }}<br /></ion-text>
             </div>
           </ion-accordion>
         </ion-accordion-group>
       </data-row-custom>
 
-      <data-row-custom [label]="'Make and Model'"> {{data.make}} {{data.model}} </data-row-custom>
+      <data-row *ngIf="data.make || data.model" [value]="data.make + ' ' + data.model" [label]="'Make and Model'">
+      </data-row>
 
-      <data-row-custom [label]="'MOT Status'">
-        {{ isValidMOT() ? data.motStatus : 'Expired ' + data?.testExpiryDate}}
+      <data-row-custom *ngIf="data?.motStatus" [label]="'MOT Status'">
+        {{ isValidMOT() ? data.motStatus : 'Expired ' + data?.testExpiryDate }}
       </data-row-custom>
 
       <data-row
+        *ngIf="!!data.motEvidenceProvided"
         [label]="'Alternative MOT evidence provided?'"
         [value]="data.motEvidenceProvided ? 'Yes' : 'No'"
       ></data-row>
@@ -107,9 +112,9 @@
       >
       </data-row>
 
-      <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"> </data-row>
+      <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
 
-      <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"> </data-row>
+      <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"></data-row>
 
       <data-row
         *ngIf="isADI2()"
