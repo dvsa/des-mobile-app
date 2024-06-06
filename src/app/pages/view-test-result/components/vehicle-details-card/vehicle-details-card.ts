@@ -47,7 +47,10 @@ export class VehicleDetailsCardComponent {
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
   public shouldHideCard(): boolean {
-    return !this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber;
+    return !this.transmission &&
+      !(this.registrationNumber || this.getPreviousFilteredVRNs) &&
+      !this.schoolBike &&
+      !this.instructorRegistrationNumber;
   }
 
   public get shouldShowDimensions(): boolean {
@@ -234,12 +237,15 @@ export class VehicleDetailsCardComponent {
     );
   }
 
+  /**
+   * Get a list of previously searched VRNs that are not your final without duplicates
+   */
   getPreviousFilteredVRNs(): string[] {
     const filteredVRN: string[] = [];
 
     if (this.data.previouslySearchedRegNumbers) {
       this.data.previouslySearchedRegNumbers.forEach((value) => {
-        if (!filteredVRN.includes(value)) {
+        if (!filteredVRN.includes(value) && value !== this.registrationNumber) {
           filteredVRN.push(value);
         }
       });
