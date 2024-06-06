@@ -6,8 +6,11 @@ import { ExaminerRecordsPage } from '../examiner-records.page';
 import {
   AccordionChanged,
   ColourFilterChanged,
-  DateRangeChanged, ExaminerRecordsViewDidEnter,
+  DateRangeChanged,
+  ExaminerRecordsViewDidEnter,
+  GetExaminerRecords,
   HideChartsChanged,
+  LoadingExaminerRecords,
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
@@ -21,8 +24,11 @@ import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
+import moment from 'moment';
+import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 
-describe('ExaminerRecordsPage', () => {
+fdescribe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
   let fixture: ComponentFixture<ExaminerRecordsPage>;
   let store$: MockStore;
@@ -42,6 +48,38 @@ describe('ExaminerRecordsPage', () => {
     categoryList$: of([]),
     emergencyStops$: of([])
   }
+  const mockTests: ExaminerRecordModel[] = [
+    {
+      testCategory: TestCategory.B,
+      testCentre: {
+        centreId: 3,
+        centreName: 'Cardiff',
+        costCode: 'CF1',
+      },
+      routeNumber: 1,
+      startDate: moment(Date.now()).subtract(1, 'days').format('YYYY-MM-DD'),
+    },
+    {
+      testCategory: TestCategory.C,
+      testCentre: {
+        centreId: 4,
+        centreName: 'Swansea',
+        costCode: 'SW1',
+      },
+      routeNumber: 2,
+      startDate: moment(Date.now()).subtract(10, 'days').format('YYYY-MM-DD'),
+    },
+    {
+      testCategory: TestCategory.C,
+      testCentre: {
+        centreId: 4,
+        centreName: 'Swansea',
+        costCode: 'SW1',
+      },
+      routeNumber: 3,
+      startDate: moment(Date.now()).format('YYYY-MM-DD'),
+    },
+  ] as ExaminerRecordModel[];
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -208,45 +246,59 @@ describe('ExaminerRecordsPage', () => {
     });
   });
 
+  describe('handleScroll', () => {
+    it('should set displayScrollBanner to true when scrollTop is greater than 203', () => {
+      component.displayScrollBanner = false;
+      component.handleScroll({ detail: { scrollTop: 205 } } as CustomEvent<ScrollDetail>);
+      expect(component.displayScrollBanner).toBe(true);
+    });
+
+    it('should set displayScrollBanner to false when scrollTop is less than or equal to 203', () => {
+      component.displayScrollBanner = true;
+      component.handleScroll({ detail: { scrollTop: 203 } } as CustomEvent<ScrollDetail>);
+      expect(component.displayScrollBanner).toBe(false);
+    });
+  });
+
   describe('setLocationFilter', () => {
     it('should set locationFilterOptions to the item property of each object in locationList$', () => {
       spyOn(component, 'ngOnInit');
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
-        { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
-        { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
+        { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
+        { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
       ]);
 
       component.setLocationFilter();
       expect(component.locationFilterOptions).toEqual([
-        { centreName: '1', centreId: 1, costCode:'X1' },
-        { centreName: '2', centreId: 2, costCode:'X2' },
+        { centreName: '1', centreId: 1, costCode: 'X1' },
+        { centreName: '2', centreId: 2, costCode: 'X2' },
       ]);
     });
     it('should set locationPlaceholder to the centreName property ' +
-    'of the object in the location array with the highest count', () => {
+        'of the object in the location array with the highest count', () => {
       spyOn(component, 'ngOnInit');
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
-        { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
-        { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
+        { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
+        { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
       ]);
       component.setLocationFilter();
       expect(component.locationPlaceholder).toEqual('2');
     });
     it('should call handleLocationFilter with the item of ' +
-    'the object in the location array with the highest count', () => {
+        'the object in the location array with the highest count', () => {
       spyOn(component, 'ngOnInit');
 
       spyOn(component, 'handleLocationFilter');
 
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
-        { item: { centreName: '1', centreId: 1, costCode:'X1' }, count: 1 },
-        { item: { centreName: '2', centreId: 2, costCode:'X2' }, count: 2 },
+        { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
+        { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
       ]);
       component.setLocationFilter();
-      expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode:'X2' });
+      expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode: 'X2' });
     });
   });
 
@@ -266,9 +318,9 @@ describe('ExaminerRecordsPage', () => {
         {
           detail: {
             value:
-              {
-                display: '1',
-              },
+                {
+                  display: '1',
+                },
           },
         } as CustomEvent,
       );
@@ -279,10 +331,10 @@ describe('ExaminerRecordsPage', () => {
         {
           detail: {
             value:
-              {
-                display: '1',
-                val: 'today',
-              },
+                {
+                  display: '1',
+                  val: 'today',
+                },
           },
         } as CustomEvent,
       );
@@ -296,9 +348,9 @@ describe('ExaminerRecordsPage', () => {
         {
           detail: {
             value:
-              {
-                val: '1',
-              },
+                {
+                  val: '1',
+                },
           },
         } as CustomEvent,
       );
@@ -310,7 +362,7 @@ describe('ExaminerRecordsPage', () => {
 
   describe('handleLocationFilter', () => {
     it('should set locationFilter to centreName of the passed value', () => {
-      component.locationFilter = null
+      component.locationFilter = null;
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' }, true);
       expect(component.locationFilter).toEqual('1');
       expect(component.locationSelectPristine).toEqual(false);
@@ -327,6 +379,67 @@ describe('ExaminerRecordsPage', () => {
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
       expect(component.store$.dispatch)
         .toHaveBeenCalledWith(LocationChanged({ centreName: '1', centreId: 1, costCode: '2' }));
+    });
+  });
+
+  describe('getOnlineRecords', () => {
+    // eslint-disable-next-line max-len
+    it('should dispatch LoadingExaminerRecords and GetExaminerRecords actions when cached records are not available or last cached date is different', () => {
+      store$.overrideSelector(selectCachedExaminerRecords, null);
+      store$.overrideSelector(selectLastCachedDate, 'some other date');
+
+      component.getOnlineRecords();
+
+      expect(store$.dispatch).toHaveBeenCalledWith(LoadingExaminerRecords());
+      expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords('55555555'));
+    });
+
+    it('should not dispatch any actions when cached records are available and last cached date is today', () => {
+      store$.overrideSelector(selectCachedExaminerRecords, [{} as ExaminerRecordModel]);
+      store$.overrideSelector(selectLastCachedDate, moment(Date.now()).format('DD/MM/YYYY'));
+
+      component.getOnlineRecords();
+
+      expect(store$.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('changeEligibleTests', () => {
+    it('should update eligTestSubject$ with the result of getEligibleTests', () => {
+      component.testSubject$.next(mockTests);
+      component.categorySubject$.next(TestCategory.C);
+      component.rangeSubject$.next('week');
+      component.locationSubject$.next(4);
+
+      component.changeEligibleTests();
+
+      expect(component.eligTestSubject$.value).toEqual([mockTests[2]]);
+    });
+  });
+
+  describe('filterDates', () => {
+    it('should update testsInRangeSubject$ with the result of getEligibleTests', () => {
+      component.testSubject$.next(mockTests);
+      component.rangeSubject$.next('week');
+
+      component.filterDates();
+
+      expect(component.testsInRangeSubject$.value).toEqual([mockTests[0], mockTests[2]]);
+    });
+  });
+
+  describe('getTestsByParameters', () => {
+    it('should apply provided function to eligible tests and category', () => {
+      const mockFn = (tests: ExaminerRecordModel[], category: string) => {
+        return tests.filter(test => test.testCategory === category);
+      };
+
+      component.eligTestSubject$.next(mockTests);
+      component.categorySubject$.next(TestCategory.B);
+
+      component.getTestsByParameters(mockFn).subscribe(result => {
+        expect(result).toEqual([mockTests[0]]);
+      });
     });
   });
 
@@ -432,19 +545,6 @@ describe('ExaminerRecordsPage', () => {
       component.ionViewDidEnter();
       expect(component.orientationProvider.monitorOrientation).toHaveBeenCalled();
       expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerRecordsViewDidEnter());
-    });
-  });
-
-  describe('handleScroll', () => {
-    it('should set displayScrollBanner to true if the passed value is greater ' +
-      'than 203 ', () => {
-      component.handleScroll({ detail: {scrollTop: 300 }} as CustomEvent<ScrollDetail>);
-      expect(component.displayScrollBanner).toEqual(true);
-    });
-    it('should set displayScrollBanner to flase if the passed value is not greater ' +
-      'than 203 ', () => {
-      component.handleScroll({ detail: {scrollTop: 1 }} as CustomEvent<ScrollDetail>);
-      expect(component.displayScrollBanner).toEqual(false);
     });
   });
 

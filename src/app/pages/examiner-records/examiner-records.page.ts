@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
@@ -127,6 +127,7 @@ export class ExaminerRecordsPage implements OnInit {
     public accessibilityService: AccessibilityService,
     public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -151,7 +152,7 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * get and save the tests we will use to get the data used for record cards
    */
-  private changeEligibleTests() {
+  changeEligibleTests() {
     this.eligTestSubject$.next(
       getEligibleTests(
         this.testSubject$.value,
@@ -164,7 +165,7 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * get and save the tests that are within the selected date range
    */
-  private filterDates() {
+  filterDates() {
     this.testsInRangeSubject$.next(
       getEligibleTests(
         this.testSubject$.value,
@@ -178,7 +179,7 @@ export class ExaminerRecordsPage implements OnInit {
    * wrapper used to reduce/centralise code
    * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
    */
-  private getTestsByParameters = <T>(fn: (
+  getTestsByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
     category: string,
   ) => T,
@@ -543,6 +544,7 @@ export class ExaminerRecordsPage implements OnInit {
   colourFilterChanged(colour: ColourEnum) {
     this.store$.dispatch(ColourFilterChanged(colour));
     this.colourOption = this.getColour(colour);
+    this.cdr.detectChanges();
   }
 
   /**

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -21,6 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     IonicModule,
     NgbModule,
+    ReactiveFormsModule,
     ExaminerRecordsComponentsModule,
     ExaminerRecordsRoutingModule,
     EffectsModule.forFeature([
@@ -29,10 +30,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ]),
     TranslateModule,
     ComponentsModule,
-    ReactiveFormsModule,
   ],
   declarations: [
     ExaminerRecordsPage,
+  ],
+  schemas: [
+    NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA,
   ],
 })
 export class ExaminerRecordsPageModule {
