@@ -6,13 +6,11 @@ import { ColourFilterRadioComponent } from '@pages/examiner-records/components/c
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExaminerReportsCard } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import { CompressionProvider } from '@providers/compression/compression';
-import { MockComponent } from '@pages/examiner-records/components/mockComponent/mock-component';
 
 @NgModule({
   declarations: [
     ColourFilterRadioComponent,
     ExaminerReportsCard,
-    MockComponent,
   ],
   imports: [
     IonicModule,
@@ -26,7 +24,6 @@ import { MockComponent } from '@pages/examiner-records/components/mockComponent/
   exports: [
     ColourFilterRadioComponent,
     ExaminerReportsCard,
-    MockComponent,
   ],
 })
 export class ExaminerRecordsComponentsModule { }
