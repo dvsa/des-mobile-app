@@ -71,6 +71,14 @@ describe('VehicleDetailsCardComponent', () => {
         spyOnProperty(component, 'registrationNumber').and.returnValue('Tests');
         expect(component.shouldHideCard()).toEqual(false);
       });
+      it('should return false if there is are previously searched registration numbers', () => {
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(['1', '2', '3']);
+        expect(component.shouldHideCard()).toEqual(false);
+      });
+      it('should return false if there is a instructor registration number', () => {
+        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(1);
+        expect(component.shouldHideCard()).toEqual(false);
+      });
     });
     describe('getTransmission', () => {
       it('should return the correct value', () => {
