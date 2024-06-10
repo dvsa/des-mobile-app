@@ -304,7 +304,7 @@ describe('JournalSelector', () => {
     });
   });
 
-  fdescribe('getPermittedSlotIdsBeforeToday', () => {
+  describe('getPermittedSlotIdsBeforeToday', () => {
     it('should select the startable test slots from the state', () => {
       const journal: JournalModel = {
         isLoading: true,
@@ -409,7 +409,7 @@ describe('JournalSelector', () => {
         completedTests: [
           {
             costCode: '1',
-            testDate: '2021-03-12',
+            testDate: '2019-01-12',
             driverNumber: 'AAAA',
             candidateName: { firstName: 'Name' },
             applicationReference: 1234561014,
@@ -418,7 +418,7 @@ describe('JournalSelector', () => {
             autosave: 1,
           }, {
             costCode: '1',
-            testDate: '2021-03-13',
+            testDate: '2019-01-13',
             driverNumber: 'AAAA',
             candidateName: { firstName: 'Name' },
             applicationReference: 1234562014,
