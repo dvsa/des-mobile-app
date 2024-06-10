@@ -27,8 +27,7 @@ export const getIncompleteTests = (
     * an incomplete tests (count it too)
     */
 
-  const slotIdsBeforeToday = getPermittedSlotIdsBeforeToday(journal, today, slotProvider);
-
+  const slotIdsBeforeToday = getPermittedSlotIdsBeforeToday(journal, today, slotProvider, tests);
   // includes tests with status of Started, Decided and WriteUp, but not un-started rekeys
   const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
   const completedTestSlotIds = testsSelectors.getCompletedTestSlotIdsBeforeToday(tests);

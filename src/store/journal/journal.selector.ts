@@ -8,6 +8,9 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { JournalModel } from './journal.model';
+import { getTestStatus } from '@store/tests/tests.selector';
+import { TestsModel } from '@store/tests/tests.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 
@@ -75,6 +78,7 @@ export const getPermittedSlotIdsBeforeToday = (
   journal: JournalModel,
   today: DateTime,
   slotProvider: SlotProvider,
+  tests: TestsModel
 ): SlotItem[] => {
   const slots = getSlots(journal);
   const arrayOfDateStrings = Object.keys(slots)
@@ -98,6 +102,10 @@ export const getPermittedSlotIdsBeforeToday = (
           } as ApplicationReference);
           // allow through if appRef is not already in completedTest list
           return !journal.completedTests
+            .filter(() => getTestStatus(
+              tests,
+              slotItem.slotData.slotDetail.slotId
+            ) === (TestStatus.Completed || TestStatus.Submitted))
             .map((testResult: SearchResultTestSchema) => testResult.applicationReference)
             .includes(Number(applicationReference));
         }),
