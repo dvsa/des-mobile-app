@@ -102,10 +102,10 @@ export const getPermittedSlotIdsBeforeToday = (
           } as ApplicationReference);
           // allow through if appRef is not already in completedTest list
           return !journal.completedTests
-            .filter(() => getTestStatus(
-              tests,
-              slotItem.slotData.slotDetail.slotId
-            ) === (TestStatus.Completed || TestStatus.Submitted))
+            .filter(() => {
+              const testStatus = getTestStatus(tests, slotItem.slotData.slotDetail.slotId)
+              return testStatus === (TestStatus.Completed) || testStatus === (TestStatus.Submitted)
+            })
             .map((testResult: SearchResultTestSchema) => testResult.applicationReference)
             .includes(Number(applicationReference));
         }),
