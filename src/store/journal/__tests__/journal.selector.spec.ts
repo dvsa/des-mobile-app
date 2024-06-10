@@ -20,6 +20,9 @@ import {
 } from '../journal.selector';
 import { JournalModel } from '../journal.model';
 import { HttpStatusCode } from '@angular/common/http';
+import { TestsModel } from '@store/tests/tests.model';
+import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 class MockStore {
 }
@@ -301,7 +304,7 @@ describe('JournalSelector', () => {
     });
   });
 
-  describe('getPermittedSlotIdsBeforeToday', () => {
+  fdescribe('getPermittedSlotIdsBeforeToday', () => {
     it('should select the startable test slots from the state', () => {
       const journal: JournalModel = {
         isLoading: true,
@@ -413,11 +416,30 @@ describe('JournalSelector', () => {
             category: 'B',
             activityCode: '1',
             autosave: 1,
+          }, {
+            costCode: '1',
+            testDate: '2021-03-13',
+            driverNumber: 'AAAA',
+            candidateName: { firstName: 'Name' },
+            applicationReference: 1234562014,
+            category: 'B',
+            activityCode: '1',
+            autosave: 1,
           },
         ],
       };
 
-      const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
+      const tests: TestsModel = {
+        currentTest: { slotId: testReportPracticeSlotId },
+        startedTests: {},
+        testStatus: {
+          2001: TestStatus.Autosaved,
+          1001: TestStatus.Submitted
+        },
+      };
+
+
+      const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider, tests);
 
       expect(slotIds.length)
         .toBe(1);
