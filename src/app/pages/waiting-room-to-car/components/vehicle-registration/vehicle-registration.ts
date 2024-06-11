@@ -49,8 +49,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   modalData: string = null;
   hasCalledMOT: boolean = false;
   showSearchSpinner: boolean = false;
-  didNotMatch: boolean = false;
-
 
   //This is here to help with visits and tests in places with poor connectivity,
   // this will be deleted in the full release
@@ -108,7 +106,6 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.clearData();
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
-    this.didNotMatch = false;
 
     //This is here to help with visits and tests in places with poor connectivity,
     // it will always point towards the real data when released
@@ -127,7 +124,6 @@ export class VehicleRegistrationComponent implements OnChanges {
         }
         if (this.modalData !== this.motData.data.registration) {
           this.vrnSearchListUpdate.emit(this.modalData);
-          this.didNotMatch = true;
           this.motData = null;
         }
       }
@@ -142,6 +138,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   loadModal = async (): Promise<void> => {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: MotFailedModal,
+      componentProps: { originalRegistration: this.vehicleRegistration },
       cssClass: 'mes-modal-alert',
       backdropDismiss: false,
     });

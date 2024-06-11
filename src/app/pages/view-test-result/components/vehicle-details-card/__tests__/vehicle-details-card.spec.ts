@@ -60,14 +60,22 @@ describe('VehicleDetailsCardComponent', () => {
       });
     });
     describe('shouldHideCard', () => {
-      it('should return true if the data is missing', () => {
+      it('should return true if all queries return nothing', () => {
+        spyOnProperty(component, 'transmission').and.returnValue(null);
+        spyOnProperty(component, 'registrationNumber').and.returnValue(null);
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(null);
+        spyOnProperty(component, 'schoolBike').and.returnValue(null);
+        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(null);
+
         expect(component.shouldHideCard()).toEqual(true);
       });
       it('should return false if there is a gearbox category', () => {
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(null);
         spyOnProperty(component, 'transmission').and.returnValue('Tests');
         expect(component.shouldHideCard()).toEqual(false);
       });
       it('should return false if there is a vehicle registration number', () => {
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(null);
         spyOnProperty(component, 'registrationNumber').and.returnValue('Tests');
         expect(component.shouldHideCard()).toEqual(false);
       });
@@ -76,6 +84,7 @@ describe('VehicleDetailsCardComponent', () => {
         expect(component.shouldHideCard()).toEqual(false);
       });
       it('should return false if there is a instructor registration number', () => {
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(null);
         spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(1);
         expect(component.shouldHideCard()).toEqual(false);
       });

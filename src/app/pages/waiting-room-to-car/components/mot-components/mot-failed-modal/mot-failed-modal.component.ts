@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {
   FieldValidators,
@@ -18,9 +18,13 @@ export class MotFailedModal implements OnInit {
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
+  @Input()
+  originalRegistration: string;
+
   formControl: UntypedFormControl;
   form: UntypedFormGroup;
   vehicleRegistration: string;
+  ifMatches: boolean = true;
 
   constructor(
     public modalCtrl: ModalController,
@@ -52,7 +56,11 @@ export class MotFailedModal implements OnInit {
   }
 
   async onConfirm() {
-    await this.modalCtrl.dismiss(this.formControl.value.toUpperCase());
+    if (this.formControl.value.toUpperCase() === this.originalRegistration.toUpperCase()) {
+      await this.modalCtrl.dismiss(this.formControl.value.toUpperCase());
+    } else {
+      this.ifMatches = false;
+    }
   }
   onCancel = async (): Promise<void> => {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);

@@ -20,11 +20,21 @@ describe('MotFailedModal', () => {
   }));
 
   describe('onConfirm', () => {
-    it('should call dismiss with an uppercase version of the data inputted into the modal', () => {
+    it('should call dismiss with an uppercase version of the data inputted into the modal ' +
+      'if the new vrn and the old vrn match', () => {
       spyOn(component.modalCtrl, 'dismiss');
       component.formControl = new UntypedFormControl('string');
+      component.originalRegistration = 'string';
       component.onConfirm();
       expect(component.modalCtrl.dismiss).toHaveBeenCalledWith('STRING');
+    });
+    it('should not call and set ifMatches to false if the new vrn and the old vrn do not match', () => {
+      spyOn(component.modalCtrl, 'dismiss');
+      component.formControl = new UntypedFormControl('aaaaaaaaaa');
+      component.originalRegistration = 'string';
+      component.onConfirm();
+      expect(component.modalCtrl.dismiss).not.toHaveBeenCalled();
+      expect(component.ifMatches).toEqual(false);
     });
   });
   describe('vehicleRegistrationChanged', () => {

@@ -47,8 +47,14 @@ export class VehicleDetailsCardComponent {
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
   public shouldHideCard(): boolean {
+    console.log(this.transmission)
+    console.log(this.registrationNumber)
+    console.log(this.getPreviousFilteredVRNs())
+    console.log(this.schoolBike)
+    console.log(this.instructorRegistrationNumber)
+
     return !this.transmission &&
-      !(this.registrationNumber || this.getPreviousFilteredVRNs) &&
+      !(this.registrationNumber || this.getPreviousFilteredVRNs()) &&
       !this.schoolBike &&
       !this.instructorRegistrationNumber;
   }
