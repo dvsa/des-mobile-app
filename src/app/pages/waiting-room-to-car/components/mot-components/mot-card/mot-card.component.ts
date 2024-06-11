@@ -17,8 +17,6 @@ export class MotCardComponent {
   @Input()
   status: string = '';
   @Input()
-  didNotMatch: boolean = false;
-  @Input()
   formGroup: UntypedFormGroup;
   @Input()
   data: VehicleDetails = {
@@ -50,7 +48,6 @@ export class MotCardComponent {
   callWasSuccessful() {
     return (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved')
       && this?.data?.status !== MotStatusCodes.NO_DETAILS
-      && this.didNotMatch === false
   }
 
   noDetails(): boolean {
