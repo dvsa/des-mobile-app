@@ -1954,9 +1954,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-            GoogleAnalyticsEventsTitles.ITEM_NAME,
-            legalRequirementsLabels[LegalRequirements.normalStart1],
+            `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
             GoogleAnalyticsEventsTitles.ITEM_STATUS,
             'completed',
           );
@@ -1986,11 +1984,9 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-            GoogleAnalyticsEventsTitles.ITEM_NAME,
-            legalRequirementsLabels[LegalRequirements.normalStart1],
+            `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
             GoogleAnalyticsEventsTitles.ITEM_STATUS,
-            legalRequirementToggleValues.uncompleted
+            'uncompleted',
           );
         done();
       });
@@ -2185,9 +2181,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}`,
-            GoogleAnalyticsEventsTitles.ITEM_NAME,
-            legalRequirementsLabels[LegalRequirements.normalStart1],
+            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
             GoogleAnalyticsEventsTitles.ITEM_STATUS,
             legalRequirementToggleValues.completed
           );
@@ -3010,7 +3004,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.ADD_SINGLE_FAULT,
+            GoogleAnalyticsEvents.ADD_FAULT,
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels.slalom,
             GoogleAnalyticsEventsTitles.SEVERITY,
@@ -3049,7 +3043,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.ADD_SINGLE_FAULT,
+            GoogleAnalyticsEvents.ADD_FAULT,
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels.slalom,
             GoogleAnalyticsEventsTitles.SEVERITY,
@@ -3088,7 +3082,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.ADD_SINGLE_FAULT,
+            GoogleAnalyticsEvents.ADD_FAULT,
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels.slalom,
             GoogleAnalyticsEventsTitles.SEVERITY,
