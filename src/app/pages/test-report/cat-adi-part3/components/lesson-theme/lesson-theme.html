@@ -156,7 +156,7 @@
                 [class.ng-invalid]="invalid"
                 [value]="otherReason"
                 (onCharacterCountChanged)="characterCountChanged($event)"
-                (input)="otherReasoningChanged($event.target.value)"
+                (change)="otherReasoningChanged($event.target.value)"
                 formControlName="otherReason"
                 class="mes-data input-styling-background"
                 emojiBlock
