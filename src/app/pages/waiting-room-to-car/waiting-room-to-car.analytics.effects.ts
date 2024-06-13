@@ -601,7 +601,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TRAINER_REG_NUMBER, tests),
         GoogleAnalyticsEventsTitles.SELECTION,
-        trainerRegistrationNumber.toString(),
+        GoogleAnalyticsEventsValues.TRAINER_ID_ENTERED,
       );
       return of(AnalyticRecorded());
     }),

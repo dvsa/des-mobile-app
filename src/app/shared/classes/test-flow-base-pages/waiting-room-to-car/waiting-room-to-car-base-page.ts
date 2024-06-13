@@ -100,6 +100,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
+  trainerNumberProvided: boolean = false;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -300,7 +301,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   trainerRegistrationNumberChanged(instructorRegistration: number): void {
-    this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
+    if(instructorRegistration) {
+      if(!this.trainerNumberProvided) {
+        this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
+        this.trainerNumberProvided = true;
+      }
+    } else this.trainerNumberProvided = false;
   }
 
   async practiceModeTestCentreAlert() {

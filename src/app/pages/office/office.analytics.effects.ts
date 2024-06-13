@@ -367,7 +367,7 @@ export class OfficeAnalyticsEffects {
         );
       } else {
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          formatAnalyticsText(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
           GoogleAnalyticsEventsTitles.BLANK_FIELD,
           controlName,
         );
@@ -527,7 +527,7 @@ export class OfficeAnalyticsEffects {
 
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.INDEPENDENT_DRIVING,
+        formatAnalyticsText(GoogleAnalyticsEvents.INDEPENDENT_DRIVING, tests),
         GoogleAnalyticsEventsTitles.DRIVING_TYPE,
         eventValue,
       );
@@ -692,13 +692,13 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, ecoCaptureReason]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string, boolean],
+      [, tests]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string, boolean],
     ) => {
       // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.ECO_CAPTURE_REASON_CHANGED, tests),
-        ecoCaptureReason,
+        'Free text entered',
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
@@ -706,7 +706,7 @@ export class OfficeAnalyticsEffects {
         GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
         GoogleAnalyticsEventsValues.ECO,
         GoogleAnalyticsEventsTitles.REASON,
-        ecoCaptureReason,
+        GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED,
       );
       return of(AnalyticRecorded());
     }),
