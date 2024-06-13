@@ -10,6 +10,8 @@ import { AnalyticsEventCategories, AnalyticsEvents, GoogleAnalyticsEvents } from
 import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
 import { testsReducer } from '../../tests.reducer';
 import * as testStatusActions from '../test-status.actions';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 describe('TestStatusAnalyticsEffects', () => {
   let effects: TestStatusAnalyticsEffects;
@@ -26,6 +28,7 @@ describe('TestStatusAnalyticsEffects', () => {
       providers: [
         TestStatusAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         provideMockActions(() => actions$),
         Store,
       ],
