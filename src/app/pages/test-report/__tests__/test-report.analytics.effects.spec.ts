@@ -1986,7 +1986,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
             GoogleAnalyticsEventsTitles.ITEM_STATUS,
-            'uncompleted',
+            legalRequirementToggleValues.uncompleted
           );
         done();
       });
