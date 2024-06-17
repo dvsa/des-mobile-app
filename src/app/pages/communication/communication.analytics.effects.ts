@@ -339,18 +339,18 @@ export class CommunicationAnalyticsEffects {
     concatMap(([, tests]: [ReturnType<typeof NewEmailSelected>, TestsModel, boolean]) => {
       if (this.router.url?.startsWith(this.className)) {
 
-        // TODO - MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          AnalyticsEventCategories.COMMUNICATION,
-          AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-          'New Email',
-        );
-
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS, tests),
           GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
           GoogleAnalyticsEventsValues.COMMS_METHOD_NEW_EMAIL,
+        );
+
+        // TODO - MES-9495 - remove old analytics
+        this.analytics.logEvent(
+          AnalyticsEventCategories.COMMUNICATION,
+          AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+          'New Email',
         );
         return of(AnalyticRecorded());
       }

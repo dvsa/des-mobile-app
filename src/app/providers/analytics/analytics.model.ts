@@ -284,6 +284,7 @@ export enum GoogleAnalyticsCustomDimension {
 
 export enum GoogleAnalyticsEvents {
   START_TEST = 'start_test',
+  RETURN_TO_TEST = 'return_to_test',
   TEST_OUTCOME_CHANGED = 'test_outcome_changed',
   MICROSERVICE_ERROR = 'microservice_error',
   TEST_SUBMISSION = 'test_submission',
@@ -454,7 +455,7 @@ export enum GoogleAnalyticsEventsValues {
   VRN_CAPTURE_SAVED = 'saved',
   COMMS_METHOD_BOOKING_EMAIL = 'booking_email',
   COMMS_METHOD_NEW_EMAIL = 'new_email',
-  COMMS_METHOD_POST = 'by_email',
+  COMMS_METHOD_POST = 'by_post',
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
   ASSESSMENT_MODAL = 'assessment_modal',
   CANDIDATE = 'candidate',
@@ -490,4 +491,5 @@ export enum GoogleAnalyticsEventsValues {
   EMERGENCY_STOP = 'emergency_stop',
   REVERSE_MANOEUVRE = 'reverse_manoeuvre',
   OTHER_REASON = 'other_reason',
+  TRAINER_ID_ENTERED = 'trainer_id_entered',
 }

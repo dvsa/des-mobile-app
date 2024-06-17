@@ -252,7 +252,7 @@ export class NonPassFinalisationAnalyticsEffects {
         );
         //GA4 Analytics
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+          formatAnalyticsText(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
           GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.ENGLISH,
         );
@@ -297,7 +297,7 @@ export class NonPassFinalisationAnalyticsEffects {
         );
         //GA4 Analytics
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+          formatAnalyticsText(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
           GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.CYMRAEG,
         );
@@ -412,14 +412,14 @@ export class NonPassFinalisationAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, reason]:
+      [, tests]:
       [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string, boolean],
     ) => {
       // TODO - MES-9495 - remove old analytics
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED, tests),
-        `reason for no advice changed ${reason}`,
+        'Free text entered',
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
@@ -427,7 +427,7 @@ export class NonPassFinalisationAnalyticsEffects {
         GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
         GoogleAnalyticsEventsValues.NO_ADVICE_REASON,
         GoogleAnalyticsEventsTitles.REASON,
-        reason,
+        GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED,
       );
       return of(AnalyticRecorded());
     }),
