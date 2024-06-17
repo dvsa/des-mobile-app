@@ -18,6 +18,7 @@ import { JournalComponentsModule } from './components/journal-components.module'
 import { CandidateDetailsPageModule } from '../candidate-details/candidate-details.module';
 import { ErrorPageModule } from '../error-page/error.module';
 import { JournalAnalyticsEffects } from './journal.analytics.effects';
+import { CompressionProvider } from '@providers/compression/compression';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { JournalAnalyticsEffects } from './journal.analytics.effects';
     OrientationMonitorProvider,
     JournalProvider,
     NavParams,
+    CompressionProvider,
     SlotProvider,
     SlotSelectorProvider,
     DateTimeProvider,

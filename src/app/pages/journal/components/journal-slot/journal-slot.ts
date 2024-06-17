@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { get, has, isEmpty } from 'lodash-es';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { CompletedJournalSlot } from '@pages/journal/journal.page';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'journal-slots',
@@ -13,7 +15,7 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 export class JournalSlotComponent {
 
   @Input()
-  completedTests: SearchResultTestSchema[] = [];
+  completedTests: CompletedJournalSlot[] = [];
 
   @Input()
   slots: SlotItem[] = [];
@@ -29,15 +31,21 @@ export class JournalSlotComponent {
   ) {
   }
 
-  derivedTestStatus = (
-    slotData: TestSlot,
-    completedTests: SearchResultTestSchema[],
-  ): TestStatus | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests) ? TestStatus.Submitted : null;
-
-  hasSlotBeenTested = (
-    slotData: TestSlot,
-    completedTests: SearchResultTestSchema[],
-  ): ActivityCode | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests);
+  /**
+   * Find the completed test for the given slot if exists
+   * @param slotData
+   */
+  findCompletedTest(slotData: TestSlot): CompletedJournalSlot {
+    if (!!get(slotData, 'booking')) {
+      const tempAppRef = parseInt(formatApplicationReference({
+        applicationId: slotData.booking.application.applicationId,
+        bookingSequence: slotData.booking.application.bookingSequence,
+        checkDigit: slotData.booking.application.checkDigit,
+      } as ApplicationReference), 10);
+      return null
+    }
+    return null;
+  }
 
   didSlotPass = (
     slotData: TestSlot,

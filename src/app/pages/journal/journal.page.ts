@@ -3,7 +3,7 @@ import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { merge, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
@@ -18,6 +18,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
+  getCompletedTests,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -31,6 +32,24 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { get } from 'lodash-es';
+import {
+  getTests,
+  TestResultSchemasUnionWithAutosaveAndSlotID,
+} from '@store/tests/tests.reducer';
+import { TestsModel } from '@store/tests/tests.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { HttpResponse } from '@angular/common/http';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { SearchProvider } from '@providers/search/search';
+import { CompressionProvider } from '@providers/compression/compression';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -44,6 +63,15 @@ interface JournalPageState {
   canNavigateToPreviousDay$: Observable<boolean>;
   canNavigateToNextDay$: Observable<boolean>;
   isSelectedDateToday$: Observable<boolean>;
+  testModel$: Observable<TestsModel>;
+}
+
+export interface CompletedJournalSlot {
+  slotId: number,
+  appRef: number,
+  Status: TestStatus,
+  slot: SlotDetail
+  autosave: number
 }
 
 @Component({
@@ -64,6 +92,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   merged$: Observable<any>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
+  hasRehydrated: boolean = false
 
   constructor(
     public modalController: ModalController,
@@ -72,6 +101,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private searchProvider: SearchProvider,
+    private compressionProvider: CompressionProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -83,6 +115,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageState = {
+      testModel$: this.store$.pipe(
+        select(getTests),
+      ),
       selectedDate$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
@@ -121,8 +156,17 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map((selectedDate) => selectedDate === this.dateTimeProvider.now()
           .format('YYYY-MM-DD')),
       ),
-      completedTests$: of([]),
+      completedTests$: this.store$.pipe(
+        select(getJournalState),
+        select(getCompletedTests),
+      ),
     };
+
+    this.store$.pipe(
+      select(getTests),
+    ).subscribe((startedTests) => {
+      console.log('tests', startedTests);
+    });
 
     const {
       error$,
@@ -147,6 +191,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await this.loadJournalManually();
     this.setupPolling();
     this.configurePlatformSubscriptions();
+
+    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -226,6 +273,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public refreshJournal = async () => {
     await this.loadJournalManually();
+    this.loadCompletedTestsWithCallThrough();
   };
 
   onPreviousDayClick(): void {
@@ -234,5 +282,123 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
+  }
+
+  /**
+   * Load the completed tests with the callThrough property set to true (default false)
+   * This will make the request to the backend to check if any of the tests have already been submitted
+   * by another device
+   * *
+   */
+  loadCompletedTestsWithCallThrough = (): void => {
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
+  };
+
+  /**
+   * Limit payload to only the required fields for test that match current journal slots
+   * @param completedTests
+   * @param testSlots
+   */
+  async formatCompleteTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]) {
+    //Get app refs from test slots
+    let arrayOfTests: number[] = testSlots.map((slot: SlotItem) => {
+      if (get(slot, 'slotData.booking')) {
+        return parseInt(formatApplicationReference({
+          applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
+          bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
+          checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
+        } as ApplicationReference), 10);
+      }
+    })
+
+    let testStore: TestsModel = null
+    this.store$.pipe(
+      select(getTests)
+    ).subscribe(value => {
+      testStore = value;
+    }).unsubscribe()
+
+    let matchingTests: number[] = arrayOfTests
+      .filter(element => completedTests
+        .map(value => value.applicationReference).includes(element));
+
+    let filteredTests = completedTests
+      .filter((value: SearchResultTestSchema) => matchingTests.includes(value.applicationReference))
+      .map((value: SearchResultTestSchema) => {
+        return {
+          applicationReference: value.applicationReference,
+          activityCode: value.activityCode,
+          autosave: !!(value.autosave),
+          passCertificateNumber: value.passCertificateNumber,
+        };
+      });
+    let testsThatNeedRehydrated = []
+    this.pageState.slots$.subscribe((slots: SlotItem[]) => {
+      slots.forEach((slot: SlotItem) => {
+        if (!!get(slot.slotData, 'booking')) {
+          //get app ref for the current slot
+          const tempAppRef = parseInt(formatApplicationReference({
+            applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
+            bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
+            checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
+          } as ApplicationReference), 10);
+          let foundTest = filteredTests
+            .find(value => value.applicationReference === tempAppRef);
+          let foundStatus = testStore.testStatus[slot.slotData.slotDetail.slotId];
+          // If the test exists and is not submitted, completed or autosaved,
+          // add it to the list of tests that need rehydrated
+          if (!!foundTest &&
+            !(foundStatus === TestStatus.Submitted ||
+              foundStatus === TestStatus.Completed ||
+              foundStatus === TestStatus.Autosaved ||
+              foundStatus === TestStatus.WriteUp
+            )) {
+            testsThatNeedRehydrated.push({
+              slotId: slot.slotData.slotDetail.slotId,
+              appRef: foundTest.applicationReference,
+              Status: foundStatus,
+              autosave: foundTest.autosave,
+              slot: slot.slotData.slotDetail
+            })
+          }
+        }
+        return null;
+      })
+    });
+    if (testsThatNeedRehydrated.length > 0 && !this.hasRehydrated) {
+      this.hasRehydrated = true;
+      console.log('Tests that need rehydrated', testsThatNeedRehydrated);
+      let completedTestsWithAutoSaveAndID: TestResultSchemasUnionWithAutosaveAndSlotID[] = [];
+      testsThatNeedRehydrated.forEach((test: CompletedJournalSlot) => {
+        let searchedTest: TestResultSchemasUnion = null;
+        this.searchProvider
+          .getTestResult(test.appRef.toString(), this.authenticationProvider.getEmployeeId())
+          .pipe(
+            map((response: HttpResponse<any>): string => response.body),
+            map((data) => searchedTest = (this.compressionProvider.extract<TestResultSchemasUnion>(data))),
+            map(() => {
+              completedTestsWithAutoSaveAndID.push({
+                autosave: test.autosave,
+                testData: searchedTest,
+                slotId: test.slotId.toString(),
+              })
+              return of()
+            }),
+            catchError(async (err) => {
+              this.store$.dispatch(SaveLog({
+                payload: this.logHelper.createLog(
+                  LogType.ERROR,
+                  `Getting test result for app ref (${test.appRef})`,
+                  err,
+                ),
+              }));
+              return of();
+            }),
+          ).subscribe(() =>{
+            console.log(completedTestsWithAutoSaveAndID);
+            this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
+          })
+      })
+    }
   }
 }

@@ -2,6 +2,9 @@ import { createAction, union } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from './tests.model';
+import {
+  TestResultSchemasUnionWithAutosaveAndSlotID,
+} from '@store/tests/tests.reducer';
 
 export const UnloadTests = createAction(
   '[Tests] Unload Tests',
@@ -18,6 +21,11 @@ export const LoadPersistedTests = createAction(
 export const LoadPersistedTestsSuccess = createAction(
   '[Tests] Load persisted success',
   (tests: TestsModel) => ({ tests }),
+);
+
+export const LoadRemoteTests = createAction(
+  '[Tests] Load remote tests',
+  (tests: TestResultSchemasUnionWithAutosaveAndSlotID[]) => ({ tests }),
 );
 
 export const LoadPersistedTestsFailure = createAction(
@@ -136,6 +144,7 @@ const actions = union({
   SendPartialTestSuccess,
   SendPartialTestsFailure,
   SendCompletedNoneSent,
+  LoadRemoteTests
 });
 
 export type TestActionsTypes = typeof actions;
