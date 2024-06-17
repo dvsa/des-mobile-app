@@ -456,7 +456,7 @@ export enum GoogleAnalyticsEventsValues {
   VRN_CAPTURE_SAVED = 'saved',
   COMMS_METHOD_BOOKING_EMAIL = 'booking_email',
   COMMS_METHOD_NEW_EMAIL = 'new_email',
-  COMMS_METHOD_POST = 'by_email',
+  COMMS_METHOD_POST = 'by_post',
   BIKE_CATEGORY_MODAL = 'bike_category_modal',
   ASSESSMENT_MODAL = 'assessment_modal',
   CANDIDATE = 'candidate',
