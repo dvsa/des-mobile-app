@@ -180,8 +180,8 @@ export class TestsAnalyticsEffects {
         }),
       );
       // GA4 Analytics
-      let submissionType = null;
-      switch (submissionType) {
+      let submissionType: string;
+      switch (this.formatter(action.type)) {
         case 'send completed tests success':
           submissionType = GoogleAnalyticsEventsValues.COMPLETED;
           break;
