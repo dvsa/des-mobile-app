@@ -13,6 +13,8 @@ import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { select } from '@ngrx/store';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -53,6 +55,11 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
       unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
         .pipe(map((data) => data.map((slot) => slot.slotData))),
     };
+    this.store$.pipe(
+      select(getTests),
+    ).subscribe((data) => {
+      console.log(data.testStatus)
+    })
   }
 
   async ionViewWillEnter() {

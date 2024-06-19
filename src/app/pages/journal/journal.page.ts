@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
-import { merge, Observable, of, Subscription } from 'rxjs';
+import { forkJoin, merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -113,7 +113,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.todaysDate = this.dateTimeProvider.now();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.pageState = {
       testModel$: this.store$.pipe(
         select(getTests),
@@ -162,12 +162,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
       ),
     };
 
-    this.store$.pipe(
-      select(getTests),
-    ).subscribe((startedTests) => {
-      console.log('tests', startedTests);
-    });
-
     const {
       error$,
       isLoading$,
@@ -177,6 +171,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
       error$.pipe(switchMap(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
+
+    forkJoin([
+      this.pageState.completedTests$.pipe(take(2)),
+      this.pageState.slots$.pipe(take(2)),
+    ]).subscribe(([completed, slots]) => {
+      this.rehydrateTests(completed, slots);
+    })
   }
 
   ionViewDidLeave(): void {
@@ -299,7 +300,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
    * @param completedTests
    * @param testSlots
    */
-  async formatCompleteTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]) {
+  async rehydrateTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]) {
     //Get app refs from test slots
     let arrayOfTests: number[] = testSlots.map((slot: SlotItem) => {
       if (get(slot, 'slotData.booking')) {
@@ -395,7 +396,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
               return of();
             }),
           ).subscribe(() =>{
-            console.log(completedTestsWithAutoSaveAndID);
             this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
           })
       })
