@@ -3123,7 +3123,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT,
+            GoogleAnalyticsEvents.REMOVE_FAULT,
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels.slalom,
             GoogleAnalyticsEventsTitles.SEVERITY,
@@ -3164,7 +3164,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT,
+            GoogleAnalyticsEvents.REMOVE_FAULT,
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels.slalom,
             GoogleAnalyticsEventsTitles.SEVERITY,
@@ -3205,7 +3205,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT,
+            GoogleAnalyticsEvents.REMOVE_FAULT,
             GoogleAnalyticsEventsTitles.FAULT_TYPE,
             fullCompetencyLabels.slalom,
             GoogleAnalyticsEventsTitles.SEVERITY,
