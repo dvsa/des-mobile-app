@@ -2622,7 +2622,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
         GoogleAnalyticsEventsTitles.FAULT_TYPE,
         fullCompetencyLabels[action.competencyName],
         GoogleAnalyticsEventsTitles.SEVERITY,
@@ -2662,7 +2662,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
         GoogleAnalyticsEventsTitles.FAULT_TYPE,
         fullCompetencyLabels[action.competencyName],
         GoogleAnalyticsEventsTitles.SEVERITY,
@@ -2701,7 +2701,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
         GoogleAnalyticsEventsTitles.FAULT_TYPE,
         fullCompetencyLabels[action.competencyName],
         GoogleAnalyticsEventsTitles.SEVERITY,
