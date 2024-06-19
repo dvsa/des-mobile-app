@@ -351,7 +351,6 @@ export enum GoogleAnalyticsEvents {
   SELECT_MODE = 'select_mode',
   EXIT_MODE = 'exit_mode',
   REMOVE_FAULT = 'remove_fault',
-  REMOVE_SINGLE_FAULT = 'remove_single_fault',
   TEST_ENDED = 'test_ended',
   TEST_TERMINATED = 'test_terminated',
   LEGAL_REQUIREMENT = 'legal_requirement',
