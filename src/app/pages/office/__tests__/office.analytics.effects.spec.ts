@@ -589,7 +589,7 @@ describe('OfficeAnalyticsEffects', () => {
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
             'useOfMirrorsSignalling',
             GoogleAnalyticsEventsTitles.SEVERITY,
@@ -615,7 +615,7 @@ describe('OfficeAnalyticsEffects', () => {
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
+            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
             'useOfMirrorsSignalling',
             GoogleAnalyticsEventsTitles.SEVERITY,
