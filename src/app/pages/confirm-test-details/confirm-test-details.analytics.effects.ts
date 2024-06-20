@@ -19,7 +19,7 @@ import {
   BackToDebrief,
   ConfirmTestDetailsViewDidEnter,
 } from '@pages/confirm-test-details/confirm-test-details.actions';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
@@ -45,18 +45,23 @@ export class ConfirmTestDetailsAnalyticsEffects {
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
             select(isPracticeMode),
           ),
         ),
       )),
-    filter(([, practiceMode]) => !practiceMode
+    filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
-    switchMap(() => {
+    switchMap((
+      [, tests]: [ReturnType<typeof ConfirmTestDetailsViewDidEnter>, TestsModel, boolean],
+    ) => {
       // TODO - MES-9495 - remove old analytics
       this.analytics.setCurrentPage(AnalyticsScreenNames.CONFIRM_TEST_DETAILS);
       // GA4 Analytics
-      this.analytics.setGACurrentPage(AnalyticsScreenNames.CONFIRM_TEST_DETAILS);
+      this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.CONFIRM_TEST_DETAILS, tests));
       return of(AnalyticRecorded());
     }),
   ));

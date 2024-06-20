@@ -114,7 +114,7 @@ export class NonPassFinalisationAnalyticsEffects {
       const valueName = action.errorMessage.split(' ')[0];
 
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
         GoogleAnalyticsEventsTitles.BLANK_FIELD,
         valueName,
       );
@@ -252,7 +252,7 @@ export class NonPassFinalisationAnalyticsEffects {
         );
         //GA4 Analytics
         this.analytics.logGAEvent(
-          formatAnalyticsText(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
           GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.ENGLISH,
         );
@@ -297,7 +297,7 @@ export class NonPassFinalisationAnalyticsEffects {
         );
         //GA4 Analytics
         this.analytics.logGAEvent(
-          formatAnalyticsText(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
           GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.CYMRAEG,
         );
