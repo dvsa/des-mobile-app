@@ -359,7 +359,7 @@ export class OfficeAnalyticsEffects {
         let faultType = this.getEventValue(splitArray[2]);
 
         this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
           GoogleAnalyticsEventsTitles.BLANK_FIELD,
           controlName,
           GoogleAnalyticsEventsTitles.SEVERITY,
@@ -367,7 +367,7 @@ export class OfficeAnalyticsEffects {
         );
       } else {
         this.analytics.logGAEvent(
-          formatAnalyticsText(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
           GoogleAnalyticsEventsTitles.BLANK_FIELD,
           controlName,
         );
@@ -527,7 +527,7 @@ export class OfficeAnalyticsEffects {
 
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
       this.analytics.logGAEvent(
-        formatAnalyticsText(GoogleAnalyticsEvents.INDEPENDENT_DRIVING, tests),
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.INDEPENDENT_DRIVING, tests),
         GoogleAnalyticsEventsTitles.DRIVING_TYPE,
         eventValue,
       );
