@@ -468,7 +468,7 @@ export class PassFinalisationAnalyticsEffects {
         );
         //GA4 Analytics
         this.analytics.logGAEvent(
-          formatAnalyticsText(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
           GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.ENGLISH,
         );
@@ -513,7 +513,7 @@ export class PassFinalisationAnalyticsEffects {
         );
         //GA4 Analytics
         this.analytics.logGAEvent(
-          formatAnalyticsText(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
           GoogleAnalyticsEventsTitles.LANGUAGE,
           Language.CYMRAEG,
         );
