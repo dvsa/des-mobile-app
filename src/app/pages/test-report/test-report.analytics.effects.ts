@@ -747,8 +747,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_ENDED, tests),
-        GoogleAnalyticsEvents.RETURN_TO_TEST,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.RETURN_TO_TEST, tests),
       );
       return of(AnalyticRecorded());
     }),
