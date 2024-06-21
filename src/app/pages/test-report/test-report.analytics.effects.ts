@@ -3174,8 +3174,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.LESSON_PLANNING, tests),
-        `${GoogleAnalyticsEventsTitles.QUESTION_NUMBER}_Q${question}`,
+        analyticsEventTypePrefix(`${GoogleAnalyticsEvents.LESSON_PLANNING}_Q${question}`, tests),
+        GoogleAnalyticsEventsTitles.QUESTION_SCORE,
         String(score),
       );
       return of(AnalyticRecorded());
@@ -3214,8 +3214,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.RISK_MANAGEMENT, tests),
-        `${GoogleAnalyticsEventsTitles.QUESTION_NUMBER}_Q${question}`,
+        analyticsEventTypePrefix(`${GoogleAnalyticsEvents.RISK_MANAGEMENT}_Q${question}`, tests),
+        GoogleAnalyticsEventsTitles.QUESTION_SCORE,
         String(score),
       );
       return of(AnalyticRecorded());
@@ -3254,8 +3254,8 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.LEARNING_STRATEGY, tests),
-        `${GoogleAnalyticsEventsTitles.QUESTION_NUMBER}_Q${question}`,
+        analyticsEventTypePrefix(`${GoogleAnalyticsEvents.LEARNING_STRATEGY}_Q${question}`, tests),
+        GoogleAnalyticsEventsTitles.QUESTION_SCORE,
         String(score),
       );
       return of(AnalyticRecorded());
