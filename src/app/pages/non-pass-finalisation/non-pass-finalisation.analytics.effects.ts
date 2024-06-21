@@ -23,16 +23,6 @@ import * as testSummaryActions from '@store/tests/test-summary/test-summary.acti
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import {
-  ReasonForNoAdviceGivenChanged,
-  SeekFurtherDevelopmentChanged,
-} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
-import {
-  getFurtherDevelopment,
-  getReasonForNoAdviceGiven,
-} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -340,94 +330,6 @@ export class NonPassFinalisationAnalyticsEffects {
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_ACTIVITY_CODE, tests),
         GoogleAnalyticsEventsTitles.ACTIVITY_CODE,
         `${code} - ${description}`,
-      );
-      return of(AnalyticRecorded());
-    }),
-  ));
-
-  nonPassFinalisationSeekFurtherDevelopment$ = createEffect(() => this.actions$.pipe(
-    ofType(SeekFurtherDevelopmentChanged),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.pipe(
-            select(getTests),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getTestData),
-            select(getReview),
-            select(getFurtherDevelopment),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            select(isPracticeMode),
-          ),
-        ),
-      )),
-    filter(([, , , practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
-    concatMap((
-      [, tests, furtherDevelopment]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean, boolean],
-    ) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.FURTHER_DEVELOPMENT_CHANGED, tests),
-        `further development changed to ${furtherDevelopment ? 'Yes' : 'No'}`,
-      );
-      //GA4 Analytics
-      this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.FURTHER_DEVELOPMENT,
-        GoogleAnalyticsEventsTitles.SELECTION,
-        furtherDevelopment ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO,
-      );
-      return of(AnalyticRecorded());
-    }),
-  ));
-
-  nonPassFinalisationReasonGiven$ = createEffect(() => this.actions$.pipe(
-    ofType(ReasonForNoAdviceGivenChanged),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.pipe(
-            select(getTests),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getTestData),
-            select(getReview),
-            select(getReasonForNoAdviceGiven),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            select(isPracticeMode),
-          ),
-        ),
-      )),
-    filter(([, , , practiceMode]) => !practiceMode
-      ? true
-      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
-    concatMap((
-      [, tests]:
-      [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string, boolean],
-    ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED, tests),
-        'Free text entered',
-      );
-      //GA4 Analytics
-      this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.FEEDBACK,
-        GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
-        GoogleAnalyticsEventsValues.NO_ADVICE_REASON,
-        GoogleAnalyticsEventsTitles.REASON,
-        GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED,
       );
       return of(AnalyticRecorded());
     }),
