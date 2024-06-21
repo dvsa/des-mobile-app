@@ -597,7 +597,7 @@ export class PassFinalisationAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.FURTHER_DEVELOPMENT,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.FURTHER_DEVELOPMENT, tests),
         GoogleAnalyticsEventsTitles.SELECTION,
         furtherDevelopment ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO,
       );
@@ -641,7 +641,7 @@ export class PassFinalisationAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.FEEDBACK,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
         GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
         GoogleAnalyticsEventsValues.NO_ADVICE_REASON,
         GoogleAnalyticsEventsTitles.REASON,
