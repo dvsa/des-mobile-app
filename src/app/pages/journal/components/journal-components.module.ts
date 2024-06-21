@@ -15,9 +15,6 @@ import { ActivitySlotComponent } from './activity-slot/activity-slot';
 import { EmptySlotComponent } from './empty-slot/empty-slot';
 import { JournalNavigationComponent } from './journal-navigation/journal-navigation';
 import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
-import {
-  JournalFutureTestModalModule
-} from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +31,6 @@ import {
     JournalEarlyStartModule,
     JournalForceCheckModule,
     JournalRekeyModalModule,
-    JournalFutureTestModalModule,
   ],
   exports: [
     ActivitySlotComponent,
