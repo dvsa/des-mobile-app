@@ -1,5 +1,5 @@
 import { merge, Subscription } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
@@ -31,6 +31,7 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { JournalFutureTestModal } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal';
 
 @Component({
   selector: 'test-outcome',
@@ -86,6 +87,9 @@ export class TestOutcomeComponent implements OnInit {
 
   @Input()
   hasNavigatedFromUnsubmitted: boolean = false;
+
+  @Output()
+  cancelFutureTestModal = new EventEmitter<void>();
 
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
@@ -236,11 +240,30 @@ export class TestOutcomeComponent implements OnInit {
     await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
   }
 
-  async rekeyDelegatedTest(): Promise<void> {
+  async rekeyDelegatedTestStart() {
     this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, true));
     this.store$.dispatch(SetExaminerConducted(this.examinerId));
     this.store$.dispatch(SetExaminerBooked(this.examinerId));
     await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.category);
+  }
+
+  async rekeyDelegatedTest(): Promise<void> {
+    //compare the current date to the date of the test without factoring in time to see if the test is in the future
+    if (new Date(new Date(this.slot.slotDetail.start).toDateString()) > new Date(new Date().toDateString())) {
+      const modal: HTMLIonModalElement = await this.modalController.create({
+        component: JournalFutureTestModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+      });
+      await modal.present();
+      const { data } = await modal.onDidDismiss<ModalEvent>();
+      if (data === ModalEvent.START) {
+        await this.rekeyDelegatedTestStart();
+      } else {
+        this.cancelFutureTestModal.emit()
+      }
+    } else {
+      await this.rekeyDelegatedTestStart();
+    }
   }
 
   displayRekeyModal = async (): Promise<void> => {

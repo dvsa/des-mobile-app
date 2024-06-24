@@ -1,0 +1,27 @@
+<ion-card class="modal-alert">
+  <ion-row class="modal-icon ion-justify-content-center">
+    <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
+  </ion-row>
+  <ion-row class="ion-text-center">
+    <ion-text class="des-header-style-2">The date of this test is in the future</ion-text>
+  </ion-row>
+  <ion-row class="text-padding ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="ion-text-center mes-data">Close and investigate details.</div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="72">
+      <ion-button class="mes-return-button start-test-button" (click)="onCancel()" id="rekey-cancel-button">
+        <ion-text class="des-header-style-3">Close and investigate</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button fill="clear" class="cancel-button" (click)="onStartTest()" id="rekey-start-test-button">
+        Continue to rekey
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

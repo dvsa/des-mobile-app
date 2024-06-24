@@ -175,4 +175,8 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   get applicationReferenceCtrl(): AbstractControl {
     return this.delegatedRekeyForm.get('applicationReferenceInput');
   }
+
+  clearAppRef() {
+    this.applicationReferenceChanged('')
+  }
 }
