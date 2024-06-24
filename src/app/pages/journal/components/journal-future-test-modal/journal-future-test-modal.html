@@ -7,19 +7,21 @@
   </ion-row>
   <ion-row class="text-padding ion-justify-content-center">
     <ion-col class="ion-no-padding" size="80">
-      <div class="ion-text-center mes-data">Check details are correct before continuing.</div>
+      <div class="ion-text-center mes-data">Close and investigate details.</div>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" size="72">
-      <ion-button class="mes-return-button start-test-button" (click)="onStartTest()" id="rekey-start-test-button">
-        <ion-text class="des-header-style-3">Continue</ion-text>
+      <ion-button class="mes-return-button start-test-button" (click)="onCancel()" id="rekey-cancel-button">
+        <ion-text class="des-header-style-3">Close and investigate</ion-text>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="column-border-top ion-no-padding">
-      <ion-button fill="clear" class="cancel-button" (click)="onCancel()" id="rekey-cancel-button">Cancel</ion-button>
+      <ion-button fill="clear" class="cancel-button" (click)="onStartTest()" id="rekey-start-test-button"
+        >Continue to rekey</ion-button
+      >
     </ion-col>
   </ion-row>
 </ion-card>

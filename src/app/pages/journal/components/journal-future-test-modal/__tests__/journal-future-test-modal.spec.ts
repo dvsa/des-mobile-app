@@ -41,7 +41,7 @@ describe('JournalRekeyModal', () => {
     it('should call onStartTest when the Start test button is clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'onStartTest');
-      const button = fixture.debugElement.query(By.css('ion-button.start-test-button'));
+      const button = fixture.debugElement.query(By.css('ion-button.cancel-button'));
       button.triggerEventHandler('click', null);
 
       fixture.detectChanges();
@@ -51,7 +51,7 @@ describe('JournalRekeyModal', () => {
     it('should call onCancel when the Cancel button is clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'onCancel');
-      const button = fixture.debugElement.query(By.css('ion-button.cancel-button'));
+      const button = fixture.debugElement.query(By.css('ion-button.start-test-button'));
       button.triggerEventHandler('click', null);
 
       fixture.detectChanges();
