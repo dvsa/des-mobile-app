@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { get, isNil } from 'lodash-es';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -88,6 +88,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   @Input()
   isUnSubmittedTestSlotView: boolean = false;
+
+  @Output()
+  cancelFutureTestModal = new EventEmitter<void>();
 
   componentState: TestSlotComponentState;
 
@@ -226,5 +229,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   showOutcome(status: TestStatus): boolean {
     return [TestStatus.Completed, TestStatus.Submitted].includes(status);
+  }
+
+  emitCancelFutureTest() {
+    this.cancelFutureTestModal.emit()
   }
 }
