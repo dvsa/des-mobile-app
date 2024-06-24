@@ -1,5 +1,5 @@
 import { merge, Subscription } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
@@ -87,6 +87,9 @@ export class TestOutcomeComponent implements OnInit {
 
   @Input()
   hasNavigatedFromUnsubmitted: boolean = false;
+
+  @Output()
+  cancelFutureTestModal = new EventEmitter<void>();
 
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
@@ -255,6 +258,8 @@ export class TestOutcomeComponent implements OnInit {
       const { data } = await modal.onDidDismiss<ModalEvent>();
       if (data === ModalEvent.START) {
         await this.rekeyDelegatedTestStart();
+      } else {
+        this.cancelFutureTestModal.emit()
       }
     } else {
       await this.rekeyDelegatedTestStart();
