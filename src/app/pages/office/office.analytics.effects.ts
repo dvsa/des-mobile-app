@@ -659,9 +659,9 @@ export class OfficeAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.ADD_FAULT,
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        `${GoogleAnalyticsEventsValues.ECO}_${ecoRelatedFault}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT, tests
+        )}_${GoogleAnalyticsEventsValues.ECO}_${ecoRelatedFault}`,
       );
       return of(AnalyticRecorded());
     }),

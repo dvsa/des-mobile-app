@@ -134,6 +134,7 @@ export enum fullAnalyticCompetencyLabels {
   rearObservationChangeSpeed = 'rear_obs_change_speed',
   positionNormalRiding = 'positioning_normal_riding',
   judgementOvertakingFiltering = 'judgement_overtaking_filter',
+  uncoupleRecouple = 'uncouple_recouple'
 }
 
 export enum competencyLabels {
