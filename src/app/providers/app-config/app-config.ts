@@ -219,7 +219,7 @@ export class AppConfigProvider {
         }
       }
 
-      const configError = typeof error === 'string' ? error : (error as ValidationError[])
+      const configError = (error as ValidationError[])
         .map((err: ValidationError) => err.message)
         .join(', ');
 
