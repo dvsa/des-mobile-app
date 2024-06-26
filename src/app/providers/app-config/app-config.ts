@@ -219,7 +219,7 @@ export class AppConfigProvider {
         }
       }
 
-      const configError = (error as ValidationError[])
+      const configError = ((error || []) as ValidationError[])
         .map((err: ValidationError) => err.message)
         .join(', ');
 
