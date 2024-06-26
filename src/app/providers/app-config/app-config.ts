@@ -212,9 +212,11 @@ export class AppConfigProvider {
         return Promise.reject(AppConfigError.UNKNOWN_ERROR);
       }
 
-      const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error as string);
-      if (!!errorEnumVal) {
-        return Promise.reject(errorEnumVal);
+      if (typeof error === 'string') {
+        const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
+        if (!!errorEnumVal) {
+          return Promise.reject(errorEnumVal);
+        }
       }
 
       const configError = typeof error === 'string' ? error : (error as ValidationError[])
