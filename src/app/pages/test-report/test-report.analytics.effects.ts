@@ -432,10 +432,13 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        // eslint-disable-next-line max-len
-        `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${manoeuvreTypeAnalyticLabels[
+          action.manoeuvrePayload.manoeuvre
+        ]}_${manoeuvreCompetencyAnalyticLabels[
+          action.manoeuvrePayload.competency
+        ]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -473,9 +476,13 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${manoeuvreTypeAnalyticLabels[
+          action.payload.manoeuvre
+        ]}_${manoeuvreCompetencyAnalyticLabels[
+          action.payload.competency
+        ]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -514,10 +521,13 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        // eslint-disable-next-line max-len
-        `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${manoeuvreTypeAnalyticLabels[
+          action.manoeuvrePayload.manoeuvre
+        ]}_${manoeuvreCompetencyAnalyticLabels[
+          action.manoeuvrePayload.competency
+        ]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -555,9 +565,13 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${manoeuvreTypeAnalyticLabels[
+          action.payload.manoeuvre
+        ]}_${manoeuvreCompetencyAnalyticLabels[
+          action.payload.competency
+        ]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -596,10 +610,13 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        // eslint-disable-next-line max-len
-        `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${manoeuvreTypeAnalyticLabels[
+          action.manoeuvrePayload.manoeuvre
+        ]}_${manoeuvreCompetencyAnalyticLabels[
+          action.manoeuvrePayload.competency
+        ]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
@@ -637,9 +654,13 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${manoeuvreTypeAnalyticLabels[
+          action.payload.manoeuvre
+        ]}_${manoeuvreCompetencyAnalyticLabels[
+          action.payload.competency
+        ]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
@@ -677,9 +698,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['outcomeControlledStop'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -717,9 +738,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['outcomeControlledStop'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -791,9 +812,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['outcomeControlledStop'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
@@ -831,9 +852,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['outcomeHighwayCodeSafety'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['outcomeHighwayCodeSafety']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -871,9 +892,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['outcomeHighwayCodeSafety'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['outcomeHighwayCodeSafety']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -911,9 +932,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['showMeQuestion'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['showMeQuestion']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -951,9 +972,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['showMeQuestion'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['showMeQuestion']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -990,9 +1011,9 @@ export class TestReportAnalyticsEffects {
         1,
       );
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['showMeQuestion'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['showMeQuestion']}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
@@ -1273,9 +1294,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels['outcomeHighwayCodeSafety'],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels['outcomeHighwayCodeSafety']}`
       );
       return of(AnalyticRecorded());
     }),
@@ -1310,9 +1331,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.showMeQuestion,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         CompetencyOutcomeGA4Event(action.faultLevel),
       );
@@ -1993,9 +2014,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        competencyLabels.uncoupleRecouple,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -2033,9 +2054,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        competencyLabels.uncoupleRecouple,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -2073,9 +2094,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        competencyLabels.uncoupleRecouple,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
@@ -2572,25 +2593,25 @@ export class TestReportAnalyticsEffects {
       // GA4 Analytics
       if (action.outcome === CompetencyOutcome.DF) {
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-          GoogleAnalyticsEventsTitles.FAULT_TYPE,
-          fullCompetencyLabels[action.competencyName],
+          `${analyticsEventTypePrefix(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
           GoogleAnalyticsEventsTitles.SEVERITY,
           ValidFaultTypes.DRIVING,
         );
       } else if (action.outcome === CompetencyOutcome.D) {
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-          GoogleAnalyticsEventsTitles.FAULT_TYPE,
-          fullCompetencyLabels[action.competencyName],
+          `${analyticsEventTypePrefix(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
           GoogleAnalyticsEventsTitles.SEVERITY,
           ValidFaultTypes.DANGEROUS,
         );
       } else if (action.outcome === CompetencyOutcome.S) {
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-          GoogleAnalyticsEventsTitles.FAULT_TYPE,
-          fullCompetencyLabels[action.competencyName],
+          `${analyticsEventTypePrefix(
+            GoogleAnalyticsEvents.ADD_FAULT,
+            tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
           GoogleAnalyticsEventsTitles.SEVERITY,
           ValidFaultTypes.SERIOUS,
         );
@@ -2628,9 +2649,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels[action.competencyName],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -2668,9 +2689,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels[action.competencyName],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         GoogleAnalyticsEventsValues.DANGEROUS,
       );
@@ -2707,9 +2728,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels[action.competencyName],
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -2746,9 +2767,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.pcvDoorExercise,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -2785,9 +2806,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.pcvDoorExercise,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -2824,9 +2845,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.pcvDoorExercise,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.ADD_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
@@ -2863,9 +2884,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.pcvDoorExercise,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DRIVING,
       );
@@ -2902,9 +2923,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.pcvDoorExercise,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.SERIOUS,
       );
@@ -2941,9 +2962,9 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.REMOVE_FAULT, tests),
-        GoogleAnalyticsEventsTitles.FAULT_TYPE,
-        fullCompetencyLabels.pcvDoorExercise,
+        `${analyticsEventTypePrefix(
+          GoogleAnalyticsEvents.REMOVE_FAULT,
+          tests)}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
         GoogleAnalyticsEventsTitles.SEVERITY,
         ValidFaultTypes.DANGEROUS,
       );
