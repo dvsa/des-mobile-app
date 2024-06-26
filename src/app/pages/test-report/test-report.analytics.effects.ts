@@ -1859,9 +1859,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
-        legalRequirementsLabels.manoeuvre,
+        `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_MAN`,
         GoogleAnalyticsEventsTitles.ITEM_STATUS,
         legalRequirementToggleValues.completed,
       );
@@ -1898,9 +1896,7 @@ export class TestReportAnalyticsEffects {
       );
       // GA4 Analytics
       this.analytics.logGAEvent(
-        analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
-        GoogleAnalyticsEventsTitles.ITEM_NAME,
-        legalRequirementsLabels.manoeuvre,
+        `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_MAN`,
         GoogleAnalyticsEventsTitles.ITEM_STATUS,
         legalRequirementToggleValues.uncompleted,
       );

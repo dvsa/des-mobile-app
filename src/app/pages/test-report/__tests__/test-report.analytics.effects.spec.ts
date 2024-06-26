@@ -2097,9 +2097,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-            GoogleAnalyticsEventsTitles.ITEM_NAME,
-            legalRequirementsLabels['manoeuvre'],
+            `${ GoogleAnalyticsEvents.LEGAL_REQUIREMENT }_MAN`,
             GoogleAnalyticsEventsTitles.ITEM_STATUS,
             legalRequirementToggleValues.completed
           );
@@ -2131,9 +2129,7 @@ describe('TestReportAnalyticsEffects', () => {
           .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-            GoogleAnalyticsEventsTitles.ITEM_NAME,
-            legalRequirementsLabels['manoeuvre'],
+            `${ GoogleAnalyticsEvents.LEGAL_REQUIREMENT }_MAN`,
             GoogleAnalyticsEventsTitles.ITEM_STATUS,
             legalRequirementToggleValues.uncompleted
           );
