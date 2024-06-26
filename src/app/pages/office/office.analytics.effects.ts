@@ -616,7 +616,7 @@ export class OfficeAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.FUEL_EFFICIENT_DRIVING,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.FUEL_EFFICIENT_DRIVING, tests),
         GoogleAnalyticsEventsTitles.SELECTION,
         `${fuelEfficientDriving ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO}`,
       );
@@ -702,7 +702,7 @@ export class OfficeAnalyticsEffects {
       );
       //GA4 Analytics
       this.analytics.logGAEvent(
-        GoogleAnalyticsEvents.FEEDBACK,
+        analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
         GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
         GoogleAnalyticsEventsValues.ECO,
         GoogleAnalyticsEventsTitles.REASON,
