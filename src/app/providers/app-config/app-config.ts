@@ -17,6 +17,7 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { getAppConfigState } from '@store/app-config/app-config.reducer';
 import { MdmConfig } from '@dvsa/mes-config-schema/mdm-config';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
+import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { AppConfig } from './app-config.model';
 
 import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
@@ -196,7 +197,7 @@ export class AppConfigProvider {
       return data;
     })
     .then((data) => this.mapRemoteConfig(data))
-    .catch((error: HttpErrorResponse | ValidationError[]) => {
+    .catch((error: HttpErrorResponse | ValidationError[] | string) => {
       if (error instanceof HttpErrorResponse) {
         this.store$.dispatch(SaveLog({
           payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
@@ -211,7 +212,12 @@ export class AppConfigProvider {
         return Promise.reject(AppConfigError.UNKNOWN_ERROR);
       }
 
-      const configError: string = (error || [])
+      const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error as string);
+      if (!!errorEnumVal) {
+        return Promise.reject(errorEnumVal);
+      }
+
+      const configError = typeof error === 'string' ? error : (error as ValidationError[])
         .map((err: ValidationError) => err.message)
         .join(', ');
 
@@ -327,6 +333,7 @@ export class AppConfigProvider {
       },
       tests: {
         testSubmissionUrl: data.tests.testSubmissionUrl,
+        examinerRecordsUrl: data.tests.examinerRecordsUrl,
         autoSendInterval: data.tests.autoSendInterval,
       },
       user: {
