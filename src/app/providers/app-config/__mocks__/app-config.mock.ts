@@ -3,7 +3,7 @@ import { localEnvironmentMock } from './environment.mock';
 import { AppConfig } from '../app-config.model';
 
 export class AppConfigProviderMock {
-  private appConfig = {
+  private appConfig: AppConfig = {
     liveAppVersion: localEnvironmentMock.liveAppVersion,
     configUrl: localEnvironmentMock.configUrl,
     googleAnalyticsId: localEnvironmentMock.googleAnalyticsId,
@@ -44,6 +44,7 @@ export class AppConfigProviderMock {
     },
     tests: {
       testSubmissionUrl: localEnvironmentMock.tests.testSubmissionUrl,
+      examinerRecordsUrl: localEnvironmentMock.tests.examinerRecordsUrl,
       autoSendInterval: localEnvironmentMock.tests.autoSendInterval,
     },
     user: {
