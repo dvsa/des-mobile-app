@@ -28,7 +28,6 @@ export class UrlProvider {
   }
 
   getMultipleTestResultsUrl(): string {
-    console.log('url', this.appConfigProvider.getAppConfig()?.tests)
     return this.appConfigProvider.getAppConfig()?.tests.multipleTestResultsUrl;
   }
 

@@ -4,7 +4,6 @@ import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { forkJoin, merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
@@ -34,7 +33,6 @@ import { ErrorPage } from '../error-page/error';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { formatApplicationReference } from '@shared/helpers/formatters';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { get } from 'lodash-es';
 import {
   getTests,
@@ -43,7 +41,6 @@ import {
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { HttpResponse } from '@angular/common/http';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { SearchProvider } from '@providers/search/search';
@@ -312,31 +309,33 @@ export class JournalPage extends BasePageComponent implements OnInit {
    */
   async rehydrateTests(testsModel: TestsModel, testSlots: SlotItem[]) {
 
+    //Get a list of every test slot that doesn't have a test status or has one that should be overwritten by rehydration
     let testsThatNeedRehydrated = (testSlots
-        .filter(value => (get(value, 'slotData.booking'))
+      .filter(value => (get(value, 'slotData.booking'))
           && (!(testsModel.testStatus[value.slotData.slotDetail.slotId]) ||
             this.hasRehydratableTestStatus(value.slotData.slotDetail.slotId, testsModel)
           ))
-        .map(value => {
-          return({
-            slotId: value.slotData.slotDetail.slotId,
-            appRef: formatApplicationReference(
-              {
-                applicationId: (value.slotData as TestSlot).booking.application.applicationId,
-                bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
-                checkDigit: (value.slotData as TestSlot).booking.application.checkDigit
-              }
-            ),
-            autosave: this.isAutoSaved(value.slotData.slotDetail.slotId, testsModel),
-          });
-        })
+      .map(value => {
+        return({
+          slotId: value.slotData.slotDetail.slotId,
+          appRef: formatApplicationReference(
+            {
+              applicationId: (value.slotData as TestSlot).booking.application.applicationId,
+              bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
+              checkDigit: (value.slotData as TestSlot).booking.application.checkDigit
+            }
+          ),
+        });
+      })
     )
     //If testsThatNeedRehydrated has items in it, we need to get the test result from the backend
     if (testsThatNeedRehydrated.length > 0) {
       let completedTestsWithAutoSaveAndID: TestResultSchemasUnionWithAutosaveAndSlotID[] = [];
       //Get the app regs that need rehydrated from the backend
       this.searchProvider
-        .getTestResults(testsThatNeedRehydrated.map(value => value.appRef.toString()), this.authenticationProvider.getEmployeeId())
+        .getTestResults(testsThatNeedRehydrated.map(value =>
+          value.appRef.toString()), this.authenticationProvider.getEmployeeId()
+        )
         .pipe(
           map((response: HttpResponse<any>): string => response.body),
           //Decompress data
@@ -345,11 +344,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
             //Find which test this is referencing, so we can take its details
             tests.forEach((test) => {
               let currentTest = testsThatNeedRehydrated.find((value) => {
-                return (value.appRef == formatApplicationReference(test.test_result.journalData.applicationReference));
+                return (value.appRef == formatApplicationReference(test.journalData.applicationReference));
               });
               //Push the test details to the array so it can be dispatched to the state
               completedTestsWithAutoSaveAndID.push({
-                autosave: test.autosave.data[0],
+                autosave: test.autosave,
                 testData: test,
                 slotId: currentTest.slotId.toString(),
               });
@@ -369,8 +368,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
           }),
         ).subscribe(() => {
         //Dispatch tests so they can be loaded into the local storage
-        this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
-      });
+          this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
+        });
     }
   }
 }

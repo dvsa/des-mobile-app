@@ -149,7 +149,6 @@ export const getAllTestStatuses = (test: TestsModel): { [slotId: string]: TestSt
 };
 
 export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): ActivityCode => {
-  console.log(testsModel, testsModel.startedTests, testsModel.startedTests[id])
   if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
     return testsModel.startedTests[id].activityCode;
   }
