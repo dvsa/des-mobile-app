@@ -24,29 +24,19 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { AdvancedSearchParams } from '@providers/search/search.models';
-import { removeLeadingZeros } from '@shared/helpers/formatters';
-import { hasStartedTests } from '@store/tests/tests.selector';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
-import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getCompletedTests,
   getLastRefreshed,
   getSelectedDate,
   getSlots,
@@ -198,61 +188,57 @@ export class JournalEffects {
     }),
   ));
 
-  loadCompletedTests$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.LoadCompletedTests),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.pipe(
-            select(getJournalState),
-            select(getExaminer),
-            select(getStaffNumber),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            select(hasStartedTests),
-          ),
-          this.store$.pipe(
-            select(getJournalState),
-            select(getCompletedTests),
-          ),
-        ),
-      )),
-    filter(([action, , hasStarted, completedTests]) => {
-      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
-        this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
-        return false;
-      }
-      if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
-      if (action.callThrough) return true;
-
-      return !hasStarted && completedTests && completedTests.length === 0;
-    }),
-    switchMap(([, staffNumber]) => {
-      const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
-      const dateTime = new DateTime();
-      const advancedSearchParams: AdvancedSearchParams = {
-        startDate: dateTime
-          .subtract(numberOfDaysToView, Duration.DAY)
-          .format('YYYY-MM-DD'),
-        endDate: dateTime
-          .format('YYYY-MM-DD'),
-        staffNumber: removeLeadingZeros(staffNumber),
-        costCode: '',
-        excludeAutoSavedTests: 'true',
-        activityCode: '',
-        category: '',
-      };
-
-      return this.searchProvider.advancedSearch(advancedSearchParams)
-        .pipe(
-          map((searchResults: SearchResultTestSchema[]) => searchResults),
-          tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
-          map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
-          catchError((err) => of(LoadCompletedTestsFailure(err))),
-        );
-    }),
-  ));
+  // loadCompletedTests$ = createEffect(() => this.actions$.pipe(
+  //   ofType(journalActions.LoadCompletedTests),
+  //   concatMap((action) => of(action)
+  //     .pipe(
+  //       withLatestFrom(
+  //         this.store$.pipe(
+  //           select(getJournalState),
+  //           select(getExaminer),
+  //           select(getStaffNumber),
+  //         ),
+  //         this.store$.pipe(
+  //           select(getTests),
+  //           select(hasStartedTests),
+  //         ),
+  //       ),
+  //     )),
+  //   filter(([action, , hasStarted, completedTests]) => {
+  //     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+  //       this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
+  //       return false;
+  //     }
+  //     if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
+  //     if (action.callThrough) return true;
+  //
+  //     return !hasStarted && completedTests && completedTests.length === 0;
+  //   }),
+  //   switchMap(([, staffNumber]) => {
+  //     const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
+  //     const dateTime = new DateTime();
+  //     const advancedSearchParams: AdvancedSearchParams = {
+  //       startDate: dateTime
+  //         .subtract(numberOfDaysToView, Duration.DAY)
+  //         .format('YYYY-MM-DD'),
+  //       endDate: dateTime
+  //         .format('YYYY-MM-DD'),
+  //       staffNumber: removeLeadingZeros(staffNumber),
+  //       costCode: '',
+  //       excludeAutoSavedTests: 'true',
+  //       activityCode: '',
+  //       category: '',
+  //     };
+  //
+  //     return this.searchProvider.advancedSearch(advancedSearchParams)
+  //       .pipe(
+  //         map((searchResults: SearchResultTestSchema[]) => searchResults),
+  //         tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
+  //         map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
+  //         catchError((err) => of(LoadCompletedTestsFailure(err))),
+  //       );
+  //   }),
+  // ));
 
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectPreviousDay),

@@ -7,12 +7,13 @@ import { ExaminerRoleDescription } from '@providers/app-config/constants/examine
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { unsubmittedTestSlotsInDateOrder$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -35,6 +36,7 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     public orientationMonitorProvider: OrientationMonitorProvider,
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
+    private appConfigProvider: AppConfigProvider,
     public deviceProvider: DeviceProvider,
     injector: Injector,
   ) {
@@ -49,9 +51,18 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
         .pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole)
         .pipe(map(this.getRoleDisplayValue)),
-      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider),
-      unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
-        .pipe(map((data) => data.map((slot) => slot.slotData))),
+      unSubmittedTestSlots$: unsubmittedTestSlots$(
+        this.store$,
+        this.dateTimeProvider,
+        this.slotProvider,
+        this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+      ),
+      unSubmittedTestSlotData$: unsubmittedTestSlots$(
+        this.store$,
+        this.dateTimeProvider,
+        this.slotProvider,
+        this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+      ).pipe(map((data) => data.map((slot) => slot.slotData))),
     };
   }
 

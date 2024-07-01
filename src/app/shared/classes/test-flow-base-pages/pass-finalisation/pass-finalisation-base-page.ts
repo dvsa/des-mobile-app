@@ -60,7 +60,6 @@ import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { Inject, Injector } from '@angular/core';
 import { getJournalState } from '@store/journal/journal.reducer';
-import { getCompletedPassCerts } from '@store/journal/journal.selector';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
@@ -169,18 +168,11 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
           select(getAllPassCerts),
           take(1),
         ),
-        this.store$.pipe(
-          select(getJournalState),
-          select(getCompletedPassCerts),
-          take(1),
-        ),
       ])
         .pipe(
-          map(([testPassCerts, journalPassCerts]) => ([
+          map(([testPassCerts]) => ([
             // pass certs from started tests
             ...(testPassCerts || []),
-            // pass certs from completed test payload
-            ...(journalPassCerts || []),
           ])),
         ),
     };

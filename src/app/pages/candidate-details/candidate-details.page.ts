@@ -22,10 +22,7 @@ import { Observable, Subject } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatus } from '@store/tests/tests.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getCompletedTestOutcome, getCompletedTests } from '@store/journal/journal.selector';
 import { ActivityCode } from '@dvsa/mes-search-schema';
-import { map } from 'rxjs/operators';
 import { SlotProvider } from '@providers/slot/slot';
 import { Details } from './candidate-details.page.model';
 
@@ -40,7 +37,6 @@ interface CandidateDetailsPageState {
   fitMarker: boolean;
   fitCaseNumber: string;
   testStatus$: Observable<TestStatus>;
-  completedTestOutcome$: Observable<ActivityCode>;
 }
 
 @Component({
@@ -117,11 +113,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId)),
-      ),
-      completedTestOutcome$: this.store$.pipe(
-        select(getJournalState),
-        select(getCompletedTests),
-        map((completedTests) => getCompletedTestOutcome(completedTests, this.pageState.details.applicationRef)),
       ),
     };
 

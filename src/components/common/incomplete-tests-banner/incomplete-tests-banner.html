@@ -1,6 +1,6 @@
-<div *ngIf="(componentState.count$ | async).length > 0">
-  <img src="/assets/imgs/exclamation-black.png" alt="Alert icon" />
+<div *ngIf="(componentState.count$ | async) > 0">
+  <ion-icon class="warning-icon" aria-label="Alert icon" ios="alert-circle"></ion-icon>
   <label>
-    <span>{{getIncompleteText((componentState.count$ | async).length)}}</span>
+    <span>{{getIncompleteText((componentState.count$ | async))}}</span>
   </label>
 </div>
