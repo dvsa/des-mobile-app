@@ -57,9 +57,7 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     };
     this.store$.pipe(
       select(getTests),
-    ).subscribe((data) => {
-      console.log(data.testStatus)
-    })
+    )
   }
 
   async ionViewWillEnter() {

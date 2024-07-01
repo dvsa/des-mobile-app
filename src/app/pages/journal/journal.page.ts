@@ -18,7 +18,6 @@ import * as journalActions from '@store/journal/journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getCompletedTests,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -50,6 +49,7 @@ import { LogType } from '@shared/models/log.model';
 import { SearchProvider } from '@providers/search/search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -58,7 +58,6 @@ interface JournalPageState {
   isLoading$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
   appVersion$: Observable<string>;
-  completedTests$: Observable<SearchResultTestSchema[]>;
   isOffline$: Observable<boolean>;
   canNavigateToPreviousDay$: Observable<boolean>;
   canNavigateToNextDay$: Observable<boolean>;
@@ -92,7 +91,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   merged$: Observable<any>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
-  hasRehydrated: boolean = false
 
   constructor(
     public modalController: ModalController,
@@ -156,10 +154,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map((selectedDate) => selectedDate === this.dateTimeProvider.now()
           .format('YYYY-MM-DD')),
       ),
-      completedTests$: this.store$.pipe(
-        select(getJournalState),
-        select(getCompletedTests),
-      ),
     };
 
     const {
@@ -173,11 +167,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
     );
 
     forkJoin([
-      this.pageState.completedTests$.pipe(take(2)),
+      this.pageState.testModel$.pipe(take(2)),
       this.pageState.slots$.pipe(take(2)),
-    ]).subscribe(([completed, slots]) => {
-      this.rehydrateTests(completed, slots);
-    })
+    ]).subscribe(([tests, slots]) => {
+      this.rehydrateTests(tests, slots);
+    });
   }
 
   ionViewDidLeave(): void {
@@ -295,110 +289,88 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.LoadCompletedTests(true));
   };
 
+  hasRehydratableTestStatus(slotID: number, testsModel: TestsModel) {
+    return !isAnyOf(testsModel.testStatus[slotID], [
+      TestStatus.WriteUp,
+      TestStatus.Autosaved,
+      TestStatus.Completed,
+      TestStatus.Submitted
+    ])
+  }
+
+  isAutoSaved(slotID: number, testsModel: TestsModel) {
+    return isAnyOf(testsModel.testStatus[slotID], [
+      TestStatus.WriteUp,
+      TestStatus.Autosaved,
+    ])
+  }
+
   /**
    * Limit payload to only the required fields for test that match current journal slots
-   * @param completedTests
+   * @param testsModel
    * @param testSlots
    */
-  async rehydrateTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]) {
-    //Get app refs from test slots
-    let arrayOfTests: number[] = testSlots.map((slot: SlotItem) => {
-      if (get(slot, 'slotData.booking')) {
-        return parseInt(formatApplicationReference({
-          applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
-          bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
-          checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
-        } as ApplicationReference), 10);
-      }
-    })
+  async rehydrateTests(testsModel: TestsModel, testSlots: SlotItem[]) {
 
-    let testStore: TestsModel = null
-    this.store$.pipe(
-      select(getTests)
-    ).subscribe(value => {
-      testStore = value;
-    }).unsubscribe()
-
-    let matchingTests: number[] = arrayOfTests
-      .filter(element => completedTests
-        .map(value => value.applicationReference).includes(element));
-
-    let filteredTests = completedTests
-      .filter((value: SearchResultTestSchema) => matchingTests.includes(value.applicationReference))
-      .map((value: SearchResultTestSchema) => {
-        return {
-          applicationReference: value.applicationReference,
-          activityCode: value.activityCode,
-          autosave: !!(value.autosave),
-          passCertificateNumber: value.passCertificateNumber,
-        };
-      });
-    let testsThatNeedRehydrated = []
-    this.pageState.slots$.subscribe((slots: SlotItem[]) => {
-      slots.forEach((slot: SlotItem) => {
-        if (!!get(slot.slotData, 'booking')) {
-          //get app ref for the current slot
-          const tempAppRef = parseInt(formatApplicationReference({
-            applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
-            bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
-            checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
-          } as ApplicationReference), 10);
-          let foundTest = filteredTests
-            .find(value => value.applicationReference === tempAppRef);
-          let foundStatus = testStore.testStatus[slot.slotData.slotDetail.slotId];
-          // If the test exists and is not submitted, completed or autosaved,
-          // add it to the list of tests that need rehydrated
-          if (!!foundTest &&
-            !(foundStatus === TestStatus.Submitted ||
-              foundStatus === TestStatus.Completed ||
-              foundStatus === TestStatus.Autosaved ||
-              foundStatus === TestStatus.WriteUp
-            )) {
-            testsThatNeedRehydrated.push({
-              slotId: slot.slotData.slotDetail.slotId,
-              appRef: foundTest.applicationReference,
-              Status: foundStatus,
-              autosave: foundTest.autosave,
-              slot: slot.slotData.slotDetail
-            })
-          }
-        }
-        return null;
-      })
-    });
-    if (testsThatNeedRehydrated.length > 0 && !this.hasRehydrated) {
-      this.hasRehydrated = true;
-      console.log('Tests that need rehydrated', testsThatNeedRehydrated);
+    let testsThatNeedRehydrated = (testSlots
+        .filter(value => (get(value, 'slotData.booking'))
+          && (!(testsModel.testStatus[value.slotData.slotDetail.slotId]) ||
+            this.hasRehydratableTestStatus(value.slotData.slotDetail.slotId, testsModel)
+          ))
+        .map(value => {
+          return({
+            slotId: value.slotData.slotDetail.slotId,
+            appRef: formatApplicationReference(
+              {
+                applicationId: (value.slotData as TestSlot).booking.application.applicationId,
+                bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
+                checkDigit: (value.slotData as TestSlot).booking.application.checkDigit
+              }
+            ),
+            autosave: this.isAutoSaved(value.slotData.slotDetail.slotId, testsModel),
+          });
+        })
+    )
+    //If testsThatNeedRehydrated has items in it, we need to get the test result from the backend
+    if (testsThatNeedRehydrated.length > 0) {
       let completedTestsWithAutoSaveAndID: TestResultSchemasUnionWithAutosaveAndSlotID[] = [];
-      testsThatNeedRehydrated.forEach((test: CompletedJournalSlot) => {
-        let searchedTest: TestResultSchemasUnion = null;
-        this.searchProvider
-          .getTestResult(test.appRef.toString(), this.authenticationProvider.getEmployeeId())
-          .pipe(
-            map((response: HttpResponse<any>): string => response.body),
-            map((data) => searchedTest = (this.compressionProvider.extract<TestResultSchemasUnion>(data))),
-            map(() => {
+      //Get the app regs that need rehydrated from the backend
+      this.searchProvider
+        .getTestResults(testsThatNeedRehydrated.map(value => value.appRef.toString()), this.authenticationProvider.getEmployeeId())
+        .pipe(
+          map((response: HttpResponse<any>): string => response.body),
+          //Decompress data
+          map((data) => (this.compressionProvider.extract<any[]>(data))),
+          map((tests: any[]) => {
+            //Find which test this is referencing, so we can take its details
+            tests.forEach((test) => {
+              let currentTest = testsThatNeedRehydrated.find((value) => {
+                return (value.appRef == formatApplicationReference(test.test_result.journalData.applicationReference));
+              });
+              //Push the test details to the array so it can be dispatched to the state
               completedTestsWithAutoSaveAndID.push({
-                autosave: test.autosave,
-                testData: searchedTest,
-                slotId: test.slotId.toString(),
-              })
-              return of()
-            }),
-            catchError(async (err) => {
-              this.store$.dispatch(SaveLog({
-                payload: this.logHelper.createLog(
-                  LogType.ERROR,
-                  `Getting test result for app ref (${test.appRef})`,
-                  err,
-                ),
-              }));
-              return of();
-            }),
-          ).subscribe(() =>{
-            this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
-          })
-      })
+                autosave: test.autosave.data[0],
+                testData: test,
+                slotId: currentTest.slotId.toString(),
+              });
+            });
+            return of();
+          }),
+          catchError(async (err) => {
+            //Error handling
+            this.store$.dispatch(SaveLog({
+              payload: this.logHelper.createLog(
+                LogType.ERROR,
+                `Getting test results (${testsThatNeedRehydrated.map(value => value.appRef.toString())})`,
+                err,
+              ),
+            }));
+            return of();
+          }),
+        ).subscribe(() => {
+        //Dispatch tests so they can be loaded into the local storage
+        this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
+      });
     }
   }
 }

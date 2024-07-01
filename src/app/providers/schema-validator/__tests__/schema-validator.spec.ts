@@ -39,6 +39,7 @@ describe('SchemaValidatorProvider', () => {
           testSubmissionUrl: 'test',
           autoSendInterval: 1,
           examinerRecordsUrl: '',
+          multipleTestResultsUrl: 'test',
         },
         user: { findUserUrl: 'test' },
         requestTimeout: 1,

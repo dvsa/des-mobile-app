@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { timeout } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -64,6 +64,18 @@ export class SearchProvider {
     return this.http.get<SearchResultTestSchema[]>(
       this.urlProvider.getTestResultServiceUrl().concat(`/${applicationReference}/${staffNumber}`),
       { observe: 'response' },
+    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+  }
+
+  getTestResults(applicationReferences: string[], staffNumber: string): Observable<
+  HttpResponse<SearchResultTestSchema[]>
+  > {
+    let params = new HttpParams()
+      .set('applicationReferences', `[${applicationReferences.toString()}]`)
+      .set('staffNumber', staffNumber);
+    return this.http.get<SearchResultTestSchema[]>(
+      this.urlProvider.getMultipleTestResultsUrl(),
+      { params, observe: 'response' },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 

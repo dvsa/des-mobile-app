@@ -17,7 +17,7 @@ import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { TestOutcome } from './tests.constants';
 
-type StartedTests = { [slotId: string]: TestResultSchemasUnion };
+export type StartedTests = { [slotId: string]: TestResultSchemasUnion };
 
 export const getCurrentTestSlotId = (tests: TestsModel): string => tests.currentTest.slotId;
 
@@ -149,6 +149,7 @@ export const getAllTestStatuses = (test: TestsModel): { [slotId: string]: TestSt
 };
 
 export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): ActivityCode => {
+  console.log(testsModel, testsModel.startedTests, testsModel.startedTests[id])
   if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
     return testsModel.startedTests[id].activityCode;
   }

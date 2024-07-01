@@ -14,6 +14,8 @@ export const environmentResponseMock = {
   tests: {
     testSubmissionUrl: 'https://example.com/api/v1/test-result',
     autoSendInterval: 900000,
+    examinerRecordsUrl: '',
+    multipleTestResultsUrl: 'https://www.example.com/api/v1/test-results'
   },
   logs: {
     url: 'https://example.com/api/v1/logs',

@@ -20,7 +20,7 @@ export const initialState: TestsModel = {
 };
 
 export interface TestResultSchemasUnionWithAutosaveAndSlotID {
-  autosave: number;
+  autosave: boolean;
   testData: TestResultSchemasUnion;
   slotId: string;
 }
@@ -101,41 +101,32 @@ const hydrateRemoteTests = (
   testResults: TestResultSchemasUnionWithAutosaveAndSlotID[]
 ): TestsModel => {
 
-  console.log(testResults, 'testResults')
-
   let started = {}
   let ts = {}
 
+  //Create a list of new startedTests and testStatuses
   testResults.forEach((testResult) => {
     started = {
       ...started,
       [testResult.slotId]: testResult.testData,
     }
-    console.log('testResult', testResult,
-      testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted,
-      testResult.autosave)
+
     ts = {
       ...ts,
       [testResult.slotId]: testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted
     }
   });
 
-  console.log('started', started)
-  console.log('ts', ts)
-
+  //Append the new tests to the initial startedTests and testStatus objects
   return {
     ...state,
     startedTests: {
       // retain existing startedTests
       ...state.startedTests,
-
-      // loop over testResults and create a new object with slotId as key
       ...started,
     },
     testStatus: {
       ...state.testStatus,
-
-      // loop over processed testResults and create a new object with slotId as key
       ...ts,
     },
   };
