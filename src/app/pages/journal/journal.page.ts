@@ -31,7 +31,7 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { get } from 'lodash-es';
 import {
@@ -47,6 +47,7 @@ import { SearchProvider } from '@providers/search/search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -62,11 +63,8 @@ interface JournalPageState {
   testModel$: Observable<TestsModel>;
 }
 
-export interface CompletedJournalSlot {
-  slotId: number,
-  appRef: number,
-  Status: TestStatus,
-  slot: SlotDetail
+interface RehydrationReturn {
+  test_result: TestResultSchemasUnion,
   autosave: number
 }
 
@@ -339,17 +337,17 @@ export class JournalPage extends BasePageComponent implements OnInit {
         .pipe(
           map((response: HttpResponse<any>): string => response.body),
           //Decompress data
-          map((data) => (this.compressionProvider.extract<any[]>(data))),
-          map((tests: any[]) => {
+          map((data) => (this.compressionProvider.extract<RehydrationReturn[]>(data))),
+          map((tests) => {
             //Find which test this is referencing, so we can take its details
             tests.forEach((test) => {
               let currentTest = testsThatNeedRehydrated.find((value) => {
-                return (value.appRef == formatApplicationReference(test.journalData.applicationReference));
+                return (value.appRef == formatApplicationReference(test.test_result.journalData.applicationReference));
               });
               //Push the test details to the array so it can be dispatched to the state
               completedTestsWithAutoSaveAndID.push({
-                autosave: test.autosave,
-                testData: test,
+                autosave: !!test.autosave,
+                testData: test.test_result,
                 slotId: currentTest.slotId.toString(),
               });
             });
