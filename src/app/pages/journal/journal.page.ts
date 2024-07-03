@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
-import { forkJoin, merge, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
@@ -83,9 +83,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
   pageState: JournalPageState;
   pageRefresher: IonRefresherCustomEvent<RefresherEventDetail>;
   subscription: Subscription;
+  rehydrationSubscription: Subscription;
   merged$: Observable<any>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
+  isRehydrated: boolean = false;
 
   constructor(
     public modalController: ModalController,
@@ -161,17 +163,24 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
 
-    forkJoin([
-      this.pageState.testModel$.pipe(take(2)),
-      this.pageState.slots$.pipe(take(2)),
-    ]).subscribe(([tests, slots]) => {
-      this.rehydrateTests(tests, slots);
+    //Subscribe to the test model and slots to rehydrate tests
+    this.rehydrationSubscription = combineLatest({
+      test$: this.pageState.testModel$,
+      slot$: this.pageState.slots$,
+    }).subscribe(({ test$, slot$ }) => {
+      if (!!test$ && slot$.length > 0 && !this.isRehydrated) {
+        this.isRehydrated = true
+        this.rehydrateTests(test$, slot$);
+      }
     });
   }
 
   ionViewDidLeave(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.rehydrationSubscription) {
+      this.rehydrationSubscription.unsubscribe();
     }
   }
 
@@ -262,6 +271,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   public refreshJournal = async () => {
+    this.isRehydrated = false;
     await this.loadJournalManually();
     this.loadCompletedTestsWithCallThrough();
   };
@@ -293,13 +303,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     ])
   }
 
-  isAutoSaved(slotID: number, testsModel: TestsModel) {
-    return isAnyOf(testsModel.testStatus[slotID], [
-      TestStatus.WriteUp,
-      TestStatus.Autosaved,
-    ])
-  }
-
   /**
    * Limit payload to only the required fields for test that match current journal slots
    * @param testsModel
@@ -308,12 +311,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async rehydrateTests(testsModel: TestsModel, testSlots: SlotItem[]) {
 
     //Get a list of every test slot that doesn't have a test status or has one that should be overwritten by rehydration
-    let testsThatNeedRehydrated = (testSlots
+    let testsThatNeedRehydrated = testSlots
       .filter(value => (get(value, 'slotData.booking'))
           && (!(testsModel.testStatus[value.slotData.slotDetail.slotId]) ||
             this.hasRehydratableTestStatus(value.slotData.slotDetail.slotId, testsModel)
           ))
       .map(value => {
+        //Return the slot ID and the application reference for the values in testSlots
         return({
           slotId: value.slotData.slotDetail.slotId,
           appRef: formatApplicationReference(
@@ -325,11 +329,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
           ),
         });
       })
-    )
     //If testsThatNeedRehydrated has items in it, we need to get the test result from the backend
+    console.log('testsThatNeedRehydrated', testsThatNeedRehydrated);
     if (testsThatNeedRehydrated.length > 0) {
       let completedTestsWithAutoSaveAndID: TestResultSchemasUnionWithAutosaveAndSlotID[] = [];
-      //Get the app regs that need rehydrated from the backend
+      //Get the app refs that need rehydrated from the backend
       this.searchProvider
         .getTestResults(testsThatNeedRehydrated.map(value =>
           value.appRef.toString()), this.authenticationProvider.getEmployeeId()
@@ -344,7 +348,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
               let currentTest = testsThatNeedRehydrated.find((value) => {
                 return (value.appRef == formatApplicationReference(test.test_result.journalData.applicationReference));
               });
-              //Push the test details to the array so it can be dispatched to the state
+              //Push the test details to the array, so it can be dispatched to the state
               completedTestsWithAutoSaveAndID.push({
                 autosave: !!test.autosave,
                 testData: test.test_result,
