@@ -10,11 +10,11 @@
   </div>
   <ion-row
     class="background-colour ion-padding-top ion-padding-bottom position-fixed width-100-percent"
-    *ngIf="displayScrollBanner"
+    *ngIf="displayScrollBanner && ((pageState.locationList$ | async).length > 0)"
   >
     <ion-text class="mes-padding-left mes-data">
       Displaying <strong>{{ pageState.testCount$ | async }}</strong> Category
-      <strong>{{currentCategory}}</strong> tests, from <strong>{{ startDateFilter }}</strong> to
+      <strong>{{ currentCategory }}</strong> tests, from <strong>{{ startDateFilter }}</strong> to
       <strong>{{ endDateFilter }}</strong> <br />
       at <strong> {{ locationFilter }}</strong>
     </ion-text>
@@ -117,11 +117,12 @@
   </ion-row>
   <ion-row class="mes-padding-right mes-padding-left">
     <ion-col size="auto">
-      <!--      <colour-filter-radio-->
-      <!--        [formGroup]="form"-->
-      <!--        [colourScheme]="colourOption.name"-->
-      <!--        (filterChange)="colourFilterChanged($event)">-->
-      <!--      </colour-filter-radio>-->
+      <colour-filter-radio
+        [formGroup]="form"
+        [colourScheme]="colourOption.name"
+        (filterChange)="colourFilterChanged($event)"
+      >
+      </colour-filter-radio>
     </ion-col>
     <ion-col></ion-col>
     <ion-col class="ion-align-items-center display-flex" size="auto">
@@ -138,9 +139,9 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
-  <ion-row class="ion-padding-top ion-padding-bottom">
+  <ion-row *ngIf="((pageState.locationList$ | async).length > 0)" class="ion-padding-top ion-padding-bottom">
     <ion-text [style.color]="displayScrollBanner ? 'transparent' : 'black'" class="mes-padding-left mes-data">
-      Displaying <strong>{{ data.testCount }}</strong> Category <strong>{{currentCategory}}</strong> tests, from
+      Displaying <strong>{{ data.testCount }}</strong> Category <strong>{{ currentCategory }}</strong> tests, from
       <strong>{{ startDateFilter }}</strong> to <strong>{{ endDateFilter }}</strong> <br />
       at <strong> {{ locationFilter }}</strong>
     </ion-text>
