@@ -4,6 +4,7 @@ import { get } from 'lodash-es';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import * as journalActions from './journal.actions';
 import { JournalModel } from './journal.model';
+import { RehydrateJournal, RehydrationFinish } from './journal.actions';
 
 export const initialState: JournalModel = {
   isLoading: false,
@@ -12,6 +13,7 @@ export const initialState: JournalModel = {
   selectedDate: '',
   examiner: null,
   completedTests: [],
+  isRehydrating: false
 };
 
 export const journalFeatureKey = 'journal';
@@ -66,6 +68,14 @@ export const journalReducer = createReducer(
     isLoading: false,
   })),
   on(journalActions.UnloadJournal, (): JournalModel => initialState),
+  on(journalActions.RehydrateJournal, (state: JournalModel, {}): JournalModel => ({
+    ...state,
+    isRehydrating: true,
+  })),
+  on(journalActions.RehydrationFinish, (state: JournalModel, {}): JournalModel => ({
+    ...state,
+    isRehydrating: false,
+  })),
   on(journalActions.UnsetError, (state: JournalModel): JournalModel => {
     const {
       error,

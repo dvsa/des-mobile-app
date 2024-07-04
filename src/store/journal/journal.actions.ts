@@ -3,6 +3,8 @@ import { createAction, props } from '@ngrx/store';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { MesError } from '@shared/models/mes-error.model';
 import { ExaminerSlotItemsByDate } from './journal.model';
+import { TestsModel } from '@store/tests/tests.model';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 
 export const EarlyStartModalDidEnter = createAction(
   '[JournalPage] Early Start Modal Entered',
@@ -22,6 +24,18 @@ export const LoadJournal = createAction(
 
 export const LoadJournalSilent = createAction(
   '[JournalPage] Load Journal Silent',
+);
+
+export const RehydrateJournal = createAction(
+  '[JournalPage] Rehydrate Journal',
+  (
+    testsModel: TestsModel,
+   testSlots: SlotItem[],
+   employeeId: string) => ({ testsModel, testSlots, employeeId }),
+);
+
+export const RehydrationFinish = createAction(
+  '[JournalPage] Journal Rehydration Finished',
 );
 
 export const LoadJournalSuccess = createAction(

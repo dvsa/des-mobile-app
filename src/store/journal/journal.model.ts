@@ -13,6 +13,7 @@ export type Slot = {
 };
 
 export type JournalModel = {
+  isRehydrating: boolean
   isLoading: boolean,
   lastRefreshed: Date,
   slots: { [k: string]: SlotItem[] },

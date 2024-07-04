@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule, TestSlot } from '@dvsa/mes-journal-schema';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -13,7 +13,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { interval, Observable, of, throwError } from 'rxjs';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Action, select, Store } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -31,9 +31,9 @@ import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { getTests } from '@store/tests/tests.reducer';
+import { getTests, TestResultSchemasUnionWithAutosaveAndSlotID } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
-import { removeLeadingZeros } from '@shared/helpers/formatters';
+import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -51,6 +51,12 @@ import {
   getSlots,
 } from './journal.selector';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { get } from 'lodash-es';
+import { RehydrationReturn } from '@providers/journal-rehydration/journal-rehydration';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { CompressionProvider } from '@providers/compression/compression';
 
 @Injectable()
 export class JournalEffects {
@@ -69,6 +75,7 @@ export class JournalEffects {
     public searchProvider: SearchProvider,
     private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private compressionProvider: CompressionProvider,
   ) {
   }
 
@@ -198,13 +205,84 @@ export class JournalEffects {
     }),
   ));
 
+  rehydrateJournal$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.RehydrateJournal),
+    switchMap((action) => {
+      //Get a list of every test slot that doesn't have a test status or has one that should be overwritten by rehydration
+      let testsThatNeedRehydrated = action.testSlots
+        .filter(value => (get(value, 'slotData.booking'))
+          && (!(action.testsModel.testStatus[value.slotData.slotDetail.slotId]) ||
+            !isAnyOf(action.testsModel.testStatus[value.slotData.slotDetail.slotId], [
+              TestStatus.WriteUp,
+              TestStatus.Autosaved,
+              TestStatus.Completed,
+              TestStatus.Submitted,
+            ])
+          ))
+        .map(value => {
+          //Return the slot ID and the application reference for the values in testSlots
+          return ({
+            slotId: value.slotData.slotDetail.slotId,
+            appRef: formatApplicationReference(
+              {
+                applicationId: (value.slotData as TestSlot).booking.application.applicationId,
+                bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
+                checkDigit: (value.slotData as TestSlot).booking.application.checkDigit,
+              },
+            ),
+          });
+        });
+      //If testsThatNeedRehydrated has items in it, we need to get the test result from the backend
+      if (testsThatNeedRehydrated.length > 0) {
+        let completedTestsWithAutoSaveAndID: TestResultSchemasUnionWithAutosaveAndSlotID[] = [];
+        //Get the app refs that need rehydrated from the backend
+        this.searchProvider
+          .getTestResults(testsThatNeedRehydrated.map(value =>
+            value.appRef.toString()), action.employeeId,
+          )
+          .pipe(
+            map((response: HttpResponse<any>): string => response.body),
+            //Decompress data
+            map((data) => (this.compressionProvider.extract<RehydrationReturn[]>(data))),
+            map((tests) => {
+              tests.forEach((test) => {
+                //Push the test details to the array, so it can be dispatched to the state
+                completedTestsWithAutoSaveAndID.push({
+                  autosave: !!test.autosave,
+                  testData: test.test_result,
+                  slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
+                });
+              });
+              return of();
+            }),
+            catchError(async (err) => {
+              //Error handling
+              this.store$.dispatch(SaveLog({
+                payload: this.logHelper.createLog(
+                  LogType.ERROR,
+                  `Getting test results (${testsThatNeedRehydrated.map(value => value.appRef.toString())})`,
+                  err,
+                ),
+              }));
+              return of();
+            }),
+          ).subscribe(() => {
+          if (completedTestsWithAutoSaveAndID.length > 0) {
+            //Dispatch tests so they can be loaded into the local store
+            this.store$.dispatch(LoadRemoteTests(completedTestsWithAutoSaveAndID));
+          }
+        });
+      }
+    }),
+  ));
+
   loadCompletedTests$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LoadCompletedTests),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
-            select(selectEmployeeId)
+            select(selectEmployeeId),
           ),
           this.store$.pipe(
             select(getTests),
