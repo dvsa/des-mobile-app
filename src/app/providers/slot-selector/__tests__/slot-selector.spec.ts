@@ -36,6 +36,7 @@ describe('SlotSelectorProvider', () => {
         applicationReference: 111222333,
         category: 'A',
         activityCode: '4',
+        autosave: 0
       }]))
         .toEqual('4');
     });
@@ -63,6 +64,7 @@ describe('SlotSelectorProvider', () => {
         applicationReference: 111222333,
         category: 'A',
         activityCode: '4',
+        autosave: 0
       }]))
         .toEqual(undefined);
     });
@@ -84,6 +86,7 @@ describe('SlotSelectorProvider', () => {
         category: 'A',
         activityCode: '4',
         passCertificateNumber: '123456789',
+        autosave: 0
       }]))
         .toEqual('123456789');
     });

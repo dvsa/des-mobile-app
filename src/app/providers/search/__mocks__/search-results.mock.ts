@@ -2,6 +2,7 @@ import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 export const searchResultsMock: SearchResultTestSchema [] = [
   {
+    autosave: 0,
     activityCode: '1',
     applicationReference: 123456,
     category: 'B',
@@ -15,6 +16,7 @@ export const searchResultsMock: SearchResultTestSchema [] = [
     },
   },
   {
+    autosave: 0,
     activityCode: '2',
     applicationReference: 234567,
     category: 'B',

@@ -340,7 +340,7 @@ describe('JournalPage', () => {
       fixture.detectChanges();
 
       let noOfSlotsReturned: number;
-      component.pageState.slots$.subscribe((slots) => noOfSlotsReturned = slots.length);
+      component.pageState.slotsOnSelectedDate$.subscribe((slots) => noOfSlotsReturned = slots.length);
 
       expect(slotsList.children.length)
         .toBe(noOfSlotsReturned);

@@ -10,6 +10,8 @@ import { DashboardPage } from './dashboard.page';
 import { DashboardComponentsModule } from './components/dashboard-components.module';
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardAnalyticsEffects } from './dashboard.analytics.effects';
+import { JournalRehydrationProvider } from '@providers/journal-rehydration/journal-rehydration';
+import { CompressionProvider } from '@providers/compression/compression';
 
 @NgModule({
   imports: [
@@ -24,5 +26,9 @@ import { DashboardAnalyticsEffects } from './dashboard.analytics.effects';
     ]),
   ],
   declarations: [DashboardPage],
+  providers: [
+    JournalRehydrationProvider,
+    CompressionProvider
+  ]
 })
 export class DashboardPageModule {}

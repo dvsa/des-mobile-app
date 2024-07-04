@@ -19,6 +19,7 @@ import { CandidateDetailsPageModule } from '../candidate-details/candidate-detai
 import { ErrorPageModule } from '../error-page/error.module';
 import { JournalAnalyticsEffects } from './journal.analytics.effects';
 import { CompressionProvider } from '@providers/compression/compression';
+import { JournalRehydrationProvider } from '@providers/journal-rehydration/journal-rehydration';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CompressionProvider } from '@providers/compression/compression';
     SlotProvider,
     SlotSelectorProvider,
     DateTimeProvider,
+    JournalRehydrationProvider
   ],
 })
 export class JournalPageModule {}

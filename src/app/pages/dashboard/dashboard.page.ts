@@ -41,8 +41,17 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { JournalRehydrationProvider } from '@providers/journal-rehydration/journal-rehydration';
+import { select } from '@ngrx/store';
+import { getTests } from '@store/tests/tests.reducer';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getAllSlots } from '@store/journal/journal.selector';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { TestsModel } from '@store/tests/tests.model';
 
 interface DashboardPageState {
+  slots$: Observable<SlotItem[]>;
+  testModel$: Observable<TestsModel>;
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
   employeeId$: Observable<string>;
@@ -74,6 +83,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
+    private journalRehydrationService: JournalRehydrationProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -87,6 +97,13 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
 
   ngOnInit() {
     this.pageState = {
+      testModel$: this.store$.pipe(
+        select(getTests),
+      ),
+      slots$: this.store$.pipe(
+        select(getJournalState),
+        map(getAllSlots),
+      ),
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId)
@@ -130,6 +147,13 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
     //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
+      combineLatest({
+        test$: this.pageState.testModel$,
+        slot$: this.pageState.slots$,
+      }).subscribe(({ test$, slot$ }) => {
+        console.log('rehydrating tests', test$, slot$);
+        this.journalRehydrationService.rehydrateTests(test$, slot$, this.authenticationProvider.getEmployeeId());
+      }).unsubscribe();
       this.store$.dispatch(journalActions.LoadJournalSilent());
     }
 

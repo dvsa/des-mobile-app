@@ -68,12 +68,12 @@ export class SearchProvider {
   }
 
   getTestResults(applicationReferences: string[], staffNumber: string): Observable<
-  HttpResponse<SearchResultTestSchema[]>
+  HttpResponse<string>
   > {
     let params = new HttpParams()
       .set('applicationReferences', `[${applicationReferences.toString()}]`)
       .set('staffNumber', staffNumber);
-    return this.http.get<SearchResultTestSchema[]>(
+    return this.http.get<string>(
       this.urlProvider.getMultipleTestResultsUrl(),
       { params, observe: 'response' },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
