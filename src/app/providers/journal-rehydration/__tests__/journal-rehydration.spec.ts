@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { JournalRehydrationProvider } from '../journal-rehydration';
+import { JournalRehydrationProvider, RehydrationReturn } from '../journal-rehydration';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { SlotItem } from '@providers/slot-selector/slot-item';
@@ -11,9 +11,19 @@ import { CompressionProviderMock } from '@providers/compression/__mocks__/compre
 import { StoreModule } from '@ngrx/store';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
+import { of, throwError } from 'rxjs';
+import { JournalData } from '@dvsa/mes-test-schema/categories/common';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { HttpResponse, HttpStatusCode } from '@angular/common/http';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
 
-fdescribe('JournalRehydrationService', () => {
+describe('JournalRehydrationService', () => {
   let service: JournalRehydrationProvider;
+  let searchProviderMock: SearchProvider;
+  let compressionProviderMock: CompressionProvider;
+  let logHelperMock: LogHelper;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,6 +47,10 @@ fdescribe('JournalRehydrationService', () => {
       ],
     });
     service = TestBed.inject(JournalRehydrationProvider);
+    searchProviderMock = TestBed.inject(SearchProvider);
+    compressionProviderMock = TestBed.inject(CompressionProvider);
+    logHelperMock = TestBed.inject(LogHelper);
+
   });
 
   it('should be created', () => {
@@ -108,6 +122,8 @@ fdescribe('JournalRehydrationService', () => {
 
   describe('rehydrateTests', () => {
     it('should call makeRehydrationNetworkCall with correct parameters for rehydratable tests', async () => {
+      spyOn(service, 'makeRehydrationNetworkCall');
+
       const testSlots = [
         {
           slotData: {
@@ -123,17 +139,18 @@ fdescribe('JournalRehydrationService', () => {
         testStatus: {},
       };
 
-      const spy = spyOn(service, 'makeRehydrationNetworkCall');
 
       await service.rehydrateTests(testsModel, testSlots as SlotItem[], 'test');
 
-      expect(spy).toHaveBeenCalledWith([{
+      expect(service.makeRehydrationNetworkCall).toHaveBeenCalledWith([{
         slotId: 1,
         appRef: '123024',
       }], 'test');
     });
 
     it('should not call network call if no tests need rehydration', async () => {
+      spyOn(service, 'makeRehydrationNetworkCall');
+
       const testSlots = [
         { slotData: { slotDetail: { slotId: 1 }, booking: null } },
       ];
@@ -142,11 +159,87 @@ fdescribe('JournalRehydrationService', () => {
         startedTests: {},
         testStatus: { 1: TestStatus.Completed },
       };
-      const spy = spyOn(service, 'makeRehydrationNetworkCall');
 
       await service.rehydrateTests(testsModel, testSlots as SlotItem[], 'test');
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(service.makeRehydrationNetworkCall).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('makeRehydrationNetworkCall', () => {
+    it('should dispatch LoadRemoteTests with the returned payload when tests are rehydrated', async () => {
+      const mockData: RehydrationReturn[] = [{
+        autosave: 1,
+        test_result: {
+          journalData: {
+            applicationReference: {
+              applicationId: 123,
+              bookingSequence: 2,
+              checkDigit: 4,
+            },
+          } as JournalData,
+        } as TestResultSchemasUnion,
+      },
+      ];
+      const mockResponse: HttpResponse<string> = {
+        body: JSON.stringify(mockData),
+        status: HttpStatusCode.Ok,
+        statusText: 'OK',
+      } as HttpResponse<string>;
+
+      spyOn(searchProviderMock, 'getTestResults').and.returnValue(of(mockResponse));
+      spyOn(compressionProviderMock, 'extract').and.returnValue(mockData);
+      const dispatchSpy = spyOn(service['store$'], 'dispatch');
+
+      searchProviderMock.getTestResults(['123024'], 'test').subscribe((response) => {
+        console.log(response.body);
+      });
+
+      service.makeRehydrationNetworkCall([{ appRef: '123024', slotId: '1' }], 'test');
+
+      expect(dispatchSpy).toHaveBeenCalledWith(LoadRemoteTests([{
+        autosave: true,
+        testData: {
+          journalData: {
+            applicationReference: {
+              applicationId: 123,
+              bookingSequence: 2,
+              checkDigit: 4,
+            },
+          } as JournalData,
+        } as TestResultSchemasUnion,
+        slotId: '1',
+      }]));
+    });
+
+    it('should not dispatch when there are no tests to rehydrate', async () => {
+      const mockResponse: HttpResponse<string> = {
+        body: JSON.stringify([]),
+        status: HttpStatusCode.Ok,
+        statusText: 'OK',
+      } as HttpResponse<string>;
+
+      spyOn(searchProviderMock, 'getTestResults').and.returnValue(of(mockResponse));
+      spyOn(compressionProviderMock, 'extract').and.returnValue([]);
+      spyOn(service['store$'], 'dispatch');
+
+      service.makeRehydrationNetworkCall([], 'test');
+
+      expect(service['store$'].dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch SaveLog action when an error occurs during rehydration process', async () => {
+      spyOn(searchProviderMock, 'getTestResults').and.returnValue(
+        throwError(() => new Error('Error fetching test results'),
+        ));
+
+      spyOn(logHelperMock, 'createLog').and.callThrough();
+      spyOn(service['store$'], 'dispatch');
+
+      service.makeRehydrationNetworkCall([{ appRef: '123024', slotId: '1' }], 'test');
+
+      expect(logHelperMock.createLog).toHaveBeenCalled();
+      expect(service['store$'].dispatch).toHaveBeenCalledWith(jasmine.any(SaveLog));
     });
   });
 });

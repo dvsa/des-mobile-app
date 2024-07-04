@@ -47,16 +47,12 @@ export class JournalRehydrationProvider {
         //Decompress data
         map((data) => (this.compressionProvider.extract<RehydrationReturn[]>(data))),
         map((tests) => {
-          //Find which test this is referencing, so we can take its details
           tests.forEach((test) => {
-            let currentTest = testsThatNeedRehydrated.find((value) => {
-              return (value.appRef == formatApplicationReference(test.test_result.journalData.applicationReference));
-            });
-              //Push the test details to the array, so it can be dispatched to the state
+            //Push the test details to the array, so it can be dispatched to the state
             completedTestsWithAutoSaveAndID.push({
               autosave: !!test.autosave,
               testData: test.test_result,
-              slotId: currentTest.slotId.toString(),
+              slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
             });
           });
           return of();

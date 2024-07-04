@@ -54,6 +54,11 @@ import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { JournalRehydrationProvider } from '@providers/journal-rehydration/journal-rehydration';
+import { SearchProvider } from '@providers/search/search';
+import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
+import { CompressionProvider } from '@providers/compression/compression';
+import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -93,6 +98,11 @@ describe('DashboardPage', () => {
         ComponentsModule,
       ],
       providers: [
+        JournalRehydrationProvider,
+        {
+          provide: SearchProvider,
+          useClass: SearchProviderMock,
+        },
         {
           provide: Platform,
           useClass: PlatformMock,
@@ -104,6 +114,10 @@ describe('DashboardPage', () => {
         {
           provide: AuthenticationProvider,
           useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: CompressionProvider,
+          useClass: CompressionProviderMock,
         },
         {
           provide: AppConfigProvider,
