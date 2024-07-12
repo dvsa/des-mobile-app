@@ -114,12 +114,23 @@ export const ResumingWriteUp = createAction(
 
 export const JournalRefreshError = createAction(
   '[JournalPage] Journal Refresh Error',
-  (errorDescription: string, errorMessage: string) => ({ errorDescription, errorMessage }),
+  (errorDescription: string, errorMessage: string) => ({
+    errorDescription,
+    errorMessage,
+  }),
 );
 
 export const JournalRefresh = createAction(
   '[JournalPage] Journal Refresh',
   (mode: string) => ({ mode }),
+);
+
+export const JournalRehydration = createAction(
+  '[JournalPage] Journal Rehydration',
+);
+
+export const JournalRehydrationSuccess = createAction(
+  '[JournalEffect] Journal Rehydration Success',
 );
 
 export const CandidateDetailsSeen = createAction(
