@@ -187,9 +187,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await super.unlockDevice();
   }
 
+  /**
+   * Trigger a manual load of the journal and acquire tests needing rehydration
+   */
   async loadJournalManually() {
     await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
     this.store$.dispatch(journalActions.LoadJournal());
+    this.store$.dispatch(journalActions.JournalRehydration())
   }
 
   setupPolling() {
@@ -243,7 +247,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public refreshJournal = async () => {
     await this.loadJournalManually();
-    this.loadCompletedTestsWithCallThrough();
   };
 
   onPreviousDayClick(): void {
@@ -253,16 +256,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
-
-  /**
-   * Load the completed tests with the callThrough property set to true (default false)
-   * This will make the request to the backend to check if any of the tests have already been submitted
-   * by another device
-   * *
-   */
-  loadCompletedTestsWithCallThrough = (): void => {
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
-  };
 
   /**
    * Limit payload to only the required fields for test that match current journal slots

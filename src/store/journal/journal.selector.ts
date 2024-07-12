@@ -11,6 +11,16 @@ import { JournalModel } from './journal.model';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 
+export const getAllSlots = (
+  journal: JournalModel,
+): SlotItem[] => {
+  let allSlots: SlotItem[] = [];
+  Object.keys(journal.slots).forEach((date) => {
+    allSlots = [...allSlots, ...journal.slots[date]];
+  });
+  return allSlots;
+};
+
 export const getSlotsOnSelectedDate = (
   journal: JournalModel,
 ): SlotItem[] => journal.slots[journal.selectedDate] || [];

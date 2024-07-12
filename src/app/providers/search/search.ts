@@ -67,15 +67,12 @@ export class SearchProvider {
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
-  getTestResults(applicationReferences: string[]): Observable<HttpResponse<string>> {
-    const body = {
-      applicationReferences: applicationReferences,
-    };
+  getTestResults(body: string): Observable<HttpResponse<string>> {
     return this.http.post<string>(
       this.urlProvider.getMultipleTestResultsUrl(),
       body,
       { observe: 'response' }
-    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout))
   }
 
   getRegeneratedEmails(applicationReference: string): Observable<string> {

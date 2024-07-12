@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { gunzipSync } from 'zlib';
+import { gunzipSync, gzipSync } from 'zlib';
 
 @Injectable()
 export class CompressionProvider {
@@ -8,5 +8,11 @@ export class CompressionProvider {
     const gzippedBytes = Buffer.from(compressedData, 'base64');
     const unzippedJson = gunzipSync(gzippedBytes).toString();
     return JSON.parse(unzippedJson);
+  }
+
+  compress<T>(data: T): string {
+    const jsonString = JSON.stringify(data);
+    const gzippedData = gzipSync(Buffer.from(jsonString));
+    return gzippedData.toString('base64');
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule, TestSlot } from '@dvsa/mes-journal-schema';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -33,7 +33,7 @@ import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
-import { removeLeadingZeros } from '@shared/helpers/formatters';
+import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -44,13 +44,19 @@ import * as journalActions from './journal.actions';
 import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
 import {
   canNavigateToNextDay,
-  canNavigateToPreviousDay,
+  canNavigateToPreviousDay, getAllSlots,
   getCompletedTests,
   getLastRefreshed,
   getSelectedDate,
   getSlots,
 } from './journal.selector';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { get } from 'lodash-es';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { CompressionProvider } from '@providers/compression/compression';
+import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
 
 @Injectable()
 export class JournalEffects {
@@ -69,6 +75,7 @@ export class JournalEffects {
     public searchProvider: SearchProvider,
     private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private compressionProvider: CompressionProvider,
   ) {
   }
 
@@ -204,7 +211,7 @@ export class JournalEffects {
       .pipe(
         withLatestFrom(
           this.store$.pipe(
-            select(selectEmployeeId)
+            select(selectEmployeeId),
           ),
           this.store$.pipe(
             select(getTests),
@@ -223,7 +230,6 @@ export class JournalEffects {
       }
       if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
       if (action.callThrough) return true;
-
 
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
@@ -253,6 +259,75 @@ export class JournalEffects {
           tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
           map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
           catchError((err) => of(LoadCompletedTestsFailure(err))),
+        );
+    }),
+  ));
+
+  journalRehydration$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.JournalRehydration),
+    withLatestFrom(
+      this.store$.pipe(
+        select(getTests),
+      ),
+      this.store$.pipe(
+        select(getJournalState),
+        map(getAllSlots),
+      ),
+    ),
+    switchMap(([, testsModel, testSlots]) => {
+      console.log('Rehydrating tests', testsModel, testSlots);
+      const testsToRehydrate = testSlots
+        .filter(value => get(value, 'slotData.booking') &&
+            !isAnyOf(testsModel.testStatus[value.slotData.slotDetail.slotId], [
+              TestStatus.WriteUp,
+              TestStatus.Autosaved,
+              TestStatus.Completed,
+              TestStatus.Submitted,
+            ]))
+        .map(value => ({
+          slotId: value.slotData.slotDetail.slotId,
+          appRef: formatApplicationReference(
+            {
+              applicationId: (value.slotData as TestSlot).booking.application.applicationId,
+              bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
+              checkDigit: (value.slotData as TestSlot).booking.application.checkDigit,
+            },
+          ),
+        }));
+      console.log('Tests to rehydrate: ', testsToRehydrate);
+
+      if (testsToRehydrate.length === 0) {
+        return of({ type: 'NO_ACTION' });
+      }
+
+      return this.searchProvider.getTestResults(
+        this.compressionProvider.compress({
+          applicationReferences: testsToRehydrate.map(value => value.appRef),
+        }
+        ))
+        .pipe(
+          map(response => this.compressionProvider.extract<TestResultsRehydrated[]>(response.body)),
+          map(testResults => testResults.map(test => ({
+            autosave: !!test.autosave,
+            testData: test.test_result,
+            slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
+          }))),
+          tap(completedTests => {
+            if (completedTests.length > 0) {
+              this.store$.dispatch(LoadRemoteTests(completedTests));
+            }
+          }),
+          catchError(err => {
+            this.store$.dispatch(SaveLog({
+              payload: this.logHelper.createLog(
+                LogType.ERROR,
+                `Getting test results (${testsToRehydrate.map(value => value.appRef.toString())})`,
+                err,
+              ),
+            }));
+            return of({ type: 'NO_ACTION' });
+          }),
+          map(() => ({ type: 'NO_ACTION' })), // Ensures the effect does not emit any actions itself
         );
     }),
   ));
