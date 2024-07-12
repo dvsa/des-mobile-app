@@ -122,6 +122,14 @@ export const JournalRefresh = createAction(
   (mode: string) => ({ mode }),
 );
 
+export const JournalRehydration = createAction(
+  '[JournalPage] Journal Rehydration',
+);
+
+export const JournalRehydrationSuccess = createAction(
+  '[JournalEffect] Journal Rehydration Success',
+);
+
 export const CandidateDetailsSeen = createAction(
   '[JournalPage] Candidate Details Seen',
   props<{ slotId: number }>(),

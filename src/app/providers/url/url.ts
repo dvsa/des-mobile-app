@@ -27,6 +27,10 @@ export class UrlProvider {
     return this.appConfigProvider.getAppConfig()?.tests.testSubmissionUrl;
   }
 
+  getMultipleTestResultsUrl(): string {
+    return this.appConfigProvider.getAppConfig()?.tests.multipleTestResultsUrl;
+  }
+
   getTaxMotApiKey(): string {
     return this.appConfigProvider.getAppConfig()?.taxMotApiKey;
   }

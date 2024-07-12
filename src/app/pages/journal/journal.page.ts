@@ -165,9 +165,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.setupPolling();
     this.configurePlatformSubscriptions();
 
-    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
-
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }

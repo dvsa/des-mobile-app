@@ -2,6 +2,7 @@ import { createAction, union } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from './tests.model';
+import { TestResultRehydration } from '@store/tests/tests.reducer';
 
 export const UnloadTests = createAction(
   '[Tests] Unload Tests',
@@ -22,6 +23,11 @@ export const LoadPersistedTestsSuccess = createAction(
 
 export const LoadPersistedTestsFailure = createAction(
   '[Tests] Load persisted test failure',
+);
+
+export const LoadRemoteTests = createAction(
+  '[Tests] Load remote tests',
+  (tests: TestResultRehydration[]) => ({ tests }),
 );
 
 export const TestOutcomeChanged = createAction(
@@ -119,6 +125,7 @@ export const SendCurrentTestFailure = createAction(
 const actions = union({
   UnloadTests,
   PersistTests,
+  LoadRemoteTests,
   LoadPersistedTests,
   LoadPersistedTestsSuccess,
   LoadPersistedTestsFailure,

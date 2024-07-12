@@ -136,10 +136,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     //guard against calling various services if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());
-
-      // acquire previously completed tests
-      await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-      this.store$.dispatch(journalActions.LoadCompletedTests(true));
     }
 
     await super.unlockDevice();

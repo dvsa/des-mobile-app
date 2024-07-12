@@ -10,6 +10,7 @@ import { TestsModel } from './tests.model';
 
 import { testStatusReducer } from './test-status/test-status.reducer';
 import { testsReducerFactory } from './tests-reducer-factory';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
 export const initialState: TestsModel = {
   currentTest: { slotId: null },
@@ -18,6 +19,12 @@ export const initialState: TestsModel = {
 };
 
 export const testsFeatureKey = 'tests';
+
+export interface TestResultRehydration {
+  autosave: boolean;
+  testData: TestResultSchemasUnion;
+  slotId: string;
+}
 
 const deriveSlotId = (state: TestsModel, action: Action): string | null => {
   if (action.type === testsActions.StartTestReportPracticeTest.type) {
