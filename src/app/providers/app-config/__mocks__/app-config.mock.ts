@@ -44,6 +44,7 @@ export class AppConfigProviderMock {
     },
     tests: {
       testSubmissionUrl: localEnvironmentMock.tests.testSubmissionUrl,
+      multipleTestResultsUrl: localEnvironmentMock.tests.multipleTestResultsUrl,
       autoSendInterval: localEnvironmentMock.tests.autoSendInterval,
     },
     user: {
