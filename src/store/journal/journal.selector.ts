@@ -76,16 +76,13 @@ export const getPermittedSlotIdsBeforeToday = (
   const slots = getSlots(journal);
   const arrayOfDateStrings = Object.keys(slots)
     .filter((date: string) => {
-      const thisDate = new DateTime(date);
-      return thisDate.isBefore(today.format('YYYY-MM-DD'));
+      return new DateTime(date).isBefore(today.format('YYYY-MM-DD'));
     });
   return flatten(
     (arrayOfDateStrings.map(
       (date: string) => slots[date]
         .filter((slotItem: SlotItem) => slotProvider.canStartTest(slotItem.slotData))
-        .filter((slotItem: SlotItem) => {
-          return 'booking' in slotItem.slotData;
-        }),
+        .filter((slotItem: SlotItem) => 'booking' in slotItem.slotData),
     )),
   );
 };
