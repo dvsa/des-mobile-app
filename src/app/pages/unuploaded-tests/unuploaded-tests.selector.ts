@@ -3,7 +3,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Observable } from 'rxjs';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { getTests } from '@store/tests/tests.reducer';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -13,7 +13,7 @@ export const unsubmittedTestSlots$ = (
   store$: Store<StoreModel>,
   dateTimeProvider: DateTimeProvider,
   slotProvider: SlotProvider,
-  daysToView: number,
+  daysToView: number = 14,
 ): Observable<SlotItem[]> => store$.pipe(
   select(getJournalState),
   withLatestFrom(store$.pipe(select(getTests))),
@@ -22,7 +22,6 @@ export const unsubmittedTestSlots$ = (
     // sort oldest to newest
     slotItems.sort((a, b) =>
       new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
-  tap((data) => console.log('incompleteTests:', data)),
 );
 
 export const unsubmittedTestSlotsCount$ = (

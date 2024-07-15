@@ -6,6 +6,15 @@ import { DateTime } from '@shared/helpers/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 
+/*
+  * Incomplete tests are defined as those tests that:
+  *  - are prior to today
+  *  - the user is permitted to start (from app config)
+  *  - haven't been submitted/completed
+  *  - are yet to be re-keyed
+  *  - are not in progress AND before today
+  */
+
 export const getIncompleteTests = (
   journal: JournalModel,
   tests: TestsModel,
@@ -13,36 +22,20 @@ export const getIncompleteTests = (
   slotProvider: SlotProvider,
   daysToView: number,
 ): SlotItem[] => {
-  /*
-    * Incomplete tests are defined as those tests that:
-    *  - are prior to today
-    *  - the user is permitted to start (from app config)
-    *  - haven't been submitted/completed
-    *  - are yet to be re-keyed
-    *
-    * To count the number of incomplete tests, we first get an array of slot IDs of tests that this
-    * user is (or was) permitted to start. Test status is not considered, so this list could include
-    * completed tests.
-    *
-    * Then we loop through that list determine if the test is an outstanding rekey (count it) or
-    * an incomplete tests (count it too)
-    */
-
-  // Get slots the user is permitted to start before today & filter out slots that are older than 14 days
-  const slotIdsBeforeToday = getPermittedSlotIdsBeforeToday(journal, today, slotProvider).filter(
-    (slotItem) => {
-      return new DateTime(slotItem.slotData.slotDetail.start).daysDiff(today) <= daysToView;
-    });
-  // includes tests with status of Started, Decided and WriteUp, but not un-started rekeys
   const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
 
-  // Filter out completed or submitted tests and include in-progress tests
-  return slotIdsBeforeToday.filter((slotItem) => {
-    const { slotId } = slotItem.slotData.slotDetail;
-
-    if (slotIdsOfInProgressTests.includes(slotId.toString())) {
-      return true;
-    }
-  });
-
+  return getPermittedSlotIdsBeforeToday(journal, today, slotProvider)
+    .filter(({ slotData }) => {
+      const isWithinDaysToView = new DateTime(slotData?.slotDetail?.start).daysDiff(today) <= (daysToView);
+      const isNotStartedTest = !tests.startedTests[slotData?.slotDetail?.slotId];
+      return isWithinDaysToView && isNotStartedTest;
+    })
+    .filter(({ slotData }) => {
+      const { slotId } = slotData.slotDetail;
+      const eligibleTests = [
+        ...slotIdsOfInProgressTests,
+        slotId.toString(),
+      ];
+      return eligibleTests.includes(slotId.toString());
+    });
 };
