@@ -24,8 +24,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
@@ -50,8 +48,9 @@ import {
 } from './journal.actions';
 import {
   canNavigateToNextDay,
-  canNavigateToPreviousDay, getAllSlots,
+  getAllSlots,
   getCompletedTests,
+  canNavigateToPreviousDay,
   getLastRefreshed,
   getSelectedDate,
   getSlots,

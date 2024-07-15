@@ -11,6 +11,7 @@ export const getIncompleteTests = (
   tests: TestsModel,
   today: DateTime,
   slotProvider: SlotProvider,
+  daysToView: number,
 ): SlotItem[] => {
   /*
     * Incomplete tests are defined as those tests that:
@@ -27,24 +28,21 @@ export const getIncompleteTests = (
     * an incomplete tests (count it too)
     */
 
-  const slotIdsBeforeToday = getPermittedSlotIdsBeforeToday(journal, today, slotProvider);
-
+  // Get slots the user is permitted to start before today & filter out slots that are older than 14 days
+  const slotIdsBeforeToday = getPermittedSlotIdsBeforeToday(journal, today, slotProvider).filter(
+    (slotItem) => {
+      return new DateTime(slotItem.slotData.slotDetail.start).daysDiff(today) <= daysToView;
+    });
   // includes tests with status of Started, Decided and WriteUp, but not un-started rekeys
   const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
-  const completedTestSlotIds = testsSelectors.getCompletedTestSlotIdsBeforeToday(tests);
-  const slotIdsOfAllStartedTests = Object.keys(tests.testStatus);
 
+  // Filter out completed or submitted tests and include in-progress tests
   return slotIdsBeforeToday.filter((slotItem) => {
     const { slotId } = slotItem.slotData.slotDetail;
-    // tests that are completed or submitted are omitted from the output
-    if (completedTestSlotIds.includes(slotId.toString())) {
-      return false;
-    }
-    // tests that are in the list of in progress tests are incomplete
+
     if (slotIdsOfInProgressTests.includes(slotId.toString())) {
       return true;
     }
-    // tests that are not in the list of started tests are also incomplete
-    return !slotIdsOfAllStartedTests.includes(slotId.toString());
   });
+
 };
