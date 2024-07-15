@@ -105,7 +105,12 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       showUpdatesAvailable$: showUpdateAvailable$(this.store$, this.platform),
       isOffline$: this.networkStateProvider.isOffline$,
       notificationCount$: combineLatest([
-        unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+        unsubmittedTestSlotsCount$(
+          this.store$,
+          this.dateTimeProvider,
+          this.slotProvider,
+          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+        ),
         getUpdateAvailableCount$(this.store$, this.platform),
       ])
         .pipe(

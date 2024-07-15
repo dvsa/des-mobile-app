@@ -110,7 +110,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
         unSubmittedTestSlotsCount$: combineLatest([
-          unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+          unsubmittedTestSlotsCount$(
+            this.store$,
+            this.dateTimeProvider,
+            this.slotProvider,
+            this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+          ),
         ])
           .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
       };
