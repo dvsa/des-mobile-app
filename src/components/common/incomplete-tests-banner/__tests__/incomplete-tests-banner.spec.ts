@@ -41,7 +41,7 @@ describe('IncompleteTestsBanner', () => {
   describe('DOM', () => {
     it('should display the number of incomplete tests', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of([{}] as SlotItem[]) };
+      component.componentState = { count$: of([{}].length as number) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
@@ -49,7 +49,7 @@ describe('IncompleteTestsBanner', () => {
     });
     it('should display the number of incomplete tests as plural', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of([{}, {}] as SlotItem[]) };
+      component.componentState = { count$: of([{}, {}].length as number) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
@@ -57,7 +57,7 @@ describe('IncompleteTestsBanner', () => {
     });
     it('should not be visible when the fault count is 0', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of([] as SlotItem[]) };
+      component.componentState = { count$: of([].length as number) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('div'));
