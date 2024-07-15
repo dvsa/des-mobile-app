@@ -188,58 +188,6 @@ export class JournalEffects {
     }),
   ));
 
-  // loadCompletedTests$ = createEffect(() => this.actions$.pipe(
-  //   ofType(journalActions.LoadCompletedTests),
-  //   concatMap((action) => of(action)
-  //     .pipe(
-  //       withLatestFrom(
-  //         this.store$.pipe(
-  //           select(getJournalState),
-  //           select(getExaminer),
-  //           select(getStaffNumber),
-  //         ),
-  //         this.store$.pipe(
-  //           select(getTests),
-  //           select(hasStartedTests),
-  //         ),
-  //       ),
-  //     )),
-  //   filter(([action, , hasStarted, completedTests]) => {
-  //     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
-  //       this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
-  //       return false;
-  //     }
-  //     if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
-  //     if (action.callThrough) return true;
-  //
-  //     return !hasStarted && completedTests && completedTests.length === 0;
-  //   }),
-  //   switchMap(([, staffNumber]) => {
-  //     const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
-  //     const dateTime = new DateTime();
-  //     const advancedSearchParams: AdvancedSearchParams = {
-  //       startDate: dateTime
-  //         .subtract(numberOfDaysToView, Duration.DAY)
-  //         .format('YYYY-MM-DD'),
-  //       endDate: dateTime
-  //         .format('YYYY-MM-DD'),
-  //       staffNumber: removeLeadingZeros(staffNumber),
-  //       costCode: '',
-  //       excludeAutoSavedTests: 'true',
-  //       activityCode: '',
-  //       category: '',
-  //     };
-  //
-  //     return this.searchProvider.advancedSearch(advancedSearchParams)
-  //       .pipe(
-  //         map((searchResults: SearchResultTestSchema[]) => searchResults),
-  //         tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
-  //         map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
-  //         catchError((err) => of(LoadCompletedTestsFailure(err))),
-  //       );
-  //   }),
-  // ));
-
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectPreviousDay),
     concatMap((action) => of(action)
