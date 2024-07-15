@@ -10,7 +10,6 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { SlotProvider } from '@providers/slot/slot';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { SlotItem } from '@providers/slot-selector/slot-item';
 import { IncompleteTestsBanner } from '../incomplete-tests-banner';
 
 describe('IncompleteTestsBanner', () => {
