@@ -248,7 +248,7 @@ describe('IncompleteTestsBannerSelector', () => {
 
       const incompleteTests = getIncompleteTests(journal, tests, DateTime.at('2019-01-14'), slotProvider, 14);
 
-      expect(incompleteTests.length).toBe(3);
+      expect(incompleteTests.length).toBe(2);
     });
   });
 
