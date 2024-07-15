@@ -420,9 +420,9 @@ describe('JournalSelector', () => {
       const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
 
       expect(slotIds.length)
-        .toBe(1);
+        .toBe(2);
       expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId))
-        .toEqual([2001]);
+        .toEqual([1001, 2001]);
     });
   });
   describe('getCompletedTests', () => {
