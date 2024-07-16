@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
-import { merge, Observable, Subscription } from 'rxjs';
+import { merge, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -18,7 +18,6 @@ import * as journalActions from '@store/journal/journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getCompletedTests,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -32,11 +31,6 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { get } from 'lodash-es';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -85,7 +79,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -135,10 +128,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map((selectedDate) => selectedDate === this.dateTimeProvider.now()
           .format('YYYY-MM-DD')),
       ),
-      completedTests$: this.store$.pipe(
-        select(getJournalState),
-        select(getCompletedTests),
-      ),
+      completedTests$: of([]),
     };
 
     const {
@@ -164,9 +154,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await this.loadJournalManually();
     this.setupPolling();
     this.configurePlatformSubscriptions();
-
-    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -246,7 +233,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public refreshJournal = async () => {
     await this.loadJournalManually();
-    this.loadCompletedTestsWithCallThrough();
   };
 
   onPreviousDayClick(): void {
@@ -255,47 +241,5 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
-  }
-
-  /**
-   * Load the completed tests with the callThrough property set to true (default false)
-   * This will make the request to the backend to check if any of the tests have already been submitted
-   * by another device
-   * *
-   */
-  loadCompletedTestsWithCallThrough = (): void => {
-    this.store$.dispatch(journalActions.LoadCompletedTests(true));
-  };
-
-  /**
-   * Limit payload to only the required fields for test that match current journal slots
-   * @param completedTests
-   * @param testSlots
-   */
-  formatCompleteTests(completedTests: SearchResultTestSchema[], testSlots: SlotItem[]): CompletedJournalSlot[] {
-    let arrayOfTests: number[] = testSlots.map((slot: SlotItem) => {
-      if (get(slot, 'slotData.booking')) {
-        return parseInt(formatApplicationReference({
-          applicationId: (slot.slotData as TestSlot).booking.application.applicationId,
-          bookingSequence: (slot.slotData as TestSlot).booking.application.bookingSequence,
-          checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
-        } as ApplicationReference), 10);
-      }
-    })
-
-    let matchingTests: number[] = arrayOfTests
-      .filter(element => completedTests
-        .map(value => value.applicationReference).includes(element));
-
-    return completedTests
-      .filter((value: SearchResultTestSchema) => matchingTests.includes(value.applicationReference))
-      .map((value: SearchResultTestSchema): CompletedJournalSlot => {
-        return {
-          applicationReference: value.applicationReference,
-          activityCode: value.activityCode,
-          autosave: !!(value.autosave),
-          passCertificateNumber: value.passCertificateNumber,
-        };
-      });
   }
 }

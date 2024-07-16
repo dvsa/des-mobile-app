@@ -5,7 +5,6 @@ import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { JournalModel } from './journal.model';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 
@@ -86,8 +85,4 @@ export const getPermittedSlotIdsBeforeToday = (
         .filter((slotItem: SlotItem) => 'booking' in slotItem.slotData),
     )),
   );
-};
-
-export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {
-  return journalModel.completedTests;
 };
