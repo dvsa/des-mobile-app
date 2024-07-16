@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { CompletedJournalSlot, JournalPage } from '@pages/journal/journal.page';
+import { JournalPage } from '@pages/journal/journal.page';
 import { JournalComponentsModule } from '@pages/journal/components/journal-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 import { journalReducer } from '@store/journal/journal.reducer';
@@ -47,8 +47,6 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpStatusCode } from '@angular/common/http';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { SlotItem } from '@providers/slot-selector/slot-item';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -302,12 +300,9 @@ describe('JournalPage', () => {
     describe('refreshJournal', () => {
       it('should run loadJournalManually', async () => {
         spyOn(component, 'loadJournalManually').and.callThrough();
-        spyOn(component, 'loadCompletedTestsWithCallThrough').and.callThrough();
 
         await component.refreshJournal();
         expect(component.loadJournalManually)
-          .toHaveBeenCalled();
-        expect(component.loadCompletedTestsWithCallThrough)
           .toHaveBeenCalled();
       });
     });
@@ -325,48 +320,6 @@ describe('JournalPage', () => {
           .toHaveBeenCalled();
         expect(component.pageRefresher)
           .toEqual(event);
-      });
-    });
-
-    describe('formatCompleteTests', () => {
-      it('should return an empty array when no completed tests match the test slots', () => {
-        const completedTests: SearchResultTestSchema[] = [
-          { applicationReference: 1234567890, activityCode: '1',
-            autosave: 1, passCertificateNumber: 'ABC123' } as SearchResultTestSchema,
-          { applicationReference: 2345678901, activityCode: '2',
-            autosave: 0, passCertificateNumber: 'DEF456' } as SearchResultTestSchema,
-        ];
-        const testSlots: SlotItem[] = [
-          { hasSlotChanged: false, hasSeenCandidateDetails: false, slotData: {
-            booking: { application: { applicationId: 1, bookingSequence: 2, checkDigit: 3 } }
-          } },
-          { hasSlotChanged: false, hasSeenCandidateDetails: false, slotData: {
-            booking: { application: { applicationId: 4, bookingSequence: 5, checkDigit: 6 } }
-          } },
-        ];
-        expect(component.formatCompleteTests(completedTests, testSlots)).toEqual([]);
-      });
-
-      it('should return formatted completed tests that match the test slots', () => {
-        const completedTests: SearchResultTestSchema[] = [
-          { applicationReference: 1023, activityCode: '1',
-            autosave: 1, passCertificateNumber: 'ABC123' } as SearchResultTestSchema,
-          { applicationReference: 4056, activityCode: '2',
-            autosave: 0, passCertificateNumber: 'DEF456' } as SearchResultTestSchema,
-        ];
-        const testSlots: SlotItem[] = [
-          { slotData: { booking: { application: {
-            applicationId: 1, bookingSequence: 2, checkDigit: 3 }
-          } } } as SlotItem,
-          { slotData: { booking: { application: {
-            applicationId: 4, bookingSequence: 5, checkDigit: 6 }
-          } } } as SlotItem,
-        ];
-        const expected: CompletedJournalSlot[] = [
-          { applicationReference: 1023, activityCode: '1', autosave: true, passCertificateNumber: 'ABC123' },
-          { applicationReference: 4056, activityCode: '2', autosave: false, passCertificateNumber: 'DEF456' }
-        ];
-        expect(component.formatCompleteTests(completedTests, testSlots)).toEqual(expected);
       });
     });
 
