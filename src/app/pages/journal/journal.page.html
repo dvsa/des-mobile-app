@@ -54,7 +54,7 @@
 
   <ion-list>
     <journal-slots
-      [completedTests]="formatCompleteTests(pageState.completedTests$ | async, pageState.slots$ | async)"
+      [completedTests]="pageState.completedTests$ | async"
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slots]="pageState.slots$ | async"
     >
