@@ -20,7 +20,7 @@ export const getIncompleteTests = (
   tests: TestsModel,
   today: DateTime,
   slotProvider: SlotProvider,
-  daysToView: number,
+  daysToView: number = 14,
 ): SlotItem[] => {
   const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
 
