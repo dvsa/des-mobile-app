@@ -20,7 +20,6 @@ export interface ExaminerRecordData<T> {
 }
 
 let unwantedCategories: TestCategory[] = [
-  TestCategory.ADI2,
   TestCategory.ADI3,
   TestCategory.SC,
   TestCategory.CCPC,
