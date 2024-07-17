@@ -15,7 +15,8 @@
     <ion-text class="mes-padding-left mes-data">
       Displaying <strong>{{ pageState.testCount$ | async }}</strong> Category
       <strong>{{ currentCategory }}</strong> tests, from <strong>{{ startDateFilter }}</strong> to
-      <strong>{{ endDateFilter }}</strong> <br />
+      <strong>{{ endDateFilter }}</strong>
+      <span *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-x-large'"> <br /></span>
       at <strong> {{ locationFilter }}</strong>
     </ion-text>
   </ion-row>
@@ -142,7 +143,8 @@
   <ion-row *ngIf="((pageState.locationList$ | async).length > 0)" class="ion-padding-top ion-padding-bottom">
     <ion-text [style.color]="displayScrollBanner ? 'transparent' : 'black'" class="mes-padding-left mes-data">
       Displaying <strong>{{ data.testCount }}</strong> Category <strong>{{ currentCategory }}</strong> tests, from
-      <strong>{{ startDateFilter }}</strong> to <strong>{{ endDateFilter }}</strong> <br />
+      <strong>{{ startDateFilter }}</strong> to <strong>{{ endDateFilter }}</strong>
+      <span *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-x-large'"> <br /></span>
       at <strong> {{ locationFilter }}</strong>
     </ion-text>
   </ion-row>
