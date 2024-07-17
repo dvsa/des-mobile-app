@@ -235,7 +235,16 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [centreData]="true"
+              [value]="getTotal(data.independentDrivingGrid)"
+              [label]="'Total tests with ' + (isBike() ? 'independent riding' : 'independent driving')"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0', 'font-style': 'italic'}"
+              [labelStyling]="{'font-weight': 400, 'font-style': 'italic'}"
+              [shouldHaveSeperator]="false"
               [value]="'20%'"
               label='Target percentage of tests using {{(data.independentDrivingGrid[0].item).split("-")[1].toLowerCase()}}'
             >
@@ -296,7 +305,16 @@
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
               [shouldHaveSeperator]="false"
-              [centreData]="true"
+              [value]="getTotal(data.emergencyStops)"
+              [label]="'Total tests with emergency stops'"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0', 'font-style': 'italic'}"
+              [labelStyling]="{'font-weight': 400, 'font-style': 'italic'}"
+              [shouldHaveSeperator]="false"
               [value]="'33%'"
               label="Target percentage of tests with an emergency stop"
             >
@@ -413,7 +431,7 @@
     </ion-row>
   </div>
 
-  <ion-card *ngIf="data.categoryList?.length === 0 || data.locationList?.length === 0">
+  <ion-card *ngIf="displayNoDataCard(data)">
     <ion-card-header>
       <ion-card-title>
         <ion-row>

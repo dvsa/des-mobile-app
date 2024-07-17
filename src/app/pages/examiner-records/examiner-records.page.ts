@@ -60,6 +60,21 @@ import {
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
 
+interface ExaminerRecordsData {
+  routeGrid: ExaminerRecordData<string>[],
+  manoeuvresGrid: ExaminerRecordData<string>[],
+  showMeQuestionsGrid: ExaminerRecordData<string>[],
+  independentDrivingGrid: ExaminerRecordData<string>[],
+  tellMeQuestionsGrid: ExaminerRecordData<string>[],
+  safetyGrid: ExaminerRecordData<string>[],
+  balanceGrid: ExaminerRecordData<string>[],
+  testCount: number,
+  emergencyStops: ExaminerRecordData<string>[],
+  circuits: ExaminerRecordData<string>[],
+  locationList: { item: TestCentre, count: number }[],
+  categoryList: { item: TestCategory, count: number }[]
+}
+
 interface ExaminerRecordsState {
   cachedRecords$: Observable<ExaminerRecordModel[]>;
   isLoadingRecords$: Observable<boolean>;
@@ -613,4 +628,21 @@ export class ExaminerRecordsPage implements OnInit {
     // Cat Mod2
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
   ]);
+
+  /**Get the total number of individual instances of data*/
+  getTotal = <T>(
+    value: ExaminerRecordData<T>[],
+  ): number => value.reduce((total, val) => total + Number(val.count), 0);
+
+  /**Determine if we should display the no data card*/
+  displayNoDataCard(data: ExaminerRecordsData) {
+    let noData = true;
+
+    Object.keys(data).forEach((key) => {
+      if (data[key].length > 0 && key !== 'testCount') {
+        noData = false;
+      }
+    });
+    return noData || (data.categoryList?.length === 0 || data.locationList?.length === 0)
+  }
 }

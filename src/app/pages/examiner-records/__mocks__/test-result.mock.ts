@@ -15477,4 +15477,125 @@ export const demonstrationMock: StartedTests ={
     'examinerKeyed': 1234567,
     'changeMarker': false,
   } as TestResultCommonSchema,
+  113: {
+    'rekey': false,
+    'version': '3.42.5',
+    'category': 'B',
+    'testData': {
+      'ETA': {},
+      'eco': {},
+      'manoeuvres': {},
+      'eyesightTest': {},
+      'drivingFaults': {},
+      'seriousFaults': {},
+      'vehicleChecks': {
+        'showMeQuestion': {},
+        'tellMeQuestion': {}
+      },
+      'controlledStop': {},
+      'dangerousFaults': {},
+      'testRequirements': {}
+    },
+    'appVersion': '4.13.0.0',
+    'journalData': {
+      'examiner': {
+        'staffNumber': '1234567',
+        'individualId': 9000001
+      },
+      'candidate': {
+        'candidateAddress': {
+          'addressLine1': '2345 Station Street',
+          'addressLine2': 'Someplace',
+          'addressLine3': 'Sometown',
+          'postcode': 'AB12 3CD',
+        },
+        'candidateId': 126,
+        'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
+        'driverNumber': 'COOPE015220A99HC',
+        'mobileTelephone': '07654 123456',
+        'primaryTelephone': '01234 567890',
+        'secondaryTelephone': '04321 098765',
+        'dateOfBirth': '1974-09-14',
+        'ethnicityCode': 'E',
+        'gender': 'F',
+      },
+      'testCentre': {
+        'centreId': 54321,
+        'costCode': 'EXTC1',
+        'centreName': 'Example Test Centre'
+      },
+      'testSlotAttributes': {
+        'start': new Date(Date.now()).toString(),
+        'slotId': 5128,
+        'slotType': 'Standard Test',
+        'fitMarker': false,
+        'welshTest': false,
+        'extendedTest': false,
+        'specialNeeds': false,
+        'vehicleTypeCode': 'C',
+        'entitlementCheck': false,
+        'examinerVisiting': false,
+        'specialNeedsCode': 'NONE',
+        'specialNeedsArray': [
+          'None'
+        ],
+        'previousCancellation': [
+          'Act of nature'
+        ],
+        'categoryEntitlementCheck': false
+      },
+      'applicationReference': {
+        'checkDigit': 1,
+        'applicationId': 20654322,
+        'bookingSequence': 3
+      }
+    },
+    'rekeyReason': {
+      'other': {
+        'reason': '',
+        'selected': false
+      },
+      'transfer': {
+        'selected': false
+      },
+      'ipadIssue': {
+        'lost': false,
+        'broken': false,
+        'stolen': false,
+        'selected': false,
+        'technicalFault': false
+      }
+    },
+    'testSummary': {
+      'D255': false,
+      'debriefWitnessed': true
+    },
+    'activityCode': '21',
+    'changeMarker': false,
+    'accompaniment': {},
+    'delegatedTest': false,
+    'examinerKeyed': 1234567,
+    'examinerBooked': 1234567,
+    'vehicleDetails': {
+      'registrationNumber': ''
+    },
+    'examinerConducted': 1234567,
+    'instructorDetails': {},
+    'preTestDeclarations': {
+      'preTestSignature': '',
+      'candidateDeclarationSigned': false,
+      'insuranceDeclarationAccepted': false,
+      'residencyDeclarationAccepted': false
+    },
+    'postTestDeclarations': {
+      'postTestSignature': '',
+      'healthDeclarationAccepted': false,
+      'passCertificateNumberReceived': false
+    },
+    'communicationPreferences': {
+      'updatedEmail': '',
+      'conductedLanguage': 'English',
+      'communicationMethod': 'Not provided'
+    }
+  }
 };
