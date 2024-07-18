@@ -21,10 +21,6 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import {
-  CompletedTestPersistenceProviderMock,
-} from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
 import * as journalActions from '@store/journal/journal.actions';
 import { JournalViewDidEnter } from '@store/journal/journal.actions';
@@ -55,7 +51,6 @@ describe('JournalPage', () => {
   let component: JournalPage;
   let store$: Store<StoreModel>;
   let loaderService: LoadingProvider;
-  let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   const loadingOpts: LoadingOptions = {
     id: 'journal_loading_spinner',
     spinner: 'circles',
@@ -120,10 +115,6 @@ describe('JournalPage', () => {
           useClass: DeviceProviderMock,
         },
         {
-          provide: CompletedTestPersistenceProvider,
-          useClass: CompletedTestPersistenceProviderMock,
-        },
-        {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
         },
@@ -149,7 +140,6 @@ describe('JournalPage', () => {
     component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
-    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     spyOn(store$, 'dispatch');
     spyOn(loaderService, 'handleUILoading');
     spyOn(BasePageComponent.prototype, 'isIos')
@@ -164,9 +154,9 @@ describe('JournalPage', () => {
     });
   });
 
-  describe('loadJournalManually', () => {
+  describe('requestJournal', () => {
     it('should dispatch a LoadJournal action', async () => {
-      await component.loadJournalManually();
+      await component.requestJournal();
       expect(loaderService.handleUILoading)
         .toHaveBeenCalledWith(true, loadingOpts);
       expect(store$.dispatch)
@@ -277,7 +267,7 @@ describe('JournalPage', () => {
     describe('ionViewWillEnter', () => {
       it('should run necessary functions', async () => {
         spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-        spyOn(component, 'loadJournalManually')
+        spyOn(component, 'requestJournal')
           .and
           .callThrough();
         spyOn(component, 'setupPolling');
@@ -286,28 +276,21 @@ describe('JournalPage', () => {
         await component.ionViewWillEnter();
         expect(BasePageComponent.prototype.ionViewWillEnter)
           .toHaveBeenCalled();
-        expect(component.loadJournalManually)
+        expect(component.requestJournal)
           .toHaveBeenCalled();
         expect(component.setupPolling)
           .toHaveBeenCalled();
         expect(component.configurePlatformSubscriptions)
           .toHaveBeenCalled();
-        expect(completedTestPersistenceProvider.loadCompletedPersistedTests)
-          .toHaveBeenCalled();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(journalActions.LoadCompletedTests(true));
       });
     });
 
     describe('refreshJournal', () => {
-      it('should run loadJournalManually', async () => {
-        spyOn(component, 'loadJournalManually').and.callThrough();
-        spyOn(component, 'loadCompletedTestsWithCallThrough').and.callThrough();
+      it('should run requestJournal', async () => {
+        spyOn(component, 'requestJournal').and.callThrough();
 
         await component.refreshJournal();
-        expect(component.loadJournalManually)
-          .toHaveBeenCalled();
-        expect(component.loadCompletedTestsWithCallThrough)
+        expect(component.requestJournal)
           .toHaveBeenCalled();
       });
     });

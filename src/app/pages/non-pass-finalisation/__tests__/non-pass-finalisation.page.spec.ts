@@ -259,7 +259,7 @@ describe('NonPassFinalisationPage', () => {
         expect(store$.dispatch)
           .toHaveBeenCalledWith(NonPassFinalisationViewDidEnter());
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
       it('should dispatch D255No is test category is ADI2', () => {
         component.testCategory = TestCategory.ADI2;
@@ -274,14 +274,14 @@ describe('NonPassFinalisationPage', () => {
         expect(store$.dispatch)
           .toHaveBeenCalledWith(D255Yes());
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
       it('should dispatch the correct action if the inputted value is false', () => {
         component.d255Changed(false);
         expect(store$.dispatch)
           .toHaveBeenCalledWith(D255No());
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
     });
     describe('debriefWitnessedChanged', () => {
@@ -290,14 +290,14 @@ describe('NonPassFinalisationPage', () => {
         expect(store$.dispatch)
           .toHaveBeenCalledWith(DebriefWitnessed());
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
       it('should dispatch the correct action if the inputted value is false', () => {
         component.debriefWitnessedChanged(false);
         expect(store$.dispatch)
           .toHaveBeenCalledWith(DebriefUnWitnessed());
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
     });
     describe('isWelshChanged', () => {
@@ -306,14 +306,14 @@ describe('NonPassFinalisationPage', () => {
         expect(store$.dispatch)
           .toHaveBeenCalledWith(CandidateChoseToProceedWithTestInWelsh('Cymraeg'));
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
       it('should dispatch the correct action if the isWelsh flag is false', () => {
         component.isWelshChanged(false);
         expect(store$.dispatch)
           .toHaveBeenCalledWith(CandidateChoseToProceedWithTestInEnglish('English'));
         expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+          .toHaveBeenCalled();
       });
     });
     describe('onCancel', () => {

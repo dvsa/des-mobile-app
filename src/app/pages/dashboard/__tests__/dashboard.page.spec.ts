@@ -225,8 +225,6 @@ describe('DashboardPage', () => {
           .toHaveBeenCalled();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(LoadJournalSilent());
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(LoadCompletedTests(true));
       });
       it('should exclude various actions when delegated examiner', async () => {
         spyOn(BasePageComponent.prototype, 'isIos')

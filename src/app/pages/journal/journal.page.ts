@@ -32,7 +32,6 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
@@ -85,7 +84,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -161,7 +159,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
     await this.orientationMonitorProvider.monitorOrientation();
-    await this.loadJournalManually();
+    await this.requestJournal();
     this.setupPolling();
     this.configurePlatformSubscriptions();
 
@@ -188,12 +186,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   /**
-   * Trigger a manual load of the journal and acquire tests needing rehydration
+   * Trigger a request for journal data and acquire tests needing rehydration
    */
-  async loadJournalManually() {
+  async requestJournal() {
     await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
     this.store$.dispatch(journalActions.LoadJournal());
-    this.store$.dispatch(journalActions.JournalRehydration())
+    this.store$.dispatch(journalActions.JournalRehydration());
   }
 
   setupPolling() {
@@ -203,7 +201,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
   configurePlatformSubscriptions(): void {
     if (super.isIos()) {
       const merged$ = merge(
-        this.platform.resume.pipe(switchMap(async () => this.refreshJournal())),
+        this.platform.resume.pipe(switchMap(async () =>
+          this.refreshJournal(),
+        )),
       );
       this.platformSubscription = merged$.subscribe();
     }
@@ -246,7 +246,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   public refreshJournal = async () => {
-    await this.loadJournalManually();
+    await this.requestJournal();
   };
 
   onPreviousDayClick(): void {
@@ -271,11 +271,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
           checkDigit: (slot.slotData as TestSlot).booking.application.checkDigit,
         } as ApplicationReference), 10);
       }
-    })
+    });
 
     let matchingTests: number[] = arrayOfTests
       .filter(element => completedTests
-        .map(value => value.applicationReference).includes(element));
+        .map(value => value.applicationReference)
+        .includes(element));
 
     return completedTests
       .filter((value: SearchResultTestSchema) => matchingTests.includes(value.applicationReference))

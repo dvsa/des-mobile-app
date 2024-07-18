@@ -32,6 +32,7 @@ import { journalReducer } from '../journal.reducer';
 import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
 import { JournalModel } from '../journal.model';
+import { CompressionProvider } from '@providers/compression/compression';
 
 describe('JournalEffects', () => {
   let effects: JournalEffects;
@@ -40,6 +41,7 @@ describe('JournalEffects', () => {
   let slotProvider: SlotProvider;
   let store$: Store<JournalModel>;
   let networkStateProvider: NetworkStateProvider;
+  let compressionProvider: CompressionProvider;
   let appConfigProvider: AppConfigProvider;
 
   beforeEach(() => {
@@ -64,6 +66,7 @@ describe('JournalEffects', () => {
         { provide: SearchProvider, useClass: SearchProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
+        { provide: CompressionProvider, useClass: CompressionProvider, },
         Store,
         SlotProvider,
       ],
@@ -78,6 +81,7 @@ describe('JournalEffects', () => {
     store$ = TestBed.inject(Store);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     appConfigProvider = TestBed.inject(AppConfigProvider);
+    compressionProvider = TestBed.inject(CompressionProvider);
   });
 
   it('should dispatch the success action when the journal loads successfully', (done) => {
@@ -87,6 +91,8 @@ describe('JournalEffects', () => {
     spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
     spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
     spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
+    spyOn(compressionProvider, 'extract');
+    spyOn(compressionProvider, 'compress');
     // ACT
     actions$.next(journalActions.LoadJournal());
     // ASSERT
