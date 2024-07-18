@@ -47,6 +47,7 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { select } from '@ngrx/store';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
+import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -139,7 +140,9 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     ).subscribe(value => {
       if (value.length > 0) {
         this.hasRehydrated = true;
-        this.store$.dispatch(journalActions.JournalRehydration())
+        this.store$.dispatch(journalActions.JournalRehydration(
+          JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
+        ))
       }
     });
   }

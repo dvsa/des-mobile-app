@@ -45,6 +45,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpStatusCode } from '@angular/common/http';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { JournalRehydrationType } from '@store/journal/journal.effects';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -156,7 +157,7 @@ describe('JournalPage', () => {
 
   describe('requestJournal', () => {
     it('should dispatch a LoadJournal action', async () => {
-      await component.requestJournal();
+      await component.requestJournal(JournalRehydrationType.MANUAL);
       expect(loaderService.handleUILoading)
         .toHaveBeenCalledWith(true, loadingOpts);
       expect(store$.dispatch)
@@ -289,7 +290,7 @@ describe('JournalPage', () => {
       it('should run requestJournal', async () => {
         spyOn(component, 'requestJournal').and.callThrough();
 
-        await component.refreshJournal();
+        await component.refreshJournal(JournalRehydrationType.MANUAL);
         expect(component.requestJournal)
           .toHaveBeenCalled();
       });

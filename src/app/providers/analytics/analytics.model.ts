@@ -337,6 +337,7 @@ export enum GoogleAnalyticsEvents {
   MOT_CHECK = 'mot_check',
   VRN_CAPTURE = 'vrn_capture',
   JOURNAL = 'journal',
+  DASHBOARD = 'dashboard',
   PRACTICE_MODE_NAVIGATION = 'pm_navigation',
   MENU = 'burger_menu',
   METADATA = 'metadata',
@@ -366,6 +367,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  REHYDRATION = 'rehydration',
   HDD_FREE_MB = 'hdd_free_mb',
   HDD_TOTAL_MB = 'hdd_total_mb',
   BATTERY_LEVEL = 'battery_level',
@@ -427,6 +429,9 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  ERROR = 'error',
+  SUCCESS = 'success',
+  NULL = 'null',
   FULL = 'full',
   PARTIAL = 'partial',
   COMPLETED = 'completed',

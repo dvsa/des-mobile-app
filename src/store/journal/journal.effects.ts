@@ -41,7 +41,13 @@ import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
-import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
+import {
+  JournalRehydrationError,
+  JournalRehydrationNull,
+  JournalRehydrationSuccess,
+  LoadCompletedTestsFailure,
+  LoadCompletedTestsSuccess,
+} from './journal.actions';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay, getAllSlots,
@@ -57,6 +63,15 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { CompressionProvider } from '@providers/compression/compression';
 import { TestResultsRehydrated } from '@store/tests/tests.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
+
+export enum JournalRehydrationType {
+  AUTO = 'Automatic',
+  MANUAL = 'Manual'
+}
+export enum JournalRehydrationPage {
+  DASHBOARD = 'Dashboard',
+  JOURNAL = 'Journal'
+}
 
 @Injectable()
 export class JournalEffects {
@@ -274,8 +289,7 @@ export class JournalEffects {
         map(getAllSlots),
       ),
     ),
-    switchMap(([, testsModel, testSlots]) => {
-      console.log('Rehydrating tests', testsModel, testSlots);
+    switchMap(([action, testsModel, testSlots]) => {
       const testsToRehydrate = testSlots
         .filter(value => get(value, 'slotData.booking') &&
             !isAnyOf(testsModel.testStatus[value.slotData.slotDetail.slotId], [
@@ -294,9 +308,9 @@ export class JournalEffects {
             },
           ),
         }));
-      console.log('Tests to rehydrate: ', testsToRehydrate);
 
       if (testsToRehydrate.length === 0) {
+        this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page))
         return of({ type: 'NO_ACTION' });
       }
 
@@ -315,6 +329,9 @@ export class JournalEffects {
           tap((completedTests: TestResultRehydration[]) => {
             if (completedTests.length > 0) {
               this.store$.dispatch(LoadRemoteTests(completedTests));
+              this.store$.dispatch(JournalRehydrationSuccess(action.refreshType, action.page))
+            } else {
+              this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page))
             }
           }),
           catchError(err => {
@@ -325,6 +342,7 @@ export class JournalEffects {
                 err,
               ),
             }));
+            this.store$.dispatch(JournalRehydrationError(action.refreshType, action.page))
             return of({ type: 'NO_ACTION' });
           }),
           map(() => ({ type: 'NO_ACTION' })), // Ensures the effect does not emit any actions itself

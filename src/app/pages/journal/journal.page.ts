@@ -36,6 +36,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { get } from 'lodash-es';
+import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -159,7 +160,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
     await this.orientationMonitorProvider.monitorOrientation();
-    await this.requestJournal();
+    await this.requestJournal(JournalRehydrationType.AUTO);
     this.setupPolling();
     this.configurePlatformSubscriptions();
 
@@ -188,10 +189,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
   /**
    * Trigger a request for journal data and acquire tests needing rehydration
    */
-  async requestJournal() {
+  async requestJournal(rehydrationType: JournalRehydrationType) {
     await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
     this.store$.dispatch(journalActions.LoadJournal());
-    this.store$.dispatch(journalActions.JournalRehydration());
+    this.store$.dispatch(journalActions.JournalRehydration(rehydrationType, JournalRehydrationPage.JOURNAL));
   }
 
   setupPolling() {
@@ -202,7 +203,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     if (super.isIos()) {
       const merged$ = merge(
         this.platform.resume.pipe(switchMap(async () =>
-          this.refreshJournal(),
+          this.refreshJournal(JournalRehydrationType.AUTO),
         )),
       );
       this.platformSubscription = merged$.subscribe();
@@ -241,12 +242,16 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   public pullRefreshJournal = async (refresher: IonRefresherCustomEvent<RefresherEventDetail>) => {
-    await this.refreshJournal();
+    await this.refreshJournal(JournalRehydrationType.MANUAL);
     this.pageRefresher = refresher;
   };
 
-  public refreshJournal = async () => {
-    await this.requestJournal();
+  async clickRefreshJournal() {
+    await this.refreshJournal(JournalRehydrationType.MANUAL);
+  }
+
+  public refreshJournal = async (rehydrationType: JournalRehydrationType) => {
+    await this.requestJournal(rehydrationType);
   };
 
   onPreviousDayClick(): void {

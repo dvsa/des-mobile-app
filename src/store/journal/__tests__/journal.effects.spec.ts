@@ -30,7 +30,7 @@ import { CompletedTestPersistenceProviderMock }
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { journalReducer } from '../journal.reducer';
 import * as journalActions from '../journal.actions';
-import { JournalEffects } from '../journal.effects';
+import { JournalEffects, JournalRehydrationPage, JournalRehydrationType } from '../journal.effects';
 import { JournalModel } from '../journal.model';
 import { CompressionProvider } from '@providers/compression/compression';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -319,7 +319,7 @@ describe('JournalEffects', () => {
       spyOn(compressionProvider, 'extract').and.returnValue(mockRehydratedResponse);
       spyOn(store$, 'dispatch');
 
-      actions$.next(journalActions.JournalRehydration());
+      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
       effects.journalRehydration$.subscribe(() => {
         expect(compressionProvider.compress).toHaveBeenCalled();
         expect(compressionProvider.extract).toHaveBeenCalled();
@@ -334,7 +334,7 @@ describe('JournalEffects', () => {
       spyOn(compressionProvider, 'compress').and.callThrough();
       spyOn(compressionProvider, 'extract').and.returnValue([]);
       spyOn(store$, 'dispatch');
-      actions$.next(journalActions.JournalRehydration());
+      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
       effects.journalRehydration$.subscribe(() => {
         expect(compressionProvider.compress).toHaveBeenCalled();
         expect(compressionProvider.extract).toHaveBeenCalled();

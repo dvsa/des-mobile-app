@@ -18,6 +18,9 @@ import {
   JournalNavigateDay,
   JournalRefresh,
   JournalRefreshError,
+  JournalRehydrationError,
+  JournalRehydrationNull,
+  JournalRehydrationSuccess,
   JournalViewDidEnter,
   ResumingWriteUp,
 } from '@store/journal/journal.actions';
@@ -25,11 +28,13 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
+import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 
 @Injectable()
 export class JournalAnalyticsEffects {
@@ -97,6 +102,59 @@ export class JournalAnalyticsEffects {
       this.analytics.logEvent(AnalyticsEventCategories.JOURNAL, AnalyticsEvents.REFRESH_JOURNAL, action.mode);
       // GA4 Analytics
       this.analytics.logGAEvent(GoogleAnalyticsEvents.JOURNAL, GoogleAnalyticsEventsTitles.REFRESH, action.mode);
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  getRehydrationPageType(page: JournalRehydrationPage): GoogleAnalyticsEvents {
+    return page ===
+    JournalRehydrationPage.DASHBOARD ?
+      GoogleAnalyticsEvents.DASHBOARD : GoogleAnalyticsEvents.JOURNAL;
+  }
+
+  getRehydrationType(refreshType: JournalRehydrationType): GoogleAnalyticsEventsValues {
+    return refreshType ===
+    JournalRehydrationType.AUTO ?
+      GoogleAnalyticsEventsValues.AUTOMATIC : GoogleAnalyticsEventsValues.MANUAL;
+  }
+
+  journalRehydrationSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(JournalRehydrationSuccess),
+    switchMap((action: ReturnType<typeof JournalRehydrationSuccess>) => {
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        this.getRehydrationPageType(action.page),
+        GoogleAnalyticsEventsTitles.REHYDRATION,
+        this.getRehydrationType(action.refreshType)+'_'+GoogleAnalyticsEventsValues.SUCCESS
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  journalRehydrationNull$ = createEffect(() => this.actions$.pipe(
+    ofType(JournalRehydrationNull),
+    switchMap((action: ReturnType<typeof JournalRehydrationNull>) => {
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        this.getRehydrationPageType(action.page),
+        GoogleAnalyticsEventsTitles.REHYDRATION,
+        this.getRehydrationType(action.refreshType)+'_'+GoogleAnalyticsEventsValues.NULL
+      );
+
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  journalRehydrationError$ = createEffect(() => this.actions$.pipe(
+    ofType(JournalRehydrationError),
+    switchMap((action: ReturnType<typeof JournalRehydrationError>) => {
+      // GA4 Analytics
+      this.analytics.logGAEvent(
+        this.getRehydrationPageType(action.page),
+        GoogleAnalyticsEventsTitles.REHYDRATION,
+        this.getRehydrationType(action.refreshType)+'_'+GoogleAnalyticsEventsValues.ERROR
+      );
+
       return of(AnalyticRecorded());
     }),
   ));
