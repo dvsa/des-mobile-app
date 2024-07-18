@@ -3,6 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { MesError } from '@shared/models/mes-error.model';
 import { ExaminerSlotItemsByDate } from './journal.model';
+import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 
 export const EarlyStartModalDidEnter = createAction(
   '[JournalPage] Early Start Modal Entered',
@@ -120,6 +121,27 @@ export const JournalRefreshError = createAction(
 export const JournalRefresh = createAction(
   '[JournalPage] Journal Refresh',
   (mode: string) => ({ mode }),
+);
+
+export const JournalRehydration = createAction(
+  '[JournalPage] Journal Rehydration',
+  (refreshType: JournalRehydrationType, page: JournalRehydrationPage) => ({ refreshType, page }),
+);
+
+export const JournalRehydrationSuccess = createAction(
+  '[JournalEffect] Journal Rehydration Success',
+  (refreshType: JournalRehydrationType, page: JournalRehydrationPage) => ({ refreshType, page }),
+
+);
+export const JournalRehydrationNull = createAction(
+  '[JournalEffect] Journal Rehydration List of rehydratable tests is empty',
+  (refreshType: JournalRehydrationType, page: JournalRehydrationPage) => ({ refreshType, page }),
+
+);
+export const JournalRehydrationError = createAction(
+  '[JournalEffect] Journal Rehydration Error',
+  (refreshType: JournalRehydrationType, page: JournalRehydrationPage) => ({ refreshType, page }),
+
 );
 
 export const CandidateDetailsSeen = createAction(

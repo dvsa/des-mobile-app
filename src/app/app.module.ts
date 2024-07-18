@@ -70,6 +70,7 @@ import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { StoreModel } from '@shared/models/store.model';
+import { CompressionProvider } from '@providers/compression/compression';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -180,6 +181,7 @@ if (enableRehydrationPlugin) {
     JournalProvider,
     AnalyticsProvider,
     DeviceProvider,
+    CompressionProvider,
     LogsProvider,
     LogHelper,
     SchemaValidatorProvider,

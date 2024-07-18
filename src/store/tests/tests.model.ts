@@ -10,3 +10,8 @@ export interface TestsModel {
   startedTests: { [slotId: string]: TestResultSchemasUnion };
   testStatus: { [slotId: string]: TestStatus };
 }
+
+export interface TestResultsRehydrated {
+  test_result: TestResultSchemasUnion,
+  autosave: number
+}

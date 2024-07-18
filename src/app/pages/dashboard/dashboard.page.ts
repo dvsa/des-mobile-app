@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
 import { AppLauncher } from '@capacitor/app-launcher';
 
-import { combineLatest, from, merge, Observable, Subscription } from 'rxjs';
+import { combineLatest, from, merge, Observable, Subscription, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -43,7 +43,11 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { select } from '@ngrx/store';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getAllSlots } from '@store/journal/journal.selector';
+import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -54,6 +58,7 @@ interface DashboardPageState {
   showUpdatesAvailable$: Observable<boolean>;
   isOffline$: Observable<boolean>;
   notificationCount$: Observable<number>;
+  testSlots$: Observable<SlotItem[]>;
 }
 
 @Component({
@@ -68,6 +73,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   todaysDate: DateTime;
   liveAppVersion: string;
   subscription: Subscription;
+  hasRehydrated: boolean = false;
   private merged$: Observable<void | string>;
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
 
@@ -77,7 +83,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -111,6 +116,10 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
         .pipe(
           map(sumFlatArray), /* Sum all individual counts to determine, overall count */
         ),
+      testSlots$: this.store$.pipe(
+        select(getJournalState),
+        map(getAllSlots),
+      )
     };
 
     this.merged$ = merge(
@@ -125,6 +134,17 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
         switchMap(() => from(this.showUpdateAvailableModal())),
       ),
     );
+
+    this.pageState.testSlots$.pipe(
+      takeWhile(() => !this.hasRehydrated)
+    ).subscribe(value => {
+      if (value.length > 0) {
+        this.hasRehydrated = true;
+        this.store$.dispatch(journalActions.JournalRehydration(
+          JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
+        ))
+      }
+    });
   }
 
   async ionViewDidEnter(): Promise<void> {
@@ -136,10 +156,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     //guard against calling various services if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());
-
-      // acquire previously completed tests
-      await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-      this.store$.dispatch(journalActions.LoadCompletedTests(true));
     }
 
     await super.unlockDevice();

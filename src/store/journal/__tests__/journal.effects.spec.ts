@@ -30,8 +30,17 @@ import { CompletedTestPersistenceProviderMock }
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { journalReducer } from '../journal.reducer';
 import * as journalActions from '../journal.actions';
-import { JournalEffects } from '../journal.effects';
+import { JournalEffects, JournalRehydrationPage, JournalRehydrationType } from '../journal.effects';
 import { JournalModel } from '../journal.model';
+import { CompressionProvider } from '@providers/compression/compression';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { provideMockStore } from '@ngrx/store/testing';
+import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { TestResultRehydration } from '@store/tests/tests.reducer';
+import { HttpResponse } from '@angular/common/http';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
+import { TestResultsRehydrated } from '@store/tests/tests.model';
 
 describe('JournalEffects', () => {
   let effects: JournalEffects;
@@ -40,7 +49,35 @@ describe('JournalEffects', () => {
   let slotProvider: SlotProvider;
   let store$: Store<JournalModel>;
   let networkStateProvider: NetworkStateProvider;
+  let searchProvider: SearchProvider;
+  let compressionProvider: CompressionProvider;
   let appConfigProvider: AppConfigProvider;
+
+  let initialState = {
+    tests: {
+      currentTest: { slotId: '1' },
+      startedTests: {},
+      testStatus: { 1: TestStatus.Started },
+    },
+    journal: {
+      slots: {
+        '2023-01-01': [
+          {
+            slotData: {
+              slotDetail: { slotId: '1'},
+              booking: {
+                application: {
+                  applicationId: 1,
+                  bookingSequence: 2,
+                  checkDigit: 3,
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,8 +101,10 @@ describe('JournalEffects', () => {
         { provide: SearchProvider, useClass: SearchProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
+        { provide: CompressionProvider, useClass: CompressionProvider, },
         Store,
         SlotProvider,
+        provideMockStore({ initialState }),
       ],
     });
 
@@ -78,6 +117,8 @@ describe('JournalEffects', () => {
     store$ = TestBed.inject(Store);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     appConfigProvider = TestBed.inject(AppConfigProvider);
+    searchProvider = TestBed.inject(SearchProvider);
+    compressionProvider = TestBed.inject(CompressionProvider);
   });
 
   it('should dispatch the success action when the journal loads successfully', (done) => {
@@ -87,6 +128,8 @@ describe('JournalEffects', () => {
     spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
     spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
     spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
+    spyOn(compressionProvider, 'extract');
+    spyOn(compressionProvider, 'compress');
     // ACT
     actions$.next(journalActions.LoadJournal());
     // ASSERT
@@ -241,4 +284,65 @@ describe('JournalEffects', () => {
     });
   });
 
+  describe('journalRehydration$', () => {
+    it('should dispatch LoadRemoteTests with rehydrated tests for eligible slots', (done) => {
+      let mockRehydratedResponse: TestResultsRehydrated[] = [
+        {
+          autosave: 1,
+          test_result: {
+            category: 'B',
+            journalData: {
+              testSlotAttributes: {
+                slotId: 1
+              } as TestSlotAttributes
+            },
+          } as TestResultSchemasUnion,
+        },
+      ];
+      let mockRehydratedTestResults: TestResultRehydration[] = [
+        {
+          autosave: true,
+          testData: {
+            category: 'B',
+            journalData: {
+              testSlotAttributes: {
+                slotId: 1
+              } as TestSlotAttributes
+            },
+          } as TestResultSchemasUnion,
+          slotId: '1'
+        },
+      ];
+
+      spyOn(searchProvider, 'getTestResults').and.returnValue(of({} as HttpResponse<string>));
+      spyOn(compressionProvider, 'compress').and.callThrough();
+      spyOn(compressionProvider, 'extract').and.returnValue(mockRehydratedResponse);
+      spyOn(store$, 'dispatch');
+
+      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+      effects.journalRehydration$.subscribe(() => {
+        expect(compressionProvider.compress).toHaveBeenCalled();
+        expect(compressionProvider.extract).toHaveBeenCalled();
+        expect(searchProvider.getTestResults).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith(LoadRemoteTests(mockRehydratedTestResults));
+        done();
+      });
+    });
+
+    it('should not dispatch LoadRemoteTests when no slots are eligible for rehydration', (done) => {
+      spyOn(searchProvider, 'getTestResults').and.returnValue(of({} as HttpResponse<string>));
+      spyOn(compressionProvider, 'compress').and.callThrough();
+      spyOn(compressionProvider, 'extract').and.returnValue([]);
+      spyOn(store$, 'dispatch');
+      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+      effects.journalRehydration$.subscribe(() => {
+        expect(compressionProvider.compress).toHaveBeenCalled();
+        expect(compressionProvider.extract).toHaveBeenCalled();
+        expect(searchProvider.getTestResults).toHaveBeenCalled();
+        expect(store$.dispatch).not.toHaveBeenCalledWith(LoadRemoteTests([]));
+        done();
+      });
+    });
+
+  });
 });

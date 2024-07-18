@@ -27,6 +27,17 @@ export class SearchProviderMock {
     );
   }
 
+  getTestResults(): Observable<any> {
+    return of(
+      new HttpResponse({
+        // eslint-disable-next-line max-len
+        body: '',
+        status: HttpStatusCode.Ok,
+        statusText: 'OK',
+      }),
+    );
+  }
+
   getRegeneratedEmails(): Observable<string> {
     return of(
       // eslint-disable-next-line max-len

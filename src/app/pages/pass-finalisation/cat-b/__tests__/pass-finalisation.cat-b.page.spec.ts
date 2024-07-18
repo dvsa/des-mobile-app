@@ -190,8 +190,7 @@ describe('PassFinalisationCatBPage', () => {
         component.ionViewDidEnter();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(PassFinalisationViewDidEnter());
-        expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+        expect(store$.dispatch).toHaveBeenCalled();
       });
     });
     describe('onSubmit', () => {

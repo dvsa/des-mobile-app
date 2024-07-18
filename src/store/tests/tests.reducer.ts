@@ -5,11 +5,13 @@ import { Action, createFeatureSelector } from '@ngrx/store';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import * as testsActions from './tests.actions';
-import { LoadPersistedTestsSuccess } from './tests.actions';
+import { LoadPersistedTestsSuccess, LoadRemoteTests } from './tests.actions';
 import { TestsModel } from './tests.model';
 
 import { testStatusReducer } from './test-status/test-status.reducer';
 import { testsReducerFactory } from './tests-reducer-factory';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 export const initialState: TestsModel = {
   currentTest: { slotId: null },
@@ -18,6 +20,12 @@ export const initialState: TestsModel = {
 };
 
 export const testsFeatureKey = 'tests';
+
+export interface TestResultRehydration {
+  autosave: boolean;
+  testData: TestResultSchemasUnion;
+  slotId: string;
+}
 
 const deriveSlotId = (state: TestsModel, action: Action): string | null => {
   if (action.type === testsActions.StartTestReportPracticeTest.type) {
@@ -88,6 +96,42 @@ const removeTest = (state: TestsModel, slotId: string): TestsModel => {
   };
 };
 
+const hydrateRemoteTests = (
+  state: TestsModel,
+  testResults: TestResultRehydration[]
+): TestsModel => {
+
+  let started = {}
+  let ts = {}
+
+  //Create a list of new startedTests and testStatuses
+  testResults.forEach((testResult) => {
+    started = {
+      ...started,
+      [testResult.slotId]: testResult.testData,
+    }
+
+    ts = {
+      ...ts,
+      [testResult.slotId]: testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted
+    }
+  });
+
+  //Append the new tests to the initial startedTests and testStatus objects
+  return {
+    ...state,
+    startedTests: {
+      // retain existing startedTests
+      ...state.startedTests,
+      ...started,
+    },
+    testStatus: {
+      ...state.testStatus,
+      ...ts,
+    },
+  };
+};
+
 /**
  * Handles actions relating to a particular test by finding which test the actions apply to
  * and applying a test capture domain concept reducer against that test's portion of the state.
@@ -103,6 +147,8 @@ export function testsReducer(
   switch (action.type) {
     case testsActions.UnloadTests.type:
       return initialState;
+    case testsActions.LoadRemoteTests.type:
+      return hydrateRemoteTests(state, (<ReturnType<typeof LoadRemoteTests>>action).tests);
     case testsActions.LoadPersistedTestsSuccess.type:
       return (<ReturnType<typeof LoadPersistedTestsSuccess>>action).tests;
     case testsActions.StartTestReportPracticeTest.type:
