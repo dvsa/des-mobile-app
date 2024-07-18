@@ -31,7 +31,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { getTests } from '@store/tests/tests.reducer';
+import { getTests, TestResultRehydration } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
@@ -307,12 +307,12 @@ export class JournalEffects {
         ))
         .pipe(
           map(response => this.compressionProvider.extract<TestResultsRehydrated[]>(response.body)),
-          map(testResults => testResults.map(test => ({
+          map((testResults: TestResultsRehydrated[]) => testResults.map(test => ({
             autosave: !!test.autosave,
             testData: test.test_result,
             slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
           }))),
-          tap(completedTests => {
+          tap((completedTests: TestResultRehydration[]) => {
             if (completedTests.length > 0) {
               this.store$.dispatch(LoadRemoteTests(completedTests));
             }
