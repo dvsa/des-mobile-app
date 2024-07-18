@@ -60,7 +60,7 @@ import {
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
 
-interface ExaminerRecordsData {
+interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordData<string>[],
   manoeuvresGrid: ExaminerRecordData<string>[],
   showMeQuestionsGrid: ExaminerRecordData<string>[],
@@ -635,12 +635,14 @@ export class ExaminerRecordsPage implements OnInit {
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   /**Determine if we should display the no data card*/
-  displayNoDataCard(data: ExaminerRecordsData) {
+  displayNoDataCard(data: ExaminerRecordsPageStateData) {
     let noData = true;
 
     Object.keys(data).forEach((key) => {
-      if (data[key].length > 0 && key !== 'testCount') {
-        noData = false;
+      if (!isAnyOf(key, ['testCount', 'locationList', 'categoryList'])) {
+        if (this.getTotal(data[key]) > 0) {
+          noData = false;
+        }
       }
     });
     return noData || (data.categoryList?.length === 0 || data.locationList?.length === 0)

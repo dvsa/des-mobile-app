@@ -20,7 +20,7 @@
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <div *ngIf="passedData">
+    <div *ngIf="passedData && getTotal(passedData) > 0">
       <ion-row *ngIf="hasChart">
         <ion-col class="ion-justify-content-center display-flex">
           <chart
