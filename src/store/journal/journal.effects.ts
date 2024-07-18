@@ -292,12 +292,14 @@ export class JournalEffects {
     switchMap(([action, testsModel, testSlots]) => {
       const testsToRehydrate = testSlots
         .filter(value => get(value, 'slotData.booking') &&
+        //Get a list of tests that are in a rehydrateable state (ones that have not reached the office page)
             !isAnyOf(testsModel.testStatus[value.slotData.slotDetail.slotId], [
               TestStatus.WriteUp,
               TestStatus.Autosaved,
               TestStatus.Completed,
               TestStatus.Submitted,
             ]))
+        //Morph the data into a format that we can need for the rest of this process
         .map(value => ({
           slotId: value.slotData.slotDetail.slotId,
           appRef: formatApplicationReference(
@@ -309,24 +311,29 @@ export class JournalEffects {
           ),
         }));
 
+      //If the array is empty, we don't need to do anything
       if (testsToRehydrate.length === 0) {
         this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page))
         return of({ type: 'NO_ACTION' });
       }
 
+      //Make a call to the backend service for the full test results for the tests we need to rehydrate
       return this.searchProvider.getTestResults(
         this.compressionProvider.compress({
           applicationReferences: testsToRehydrate.map(value => value.appRef),
         }
         ))
         .pipe(
+          //Extract the data from the response
           map(response => this.compressionProvider.extract<TestResultsRehydrated[]>(response.body)),
+          //Map the data into a format that we can use for the rest of the process
           map((testResults: TestResultsRehydrated[]) => testResults.map(test => ({
             autosave: !!test.autosave,
             testData: test.test_result,
             slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
           }))),
           tap((completedTests: TestResultRehydration[]) => {
+            //If we have any tests, we need to dispatch them to the store
             if (completedTests.length > 0) {
               this.store$.dispatch(LoadRemoteTests(completedTests));
               this.store$.dispatch(JournalRehydrationSuccess(action.refreshType, action.page))
