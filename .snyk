@@ -18,4 +18,19 @@ ignore:
         reason: Remediation not yet available
         expires: 2024-08-01T09:00:00.119Z
         created: 2024-05-14T09:00:00.0Z
+  SNYK-JS-BOOTSTRAP-7444580:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2024-08-01T09:00:00.0Z
+        created: 2024-07-19T09:00:00.0Z
+  SNYK-JS-BOOTSTRAP-7444593:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2024-08-01T09:00:00.0Z
+        created: 2024-07-19T09:00:00.0Z
+  SNYK-JS-BOOTSTRAP-7444617:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2024-08-01T09:00:00.0Z
+        created: 2024-07-19T09:00:00.0Z
 patch: {}
