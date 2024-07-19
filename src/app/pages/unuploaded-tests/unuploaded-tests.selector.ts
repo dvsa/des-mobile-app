@@ -13,29 +13,23 @@ export const unsubmittedTestSlots$ = (
   store$: Store<StoreModel>,
   dateTimeProvider: DateTimeProvider,
   slotProvider: SlotProvider,
+  daysToView: number = 14,
 ): Observable<SlotItem[]> => store$.pipe(
   select(getJournalState),
   withLatestFrom(store$.pipe(select(getTests))),
-  map(([journal, tests]) => getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider)),
+  map(([journal, tests]) => getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider, daysToView)),
+  map((slotItems: SlotItem[]) =>
+    // sort oldest to newest
+    slotItems.sort((a, b) =>
+      new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
 );
-
-export const unsubmittedTestSlotsInDateOrder$ = (
-  store$: Store<StoreModel>,
-  dateTimeProvider: DateTimeProvider,
-  slotProvider: SlotProvider,
-): Observable<SlotItem[]> =>
-  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider).pipe(
-    map((slotItems: SlotItem[]) =>
-      // sort oldest to newest
-      slotItems.sort((a, b) =>
-        new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
-  );
 
 export const unsubmittedTestSlotsCount$ = (
   store$: Store<StoreModel>,
   dateTimeProvider: DateTimeProvider,
   slotProvider: SlotProvider,
+  daysToView: number,
 ): Observable<number> =>
-  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider).pipe(
+  unsubmittedTestSlots$(store$, dateTimeProvider, slotProvider, daysToView).pipe(
     map((slotItems: SlotItem[]) => slotItems.length),
   );
