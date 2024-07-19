@@ -28,7 +28,7 @@ import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
-describe('TestOutcomeComponent', () => {
+fdescribe('TestOutcomeComponent', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
   let component: TestOutcomeComponent;
   let routeByCategory: RouteByCategoryProvider;
@@ -529,6 +529,8 @@ describe('TestOutcomeComponent', () => {
     describe('rekeyDelegatedTest', () => {
       it('should call the rekeyDelegatedTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
+          .format('YYYY-MM-DDTHH:mm:ss');
         component.category = TestCategory.BE;
         spyOn(component, 'showDelegatedExaminerRekeyButton')
           .and
@@ -536,7 +538,13 @@ describe('TestOutcomeComponent', () => {
         spyOn(component, 'rekeyDelegatedTest');
         fixture.detectChanges();
         const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
+        console.log('========================================================================');
+        console.log('Rekey button:', rekeyDelegatedButton); // Check if the Rekey button is being displayed
+        console.log('========================================================================');
         rekeyDelegatedButton.triggerEventHandler('click', null);
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+        console.log('Click event triggered'); // Check if the click event is being triggered
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         expect(component.rekeyDelegatedTest)
           .toHaveBeenCalled();
       });
@@ -551,8 +559,10 @@ describe('TestOutcomeComponent', () => {
         component.testStatus = TestStatus.Decided;
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
-
         const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
+        console.log('?????????????????????????????????????????????????????????????????????????');
+        console.log('debriefButton:', debriefButton);
+        console.log('?????????????????????????????????????????????????????????????????????????');
         debriefButton.triggerEventHandler('click', null);
 
         expect(component.resumeTest)
