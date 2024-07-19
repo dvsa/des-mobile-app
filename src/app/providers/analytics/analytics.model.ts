@@ -430,7 +430,6 @@ export enum GoogleAnalyticsEventsTitles {
 
 export enum GoogleAnalyticsEventsValues {
   ERROR = 'error',
-  SUCCESS = 'success',
   NULL = 'null',
   FULL = 'full',
   PARTIAL = 'partial',
