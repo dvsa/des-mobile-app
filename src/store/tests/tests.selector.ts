@@ -160,7 +160,7 @@ const calculateDaysDiff = (test: TestResultSchemasUnion): number => {
   return today.daysDiff(new Date(testDate.format('YYYY-MM-DD')));
 };
 
-const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
+export const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
   return calculateDaysDiff(test) < 0;
 };
 
