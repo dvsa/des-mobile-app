@@ -125,7 +125,7 @@ export class JournalAnalyticsEffects {
       this.analytics.logGAEvent(
         this.getRehydrationPageType(action.page),
         GoogleAnalyticsEventsTitles.REHYDRATION,
-        this.getRehydrationType(action.refreshType)+'_'+GoogleAnalyticsEventsValues.SUCCESS
+        this.getRehydrationType(action.refreshType)+'_'+GoogleAnalyticsEventsValues.COMPLETED
       );
       return of(AnalyticRecorded());
     }),
