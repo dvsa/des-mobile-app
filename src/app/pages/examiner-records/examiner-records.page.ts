@@ -60,7 +60,7 @@ import {
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
 
-interface ExaminerRecordsPageStateData {
+export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordData<string>[],
   manoeuvresGrid: ExaminerRecordData<string>[],
   showMeQuestionsGrid: ExaminerRecordData<string>[],

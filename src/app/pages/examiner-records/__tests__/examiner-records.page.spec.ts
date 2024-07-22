@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
-import { ExaminerRecordsPage } from '../examiner-records.page';
+import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 import {
   AccordionChanged,
   ColourFilterChanged,
@@ -28,7 +28,7 @@ import moment from 'moment';
 import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 
-fdescribe('ExaminerRecordsPage', () => {
+describe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
   let fixture: ComponentFixture<ExaminerRecordsPage>;
   let store$: MockStore;
@@ -580,6 +580,110 @@ fdescribe('ExaminerRecordsPage', () => {
 
       component.accordionSelect();
       expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(false));
+    });
+  });
+
+  describe('displayNoDataCard', () => {
+    it('should return true when all data grids are empty', () => {
+      const emptyData: ExaminerRecordsPageStateData = {
+        routeGrid: [],
+        manoeuvresGrid: [],
+        showMeQuestionsGrid: [],
+        independentDrivingGrid: [],
+        tellMeQuestionsGrid: [],
+        safetyGrid: [],
+        balanceGrid: [],
+        testCount: 0,
+        emergencyStops: [],
+        circuits: [],
+        locationList: [],
+        categoryList: []
+      };
+      expect(component.displayNoDataCard(emptyData)).toBeTrue();
+    });
+
+    it('should return false when any data grid has items', () => {
+      const dataWithItems: ExaminerRecordsPageStateData = {
+        routeGrid: [],
+        manoeuvresGrid: [],
+        showMeQuestionsGrid: [],
+        independentDrivingGrid: [],
+        tellMeQuestionsGrid: [],
+        safetyGrid: [],
+        balanceGrid: [],
+        testCount: 1,
+        emergencyStops: [],
+        circuits: [],
+        locationList: [{item: {centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1'}, count: 1}],
+        categoryList: [{item: TestCategory.B, count: 1}]
+      };
+
+      spyOn(component, 'getTotal').and.returnValue(1);
+      expect(component.displayNoDataCard(dataWithItems)).toBeFalse();
+    });
+
+    it('should return true when categoryList and locationList are empty', () => {
+      const data: ExaminerRecordsPageStateData = {
+        routeGrid: [{ item: 'Route 1', count: 1, percentage: '10%' }],
+        manoeuvresGrid: [],
+        showMeQuestionsGrid: [],
+        independentDrivingGrid: [],
+        tellMeQuestionsGrid: [],
+        safetyGrid: [],
+        balanceGrid: [],
+        testCount: 1,
+        emergencyStops: [],
+        circuits: [],
+        locationList: [],
+        categoryList: []
+      };
+      expect(component.displayNoDataCard(data)).toBeTrue();
+    });
+  });
+
+  describe('getLabelText', () => {
+    it('should return correct label text for single test', () => {
+      component.pageState.testCount$ = of(1);
+      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('text-zoom-large');
+
+      component.currentCategory = 'B';
+      component.startDateFilter = '01/01/2021';
+      component.endDateFilter = '31/01/2021';
+      component.locationFilter = 'Test Centre 1';
+
+      const expectedText = 'Displaying <strong>1</strong> Category <strong>B</strong>' +
+        ' test, from <strong>01/01/2021</strong> to <strong>31/01/2021</strong><ion-text> <br />' +
+        '</ion-text> at <strong>Test Centre 1</strong>';
+      expect(component.getLabelText()).toEqual(expectedText);
+    });
+
+    it('should return correct label text for multiple tests', () => {
+      component.pageState.testCount$ = of(2);
+      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('text-zoom-large');
+
+      component.currentCategory = 'C';
+      component.startDateFilter = '01/02/2021';
+      component.endDateFilter = '28/02/2021';
+      component.locationFilter = 'Test Centre 2';
+
+      const expectedText = 'Displaying <strong>2</strong> Category <strong>C</strong>' +
+        ' test<ion-text>s</ion-text>, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong>' +
+        '<ion-text> <br /></ion-text> at <strong>Test Centre 2</strong>'
+      expect(component.getLabelText()).toEqual(expectedText);
+    });
+
+    it('should not include line break for extra large text', () => {
+      component.pageState.testCount$ = of(1);
+      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('text-zoom-x-large');
+
+      component.currentCategory = 'C';
+      component.startDateFilter = '01/02/2021';
+      component.endDateFilter = '28/02/2021';
+      component.locationFilter = 'Test Centre 2';
+
+      const expectedText = 'Displaying <strong>1</strong> Category <strong>C</strong>' +
+        ' test, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
+      expect(component.getLabelText()).toEqual(expectedText);
     });
   });
 
