@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { switchMap } from 'rxjs/operators';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import { of } from 'rxjs';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AccordionChanged,
+  ClickDataCard,
   ColourFilterChanged,
-  DateRangeChanged,
+  DateRangeChanged, DisplayPartialBanner,
   ExaminerRecordsViewDidEnter,
   HideChartsChanged,
-  LocationChanged,
+  LocationChanged, ReturnToDashboardPressed,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
+import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
 @Injectable()
 export class ExaminerRecordsAnalyticsEffects {
@@ -27,7 +33,7 @@ export class ExaminerRecordsAnalyticsEffects {
   examinerStatsViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(ExaminerRecordsViewDidEnter),
     switchMap(() => {
-      this.analytics.setCurrentPage(AnalyticsScreenNames.EXAMINER_STATS);
+      this.analytics.setGACurrentPage(AnalyticsScreenNames.EXAMINER_RECORDS);
       return of(AnalyticRecorded());
     }),
   ));
@@ -35,9 +41,9 @@ export class ExaminerRecordsAnalyticsEffects {
   dateRangeChanged$ = createEffect(() => this.actions$.pipe(
     ofType(DateRangeChanged),
     switchMap(({ selectedDate }) => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.DATE_RANGE_CHANGED,
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.DATE_RANGE_CHANGED,
         selectedDate.val,
       );
       return of(AnalyticRecorded());
@@ -47,9 +53,9 @@ export class ExaminerRecordsAnalyticsEffects {
   locationChanged$ = createEffect(() => this.actions$.pipe(
     ofType(LocationChanged),
     switchMap(({ location }) => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.LOCATION_CHANGED,
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.LOCATION_FILTER,
         location.centreName,
       );
       return of(AnalyticRecorded());
@@ -59,9 +65,9 @@ export class ExaminerRecordsAnalyticsEffects {
   testCategoryChanged$ = createEffect(() => this.actions$.pipe(
     ofType(TestCategoryChanged),
     switchMap(({ testCategory }) => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.TEST_CATEGORY_CHANGED,
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.TEST_CATEGORY_FILTER,
         testCategory,
       );
       return of(AnalyticRecorded());
@@ -71,22 +77,24 @@ export class ExaminerRecordsAnalyticsEffects {
   colourFilterChanged$ = createEffect(() => this.actions$.pipe(
     ofType(ColourFilterChanged),
     switchMap(({ colour }) => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.COLOUR_SCHEME_CHANGED,
-        colour,
+
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        colour == ColourEnum.DEFAULT ?
+          GoogleAnalyticsEventsTitles.DEFAULT_COLOUR : GoogleAnalyticsEventsTitles.GREYSCALE_COLOUR,
+        GoogleAnalyticsEventsValues.SELECTED,
       );
       return of(AnalyticRecorded());
     }),
   ));
 
-  accordionChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(AccordionChanged),
-    switchMap(({ isOpen }) => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.ADDITIONAL_FILTERS_TOGGLED,
-        isOpen ? 'Additional filters opened' : 'Additional filters closed',
+  returnToDashboardPressed$ = createEffect(() => this.actions$.pipe(
+    ofType(ReturnToDashboardPressed),
+    switchMap(() => {
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+        GoogleAnalyticsEventsValues.RETURN_TO_DASHBOARD,
       );
       return of(AnalyticRecorded());
     }),
@@ -95,10 +103,35 @@ export class ExaminerRecordsAnalyticsEffects {
   hideChartsChanged$ = createEffect(() => this.actions$.pipe(
     ofType(HideChartsChanged),
     switchMap(({ hideChart }) => {
-      this.analytics.logEvent(
-        AnalyticsEventCategories.EXAMINER_STATS,
-        AnalyticsEvents.HIDE_CHARTS_CHANGED,
-        hideChart ? 'Charts hidden' : 'Charts unhidden',
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
+        hideChart ? GoogleAnalyticsEventsValues.SELECTED : GoogleAnalyticsEventsValues.UNSELECTED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  partialBannerDisplayed$ = createEffect(() => this.actions$.pipe(
+    ofType(DisplayPartialBanner),
+    switchMap(() => {
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.DATA_UNAVAILABLE,
+        GoogleAnalyticsEventsValues.DATA_BANNER_DISPLAY,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  onCardClicked$ = createEffect(() => this.actions$.pipe(
+    ofType(ClickDataCard),
+    switchMap(({ onClickData }) => {
+      this.analytics.logGAEvent(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        onClickData.isExpanded == true ?
+          GoogleAnalyticsEventsTitles.TAP_TO_SHOW : GoogleAnalyticsEventsTitles.TAP_TO_HIDE,
+        onClickData.title,
       );
       return of(AnalyticRecorded());
     }),

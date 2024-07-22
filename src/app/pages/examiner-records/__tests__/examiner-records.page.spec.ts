@@ -4,7 +4,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 import {
-  AccordionChanged,
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
@@ -93,7 +92,7 @@ describe('ExaminerRecordsPage', () => {
         provideMockStore({
           initialState: {
             examinerRecords: {
-              colourScheme: ColourEnum.Default,
+              colourScheme: ColourEnum.DEFAULT,
               cachedRecords: null,
               isLoading: false,
               lastUpdatedTime: null,
@@ -469,12 +468,12 @@ describe('ExaminerRecordsPage', () => {
   describe('colourFilterChanged', () => {
     it('should set colourOption to the value passed', () => {
       component.colourOption = component.examinerRecordsProvider.colours.default;
-      component.colourFilterChanged(ColourEnum.Greyscale);
+      component.colourFilterChanged(ColourEnum.GREYSCALE);
       expect(component.colourOption).toEqual(component.examinerRecordsProvider.colours.greyscale);
     });
     it('should dispatch ColourFilterChanged with the colour passed', () => {
-      component.colourFilterChanged(ColourEnum.Greyscale);
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.Greyscale));
+      component.colourFilterChanged(ColourEnum.GREYSCALE);
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ColourFilterChanged(ColourEnum.GREYSCALE));
     });
   });
 
@@ -564,22 +563,15 @@ describe('ExaminerRecordsPage', () => {
   });
 
   describe('accordionSelect', () => {
-    it('should flip accordionOpen', () => {
+    it('should flip accordionOpen to false if it started as true', () => {
       component.accordionOpen = true;
       component.accordionSelect();
       expect(component.accordionOpen).toEqual(false);
     });
-    it('should dispatch the store with AccordionChanged(true) if accordionOpen is true after being flipped', () => {
+    it('should flip accordionOpen to true if it started as false', () => {
       component.accordionOpen = false;
-
       component.accordionSelect();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(true));
-    });
-    it('should dispatch the store with AccordionChanged(false) if accordionOpen is false after being flipped', () => {
-      component.accordionOpen = true;
-
-      component.accordionSelect();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(AccordionChanged(false));
+      expect(component.accordionOpen).toEqual(true);
     });
   });
 

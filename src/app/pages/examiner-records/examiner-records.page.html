@@ -159,6 +159,7 @@
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
           [passedData]="data.routeGrid"
+          (onCardClick)="cardClicked($event)"
         >
         </examiner-reports-card>
       </ion-col>

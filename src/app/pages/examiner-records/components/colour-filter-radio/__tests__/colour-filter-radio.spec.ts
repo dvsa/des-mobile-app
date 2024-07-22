@@ -34,8 +34,8 @@ describe('ColourFilterRadioComponent', () => {
 
       component.formControl.setValue(1);
 
-      component.viewFilterChanged(ColourEnum.Default);
-      expect(component.filterChange.emit).toHaveBeenCalledWith(ColourEnum.Default);
+      component.viewFilterChanged(ColourEnum.DEFAULT);
+      expect(component.filterChange.emit).toHaveBeenCalledWith(ColourEnum.DEFAULT);
     });
   });
 });

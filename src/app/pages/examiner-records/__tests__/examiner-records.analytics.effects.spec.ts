@@ -2,18 +2,23 @@ import { ExaminerRecordsAnalyticsEffects } from '@pages/examiner-records/examine
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
+} from '@providers/analytics/analytics.model';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AccordionChanged,
+  ClickDataCard,
   ColourFilterChanged,
-  DateRangeChanged,
+  DateRangeChanged, DisplayPartialBanner,
   ExaminerRecordsViewDidEnter,
   HideChartsChanged,
-  LocationChanged,
+  LocationChanged, ReturnToDashboardPressed,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -23,7 +28,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   let effects: ExaminerRecordsAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
-  const screenName = AnalyticsScreenNames.EXAMINER_STATS;
+  const screenName = AnalyticsScreenNames.EXAMINER_RECORDS;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -41,7 +46,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ExaminerRecordsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
+    spyOn(analyticsProviderMock, 'logGAEvent');
   }));
 
   describe('examinerStatsViewDidEnter$', () => {
@@ -52,7 +57,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       effects.examinerStatsViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage)
+        expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
       });
@@ -69,10 +74,10 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       effects.dateRangeChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.DATE_RANGE_CHANGED,
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.DATE_RANGE_CHANGED,
             'today',
           );
         done();
@@ -87,10 +92,10 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       effects.locationChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.LOCATION_CHANGED,
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.LOCATION_FILTER,
             '2',
           );
         done();
@@ -105,10 +110,10 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       effects.testCategoryChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.TEST_CATEGORY_CHANGED,
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.TEST_CATEGORY_FILTER,
             TestCategory.ADI2,
           );
         done();
@@ -116,90 +121,147 @@ describe('ExaminerStatsAnalyticsEffects', () => {
     });
   });
   describe('colourFilterChanged$', () => {
-    it('should log an event', (done) => {
+    it('should log an event with the default colour title if default is selected', (done) => {
       // ACT
-      actions$.next(ColourFilterChanged(ColourEnum.Greyscale));
+      actions$.next(ColourFilterChanged(ColourEnum.DEFAULT));
       // ASSERT
       effects.colourFilterChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.COLOUR_SCHEME_CHANGED,
-            ColourEnum.Greyscale,
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.DEFAULT_COLOUR,
+            GoogleAnalyticsEventsValues.SELECTED,
+          );
+        done();
+      });
+    });
+    it('should log an event with the greyscale colour title if greyscale is selected', (done) => {
+      // ACT
+      actions$.next(ColourFilterChanged(ColourEnum.GREYSCALE));
+      // ASSERT
+      effects.colourFilterChanged$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.GREYSCALE_COLOUR,
+            GoogleAnalyticsEventsValues.SELECTED,
           );
         done();
       });
     });
   });
   describe('hideChartsChanged$', () => {
-    it('should log Charts unhidden if called with false', (done) => {
+    it('should log unselected if called with false', (done) => {
       // ACT
       actions$.next(HideChartsChanged(false));
       // ASSERT
       effects.hideChartsChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.HIDE_CHARTS_CHANGED,
-            'Charts unhidden',
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
+            GoogleAnalyticsEventsValues.UNSELECTED,
           );
         done();
       });
     });
-    it('should log Charts hidden if called with true', (done) => {
+    it('should log selected if called with true', (done) => {
       // ACT
       actions$.next(HideChartsChanged(true));
       // ASSERT
       effects.hideChartsChanged$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.HIDE_CHARTS_CHANGED,
-            'Charts hidden',
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
+            GoogleAnalyticsEventsValues.SELECTED,
           );
         done();
       });
     });
   });
-  describe('accordionChanged$', () => {
-    it('should log Additional filters opened when called with true', (done) => {
+  describe('returnToDashboardPressed$', () => {
+    it('should log an event', (done) => {
       // ACT
-      actions$.next(AccordionChanged(true));
+      actions$.next(ReturnToDashboardPressed());
       // ASSERT
-      effects.accordionChanged$.subscribe((result) => {
+      effects.returnToDashboardPressed$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
+        expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.ADDITIONAL_FILTERS_TOGGLED,
-            'Additional filters opened',
-          );
-        done();
-      });
-    });
-    it('should log Additional filters closed when called with false', (done) => {
-      // ACT
-      actions$.next(AccordionChanged(false));
-      // ASSERT
-      effects.accordionChanged$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.EXAMINER_STATS,
-            AnalyticsEvents.ADDITIONAL_FILTERS_TOGGLED,
-            'Additional filters closed',
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+            GoogleAnalyticsEventsValues.RETURN_TO_DASHBOARD,
           );
         done();
       });
     });
   });
-
+  describe('onCardClicked$', () => {
+    it('should log an event with the tap to show title if expanded', (done) => {
+      // ACT
+      actions$.next(ClickDataCard({
+        isExpanded: true,
+        title: 'title',
+      }));
+      // ASSERT
+      effects.onCardClicked$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.TAP_TO_SHOW,
+            'title',
+          );
+        done();
+      });
+    });
+    it('should log an event with the tap to hide title if not expanded', (done) => {
+      // ACT
+      actions$.next(ClickDataCard({
+        isExpanded: false,
+        title: 'title',
+      }));
+      // ASSERT
+      effects.onCardClicked$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.TAP_TO_HIDE,
+            'title',
+          );
+        done();
+      });
+    });
+  });
+  describe('partialBannerDisplayed$', () => {
+    it('should log an event', (done) => {
+      // ACT
+      actions$.next(DisplayPartialBanner());
+      // ASSERT
+      effects.partialBannerDisplayed$.subscribe((result) => {
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.EXAMINER_RECORDS,
+            GoogleAnalyticsEventsTitles.DATA_UNAVAILABLE,
+            GoogleAnalyticsEventsValues.DATA_BANNER_DISPLAY,
+          );
+        done();
+      });
+    });
+  });
 });

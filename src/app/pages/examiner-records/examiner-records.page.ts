@@ -5,14 +5,14 @@ import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } f
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  AccordionChanged,
+  ClickDataCard,
   ColourFilterChanged,
-  DateRangeChanged,
+  DateRangeChanged, DisplayPartialBanner,
   ExaminerRecordsViewDidEnter,
   GetExaminerRecords,
   HideChartsChanged,
   LoadingExaminerRecords,
-  LocationChanged,
+  LocationChanged, ReturnToDashboardPressed,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import {
@@ -59,6 +59,9 @@ import {
 } from '@providers/examiner-records/examiner-records';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
+import {
+  ExaminerReportsCardClick
+} from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordData<string>[],
@@ -268,6 +271,9 @@ export class ExaminerRecordsPage implements OnInit {
    */
   mergeWithOnlineResults(localRecords: ExaminerRecordModel[], cachedExaminerRecords: ExaminerRecordModel[]) {
     this.cachedExaminerRecords = cachedExaminerRecords;
+    if (!this.cachedExaminerRecords) {
+      this.store$.dispatch(DisplayPartialBanner())
+    }
 
     return [
       ...localRecords,
@@ -576,7 +582,7 @@ export class ExaminerRecordsPage implements OnInit {
    */
   getColour(colourOption: ColourEnum): ColourScheme {
     switch (colourOption) {
-      case ColourEnum.Greyscale:
+      case ColourEnum.GREYSCALE:
         return this.examinerRecordsProvider.colours.greyscale;
       default:
         return this.examinerRecordsProvider.colours.default;
@@ -601,13 +607,13 @@ export class ExaminerRecordsPage implements OnInit {
    */
   accordionSelect() {
     this.accordionOpen = !this.accordionOpen;
-    this.store$.dispatch(AccordionChanged(this.accordionOpen));
   }
 
   /**
    * Navigate back to dashboard
    */
   async goToDashboard(): Promise<void> {
+    this.store$.dispatch(ReturnToDashboardPressed());
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 
@@ -658,5 +664,9 @@ export class ExaminerRecordsPage implements OnInit {
       `, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>` +
       (this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : '') +
       ` at <strong>${this.locationFilter}</strong>`;
+  }
+
+  cardClicked(event: ExaminerReportsCardClick) {
+    this.store$.dispatch(ClickDataCard(event));
   }
 }

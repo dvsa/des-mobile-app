@@ -24,8 +24,8 @@ export interface ColourScheme {
 }
 
 export const enum ColourEnum {
-  Default = 'Default',
-  Greyscale = 'Greyscale',
+  DEFAULT = 'Default',
+  GREYSCALE = 'Greyscale',
 }
 
 export type ExaminerRecordsRange = DateRange;
@@ -43,7 +43,7 @@ export class ExaminerRecordsProvider {
     greyscale: ColourScheme,
   } = {
     default: {
-      name: ColourEnum.Default,
+      name: ColourEnum.DEFAULT,
       pie: [
         '#008FFB',
         '#ED6926',
@@ -59,7 +59,7 @@ export class ExaminerRecordsProvider {
       average: '#000000',
     },
     greyscale: {
-      name: ColourEnum.Greyscale,
+      name: ColourEnum.GREYSCALE,
       pie: [
         '#474747',
         '#6E6E6E',

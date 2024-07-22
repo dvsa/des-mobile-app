@@ -19,7 +19,6 @@ export interface IAnalyticsProvider {
 export enum AnalyticsScreenNames {
   COMMUNICATION = 'communication screen',
   HEALTH_DECLARATION = 'health declaration screen',
-  EXAMINER_STATS = 'examiner stats',
   JOURNAL = 'journal screen',
   TEST_CENTRE_JOURNAL = 'test centre journal screen',
   PASS_TEST_SUMMARY = 'pass test summary screen',
@@ -51,10 +50,10 @@ export enum AnalyticsScreenNames {
   FAKE_JOURNAL = 'practice journal screen',
   UN_UPLOADED = 'incomplete tests screen',
   PASS_CERTIFICATES = 'pass certificates screen',
+  EXAMINER_RECORDS = 'examiner records screen',
 }
 
 export enum AnalyticsEventCategories {
-  EXAMINER_STATS = 'examiner stats',
   CLICK = 'click',
   TEST_LIFECYCLE = 'test lifecycle',
   TEST_SUBMISSION = 'test submission',
@@ -233,14 +232,6 @@ export enum AnalyticsEvents {
   EXAMINER_SELECTION = 'examiner selection',
   CANDIDATE_SELECTION = 'candidate selection',
   CANDIDATE_RECEIVE_TEST_RESULTS = 'candidate receive test results',
-
-  DATE_RANGE_CHANGED = 'date range changed',
-  LOCATION_CHANGED = 'location changed',
-  TEST_CATEGORY_CHANGED = 'test category changed',
-  COLOUR_SCHEME_CHANGED = 'colour scheme changed',
-  ONLINE_TESTS_SAVED = 'online tests saved',
-  HIDE_CHARTS_CHANGED = 'chart visibility changed',
-  ADDITIONAL_FILTERS_TOGGLED = 'additional filters toggled',
 }
 
 export enum AnalyticsLabels {
@@ -374,6 +365,7 @@ export enum GoogleAnalyticsEvents {
   AVOIDANCE_MANOEUVRE = 'avoidance_manoeuvre',
   EMERGENCY_STOP = 'emergency_stop',
   STUDENT_EXPERIENCE = 'student_experience',
+  EXAMINER_RECORDS = 'examiner_records',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -436,6 +428,15 @@ export enum GoogleAnalyticsEventsTitles {
   LEVEL = 'level',
   ADDED = 'added',
   REMOVED = 'removed',
+  LOCATION_FILTER = 'location_filter',
+  TEST_CATEGORY_FILTER = 'test_category_filter',
+  DATE_RANGE_CHANGED = 'date_range_filter',
+  GREYSCALE_COLOUR = 'greyscale_scheme',
+  DEFAULT_COLOUR = 'default_scheme',
+  CHART_VISUALISATION = 'chart_visualisation',
+  TAP_TO_SHOW = 'tap_to_show_data',
+  TAP_TO_HIDE = 'tap_to_hide_data',
+  DATA_UNAVAILABLE = 'data_unavailable',
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -506,4 +507,8 @@ export enum GoogleAnalyticsEventsValues {
   REVERSE_MANOEUVRE = 'reverse_manoeuvre',
   OTHER_REASON = 'other_reason',
   TRAINER_ID_ENTERED = 'trainer_id_entered',
+  SELECTED = 'selected',
+  UNSELECTED = 'unselected',
+  RETURN_TO_DASHBOARD = 'return_to_dashboard',
+  DATA_BANNER_DISPLAY = 'data_banner_display',
 }

@@ -1,14 +1,23 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.selector';
 import { ChartType } from 'ng-apexcharts';
+
+export interface ExaminerReportsCardClick {
+  isExpanded: boolean;
+  title: string;
+}
 
 @Component({
   selector: 'examiner-reports-card',
   templateUrl: 'examiner-reports-card.html',
   styleUrls: ['examiner-reports-card.scss'],
 })
+
 export class ExaminerReportsCard {
+
+  @Output()
+  onCardClick: EventEmitter<ExaminerReportsCardClick> = new EventEmitter<ExaminerReportsCardClick>();
 
   @Input()
   passedData: ExaminerRecordData<any>[] = null;
@@ -93,6 +102,7 @@ export class ExaminerReportsCard {
   handleCardClick() {
     if (this.canExpand) {
       this.showExpandedData = !this.showExpandedData;
+      this.onCardClick.emit({ isExpanded: this.showExpandedData, title: this.cardTitle })
     }
   }
 

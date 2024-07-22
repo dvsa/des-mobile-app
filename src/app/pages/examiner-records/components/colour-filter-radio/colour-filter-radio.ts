@@ -13,7 +13,7 @@ export class ColourFilterRadioComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Input()
-  colourScheme: ColourEnum = ColourEnum.Default;
+  colourScheme: ColourEnum = ColourEnum.DEFAULT;
 
   @Output()
   filterChange = new EventEmitter<ColourEnum>();
