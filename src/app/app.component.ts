@@ -28,6 +28,8 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -110,7 +112,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
         unSubmittedTestSlotsCount$: unsubmittedTestSlotsCount$(
-          this.store$,
+          this.store$.select(getJournalState),
+          this.store$.select(getTests),
           this.dateTimeProvider,
           this.slotProvider,
           this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView,

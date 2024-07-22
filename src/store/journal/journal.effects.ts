@@ -29,44 +29,34 @@ import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { getTests, TestResultRehydration } from '@store/tests/tests.reducer';
-import { AdvancedSearchParams } from '@providers/search/search.models';
-import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
-import { hasStartedTests } from '@store/tests/tests.selector';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
 import {
-  JournalRehydrationError,
-  JournalRehydrationNull,
-  JournalRehydrationSuccess,
-  LoadCompletedTestsFailure,
-  LoadCompletedTestsSuccess,
-} from './journal.actions';
-import {
   canNavigateToNextDay,
-  getAllSlots,
-  getCompletedTests,
   canNavigateToPreviousDay,
+  getAllSlots,
   getLastRefreshed,
   getSelectedDate,
   getSlots,
 } from './journal.selector';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+
+import { CompressionProvider } from '@providers/compression/compression';
+import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { getTests, TestResultRehydration } from '@store/tests/tests.reducer';
 import { get } from 'lodash-es';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { CompressionProvider } from '@providers/compression/compression';
-import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { JournalRehydrationError, JournalRehydrationNull, JournalRehydrationSuccess } from './journal.actions';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
 
 export enum JournalRehydrationType {
   AUTO = 'Automatic',
   MANUAL = 'Manual'
 }
+
 export enum JournalRehydrationPage {
   DASHBOARD = 'Dashboard',
   JOURNAL = 'Journal'
@@ -88,7 +78,6 @@ export class JournalEffects {
     public dateTimeProvider: DateTimeProvider,
     public searchProvider: SearchProvider,
     private logHelper: LogHelper,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private compressionProvider: CompressionProvider,
   ) {
   }
@@ -218,6 +207,86 @@ export class JournalEffects {
         );
     }),
   ));
+
+  journalRehydration$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.JournalRehydration),
+    withLatestFrom(
+      this.store$.pipe(
+        select(getTests),
+      ),
+      this.store$.pipe(
+        select(getJournalState),
+        map(getAllSlots),
+      ),
+    ),
+    switchMap(([action, testsModel, testSlots]) => {
+      const testsToRehydrate = testSlots
+        .filter(value => get(value, 'slotData.booking') &&
+          //Get a list of tests that are in a rehydrateable state (ones that have not reached the office page)
+          !isAnyOf(testsModel.testStatus[value.slotData.slotDetail.slotId], [
+            TestStatus.WriteUp,
+            TestStatus.Autosaved,
+            TestStatus.Completed,
+            TestStatus.Submitted,
+          ]))
+        //Morph the data into a format that we can need for the rest of this process
+        .map(value => ({
+          slotId: value.slotData.slotDetail.slotId,
+          appRef: formatApplicationReference(
+            {
+              applicationId: (value.slotData as TestSlot).booking.application.applicationId,
+              bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
+              checkDigit: (value.slotData as TestSlot).booking.application.checkDigit,
+            },
+          ),
+        }));
+
+      //If the array is empty, we don't need to do anything
+      if (testsToRehydrate.length === 0) {
+        this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page));
+        return of({ type: 'NO_ACTION' });
+      }
+
+      //Make a call to the backend service for the full test results for the tests we need to rehydrate
+      return this.searchProvider.getTestResults(
+        this.compressionProvider.compress({
+          applicationReferences: testsToRehydrate.map(value => value.appRef),
+        },
+        ))
+        .pipe(
+          //Extract the data from the response
+          map(response => this.compressionProvider.extract<TestResultsRehydrated[]>(response.body)),
+          //Map the data into a format that we can use for the rest of the process
+          map((testResults: TestResultsRehydrated[]) => testResults.map(test => ({
+            autosave: !!test.autosave,
+            testData: test.test_result,
+            slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
+          }))),
+          tap((completedTests: TestResultRehydration[]) => {
+            //If we have any tests, we need to dispatch them to the store
+            if (completedTests.length > 0) {
+              this.store$.dispatch(LoadRemoteTests(completedTests));
+              this.store$.dispatch(JournalRehydrationSuccess(action.refreshType, action.page));
+            } else {
+              this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page));
+            }
+          }),
+          catchError(err => {
+            this.store$.dispatch(SaveLog({
+              payload: this.logHelper.createLog(
+                LogType.ERROR,
+                `Getting test results (${testsToRehydrate.map(value => value.appRef.toString())})`,
+                err,
+              ),
+            }));
+            this.store$.dispatch(JournalRehydrationError(action.refreshType, action.page));
+            return of({ type: 'NO_ACTION' });
+          }),
+          map(() => ({ type: 'NO_ACTION' })), // Ensures the effect does not emit any actions itself
+        );
+    }),
+  ));
+
 
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectPreviousDay),

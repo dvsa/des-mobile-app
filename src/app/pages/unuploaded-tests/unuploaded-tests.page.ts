@@ -14,6 +14,8 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -52,13 +54,15 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
       role$: this.store$.select(selectRole)
         .pipe(map(this.getRoleDisplayValue)),
       unSubmittedTestSlots$: unsubmittedTestSlots$(
-        this.store$,
+        this.store$.select(getJournalState),
+        this.store$.select(getTests),
         this.dateTimeProvider,
         this.slotProvider,
         this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
       ),
       unSubmittedTestSlotData$: unsubmittedTestSlots$(
-        this.store$,
+        this.store$.select(getJournalState),
+        this.store$.select(getTests),
         this.dateTimeProvider,
         this.slotProvider,
         this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView

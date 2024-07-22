@@ -46,6 +46,7 @@ import { select } from '@ngrx/store';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -109,7 +110,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       isOffline$: this.networkStateProvider.isOffline$,
       notificationCount$: combineLatest([
         unsubmittedTestSlotsCount$(
-          this.store$,
+          this.store$.select(getJournalState),
+          this.store$.select(getTests),
           this.dateTimeProvider,
           this.slotProvider,
           this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView

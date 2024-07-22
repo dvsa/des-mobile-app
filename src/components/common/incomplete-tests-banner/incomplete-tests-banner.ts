@@ -6,6 +6,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { Observable } from 'rxjs';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface IncompleteTestsBannerComponentState {
   count$: Observable<number>;
@@ -36,7 +38,8 @@ export class IncompleteTestsBanner implements OnInit {
     this.componentState = {
       /* get incomplete tests and filter out any older than 14 days */
       count$: unsubmittedTestSlotsCount$(
-        this.store$,
+        this.store$.select(getJournalState),
+        this.store$.select(getTests),
         this.dateTimeProvider,
         this.slotProvider,
         this.appConfProvider.getAppConfig()?.journal?.numberOfDaysToView
