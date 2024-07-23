@@ -26,7 +26,7 @@ export class SlotSelectorProvider {
     return !this.checkPropertiesHaveValues((<TestSlot>slotData).booking);
   };
 
-  private checkPropertiesHaveValues = (obj: any): boolean => {
+  public checkPropertiesHaveValues = (obj: any): boolean => {
     let gotValue: boolean = false;
 
     forOwn(obj, (value, key) => {
@@ -65,14 +65,14 @@ export class SlotSelectorProvider {
    * @param completedTests
    */
   public hasSlotBeenPartiallyCompleted(slotData: TestSlot, completedTests: SearchResultTestSchema[]): number | null {
-    const completedTest = this.getCompletedTest(slotData, completedTests);
+    const completedTest: SearchResultTestSchema = this.getCompletedTest(slotData, completedTests);
     if (!completedTest) {
       return null;
     }
     return completedTest.autosave;
   }
 
-  private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
+  public getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
     if (isEmpty(completedTests)) {
       return null;
     }

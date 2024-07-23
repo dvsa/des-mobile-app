@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -116,9 +116,28 @@ describe('RekeyUploadOutcomePage', () => {
     });
   });
 
+  describe('ionViewWillEnter', () => {
+    it('should subscribe to merged if it exists', () => {
+      component.subscription = null
+      component.merged$ = of(true);
+      spyOn(component.merged$, 'subscribe');
+      component.ionViewWillEnter();
+      expect(component.subscription).not.toEqual(null);
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
+
   describe('DOM', () => {
     describe('isDuplicate', () => {
-      it('should show the sucess message when the upload succeeded', () => {
+      it('should show the success message when the upload succeeded', () => {
         fixture.detectChanges();
         component.pageState.duplicateUpload$ = of(false);
         fixture.detectChanges();
