@@ -10,8 +10,14 @@ import { DeviceAuthenticationProvider } from '../device-authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfig } from '../../app-config/app-config.model';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 
-xdescribe('DeviceAuthenticationProvider', () => {
+describe('DeviceAuthenticationProvider', () => {
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let platform: Platform;
   let loadingProvider: LoadingProvider;
@@ -20,6 +26,16 @@ xdescribe('DeviceAuthenticationProvider', () => {
     TestBed.configureTestingModule({
       providers: [
         DeviceAuthenticationProvider,
+        { provide: Store, useClass: MockStore },
+        provideMockStore({ }),
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
         {
           provide: Platform,
           useClass: PlatformMock,
