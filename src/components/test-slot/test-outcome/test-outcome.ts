@@ -157,14 +157,7 @@ export class TestOutcomeComponent implements OnInit {
       // ...AND it was started as a rekey AND the test date is in the past
     }
 
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    // eslint-disable-next-line max-len
-    console.log('old test condition:', this.isDateInPast() && (this.testStatus === null || this.testStatus === TestStatus.Booked));
-    console.log('new test condition:', this.isDateInPast() && this.testStatus !== TestStatus.Started);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-
     // the test is incomplete AND this is not the rekey search AND it was not started as a rekey
-    // return this.isDateInPast() && (this.testStatus === null || this.testStatus === TestStatus.Booked);
     return this.isDateInPast() && this.testStatus !== TestStatus.Started
   }
 

@@ -28,7 +28,7 @@ import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
-fdescribe('TestOutcomeComponent', () => {
+describe('TestOutcomeComponent', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
   let component: TestOutcomeComponent;
   let routeByCategory: RouteByCategoryProvider;
@@ -532,19 +532,14 @@ fdescribe('TestOutcomeComponent', () => {
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
           .format('YYYY-MM-DDTHH:mm:ss');
         component.category = TestCategory.BE;
+        component.isDelegatedTest = true;
         spyOn(component, 'showDelegatedExaminerRekeyButton')
           .and
           .returnValue(true);
         spyOn(component, 'rekeyDelegatedTest');
         fixture.detectChanges();
         const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
-        console.log('========================================================================');
-        console.log('Rekey button:', rekeyDelegatedButton); // Check if the Rekey button is being displayed
-        console.log('========================================================================');
         rekeyDelegatedButton.triggerEventHandler('click', null);
-        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-        console.log('Click event triggered'); // Check if the click event is being triggered
-        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         expect(component.rekeyDelegatedTest)
           .toHaveBeenCalled();
       });
@@ -556,13 +551,10 @@ fdescribe('TestOutcomeComponent', () => {
           .and
           .returnValue(true);
         component.slotDetail = testSlotDetail;
-        component.testStatus = TestStatus.Decided;
+        component.testStatus = TestStatus.Started;
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
         const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
-        console.log('?????????????????????????????????????????????????????????????????????????');
-        console.log('debriefButton:', debriefButton);
-        console.log('?????????????????????????????????????????????????????????????????????????');
         debriefButton.triggerEventHandler('click', null);
 
         expect(component.resumeTest)
@@ -572,7 +564,7 @@ fdescribe('TestOutcomeComponent', () => {
 
     describe('write up a test', () => {
       it('should call the writeUpTest method when `Write-up` is clicked', () => {
-        component.testStatus = TestStatus.WriteUp;
+        component.testStatus = TestStatus.Autosaved;
         component.slotDetail = testSlotDetail;
         fixture.detectChanges();
         spyOn(component, 'writeUpTest');
