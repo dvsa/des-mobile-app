@@ -91,6 +91,7 @@ describe('ExaminerRecordsPage', () => {
         { provide: Store, useClass: MockStore },
         provideMockStore({
           initialState: {
+            appInfo: { employeeId: '1' },
             examinerRecords: {
               colourScheme: ColourEnum.DEFAULT,
               cachedRecords: null,
@@ -390,7 +391,7 @@ describe('ExaminerRecordsPage', () => {
       component.getOnlineRecords();
 
       expect(store$.dispatch).toHaveBeenCalledWith(LoadingExaminerRecords());
-      expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords('55555555'));
+      expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords('1'));
     });
 
     it('should not dispatch any actions when cached records are available and last cached date is today', () => {
