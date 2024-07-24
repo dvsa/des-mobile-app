@@ -50,7 +50,6 @@ import { SearchProvider } from '@providers/search/search';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests } from '@store/tests/tests.selector';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
-import { demonstrationMock } from '@pages/examiner-records/__mocks__/test-result.mock';
 import {
   ColourEnum,
   ExaminerRecordsProvider,
@@ -62,6 +61,7 @@ import { ScrollDetail } from '@ionic/core';
 import {
   ExaminerReportsCardClick
 } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordData<string>[],
@@ -157,11 +157,11 @@ export class ExaminerRecordsPage implements OnInit {
    * checks if user has already successfully cached examiner records today, if not, dispatches the effect to do so
    */
   async getOnlineRecords() {
-    let staffNumber: string = '55555555';
     if (
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
     ) {
+      let staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
       this.store$.dispatch(LoadingExaminerRecords());
       this.store$.dispatch(GetExaminerRecords(staffNumber));
     }
@@ -308,9 +308,6 @@ export class ExaminerRecordsPage implements OnInit {
       select(getTests),
       map(getStartedTests),
       take(1),
-      map(() => {
-        return demonstrationMock;
-      }),
       map((value) => Object.values(value)),
       map((value) => {
         //Filter out rekeyd tests for other users
