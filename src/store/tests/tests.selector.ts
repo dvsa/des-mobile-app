@@ -26,10 +26,6 @@ export const getCurrentTest = (tests: TestsModel): TestResultSchemasUnion => {
   return tests.startedTests[currentTestSlotId];
 };
 
-export const getStartedTests = (tests: TestsModel): StartedTests => {
-  return tests.startedTests;
-};
-
 export const isPassed = (test: TestResultSchemasUnion): boolean => {
   return test.activityCode === ActivityCodes.PASS;
 };
@@ -144,10 +140,6 @@ export const isDelegatedTest = (tests: TestsModel): boolean => {
   return false;
 };
 
-export const getAllTestStatuses = (test: TestsModel): { [slotId: string]: TestStatus; } => {
-  return test.testStatus;
-};
-
 export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): ActivityCode => {
   if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
     return testsModel.startedTests[id].activityCode;
@@ -168,7 +160,7 @@ const calculateDaysDiff = (test: TestResultSchemasUnion): number => {
   return today.daysDiff(new Date(testDate.format('YYYY-MM-DD')));
 };
 
-const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
+export const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
   return calculateDaysDiff(test) < 0;
 };
 
@@ -178,63 +170,6 @@ export const getIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
       isTestBeforeToday(tests.startedTests[slotId])
       && tests.testStatus[slotId] !== TestStatus.Submitted
       && tests.testStatus[slotId] !== TestStatus.Completed);
-};
-
-export const getCompletedTestSlotIdsBeforeToday = (tests: TestsModel): string[] => {
-  return Object.keys(tests.testStatus)
-    .filter((slotId) =>
-      isTestBeforeToday(tests.startedTests[slotId])
-      && (tests.testStatus[slotId] === TestStatus.Submitted
-        || tests.testStatus[slotId] === TestStatus.Completed));
-};
-
-export const getAllIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
-  return Object.keys(tests.testStatus)
-    .filter((slotId) =>
-      tests.testStatus[slotId] !== TestStatus.Submitted && tests.testStatus[slotId] !== TestStatus.Completed);
-};
-
-export const getIncompleteTestsSlotOlderThanADay = (tests: TestsModel): string[] => {
-  return Object.keys(tests.testStatus)
-    .filter((slotId) =>
-      tests.testStatus[slotId] !== TestStatus.Submitted
-      && tests.testStatus[slotId] !== TestStatus.Completed
-      && isTestBeforeToday(tests.startedTests[slotId]));
-};
-
-export const getAllIncompleteTests = (tests: TestsModel): TestResultSchemasUnion[] => {
-  const allTestsSlotIds: string[] = getAllIncompleteTestsSlotIds(tests);
-  return allTestsSlotIds.map((slotId: string) => tests.startedTests[slotId]);
-};
-
-export const getIncompleteTests = (tests: TestsModel): TestResultSchemasUnion[] => {
-  const incompleteTestsSlotIds: string[] = getIncompleteTestsSlotIds(tests);
-  return incompleteTestsSlotIds.map((slotId: string) => tests.startedTests[slotId]);
-};
-
-export const getIncompleteTestsCount = (tests: TestsModel): number => {
-  const incompleteTestsSlotIds: string[] = getIncompleteTestsSlotIds(tests);
-  return incompleteTestsSlotIds.length;
-};
-
-export const getOldestIncompleteTest = (tests: TestsModel): TestResultSchemasUnion => {
-  const incompleteTestsSlotIds: string[] = getIncompleteTestsSlotIds(tests);
-
-  let oldestTest: TestResultSchemasUnion;
-
-  incompleteTestsSlotIds.forEach((slotId: string) => {
-    if (!oldestTest) {
-      oldestTest = tests.startedTests[slotId];
-      return;
-    }
-
-    const oldestStartDate: DateTime = new DateTime(oldestTest.journalData.testSlotAttributes.start);
-    const currentStartDate: DateTime = new DateTime(tests.startedTests[slotId].journalData.testSlotAttributes.start);
-    if (currentStartDate.isBefore(oldestStartDate)) {
-      oldestTest = tests.startedTests[slotId];
-    }
-  });
-  return oldestTest;
 };
 
 export const hasStartedTests = (tests: TestsModel): boolean => {

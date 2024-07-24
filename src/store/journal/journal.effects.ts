@@ -24,50 +24,39 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { getTests, TestResultRehydration } from '@store/tests/tests.reducer';
-import { AdvancedSearchParams } from '@providers/search/search.models';
-import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
-import { hasStartedTests } from '@store/tests/tests.selector';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
 import {
-  JournalRehydrationError,
-  JournalRehydrationNull,
-  JournalRehydrationSuccess,
-  LoadCompletedTestsFailure,
-  LoadCompletedTestsSuccess,
-} from './journal.actions';
-import {
   canNavigateToNextDay,
-  canNavigateToPreviousDay, getAllSlots,
-  getCompletedTests,
+  canNavigateToPreviousDay,
+  getAllSlots,
   getLastRefreshed,
   getSelectedDate,
   getSlots,
 } from './journal.selector';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+
+import { CompressionProvider } from '@providers/compression/compression';
+import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { getTests, TestResultRehydration } from '@store/tests/tests.reducer';
 import { get } from 'lodash-es';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { CompressionProvider } from '@providers/compression/compression';
-import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { JournalRehydrationError, JournalRehydrationNull, JournalRehydrationSuccess } from './journal.actions';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
 
 export enum JournalRehydrationType {
   AUTO = 'Automatic',
   MANUAL = 'Manual'
 }
+
 export enum JournalRehydrationPage {
   DASHBOARD = 'Dashboard',
   JOURNAL = 'Journal'
@@ -89,7 +78,6 @@ export class JournalEffects {
     public dateTimeProvider: DateTimeProvider,
     public searchProvider: SearchProvider,
     private logHelper: LogHelper,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private compressionProvider: CompressionProvider,
   ) {
   }
@@ -220,64 +208,6 @@ export class JournalEffects {
     }),
   ));
 
-  loadCompletedTests$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.LoadCompletedTests),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.pipe(
-            select(selectEmployeeId),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            select(hasStartedTests),
-          ),
-          this.store$.pipe(
-            select(getJournalState),
-            select(getCompletedTests),
-          ),
-        ),
-      )),
-    filter(([action, , hasStarted, completedTests]) => {
-      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
-        this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
-        return false;
-      }
-      if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
-      if (action.callThrough) return true;
-
-      return !hasStarted && completedTests && completedTests.length === 0;
-    }),
-    switchMap(([, staffNumber]) => {
-      const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
-
-      const startDate = new DateTime()
-        .subtract(numberOfDaysToView, Duration.DAY)
-        .format('YYYY-MM-DD');
-
-      const endDate = new DateTime()
-        .format('YYYY-MM-DD');
-
-      const advancedSearchParams: AdvancedSearchParams = {
-        startDate,
-        endDate,
-        staffNumber: removeLeadingZeros(staffNumber),
-        costCode: '',
-        excludeAutoSavedTests: 'false',
-        activityCode: '',
-        category: '',
-      };
-
-      return this.searchProvider.advancedSearch(advancedSearchParams)
-        .pipe(
-          map((searchResults: SearchResultTestSchema[]) => searchResults),
-          tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
-          map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
-          catchError((err) => of(LoadCompletedTestsFailure(err))),
-        );
-    }),
-  ));
-
   journalRehydration$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.JournalRehydration),
     withLatestFrom(
@@ -292,13 +222,13 @@ export class JournalEffects {
     switchMap(([action, testsModel, testSlots]) => {
       const testsToRehydrate = testSlots
         .filter(value => get(value, 'slotData.booking') &&
-        //Get a list of tests that are in a rehydrateable state (ones that have not reached the office page)
-            !isAnyOf(testsModel.testStatus[value.slotData.slotDetail.slotId], [
-              TestStatus.WriteUp,
-              TestStatus.Autosaved,
-              TestStatus.Completed,
-              TestStatus.Submitted,
-            ]))
+          //Get a list of tests that are in a rehydrateable state (ones that have not reached the office page)
+          !isAnyOf(testsModel.testStatus[value.slotData.slotDetail.slotId], [
+            TestStatus.WriteUp,
+            TestStatus.Autosaved,
+            TestStatus.Completed,
+            TestStatus.Submitted,
+          ]))
         //Morph the data into a format that we can need for the rest of this process
         .map(value => ({
           slotId: value.slotData.slotDetail.slotId,
@@ -313,7 +243,7 @@ export class JournalEffects {
 
       //If the array is empty, we don't need to do anything
       if (testsToRehydrate.length === 0) {
-        this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page))
+        this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page));
         return of({ type: 'NO_ACTION' });
       }
 
@@ -321,7 +251,7 @@ export class JournalEffects {
       return this.searchProvider.getTestResults(
         this.compressionProvider.compress({
           applicationReferences: testsToRehydrate.map(value => value.appRef),
-        }
+        },
         ))
         .pipe(
           //Extract the data from the response
@@ -336,9 +266,9 @@ export class JournalEffects {
             //If we have any tests, we need to dispatch them to the store
             if (completedTests.length > 0) {
               this.store$.dispatch(LoadRemoteTests(completedTests));
-              this.store$.dispatch(JournalRehydrationSuccess(action.refreshType, action.page))
+              this.store$.dispatch(JournalRehydrationSuccess(action.refreshType, action.page));
             } else {
-              this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page))
+              this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page));
             }
           }),
           catchError(err => {
@@ -349,13 +279,14 @@ export class JournalEffects {
                 err,
               ),
             }));
-            this.store$.dispatch(JournalRehydrationError(action.refreshType, action.page))
+            this.store$.dispatch(JournalRehydrationError(action.refreshType, action.page));
             return of({ type: 'NO_ACTION' });
           }),
           map(() => ({ type: 'NO_ACTION' })), // Ensures the effect does not emit any actions itself
         );
     }),
   ));
+
 
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectPreviousDay),

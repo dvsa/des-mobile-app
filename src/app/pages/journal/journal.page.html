@@ -30,7 +30,7 @@
 <ion-content class="ion-no-padding">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
+  <incomplete-tests-banner></incomplete-tests-banner>
 
   <ion-refresher (ionRefresh)="pullRefreshJournal($event)" slot="fixed" pullMax="500" pullMin="70">
     <ion-refresher-content
@@ -54,7 +54,7 @@
 
   <ion-list>
     <journal-slots
-      [completedTests]="formatCompleteTests(pageState.completedTests$ | async, pageState.slots$ | async)"
+      [completedTests]="pageState.completedTests$ | async"
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slots]="pageState.slots$ | async"
     >

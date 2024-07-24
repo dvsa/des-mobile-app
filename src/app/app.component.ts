@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
-import { combineLatest, merge, Observable, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
@@ -23,12 +23,13 @@ import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/das
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
-import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -109,10 +110,13 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
-        unSubmittedTestSlotsCount$: combineLatest([
-          unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
-        ])
-          .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
+        unSubmittedTestSlotsCount$: unsubmittedTestSlotsCount$(
+          this.store$.select(getJournalState),
+          this.store$.select(getTests),
+          this.dateTimeProvider,
+          this.slotProvider,
+          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView,
+        ),
       };
 
     } catch {

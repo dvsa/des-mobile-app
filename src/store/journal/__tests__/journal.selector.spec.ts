@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
-  getCompletedTests,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -420,50 +419,9 @@ describe('JournalSelector', () => {
       const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
 
       expect(slotIds.length)
-        .toBe(1);
+        .toBe(2);
       expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId))
-        .toEqual([2001]);
-    });
-  });
-  describe('getCompletedTests', () => {
-    it('should return correct data', () => {
-      const journalModel: JournalModel = {
-        isLoading: false,
-        lastRefreshed: new Date(0),
-        slots: {},
-        selectedDate: '2019-01-01',
-        examiner: {
-          staffNumber: '123',
-          individualId: 456,
-        },
-        completedTests: [
-          {
-            costCode: 'costCode',
-            testDate: 'testDate',
-            driverNumber: 'diverNumber',
-            candidateName: {},
-            applicationReference: 1234567031,
-            category: 'category',
-            activityCode: '2',
-            autosave: 1,
-          },
-          {
-            costCode: 'costCode',
-            testDate: 'testDate',
-            driverNumber: 'diverNumber',
-            candidateName: {},
-            applicationReference: 1234569019,
-            category: 'category',
-            activityCode: '11',
-            autosave: 1,
-          },
-        ],
-      };
-
-      const data = getCompletedTests(journalModel);
-
-      expect(data)
-        .toEqual(journalModel.completedTests);
+        .toEqual([1001, 2001]);
     });
   });
 

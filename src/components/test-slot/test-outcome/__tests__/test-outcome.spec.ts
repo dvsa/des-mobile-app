@@ -529,7 +529,10 @@ describe('TestOutcomeComponent', () => {
     describe('rekeyDelegatedTest', () => {
       it('should call the rekeyDelegatedTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
+          .format('YYYY-MM-DDTHH:mm:ss');
         component.category = TestCategory.BE;
+        component.isDelegatedTest = true;
         spyOn(component, 'showDelegatedExaminerRekeyButton')
           .and
           .returnValue(true);
@@ -548,10 +551,9 @@ describe('TestOutcomeComponent', () => {
           .and
           .returnValue(true);
         component.slotDetail = testSlotDetail;
-        component.testStatus = TestStatus.Decided;
+        component.testStatus = TestStatus.Started;
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
-
         const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
         debriefButton.triggerEventHandler('click', null);
 
@@ -562,7 +564,7 @@ describe('TestOutcomeComponent', () => {
 
     describe('write up a test', () => {
       it('should call the writeUpTest method when `Write-up` is clicked', () => {
-        component.testStatus = TestStatus.WriteUp;
+        component.testStatus = TestStatus.Autosaved;
         component.slotDetail = testSlotDetail;
         fixture.detectChanges();
         spyOn(component, 'writeUpTest');

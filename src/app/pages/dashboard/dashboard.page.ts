@@ -29,9 +29,7 @@ import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
-import {
-  StoreUnuploadedSlotsInTests,
-} from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
@@ -48,6 +46,7 @@ import { select } from '@ngrx/store';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -110,7 +109,13 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       showUpdatesAvailable$: showUpdateAvailable$(this.store$, this.platform),
       isOffline$: this.networkStateProvider.isOffline$,
       notificationCount$: combineLatest([
-        unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+        unsubmittedTestSlotsCount$(
+          this.store$.select(getJournalState),
+          this.store$.select(getTests),
+          this.dateTimeProvider,
+          this.slotProvider,
+          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+        ),
         getUpdateAvailableCount$(this.store$, this.platform),
       ])
         .pipe(
@@ -152,8 +157,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
-
-    //guard against calling various services if the user type is a delegated examiner
+    //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());
     }

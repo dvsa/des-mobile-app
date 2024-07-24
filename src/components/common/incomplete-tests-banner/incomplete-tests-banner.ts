@@ -1,17 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { SlotProvider } from '@providers/slot/slot';
-import { DateTime } from '@shared/helpers/date-time';
-import { map } from 'rxjs/operators';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { Observable } from 'rxjs';
-import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
-import { SlotItem } from '@providers/slot-selector/slot-item';
+import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 
 interface IncompleteTestsBannerComponentState {
-  count$: Observable<SlotItem[]>;
+  count$: Observable<number>;
 }
 
 enum CountDescription {
@@ -25,10 +24,6 @@ enum CountDescription {
   styleUrls: ['incomplete-tests-banner.scss'],
 })
 export class IncompleteTestsBanner implements OnInit {
-
-  @Input()
-  public todaysDate: DateTime;
-
   componentState: IncompleteTestsBannerComponentState;
 
   constructor(
@@ -42,13 +37,13 @@ export class IncompleteTestsBanner implements OnInit {
   ngOnInit() {
     this.componentState = {
       /* get incomplete tests and filter out any older than 14 days */
-      count$: unsubmittedTestSlots$(this.store$, this.dateTimeProvider, this.slotProvider)
-        .pipe(
-          map((data: SlotItem[]) => data.filter((value) => {
-            return new DateTime(value.slotData.slotDetail.start).daysDiff(new DateTime())
-              <= this.appConfProvider.getAppConfig()?.journal?.numberOfDaysToView;
-          })),
-        ),
+      count$: unsubmittedTestSlotsCount$(
+        this.store$.select(getJournalState),
+        this.store$.select(getTests),
+        this.dateTimeProvider,
+        this.slotProvider,
+        this.appConfProvider.getAppConfig()?.journal?.numberOfDaysToView
+      ),
     };
   }
 

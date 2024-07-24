@@ -140,7 +140,7 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   showRekeyButton(): boolean {
-    if (this.testStatus === TestStatus.Completed || this.testStatus === TestStatus.Submitted) {
+    if ([TestStatus.Completed, TestStatus.Submitted, TestStatus.Autosaved].includes(this.testStatus)) {
       return false; // because the test is complete
     }
 
@@ -158,7 +158,7 @@ export class TestOutcomeComponent implements OnInit {
     }
 
     // the test is incomplete AND this is not the rekey search AND it was not started as a rekey
-    return this.isDateInPast() && (this.testStatus === null || this.testStatus === TestStatus.Booked);
+    return this.isDateInPast() && this.testStatus !== TestStatus.Started
   }
 
   showStartTestButton(): boolean {
