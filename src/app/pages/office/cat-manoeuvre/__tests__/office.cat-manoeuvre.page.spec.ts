@@ -30,8 +30,14 @@ import { By } from '@angular/platform-browser';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
-import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import {
+  AddDangerousFault,
+  AddDangerousFaultComment,
+} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import {
+  AddSeriousFault,
+  AddSeriousFaultComment,
+} from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { OfficeCatManoeuvrePage } from '@pages/office/cat-manoeuvre/office.cat-manoeuvre.page';
@@ -57,6 +63,10 @@ import { AdditionalInformationComponent } from '../../components/additional-info
 import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
+import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 
 describe('OfficeCatManoeuvrePage', () => {
   let fixture: ComponentFixture<OfficeCatManoeuvrePage>;
@@ -263,4 +273,117 @@ describe('OfficeCatManoeuvrePage', () => {
       expect(component.isWelsh()).toEqual(false);
     });
   });
+
+  describe('dangerousFaultCommentChanged', () => {
+    it('should dispatch AddSeriousFaultComment when source is SIMPLE', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'signalsCorrectly',
+        comment: 'Missed a signal',
+        source: CommentSource.SIMPLE,
+      } as FaultSummary;
+
+      component.dangerousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddDangerousFaultComment('signalsCorrectly', 'Missed a signal')
+      );
+    });
+
+    it('should dispatch AddManoeuvreComment when source starts with MANOEUVRES', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'manoeuvres-reverseParkRoad-control',
+        comment: 'Control issue',
+        source: CommentSource.MANOEUVRES+'-reverseParkRoad-control',
+      } as FaultSummary;
+
+      component.dangerousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.D, 'control', 'Control issue')
+      );
+    });
+
+    it('should dispatch AddUncoupleRecoupleComment when source is UNCOUPLE_RECOUPLE', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'uncoupleRecouple',
+        comment: 'Issue with uncoupling',
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+      } as FaultSummary;
+
+      component.dangerousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddUncoupleRecoupleComment('Issue with uncoupling')
+      );
+    });
+
+    it('should not dispatch any action when source is unknown', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'unknown',
+        comment: 'Unknown issue',
+        source: 'UNKNOWN_SOURCE',
+      } as FaultSummary;
+
+      component.dangerousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('seriousFaultCommentChanged', () => {
+    it('should dispatch AddSeriousFaultComment when source is SIMPLE', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'signalsCorrectly',
+        comment: 'Missed a signal',
+        source: CommentSource.SIMPLE,
+      } as FaultSummary;
+
+      component.seriousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddSeriousFaultComment('signalsCorrectly', 'Missed a signal')
+      );
+    });
+
+    it('should dispatch AddManoeuvreComment when source starts with MANOEUVRES', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'manoeuvres-reverseParkRoad-control',
+        comment: 'Control issue',
+        source: CommentSource.MANOEUVRES+'-reverseParkRoad-control',
+      } as FaultSummary;
+
+      component.seriousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.S, 'control', 'Control issue')
+      );
+    });
+
+    it('should dispatch AddUncoupleRecoupleComment when source is UNCOUPLE_RECOUPLE', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'uncoupleRecouple',
+        comment: 'Issue with uncoupling',
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+      } as FaultSummary;
+
+      component.seriousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddUncoupleRecoupleComment('Issue with uncoupling')
+      );
+    });
+
+    it('should not dispatch any action when source is unknown', () => {
+      const faultSummary: FaultSummary = {
+        competencyIdentifier: 'unknown',
+        comment: 'Unknown issue',
+        source: 'UNKNOWN_SOURCE',
+      } as FaultSummary;
+
+      component.seriousFaultCommentChanged(faultSummary);
+
+      expect(store$.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
 });

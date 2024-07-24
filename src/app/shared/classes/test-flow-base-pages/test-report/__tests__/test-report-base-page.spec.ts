@@ -22,6 +22,16 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import {
+  CalculateTestResult,
+  ReturnToTest,
+  TerminateTestFromTestReport,
+  TestReportViewDidEnter,
+} from '@pages/test-report/test-report.actions';
+import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 describe('TestReportBasePageComponent', () => {
   let injector: Injector;
@@ -161,6 +171,67 @@ describe('TestReportBasePageComponent', () => {
     });
   });
 
+  describe('hasManoeuvreBeenCompleted', () => {
+    it('should call hasManoeuvreBeenCompletedCatADIPart2 if the category is ADI2', () => {
+      expect(basePageComponent.hasManoeuvreBeenCompleted({
+        manoeuvres: [
+          { forwardPark: { selected: true } },
+          { reverseParkCarpark: { selected: true } }
+        ],
+      } as CatADI2UniqueTypes.TestData, TestCategory.ADI2))
+        .toEqual(true);
+    });
+    it('should call hasManoeuvreBeenCompletedCatB if the category is B', () => {
+      expect(basePageComponent.hasManoeuvreBeenCompleted({
+        manoeuvres: {forwardPark: {selected: true}}
+      }, TestCategory.B))
+        .toEqual(true);
+    });
+    it('should return null if the switch defaults', () => {
+      expect(basePageComponent.hasManoeuvreBeenCompleted({}, TestCategory.EUA1M1))
+        .toEqual(null);
+    });
+
+    [
+      TestCategory.C1E,
+      TestCategory.C1,
+      TestCategory.C,
+    ].forEach((value) => {
+      it(`should return correct value from hasManoeuvreBeenCompletedCatC if category is ${value}`, () => {
+        expect(basePageComponent.hasManoeuvreBeenCompleted({
+          manoeuvres: {reverseLeft: {selected: true}},
+        }, value))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.D1E,
+      TestCategory.D1,
+      TestCategory.DE,
+      TestCategory.D,
+    ].forEach((value) => {
+      it(`should return correct value from hasManoeuvreBeenCompletedCatD if category is ${value}`, () => {
+        expect(basePageComponent.hasManoeuvreBeenCompleted({
+          manoeuvres: {reverseLeft: {selected: true}},
+        }, value))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K,
+    ].forEach((value) => {
+      it(`should return correct value from hasManoeuvreBeenCompletedCatHomeTest if category is ${value}`, () => {
+        expect(basePageComponent.hasManoeuvreBeenCompleted({
+          manoeuvres: {reverseLeft: {selected: true}},
+        }, value))
+          .toEqual(true);
+      });
+    });
+  });
+
   describe('cancelSubscription', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       basePageComponent.subscription = new Subscription();
@@ -177,6 +248,78 @@ describe('TestReportBasePageComponent', () => {
       basePageComponent.toggleReportOverlay();
       expect(basePageComponent.displayOverlay)
         .toEqual(true);
+    });
+  });
+
+  describe('onModalDismiss', () => {
+
+    it('should navigate to DEBRIEF_PAGE on CONTINUE event when test is not delegated', async () => {
+      basePageComponent.delegatedTest = false
+      spyOn(basePageComponent.router, 'navigate');
+      await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
+      expect(basePageComponent.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
+    });
+
+    it('should dispatch CalculateTestResult action on CONTINUE event', async () => {
+      spyOn(basePageComponent.store$, 'dispatch');
+      await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
+      expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(CalculateTestResult());
+    });
+
+    it('should navigate to OFFICE_PAGE on CONTINUE event when test is delegated', async () => {
+      basePageComponent.delegatedTest = true
+      spyOn(basePageComponent['routeByCategory'], 'getNextPage').and.returnValue(TestFlowPageNames.OFFICE_PAGE);
+      spyOn(basePageComponent.router, 'navigate');
+      await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
+      expect(basePageComponent.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.OFFICE_PAGE]);
+    });
+
+    it('should dispatch TerminateTestFromTestReport action on TERMINATE event', async () => {
+      spyOn(basePageComponent.store$, 'dispatch');
+      await basePageComponent.onModalDismiss(ModalEvent.TERMINATE);
+      expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(TerminateTestFromTestReport());
+    });
+
+    it('should dispatch SetActivityCode action with code "4" on END_WITH_ACTIVITY_CODE_4 event', async () => {
+      spyOn(basePageComponent.store$, 'dispatch');
+      await basePageComponent.onModalDismiss(ModalEvent.END_WITH_ACTIVITY_CODE_4);
+      expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(SetActivityCode('4'));
+    });
+
+    it('should dispatch ReturnToTest action on CANCEL event', async () => {
+      spyOn(basePageComponent.store$, 'dispatch');
+      await basePageComponent.onModalDismiss(ModalEvent.CANCEL);
+      expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(ReturnToTest());
+    });
+
+    it('should not navigate or dispatch any action on default case', async () => {
+      spyOn(basePageComponent.store$, 'dispatch');
+      spyOn(basePageComponent.router, 'navigate');
+      await basePageComponent.onModalDismiss(null);
+      expect(basePageComponent.store$.dispatch).not.toHaveBeenCalled();
+      expect(basePageComponent.router.navigate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewDidEnter', () => {
+    it('should setup subscription if none exists', () => {
+      basePageComponent.subscription = null;
+      spyOn(basePageComponent, 'setupSubscription');
+      basePageComponent.ionViewDidEnter();
+      expect(basePageComponent.setupSubscription).toHaveBeenCalled();
+    });
+    it('should setup subscription if existing subscription is closed', () => {
+      basePageComponent.subscription = new Subscription();
+      basePageComponent.subscription.unsubscribe(); // Manually close the subscription
+      spyOn(basePageComponent, 'setupSubscription');
+      basePageComponent.ionViewDidEnter();
+      expect(basePageComponent.setupSubscription).toHaveBeenCalled();
+    });
+    it('should dispatch TestReportViewDidEnter action', () => {
+      basePageComponent.subscription = new Subscription();
+      spyOn(basePageComponent.store$, 'dispatch');
+      basePageComponent.ionViewDidEnter();
+      expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(TestReportViewDidEnter());
     });
   });
 });
