@@ -149,6 +149,15 @@ export class ExaminerRecordsPage implements OnInit {
   ) {
   }
 
+  /**
+   * Handles the scroll event and updates the displayScrollBanner property.
+   *
+   * This method is triggered when a scroll event occurs. It checks the scroll position
+   * and sets the displayScrollBanner property to true if the scroll position is greater
+   * than 203 pixels, otherwise sets it to false.
+   *
+   * @param {CustomEvent<ScrollDetail>} ev - The scroll event containing the scroll details.
+   */
   handleScroll(ev: CustomEvent<ScrollDetail>) {
     this.displayScrollBanner = (ev.detail.scrollTop > 203)
   }
