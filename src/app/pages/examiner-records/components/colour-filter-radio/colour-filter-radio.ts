@@ -6,6 +6,7 @@ import { ColourEnum } from '@providers/examiner-records/examiner-records';
 @Component({
   selector: 'colour-filter-radio',
   templateUrl: 'colour-filter-radio.html',
+  styleUrls: ['colour-filter-radio.scss'],
 })
 export class ColourFilterRadioComponent implements OnChanges {
 
