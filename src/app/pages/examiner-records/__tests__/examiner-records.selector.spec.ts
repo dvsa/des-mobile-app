@@ -19,6 +19,7 @@ import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examin
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import moment from 'moment';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { DateRange } from '@shared/helpers/date-time';
 
 describe('examiner records selector', () => {
   const startedTests: ExaminerRecordModel[] = [
@@ -182,7 +183,7 @@ describe('examiner records selector', () => {
       expect(dateFilter(
         startedTests.filter((value) =>
           moment(new Date(value.startDate)) > moment(new Date(Date.now())).subtract(7, 'days')
-        )[0], 'week')
+        )[0], DateRange.WEEK)
       ).toEqual(true);
     });
 
@@ -191,7 +192,7 @@ describe('examiner records selector', () => {
         dateFilter(
           startedTests.filter((value) =>
             moment(new Date(value.startDate)) < moment(new Date(Date.now())).subtract(7, 'days')
-          )[0], 'week')
+          )[0], DateRange.WEEK)
       ).toEqual(false);
     });
   });
@@ -208,8 +209,8 @@ describe('examiner records selector', () => {
 
   describe('getEligibleTests', () => {
     it('should retrieve 1 eligible test that is cat b within the last 2 weeks', () => {
-      expect(getEligibleTests(startedTests, TestCategory.B, 'week', 1).length).toBe(1);
-      expect(getEligibleTests(startedTests, TestCategory.B, 'week', 1)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1).length).toBe(1);
+      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1)).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.B,
@@ -225,8 +226,8 @@ describe('examiner records selector', () => {
     });
 
     it('should retrieve 2 eligible tests that is cat c within the last month', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, 'fortnight', 1).length).toBe(2);
-      expect(getEligibleTests(startedTests, TestCategory.C, 'fortnight', 1)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1).length).toBe(2);
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1)).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
@@ -254,8 +255,8 @@ describe('examiner records selector', () => {
     });
 
     it('should retrieve 7 eligible tests that are within test centre 1', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, '18 months', 1, true, false).length).toBe(7);
-      expect(getEligibleTests(startedTests, TestCategory.C, '18 months', 1, true, false)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false).length).toBe(7);
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false)).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.B,

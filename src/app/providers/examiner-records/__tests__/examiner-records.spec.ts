@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { JournalData, TestData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { DateRange } from '@shared/helpers/date-time';
 
 describe('ExaminerRecordsProvider', () => {
   let provider: ExaminerRecordsProvider;
@@ -38,27 +39,27 @@ describe('ExaminerRecordsProvider', () => {
 
   describe('getRangeDate', () => {
     it('should return the current date if the range is "today"', () => {
-      expect(provider.getRangeDate('today').format('DD/MM/YYYY'))
+      expect(provider.getRangeDate(DateRange.TODAY).format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).format('DD/MM/YYYY'));
     });
     it('should return the date last week if the range is "week"', () => {
-      expect(provider.getRangeDate('week').format('DD/MM/YYYY'))
+      expect(provider.getRangeDate(DateRange.WEEK).format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(1, 'week').format('DD/MM/YYYY'));
     });
     it('should return the date 2 weeks ago if the range is "fortnight"', () => {
-      expect(provider.getRangeDate('fortnight').format('DD/MM/YYYY'))
+      expect(provider.getRangeDate(DateRange.FORTNIGHT).format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(2, 'week').format('DD/MM/YYYY'));
     });
     it('should return the date 90 days ago if the range is "90 days"', () => {
-      expect(provider.getRangeDate('90 days').format('DD/MM/YYYY'))
+      expect(provider.getRangeDate(DateRange.NINETY_DAYS).format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(90, 'days').format('DD/MM/YYYY'));
     });
     it('should return the date 1 year ago if the range is "1 year"', () => {
-      expect(provider.getRangeDate('1 year').format('DD/MM/YYYY'))
+      expect(provider.getRangeDate(DateRange.ONE_YEAR).format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(1, 'year').format('DD/MM/YYYY'));
     });
     it('should return the date 18 months ago if the range is "18 months"', () => {
-      expect(provider.getRangeDate('18 months').format('DD/MM/YYYY'))
+      expect(provider.getRangeDate(DateRange.EIGHTEEN_MONTHS).format('DD/MM/YYYY'))
         .toEqual(moment(new Date()).subtract(18, 'months').format('DD/MM/YYYY'));
     });
   });

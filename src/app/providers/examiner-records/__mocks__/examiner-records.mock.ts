@@ -1,6 +1,7 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ColourEnum, ColourScheme, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 import moment from 'moment/moment';
+import { DateRange } from '@shared/helpers/date-time';
 
 export class ExaminerRecordsProviderMock {
 
@@ -40,29 +41,29 @@ export class ExaminerRecordsProviderMock {
   public localFilterOptions: SelectableDateRange[] = [
     {
       display: 'Today',
-      val: 'today',
+      val: DateRange.TODAY,
     },
     {
       display: 'Last 7 days',
-      val: 'week',
+      val: DateRange.WEEK,
     },
     {
       display: 'Last 14 days',
-      val: 'fortnight',
+      val: DateRange.FORTNIGHT,
     },
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
       display: 'Last 90 days',
-      val: '90 days',
+      val: DateRange.NINETY_DAYS,
     },
     {
       display: 'Last 1 year',
-      val: '1 year',
+      val: DateRange.ONE_YEAR,
     },
     {
       display: 'Last 18 months',
-      val: '18 months',
+      val: DateRange.EIGHTEEN_MONTHS,
     },
   ]
 

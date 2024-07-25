@@ -27,6 +27,7 @@ import { ScrollDetail } from '@ionic/core';
 import moment from 'moment';
 import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { DateRange } from '@shared/helpers/date-time';
 
 describe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
@@ -409,7 +410,7 @@ describe('ExaminerRecordsPage', () => {
     it('should update eligTestSubject$ with the result of getEligibleTests', () => {
       component.testSubject$.next(mockTests);
       component.categorySubject$.next(TestCategory.C);
-      component.rangeSubject$.next('week');
+      component.rangeSubject$.next(DateRange.WEEK);
       component.locationSubject$.next(4);
 
       component.changeEligibleTests();
@@ -421,7 +422,7 @@ describe('ExaminerRecordsPage', () => {
   describe('filterDates', () => {
     it('should update testsInRangeSubject$ with the result of getEligibleTests', () => {
       component.testSubject$.next(mockTests);
-      component.rangeSubject$.next('week');
+      component.rangeSubject$.next(DateRange.WEEK);
 
       component.filterDates();
 

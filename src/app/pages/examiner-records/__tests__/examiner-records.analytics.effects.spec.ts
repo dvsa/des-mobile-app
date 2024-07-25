@@ -23,6 +23,7 @@ import {
 } from '@pages/examiner-records/examiner-records.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
+import { DateRange } from '@shared/helpers/date-time';
 
 describe('ExaminerStatsAnalyticsEffects', () => {
   let effects: ExaminerRecordsAnalyticsEffects;
@@ -68,7 +69,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
       // ACT
       actions$.next(DateRangeChanged({
         display: '1',
-        val: 'today',
+        val: DateRange.TODAY,
       }));
       // ASSERT
       effects.dateRangeChanged$.subscribe((result) => {
