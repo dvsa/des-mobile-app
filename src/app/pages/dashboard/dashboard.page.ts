@@ -47,6 +47,8 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 import { getTests } from '@store/tests/tests.reducer';
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -145,9 +147,11 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     ).subscribe(value => {
       if (value.length > 0) {
         this.hasRehydrated = true;
-        this.store$.dispatch(journalActions.JournalRehydration(
-          JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
-        ))
+        if (!(environment as unknown as TestersEnvironmentFile)?.isTest) {
+          this.store$.dispatch(journalActions.JournalRehydration(
+            JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
+          ))
+        }
       }
     });
   }
