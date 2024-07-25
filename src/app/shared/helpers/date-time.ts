@@ -9,8 +9,14 @@ export enum Duration {
   SECOND = 'second',
 }
 
-export type DateRange = 'today' | 'week' | 'fortnight' | '90 days' | '1 year' | '18 months';
-
+export enum DateRange {
+  TODAY = 'today',
+  WEEK = '7 days',
+  FORTNIGHT = '14 days',
+  NINETY_DAYS = '90 days',
+  ONE_YEAR = '1 year',
+  EIGHTEEN_MONTHS = '18 months',
+}
 export class DateTime {
   moment: moment.Moment;
 
@@ -90,27 +96,27 @@ export class DateTime {
     let dateRange: moment.Moment = null;
 
     switch (range) {
-      case 'today':
+      case DateRange.TODAY:
         dateRange = moment(new Date())
           .subtract(1, 'day');
         break;
-      case 'week':
+      case DateRange.WEEK:
         dateRange = moment(new Date())
           .subtract(1, 'week');
         break;
-      case 'fortnight':
+      case DateRange.FORTNIGHT:
         dateRange = moment(new Date())
           .subtract(2, 'week');
         break;
-      case '90 days':
+      case DateRange.NINETY_DAYS:
         dateRange = moment(new Date())
           .subtract(90, 'days');
         break;
-      case '1 year':
+      case DateRange.ONE_YEAR:
         dateRange = moment(new Date())
           .subtract(1, 'year');
         break;
-      case '18 months':
+      case DateRange.EIGHTEEN_MONTHS:
         dateRange = moment(new Date())
           .subtract(18, 'months');
         break;

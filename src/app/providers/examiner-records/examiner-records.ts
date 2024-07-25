@@ -75,29 +75,29 @@ export class ExaminerRecordsProvider {
   public localFilterOptions: SelectableDateRange[] = [
     {
       display: 'Today',
-      val: 'today',
+      val: DateRange.TODAY,
     },
     {
       display: 'Last 7 days',
-      val: 'week',
+      val: DateRange.WEEK,
     },
     {
       display: 'Last 14 days',
-      val: 'fortnight',
+      val: DateRange.FORTNIGHT,
     },
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
       display: 'Last 90 days',
-      val: '90 days',
+      val: DateRange.NINETY_DAYS,
     },
     {
       display: 'Last 1 year',
-      val: '1 year',
+      val: DateRange.ONE_YEAR,
     },
     {
       display: 'Last 18 months',
-      val: '18 months',
+      val: DateRange.EIGHTEEN_MONTHS,
     },
   ];
 
@@ -154,26 +154,26 @@ export class ExaminerRecordsProvider {
     let dateRange: moment.Moment = null;
 
     switch (range) {
-      case 'today':
+      case DateRange.TODAY:
         dateRange = moment(new Date());
         break;
-      case 'week':
+      case DateRange.WEEK:
         dateRange = moment(new Date())
           .subtract(1, 'week');
         break;
-      case 'fortnight':
+      case DateRange.FORTNIGHT:
         dateRange = moment(new Date())
           .subtract(2, 'week');
         break;
-      case '90 days':
+      case DateRange.NINETY_DAYS:
         dateRange = moment(new Date())
           .subtract(90, 'days');
         break;
-      case '1 year':
+      case DateRange.ONE_YEAR:
         dateRange = moment(new Date())
           .subtract(1, 'year');
         break;
-      case '18 months':
+      case DateRange.EIGHTEEN_MONTHS:
         dateRange = moment(new Date())
           .subtract(18, 'months');
         break;
