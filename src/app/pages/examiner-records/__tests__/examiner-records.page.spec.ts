@@ -4,6 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IonicModule } from '@ionic/angular';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 import {
+  ClickDataCard,
   ColourFilterChanged,
   DateRangeChanged,
   ExaminerRecordsViewDidEnter,
@@ -361,10 +362,10 @@ describe('ExaminerRecordsPage', () => {
   });
 
   describe('handleLocationFilter', () => {
-    it('should set locationFilter to centreName of the passed value', () => {
-      component.locationFilter = null;
+    it('should set locationFilter to the passed value', () => {
+      component.locationFilter = { centreId: null, centreName: null, costCode: null };
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' }, true);
-      expect(component.locationFilter).toEqual('1');
+      expect(component.locationFilter).toEqual({ centreName: '1', centreId: 1, costCode: '2' });
       expect(component.locationSelectPristine).toEqual(false);
     });
     it('should set locationSubject$ to centreId of the passed value', () => {
@@ -576,6 +577,13 @@ describe('ExaminerRecordsPage', () => {
     });
   });
 
+  describe('cardClicked', () => {
+    it('should dispatch the store', () => {
+      component.cardClicked({isExpanded: false, title: 'test'});
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ClickDataCard({isExpanded: false, title: 'test'}));
+    });
+  });
+
   describe('displayNoDataCard', () => {
     it('should return true when all data grids are empty', () => {
       const emptyData: ExaminerRecordsPageStateData = {
@@ -642,7 +650,7 @@ describe('ExaminerRecordsPage', () => {
       component.currentCategory = 'B';
       component.startDateFilter = '01/01/2021';
       component.endDateFilter = '31/01/2021';
-      component.locationFilter = 'Test Centre 1';
+      component.locationFilter = { centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1' };
 
       const expectedText = 'Displaying <strong>1</strong> Category <strong>B</strong>' +
         ' test, from <strong>01/01/2021</strong> to <strong>31/01/2021</strong><ion-text> <br />' +
@@ -657,7 +665,7 @@ describe('ExaminerRecordsPage', () => {
       component.currentCategory = 'C';
       component.startDateFilter = '01/02/2021';
       component.endDateFilter = '28/02/2021';
-      component.locationFilter = 'Test Centre 2';
+      component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
 
       const expectedText = 'Displaying <strong>2</strong> Category <strong>C</strong>' +
         ' test<ion-text>s</ion-text>, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong>' +
@@ -672,7 +680,7 @@ describe('ExaminerRecordsPage', () => {
       component.currentCategory = 'C';
       component.startDateFilter = '01/02/2021';
       component.endDateFilter = '28/02/2021';
-      component.locationFilter = 'Test Centre 2';
+      component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
 
       const expectedText = 'Displaying <strong>1</strong> Category <strong>C</strong>' +
         ' test, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
