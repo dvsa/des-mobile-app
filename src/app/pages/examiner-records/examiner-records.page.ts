@@ -125,7 +125,7 @@ export class ExaminerRecordsPage implements OnInit {
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
-  public locationFilter: string;
+  public locationFilter: TestCentre = { centreName: null, centreId: null, costCode: null };
   public categoryDisplay: string;
   public currentCategory: string;
   accordionOpen: boolean = false;
@@ -528,8 +528,8 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationSelectPristine = false;
     }
 
-    if (event && (event.centreName !== this.locationFilter)) {
-      this.locationFilter = event.centreName ?? null;
+    if (event && (event.centreId !== this.locationFilter.centreId)) {
+      this.locationFilter = event;
       this.locationSubject$.next(event.centreId ?? null);
       this.currentTestCentre = event;
 
@@ -660,7 +660,7 @@ export class ExaminerRecordsPage implements OnInit {
       (testCount > 1 ? '<ion-text>s</ion-text>' : '') +
       `, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>` +
       (this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : '') +
-      ` at <strong>${this.locationFilter}</strong>`;
+      ` at <strong>${this.locationFilter.centreName}</strong>`;
   }
 
   cardClicked(event: ExaminerReportsCardClick) {
