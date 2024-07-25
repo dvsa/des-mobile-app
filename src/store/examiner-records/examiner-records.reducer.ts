@@ -5,11 +5,7 @@ import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import {
   CacheExaminerRecords,
   ColourFilterChanged,
-  DateRangeChanged,
   LoadingExaminerRecords,
-  LocationChanged,
-  HideChartsChanged,
-  TestCategoryChanged,
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 
@@ -40,22 +36,6 @@ export const examinerRecordsReducer = createReducer(
   on(ColourFilterChanged, (state: ExaminerRecordStateModel, { colour }) => ({
     ...state,
     colourScheme: colour,
-  })),
-  on(DateRangeChanged, (state: ExaminerRecordStateModel, { selectedDate }) => ({
-    ...state,
-    dateFilter: selectedDate,
-  })),
-  on(LocationChanged, (state: ExaminerRecordStateModel, { location }) => ({
-    ...state,
-    locationFilter: location,
-  })),
-  on(TestCategoryChanged, (state: ExaminerRecordStateModel, { testCategory }) => ({
-    ...state,
-    categoryFilter: testCategory,
-  })),
-  on(HideChartsChanged, (state: ExaminerRecordStateModel, { hideChart: showData }) => ({
-    ...state,
-    showData: showData,
   })),
 );
 
