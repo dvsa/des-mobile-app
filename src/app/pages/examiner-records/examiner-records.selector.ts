@@ -32,8 +32,8 @@ let unwantedCategories: TestCategory[] = [
   TestCategory.CM,
   TestCategory.C1M,
   TestCategory.C1EM,
-  TestCategory.CEM
-]
+  TestCategory.CEM,
+];
 
 // add date range filter
 export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean => (range)
@@ -63,13 +63,16 @@ export const getEligibleTests = (
   filterByCategory: boolean = true,
   allowExtendedTests: boolean = false,
 ): ExaminerRecordModel[] => {
-
-  return startedTests.filter((value: ExaminerRecordModel) => {
-    return (!!range ? dateFilter(value, range as DateRange) : true) &&
+  if (startedTests) {
+    return startedTests.filter((value: ExaminerRecordModel) => {
+      return (!!range ? dateFilter(value, range as DateRange) : true) &&
         (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&
         (filterByLocation ? (!!centreId ? (get(value, 'testCentre.centreId') === centreId) : true) : true) &&
         (allowExtendedTests ? true : !(get(value, 'extendedTest') === true));
-  });
+    });
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -96,17 +99,21 @@ export const getLocations = (
   range: ExaminerRecordsRange = null,
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
-  const data = getEligibleTests(startedTests, null, range, null)
-    .filter((record) => !!get(record, 'testCentre', null).centreId);
+  if (startedTests) {
+    const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null)
+      .filter((record) => !!get(record, 'testCentre', null).centreId);
 
-  return uniqBy(data.map(({ testCentre }) => {
-    return {
-      item: testCentre,
-      count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
-    };
-  }), 'item.centreId')
-    .sort((item1, item2) =>
-      (item1.item.centreName) > (item2.item.centreName) ? 1 : -1);
+    return uniqBy(data.map(({ testCentre }) => {
+      return {
+        item: testCentre,
+        count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
+      };
+    }), 'item.centreId')
+      .sort((item1, item2) =>
+        (item1.item.centreName) > (item2.item.centreName) ? 1 : -1);
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -117,7 +124,7 @@ export const getIndependentDrivingStats = (
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
-  if (!category || isAnyOf(category, [
+  if (!startedTests || !category || isAnyOf(category, [
     TestCategory.ADI3, TestCategory.SC,
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
     TestCategory.CCPC, TestCategory.DCPC,
@@ -161,7 +168,7 @@ export const getCircuits = (
   category: TestCategory,
 ): ExaminerRecordData<string>[] => {
   //getCircuits is only applicable to the following categories, and so we can avoid the entire function
-  if (!category || !isAnyOf(category, [
+  if (!startedTests || !category || !isAnyOf(category, [
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
   ])) {
     return [];
@@ -198,19 +205,23 @@ export const getCategories = (
   item: TestCategory;
   count: number
 }[] => {
-  const data = startedTests
-    .filter((record: ExaminerRecordModel) =>
-      (get(record, 'testCentre.centreId', null) === centreId)
-      && !isAnyOf(get(record, 'testCategory', null), unwantedCategories))
+  if (startedTests) {
+    const data: ExaminerRecordModel[] = startedTests
+      .filter((record: ExaminerRecordModel) =>
+        (get(record, 'testCentre.centreId', null) === centreId)
+        && !isAnyOf(get(record, 'testCategory', null), unwantedCategories));
 
-  return uniqBy(data.map(({ testCategory }) => {
-    return {
-      item: testCategory,
-      count: data.filter((val) => val.testCategory === testCategory).length,
-    };
-  }), 'item')
-    .sort((item1, item2) =>
-      (item1.item as string) > (item2.item as string) ? 1 : -1);
+    return uniqBy(data.map(({ testCategory }) => {
+      return {
+        item: testCategory,
+        count: data.filter((val) => val.testCategory === testCategory).length,
+      };
+    }), 'item')
+      .sort((item1, item2) =>
+        (item1.item as string) > (item2.item as string) ? 1 : -1);
+  } else {
+    return [];
+  }
 };
 
 /**
@@ -373,7 +384,7 @@ export const getTellMeQuestions = (
     const questions = qp.getTellMeQuestions(category);
     const data = (startedTests)
       .flatMap((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
-    // filter for any empty string/null values
+      // filter for any empty string/null values
       .filter((question: QuestionResult) => !!question?.code);
 
     return questions.map((q) => {
@@ -418,7 +429,7 @@ export const getManoeuvresUsed = (
   if (category) {
     manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
   }
-  if (manoeuvreTypeLabels.length == 0) {
+  if (manoeuvreTypeLabels.length == 0 || !startedTests) {
     return [];
   }
 
