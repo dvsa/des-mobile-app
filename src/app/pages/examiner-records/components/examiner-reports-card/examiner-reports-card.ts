@@ -80,12 +80,32 @@ export class ExaminerReportsCard {
   constructor(public accessibilityService: AccessibilityService) {
   }
 
-  /**Get the total number of individual instances of data*/
+  /**
+   * Calculate the total number of individual instances of data.
+   *
+   * This method takes an array of `ExaminerRecordData` objects and sums up the `count` property of each object.
+   * The `count` property is converted to a number before summing.
+   *
+   * @template T - The type of the data contained in the `ExaminerRecordData` objects.
+   * @param {ExaminerRecordData<T>[]} value - The array of `ExaminerRecordData` objects to be totaled.
+   * @returns {number} The total count of all `ExaminerRecordData` objects.
+   */
   getTotal = <T>(
     value: ExaminerRecordData<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
-  /**Format data for use in data grid*/
+  /**
+   * Format data for use in a data grid.
+   *
+   * This method takes an array of `ExaminerRecordData` objects and converts each object
+   * into an array of its values. If the input array is empty or null, it returns an array
+   * containing an empty array.
+   *
+   * @template T - The type of the data contained in the `ExaminerRecordData` objects.
+   * @param {ExaminerRecordData<T>[]} examinerRecordData - The array of `ExaminerRecordData` objects to be formatted.
+   * @returns {T[][]} A two-dimensional array where each inner array contains the values of an `ExaminerRecordData`
+   * object.
+   */
   filterDataForGrid<T>(examinerRecordData: ExaminerRecordData<T>[]): T[][] {
     if (!!examinerRecordData && examinerRecordData.length > 0) {
       return examinerRecordData.map((obj) => Object.values(obj) as T[]);
@@ -93,12 +113,26 @@ export class ExaminerReportsCard {
     return [[]];
   }
 
-  /**Return the relevant text string based on whether the card is expanded*/
-  getTapText(trueCondition: string, falseCondition: string) {
+  /**
+   * Return the relevant text string based on whether the card is expanded.
+   *
+   * This method returns the `trueCondition` string if `showExpandedData` is true,
+   * otherwise it returns the `falseCondition` string.
+   *
+   * @param {string} trueCondition - The text to return if the card is expanded.
+   * @param {string} falseCondition - The text to return if the card is not expanded.
+   * @returns {string} The relevant text string based on the card's expanded state.
+   */
+  getTapText(trueCondition: string, falseCondition: string): string {
     return this.showExpandedData ? trueCondition : falseCondition;
   }
 
-  /**Toggle the expandable data if this card is allowed to expand*/
+  /**
+   * Toggle the expandable data if this card is allowed to expand.
+   *
+   * This method toggles the `showExpandedData` property if the card can expand,
+   * and emits an event with the new expanded state and the card title.
+   */
   handleCardClick() {
     if (this.canExpand) {
       this.showExpandedData = !this.showExpandedData;
@@ -106,9 +140,13 @@ export class ExaminerReportsCard {
     }
   }
 
-  /**Set the minimum width of the card, so it appears as the same size when graphs are disabled.
-   * If the type is bar, add additional padding to make the card look right
-   * (1.07 and 1.04 are not determined in any mathematical way, they are values that appear to work consistently)*/
+  /**
+   * Set the minimum width of the card, so it appears as the same size when graphs are disabled.
+   * If the type is bar, add additional padding to make the card look right.
+   * (1.07 and 1.04 are not determined in any mathematical way, they are values that appear to work consistently)
+   *
+   * @returns {string} The minimum width of the card in pixels, or null if no minimum width is set.
+   */
   setMinWidth(): string {
     let minWidth: number = null;
     if (this.hasChart) {

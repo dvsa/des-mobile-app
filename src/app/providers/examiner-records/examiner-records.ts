@@ -114,9 +114,17 @@ export class ExaminerRecordsProvider {
   }
 
   /**
-   * handler for loading spinner while pulling backend data
+   * Handler for loading spinner while pulling backend data.
+   *
+   * This method manages the UI state for a loading spinner based on the `isLoading` parameter.
+   * It updates the `currentlyLoading` state and invokes the `handleUILoading` method of the `loadingProvider`
+   * to show or hide the loading spinner with specific options.
+   *
+   * @param {boolean} isLoading - Indicates whether the loading spinner should be displayed
+   * (`true`) or hidden (`false`).
+   * @returns {Promise<null>} A promise that resolves to `null` after the loading state is handled.
    */
-  handleLoadingUI = async (isLoading: boolean) => {
+  handleLoadingUI = async (isLoading: boolean): Promise<null> => {
     if ((isLoading && !this.currentlyLoading) || (!isLoading && this.currentlyLoading)) {
       this.currentlyLoading = isLoading;
       await this.loadingProvider.handleUILoading(isLoading, {
@@ -132,7 +140,15 @@ export class ExaminerRecordsProvider {
   };
 
   /**
-  Get the date from a set date range ago in order to display on screen
+   * Get the date from a set date range ago in order to display on screen.
+   *
+   * This method calculates the date based on the provided date range.
+   * It returns the current date for 'today', one week ago for 'week',
+   * two weeks ago for 'fortnight', 90 days ago for '90 days',
+   * one year ago for '1 year', and 18 months ago for '18 months'.
+   *
+   * @param {DateRange} range - The date range to calculate the date from.
+   * @returns {moment.Moment} The calculated date based on the provided range.
    */
   getRangeDate(range: DateRange): moment.Moment {
     let dateRange: moment.Moment = null;
@@ -167,7 +183,15 @@ export class ExaminerRecordsProvider {
   }
 
   /**
-   * changes test result to the ExaminerRecordModel format, which we then use for examiner records
+   * Converts a test result to the ExaminerRecordModel format.
+   *
+   * This method transforms the provided test result into the format required for examiner records.
+   * It extracts various fields from the test result and assigns them to the corresponding properties
+   * of the ExaminerRecordModel. The method handles optional fields and ensures they are only added
+   * if they exist in the test result.
+   *
+   * @param {TestResultSchemasUnion} testResult - The test result to be formatted.
+   * @returns {ExaminerRecordModel} The formatted examiner record.
    */
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
     let result: ExaminerRecordModel = {

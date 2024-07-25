@@ -154,9 +154,14 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * checks if user has already successfully cached examiner records today, if not, dispatches the effect to do so
-   */
-  async getOnlineRecords() {
+   * Fetches online examiner records if they have not been cached today.
+   *
+   * This method checks if the examiner records have already been cached for today.
+   * If not, it dispatches actions to load the examiner records from the online source.
+   *
+   * @returns {Promise<void>} A promise that resolves when the records have been checked and potentially fetched.
+   **/
+  async getOnlineRecords(): Promise<void> {
     if (
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
@@ -168,7 +173,11 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * get and save the tests we will use to get the data used for record cards
+   * Updates the eligible tests based on the current filter criteria.
+   *
+   * This method retrieves the eligible tests using the current values of
+   * `testSubject$`, `categorySubject$`, `rangeSubject$`, and `locationSubject$`,
+   * and updates the `eligTestSubject$` with the filtered results.
    */
   changeEligibleTests() {
     this.eligTestSubject$.next(
@@ -181,7 +190,11 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * get and save the tests that are within the selected date range
+   * Filters and updates the tests that are within the selected date range.
+   *
+   * This method retrieves the eligible tests using the current values of
+   * `testSubject$` and `rangeSubject$`, and updates the `testsInRangeSubject$`
+   * with the filtered results.
    */
   filterDates() {
     this.testsInRangeSubject$.next(
@@ -194,8 +207,16 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * wrapper used to reduce/centralise code
-   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
+   * Retrieves and processes eligible tests based on the provided function and current category.
+   *
+   * This method combines the latest values from `eligTestSubject$` and applies the provided function `fn`
+   * to the eligible tests and current category, returning the result as an observable.
+   *
+   * @template T The type of the result returned by the provided function `fn`.
+   * @param {function(ExaminerRecordModel[], string): T} fn - The function to apply to the eligible tests
+   * and current category.
+   * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the
+   * eligible tests and current category.
    */
   getTestsByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
@@ -214,8 +235,18 @@ export class ExaminerRecordsPage implements OnInit {
     );
 
   /**
-   * wrapper used to reduce/centralise code
-   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
+   * Wrapper used to reduce/centralize code.
+   * Takes in a dynamic type and a function with the signature `fn(tests, date, location, category)`.
+   *
+   * This method combines the latest values from `locationSubject$` and `testsInRangeSubject$`,
+   * and applies the provided function `fn` to the eligible tests, date range, category, and location,
+   * returning the result as an observable.
+   *
+   * @template T The type of the result returned by the provided function `fn`.
+   * @param {function(ExaminerRecordModel[], DateRange, string, number): T} fn - The function to apply to the eligible
+   * tests, date range, category, and location.
+   * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
+   * date range, category, and location.
    */
   private getCategoriesByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
@@ -240,9 +271,20 @@ export class ExaminerRecordsPage implements OnInit {
         ));
       }),
     );
+
   /**
-   * wrapper used to reduce/centralise code
-   * take in a dynamic type, and a function with signature of fn(tests, date, location, category)
+   * Wrapper used to reduce/centralize code.
+   * Takes in a dynamic type and a function with the signature `fn(tests, date, location, category)`.
+   *
+   * This method combines the latest values from `testsInRangeSubject$`,
+   * and applies the provided function `fn` to the eligible tests, date range, category, and location,
+   * returning the result as an observable.
+   *
+   * @template T The type of the result returned by the provided function `fn`.
+   * @param {function(ExaminerRecordModel[], DateRange, string, number): T} fn - The function to apply to the eligible
+   * tests, date range, category, and location.
+   * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
+   * date range, category, and location.
    */
   private getLocationsByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
@@ -267,7 +309,14 @@ export class ExaminerRecordsPage implements OnInit {
     );
 
   /**
-   * merge the local records pulled from the store with the cached online records, if they exist
+   * Merges local records with cached online records.
+   *
+   * This method combines the local records with the cached online records.
+   * If there are no cached online records, it dispatches an action to display a partial banner.
+   *
+   * @param {ExaminerRecordModel[]} localRecords - The local records to be merged.
+   * @param {ExaminerRecordModel[]} cachedExaminerRecords - The cached online records to be merged.
+   * @returns {ExaminerRecordModel[]} The merged array of local and cached online records.
    */
   mergeWithOnlineResults(localRecords: ExaminerRecordModel[], cachedExaminerRecords: ExaminerRecordModel[]) {
     this.cachedExaminerRecords = cachedExaminerRecords;
@@ -282,9 +331,15 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * removes duplicate entries from an array and sort it's content by most recent
+   * Removes duplicate entries from an array and sorts its content by the most recent date.
+   *
+   * This method filters out duplicate entries in the provided array based on the `appRef` property
+   * and then sorts the remaining entries in descending order by the `startDate` property.
+   *
+   * @param {ExaminerRecordModel[]} result - The array of examiner records to be processed.
+   * @returns {ExaminerRecordModel[]} The filtered and sorted array of examiner records.
    */
-  removeDuplicatesAndSort(result: ExaminerRecordModel[]) {
+  removeDuplicatesAndSort(result: ExaminerRecordModel[]): ExaminerRecordModel[] {
     //remove duplicates from array
     return result.filter((item, index, self) => {
       return self.findIndex(item2 => item2.appRef === item.appRef) === index;
@@ -296,10 +351,12 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * Pull local tests from the store and perform the following functions
-   * 1. Filter them so that we only use tests conducted by the examiner
-   *    and not tests they rekeyed on other examiner's behalf.
-   * 2. Format the tests into the ExaminerRecordModel format
+   * Pulls local tests from the store and performs the following functions:
+   * 1. Filters them so that only tests conducted by the examiner are used,
+   *    excluding tests they rekeyed on other examiner's behalf.
+   * 2. Formats the tests into the ExaminerRecordModel format.
+   *
+   * @returns {ExaminerRecordModel[]} The array of formatted examiner records.
    */
   getLocalResults(): ExaminerRecordModel[] {
 
@@ -332,7 +389,19 @@ export class ExaminerRecordsPage implements OnInit {
     return result;
   }
 
-  async ngOnInit() {
+  /**
+   * Initializes the component and sets up the necessary data and subscriptions.
+   *
+   * This method performs the following actions:
+   * 1. Retrieves and sorts local test results.
+   * 2. Sets the default date filter.
+   * 3. Initializes the page state with various observables.
+   * 4. Sets up subscriptions to handle changes in test results and loading state.
+   * 5. Sets the location filter and fetches online records if necessary.
+   *
+   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
+   */
+  async ngOnInit(): Promise<void> {
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
@@ -456,7 +525,13 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * deactivate subscriptions and listeners
+   * Deactivates subscriptions and listeners when the view is about to leave.
+   *
+   * This method performs the following actions:
+   * 1. Unsubscribes from the current subscription if it exists.
+   * 2. Removes all listeners from the ScreenOrientation.
+   *
+   * @returns {Promise<void>} A promise that resolves when the cleanup is complete.
    */
   async ionViewWillLeave(): Promise<void> {
     if (this.subscription) {
@@ -466,16 +541,27 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * monitor orientation to manipulate graphs and fire analytics
+   * Dispatches the ExaminerRecordsViewDidEnter action and monitors screen orientation.
+   *
+   * This method performs the following actions:
+   * 1. Dispatches the ExaminerRecordsViewDidEnter action to the store.
+   * 2. Calls the monitorOrientation method of the orientationProvider to start monitoring screen orientation changes.
+   *
+   * @returns {Promise<void>} A promise that resolves when the orientation monitoring is complete.
    */
-  async ionViewDidEnter() {
+  async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(ExaminerRecordsViewDidEnter());
     await this.orientationProvider.monitorOrientation();
   }
 
   /**
-   * pull the list of the current locations where tests have been conducted, then sets the most common location
-   * as the default
+   * Pulls the list of the current locations where tests have been conducted, then sets the most common location
+   * as the default.
+   *
+   * This method performs the following actions:
+   * 1. Initializes the location filter options if they are not already set.
+   * 2. Subscribes to the location list observable and populates the location filter options.
+   * 3. Determines the most used location and sets it as the default.
    */
   setLocationFilter() {
     if (!this.locationFilterOptions) {
@@ -498,7 +584,16 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * Find the most used element in an array and return it
+   * Find the most used element in an array and return it.
+   *
+   * This method performs the following actions:
+   * 1. Checks if the input data array is null or empty.
+   * 2. Uses the reduce function to find the element with the highest count.
+   *
+   * @template T The type of the elements in the data array.
+   * @param {Omit<ExaminerRecordData<T>, 'percentage'>[]} data - The array of data elements to search.
+   * @returns {Omit<ExaminerRecordData<T>, 'percentage'> | null} The element with the highest count, or null if the
+   * input data is null or empty.
    */
   setDefault<T>(data: Omit<ExaminerRecordData<T>, 'percentage'>[]): Omit<ExaminerRecordData<T>, 'percentage'> {
     if (!data || data?.length === 0) {
@@ -508,7 +603,16 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * set date range filter to the event value and send that value to the behaviour subject
+   * Sets the date range filter to the event value and sends that value to the behavior subject.
+   *
+   * This method performs the following actions:
+   * 1. Updates the `dateFilter` with the display value from the event.
+   * 2. Updates the `rangeSubject$` with the value from the event.
+   * 3. Formats and sets the `startDateFilter` using the range value from the event.
+   * 4. Filters the tests based on the updated date range.
+   * 5. Dispatches the `DateRangeChanged` action to the store with the event value.
+   *
+   * @param {CustomEvent} event - The event containing the new date range value.
    */
   handleDateFilter(event: CustomEvent) {
     this.dateFilter = event.detail?.value.display ?? null;
@@ -520,8 +624,18 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * set the current location to the selected value, change relevant variables for
-   * displaying the new value and send that value to the behaviour subject
+   * Sets the current location to the selected value, updates relevant variables for
+   * displaying the new value, and sends that value to the behavior subject.
+   *
+   * This method performs the following actions:
+   * 1. Sets `locationSelectPristine` to false if the selection was triggered by the user.
+   * 2. Updates the `locationFilter` and `currentTestCentre` with the selected location if it is different
+   * from the current one.
+   * 3. Sends the selected location's ID to the `locationSubject$` behavior subject.
+   * 4. Dispatches the `LocationChanged` action to the store with the selected location.
+   *
+   * @param {TestCentre} event - The selected location.
+   * @param {boolean} [ionSelectTriggered=false] - Indicates if the selection was triggered by the user.
    */
   handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
     if (ionSelectTriggered) {
@@ -538,8 +652,19 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * set the current category to the selected value, change relevant variables for
-   * displaying the new value and send that value to the behaviour subject
+   * Sets the current category to the selected value, updates relevant variables for
+   * displaying the new value, and sends that value to the behavior subject.
+   *
+   * This method performs the following actions:
+   * 1. Sets `categorySelectPristine` to false if the selection was triggered by the user.
+   * 2. Updates the `categoryDisplay` and `currentCategory` with the selected category if
+   * it is different from the current one.
+   * 3. Sends the selected category to the `categorySubject$` behavior subject.
+   * 4. Calls `changeEligibleTests` to update the eligible tests based on the new category.
+   * 5. Dispatches the `TestCategoryChanged` action to the store with the selected category.
+   *
+   * @param {TestCategory} event - The selected category.
+   * @param {boolean} [ionSelectTriggered=false] - Indicates if the selection was triggered by the user.
    */
   handleCategoryFilter(event: TestCategory, ionSelectTriggered: boolean = false): void {
     if (ionSelectTriggered) {
@@ -557,7 +682,14 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * set the current selected colourScheme to the selected value and send that value to the behaviour subject
+   * Updates the colour filter to the selected value and triggers change detection.
+   *
+   * This method performs the following actions:
+   * 1. Dispatches the `ColourFilterChanged` action to the store with the selected colour.
+   * 2. Updates the `colourOption` with the new colour scheme.
+   * 3. Triggers change detection to update the view.
+   *
+   * @param {ColourEnum} colour - The selected colour scheme.
    */
   colourFilterChanged(colour: ColourEnum) {
     this.store$.dispatch(ColourFilterChanged(colour));
@@ -566,7 +698,11 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * set the variables determining whether a card is expanded and the graphs are hidden
+   * Toggles the visibility of the main content and expanded data, and dispatches the `HideChartsChanged` action.
+   *
+   * This method performs the following actions:
+   * 1. Toggles the `hideMainContent` and `showExpandedData` properties.
+   * 2. Dispatches the `HideChartsChanged` action to the store with the updated `hideMainContent` value.
    */
   hideChart(): void {
     this.hideMainContent = !this.hideMainContent;
@@ -575,7 +711,15 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * return the colour scheme associated with the name passed
+   * Returns the colour scheme associated with the given colour option.
+   *
+   * This method performs the following actions:
+   * 1. Checks if the provided colour option is `GREYSCALE`.
+   * 2. If it is, returns the greyscale colour scheme from the `examinerRecordsProvider`.
+   * 3. If it is not, returns the default colour scheme from the `examinerRecordsProvider`.
+   *
+   * @param {ColourEnum} colourOption - The colour option to get the colour scheme for.
+   * @returns {ColourScheme} The colour scheme associated with the given colour option.
    */
   getColour(colourOption: ColourEnum): ColourScheme {
     switch (colourOption) {
@@ -587,9 +731,13 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * returns whether the category uses optional emergency stop
+   * Returns whether the current category uses an optional emergency stop.
+   *
+   * This method checks if the `currentCategory` is one of the categories that use an optional emergency stop.
+   *
+   * @returns {boolean} `true` if the current category uses an optional emergency stop, otherwise `false`.
    */
-  showEmergencyStop() {
+  showEmergencyStop(): boolean {
     return isAnyOf(this.currentCategory, [
       TestCategory.B,
       TestCategory.F,
@@ -600,14 +748,23 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * toggle whether the accordion is open
+   * Toggles the state of the accordion between open and closed.
+   *
+   * This method performs the following actions:
+   * 1. Toggles the `accordionOpen` property.
    */
   accordionSelect() {
     this.accordionOpen = !this.accordionOpen;
   }
 
   /**
-   * Navigate back to dashboard
+   * Navigate back to the dashboard.
+   *
+   * This method performs the following actions:
+   * 1. Dispatches the `ReturnToDashboardPressed` action to the store.
+   * 2. Navigates to the dashboard page and replaces the current URL.
+   *
+   * @returns {Promise<void>} A promise that resolves when the navigation is complete.
    */
   async goToDashboard(): Promise<void> {
     this.store$.dispatch(ReturnToDashboardPressed());
@@ -615,7 +772,11 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * returns whether the current category is a mod1 test
+   * Returns whether the current category is a mod1 test.
+   *
+   * This method checks if the `currentCategory` is one of the mod1 test categories.
+   *
+   * @returns {boolean} `true` if the current category is a mod1 test, otherwise `false`.
    */
   public isMod1 = (): boolean => isAnyOf(this.currentCategory, [
     // Cat Mod1
@@ -623,7 +784,11 @@ export class ExaminerRecordsPage implements OnInit {
   ]);
 
   /**
-   * returns whether the current category is a bike test (mod1/mod2)
+   * Returns whether the current category is a bike test (mod1/mod2).
+   *
+   * This method checks if the `currentCategory` is one of the bike test categories.
+   *
+   * @returns {boolean} `true` if the current category is a bike test, otherwise `false`.
    */
   public isBike = (): boolean => isAnyOf(this.currentCategory, [
     // Cat Mod1
@@ -632,13 +797,32 @@ export class ExaminerRecordsPage implements OnInit {
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
   ]);
 
-  /**Get the total number of individual instances of data*/
+  /**
+   * Get the total number of individual instances of data.
+   *
+   * This method takes an array of `ExaminerRecordData` objects and calculates the total count
+   * by summing up the `count` property of each object in the array.
+   *
+   * @template T The type of the data in the `ExaminerRecordData` objects.
+   * @param {ExaminerRecordData<T>[]} value - The array of `ExaminerRecordData` objects.
+   * @returns {number} The total count of individual instances of data.
+   */
   getTotal = <T>(
     value: ExaminerRecordData<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
-  /**Determine if we should display the no data card*/
-  displayNoDataCard(data: ExaminerRecordsPageStateData) {
+  /**
+   * Determines if the "No Data" card should be displayed.
+   *
+   * This method checks if there is no data available in the provided `ExaminerRecordsPageStateData` object.
+   * It iterates over the keys of the data object and checks if the total count of each key is greater than 0.
+   * If any key has a total count greater than 0, it sets `noData` to false.
+   * Additionally, it checks if the `categoryList` or `locationList` arrays are empty.
+   *
+   * @param {ExaminerRecordsPageStateData} data - The data object containing various examiner records.
+   * @returns {boolean} `true` if the "No Data" card should be displayed, otherwise `false`.
+   */
+  displayNoDataCard(data: ExaminerRecordsPageStateData): boolean {
     let noData = true;
 
     Object.keys(data).forEach((key) => {
@@ -651,8 +835,15 @@ export class ExaminerRecordsPage implements OnInit {
     return noData || (data.categoryList?.length === 0 || data.locationList?.length === 0)
   }
 
-  /**Return the text used on the sticky label*/
-  getLabelText() {
+  /**
+   * Returns the text used on the sticky label.
+   *
+   * This method retrieves the test count from the `testCount$` observable and constructs a string
+   * that displays the number of tests, the current category, the date range, and the location.
+   *
+   * @returns {string} The formatted label text.
+   */
+  getLabelText(): string {
     let testCount: number = 0;
     this.pageState.testCount$.subscribe(value => testCount = value).unsubscribe();
 
@@ -663,6 +854,13 @@ export class ExaminerRecordsPage implements OnInit {
       ` at <strong>${this.locationFilter.centreName}</strong>`;
   }
 
+  /**
+   * Handles the click event on an examiner reports card.
+   *
+   * This method dispatches the `ClickDataCard` action to the store with the provided event.
+   *
+   * @param {ExaminerReportsCardClick} event - The event object containing details of the card click.
+   */
   cardClicked(event: ExaminerReportsCardClick) {
     this.store$.dispatch(ClickDataCard(event));
   }

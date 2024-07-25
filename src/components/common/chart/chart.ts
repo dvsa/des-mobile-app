@@ -38,6 +38,14 @@ export class ChartComponent implements OnInit, OnChanges {
   public chart: ApexCharts = null;
   public chartOptions: ApexOptions;
 
+  /**
+   * Get the chart type as a string.
+   *
+   * This method returns a string representing the type of chart based on the `chartType` property.
+   * If the `chartType` is 'pie', it returns '1Axis'. If the `chartType` is 'bar', it returns '2Axis'.
+   *
+   * @returns {string} The chart type as a string.
+   */
   getChartType(): string {
     switch (this.chartType) {
       case 'pie':
@@ -47,12 +55,26 @@ export class ChartComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Initialize the component.
+   *
+   * This lifecycle hook is called after Angular has initialized all data-bound properties.
+   * It filters the data and sets the chart options.
+   */
   ngOnInit() {
     this.filterData();
     this.chartOptions = this.options;
   }
 
-  async ngAfterViewInit() {
+  /**
+   * Lifecycle hook that is called after Angular has fully initialized a component's view.
+   *
+   * This method initializes the ApexCharts chart by selecting the chart element using the `chartId`
+   * and rendering the chart with the specified options.
+   *
+   * @returns {Promise<void>} A promise that resolves when the chart has been rendered.
+   */
+  async ngAfterViewInit(): Promise<void> {
     let chartElement: HTMLElement = document.getElementById(this.chartId)
     if (chartElement) {
       this.chart = new ApexCharts(chartElement, this.options);
@@ -60,7 +82,16 @@ export class ChartComponent implements OnInit, OnChanges {
     }
   }
 
-  async ngOnChanges(changes: SimpleChanges)
+  /**
+   * Lifecycle hook that is called when any data-bound property of a directive changes.
+   *
+   * This method checks if any of the input properties have changed. If there are changes and the chart exists,
+   * it re-filters the data and updates the chart options. If the `chartType` has changed, it renders a new chart.
+   *
+   * @param {SimpleChanges} changes - An object of key/value pairs for the set of changed properties.
+   * @returns {Promise<void>} A promise that resolves when the chart has been updated.
+   */
+  async ngOnChanges(changes: SimpleChanges): Promise<void>
   {
     //check if there are any changed elements
     const dataChanged = Object.keys(changes)
@@ -81,7 +112,16 @@ export class ChartComponent implements OnInit, OnChanges {
     }
   }
 
-  get options() {
+  /**
+   * Get the chart options.
+   *
+   * This getter method returns the configuration options for the ApexCharts chart.
+   * It includes settings for states, annotations, fill, chart properties, data labels, stroke, x-axis,
+   * y-axis, colors, series, labels, legend, tooltip, and plot options.
+   *
+   * @returns {ApexOptions} The configuration options for the chart.
+   */
+  get options(): ApexOptions {
     return {
       states: {
         //disable chart section darkening on click
@@ -287,7 +327,11 @@ export class ChartComponent implements OnInit, OnChanges {
   /**
    * Morphs the passed data into a format that can be used by the graph, and calculates the average and tick count
    * for the graph.
-   **/
+   *
+   * This method processes the `passedData` to extract labels and values, calculates the average value, determines
+   * the tick count,
+   * and sets the `dataValues` property based on the chart type.
+   */
   filterData() {
     this.labels = this.passedData.map((val) => val.item);
     const values: number[] = this.passedData.map((val) => val.count);
@@ -300,16 +344,29 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   /**
-  Returns the largest value in an array if that value is equal to or less than 5
-   The purpose of this is to stop the chart's y-axis from attempting to draw numbers with decimal points, as we do
-   not allow them.
-   **/
-  getTickCount(numbers: number[]) {
+   * Get the tick count for the y-axis.
+   *
+   * This method returns the largest value in the provided array if that value is less than or equal to 5.
+   * The purpose of this is to prevent the chart's y-axis from attempting to draw numbers with decimal points,
+   * as they are not allowed.
+   *
+   * @param {number[]} numbers - An array of numbers to evaluate.
+   * @returns {number | null} The largest value if it is less than or equal to 5, otherwise null.
+   */
+  getTickCount(numbers: number[]): number | null {
     const max = Math.max(...numbers)
     return max <= 5 ? max : null;
   }
 
-  getFontSize() {
+  /**
+   * Get the font size based on the zoom size.
+   *
+   * This method returns a string representing the font size in pixels based on the `zoomSize` property.
+   * It supports three zoom sizes: 'text-zoom-regular', 'text-zoom-large', and 'text-zoom-x-large'.
+   *
+   * @returns {string} The font size in pixels.
+   */
+  getFontSize(): string {
     switch (this.zoomSize) {
       case 'text-zoom-regular':
         return '16px';
