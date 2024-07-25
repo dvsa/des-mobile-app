@@ -17,7 +17,7 @@ import {
   LoadExaminerRecordsPreferences,
 } from '@store/examiner-records/examiner-records.actions';
 
-fdescribe('ExaminerRecordsStoreEffects', () => {
+describe('ExaminerRecordsStoreEffects', () => {
   let actions$: ReplaySubject<any>;
   let effects: ExaminerRecordsEffects;
   let store$: Store<StoreModel>;
