@@ -32,6 +32,8 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -184,7 +186,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async requestJournal(rehydrationType: JournalRehydrationType) {
     await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
     this.store$.dispatch(journalActions.LoadJournal());
-    this.store$.dispatch(journalActions.JournalRehydration(rehydrationType, JournalRehydrationPage.JOURNAL));
+    if (!(environment as unknown as TestersEnvironmentFile)?.isTest) {
+      this.store$.dispatch(journalActions.JournalRehydration(rehydrationType, JournalRehydrationPage.JOURNAL));
+    }
   }
 
   setupPolling() {
