@@ -48,7 +48,7 @@ export const LoadingExaminerRecords = createAction(
 );
 
 export const ReturnToDashboardPressed = createAction(
-  '[ExaminerRecordsPage] Examiner records begins loading',
+  '[ExaminerRecordsPage] Return to Dashboard button pressed',
 );
 
 export const DisplayPartialBanner = createAction(
