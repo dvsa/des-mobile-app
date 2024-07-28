@@ -6,22 +6,21 @@ export const PRESS_TIME_TO_ENABLE_EDIT = 10000;
 // Is mainly used in the office page of Delegated test journies
 
 export function getNewTestStartTime(inputDate: string, startDateTime: string): string {
-  const date = inputDate.trim();
+	const date = inputDate.trim();
 
-  const dateArray = date.split('-')
-    .map((d) => parseInt(d, 10));
-  const year = dateArray[0];
-  const month = dateArray[1];
-  const day = dateArray[2];
+	const dateArray = date.split('-').map((d) => Number.parseInt(d, 10));
+	const year = dateArray[0];
+	const month = dateArray[1];
+	const day = dateArray[2];
 
-  const startDateTemp = new DateTime(startDateTime).moment;
+	const startDateTemp = new DateTime(startDateTime).moment;
 
-  startDateTemp.date(day);
-  startDateTemp.month(month - 1);
-  startDateTemp.year(year);
+	startDateTemp.date(day);
+	startDateTemp.month(month - 1);
+	startDateTemp.year(year);
 
-  // Database schema accepts only 19 characters for the start date time property
-  return startDateTemp.format('YYYY-MM-DDTHH:mm:ss');
+	// Database schema accepts only 19 characters for the start date time property
+	return startDateTemp.format('YYYY-MM-DDTHH:mm:ss');
 }
 
 /**
@@ -30,18 +29,15 @@ export function getNewTestStartTime(inputDate: string, startDateTime: string): s
  * @param currentDate format: YYYY-MM-DD
  */
 export function isValidStartDate(inputDate: string, currentDate: string): boolean {
+	if (DateTime.at(inputDate).isAfter(currentDate)) {
+		// inputDate is in the future
+		return false;
+	}
 
-  if (DateTime.at(inputDate)
-    .isAfter(currentDate)) {
-    // inputDate is in the future
-    return false;
-  }
+	if (new DateTime(currentDate).diff(inputDate, Duration.YEAR, true) > 1) {
+		// inputDate is more than one year in the past
+		return false;
+	}
 
-  if (new DateTime(currentDate).diff(inputDate, Duration.YEAR, true) > 1) {
-
-    // inputDate is more than one year in the past
-    return false;
-  }
-
-  return true;
+	return true;
 }

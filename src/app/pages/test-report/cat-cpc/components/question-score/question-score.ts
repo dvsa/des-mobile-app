@@ -1,19 +1,17 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'question-score',
-  templateUrl: 'question-score.html',
-  styleUrls: ['question-score.scss'],
+	selector: 'question-score',
+	templateUrl: 'question-score.html',
+	styleUrls: ['question-score.scss'],
 })
 export class QuestionScoreComponent {
+	@Input()
+	score: number | string;
 
-  @Input()
-  score: number | string;
+	@Input()
+	displayPercentage?: boolean = true;
 
-  @Input()
-  displayPercentage?: boolean = true;
-
-  @Input()
-  label?: string = 'Total:';
-
+	@Input()
+	label?: string = 'Total:';
 }

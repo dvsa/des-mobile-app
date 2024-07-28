@@ -3,25 +3,31 @@ import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as testSlotAttributesActions from './test-slot-attributes.actions';
 
 export const initialState: TestSlotAttributes = {
-  welshTest: null,
-  slotId: null,
-  start: '',
-  vehicleTypeCode: '',
-  extendedTest: false,
-  specialNeeds: false,
+	welshTest: null,
+	slotId: null,
+	start: '',
+	vehicleTypeCode: '',
+	extendedTest: false,
+	specialNeeds: false,
 };
 
 export const testSlotsAttributesReducer = createReducer(
-  initialState,
-  on(testSlotAttributesActions.PopulateTestSlotAttributes, (_, { testSlotAttributes }) => testSlotAttributes),
-  on(testSlotAttributesActions.SetStartDate, (state, { startDateTime }): TestSlotAttributes => ({
-    ...state,
-    start: startDateTime,
-  })),
-  on(testSlotAttributesActions.SetWelshTestMarker, (state, { welshTest }): TestSlotAttributes => ({
-    ...state,
-    welshTest,
-  })),
+	initialState,
+	on(testSlotAttributesActions.PopulateTestSlotAttributes, (_, { testSlotAttributes }) => testSlotAttributes),
+	on(
+		testSlotAttributesActions.SetStartDate,
+		(state, { startDateTime }): TestSlotAttributes => ({
+			...state,
+			start: startDateTime,
+		})
+	),
+	on(
+		testSlotAttributesActions.SetWelshTestMarker,
+		(state, { welshTest }): TestSlotAttributes => ({
+			...state,
+			welshTest,
+		})
+	)
 );
 
 export const getTestSlotAttributes = createFeatureSelector<TestSlotAttributes>('testSlotAttributes');

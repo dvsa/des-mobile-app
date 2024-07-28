@@ -1,4 +1,4 @@
 export enum ModalEvent {
-  START = 'start',
-  CANCEL = 'cancel',
+	START = 'start',
+	CANCEL = 'cancel',
 }

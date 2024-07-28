@@ -5,9 +5,9 @@ import { AppInfoEffects } from './app-info.effects';
 import * as fromAppInfoReducer from './app-info.reducer';
 
 @NgModule({
-  imports: [
-    StoreModule.forFeature(fromAppInfoReducer.appInfoFeatureKey, fromAppInfoReducer.appInfoReducer),
-    EffectsModule.forFeature([AppInfoEffects]),
-  ],
+	imports: [
+		StoreModule.forFeature(fromAppInfoReducer.appInfoFeatureKey, fromAppInfoReducer.appInfoReducer),
+		EffectsModule.forFeature([AppInfoEffects]),
+	],
 })
-export class AppInfoStoreModule { }
+export class AppInfoStoreModule {}

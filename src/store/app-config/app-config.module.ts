@@ -5,9 +5,9 @@ import { AppConfigEffects } from './app-config.effects';
 import * as fromAppConfigReducer from './app-config.reducer';
 
 @NgModule({
-  imports: [
-    StoreModule.forFeature(fromAppConfigReducer.appConfigFeatureKey, fromAppConfigReducer.appConfigReducer),
-    EffectsModule.forFeature([AppConfigEffects]),
-  ],
+	imports: [
+		StoreModule.forFeature(fromAppConfigReducer.appConfigFeatureKey, fromAppConfigReducer.appConfigReducer),
+		EffectsModule.forFeature([AppConfigEffects]),
+	],
 })
-export class AppConfigStoreModule { }
+export class AppConfigStoreModule {}

@@ -3,17 +3,14 @@ import { Router } from '@angular/router';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'practice-end-to-end-card',
-  templateUrl: 'practice-end-to-end-card.html',
-  styleUrls: ['practice-end-to-end-card.scss'],
+	selector: 'practice-end-to-end-card',
+	templateUrl: 'practice-end-to-end-card.html',
+	styleUrls: ['practice-end-to-end-card.scss'],
 })
 export class PracticeEndToEndCardComponent {
+	constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-  }
-
-  navigateToFakeJournal = async () => {
-    await this.router.navigate([FAKE_JOURNAL_PAGE]);
-  };
-
+	navigateToFakeJournal = async () => {
+		await this.router.navigate([FAKE_JOURNAL_PAGE]);
+	};
 }

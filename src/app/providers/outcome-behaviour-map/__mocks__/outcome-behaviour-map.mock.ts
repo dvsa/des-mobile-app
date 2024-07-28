@@ -3,25 +3,24 @@ import { VisibilityType } from '@providers/outcome-behaviour-map/outcome-behavio
 import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 
 export class OutcomeBehaviourMapProviderMock {
-  setBehaviourMap = () => {};
-  isVisible = () => {};
+	setBehaviourMap = () => {};
+	isVisible = () => {};
 
-  behaviourMap: OutcomeBehaviourMapping = {};
+	behaviourMap: OutcomeBehaviourMapping = {};
 
-  getVisibilityType(outcomeId: string, fieldName: string): string {
-    const mappedOutcome = this.behaviourMap[outcomeId];
-    if (!mappedOutcome) {
-      return VisibilityType.NotVisible;
-    }
-    const field = mappedOutcome[fieldName];
-    if (!field) {
-      return VisibilityType.NotVisible;
-    }
-    return field.display;
-  }
+	getVisibilityType(outcomeId: string, fieldName: string): string {
+		const mappedOutcome = this.behaviourMap[outcomeId];
+		if (!mappedOutcome) {
+			return VisibilityType.NotVisible;
+		}
+		const field = mappedOutcome[fieldName];
+		if (!field) {
+			return VisibilityType.NotVisible;
+		}
+		return field.display;
+	}
 
-  showNotApplicable(outcomeId: string, fieldName: string): boolean {
-    return true;
-  }
-
+	showNotApplicable(outcomeId: string, fieldName: string): boolean {
+		return true;
+	}
 }

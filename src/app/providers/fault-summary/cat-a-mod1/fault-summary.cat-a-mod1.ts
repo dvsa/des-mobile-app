@@ -1,110 +1,108 @@
-import {
-  TestData, SingleFaultCompetencies, Avoidance, EmergencyStop,
-} from '@dvsa/mes-test-schema/categories/AM1';
-import { get, pickBy, startsWith } from 'lodash-es';
-import { FaultSummary, CommentSource } from '@shared/models/fault-marking.model';
+import { Avoidance, EmergencyStop, SingleFaultCompetencies, TestData } from '@dvsa/mes-test-schema/categories/AM1';
+import { fullCompetencyLabels } from '@shared/constants/competencies/competencies';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { fullCompetencyLabels } from '@shared/constants/competencies/competencies';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
+import { get, pickBy, startsWith } from 'lodash-es';
 
 export class FaultSummaryCatAM1Helper {
+	public static getDrivingFaultsCatAM1(data: TestData): FaultSummary[] {
+		const singleFaultCompetenciesWithDrivingFaults: SingleFaultCompetencies =
+			FaultSummaryCatAM1Helper.matchCompetenciesIncludingComments(data.singleFaultCompetencies, CompetencyOutcome.DF);
 
-  public static getDrivingFaultsCatAM1(data: TestData): FaultSummary[] {
+		return [
+			...getCompetencyFaults(data.drivingFaults),
+			...getCompetencyFaults(singleFaultCompetenciesWithDrivingFaults),
+		];
+	}
 
-    const singleFaultCompetenciesWithDrivingFaults: SingleFaultCompetencies = FaultSummaryCatAM1Helper
-      .matchCompetenciesIncludingComments(
-        data.singleFaultCompetencies, CompetencyOutcome.DF,
-      );
+	public static getSeriousFaultsCatAM1(data: TestData): FaultSummary[] {
+		const singleFaultCompetenciesWithSeriousFaults: SingleFaultCompetencies =
+			FaultSummaryCatAM1Helper.matchCompetenciesIncludingComments(data.singleFaultCompetencies, CompetencyOutcome.S);
 
-    return [
-      ...getCompetencyFaults(data.drivingFaults),
-      ...getCompetencyFaults(singleFaultCompetenciesWithDrivingFaults),
-    ];
-  }
+		return [
+			...getCompetencyFaults(data.seriousFaults),
+			...getCompetencyFaults(singleFaultCompetenciesWithSeriousFaults),
+			...FaultSummaryCatAM1Helper.getSpeedCheckAvoidance(data.avoidance),
+			...FaultSummaryCatAM1Helper.getSpeedCheckEmergencyStop(data.emergencyStop),
+		];
+	}
 
-  public static getSeriousFaultsCatAM1(data: TestData): FaultSummary[] {
+	public static getDangerousFaultsCatAM1(data: TestData): FaultSummary[] {
+		const singleFaultCompetenciesWithDangerousFaults: SingleFaultCompetencies =
+			FaultSummaryCatAM1Helper.matchCompetenciesIncludingComments(data.singleFaultCompetencies, CompetencyOutcome.D);
 
-    const singleFaultCompetenciesWithSeriousFaults: SingleFaultCompetencies = FaultSummaryCatAM1Helper
-      .matchCompetenciesIncludingComments(
-        data.singleFaultCompetencies, CompetencyOutcome.S,
-      );
+		return [
+			...getCompetencyFaults(data.dangerousFaults),
+			...getCompetencyFaults(singleFaultCompetenciesWithDangerousFaults),
+		];
+	}
 
-    return [
-      ...getCompetencyFaults(data.seriousFaults),
-      ...getCompetencyFaults(singleFaultCompetenciesWithSeriousFaults),
-      ...FaultSummaryCatAM1Helper.getSpeedCheckAvoidance(data.avoidance),
-      ...FaultSummaryCatAM1Helper.getSpeedCheckEmergencyStop(data.emergencyStop),
-    ];
-  }
+	public static getSpeedCheckAvoidance(avoidance: Avoidance): FaultSummary[] {
+		const result = [];
+		if (get(avoidance, 'outcome') === CompetencyOutcome.S) {
+			const source = `${CommentSource.SPEED_REQUIREMENTS}-${Competencies.speedCheckAvoidance}`;
 
-  public static getDangerousFaultsCatAM1(data: TestData): FaultSummary[] {
-    const singleFaultCompetenciesWithDangerousFaults: SingleFaultCompetencies = FaultSummaryCatAM1Helper
-      .matchCompetenciesIncludingComments(
-        data.singleFaultCompetencies, CompetencyOutcome.D,
-      );
+			result.push(
+				FaultSummaryCatAM1Helper.createFaultSummary(
+					Competencies.speedCheckAvoidance,
+					fullCompetencyLabels.speedCheckAvoidance,
+					avoidance.comments,
+					source
+				)
+			);
+		}
 
-    return [
-      ...getCompetencyFaults(data.dangerousFaults),
-      ...getCompetencyFaults(singleFaultCompetenciesWithDangerousFaults),
-    ];
-  }
+		return result;
+	}
 
-  public static getSpeedCheckAvoidance(avoidance: Avoidance): FaultSummary[] {
-    const result = [];
-    if (get(avoidance, 'outcome') === CompetencyOutcome.S) {
-      const source = `${CommentSource.SPEED_REQUIREMENTS}-${Competencies.speedCheckAvoidance}`;
+	public static getSpeedCheckEmergencyStop(emergencyStop: EmergencyStop): FaultSummary[] {
+		const result = [];
+		if (get(emergencyStop, 'outcome') === CompetencyOutcome.S) {
+			const source = `${CommentSource.SPEED_REQUIREMENTS}-${Competencies.speedCheckEmergency}`;
 
-      result.push(FaultSummaryCatAM1Helper.createFaultSummary(
-        Competencies.speedCheckAvoidance, fullCompetencyLabels.speedCheckAvoidance, avoidance.comments, source,
-      ));
-    }
+			result.push(
+				FaultSummaryCatAM1Helper.createFaultSummary(
+					Competencies.speedCheckEmergency,
+					fullCompetencyLabels.speedCheckEmergency,
+					emergencyStop.comments,
+					source
+				)
+			);
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  public static getSpeedCheckEmergencyStop(emergencyStop: EmergencyStop): FaultSummary[] {
-    const result = [];
-    if (get(emergencyStop, 'outcome') === CompetencyOutcome.S) {
-      const source = `${CommentSource.SPEED_REQUIREMENTS}-${Competencies.speedCheckEmergency}`;
+	public static matchCompetenciesIncludingComments(
+		singleFaultCompetencies: SingleFaultCompetencies,
+		outcome: CompetencyOutcome
+	): Partial<SingleFaultCompetencies> {
+		const matchedCompetencies = pickBy(singleFaultCompetencies, (val) => val === outcome);
+		const matchedComments = pickBy(
+			singleFaultCompetencies,
+			(val, key) => Object.keys(matchedCompetencies).filter((value) => startsWith(key, value)).length > 0
+		);
 
-      result.push(FaultSummaryCatAM1Helper.createFaultSummary(
-        Competencies.speedCheckEmergency, fullCompetencyLabels.speedCheckEmergency, emergencyStop.comments, source,
-      ));
-    }
+		return {
+			...matchedCompetencies,
+			...matchedComments,
+		};
+	}
 
-    return result;
-  }
-
-  public static matchCompetenciesIncludingComments(
-    singleFaultCompetencies: SingleFaultCompetencies,
-    outcome: CompetencyOutcome,
-  ): Partial<SingleFaultCompetencies> {
-
-    const matchedCompetencies = pickBy(singleFaultCompetencies, (val) => val === outcome);
-    const matchedComments = pickBy(
-      singleFaultCompetencies,
-      (val, key) => Object.keys(matchedCompetencies)
-        .filter((value) => startsWith(key, value)).length > 0,
-    );
-
-    return {
-      ...matchedCompetencies,
-      ...matchedComments,
-    };
-
-  }
-
-  public static createFaultSummary(competencyIdentifier: string,
-    competencyName: string,
-    competencyComments: string,
-    source: string = CommentSource.SIMPLE): FaultSummary {
-    return {
-      competencyIdentifier,
-      source,
-      competencyDisplayName: competencyName,
-      comment: competencyComments || '',
-      faultCount: 1,
-    };
-  }
+	public static createFaultSummary(
+		competencyIdentifier: string,
+		competencyName: string,
+		competencyComments: string,
+		source: string = CommentSource.SIMPLE
+	): FaultSummary {
+		return {
+			competencyIdentifier,
+			source,
+			competencyDisplayName: competencyName,
+			comment: competencyComments || '',
+			faultCount: 1,
+		};
+	}
 }

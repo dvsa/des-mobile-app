@@ -5,6 +5,6 @@ import * as combinationActionTypes from './combination.action';
 const initialState: CombinationCodes = null;
 
 export const combinationReducer = createReducer(
-  initialState,
-  on(combinationActionTypes.PopulateCombination, (_, { combination }) => combination),
+	initialState,
+	on(combinationActionTypes.PopulateCombination, (_, { combination }) => combination)
 );

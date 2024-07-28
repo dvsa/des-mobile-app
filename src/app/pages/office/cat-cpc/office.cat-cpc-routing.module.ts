@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { OfficeCatCPCPage } from './office.cat-cpc.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: OfficeCatCPCPage,
-  },
+	{
+		path: '',
+		component: OfficeCatCPCPage,
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
 export class OfficeCatCPCPageRoutingModule {}

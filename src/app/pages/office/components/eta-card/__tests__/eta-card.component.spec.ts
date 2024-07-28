@@ -3,20 +3,20 @@ import { IonicModule } from '@ionic/angular';
 import { ETACardComponent } from '../eta-card.component';
 
 describe('EtaCardComponent', () => {
-  let component: ETACardComponent;
-  let fixture: ComponentFixture<ETACardComponent>;
+	let component: ETACardComponent;
+	let fixture: ComponentFixture<ETACardComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ETACardComponent],
-      imports: [IonicModule],
-    });
+	beforeEach(waitForAsync(() => {
+		TestBed.configureTestingModule({
+			declarations: [ETACardComponent],
+			imports: [IonicModule],
+		});
 
-    fixture = TestBed.createComponent(ETACardComponent);
-    component = fixture.componentInstance;
-  }));
+		fixture = TestBed.createComponent(ETACardComponent);
+		component = fixture.componentInstance;
+	}));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

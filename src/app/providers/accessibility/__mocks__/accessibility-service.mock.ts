@@ -1,22 +1,21 @@
 export class AccessibilityServiceMock {
-  textZoom: number = 100;
+	textZoom = 100;
 
-  configureAccessibility = (): Promise<void> => {
-    return Promise.resolve();
-  };
+	configureAccessibility = (): Promise<void> => {
+		return Promise.resolve();
+	};
 
-  afterAppResume = (): Promise<void> => {
-    return Promise.resolve();
-  };
+	afterAppResume = (): Promise<void> => {
+		return Promise.resolve();
+	};
 
-  getTextZoomCallback = (): void => {
-  };
+	getTextZoomCallback = (): void => {};
 
-  public getTextZoom(): string {
-    return 'regular';
-  }
+	public getTextZoom(): string {
+		return 'regular';
+	}
 
-  public getTextZoomClass(): string {
-    return 'text-zoom-regular';
-  }
+	public getTextZoomClass(): string {
+		return 'text-zoom-regular';
+	}
 }

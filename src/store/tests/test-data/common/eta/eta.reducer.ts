@@ -5,9 +5,9 @@ import * as etaActions from './eta.actions';
 export const initialState: ETA = {};
 
 export const etaReducer = createReducer(
-  initialState,
-  on(etaActions.ToggleETA, (state, { examinerAction }) => ({
-    ...state,
-    [examinerAction]: !state[examinerAction],
-  })),
+	initialState,
+	on(etaActions.ToggleETA, (state, { examinerAction }) => ({
+		...state,
+		[examinerAction]: !state[examinerAction],
+	}))
 );

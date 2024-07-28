@@ -1,62 +1,58 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 import { ConductedLanguageComponent } from '../conducted-language';
 
 describe('ConductedLanguageComponent', () => {
-  let fixture: ComponentFixture<ConductedLanguageComponent>;
-  let component: ConductedLanguageComponent;
+	let fixture: ComponentFixture<ConductedLanguageComponent>;
+	let component: ConductedLanguageComponent;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConductedLanguageComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
-    });
+	beforeEach(waitForAsync(() => {
+		TestBed.configureTestingModule({
+			declarations: [ConductedLanguageComponent],
+			imports: [IonicModule],
+		});
 
-    fixture = TestBed.createComponent(ConductedLanguageComponent);
-    component = fixture.componentInstance;
-  }));
+		fixture = TestBed.createComponent(ConductedLanguageComponent);
+		component = fixture.componentInstance;
+	}));
 
-  describe('Class', () => {
-    describe('welshTextSelected', () => {
-      it('should emit an event if welsh is selected ', () => {
-        // ARRANGE
-        component.welshTextSelect = new EventEmitter<void>();
-        spyOn(component.welshTextSelect, 'emit');
-        component.welshIsSelected = false;
-        component.englishIsSelected = true;
+	describe('Class', () => {
+		describe('welshTextSelected', () => {
+			it('should emit an event if welsh is selected ', () => {
+				// ARRANGE
+				component.welshTextSelect = new EventEmitter<void>();
+				spyOn(component.welshTextSelect, 'emit');
+				component.welshIsSelected = false;
+				component.englishIsSelected = true;
 
-        // ACT
-        component.welshTextSelected();
-        fixture.detectChanges();
+				// ACT
+				component.welshTextSelected();
+				fixture.detectChanges();
 
-        // ASSERT
-        expect(component.welshTextSelect.emit).toHaveBeenCalled();
-        expect(component.welshIsSelected).toEqual(true);
-        expect(component.englishIsSelected).toEqual(false);
-      });
-    });
-    describe('englishTextSelected', () => {
-      it('should emit an event if english is selected ', () => {
-        // ARRANGE
-        component.englishTextSelect = new EventEmitter<void>();
-        spyOn(component.englishTextSelect, 'emit');
-        component.welshIsSelected = true;
-        component.englishIsSelected = false;
+				// ASSERT
+				expect(component.welshTextSelect.emit).toHaveBeenCalled();
+				expect(component.welshIsSelected).toEqual(true);
+				expect(component.englishIsSelected).toEqual(false);
+			});
+		});
+		describe('englishTextSelected', () => {
+			it('should emit an event if english is selected ', () => {
+				// ARRANGE
+				component.englishTextSelect = new EventEmitter<void>();
+				spyOn(component.englishTextSelect, 'emit');
+				component.welshIsSelected = true;
+				component.englishIsSelected = false;
 
-        // ACT
-        component.englishTextSelected();
-        fixture.detectChanges();
+				// ACT
+				component.englishTextSelected();
+				fixture.detectChanges();
 
-        // ASSERT
-        expect(component.englishTextSelect.emit).toHaveBeenCalled();
-        expect(component.welshIsSelected).toEqual(false);
-        expect(component.englishIsSelected).toEqual(true);
-      });
-    });
-  });
+				// ASSERT
+				expect(component.englishTextSelect.emit).toHaveBeenCalled();
+				expect(component.welshIsSelected).toEqual(false);
+				expect(component.englishIsSelected).toEqual(true);
+			});
+		});
+	});
 });

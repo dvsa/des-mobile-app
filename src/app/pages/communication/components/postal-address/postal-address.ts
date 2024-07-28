@@ -1,40 +1,37 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
-import { Address } from '@dvsa/mes-test-schema/categories/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Address } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
-  selector: 'postal-address',
-  templateUrl: 'postal-address.html',
-  styleUrls: ['postal-address.scss'],
+	selector: 'postal-address',
+	templateUrl: 'postal-address.html',
+	styleUrls: ['postal-address.scss'],
 })
 export class PostalAddressComponent {
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Input()
+	postalAddress: Address;
 
-  @Input()
-  postalAddress: Address;
+	@Input()
+	isPostalAddressChosen: boolean;
 
-  @Input()
-  isPostalAddressChosen: boolean;
+	@Output()
+	postalRadioSelect = new EventEmitter<void>();
 
-  @Output()
-  postalRadioSelect = new EventEmitter<void>();
+	postalRadioSelected() {
+		this.postalRadioSelect.emit();
+	}
 
-  postalRadioSelected() {
-    this.postalRadioSelect.emit();
-  }
+	ngOnInit() {
+		this.postalAddress = this.formatAddress(this.postalAddress);
+	}
 
-  ngOnInit() {
-    this.postalAddress = this.formatAddress(this.postalAddress);
-  }
-
-  formatAddress(address: Address): Address {
-    const regex = new RegExp('[0-9]', 'g');
-    const formattedAddress: Address = { ...address };
-    Object.keys(formattedAddress).forEach((res) => formattedAddress[res] = formattedAddress[res].replace(regex, 'x'));
-    return formattedAddress;
-  }
+	formatAddress(address: Address): Address {
+		const regex = /[0-9]/g;
+		const formattedAddress: Address = { ...address };
+		Object.keys(formattedAddress).forEach((res) => (formattedAddress[res] = formattedAddress[res].replace(regex, 'x')));
+		return formattedAddress;
+	}
 }

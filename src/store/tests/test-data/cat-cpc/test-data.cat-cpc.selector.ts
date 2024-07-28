@@ -1,9 +1,4 @@
-import {
-  CombinationCodes,
-  Question,
-  Question5,
-  TestData,
-} from '@dvsa/mes-test-schema/categories/CPC';
+import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 
 export const getCombination = (data: TestData): CombinationCodes => data.combination;
 export const getQuestion1 = (data: TestData): Question => data.question1;

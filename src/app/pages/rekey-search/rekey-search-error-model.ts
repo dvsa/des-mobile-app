@@ -1,7 +1,7 @@
 export interface RekeySearchError {
-  message: RekeySearchErrorMessages;
+	message: RekeySearchErrorMessages;
 }
 
 export enum RekeySearchErrorMessages {
-  BookingAlreadyCompleted = 'BookingAlreadyCompleted',
+	BookingAlreadyCompleted = 'BookingAlreadyCompleted',
 }

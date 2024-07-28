@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { RekeySearchPage } from '@pages/rekey-search/rekey-search';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: RekeySearchPage,
-  },
+	{
+		path: '',
+		component: RekeySearchPage,
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
 export class RekeySearchPageRoutingModule {}

@@ -1,4 +1,4 @@
 export enum CircuitType {
-  Left = 'Left',
-  Right = 'Right',
+	Left = 'Left',
+	Right = 'Right',
 }

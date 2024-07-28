@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { PassCertificatesPage } from './pass-certificates.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: PassCertificatesPage,
-  },
+	{
+		path: '',
+		component: PassCertificatesPage,
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
 export class PassCertificatesPageRoutingModule {}

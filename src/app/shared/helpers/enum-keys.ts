@@ -5,8 +5,7 @@
     // ['PASS', '1']
  */
 export const getEnumKeyByValue = <T, V>(enumType: T, value: V): [string, V] => {
-  return Object
-    .entries(enumType)
-    .map((entries) => entries)
-    .find((entry) => entry.includes(value));
+	return Object.entries(enumType)
+		.map((entries) => entries)
+		.find((entry) => entry.includes(value));
 };

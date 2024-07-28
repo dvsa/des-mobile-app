@@ -1,3 +1,3 @@
 export class LogsProviderMock {
-  sendLogs = jasmine.createSpy('sendLogs');
+	sendLogs = jasmine.createSpy('sendLogs');
 }

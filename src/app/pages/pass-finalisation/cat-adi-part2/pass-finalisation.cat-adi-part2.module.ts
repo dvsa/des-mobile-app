@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -15,22 +15,17 @@ import { PassFinalisationCatADIPart2PageRoutingModule } from './pass-finalisatio
 import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.page';
 
 @NgModule({
-  declarations: [PassFinalisationCatADI2Page],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    PassFinalisationCatADIPart2PageRoutingModule,
-    ComponentsModule,
-    TestFinalisationComponentsModule,
-    ReactiveFormsModule,
-    EffectsModule.forFeature([
-      PassFinalisationAnalyticsEffects,
-    ]),
-  ],
-  providers: [
-    OutcomeBehaviourMapProvider,
-    PassCertificateValidationProvider,
-  ],
+	declarations: [PassFinalisationCatADI2Page],
+	imports: [
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		PassFinalisationCatADIPart2PageRoutingModule,
+		ComponentsModule,
+		TestFinalisationComponentsModule,
+		ReactiveFormsModule,
+		EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+	],
+	providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })
 export class PassFinalisationCatADIPart2PageModule {}

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -11,15 +11,13 @@ import { PassCertificatesPageRoutingModule } from './pass-certificates-routing.m
 import { PassCertificatesPage } from './pass-certificates.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    PassCertificatesPageRoutingModule,
-    EffectsModule.forFeature([
-      PassCertificatesAnalyticsEffects,
-    ]),
-  ],
-  declarations: [PassCertificatesPage],
+	imports: [
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		PassCertificatesPageRoutingModule,
+		EffectsModule.forFeature([PassCertificatesAnalyticsEffects]),
+	],
+	declarations: [PassCertificatesPage],
 })
 export class PassCertificatesPageModule {}

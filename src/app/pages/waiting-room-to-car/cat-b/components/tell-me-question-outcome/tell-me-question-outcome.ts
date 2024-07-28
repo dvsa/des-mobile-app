@@ -1,44 +1,40 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'tell-me-question-outcome',
-  templateUrl: 'tell-me-question-outcome.html',
+	selector: 'tell-me-question-outcome',
+	templateUrl: 'tell-me-question-outcome.html',
 })
 export class TellMeQuestionOutcomeComponent implements OnChanges {
+	@Input()
+	tellMeQuestionOutcome: string;
 
-  @Input()
-  tellMeQuestionOutcome: string;
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Input()
+	tellMeQuestionSelected: boolean;
 
-  @Input()
-  tellMeQuestionSelected: boolean;
+	@Output()
+	tellMeQuestionOutcomeChange = new EventEmitter<string>();
 
-  @Output()
-  tellMeQuestionOutcomeChange = new EventEmitter<string>();
+	formControl: UntypedFormControl;
 
-  formControl: UntypedFormControl;
+	ngOnChanges(): void {
+		if (!this.formControl) {
+			this.formControl = new UntypedFormControl('', [Validators.required]);
+			this.formGroup.addControl('tellMeQuestionOutcome', this.formControl);
+		}
+		this.formControl.patchValue(this.tellMeQuestionOutcome);
+	}
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new UntypedFormControl('', [Validators.required]);
-      this.formGroup.addControl('tellMeQuestionOutcome', this.formControl);
-    }
-    this.formControl.patchValue(this.tellMeQuestionOutcome);
-  }
+	tellMeQuestionOutcomeChanged(questionOutcome: string): void {
+		if (this.formControl.valid) {
+			this.tellMeQuestionOutcomeChange.emit(questionOutcome);
+		}
+	}
 
-  tellMeQuestionOutcomeChanged(questionOutcome: string): void {
-    if (this.formControl.valid) {
-      this.tellMeQuestionOutcomeChange.emit(questionOutcome);
-    }
-  }
-
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
-
+	get invalid(): boolean {
+		return !this.formControl.valid && this.formControl.dirty;
+	}
 }

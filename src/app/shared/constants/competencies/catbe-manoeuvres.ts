@@ -1,12 +1,12 @@
 export enum manoeuvreTypeLabels {
-  reverseLeft = 'Reverse',
+	reverseLeft = 'Reverse',
 }
 
 interface ManoeuvreCompetencyLabel {
-  [key: string]: 'Control' | 'Observation';
+	[key: string]: 'Control' | 'Observation';
 }
 
 export const manoeuvreCompetencyLabels: ManoeuvreCompetencyLabel = {
-  controlFault: 'Control',
-  observationFault: 'Observation',
+	controlFault: 'Control',
+	observationFault: 'Observation',
 };

@@ -1,175 +1,167 @@
-import { IonicModule, NavController } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { IonicModule, NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StoreModel } from '@shared/models/store.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { ToolbarComponent } from '../toolbar';
-import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
-import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../../test-report.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
 import { DangerousTooltipComponent } from '../../dangerous-tooltip/dangerous-tooltip';
+import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
+import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
 import { TimerComponent } from '../../timer/timer';
+import { ToolbarComponent } from '../toolbar';
 
 describe('ToolbarComponent', () => {
-  let fixture: ComponentFixture<ToolbarComponent>;
-  let component: ToolbarComponent;
-  let store$: Store<StoreModel>;
-  let storeDispatchSpy: jasmine.Spy;
-  let faultCountProvider: FaultCountProvider;
+	let fixture: ComponentFixture<ToolbarComponent>;
+	let component: ToolbarComponent;
+	let store$: Store<StoreModel>;
+	let storeDispatchSpy: jasmine.Spy;
+	let faultCountProvider: FaultCountProvider;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ToolbarComponent,
-        MockComponent(DrivingFaultSummaryComponent),
-        MockComponent(SeriousTooltipComponent),
-        MockComponent(DangerousTooltipComponent),
-        MockComponent(TimerComponent),
-      ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
-      ],
-      providers: [
-        { provide: NavController, useClass: NavControllerMock },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
-      ],
-    });
+	beforeEach(waitForAsync(() => {
+		TestBed.configureTestingModule({
+			declarations: [
+				ToolbarComponent,
+				MockComponent(DrivingFaultSummaryComponent),
+				MockComponent(SeriousTooltipComponent),
+				MockComponent(DangerousTooltipComponent),
+				MockComponent(TimerComponent),
+			],
+			imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+			providers: [
+				{ provide: NavController, useClass: NavControllerMock },
+				{ provide: FaultCountProvider, useClass: FaultCountProvider },
+			],
+		});
 
-    fixture = TestBed.createComponent(ToolbarComponent);
-    component = fixture.componentInstance;
-    store$ = TestBed.inject(Store);
-    faultCountProvider = TestBed.inject(FaultCountProvider);
-    storeDispatchSpy = spyOn(store$, 'dispatch');
-  }));
+		fixture = TestBed.createComponent(ToolbarComponent);
+		component = fixture.componentInstance;
+		store$ = TestBed.inject(Store);
+		faultCountProvider = TestBed.inject(FaultCountProvider);
+		storeDispatchSpy = spyOn(store$, 'dispatch');
+	}));
 
-  describe('Class', () => {
-    describe('togglRemoveFaultMode', () => {
-      it('should dispatch a TOGGLE_REMOVE_FAULT_MODE action', () => {
-        component.toggleRemoveFaultMode();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode(true));
-      });
-      it('should not dispatch if shouldDisable is true', () => {
-        component.toggleRemoveFaultMode(true);
-        expect(storeDispatchSpy).not.toHaveBeenCalled();
-      });
-    });
-    describe('toggleSeriousMode', () => {
-      it('should dispatch a TOGGLE_SERIOUS_FAULT_MODE action', () => {
-        component.toggleSeriousMode();
+	describe('Class', () => {
+		describe('togglRemoveFaultMode', () => {
+			it('should dispatch a TOGGLE_REMOVE_FAULT_MODE action', () => {
+				component.toggleRemoveFaultMode();
+				expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode(true));
+			});
+			it('should not dispatch if shouldDisable is true', () => {
+				component.toggleRemoveFaultMode(true);
+				expect(storeDispatchSpy).not.toHaveBeenCalled();
+			});
+		});
+		describe('toggleSeriousMode', () => {
+			it('should dispatch a TOGGLE_SERIOUS_FAULT_MODE action', () => {
+				component.toggleSeriousMode();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode(true));
-      });
-      it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action if dangerous mode is active', () => {
-        component.isDangerousMode = true;
-        component.toggleSeriousMode();
+				expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode(true));
+			});
+			it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action if dangerous mode is active', () => {
+				component.isDangerousMode = true;
+				component.toggleSeriousMode();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
-      });
+				expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
+			});
+		});
 
-    });
+		describe('toggleDangerousMode', () => {
+			it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action', () => {
+				component.toggleDangerousMode();
+				expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode(true));
+			});
+			it('should dispatch ToggleSeriousFaultMode if isSeriousMode is true', () => {
+				component.isSeriousMode = true;
+				component.toggleDangerousMode();
+				expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
+			});
+		});
+	});
 
-    describe('toggleDangerousMode', () => {
-      it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action', () => {
-        component.toggleDangerousMode();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode(true));
-      });
-      it('should dispatch ToggleSeriousFaultMode if isSeriousMode is true', () => {
-        component.isSeriousMode = true;
-        component.toggleDangerousMode();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
-      });
-    });
-  });
+	describe('currentTestHasFaults', () => {
+		it('should return false if drivingFaultCount is more than 0', () => {
+			spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(1);
+			spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+			spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
-  describe('currentTestHasFaults', () => {
-    it('should return false if drivingFaultCount is more than 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(1);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+			expect(component.currentTestHasFaults(null, null)).toEqual(false);
+		});
+		it('should return false if seriousFaultCount is more than 0', () => {
+			spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+			spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
+			spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
-      expect(component.currentTestHasFaults(null, null)).toEqual(false);
-    });
-    it('should return false if seriousFaultCount is more than 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+			expect(component.currentTestHasFaults(null, null)).toEqual(false);
+		});
+		it('should return false if dangerousFaultCount is more than 0', () => {
+			spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+			spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+			spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
-      expect(component.currentTestHasFaults(null, null)).toEqual(false);
-    });
-    it('should return false if dangerousFaultCount is more than 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
+			expect(component.currentTestHasFaults(null, null)).toEqual(false);
+		});
+		it('should return true if all counts are 0', () => {
+			spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+			spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+			spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
-      expect(component.currentTestHasFaults(null, null)).toEqual(false);
-    });
-    it('should return true if all counts are 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+			expect(component.currentTestHasFaults(null, null)).toEqual(true);
+		});
+	});
 
-      expect(component.currentTestHasFaults(null, null)).toEqual(true);
-    });
-  });
+	describe('DOM', () => {
+		it('should not show any tooltips in default mode', () => {
+			fixture.detectChanges();
+			expect(component.isSeriousMode).toEqual(false);
+			expect(component.isDangerousMode).toEqual(false);
 
-  describe('DOM', () => {
-    it('should not show any tooltips in default mode', () => {
+			expect(fixture.debugElement.query(By.css('#serious-button'))).toBeDefined();
+			expect(fixture.debugElement.query(By.css('#dangerous-button'))).toBeDefined();
+			expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeDefined();
 
-      fixture.detectChanges();
-      expect(component.isSeriousMode).toEqual(false);
-      expect(component.isDangerousMode).toEqual(false);
+			expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeNull();
+			expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeNull();
+		});
+		it('should show the correct components when serious mode is activated', () => {
+			fixture.detectChanges();
 
-      expect(fixture.debugElement.query(By.css('#serious-button'))).toBeDefined();
-      expect(fixture.debugElement.query(By.css('#dangerous-button'))).toBeDefined();
-      expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeDefined();
+			component.isSeriousMode = true;
 
-      expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeNull();
-      expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeNull();
-    });
-    it('should show the correct components when serious mode is activated', () => {
+			fixture.detectChanges();
 
-      fixture.detectChanges();
+			expect(component.isSeriousMode).toEqual(true);
+			expect(component.isDangerousMode).toEqual(false);
+			expect(component.isRemoveFaultMode).toEqual(false);
 
-      component.isSeriousMode = true;
+			expect(fixture.debugElement.query(By.css('#serious-button'))).toBeDefined();
+			expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeDefined();
+			expect(fixture.debugElement.query(By.css('#dangerous-button'))).toBeDefined();
 
-      fixture.detectChanges();
+			expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeNull();
+			expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeNull();
+		});
+		it('should show the correct components when dangerous mode is actived', () => {
+			fixture.detectChanges();
 
-      expect(component.isSeriousMode).toEqual(true);
-      expect(component.isDangerousMode).toEqual(false);
-      expect(component.isRemoveFaultMode).toEqual(false);
+			component.isDangerousMode = true;
 
-      expect(fixture.debugElement.query(By.css('#serious-button'))).toBeDefined();
-      expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeDefined();
-      expect(fixture.debugElement.query(By.css('#dangerous-button'))).toBeDefined();
+			fixture.detectChanges();
+			expect(component.isRemoveFaultMode).toEqual(false);
+			expect(component.isSeriousMode).toEqual(false);
+			expect(component.isDangerousMode).toEqual(true);
 
-      expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeNull();
-      expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeNull();
-    });
-    it('should show the correct components when dangerous mode is actived', () => {
+			expect(fixture.debugElement.query(By.css('#serious-button'))).toBeDefined();
+			expect(fixture.debugElement.query(By.css('#dangerous-button'))).toBeDefined();
+			expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeDefined();
 
-      fixture.detectChanges();
-
-      component.isDangerousMode = true;
-
-      fixture.detectChanges();
-      expect(component.isRemoveFaultMode).toEqual(false);
-      expect(component.isSeriousMode).toEqual(false);
-      expect(component.isDangerousMode).toEqual(true);
-
-      expect(fixture.debugElement.query(By.css('#serious-button'))).toBeDefined();
-      expect(fixture.debugElement.query(By.css('#dangerous-button'))).toBeDefined();
-      expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeDefined();
-
-      expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeNull();
-      expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeNull();
-
-    });
-  });
+			expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeNull();
+			expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeNull();
+		});
+	});
 });

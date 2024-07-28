@@ -1,5 +1,5 @@
 export interface ExaminerDetailsModel {
-  staffNumber: string;
-  costCode: string;
-  testCentreName: string;
+	staffNumber: string;
+	costCode: string;
+	testCentreName: string;
 }

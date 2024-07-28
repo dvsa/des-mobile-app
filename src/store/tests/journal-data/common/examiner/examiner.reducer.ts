@@ -3,12 +3,12 @@ import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as examinerActions from './examiner.actions';
 
 export const initialState: Examiner = {
-  staffNumber: null,
+	staffNumber: null,
 };
 
 export const examinerReducer = createReducer(
-  initialState,
-  on(examinerActions.PopulateExaminer, (_, { examiner }) => examiner),
+	initialState,
+	on(examinerActions.PopulateExaminer, (_, { examiner }) => examiner)
 );
 
 export const getExaminer = createFeatureSelector<Examiner>('examiner');

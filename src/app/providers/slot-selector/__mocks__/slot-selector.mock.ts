@@ -4,42 +4,40 @@ import { SlotItem } from '../slot-item';
 
 @Injectable()
 export class SlotSelectorProviderMock {
+	private ignoreBookingProperty: string[] = [
+		'entitlementCheck',
+		'extendedTest',
+		'progressiveAccess',
+		'specialNeeds',
+		'vehicleSeats',
+		'welshTest',
+	];
 
-  private ignoreBookingProperty: string[] = [
-    'entitlementCheck',
-    'extendedTest',
-    'progressiveAccess',
-    'specialNeeds',
-    'vehicleSeats',
-    'welshTest',
-  ];
+	public getSlotTypes = (): SlotItem[] => {
+		return [];
+	};
 
-  public getSlotTypes = (): SlotItem[] => {
-    return [];
-  };
+	private isBookingEmptyOrNull = (): boolean => {
+		return true;
+	};
 
-  private isBookingEmptyOrNull = (): boolean => {
-    return true;
-  };
+	private checkPropertiesHaveValues = (): boolean => {
+		return true;
+	};
 
-  private checkPropertiesHaveValues = (): boolean => {
-    return true;
-  };
+	public isTestSlot = () => true;
 
-  public isTestSlot = () => true;
+	private resolveComponentName = () => {
+		return {};
+	};
 
-  private resolveComponentName = () => {
-    return {};
-  };
+	hasSlotBeenTested(): ActivityCode | null {
+		return '1';
+	}
 
-  hasSlotBeenTested(): ActivityCode | null {
-    return '1';
-  }
+	hasSlotBeenPartiallyCompleted(): number | null {
+		return 1;
+	}
 
-  hasSlotBeenPartiallyCompleted(): number | null {
-    return 1;
-  }
-
-  createSlots = (): void => { };
-
+	createSlots = (): void => {};
 }

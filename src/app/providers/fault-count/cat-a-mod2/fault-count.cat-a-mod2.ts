@@ -1,74 +1,62 @@
-import { get, pickBy } from 'lodash-es';
-import { TestData, SafetyAndBalanceQuestions, QuestionResult } from '@dvsa/mes-test-schema/categories/AM2';
+import { QuestionResult, SafetyAndBalanceQuestions, TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
-import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { get, pickBy } from 'lodash-es';
 
 export class FaultCountAM2Helper {
-  public static getSafetyAndBalanceFaultCountCatAM2 = (
-    safetyAndBalanceQuestions: SafetyAndBalanceQuestions,
-  ): SafetyQuestionsScore => {
+	public static getSafetyAndBalanceFaultCountCatAM2 = (
+		safetyAndBalanceQuestions: SafetyAndBalanceQuestions
+	): SafetyQuestionsScore => {
+		if (!safetyAndBalanceQuestions) {
+			return { drivingFaults: 0 };
+		}
 
-    if (!safetyAndBalanceQuestions) {
-      return { drivingFaults: 0 };
-    }
+		const safetyQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'safetyQuestions', []);
+		const balanceQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'balanceQuestions', []);
 
-    const safetyQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'safetyQuestions', []);
-    const balanceQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'balanceQuestions', []);
+		const numberOfIncorrectSafetyAnswers: number = safetyQuestions.filter((safetyQuestion) => {
+			return safetyQuestion.outcome === CompetencyOutcome.DF;
+		}).length;
+		const numberOfIncorrectBalanceAnswers: number = balanceQuestions.filter((balanceQuestion) => {
+			return balanceQuestion.outcome === CompetencyOutcome.DF;
+		}).length;
 
-    const numberOfIncorrectSafetyAnswers: number = safetyQuestions.filter((safetyQuestion) => {
-      return safetyQuestion.outcome === CompetencyOutcome.DF;
-    }).length;
-    const numberOfIncorrectBalanceAnswers: number = balanceQuestions.filter((balanceQuestion) => {
-      return balanceQuestion.outcome === CompetencyOutcome.DF;
-    }).length;
+		const totalIncorrectAnswerCount: number = numberOfIncorrectSafetyAnswers + numberOfIncorrectBalanceAnswers;
 
-    const totalIncorrectAnswerCount: number = numberOfIncorrectSafetyAnswers + numberOfIncorrectBalanceAnswers;
+		return {
+			drivingFaults: totalIncorrectAnswerCount >= 1 ? 1 : 0,
+		};
+	};
 
-    return {
-      drivingFaults: (totalIncorrectAnswerCount >= 1) ? 1 : 0,
-    };
-  };
+	public static getRidingFaultSumCountCatAM2 = (data: TestData): number => {
+		// The way how we store the driving faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { drivingFaults, safetyAndBalanceQuestions } = data;
+		let faultTotal = 0;
+		getCompetencyFaults(drivingFaults).forEach((fault) => {
+			faultTotal += fault.faultCount;
+		});
+		faultTotal += FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(safetyAndBalanceQuestions).drivingFaults;
 
-  public static getRidingFaultSumCountCatAM2 = (data: TestData): number => {
+		return faultTotal;
+	};
 
-    // The way how we store the driving faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      drivingFaults,
-      safetyAndBalanceQuestions,
-    } = data;
-    let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults)
-      .forEach((fault) => {
-        faultTotal += fault.faultCount;
-      });
-    faultTotal += FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(safetyAndBalanceQuestions).drivingFaults;
+	public static getSeriousFaultSumCountCatAM2 = (data: TestData): number => {
+		const { seriousFaults, eyesightTest } = data;
 
-    return faultTotal;
-  };
+		const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
 
-  public static getSeriousFaultSumCountCatAM2 = (data: TestData): number => {
+		const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
 
-    const {
-      seriousFaults,
-      eyesightTest,
-    } = data;
+		const result = seriousFaultSumOfSimpleCompetencies + eyesightTestSeriousFaults;
 
-    const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
+		return result;
+	};
 
-    const eyesightTestSeriousFaults = (eyesightTest && eyesightTest.seriousFault) ? 1 : 0;
+	public static getDangerousFaultSumCountCatAM2 = (data: TestData): number => {
+		const { dangerousFaults } = data;
 
-    const result = seriousFaultSumOfSimpleCompetencies
-      + eyesightTestSeriousFaults;
-
-    return result;
-  };
-
-  public static getDangerousFaultSumCountCatAM2 = (data: TestData): number => {
-
-    const { dangerousFaults } = data;
-
-    return Object.keys(pickBy(dangerousFaults)).length;
-  };
+		return Object.keys(pickBy(dangerousFaults)).length;
+	};
 }

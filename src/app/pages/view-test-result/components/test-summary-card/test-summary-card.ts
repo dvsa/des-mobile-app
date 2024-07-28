@@ -1,132 +1,131 @@
 import { Component, Input } from '@angular/core';
-import { get } from 'lodash-es';
-import {
-  Accompaniment,
-  CategoryCode,
-  CommunicationPreferences,
-  PassCompletion,
-  TestSummary,
-} from '@dvsa/mes-test-schema/categories/common';
 import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
+import {
+	Accompaniment,
+	CategoryCode,
+	CommunicationPreferences,
+	PassCompletion,
+	TestSummary,
+} from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { get } from 'lodash-es';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
 @Component({
-  selector: 'test-summary-card',
-  templateUrl: 'test-summary-card.html',
+	selector: 'test-summary-card',
+	templateUrl: 'test-summary-card.html',
 })
 export class TestSummaryCardComponent {
+	@Input()
+	accompaniment: Accompaniment;
 
-  @Input()
-  accompaniment: Accompaniment;
+	@Input()
+	passCompletion: PassCompletion;
 
-  @Input()
-  passCompletion: PassCompletion;
+	@Input()
+	testSummary: TestSummary | CatAMod2TestSummary;
 
-  @Input()
-  testSummary: TestSummary | CatAMod2TestSummary;
+	@Input()
+	communicationPreferences: CommunicationPreferences;
 
-  @Input()
-  communicationPreferences: CommunicationPreferences;
+	@Input()
+	category?: CategoryCode;
 
-  @Input()
-  category?: CategoryCode;
+	@Input()
+	validCertificate: string;
 
-  @Input()
-  validCertificate: string;
+	public get accompaniedBy(): string {
+		const accompaniedBy: string[] = [];
 
-  public get accompaniedBy(): string {
-    const accompaniedBy: string[] = [];
+		if (get(this.accompaniment, 'ADI')) {
+			accompaniedBy.push('ADI');
+		}
+		if (get(this.accompaniment, 'interpreter')) {
+			accompaniedBy.push('Interpreter');
+		}
+		if (get(this.accompaniment, 'supervisor')) {
+			accompaniedBy.push('Supervisor');
+		}
+		if (get(this.accompaniment, 'trainer')) {
+			accompaniedBy.push('Trainer');
+		}
+		if (get(this.accompaniment, 'other')) {
+			accompaniedBy.push('Other');
+		}
+		if (accompaniedBy.length === 0) {
+			accompaniedBy.push('None');
+		}
 
-    if (get(this.accompaniment, 'ADI')) {
-      accompaniedBy.push('ADI');
-    }
-    if (get(this.accompaniment, 'interpreter')) {
-      accompaniedBy.push('Interpreter');
-    }
-    if (get(this.accompaniment, 'supervisor')) {
-      accompaniedBy.push('Supervisor');
-    }
-    if (get(this.accompaniment, 'trainer')) {
-      accompaniedBy.push('Trainer');
-    }
-    if (get(this.accompaniment, 'other')) {
-      accompaniedBy.push('Other');
-    }
-    if (accompaniedBy.length === 0) {
-      accompaniedBy.push('None');
-    }
+		return flattenArray(accompaniedBy);
+	}
 
-    return flattenArray(accompaniedBy);
-  }
+	public get provisionalLicenceProvided(): string {
+		return convertBooleanToString(get(this.passCompletion, 'provisionalLicenceProvided'));
+	}
 
-  public get provisionalLicenceProvided(): string {
-    return convertBooleanToString(get(this.passCompletion, 'provisionalLicenceProvided'));
-  }
+	public get code78(): string {
+		const code78: boolean = get(this.passCompletion, 'code78Present', null);
+		return code78 !== null ? convertBooleanToString(code78) : null;
+	}
 
-  public get code78(): string {
-    const code78: boolean = get(this.passCompletion, 'code78Present', null);
-    return code78 !== null ? convertBooleanToString(code78) : null;
-  }
+	public get passCertificateNumber(): string {
+		return get(this.passCompletion, 'passCertificateNumber');
+	}
 
-  public get passCertificateNumber(): string {
-    return get(this.passCompletion, 'passCertificateNumber');
-  }
+	public get routeNumber(): number | 'None' {
+		return get(this.testSummary, 'routeNumber', 'None');
+	}
 
-  public get routeNumber(): number | 'None' {
-    return get(this.testSummary, 'routeNumber', 'None');
-  }
+	public get independentDriving(): string {
+		return get(this.testSummary, 'independentDriving', 'None');
+	}
 
-  public get independentDriving(): string {
-    return get(this.testSummary, 'independentDriving', 'None');
-  }
+	public get trueLikenessToPhoto(): boolean {
+		return get(this.testSummary, 'trueLikenessToPhoto', false);
+	}
 
-  public get trueLikenessToPhoto(): boolean {
-    return get(this.testSummary, 'trueLikenessToPhoto', false);
-  }
+	public get candidateDescription(): string {
+		return get(this.testSummary, 'candidateDescription', 'None');
+	}
 
-  public get candidateDescription(): string {
-    return get(this.testSummary, 'candidateDescription', 'None');
-  }
+	public get debriefWitnessed(): string {
+		return convertBooleanToString(get(this.testSummary, 'debriefWitnessed'));
+	}
 
-  public get debriefWitnessed(): string {
-    return convertBooleanToString(get(this.testSummary, 'debriefWitnessed'));
-  }
+	public get weatherConditions(): string {
+		const weatherConditions: string[] = get(this.testSummary, 'weatherConditions', []);
+		return flattenArray(weatherConditions?.length > 0 ? weatherConditions : ['None']);
+	}
 
-  public get weatherConditions(): string {
-    const weatherConditions: string[] = get(this.testSummary, 'weatherConditions', []);
-    return flattenArray((weatherConditions?.length > 0) ? weatherConditions : ['None']);
-  }
+	public get d255(): string {
+		return convertBooleanToString(get(this.testSummary, 'D255'));
+	}
 
-  public get d255(): string {
-    return convertBooleanToString(get(this.testSummary, 'D255'));
-  }
+	public get additionalInformation(): string {
+		return get(this.testSummary, 'additionalInformation', 'None');
+	}
 
-  public get additionalInformation(): string {
-    return get(this.testSummary, 'additionalInformation', 'None');
-  }
+	public shouldDisplayLicenceProvided(): boolean {
+		return get(this.passCompletion, 'provisionalLicenceProvided') !== undefined;
+	}
 
-  public shouldDisplayLicenceProvided(): boolean {
-    return get(this.passCompletion, 'provisionalLicenceProvided') !== undefined;
-  }
+	public shouldDisplayTestConductedOn(): boolean {
+		return get(this.testSummary, 'modeOfTransport') !== undefined;
+	}
 
-  public shouldDisplayTestConductedOn(): boolean {
-    return get(this.testSummary, 'modeOfTransport') !== undefined;
-  }
+	public get testConductedOn(): string {
+		return get(this.testSummary, 'modeOfTransport', 'None');
+	}
 
-  public get testConductedOn(): string {
-    return get(this.testSummary, 'modeOfTransport', 'None');
-  }
+	public get conductedLanguage(): string {
+		return get(this.communicationPreferences, 'conductedLanguage', 'None');
+	}
 
-  public get conductedLanguage(): string {
-    return get(this.communicationPreferences, 'conductedLanguage', 'None');
-  }
+	isADI3() {
+		return this.category === TestCategory.ADI3;
+	}
 
-  isADI3() {
-    return this.category === TestCategory.ADI3;
-  }
-
-  isSC() {
-    return this.category === TestCategory.SC;
-  }
+	isSC() {
+		return this.category === TestCategory.SC;
+	}
 }

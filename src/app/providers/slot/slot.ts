@@ -1,204 +1,189 @@
 import { Injectable } from '@angular/core';
+import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Store } from '@ngrx/store';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 import DeepDiff from 'deep-diff';
 import { flatten, get, groupBy, isEmpty, times } from 'lodash-es';
-import { Store } from '@ngrx/store';
-import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
-import { StoreModel } from '@shared/models/store.model';
-import { DateTime, Duration } from '@shared/helpers/date-time';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { SlotItem } from '../slot-selector/slot-item';
 import { AppConfigProvider } from '../app-config/app-config';
-import { SlotHasChanged } from './slot.actions';
-import { DateTimeProvider } from '../date-time/date-time';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+import { DateTimeProvider } from '../date-time/date-time';
+import { SlotItem } from '../slot-selector/slot-item';
+import { SlotHasChanged } from './slot.actions';
 
 const MS_PER_DAY: number = 1000 * 60 * 60 * 24;
 
 @Injectable()
 export class SlotProvider {
+	constructor(
+		private store$: Store<StoreModel>,
+		public appConfigProvider: AppConfigProvider,
+		private dateTimeProvider: DateTimeProvider
+	) {}
 
-  constructor(
-    private store$: Store<StoreModel>,
-    public appConfigProvider: AppConfigProvider,
-    private dateTimeProvider: DateTimeProvider,
-  ) {
-  }
+	detectSlotChanges(slots: { [k: string]: SlotItem[] }, newJournal: ExaminerWorkSchedule): SlotItem[] {
+		const newSlots = flatten([newJournal.testSlots || [], newJournal.nonTestActivities || []]);
 
-  detectSlotChanges(slots: { [k: string]: SlotItem[] }, newJournal: ExaminerWorkSchedule): SlotItem[] {
-    const newSlots = flatten([
-      newJournal.testSlots || [],
-      newJournal.nonTestActivities || [],
-    ]);
+		const oldJournalSlots: SlotItem[] = flatten(Object.values(slots));
 
-    const oldJournalSlots: SlotItem[] = flatten(Object.values(slots));
+		return newSlots
+			.sort((slotA, slotB) => (slotA.slotDetail.start < slotB.slotDetail.start ? -1 : 1))
+			.map((newSlot) => {
+				const newSlotId = newSlot.slotDetail.slotId;
 
-    return newSlots
-      .sort((slotA, slotB) => (slotA.slotDetail.start < slotB.slotDetail.start ? -1 : 1))
-      .map((newSlot) => {
-        const newSlotId = newSlot.slotDetail.slotId;
+				const replacedJournalSlot = oldJournalSlots.find((oldSlot) => oldSlot.slotData.slotDetail.slotId === newSlotId);
 
-        const replacedJournalSlot = oldJournalSlots.find((oldSlot) => oldSlot.slotData.slotDetail.slotId === newSlotId);
+				let differenceFound = false;
+				let hasSeenCandidateDetails = false;
 
-        let differenceFound = false;
-        let hasSeenCandidateDetails = false;
+				if (replacedJournalSlot) {
+					differenceFound = replacedJournalSlot.hasSlotChanged;
+					hasSeenCandidateDetails = replacedJournalSlot.hasSeenCandidateDetails;
 
-        if (replacedJournalSlot) {
+					const differenceToSlot = DeepDiff(replacedJournalSlot.slotData, newSlot);
 
-          differenceFound = replacedJournalSlot.hasSlotChanged;
-          hasSeenCandidateDetails = replacedJournalSlot.hasSeenCandidateDetails;
+					// 'E' - indicated a property was edited
+					if (Array.isArray(differenceToSlot) && differenceToSlot.some((change) => change.kind === 'E')) {
+						this.store$.dispatch(SlotHasChanged(newSlotId));
+						differenceFound = true;
+					}
+				}
 
-          const differenceToSlot = DeepDiff(replacedJournalSlot.slotData, newSlot);
+				let personalCommitment: PersonalCommitment[] = null;
+				if (!isEmpty(newJournal.personalCommitments)) {
+					personalCommitment = newJournal.personalCommitments.filter(
+						(commitment) => Number(commitment.slotId) === Number(newSlotId)
+					);
+				}
 
-          // 'E' - indicated a property was edited
-          if (Array.isArray(differenceToSlot) && differenceToSlot.some((change) => change.kind === 'E')) {
-            this.store$.dispatch(SlotHasChanged(newSlotId));
-            differenceFound = true;
-          }
-        }
+				// add personalCommitment information to SlotItem, component and activityCode set to null
+				// as they are not constructed at this stage.
+				return new SlotItem(newSlot, differenceFound, hasSeenCandidateDetails, null, null, personalCommitment);
+			});
+	}
 
-        let personalCommitment: PersonalCommitment[] = null;
-        if (!isEmpty(newJournal.personalCommitments)) {
-          personalCommitment = newJournal.personalCommitments.filter(
-            (commitment) => Number(commitment.slotId) === Number(newSlotId),
-          );
-        }
+	/**
+	 * Extends the journal with empty days when there were no slots defined in the next 7 days
+	 * @param slots Journal slots
+	 * @returns Slots with additional empty days
+	 */
+	extendWithEmptyDays = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
+		const { numberOfDaysToView } = this.appConfigProvider.getAppConfig().journal;
 
-        // add personalCommitment information to SlotItem, component and activityCode set to null
-        // as they are not constructed at this stage.
-        return new SlotItem(newSlot, differenceFound, hasSeenCandidateDetails, null, null, personalCommitment);
-      });
-  }
+		const days = times(numberOfDaysToView, (d: number): string =>
+			this.dateTimeProvider.now().add(d, Duration.DAY).format('YYYY-MM-DD')
+		);
 
-  /**
-   * Extends the journal with empty days when there were no slots defined in the next 7 days
-   * @param slots Journal slots
-   * @returns Slots with additional empty days
-   */
-  extendWithEmptyDays = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
-    const { numberOfDaysToView } = this.appConfigProvider.getAppConfig().journal;
+		const emptyDays = days.reduce(
+			(d: { [k: string]: SlotItem[] }, day: string) => ({
+				...d,
+				[day]: [],
+			}),
+			{}
+		);
 
-    const days = times(
-      numberOfDaysToView,
-      (d: number): string => this.dateTimeProvider.now()
-        .add(d, Duration.DAY)
-        .format('YYYY-MM-DD'),
-    );
+		return {
+			...emptyDays,
+			...slots,
+		};
+	};
 
-    const emptyDays = days.reduce((d: { [k: string]: SlotItem[] }, day: string) => ({
-      ...d,
-      [day]: [],
-    }), {});
+	/**
+	 * @param slots Journal slots
+	 * @returns Only the relevant slots
+	 */
+	getRelevantSlots = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
+		return Object.keys(slots).reduce(
+			(acc: { [k: string]: SlotItem[] }, date) => ({
+				...acc,
+				[date]: slots[date],
+			}),
+			{}
+		);
+	};
 
-    return {
-      ...emptyDays,
-      ...slots,
-    };
-  };
+	getSlotDate = (slot: SlotItem): string => DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
 
-  /**
-   * @param slots Journal slots
-   * @returns Only the relevant slots
-   */
-  getRelevantSlots = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
-    return Object.keys(slots)
-      .reduce(
-        (acc: { [k: string]: SlotItem[] }, date) => ({
-          ...acc,
-          [date]: slots[date],
-        }),
-        {},
-      );
-  };
+	canStartTest(testSlot: TestSlot): boolean {
+		const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
+		const testCategory = get(testSlot, 'booking.application.testCategory');
+		const startDate = new DateTime(testSlot.slotDetail.start);
+		const slotStartDate: Date = new Date(testSlot.slotDetail.start);
 
-  getSlotDate = (slot: SlotItem): string => DateTime
-    .at(slot.slotData.slotDetail.start)
-    .format('YYYY-MM-DD');
+		if (!testCategory || startDate.daysDiff(this.dateTimeProvider.now()) < 0) {
+			return false;
+		}
 
-  canStartTest(testSlot: TestSlot): boolean {
-    const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
-    const testCategory = get(testSlot, 'booking.application.testCategory');
-    const startDate = new DateTime(testSlot.slotDetail.start);
-    const slotStartDate: Date = new Date(testSlot.slotDetail.start);
+		const periodsPermittingStart = testPermissionPeriods.filter((period) => {
+			const slotHasPeriodStartCriteria: boolean = this.hasPeriodStartCriteria(slotStartDate, period.from);
+			const slotHasPeriodEndCriteria: boolean = this.hasPeriodEndCriteria(slotStartDate, period.to);
+			return period.testCategory === testCategory && slotHasPeriodStartCriteria && slotHasPeriodEndCriteria;
+		});
+		return periodsPermittingStart.length > 0 || this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
+	}
 
-    if (!testCategory || startDate.daysDiff(this.dateTimeProvider.now()) < 0) {
-      return false;
-    }
+	public dateDiffInDays = (startDate: Date, periodDate: Date): number => {
+		// Discard the time and time-zone information.
+		const utc1: number = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+		const utc2: number = Date.UTC(periodDate.getFullYear(), periodDate.getMonth(), periodDate.getDate());
+		return Math.floor((utc2 - utc1) / MS_PER_DAY);
+	};
 
-    const periodsPermittingStart = testPermissionPeriods.filter((period) => {
-      const slotHasPeriodStartCriteria: boolean = this.hasPeriodStartCriteria(slotStartDate, period.from);
-      const slotHasPeriodEndCriteria: boolean = this.hasPeriodEndCriteria(slotStartDate, period.to);
-      return period.testCategory === testCategory && slotHasPeriodStartCriteria && slotHasPeriodEndCriteria;
-    });
-    return periodsPermittingStart.length > 0 || this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
-  }
+	private hasPeriodStartCriteria = (slotDate: Date, periodFrom: string): boolean => {
+		return this.dateDiffInDays(slotDate, new Date(periodFrom)) <= 0;
+	};
 
-  public dateDiffInDays = (startDate: Date, periodDate: Date): number => {
-    // Discard the time and time-zone information.
-    const utc1: number = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    const utc2: number = Date.UTC(periodDate.getFullYear(), periodDate.getMonth(), periodDate.getDate());
-    return Math.floor((utc2 - utc1) / MS_PER_DAY);
-  };
+	private hasPeriodEndCriteria = (slotDate: Date, periodTo: string): boolean => {
+		if (!periodTo) {
+			return true;
+		}
+		return this.dateDiffInDays(slotDate, new Date(periodTo)) >= 0;
+	};
 
-  private hasPeriodStartCriteria = (slotDate: Date, periodFrom: string): boolean => {
-    return this.dateDiffInDays(slotDate, new Date(periodFrom)) <= 0;
-  };
+	public getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
+		let slotItemsByDate: { [date: string]: SlotItem[] };
+		slotItemsByDate = groupBy(slotItems, this.getSlotDate);
+		slotItemsByDate = this.extendWithEmptyDays(slotItemsByDate);
+		slotItemsByDate = this.getRelevantSlots(slotItemsByDate);
+		return slotItemsByDate;
+	};
 
-  private hasPeriodEndCriteria = (slotDate: Date, periodTo: string): boolean => {
-    if (!periodTo) {
-      return true;
-    }
-    return this.dateDiffInDays(slotDate, new Date(periodTo)) >= 0;
-  };
+	public isTestCentreJournalADIBooking(slot: TestSlot | NonTestActivity, isTeamJournal = false): boolean {
+		const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
+		const testCategory: TestCategory = get(slot, 'booking.application.testCategory', null) as TestCategory;
+		return aDICats.includes(testCategory) && isTeamJournal;
+	}
 
-  public getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
-    let slotItemsByDate: { [date: string]: SlotItem[] };
-    slotItemsByDate = groupBy(slotItems, this.getSlotDate);
-    slotItemsByDate = this.extendWithEmptyDays(slotItemsByDate);
-    slotItemsByDate = this.getRelevantSlots(slotItemsByDate);
-    return slotItemsByDate;
-  };
+	canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
+		const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
+		const currentDateTime = new Date();
 
-  public isTestCentreJournalADIBooking(slot: TestSlot | NonTestActivity, isTeamJournal: boolean = false): boolean {
-    const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
-    const testCategory: TestCategory = get(slot, 'booking.application.testCategory', null) as TestCategory;
-    return aDICats.includes(testCategory) && isTeamJournal;
-  }
+		const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
+			return (
+				period.testCategory === TestCategory.ADI2 &&
+				new Date(period.from) <= currentDateTime &&
+				(new Date(period.to) >= currentDateTime || period.to === null)
+			);
+		});
 
-  canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
-    const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
-    const currentDateTime = new Date();
+		const slotStart = new DateTime(slot.slotDetail.start).moment.startOf('day');
 
-    const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
-      return (period.testCategory === TestCategory.ADI2)
-        && new Date(period.from) <= currentDateTime
-        && (new Date(period.to) >= currentDateTime || period.to === null);
-    });
+		const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime()).moment.startOf('day');
 
-    const slotStart = new DateTime(slot.slotDetail.start)
-      .moment
-      .startOf('day');
+		return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
+	}
 
-    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime())
-      .moment
-      .startOf('day');
+	getLatestViewableSlotDateTime(): Date {
+		const today = new DateTime().moment;
+		// add 3 days if current day is friday, 2 if saturday, else add 1
+		let daysToAdd: number;
 
-    return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
-  }
-
-  getLatestViewableSlotDateTime(): Date {
-    const today = new DateTime().moment;
-    // add 3 days if current day is friday, 2 if saturday, else add 1
-    let daysToAdd: number;
-
-    if (today.isoWeekday() === 5) {
-      daysToAdd = 3;
-    } else {
-      daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
-    }
-    return new DateTime()
-      .moment
-      .add(daysToAdd, 'days')
-      .startOf('day')
-      .toDate();
-  }
+		if (today.isoWeekday() === 5) {
+			daysToAdd = 3;
+		} else {
+			daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
+		}
+		return new DateTime().moment.add(daysToAdd, 'days').startOf('day').toDate();
+	}
 }

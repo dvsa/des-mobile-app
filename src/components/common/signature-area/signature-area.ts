@@ -1,169 +1,172 @@
+import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import {
-  Component,
-  ViewChild,
-  forwardRef,
-  Input,
-  Output,
-  EventEmitter, ElementRef, AfterViewInit,
+	AfterViewInit,
+	Component,
+	ElementRef,
+	EventEmitter,
+	Input,
+	Output,
+	ViewChild,
+	forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 
 const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
 
 @Component({
-  selector: 'signature-area',
-  templateUrl: 'signature-area.html',
-  styleUrls: ['signature-area.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SignatureAreaComponent),
-      multi: true,
-    },
-  ],
+	selector: 'signature-area',
+	templateUrl: 'signature-area.html',
+	styleUrls: ['signature-area.scss'],
+	providers: [
+		{
+			provide: NG_VALUE_ACCESSOR,
+			useExisting: forwardRef(() => SignatureAreaComponent),
+			multi: true,
+		},
+	],
 })
 export class SignatureAreaComponent implements ControlValueAccessor, AfterViewInit {
-  @Input()
-  public signature: string;
+	@Input()
+	public signature: string;
 
-  public isValid: boolean;
-  public retryImage: string;
-  public signHereImage: string;
-  public actionLess: boolean;
+	public isValid: boolean;
+	public retryImage: string;
+	public signHereImage: string;
+	public actionLess: boolean;
 
-  @ViewChild(SignaturePadComponent, { static: false })
-  public signaturePad: SignaturePadComponent;
+	@ViewChild(SignaturePadComponent, { static: false })
+	public signaturePad: SignaturePadComponent;
 
-  @ViewChild('signaturePadElement', { read: ElementRef, static: false })
-  signaturePadElement: ElementRef;
+	@ViewChild('signaturePadElement', { read: ElementRef, static: false })
+	signaturePadElement: ElementRef;
 
-  @Input()
-  public retryButtonText: string;
+	@Input()
+	public retryButtonText: string;
 
-  @Input()
-  public signHereText: string;
+	@Input()
+	public signHereText: string;
 
-  @Input()
-  public validationErrorText: string;
+	@Input()
+	public validationErrorText: string;
 
-  @Input()
-  public showValidText: boolean;
+	@Input()
+	public showValidText: boolean;
 
-  @Output()
-  signatureDataChange = new EventEmitter<string>();
+	@Output()
+	signatureDataChange = new EventEmitter<string>();
 
-  @Output()
-  signatureCleared = new EventEmitter();
+	@Output()
+	signatureCleared = new EventEmitter();
 
-  public signaturePadOptions: NgSignaturePadOptions = { // passed through to szimek/signature_pad constructor
-    minWidth: 1,
-    canvasWidth: defaultSignatureWidth,
-    canvasHeight: defaultSignatureHeight,
-  };
+	public signaturePadOptions: NgSignaturePadOptions = {
+		// passed through to szimek/signature_pad constructor
+		minWidth: 1,
+		canvasWidth: defaultSignatureWidth,
+		canvasHeight: defaultSignatureHeight,
+	};
 
-  constructor() {
-    this.signature = null;
-    this.isValid = null;
-    this.actionLess = false;
-    this.signHereImage = '/assets/imgs/waiting-room/sign-here.png';
-    this.retryImage = '/assets/imgs/waiting-room/retry.png';
-  }
+	constructor() {
+		this.signature = null;
+		this.isValid = null;
+		this.actionLess = false;
+		this.signHereImage = '/assets/imgs/waiting-room/sign-here.png';
+		this.retryImage = '/assets/imgs/waiting-room/retry.png';
+	}
 
-  ngAfterViewInit() {
-    this.initialiseSignature();
-    window.addEventListener('orientationchange', () => this.initialiseSignature());
-  }
+	ngAfterViewInit() {
+		this.initialiseSignature();
+		window.addEventListener('orientationchange', () => this.initialiseSignature());
+	}
 
-  public setSignature(initialValue: string) {
-    this.signaturePad.fromDataURL(initialValue, {
-      width: this.getSignatureWidth(),
-      height: this.getSignatureHeight(),
-    });
-    // loading the signature from initial value does not set the internal signature structure, so setting here.
-    this.signature = initialValue;
-    this.signatureDataChangedDispatch(initialValue);
-    this.propagateChange(this.signature);
-  }
+	public setSignature(initialValue: string) {
+		this.signaturePad.fromDataURL(initialValue, {
+			width: this.getSignatureWidth(),
+			height: this.getSignatureHeight(),
+		});
+		// loading the signature from initial value does not set the internal signature structure, so setting here.
+		this.signature = initialValue;
+		this.signatureDataChangedDispatch(initialValue);
+		this.propagateChange(this.signature);
+	}
 
-  initialiseSignature() {
-    setTimeout(() => {
-      this.signaturePad.clear();
-      this.resizeSignaturePad();
-      if (this.signature) {
-        this.setSignature(this.signature);
-      }
-    }, 250);
-  }
+	initialiseSignature() {
+		setTimeout(() => {
+			this.signaturePad.clear();
+			this.resizeSignaturePad();
+			if (this.signature) {
+				this.setSignature(this.signature);
+			}
+		}, 250);
+	}
 
-  getSignatureHeight(): number {
-    return this.signaturePadElement?.nativeElement?.offsetHeight ?? defaultSignatureHeight;
-  }
+	getSignatureHeight(): number {
+		return this.signaturePadElement?.nativeElement?.offsetHeight ?? defaultSignatureHeight;
+	}
 
-  getSignatureWidth(): number {
-    return this.signaturePadElement?.nativeElement?.offsetWidth ?? defaultSignatureWidth;
-  }
+	getSignatureWidth(): number {
+		return this.signaturePadElement?.nativeElement?.offsetWidth ?? defaultSignatureWidth;
+	}
 
-  resizeSignaturePad(): void {
-    if (this.signaturePad.getSignaturePad()) {
-      // @ts-ignore - ignored as its a private property
-      const { canvas } = this.signaturePad.getSignaturePad();
-      if (!canvas) {
-        return;
-      }
-      canvas.width = this.getSignatureWidth();
-      canvas.height = this.getSignatureHeight();
-    }
-  }
+	resizeSignaturePad(): void {
+		if (this.signaturePad.getSignaturePad()) {
+			// @ts-ignore - ignored as its a private property
+			const { canvas } = this.signaturePad.getSignaturePad();
+			if (!canvas) {
+				return;
+			}
+			canvas.width = this.getSignatureWidth();
+			canvas.height = this.getSignatureHeight();
+		}
+	}
 
-  clear(): void {
-    this.signaturePad.clear();
-    this.signature = null;
-    this.signatureDataClearedDispatch();
-    this.propagateChange(this.signature);
-  }
+	clear(): void {
+		this.signaturePad.clear();
+		this.signature = null;
+		this.signatureDataClearedDispatch();
+		this.propagateChange(this.signature);
+	}
 
-  drawComplete(): void {
-    this.signature = this.signaturePad.toDataURL();
-    this.signatureDataChangedDispatch(this.signature);
-    this.propagateChange(this.signature);
-    this.touchChange(null);
-  }
+	drawComplete(): void {
+		this.signature = this.signaturePad.toDataURL();
+		this.signatureDataChangedDispatch(this.signature);
+		this.propagateChange(this.signature);
+		this.touchChange(null);
+	}
 
-  signatureDataChangedDispatch(signatureData: string): void {
-    if (!this.actionLess) {
-      this.signatureDataChange.emit(signatureData);
-    }
-  }
+	signatureDataChangedDispatch(signatureData: string): void {
+		if (!this.actionLess) {
+			this.signatureDataChange.emit(signatureData);
+		}
+	}
 
-  signatureDataClearedDispatch(): void {
-    if (!this.actionLess) {
-      this.signatureCleared.emit();
-    }
-  }
+	signatureDataClearedDispatch(): void {
+		if (!this.actionLess) {
+			this.signatureCleared.emit();
+		}
+	}
 
-  // we use it to emit changes back to the form
-  /* eslint-disable */
-  private propagateChange = (_: any) => {};
-  private touchChange = (_: any) => {};
-  /* eslint-enable */
+	// we use it to emit changes back to the form
+	/* eslint-disable */
+	private propagateChange = (_: any) => {};
+	private touchChange = (_: any) => {};
+	/* eslint-enable */
 
-  public writeValue(value: any) {
-    if (value !== undefined) {
-      this.signature = value;
-    }
-  }
+	public writeValue(value: any) {
+		if (value !== undefined) {
+			this.signature = value;
+		}
+	}
 
-  registerOnChange(fn: any) {
-    this.propagateChange = fn;
-  }
+	registerOnChange(fn: any) {
+		this.propagateChange = fn;
+	}
 
-  onTouched() {
-    this.touchChange(null);
-  }
+	onTouched() {
+		this.touchChange(null);
+	}
 
-  registerOnTouched(fn: any) {
-    this.touchChange = fn;
-  }
+	registerOnTouched(fn: any) {
+		this.touchChange = fn;
+	}
 }

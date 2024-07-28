@@ -2,13 +2,13 @@ import { candidateCatHomeReducer } from '@store/tests/journal-data/cat-home/cand
 import * as candidateActions from '../candidate.cat-home.actions';
 
 describe('candidateCatHomeReducer', () => {
-
-  describe('PopulateCandidateDetailsCatHome', () => {
-    it('should set pass certificate number to the value given', () => {
-      const result = candidateCatHomeReducer(
-        {}, candidateActions.PopulateCandidateDetailsCatHome({ driverNumber: 'test' }),
-      );
-      expect(result).toEqual({ driverNumber: 'test' });
-    });
-  });
+	describe('PopulateCandidateDetailsCatHome', () => {
+		it('should set pass certificate number to the value given', () => {
+			const result = candidateCatHomeReducer(
+				{},
+				candidateActions.PopulateCandidateDetailsCatHome({ driverNumber: 'test' })
+			);
+			expect(result).toEqual({ driverNumber: 'test' });
+		});
+	});
 });

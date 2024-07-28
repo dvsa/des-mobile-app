@@ -1,4 +1,4 @@
 export type VehicleChecksScore = {
-  seriousFaults: number,
-  drivingFaults: number,
+	seriousFaults: number;
+	drivingFaults: number;
 };

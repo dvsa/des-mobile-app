@@ -1,220 +1,203 @@
-import {
-  Component, OnDestroy, OnInit, Input, Output, EventEmitter,
-} from '@angular/core';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Observable, Subscription, merge } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { map, takeUntil } from 'rxjs/operators';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { get } from 'lodash-es';
-import {
-  ToggleUncoupleRecouple,
-  UncoupleRecoupleAddDangerousFault,
-  UncoupleRecoupleAddDrivingFault,
-  UncoupleRecoupleAddSeriousFault,
-  UncoupleRecoupleRemoveFault,
-} from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { Store, select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import {
+	ToggleUncoupleRecouple,
+	UncoupleRecoupleAddDangerousFault,
+	UncoupleRecoupleAddDrivingFault,
+	UncoupleRecoupleAddSeriousFault,
+	UncoupleRecoupleRemoveFault,
+} from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { get } from 'lodash-es';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 
 interface UncoupleRecoupleComponentState {
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  selectedUncoupleRecouple$: Observable<boolean>;
-  uncoupleRecoupleOutcome$: Observable<CompetencyOutcome>;
+	isRemoveFaultMode$: Observable<boolean>;
+	isSeriousMode$: Observable<boolean>;
+	isDangerousMode$: Observable<boolean>;
+	selectedUncoupleRecouple$: Observable<boolean>;
+	uncoupleRecoupleOutcome$: Observable<CompetencyOutcome>;
 }
 
 @Component({
-  selector: 'uncouple-recouple',
-  templateUrl: 'uncouple-recouple.html',
-  styleUrls: ['uncouple-recouple.scss'],
+	selector: 'uncouple-recouple',
+	templateUrl: 'uncouple-recouple.html',
+	styleUrls: ['uncouple-recouple.scss'],
 })
 export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
+	@Input()
+	category: CategoryCode;
 
-  @Input()
-  category: CategoryCode;
+	@Input()
+	disableDrivingFaults?: boolean = false;
 
-  @Input()
-  disableDrivingFaults?: boolean = false;
+	@Input()
+	buttonFloatAbove = false;
 
-  @Input()
-  buttonFloatAbove: boolean = false;
+	@Output()
+	competencyClicked = new EventEmitter<void>();
 
-  @Output()
-  competencyClicked = new EventEmitter<void>();
+	componentState: UncoupleRecoupleComponentState;
+	subscription: Subscription;
 
-  componentState: UncoupleRecoupleComponentState;
-  subscription: Subscription;
+	isRemoveFaultMode = false;
+	isSeriousMode = false;
+	isDangerousMode = false;
 
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
+	selectedUncoupleRecouple = false;
+	uncoupleRecoupleOutcome: CompetencyOutcome;
+	merged$: Observable<boolean | CompetencyOutcome>;
 
-  selectedUncoupleRecouple: boolean = false;
-  uncoupleRecoupleOutcome: CompetencyOutcome;
-  merged$: Observable<boolean | CompetencyOutcome>;
+	constructor(
+		private store$: Store<StoreModel>,
+		private testDataByCategory: TestDataByCategoryProvider
+	) {}
 
-  constructor(
-    private store$: Store<StoreModel>,
-    private testDataByCategory: TestDataByCategoryProvider,
-  ) {
-  }
+	ngOnInit(): void {
+		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+		this.componentState = {
+			isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+			isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+			isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
+			selectedUncoupleRecouple$: currentTest$.pipe(
+				map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
+				select((testData) => get(testData, 'uncoupleRecouple.selected'))
+			),
+			uncoupleRecoupleOutcome$: currentTest$.pipe(
+				map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
+				select((testData) => get(testData, 'uncoupleRecouple.fault'))
+			),
+		};
 
-    this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode),
-      ),
-      isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode),
-      ),
-      isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode),
-      ),
-      selectedUncoupleRecouple$: currentTest$.pipe(
-        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData) => get(testData, 'uncoupleRecouple.selected')),
-      ),
-      uncoupleRecoupleOutcome$: currentTest$.pipe(
-        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData) => get(testData, 'uncoupleRecouple.fault')),
-      ),
-    };
+		const {
+			isRemoveFaultMode$,
+			isSeriousMode$,
+			isDangerousMode$,
+			selectedUncoupleRecouple$,
+			uncoupleRecoupleOutcome$,
+		} = this.componentState;
 
-    const {
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      selectedUncoupleRecouple$,
-      uncoupleRecoupleOutcome$,
-    } = this.componentState;
+		this.subscription = merge(
+			isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+			isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+			isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+			selectedUncoupleRecouple$.pipe(map((value) => (this.selectedUncoupleRecouple = value))),
+			uncoupleRecoupleOutcome$.pipe(map((outcome) => (this.uncoupleRecoupleOutcome = outcome)))
+		)
+			.pipe(takeUntil(trDestroy$))
+			.subscribe();
+	}
 
-    this.subscription = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      selectedUncoupleRecouple$.pipe(map((value) => this.selectedUncoupleRecouple = value)),
-      uncoupleRecoupleOutcome$.pipe(map((outcome) => this.uncoupleRecoupleOutcome = outcome)),
-    )
-      .pipe(takeUntil(trDestroy$))
-      .subscribe();
-  }
+	ngOnDestroy(): void {
+		if (this.subscription) {
+			this.subscription.unsubscribe();
+		}
+	}
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+	onTap = () => {
+		this.addOrRemoveFault();
+	};
 
-  onTap = () => {
-    this.addOrRemoveFault();
-  };
+	onPress = () => {
+		this.addOrRemoveFault(true);
+	};
 
-  onPress = () => {
-    this.addOrRemoveFault(true);
-  };
+	canButtonRipple = (): boolean => {
+		if (this.isRemoveFaultMode) {
+			if (this.hasDangerousFault() && this.isDangerousMode) {
+				return true;
+			}
 
-  canButtonRipple = (): boolean => {
-    if (this.isRemoveFaultMode) {
-      if (this.hasDangerousFault() && this.isDangerousMode) {
-        return true;
-      }
+			if (this.hasSeriousFault() && this.isSeriousMode) {
+				return true;
+			}
 
-      if (this.hasSeriousFault() && this.isSeriousMode) {
-        return true;
-      }
+			if (!this.isSeriousMode && !this.isDangerousMode && this.faultCount() > 0) {
+				return true;
+			}
+			return false;
+		}
+		return !(this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0);
+	};
 
-      if (!this.isSeriousMode && !this.isDangerousMode && this.faultCount() > 0) {
-        return true;
-      }
-      return false;
-    }
-    return !(this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0);
-  };
+	toggleUncoupleRecouple = (): void => {
+		if (this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0) {
+			return;
+		}
+		this.store$.dispatch(ToggleUncoupleRecouple());
+	};
 
-  toggleUncoupleRecouple = (): void => {
-    if (this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0) {
-      return;
-    }
-    this.store$.dispatch(ToggleUncoupleRecouple());
-  };
+	addOrRemoveFault = (wasPress = false): void => {
+		// buttonFloatAbove used for manoeuvre categories to alter display and stop DF being added;
+		if (this.buttonFloatAbove && !this.isDangerousMode && !this.isSeriousMode) {
+			this.competencyClicked.emit();
+			return;
+		}
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
-    // buttonFloatAbove used for manoeuvre categories to alter display and stop DF being added;
-    if (this.buttonFloatAbove && !this.isDangerousMode && !this.isSeriousMode) {
-      this.competencyClicked.emit();
-      return;
-    }
+		if (this.isRemoveFaultMode) {
+			this.removeFault();
+		} else {
+			this.addFault(wasPress);
+		}
+	};
 
-    if (this.isRemoveFaultMode) {
-      this.removeFault();
-    } else {
-      this.addFault(wasPress);
-    }
-  };
+	addFault = (wasPress: boolean): void => {
+		if (this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0) {
+			return;
+		}
 
-  addFault = (wasPress: boolean): void => {
-    if (this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0) {
-      return;
-    }
+		if (this.isDangerousMode) {
+			this.store$.dispatch(UncoupleRecoupleAddDangerousFault());
+			this.store$.dispatch(ToggleDangerousFaultMode());
+			return;
+		}
 
-    if (this.isDangerousMode) {
-      this.store$.dispatch(UncoupleRecoupleAddDangerousFault());
-      this.store$.dispatch(ToggleDangerousFaultMode());
-      return;
-    }
+		if (this.isSeriousMode) {
+			this.store$.dispatch(UncoupleRecoupleAddSeriousFault());
+			this.store$.dispatch(ToggleSeriousFaultMode());
+			return;
+		}
 
-    if (this.isSeriousMode) {
-      this.store$.dispatch(UncoupleRecoupleAddSeriousFault());
-      this.store$.dispatch(ToggleSeriousFaultMode());
-      return;
-    }
+		if (wasPress && !this.disableDrivingFaults) {
+			this.store$.dispatch(UncoupleRecoupleAddDrivingFault());
+		}
+	};
 
-    if (wasPress && !this.disableDrivingFaults) {
-      this.store$.dispatch(UncoupleRecoupleAddDrivingFault());
-    }
-  };
+	removeFault = (): void => {
+		if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
+			this.store$.dispatch(UncoupleRecoupleRemoveFault());
+			this.store$.dispatch(ToggleDangerousFaultMode());
+			this.store$.dispatch(ToggleRemoveFaultMode());
+			return;
+		}
 
-  removeFault = (): void => {
-    if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(UncoupleRecoupleRemoveFault());
-      this.store$.dispatch(ToggleDangerousFaultMode());
-      this.store$.dispatch(ToggleRemoveFaultMode());
-      return;
-    }
+		if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
+			this.store$.dispatch(UncoupleRecoupleRemoveFault());
+			this.store$.dispatch(ToggleSeriousFaultMode());
+			this.store$.dispatch(ToggleRemoveFaultMode());
+			return;
+		}
 
-    if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(UncoupleRecoupleRemoveFault());
-      this.store$.dispatch(ToggleSeriousFaultMode());
-      this.store$.dispatch(ToggleRemoveFaultMode());
-      return;
-    }
+		if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.faultCount() > 0) {
+			this.store$.dispatch(UncoupleRecoupleRemoveFault());
+			this.store$.dispatch(ToggleRemoveFaultMode());
+		}
+	};
 
-    if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.faultCount() > 0) {
-      this.store$.dispatch(UncoupleRecoupleRemoveFault());
-      this.store$.dispatch(ToggleRemoveFaultMode());
-    }
-  };
+	faultCount = (): number => (this.uncoupleRecoupleOutcome === CompetencyOutcome.DF ? 1 : 0);
 
-  faultCount = (): number => this.uncoupleRecoupleOutcome === CompetencyOutcome.DF ? 1 : 0;
+	hasSeriousFault = (): boolean => this.uncoupleRecoupleOutcome === CompetencyOutcome.S;
 
-  hasSeriousFault = (): boolean => this.uncoupleRecoupleOutcome === CompetencyOutcome.S;
-
-  hasDangerousFault = (): boolean => this.uncoupleRecoupleOutcome === CompetencyOutcome.D;
-
+	hasDangerousFault = (): boolean => this.uncoupleRecoupleOutcome === CompetencyOutcome.D;
 }

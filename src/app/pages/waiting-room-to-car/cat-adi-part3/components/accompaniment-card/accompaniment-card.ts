@@ -1,46 +1,42 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'accompaniment-card-adi3',
-  templateUrl: './accompaniment-card.html',
-  styleUrls: ['./accompaniment-card.scss'],
+	selector: 'accompaniment-card-adi3',
+	templateUrl: './accompaniment-card.html',
+	styleUrls: ['./accompaniment-card.scss'],
 })
 export class AccompanimentCardADI3Component {
+	@Input()
+	trainerAccompaniment: boolean;
 
-  @Input()
-  trainerAccompaniment: boolean;
+	@Input()
+	supervisorAccompaniment: boolean;
 
-  @Input()
-  supervisorAccompaniment: boolean;
+	@Input()
+	otherAccompaniment: boolean;
 
-  @Input()
-  otherAccompaniment: boolean;
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Output()
+	trainerAccompanimentChange = new EventEmitter();
 
-  @Output()
-  trainerAccompanimentChange = new EventEmitter();
+	@Output()
+	supervisorAccompanimentChange = new EventEmitter();
 
-  @Output()
-  supervisorAccompanimentChange = new EventEmitter();
+	@Output()
+	otherAccompanimentChange = new EventEmitter();
 
-  @Output()
-  otherAccompanimentChange = new EventEmitter();
+	trainerAccompanimentChanged(): void {
+		this.trainerAccompanimentChange.emit();
+	}
 
-  trainerAccompanimentChanged(): void {
-    this.trainerAccompanimentChange.emit();
-  }
+	supervisorAccompanimentChanged(): void {
+		this.supervisorAccompanimentChange.emit();
+	}
 
-  supervisorAccompanimentChanged(): void {
-    this.supervisorAccompanimentChange.emit();
-  }
-
-  otherAccompanimentChanged(): void {
-    this.otherAccompanimentChange.emit();
-  }
-
+	otherAccompanimentChanged(): void {
+		this.otherAccompanimentChange.emit();
+	}
 }

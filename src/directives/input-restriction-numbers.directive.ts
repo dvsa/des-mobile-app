@@ -2,24 +2,23 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { includes } from 'lodash-es';
 
 @Directive({
-  selector: '[numbersOnly]',
+	selector: '[numbersOnly]',
 })
 export class InputRestrictionNumbersDirective {
-  constructor(public el: ElementRef) {
-  }
+	constructor(public el: ElementRef) {}
 
-  // Allow usage of control keys aswell as numbers, useful for the browser
-  controlKeys = ['ArrowRight', 'ArrowLeft', 'Backspace'];
+	// Allow usage of control keys aswell as numbers, useful for the browser
+	controlKeys = ['ArrowRight', 'ArrowLeft', 'Backspace'];
 
-  @HostListener('keydown', ['$event'])
-  onKeyDown(e: KeyboardEvent) {
-    const { key } = e;
+	@HostListener('keydown', ['$event'])
+	onKeyDown(e: KeyboardEvent) {
+		const { key } = e;
 
-    if (includes(this.controlKeys, key)) {
-      return;
-    }
-    if (key < '0' || key > '9') {
-      e.preventDefault();
-    }
-  }
+		if (includes(this.controlKeys, key)) {
+			return;
+		}
+		if (key < '0' || key > '9') {
+			e.preventDefault();
+		}
+	}
 }

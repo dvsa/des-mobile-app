@@ -1,70 +1,67 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-  selector: 'further-development',
-  templateUrl: './further-development.component.html',
+	selector: 'further-development',
+	templateUrl: './further-development.component.html',
 })
 export class FurtherDevelopmentComponent implements OnChanges {
+	formControl: UntypedFormControl;
+	static readonly fieldName: string = 'furtherDevelopment';
 
-  formControl: UntypedFormControl;
-  static readonly fieldName: string = 'furtherDevelopment';
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Input()
+	display: boolean;
 
-  @Input()
-  display: boolean;
+	@Input()
+	outcome: string;
 
-  @Input()
-  outcome: string;
+	@Input()
+	furtherDevelopment: boolean;
 
-  @Input()
-  furtherDevelopment: boolean;
+	@Output()
+	furtherDevelopmentChange = new EventEmitter<boolean>();
 
-  @Output()
-  furtherDevelopmentChange = new EventEmitter<boolean>();
+	constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
+	ngOnChanges(): void {
+		if (!this.formControl) {
+			this.formControl = new UntypedFormControl('', [Validators.required]);
+			this.formGroup.addControl(FurtherDevelopmentComponent.fieldName, this.formControl);
+			this.formGroup.updateValueAndValidity({
+				onlySelf: true,
+				emitEvent: false,
+			});
+		}
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new UntypedFormControl('', [Validators.required]);
-      this.formGroup.addControl(FurtherDevelopmentComponent.fieldName, this.formControl);
-      this.formGroup.updateValueAndValidity({
-        onlySelf: true,
-        emitEvent: false,
-      });
-    }
+		const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+			this.outcome,
+			FurtherDevelopmentComponent.fieldName
+		);
 
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
-      this.outcome,
-      FurtherDevelopmentComponent.fieldName,
-    );
+		if (visibilityType === VisibilityType.NotVisible) {
+			this.formGroup.get(FurtherDevelopmentComponent.fieldName).clearValidators();
+		} else {
+			this.formGroup.get(FurtherDevelopmentComponent.fieldName).setValidators([Validators.required]);
+		}
 
-    if (visibilityType === VisibilityType.NotVisible) {
-      this.formGroup.get(FurtherDevelopmentComponent.fieldName).clearValidators();
-    } else {
-      this.formGroup.get(FurtherDevelopmentComponent.fieldName).setValidators([Validators.required]);
-    }
+		this.formGroup.get(FurtherDevelopmentComponent.fieldName).updateValueAndValidity();
 
-    this.formGroup.get(FurtherDevelopmentComponent.fieldName).updateValueAndValidity();
+		if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
+			this.formControl.patchValue(String(this.furtherDevelopment));
+		}
+	}
 
-    if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
-      this.formControl.patchValue(String(this.furtherDevelopment));
-    }
-  }
+	furtherDevelopmentChanged(furtherDevelopment: string) {
+		if (this.formControl.valid) {
+			this.furtherDevelopmentChange.emit(furtherDevelopment === 'true');
+		}
+	}
 
-  furtherDevelopmentChanged(furtherDevelopment: string) {
-    if (this.formControl.valid) {
-      this.furtherDevelopmentChange.emit(furtherDevelopment === 'true');
-    }
-  }
-
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
+	get invalid(): boolean {
+		return !this.formControl.valid && this.formControl.dirty;
+	}
 }

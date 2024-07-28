@@ -1,30 +1,29 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'data-row-custom',
-  templateUrl: 'data-row-custom.html',
-  styleUrls: ['data-row-custom.scss'],
+	selector: 'data-row-custom',
+	templateUrl: 'data-row-custom.html',
+	styleUrls: ['data-row-custom.scss'],
 })
 export class DataRowCustomComponent {
+	@Input()
+	label: string;
 
-  @Input()
-  label: string;
+	@Input()
+	shouldShowIndicator = false;
 
-  @Input()
-  shouldShowIndicator: boolean = false;
+	@Input()
+	shouldHaveSeperator = true;
 
-  @Input()
-  shouldHaveSeperator: boolean = true;
+	@Input()
+	idPrefix?: string;
 
-  @Input()
-  idPrefix?: string;
+	@Input()
+	centeredLabel = true;
 
-  @Input()
-  centeredLabel: boolean = true;
+	@Input()
+	centeredIcon = true;
 
-  @Input()
-  centeredIcon: boolean = true;
-
-  @Input()
-  centredData: boolean = false;
+	@Input()
+	centredData = false;
 }

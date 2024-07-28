@@ -3,75 +3,65 @@ import { IonicModule } from '@ionic/angular';
 import { LicenceDataError } from '@pages/candidate-licence/components/licence-data-error/licence-data-error';
 
 describe('LicenceDataError', () => {
-  let fixture: ComponentFixture<LicenceDataError>;
-  let component: LicenceDataError;
+	let fixture: ComponentFixture<LicenceDataError>;
+	let component: LicenceDataError;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [LicenceDataError],
-      imports: [IonicModule],
-    });
+	beforeEach(waitForAsync(() => {
+		TestBed.configureTestingModule({
+			declarations: [LicenceDataError],
+			imports: [IonicModule],
+		});
 
-    fixture = TestBed.createComponent(LicenceDataError);
-    component = fixture.componentInstance;
-    component.candidateDataUnavailable = false;
-    component.candidateDataError = false;
-    component.isOfflineError = false;
-    component.niLicenceDetected = false;
-  }));
+		fixture = TestBed.createComponent(LicenceDataError);
+		component = fixture.componentInstance;
+		component.candidateDataUnavailable = false;
+		component.candidateDataError = false;
+		component.isOfflineError = false;
+		component.niLicenceDetected = false;
+	}));
 
-  describe('Class', () => {
-    describe('get errorHeading', () => {
-      it('should return the appropriate message for when candidate is from NI', () => {
-        component.niLicenceDetected = true;
-        expect(component.errorHeading)
-          .toEqual('Northern Ireland Licence');
-      });
-      it('should return the appropriate message for when details unavailable', () => {
-        component.candidateDataUnavailable = true;
-        expect(component.errorHeading)
-          .toEqual('Unable to display data');
-      });
-      it('should return the appropriate message for when details not found', () => {
-        component.candidateDataError = true;
-        expect(component.errorHeading)
-          .toEqual('No data found');
-      });
-      it('should return the appropriate message for when user is offline', () => {
-        component.isOfflineError = true;
-        expect(component.errorHeading)
-          .toEqual('No connectivity');
-      });
-      it('should display a default message if no other conditions met', () => {
-        expect(component.errorHeading)
-          .toEqual('Unknown error');
-      });
-    });
-    describe('get errorBody', () => {
-      it('should return the appropriate message for when candidate is from NI', () => {
-        component.niLicenceDetected = true;
-        expect(component.errorBody)
-          .toEqual('Details of Northern Ireland licences are not provided by DVLA.');
-      });
-      it('should return the appropriate message for when details unavailable', () => {
-        component.candidateDataUnavailable = true;
-        expect(component.errorBody)
-          .toEqual('We are unable to return DVLA data for this candidate.');
-      });
-      it('should return the appropriate message for when details not found', () => {
-        component.candidateDataError = true;
-        expect(component.errorBody)
-          .toEqual('No DVLA data has been found using candidates driving licence number.');
-      });
-      it('should return the appropriate message for when user is offline', () => {
-        component.isOfflineError = true;
-        expect(component.errorBody)
-          .toEqual('DVLA licence information currently unavailable.');
-      });
-      it('should display a default message if no other conditions met', () => {
-        expect(component.errorBody)
-          .toEqual('We have received an unknown error for this candidate.');
-      });
-    });
-  });
+	describe('Class', () => {
+		describe('get errorHeading', () => {
+			it('should return the appropriate message for when candidate is from NI', () => {
+				component.niLicenceDetected = true;
+				expect(component.errorHeading).toEqual('Northern Ireland Licence');
+			});
+			it('should return the appropriate message for when details unavailable', () => {
+				component.candidateDataUnavailable = true;
+				expect(component.errorHeading).toEqual('Unable to display data');
+			});
+			it('should return the appropriate message for when details not found', () => {
+				component.candidateDataError = true;
+				expect(component.errorHeading).toEqual('No data found');
+			});
+			it('should return the appropriate message for when user is offline', () => {
+				component.isOfflineError = true;
+				expect(component.errorHeading).toEqual('No connectivity');
+			});
+			it('should display a default message if no other conditions met', () => {
+				expect(component.errorHeading).toEqual('Unknown error');
+			});
+		});
+		describe('get errorBody', () => {
+			it('should return the appropriate message for when candidate is from NI', () => {
+				component.niLicenceDetected = true;
+				expect(component.errorBody).toEqual('Details of Northern Ireland licences are not provided by DVLA.');
+			});
+			it('should return the appropriate message for when details unavailable', () => {
+				component.candidateDataUnavailable = true;
+				expect(component.errorBody).toEqual('We are unable to return DVLA data for this candidate.');
+			});
+			it('should return the appropriate message for when details not found', () => {
+				component.candidateDataError = true;
+				expect(component.errorBody).toEqual('No DVLA data has been found using candidates driving licence number.');
+			});
+			it('should return the appropriate message for when user is offline', () => {
+				component.isOfflineError = true;
+				expect(component.errorBody).toEqual('DVLA licence information currently unavailable.');
+			});
+			it('should display a default message if no other conditions met', () => {
+				expect(component.errorBody).toEqual('We have received an unknown error for this candidate.');
+			});
+		});
+	});
 });

@@ -3,25 +3,21 @@ import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
-  selector: 'special-legal-requirement-modal',
-  templateUrl: 'special-legal-requirement-modal.html',
-  styleUrls: ['special-legal-requirement-modal.scss'],
+	selector: 'special-legal-requirement-modal',
+	templateUrl: 'special-legal-requirement-modal.html',
+	styleUrls: ['special-legal-requirement-modal.scss'],
 })
 export class SpecialLegalRequirementModal {
+	constructor(public modalCtrl: ModalController) {}
 
-  constructor(
-    public modalCtrl: ModalController,
-  ) { }
+	async onCancel() {
+		await this.modalCtrl.dismiss(ModalEvent.CANCEL);
+	}
 
-  async onCancel() {
-    await this.modalCtrl.dismiss(ModalEvent.CANCEL);
-  }
-
-  async onTerminate() {
-    await this.modalCtrl.dismiss(ModalEvent.TERMINATE);
-  }
-  async onProceed() {
-    await this.modalCtrl.dismiss(ModalEvent.CONTINUE);
-  }
-
+	async onTerminate() {
+		await this.modalCtrl.dismiss(ModalEvent.TERMINATE);
+	}
+	async onProceed() {
+		await this.modalCtrl.dismiss(ModalEvent.CONTINUE);
+	}
 }

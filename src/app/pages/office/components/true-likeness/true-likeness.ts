@@ -2,47 +2,47 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'true-likeness',
-  templateUrl: 'true-likeness.html',
+	selector: 'true-likeness',
+	templateUrl: 'true-likeness.html',
 })
 export class TrueLikenessComponent implements OnChanges {
-  @Input()
-  trueLikeness: boolean;
+	@Input()
+	trueLikeness: boolean;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  colSize: number = 32;
+	@Input()
+	colSize = 32;
 
-  @Output()
-  trueLikenessChange = new EventEmitter<boolean>();
+	@Output()
+	trueLikenessChange = new EventEmitter<boolean>();
 
-  formControl: UntypedFormControl;
-  private formField: string = 'trueLikeness';
+	formControl: UntypedFormControl;
+	private formField = 'trueLikeness';
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null, [Validators.required]);
-      this.formGroup.addControl(this.formField, this.formControl);
-    }
+	ngOnChanges(): void {
+		if (!this.formControl) {
+			this.formControl = new UntypedFormControl(null, [Validators.required]);
+			this.formGroup.addControl(this.formField, this.formControl);
+		}
 
-    if (this.trueLikeness === true || this.trueLikeness === false) {
-      this.formControl.patchValue(String(this.trueLikeness));
-    }
-  }
+		if (this.trueLikeness === true || this.trueLikeness === false) {
+			this.formControl.patchValue(String(this.trueLikeness));
+		}
+	}
 
-  trueLikenessChanged(trueLikeness: string): void {
-    if (this.formControl.valid) {
-      this.trueLikenessChange.emit(trueLikeness === 'true');
-    }
-  }
+	trueLikenessChanged(trueLikeness: string): void {
+		if (this.formControl.valid) {
+			this.trueLikenessChange.emit(trueLikeness === 'true');
+		}
+	}
 
-  get requireLabelPadding() {
-    return this.colSize === 31;
-  }
+	get requireLabelPadding() {
+		return this.colSize === 31;
+	}
 
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
+	get invalid(): boolean {
+		return !this.formControl.valid && this.formControl.dirty;
+	}
 }

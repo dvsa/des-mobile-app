@@ -4,6 +4,6 @@ export const HealthDeclarationViewDidEnter = createAction('[HealthDeclarationPag
 export const ContinueFromDeclaration = createAction('[HealthDeclarationPage] Continue from declaration');
 
 export const HealthDeclarationValidationError = createAction(
-  '[HealthDeclarationPage] Validation Error',
-  (errorMessage: string) => ({ errorMessage }),
+	'[HealthDeclarationPage] Validation Error',
+	(errorMessage: string) => ({ errorMessage })
 );

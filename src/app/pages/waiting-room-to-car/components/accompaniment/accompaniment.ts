@@ -1,43 +1,40 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'accompaniment',
-  templateUrl: './accompaniment.html',
+	selector: 'accompaniment',
+	templateUrl: './accompaniment.html',
 })
 export class AccompanimentComponent implements OnChanges {
+	@Input()
+	accompaniment: boolean;
 
-  @Input()
-  accompaniment: boolean;
+	@Input()
+	accompanimentType: string;
 
-  @Input()
-  accompanimentType: string;
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Output()
+	accompanimentChange = new EventEmitter();
 
-  @Output()
-  accompanimentChange = new EventEmitter();
+	formControl: UntypedFormControl;
 
-  formControl: UntypedFormControl;
+	ngOnChanges(): void {
+		if (!this.formControl) {
+			this.formControl = new UntypedFormControl(null);
+			this.formGroup.addControl(this.formControlName, this.formControl);
+		}
+		this.formControl.patchValue(this.accompaniment);
+	}
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null);
-      this.formGroup.addControl(this.formControlName, this.formControl);
-    }
-    this.formControl.patchValue(this.accompaniment);
-  }
+	accompanimentChanged(): void {
+		if (this.formControl.valid) {
+			this.accompanimentChange.emit();
+		}
+	}
 
-  accompanimentChanged(): void {
-    if (this.formControl.valid) {
-      this.accompanimentChange.emit();
-    }
-  }
-
-  get formControlName() {
-    return `accompaniment-${this.accompanimentType}`;
-  }
+	get formControlName() {
+		return `accompaniment-${this.accompanimentType}`;
+	}
 }

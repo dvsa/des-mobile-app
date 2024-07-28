@@ -1,319 +1,282 @@
-import { pickBy, get } from 'lodash-es';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
-import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
+import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { get, pickBy } from 'lodash-es';
 
 type CatCVehicleCheckUnion =
-  CatCUniqueTypes.VehicleChecks |
-  CatC1UniqueTypes.VehicleChecks |
-  CatCEUniqueTypes.VehicleChecks |
-  CatC1EUniqueTypes.VehicleChecks;
+	| CatCUniqueTypes.VehicleChecks
+	| CatC1UniqueTypes.VehicleChecks
+	| CatCEUniqueTypes.VehicleChecks
+	| CatC1EUniqueTypes.VehicleChecks;
 
 export class FaultCountCHelper {
+	public static getDangerousFaultSumCountCatC = (data: CatCUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDangerousFaultSumCountNonTrailer(data);
+	};
 
-  public static getDangerousFaultSumCountCatC = (data: CatCUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDangerousFaultSumCountNonTrailer(data);
-  };
+	public static getDangerousFaultSumCountCatCE = (data: CatCEUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDangerousFaultSumCountTrailer(data);
+	};
 
-  public static getDangerousFaultSumCountCatCE = (data: CatCEUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDangerousFaultSumCountTrailer(data);
-  };
+	public static getDangerousFaultSumCountCatC1E = (data: CatC1EUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDangerousFaultSumCountTrailer(data);
+	};
 
-  public static getDangerousFaultSumCountCatC1E = (data: CatC1EUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDangerousFaultSumCountTrailer(data);
-  };
+	public static getDangerousFaultSumCountCatC1 = (data: CatC1UniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDangerousFaultSumCountNonTrailer(data);
+	};
 
-  public static getDangerousFaultSumCountCatC1 = (data: CatC1UniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDangerousFaultSumCountNonTrailer(data);
-  };
+	public static getSeriousFaultSumCountCatC = (data: CatCUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getSeriousFaultSumCountNonTrailer(data);
+	};
 
-  public static getSeriousFaultSumCountCatC = (data: CatCUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getSeriousFaultSumCountNonTrailer(data);
-  };
+	public static getSeriousFaultSumCountCatC1 = (data: CatC1UniqueTypes.TestData): number => {
+		return FaultCountCHelper.getSeriousFaultSumCountNonTrailer(data);
+	};
 
-  public static getSeriousFaultSumCountCatC1 = (data: CatC1UniqueTypes.TestData): number => {
-    return FaultCountCHelper.getSeriousFaultSumCountNonTrailer(data);
-  };
+	public static getSeriousFaultSumCountCatCE = (data: CatCEUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getSeriousFaultSumCountTrailer(data);
+	};
 
-  public static getSeriousFaultSumCountCatCE = (data: CatCEUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getSeriousFaultSumCountTrailer(data);
-  };
+	public static getSeriousFaultSumCountCatC1E = (data: CatC1EUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getSeriousFaultSumCountTrailer(data);
+	};
 
-  public static getSeriousFaultSumCountCatC1E = (data: CatC1EUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getSeriousFaultSumCountTrailer(data);
-  };
+	public static getDrivingFaultSumCountCatC = (data: CatCUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDrivingFaultSumCountNonTrailer(data);
+	};
 
-  public static getDrivingFaultSumCountCatC = (data: CatCUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDrivingFaultSumCountNonTrailer(data);
-  };
+	public static getDrivingFaultSumCountCatC1 = (data: CatC1UniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDrivingFaultSumCountNonTrailer(data);
+	};
 
-  public static getDrivingFaultSumCountCatC1 = (data: CatC1UniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDrivingFaultSumCountNonTrailer(data);
-  };
+	public static getDrivingFaultSumCountCatCE = (data: CatCEUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDrivingFaultSumCountTrailer(data);
+	};
 
-  public static getDrivingFaultSumCountCatCE = (data: CatCEUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDrivingFaultSumCountTrailer(data);
-  };
+	public static getDrivingFaultSumCountCatC1E = (data: CatC1EUniqueTypes.TestData): number => {
+		return FaultCountCHelper.getDrivingFaultSumCountTrailer(data);
+	};
 
-  public static getDrivingFaultSumCountCatC1E = (data: CatC1EUniqueTypes.TestData): number => {
-    return FaultCountCHelper.getDrivingFaultSumCountTrailer(data);
-  };
+	private static getVehicleChecksFaultCountNonTrailer = (
+		vehicleChecks: CatCUniqueTypes.VehicleChecks | CatC1UniqueTypes.VehicleChecks
+	): VehicleChecksScore => {
+		if (!vehicleChecks) {
+			return {
+				seriousFaults: 0,
+				drivingFaults: 0,
+			};
+		}
 
-  private static getVehicleChecksFaultCountNonTrailer = (
-    vehicleChecks: CatCUniqueTypes.VehicleChecks | CatC1UniqueTypes.VehicleChecks,
-  ): VehicleChecksScore => {
+		const showMeQuestions: QuestionResult[] = get(vehicleChecks, 'showMeQuestions', []);
+		const tellMeQuestions: QuestionResult[] = get(vehicleChecks, 'tellMeQuestions', []);
 
-    if (!vehicleChecks) {
-      return {
-        seriousFaults: 0,
-        drivingFaults: 0,
-      };
-    }
+		const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
+			return showMeQuestion.outcome === CompetencyOutcome.DF;
+		}).length;
+		const numberOfTellMeFaults: number = tellMeQuestions.filter((tellMeQuestion) => {
+			return tellMeQuestion.outcome === CompetencyOutcome.DF;
+		}).length;
 
-    const showMeQuestions: QuestionResult[] = get(vehicleChecks, 'showMeQuestions', []);
-    const tellMeQuestions: QuestionResult[] = get(vehicleChecks, 'tellMeQuestions', []);
+		const totalFaultCount: number = numberOfShowMeFaults + numberOfTellMeFaults;
 
-    const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
-      return showMeQuestion.outcome === CompetencyOutcome.DF;
-    }).length;
-    const numberOfTellMeFaults: number = tellMeQuestions.filter((tellMeQuestion) => {
-      return tellMeQuestion.outcome === CompetencyOutcome.DF;
-    }).length;
+		if (totalFaultCount === 5) {
+			return {
+				drivingFaults: 4,
+				seriousFaults: 1,
+			};
+		}
+		return {
+			drivingFaults: totalFaultCount,
+			seriousFaults: 0,
+		};
+	};
 
-    const totalFaultCount: number = numberOfShowMeFaults + numberOfTellMeFaults;
+	private static getVehicleChecksFaultCountTrailer = (
+		vehicleChecks: CatCEUniqueTypes.VehicleChecks | CatC1EUniqueTypes.VehicleChecks
+	): VehicleChecksScore => {
+		if (!vehicleChecks) {
+			return {
+				seriousFaults: 0,
+				drivingFaults: 0,
+			};
+		}
 
-    if (totalFaultCount === 5) {
-      return {
-        drivingFaults: 4,
-        seriousFaults: 1,
-      };
-    }
-    return {
-      drivingFaults: totalFaultCount,
-      seriousFaults: 0,
-    };
-  };
+		const smQ1 = get(vehicleChecks, 'showMeQuestions[0]');
+		const tmQ1 = get(vehicleChecks, 'tellMeQuestions[0]');
 
-  private static getVehicleChecksFaultCountTrailer = (
-    vehicleChecks: CatCEUniqueTypes.VehicleChecks | CatC1EUniqueTypes.VehicleChecks,
-  ): VehicleChecksScore => {
+		const showMeQuestions: QuestionResult[] = smQ1 ? [smQ1] : [];
+		const tellMeQuestions: QuestionResult[] = tmQ1 ? [tmQ1] : [];
 
-    if (!vehicleChecks) {
-      return {
-        seriousFaults: 0,
-        drivingFaults: 0,
-      };
-    }
+		const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
+			return showMeQuestion.outcome === CompetencyOutcome.DF;
+		}).length;
+		const numberOfTellMeFaults: number = tellMeQuestions.filter((tellMeQuestion) => {
+			return tellMeQuestion.outcome === CompetencyOutcome.DF;
+		}).length;
 
-    const smQ1 = get(vehicleChecks, 'showMeQuestions[0]');
-    const tmQ1 = get(vehicleChecks, 'tellMeQuestions[0]');
+		const totalFaultCount: number = numberOfShowMeFaults + numberOfTellMeFaults;
 
-    const showMeQuestions: QuestionResult[] = smQ1 ? [smQ1] : [];
-    const tellMeQuestions: QuestionResult[] = tmQ1 ? [tmQ1] : [];
+		if (totalFaultCount === 2) {
+			return {
+				drivingFaults: 1,
+				seriousFaults: 1,
+			};
+		}
+		return {
+			drivingFaults: totalFaultCount,
+			seriousFaults: 0,
+		};
+	};
 
-    const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
-      return showMeQuestion.outcome === CompetencyOutcome.DF;
-    }).length;
-    const numberOfTellMeFaults: number = tellMeQuestions.filter((tellMeQuestion) => {
-      return tellMeQuestion.outcome === CompetencyOutcome.DF;
-    }).length;
+	private static getDrivingFaultSumCountNonTrailer = (
+		data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData
+	): number => {
+		// The way how we store the driving faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { drivingFaults, manoeuvres, vehicleChecks } = data;
 
-    const totalFaultCount: number = numberOfShowMeFaults + numberOfTellMeFaults;
+		let faultTotal = 0;
+		getCompetencyFaults(drivingFaults).forEach((fault) => {
+			faultTotal += fault.faultCount;
+		});
 
-    if (totalFaultCount === 2) {
-      return {
-        drivingFaults: 1,
-        seriousFaults: 1,
-      };
-    }
-    return {
-      drivingFaults: totalFaultCount,
-      seriousFaults: 0,
-    };
-  };
+		const result =
+			faultTotal +
+			sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF) +
+			FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks).drivingFaults;
 
-  private static getDrivingFaultSumCountNonTrailer = (
-    data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
-  ): number => {
+		return result;
+	};
 
-    // The way how we store the driving faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      drivingFaults,
-      manoeuvres,
-      vehicleChecks,
-    } = data;
+	private static getDrivingFaultSumCountTrailer = (
+		data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData
+	): number => {
+		// The way how we store the driving faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { drivingFaults, manoeuvres, vehicleChecks, uncoupleRecouple } = data;
 
-    let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults)
-      .forEach((fault) => {
-        faultTotal += fault.faultCount;
-      });
+		let faultTotal = 0;
+		getCompetencyFaults(drivingFaults).forEach((fault) => {
+			faultTotal += fault.faultCount;
+		});
+		const uncoupleRecoupleHasDrivingFault = uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.DF ? 1 : 0;
 
-    const result = faultTotal
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF)
-      + FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks).drivingFaults;
+		const result =
+			faultTotal +
+			sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF) +
+			FaultCountCHelper.getVehicleChecksFaultCount(vehicleChecks).drivingFaults +
+			uncoupleRecoupleHasDrivingFault;
 
-    return result;
-  };
+		return result;
+	};
 
-  private static getDrivingFaultSumCountTrailer = (
-    data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData,
-  ): number => {
+	private static getSeriousFaultSumCountNonTrailer = (
+		data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData
+	): number => {
+		// The way how we store serious faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { seriousFaults, manoeuvres, vehicleChecks } = data;
 
-    // The way how we store the driving faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      drivingFaults,
-      manoeuvres,
-      vehicleChecks,
-      uncoupleRecouple,
-    } = data;
+		const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
+		const vehicleCheckSeriousFaults = vehicleChecks
+			? FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks).seriousFaults
+			: 0;
 
-    let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults)
-      .forEach((fault) => {
-        faultTotal += fault.faultCount;
-      });
-    const uncoupleRecoupleHasDrivingFault = (uncoupleRecouple
-      && uncoupleRecouple.fault === CompetencyOutcome.DF) ? 1 : 0;
+		const result =
+			seriousFaultSumOfSimpleCompetencies +
+			sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S) +
+			vehicleCheckSeriousFaults;
 
-    const result = faultTotal
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF)
-      + FaultCountCHelper.getVehicleChecksFaultCount(vehicleChecks).drivingFaults
-      + uncoupleRecoupleHasDrivingFault;
+		return result;
+	};
 
-    return result;
-  };
+	private static getSeriousFaultSumCountTrailer = (
+		data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData
+	): number => {
+		// The way how we store serious faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { seriousFaults, manoeuvres, vehicleChecks, uncoupleRecouple } = data;
 
-  private static getSeriousFaultSumCountNonTrailer = (
-    data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
-  ): number => {
+		const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
+		const vehicleCheckSeriousFaults = vehicleChecks
+			? FaultCountCHelper.getVehicleChecksFaultCount(vehicleChecks).seriousFaults
+			: 0;
+		const uncoupleRecoupleSeriousFaults = uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.S ? 1 : 0;
 
-    // The way how we store serious faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      seriousFaults,
-      manoeuvres,
-      vehicleChecks,
-    } = data;
+		const result =
+			seriousFaultSumOfSimpleCompetencies +
+			sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S) +
+			vehicleCheckSeriousFaults +
+			uncoupleRecoupleSeriousFaults;
 
-    const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
-    const vehicleCheckSeriousFaults = vehicleChecks
-      ? FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks).seriousFaults : 0;
+		return result;
+	};
 
-    const result = seriousFaultSumOfSimpleCompetencies
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S)
-      + vehicleCheckSeriousFaults;
+	private static getDangerousFaultSumCountNonTrailer = (
+		data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData
+	): number => {
+		// The way how we store serious faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { dangerousFaults, manoeuvres } = data;
 
-    return result;
-  };
+		const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
 
-  private static getSeriousFaultSumCountTrailer = (
-    data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData,
-  ): number => {
+		const result = dangerousFaultSumOfSimpleCompetencies + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D);
 
-    // The way how we store serious faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      seriousFaults,
-      manoeuvres,
-      vehicleChecks,
-      uncoupleRecouple,
-    } = data;
+		return result;
+	};
 
-    const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
-    const vehicleCheckSeriousFaults = vehicleChecks
-      ? FaultCountCHelper.getVehicleChecksFaultCount(vehicleChecks).seriousFaults : 0;
-    const uncoupleRecoupleSeriousFaults = (uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.S) ? 1 : 0;
+	private static getDangerousFaultSumCountTrailer = (
+		data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData
+	): number => {
+		// The way how we store serious faults differs for certain competencies
+		// Because of this we need to pay extra attention on summing up all of them
+		const { dangerousFaults, manoeuvres, uncoupleRecouple } = data;
 
-    const result = seriousFaultSumOfSimpleCompetencies
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S)
-      + vehicleCheckSeriousFaults
-      + uncoupleRecoupleSeriousFaults;
+		const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
+		const uncoupleRecoupleDangerousFaults = uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.D ? 1 : 0;
 
-    return result;
-  };
+		const result =
+			dangerousFaultSumOfSimpleCompetencies +
+			sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D) +
+			uncoupleRecoupleDangerousFaults;
 
-  private static getDangerousFaultSumCountNonTrailer = (
-    data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
-  ): number => {
+		return result;
+	};
 
-    // The way how we store serious faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      dangerousFaults,
-      manoeuvres,
-    } = data;
+	static getVehicleChecksFaultCount = (vehicleChecks: CatCVehicleCheckUnion): VehicleChecksScore => {
+		if (get(vehicleChecks, 'fullLicenceHeld')) {
+			return FaultCountCHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
+		}
+		return FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
+	};
 
-    const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
+	public static getVehicleChecksFaultCountCatC = (vehicleChecks: CatCUniqueTypes.VehicleChecks): VehicleChecksScore => {
+		return FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
+	};
 
-    const result = dangerousFaultSumOfSimpleCompetencies
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D);
+	public static getVehicleChecksFaultCountCatCE = (
+		vehicleChecks: CatCEUniqueTypes.VehicleChecks
+	): VehicleChecksScore => {
+		return FaultCountCHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
+	};
 
-    return result;
-  };
+	public static getVehicleChecksFaultCountCatC1 = (
+		vehicleChecks: CatC1UniqueTypes.VehicleChecks
+	): VehicleChecksScore => {
+		return FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
+	};
 
-  private static getDangerousFaultSumCountTrailer = (
-    data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData,
-  ): number => {
-
-    // The way how we store serious faults differs for certain competencies
-    // Because of this we need to pay extra attention on summing up all of them
-    const {
-      dangerousFaults,
-      manoeuvres,
-      uncoupleRecouple,
-    } = data;
-
-    const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
-    const uncoupleRecoupleDangerousFaults = (uncoupleRecouple
-      && uncoupleRecouple.fault === CompetencyOutcome.D) ? 1 : 0;
-
-    const result = dangerousFaultSumOfSimpleCompetencies
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D)
-      + uncoupleRecoupleDangerousFaults;
-
-    return result;
-  };
-
-  static getVehicleChecksFaultCount = (
-    vehicleChecks: CatCVehicleCheckUnion,
-  ): VehicleChecksScore => {
-    if (get(vehicleChecks, 'fullLicenceHeld')) {
-      return FaultCountCHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
-    }
-    return FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
-  };
-
-  public static getVehicleChecksFaultCountCatC = (
-    vehicleChecks: CatCUniqueTypes.VehicleChecks,
-  ): VehicleChecksScore => {
-    return FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
-  };
-
-  public static getVehicleChecksFaultCountCatCE = (
-    vehicleChecks: CatCEUniqueTypes.VehicleChecks,
-  ): VehicleChecksScore => {
-    return FaultCountCHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
-  };
-
-  public static getVehicleChecksFaultCountCatC1 = (
-    vehicleChecks: CatC1UniqueTypes.VehicleChecks,
-  ): VehicleChecksScore => {
-    return FaultCountCHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
-  };
-
-  public static getVehicleChecksFaultCountCatC1E = (
-    vehicleChecks: CatC1EUniqueTypes.VehicleChecks,
-  ): VehicleChecksScore => {
-    return FaultCountCHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
-  };
-
+	public static getVehicleChecksFaultCountCatC1E = (
+		vehicleChecks: CatC1EUniqueTypes.VehicleChecks
+	): VehicleChecksScore => {
+		return FaultCountCHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
+	};
 }

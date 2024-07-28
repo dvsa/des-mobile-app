@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { WeatherConditionSelection } from './weather-conditions.model';
 import weatherConditions from './weather-conditions.constants';
+import { WeatherConditionSelection } from './weather-conditions.model';
 
 @Injectable()
 export class WeatherConditionProvider {
-  getWeatherConditions(): WeatherConditionSelection[] {
-    return weatherConditions;
-  }
+	getWeatherConditions(): WeatherConditionSelection[] {
+		return weatherConditions;
+	}
 }

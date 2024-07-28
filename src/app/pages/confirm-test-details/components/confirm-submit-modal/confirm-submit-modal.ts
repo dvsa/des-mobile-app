@@ -1,31 +1,25 @@
-import {
-  ModalController,
-} from '@ionic/angular';
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'confirm-submit-modal',
-  templateUrl: './confirm-submit-modal.html',
-  styleUrls: ['./confirm-submit-modal.scss'],
+	selector: 'confirm-submit-modal',
+	templateUrl: './confirm-submit-modal.html',
+	styleUrls: ['./confirm-submit-modal.scss'],
 })
 export class ConfirmSubmitModal {
+	onTestDetailsConfirm: Function;
+	testOutcome: string;
+	category: string;
+	candidateName: string;
 
-  onTestDetailsConfirm: Function;
-  testOutcome: string;
-  category: string;
-  candidateName: string;
+	constructor(public modalController: ModalController) {}
 
-  constructor(
-    public modalController: ModalController,
-  ) {
-  }
+	onCompleteTest = async () => {
+		await this.modalController.dismiss();
+		await this.onTestDetailsConfirm();
+	};
 
-  onCompleteTest = async () => {
-    await this.modalController.dismiss();
-    await this.onTestDetailsConfirm();
-  };
-
-  onBack = async () => {
-    await this.modalController.dismiss();
-  };
+	onBack = async () => {
+		await this.modalController.dismiss();
+	};
 }

@@ -1,68 +1,64 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
-import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
-  selector: 'lesson-theme',
-  templateUrl: 'lesson-theme.html',
+	selector: 'lesson-theme',
+	templateUrl: 'lesson-theme.html',
 })
 export class LessonThemeComponent implements OnChanges {
+	@Input()
+	lessonThemes: LessonTheme[] = [];
 
-  @Input()
-  lessonThemes: LessonTheme[] = [];
+	@Input()
+	otherReason: string;
 
-  @Input()
-  otherReason: string;
+	@Input()
+	formGroup: UntypedFormGroup;
 
-  @Input()
-  formGroup: UntypedFormGroup;
+	@Output()
+	lessonThemeChange = new EventEmitter<{ lessonTheme: LessonTheme; added: boolean }>();
 
-  @Output()
-  lessonThemeChange = new EventEmitter<{ lessonTheme: LessonTheme; added: boolean; }>();
+	@Output()
+	otherReasoningChange = new EventEmitter<string>();
 
-  @Output()
-  otherReasoningChange = new EventEmitter<string>();
+	formControl: UntypedFormControl;
+	feedbackCharsRemaining: number;
+	static readonly fieldName: string = 'otherReason';
 
-  formControl: UntypedFormControl;
-  feedbackCharsRemaining: number;
-  static readonly fieldName: string = 'otherReason';
+	ngOnChanges(): void {
+		if (!this.formControl) {
+			this.formControl = new UntypedFormControl(null, [Validators.maxLength(950)]);
+			this.formGroup.addControl(LessonThemeComponent.fieldName, this.formControl);
+		}
+		this.formControl.patchValue(this.otherReason);
+	}
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null, [Validators.maxLength(950)]);
-      this.formGroup.addControl(LessonThemeComponent.fieldName, this.formControl);
-    }
-    this.formControl.patchValue(this.otherReason);
-  }
+	lessonThemeChanged = (lessonTheme: string): void => {
+		const added = !this.lessonThemes.includes(lessonTheme as LessonTheme);
+		this.lessonThemeChange.emit({ lessonTheme: lessonTheme as LessonTheme, added });
+	};
 
-  lessonThemeChanged = (lessonTheme: string): void => {
-    const added = !this.lessonThemes.includes(lessonTheme as LessonTheme);
-    this.lessonThemeChange.emit({ lessonTheme: lessonTheme as LessonTheme, added });
-  };
+	otherReasoningChanged = (otherReason: string): void => {
+		this.otherReasoningChange.emit(otherReason);
+	};
 
-  otherReasoningChanged = (otherReason: string): void => {
-    this.otherReasoningChange.emit(otherReason);
-  };
+	defineComparator = (key: string) => (this.lessonThemes?.includes(key as LessonTheme) ? key : '');
 
-  defineComparator = (key: string) => this.lessonThemes?.includes(key as LessonTheme) ? key : '';
+	get invalid(): boolean {
+		return !this.formControl.valid && this.formControl.dirty;
+	}
 
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
+	characterCountChanged(charactersRemaining: number) {
+		this.feedbackCharsRemaining = charactersRemaining;
+	}
 
-  characterCountChanged(charactersRemaining: number) {
-    this.feedbackCharsRemaining = charactersRemaining;
-  }
+	getCharacterCountText() {
+		const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
+		return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
+	}
 
-  getCharacterCountText() {
-    const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
-    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
-  }
-
-  charactersExceeded(): boolean {
-    return this.feedbackCharsRemaining < 0;
-  }
-
+	charactersExceeded(): boolean {
+		return this.feedbackCharsRemaining < 0;
+	}
 }

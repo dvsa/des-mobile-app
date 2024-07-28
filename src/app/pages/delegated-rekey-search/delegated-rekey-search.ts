@@ -1,182 +1,169 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { select } from '@ngrx/store';
-import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import {
-  DelegatedRekeySearchError,
-  DelegatedRekeySearchErrorMessages,
-} from '@pages/delegated-rekey-search/delegated-rekey-search-error-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  getBookedTestSlot,
-  getDelegatedRekeySearchError,
-  getHasSearched,
-  getIsLoading,
-} from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
+import { Component, Injector, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { ModalController } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import {
+	DelegatedRekeySearchError,
+	DelegatedRekeySearchErrorMessages,
+} from '@pages/delegated-rekey-search/delegated-rekey-search-error-model';
+import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
+import {
+	getBookedTestSlot,
+	getDelegatedRekeySearchError,
+	getHasSearched,
+	getIsLoading,
+} from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
 import { ERROR_PAGE } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash-es';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import {
-  DelegatedRekeySearchClearState,
-  DelegatedRekeySearchViewDidEnter,
-  SearchBookedDelegatedTest,
+	DelegatedRekeySearchClearState,
+	DelegatedRekeySearchViewDidEnter,
+	SearchBookedDelegatedTest,
 } from './delegated-rekey-search.actions';
 
 interface DelegatedRekeySearchPageState {
-  isLoading$: Observable<boolean>;
-  hasSearched$: Observable<boolean>;
-  bookedTestSlot$: Observable<TestSlot>;
-  rekeySearchErr$: Observable<DelegatedRekeySearchError | HttpErrorResponse>;
+	isLoading$: Observable<boolean>;
+	hasSearched$: Observable<boolean>;
+	bookedTestSlot$: Observable<TestSlot>;
+	rekeySearchErr$: Observable<DelegatedRekeySearchError | HttpErrorResponse>;
 }
 
 @Component({
-  selector: 'page-delegated-rekey-search',
-  templateUrl: './delegated-rekey-search.html',
-  styleUrls: ['./delegated-rekey-search.scss'],
+	selector: 'page-delegated-rekey-search',
+	templateUrl: './delegated-rekey-search.html',
+	styleUrls: ['./delegated-rekey-search.scss'],
 })
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
-  pageState: DelegatedRekeySearchPageState;
-  delegatedRekeyForm: UntypedFormGroup;
-  hasClickedSearch: boolean = false;
-  maxCallStackHandler = {
-    onlySelf: true,
-    emitEvent: false,
-  };
-  applicationReference: string = '';
-  subscription: Subscription = Subscription.EMPTY;
-  focusedElement: string = null;
+	pageState: DelegatedRekeySearchPageState;
+	delegatedRekeyForm: UntypedFormGroup;
+	hasClickedSearch = false;
+	maxCallStackHandler = {
+		onlySelf: true,
+		emitEvent: false,
+	};
+	applicationReference = '';
+	subscription: Subscription = Subscription.EMPTY;
+	focusedElement: string = null;
 
-  constructor(
-    public orientationMonitorProvider: OrientationMonitorProvider,
-    private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-    injector: Injector,
-  ) {
-    super(injector);
-  }
+	constructor(
+		public orientationMonitorProvider: OrientationMonitorProvider,
+		private modalController: ModalController,
+		private accessibilityService: AccessibilityService,
+		injector: Injector
+	) {
+		super(injector);
+	}
 
-  ngOnInit(): void {
-    this.store$.dispatch(DelegatedRekeySearchClearState());
-    const rekeySearch$ = this.store$.pipe(
-      select(getDelegatedRekeySearchState),
-    );
-    this.pageState = {
-      isLoading$: rekeySearch$.pipe(
-        map(getIsLoading),
-      ),
-      hasSearched$: rekeySearch$.pipe(
-        map(getHasSearched),
-      ),
-      bookedTestSlot$: rekeySearch$.pipe(
-        map(getBookedTestSlot),
-      ),
-      rekeySearchErr$: rekeySearch$.pipe(
-        map(getDelegatedRekeySearchError),
-        distinctUntilChanged(),
-      ),
-    };
+	ngOnInit(): void {
+		this.store$.dispatch(DelegatedRekeySearchClearState());
+		const rekeySearch$ = this.store$.pipe(select(getDelegatedRekeySearchState));
+		this.pageState = {
+			isLoading$: rekeySearch$.pipe(map(getIsLoading)),
+			hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
+			bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
+			rekeySearchErr$: rekeySearch$.pipe(map(getDelegatedRekeySearchError), distinctUntilChanged()),
+		};
 
-    this.delegatedRekeyForm = new UntypedFormGroup({});
-    this.delegatedRekeyForm
-      .addControl('applicationReferenceInput', new UntypedFormControl(null, [
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(11),
-      ]));
-    this.delegatedRekeyForm.updateValueAndValidity(this.maxCallStackHandler);
-  }
+		this.delegatedRekeyForm = new UntypedFormGroup({});
+		this.delegatedRekeyForm.addControl(
+			'applicationReferenceInput',
+			new UntypedFormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)])
+		);
+		this.delegatedRekeyForm.updateValueAndValidity(this.maxCallStackHandler);
+	}
 
-  get applicationReferenceInvalid(): boolean {
-    return !this.applicationReferenceCtrl.valid;
-  }
+	get applicationReferenceInvalid(): boolean {
+		return !this.applicationReferenceCtrl.valid;
+	}
 
-  ionViewDidEnter() {
-    this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
-    this.setUpSubscription();
-  }
+	ionViewDidEnter() {
+		this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
+		this.setUpSubscription();
+	}
 
-  async ionViewWillEnter() {
-    await this.orientationMonitorProvider.monitorOrientation();
-  }
+	async ionViewWillEnter() {
+		await this.orientationMonitorProvider.monitorOrientation();
+	}
 
-  async ionViewWillLeave() {
-    await this.orientationMonitorProvider.tearDownListener();
-  }
+	async ionViewWillLeave() {
+		await this.orientationMonitorProvider.tearDownListener();
+	}
 
-  setUpSubscription() {
-    this.subscription = this.pageState.rekeySearchErr$.subscribe((error) => {
-      if (!this.hasBookingAlreadyBeenCompleted(error) && this.pageState.hasSearched$) {
-        this.showError(error);
-      }
-    });
-  }
+	setUpSubscription() {
+		this.subscription = this.pageState.rekeySearchErr$.subscribe((error) => {
+			if (!this.hasBookingAlreadyBeenCompleted(error) && this.pageState.hasSearched$) {
+				this.showError(error);
+			}
+		});
+	}
 
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    this.store$.dispatch(DelegatedRekeySearchClearState());
-    this.applicationReference = '';
-    this.hasClickedSearch = false;
-  }
+	ionViewDidLeave(): void {
+		if (this.subscription) {
+			this.subscription.unsubscribe();
+		}
+		this.store$.dispatch(DelegatedRekeySearchClearState());
+		this.applicationReference = '';
+		this.hasClickedSearch = false;
+	}
 
-  applicationReferenceChanged(val: string) {
-    if (val === '') {
-      this.store$.dispatch(DelegatedRekeySearchClearState());
-    }
-    this.applicationReference = val;
-  }
+	applicationReferenceChanged(val: string) {
+		if (val === '') {
+			this.store$.dispatch(DelegatedRekeySearchClearState());
+		}
+		this.applicationReference = val;
+	}
 
-  searchTests() {
-    this.hasClickedSearch = true;
-    this.applicationReferenceCtrl.updateValueAndValidity(this.maxCallStackHandler);
-    this.applicationReferenceCtrl.markAsDirty();
-    if (this.applicationReferenceCtrl.valid) {
-      this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
-    }
-  }
+	searchTests() {
+		this.hasClickedSearch = true;
+		this.applicationReferenceCtrl.updateValueAndValidity(this.maxCallStackHandler);
+		this.applicationReferenceCtrl.markAsDirty();
+		if (this.applicationReferenceCtrl.valid) {
+			this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
+		}
+	}
 
-  isBookedTestSlotEmpty(bookedTestsSlot: TestSlot) {
-    return isEmpty(bookedTestsSlot);
-  }
+	isBookedTestSlotEmpty(bookedTestsSlot: TestSlot) {
+		return isEmpty(bookedTestsSlot);
+	}
 
-  hasBookingAlreadyBeenCompleted(rekeySearchErr: HttpErrorResponse | DelegatedRekeySearchError) {
-    return rekeySearchErr.message === DelegatedRekeySearchErrorMessages.BookingAlreadyCompleted;
-  }
+	hasBookingAlreadyBeenCompleted(rekeySearchErr: HttpErrorResponse | DelegatedRekeySearchError) {
+		return rekeySearchErr.message === DelegatedRekeySearchErrorMessages.BookingAlreadyCompleted;
+	}
 
-  async showError(error): Promise<void> {
-    if (error === undefined || error.message === '') return;
+	async showError(error): Promise<void> {
+		if (error === undefined || error.message === '') return;
 
-    // Modals are at the same level as the ion-nav so are not getting the zoom level class,
-    // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
+		// Modals are at the same level as the ion-nav so are not getting the zoom level class,
+		// this needs to be passed in the create options.
+		const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
 
-    const errorModal = await this.modalController.create({
-      component: ERROR_PAGE,
-      cssClass: zoomClass,
-      componentProps: {
-        type: ErrorTypes.SEARCH,
-      },
-    });
-    await errorModal.present();
-  }
+		const errorModal = await this.modalController.create({
+			component: ERROR_PAGE,
+			cssClass: zoomClass,
+			componentProps: {
+				type: ErrorTypes.SEARCH,
+			},
+		});
+		await errorModal.present();
+	}
 
-  setFocus(focus: string): void {
-    this.focusedElement = focus;
-  }
+	setFocus(focus: string): void {
+		this.focusedElement = focus;
+	}
 
-  get applicationReferenceCtrl(): AbstractControl {
-    return this.delegatedRekeyForm.get('applicationReferenceInput');
-  }
+	get applicationReferenceCtrl(): AbstractControl {
+		return this.delegatedRekeyForm.get('applicationReferenceInput');
+	}
 
-  clearAppRef() {
-    this.applicationReferenceChanged('')
-  }
+	clearAppRef() {
+		this.applicationReferenceChanged('');
+	}
 }

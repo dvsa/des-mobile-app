@@ -1,9 +1,9 @@
 export type TestReportModel = {
-  seriousMode: boolean,
-  dangerousMode: boolean,
-  removeFaultMode: boolean,
+	seriousMode: boolean;
+	dangerousMode: boolean;
+	removeFaultMode: boolean;
 };
 
 export interface OverlayCallback {
-  callbackMethod: () => void;
+	callbackMethod: () => void;
 }

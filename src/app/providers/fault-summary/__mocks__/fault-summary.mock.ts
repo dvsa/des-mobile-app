@@ -1,7 +1,7 @@
 export class FaultSummaryProviderMock {
-  getDrivingFaultSumCount() {}
-  getDangerousFaultsList() {}
-  getSeriousFaultsList() {}
-  getDrivingFaultsList() {}
-  shouldShowIncorrect() {}
+	getDrivingFaultSumCount() {}
+	getDangerousFaultsList() {}
+	getSeriousFaultsList() {}
+	getDrivingFaultsList() {}
+	shouldShowIncorrect() {}
 }

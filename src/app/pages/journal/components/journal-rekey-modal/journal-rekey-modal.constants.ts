@@ -1,5 +1,5 @@
 export enum ModalEvent {
-  CANCEL = 'cancel',
-  REKEY = 'rekey',
-  START = 'start',
+	CANCEL = 'cancel',
+	REKEY = 'rekey',
+	START = 'start',
 }
