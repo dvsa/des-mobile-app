@@ -17,19 +17,19 @@ import { OfficeCatManoeuvrePageRoutingModule } from './office.cat-manoeuvre-rout
 import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
 
 @NgModule({
-	declarations: [OfficeCatManoeuvrePage],
-	imports: [
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-		ComponentsModule,
-		CommonModule,
-		ReactiveFormsModule,
-		IonicModule,
-		OfficeComponentsModule,
-		OfficeCatManoeuvrePageRoutingModule,
-		TestFinalisationComponentsModule,
-		PassFinalisationComponentsModule,
-		WaitingRoomToCarComponentsModule,
-	],
-	providers: [FaultSummaryProvider],
+  declarations: [OfficeCatManoeuvrePage],
+  imports: [
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    ComponentsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    IonicModule,
+    OfficeComponentsModule,
+    OfficeCatManoeuvrePageRoutingModule,
+    TestFinalisationComponentsModule,
+    PassFinalisationComponentsModule,
+    WaitingRoomToCarComponentsModule,
+  ],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatManoeuvrePageModule {}

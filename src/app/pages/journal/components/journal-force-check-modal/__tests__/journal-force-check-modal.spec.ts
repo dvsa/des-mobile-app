@@ -11,73 +11,73 @@ import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants';
 import { JournalForceCheckModal } from '../journal-force-check-modal';
 
 describe('JournalForceCheckModal', () => {
-	let fixture: ComponentFixture<JournalForceCheckModal>;
-	let component: JournalForceCheckModal;
-	let modalController: ModalController;
+  let fixture: ComponentFixture<JournalForceCheckModal>;
+  let component: JournalForceCheckModal;
+  let modalController: ModalController;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [JournalForceCheckModal],
-			imports: [IonicModule, ComponentsModule],
-			providers: [{ provide: ModalController, useClass: ModalControllerMock }],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [JournalForceCheckModal],
+      imports: [IonicModule, ComponentsModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
+    });
 
-		fixture = TestBed.createComponent(JournalForceCheckModal);
-		modalController = TestBed.inject(ModalController);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(JournalForceCheckModal);
+    modalController = TestBed.inject(ModalController);
+    component = fixture.componentInstance;
+  }));
 
-	describe('Class', () => {
-		it('should create', () => {
-			expect(component).toBeDefined();
-		});
-	});
+  describe('Class', () => {
+    it('should create', () => {
+      expect(component).toBeDefined();
+    });
+  });
 
-	describe('onCancel', () => {
-		it('should dismiss modal with `cancel` callback', async () => {
-			spyOn(modalController, 'dismiss');
-			await component.onCancel();
-			expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
-		});
-	});
+  describe('onCancel', () => {
+    it('should dismiss modal with `cancel` callback', async () => {
+      spyOn(modalController, 'dismiss');
+      await component.onCancel();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
 
-	describe('openCandidateDetailsModal', () => {
-		it('should create a modal with the correct parameters', async () => {
-			spyOn(modalController, 'create').and.returnValue(
-				Promise.resolve({
-					present: async () => {},
-					onWillDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
-				} as HTMLIonModalElement)
-			);
+  describe('openCandidateDetailsModal', () => {
+    it('should create a modal with the correct parameters', async () => {
+      spyOn(modalController, 'create').and.returnValue(
+        Promise.resolve({
+          present: async () => {},
+          onWillDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
+        } as HTMLIonModalElement)
+      );
 
-			component.slot = { examinerVisiting: true } as TestSlot;
-			component.textZoomClass = 'string';
-			component.isTeamJournal = true;
-			component.slotChanged = false;
+      component.slot = { examinerVisiting: true } as TestSlot;
+      component.textZoomClass = 'string';
+      component.isTeamJournal = true;
+      component.slotChanged = false;
 
-			await component.openCandidateDetailsModal();
-			expect(modalController.create).toHaveBeenCalledWith({
-				component: CandidateDetailsPage,
-				id: CANDIDATE_DETAILS_PAGE,
-				cssClass: 'modal-fullscreen string',
-				componentProps: {
-					slot: { examinerVisiting: true },
-					slotChanged: false,
-					isTeamJournal: true,
-				},
-			});
-		});
-	});
+      await component.openCandidateDetailsModal();
+      expect(modalController.create).toHaveBeenCalledWith({
+        component: CandidateDetailsPage,
+        id: CANDIDATE_DETAILS_PAGE,
+        cssClass: 'modal-fullscreen string',
+        componentProps: {
+          slot: { examinerVisiting: true },
+          slotChanged: false,
+          isTeamJournal: true,
+        },
+      });
+    });
+  });
 
-	describe('DOM', () => {
-		it('should call onCancel when the Cancel button is clicked', () => {
-			fixture.detectChanges();
-			spyOn(component, 'onCancel');
-			const button = fixture.debugElement.query(By.css('#return-to-journal-button'));
-			button.triggerEventHandler('click', null);
+  describe('DOM', () => {
+    it('should call onCancel when the Cancel button is clicked', () => {
+      fixture.detectChanges();
+      spyOn(component, 'onCancel');
+      const button = fixture.debugElement.query(By.css('#return-to-journal-button'));
+      button.triggerEventHandler('click', null);
 
-			fixture.detectChanges();
-			expect(component.onCancel).toHaveBeenCalled();
-		});
-	});
+      fixture.detectChanges();
+      expect(component.onCancel).toHaveBeenCalled();
+    });
+  });
 });

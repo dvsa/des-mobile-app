@@ -13,20 +13,20 @@ import * as communicationActions from './communication.actions';
 
 @Injectable()
 export class CommunicationEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 
-	communicationSubmitInfoEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(communicationActions.CommunicationSubmitInfo),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
-			),
-			switchMap(([, slotId]) => {
-				return [testStatusActions.SetTestStatusStarted(slotId), testsActions.PersistTests()];
-			})
-		)
-	);
+  communicationSubmitInfoEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(communicationActions.CommunicationSubmitInfo),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
+      ),
+      switchMap(([, slotId]) => {
+        return [testStatusActions.SetTestStatusStarted(slotId), testsActions.PersistTests()];
+      })
+    )
+  );
 }

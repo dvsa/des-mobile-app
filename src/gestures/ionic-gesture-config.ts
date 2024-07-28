@@ -7,7 +7,7 @@ import { HammerGestureConfig } from '@angular/platform-browser';
  */
 @Injectable()
 export class IonicGestureConfig extends HammerGestureConfig {
-	overrides = {
-		press: { time: 301 },
-	};
+  overrides = {
+    press: { time: 301 },
+  };
 }

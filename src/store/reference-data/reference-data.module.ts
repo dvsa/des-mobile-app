@@ -5,9 +5,9 @@ import { ReferenceDataEffects } from '@store/reference-data/reference-data.effec
 import { refDataFeatureKey, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
 
 @NgModule({
-	imports: [
-		StoreModule.forFeature(refDataFeatureKey, referenceDataReducer),
-		EffectsModule.forFeature([ReferenceDataEffects]),
-	],
+  imports: [
+    StoreModule.forFeature(refDataFeatureKey, referenceDataReducer),
+    EffectsModule.forFeature([ReferenceDataEffects]),
+  ],
 })
 export class ReferenceDataStoreModule {}

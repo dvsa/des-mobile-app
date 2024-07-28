@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { PassCertificateNumberCatAMod1Component } from './pass-certificate-number/pass-certificate-number.cat-a-mod1';
 
 @NgModule({
-	declarations: [PassCertificateNumberCatAMod1Component],
-	imports: [IonicModule, CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule],
-	exports: [PassCertificateNumberCatAMod1Component],
+  declarations: [PassCertificateNumberCatAMod1Component],
+  imports: [IonicModule, CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule],
+  exports: [PassCertificateNumberCatAMod1Component],
 })
 export class PassFinalisationCatAMod1ComponentsModule {}

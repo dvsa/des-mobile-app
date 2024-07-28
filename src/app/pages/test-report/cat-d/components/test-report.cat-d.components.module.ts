@@ -9,8 +9,8 @@ import { SafetyQuestionsCatDComponent } from './safety-questions/safety-question
 import { VehicleChecksCompactCatDComponent } from './vehicle-checks-compact/vehicle-checks-compact.cat-d';
 
 @NgModule({
-	declarations: [VehicleChecksCompactCatDComponent, SafetyQuestionsCatDComponent, PcvDoorExerciseComponent],
-	imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonicModule, DirectivesModule],
-	exports: [VehicleChecksCompactCatDComponent, SafetyQuestionsCatDComponent, PcvDoorExerciseComponent],
+  declarations: [VehicleChecksCompactCatDComponent, SafetyQuestionsCatDComponent, PcvDoorExerciseComponent],
+  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonicModule, DirectivesModule],
+  exports: [VehicleChecksCompactCatDComponent, SafetyQuestionsCatDComponent, PcvDoorExerciseComponent],
 })
 export class TestReportCatDComponentsModule {}

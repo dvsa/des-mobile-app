@@ -45,231 +45,231 @@ import { QuestionSubtitleComponent } from '../components/question-subtitle/quest
 import { TestReportCatCPCPage } from '../test-report.cat-cpc.page';
 
 describe('TestReportCatCPCPage', () => {
-	let fixture: ComponentFixture<TestReportCatCPCPage>;
-	let component: TestReportCatCPCPage;
-	let store$: Store<StoreModel>;
-	let cpcQuestionProvider: CPCQuestionProvider;
-	let modalController: ModalController;
+  let fixture: ComponentFixture<TestReportCatCPCPage>;
+  let component: TestReportCatCPCPage;
+  let store$: Store<StoreModel>;
+  let cpcQuestionProvider: CPCQuestionProvider;
+  let modalController: ModalController;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			declarations: [
-				TestReportCatCPCPage,
-				MockComponent(PracticeModeBanner),
-				MockComponent(CompetencyComponent),
-				MockComponent(ModuleAssessmentComponent),
-				MockComponent(QuestionAnswerComponent),
-				MockComponent(QuestionCardComponent),
-				MockComponent(QuestionFiveCardComponent),
-				MockComponent(QuestionFooterComponent),
-				MockComponent(QuestionScoreComponent),
-				MockComponent(QuestionSubtitleComponent),
-				MockComponent(QuestionTitleComponent),
-				MockComponent(QuestionDelExRadioCardComponent),
-			],
-			imports: [
-				IonicModule,
-				AppModule,
-				StoreModule.forFeature('tests', () => ({
-					currentTest: {
-						slotId: '123',
-					},
-					testStatus: {},
-					startedTests: {
-						123: {
-							testData: {
-								question1: { score: 1 },
-								question2: { score: 1 },
-								question3: { score: 1 },
-								question4: { score: 1 },
-								question5: { score: 1 },
-								...initialState,
-							},
-							journalData: {
-								candidate: candidateMock,
-							},
-						},
-					},
-				})),
-				StoreModule.forFeature('testReport', testReportReducer),
-			],
-			providers: [
-				{
-					provide: NavParams,
-					useClass: NavParamsMock,
-				},
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: ModalController,
-					useClass: ModalControllerMock,
-				},
-				{
-					provide: TestReportValidatorProvider,
-					useClass: TestReportValidatorProviderMock,
-				},
-				{
-					provide: TestResultProvider,
-					useClass: TestResultProviderMock,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        TestReportCatCPCPage,
+        MockComponent(PracticeModeBanner),
+        MockComponent(CompetencyComponent),
+        MockComponent(ModuleAssessmentComponent),
+        MockComponent(QuestionAnswerComponent),
+        MockComponent(QuestionCardComponent),
+        MockComponent(QuestionFiveCardComponent),
+        MockComponent(QuestionFooterComponent),
+        MockComponent(QuestionScoreComponent),
+        MockComponent(QuestionSubtitleComponent),
+        MockComponent(QuestionTitleComponent),
+        MockComponent(QuestionDelExRadioCardComponent),
+      ],
+      imports: [
+        IonicModule,
+        AppModule,
+        StoreModule.forFeature('tests', () => ({
+          currentTest: {
+            slotId: '123',
+          },
+          testStatus: {},
+          startedTests: {
+            123: {
+              testData: {
+                question1: { score: 1 },
+                question2: { score: 1 },
+                question3: { score: 1 },
+                question4: { score: 1 },
+                question5: { score: 1 },
+                ...initialState,
+              },
+              journalData: {
+                candidate: candidateMock,
+              },
+            },
+          },
+        })),
+        StoreModule.forFeature('testReport', testReportReducer),
+      ],
+      providers: [
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: TestResultProvider,
+          useClass: TestResultProviderMock,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(TestReportCatCPCPage);
-		component = fixture.componentInstance;
+    fixture = TestBed.createComponent(TestReportCatCPCPage);
+    component = fixture.componentInstance;
 
-		store$ = TestBed.inject(Store);
-		cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
-		modalController = TestBed.inject(ModalController);
-		spyOn(store$, 'dispatch');
-	});
+    store$ = TestBed.inject(Store);
+    cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
+    modalController = TestBed.inject(ModalController);
+    spyOn(store$, 'dispatch');
+  });
 
-	describe('ionViewDidLeave', () => {
-		it('should unsubscribe from the localSubscription if there is one', () => {
-			spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-			spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the localSubscription if there is one', () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
 
-			component.localSubscription = new Subscription();
-			spyOn(component.localSubscription, 'unsubscribe');
+      component.localSubscription = new Subscription();
+      spyOn(component.localSubscription, 'unsubscribe');
 
-			component.ionViewDidLeave();
+      component.ionViewDidLeave();
 
-			expect(component.localSubscription.unsubscribe).toHaveBeenCalled();
-			expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-			expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
-		});
-	});
+      expect(component.localSubscription.unsubscribe).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
+    });
+  });
 
-	describe('ionViewWillEnter', () => {
-		it('should call the correct functions', async () => {
-			spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').and.callThrough();
-			spyOn(component, 'ngOnInit').and.callThrough();
-			spyOn(component, 'setupSubscription').and.callThrough();
+  describe('ionViewWillEnter', () => {
+    it('should call the correct functions', async () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').and.callThrough();
+      spyOn(component, 'ngOnInit').and.callThrough();
+      spyOn(component, 'setupSubscription').and.callThrough();
 
-			await component.ionViewWillEnter();
+      await component.ionViewWillEnter();
 
-			expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
-			expect(component.ngOnInit).toHaveBeenCalled();
-			expect(component.setupSubscription).toHaveBeenCalled();
-		});
-	});
+      expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
+      expect(component.ngOnInit).toHaveBeenCalled();
+      expect(component.setupSubscription).toHaveBeenCalled();
+    });
+  });
 
-	describe('populateScore', () => {
-		it(
-			'should set questionNum to the value of translateToQuestionNumberInterface, ' +
-				'calculate the total score and dispatch both results',
-			() => {
-				spyOn(component, 'translateToQuestionNumberInterface').and.returnValue(QuestionNumber.ONE);
-				spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(1);
-				component.populateScore({
-					answer: {
-						label: null,
-						selected: null,
-					},
-					questionNumber: null,
-					answerNumber: null,
-					score: 3,
-				});
+  describe('populateScore', () => {
+    it(
+      'should set questionNum to the value of translateToQuestionNumberInterface, ' +
+        'calculate the total score and dispatch both results',
+      () => {
+        spyOn(component, 'translateToQuestionNumberInterface').and.returnValue(QuestionNumber.ONE);
+        spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(1);
+        component.populateScore({
+          answer: {
+            label: null,
+            selected: null,
+          },
+          questionNumber: null,
+          answerNumber: null,
+          score: 3,
+        });
 
-				expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateQuestionScore(QuestionNumber.ONE, 3));
-				expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateTestScore(1));
-			}
-		);
-	});
+        expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateQuestionScore(QuestionNumber.ONE, 3));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateTestScore(1));
+      }
+    );
+  });
 
-	describe('DOM', () => {
-		describe('Fault Modes Styling', () => {
-			it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
-				expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-				expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
-			});
-			it('should have serious fault mode styles applied when serious mode is enabled', () => {
-				component.isSeriousMode = true;
-				fixture.detectChanges();
-				expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
-				expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
-			});
-			it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
-				component.isDangerousMode = true;
-				fixture.detectChanges();
-				expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-				expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
-			});
-		});
-	});
-	describe('questionPageChanged', () => {
-		it('should set the value passed into the function to a variable', () => {
-			expect(component.pageNumber).toEqual(1);
-			component.questionPageChanged(2);
-			expect(component.pageNumber).toEqual(2);
-		});
-	});
-	describe('populateAnswer', () => {
-		it('should dispatch actions populating the answer selected value & the question scores', () => {
-			spyOn(store$, 'dispatch');
-			spyOn(cpcQuestionProvider, 'getQuestionScore').and.returnValue(5);
-			spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(40);
+  describe('DOM', () => {
+    describe('Fault Modes Styling', () => {
+      it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
+        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+      });
+      it('should have serious fault mode styles applied when serious mode is enabled', () => {
+        component.isSeriousMode = true;
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+      });
+      it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
+        component.isDangerousMode = true;
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
+      });
+    });
+  });
+  describe('questionPageChanged', () => {
+    it('should set the value passed into the function to a variable', () => {
+      expect(component.pageNumber).toEqual(1);
+      component.questionPageChanged(2);
+      expect(component.pageNumber).toEqual(2);
+    });
+  });
+  describe('populateAnswer', () => {
+    it('should dispatch actions populating the answer selected value & the question scores', () => {
+      spyOn(store$, 'dispatch');
+      spyOn(cpcQuestionProvider, 'getQuestionScore').and.returnValue(5);
+      spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(40);
 
-			component.testData = catCPCTestData;
-			component.populateAnswer(mockToggleEvent);
+      component.testData = catCPCTestData;
+      component.populateAnswer(mockToggleEvent);
 
-			expect(store$.dispatch).toHaveBeenCalledWith(AnswerToggled(true, QuestionNumber.ONE, '2'));
-			expect(store$.dispatch).toHaveBeenCalledWith(PopulateQuestionScore(QuestionNumber.ONE, 5));
-			expect(store$.dispatch).toHaveBeenCalledWith(PopulateTestScore(40));
-		});
-	});
-	describe('setUpSubscription', () => {
-		it('should subscribe to all observables and update class properties', () => {
-			component.ngOnInit();
-			component.pageState.question1$ = of(lgvQuestions[0]);
-			component.pageState.question2$ = of(lgvQuestions[1]);
-			component.pageState.question3$ = of(lgvQuestions[2]);
-			component.pageState.question4$ = of(lgvQuestions[3]);
-			component.pageState.question5$ = of(lgvQuestion5[0]);
-			component.pageState.overallPercentage$ = of(10);
-			component.pageState.category$ = of(TestCategory.CCPC);
-			component.setUpSubscription();
-			expect(component.questions).toEqual([
-				lgvQuestions[0],
-				lgvQuestions[1],
-				lgvQuestions[2],
-				lgvQuestions[3],
-				lgvQuestion5[0],
-			]);
-			expect(component.overallPercentage).toEqual(10);
-			expect(component.category).toEqual(TestCategory.CCPC);
-		});
-	});
-	describe('onEndTestClick', () => {
-		it('should create the end test modal with necessary params', async () => {
-			spyOn(modalController, 'create').and.returnValue(
-				Promise.resolve({
-					present: () => Promise.resolve(),
-					onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
-				} as HTMLIonModalElement)
-			);
-			component.questions = [lgvQuestions[0]];
-			component.overallPercentage = 90;
-			await component.onEndTestClick();
-			expect(modalController.create).toHaveBeenCalledWith({
-				component: CPCEndTestModal,
-				cssClass: 'mes-modal-alert text-zoom-regular',
-				componentProps: {
-					cpcQuestions: component.questions,
-					totalPercentage: 90,
-					testResult: ActivityCodes.PASS,
-				},
-			});
-		});
-	});
+      expect(store$.dispatch).toHaveBeenCalledWith(AnswerToggled(true, QuestionNumber.ONE, '2'));
+      expect(store$.dispatch).toHaveBeenCalledWith(PopulateQuestionScore(QuestionNumber.ONE, 5));
+      expect(store$.dispatch).toHaveBeenCalledWith(PopulateTestScore(40));
+    });
+  });
+  describe('setUpSubscription', () => {
+    it('should subscribe to all observables and update class properties', () => {
+      component.ngOnInit();
+      component.pageState.question1$ = of(lgvQuestions[0]);
+      component.pageState.question2$ = of(lgvQuestions[1]);
+      component.pageState.question3$ = of(lgvQuestions[2]);
+      component.pageState.question4$ = of(lgvQuestions[3]);
+      component.pageState.question5$ = of(lgvQuestion5[0]);
+      component.pageState.overallPercentage$ = of(10);
+      component.pageState.category$ = of(TestCategory.CCPC);
+      component.setUpSubscription();
+      expect(component.questions).toEqual([
+        lgvQuestions[0],
+        lgvQuestions[1],
+        lgvQuestions[2],
+        lgvQuestions[3],
+        lgvQuestion5[0],
+      ]);
+      expect(component.overallPercentage).toEqual(10);
+      expect(component.category).toEqual(TestCategory.CCPC);
+    });
+  });
+  describe('onEndTestClick', () => {
+    it('should create the end test modal with necessary params', async () => {
+      spyOn(modalController, 'create').and.returnValue(
+        Promise.resolve({
+          present: () => Promise.resolve(),
+          onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
+        } as HTMLIonModalElement)
+      );
+      component.questions = [lgvQuestions[0]];
+      component.overallPercentage = 90;
+      await component.onEndTestClick();
+      expect(modalController.create).toHaveBeenCalledWith({
+        component: CPCEndTestModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+        componentProps: {
+          cpcQuestions: component.questions,
+          totalPercentage: 90,
+          testResult: ActivityCodes.PASS,
+        },
+      });
+    });
+  });
 });

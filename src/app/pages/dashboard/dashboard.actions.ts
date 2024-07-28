@@ -9,7 +9,7 @@ export const SideMenuOpened = createAction('[DashboardPage] Side menu opened');
 export const SideMenuClosed = createAction('[DashboardPage] Side menu closed');
 
 export const SideMenuItemSelected = createAction('[DashboardPage] Side menu item selected', (item: string) => ({
-	item,
+  item,
 }));
 
 export const DetectDeviceTheme = createAction('[DashboardPage] Device theme');

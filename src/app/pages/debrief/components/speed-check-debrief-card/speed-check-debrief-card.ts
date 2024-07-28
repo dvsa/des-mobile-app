@@ -5,28 +5,28 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 
 @Component({
-	selector: 'speed-check-debrief-card',
-	templateUrl: 'speed-check-debrief-card.html',
-	styleUrls: ['speed-check-debrief-card.scss'],
+  selector: 'speed-check-debrief-card',
+  templateUrl: 'speed-check-debrief-card.html',
+  styleUrls: ['speed-check-debrief-card.scss'],
 })
 export class SpeedCheckDebriefCardComponent {
-	constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService) {}
 
-	@Input()
-	public emergencyStop: EmergencyStop;
+  @Input()
+  public emergencyStop: EmergencyStop;
 
-	@Input()
-	public avoidance: Avoidance;
+  @Input()
+  public avoidance: Avoidance;
 
-	@Input()
-	public avoidanceAttempted: boolean;
+  @Input()
+  public avoidanceAttempted: boolean;
 
-	@Input()
-	public isTranslatable = true;
+  @Input()
+  public isTranslatable = true;
 
-	ngOnInit(): void {
-		if (!this.isTranslatable) {
-			configureI18N(Language.ENGLISH, this.translate);
-		}
-	}
+  ngOnInit(): void {
+    if (!this.isTranslatable) {
+      configureI18N(Language.ENGLISH, this.translate);
+    }
+  }
 }

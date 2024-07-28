@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: PassFinalisationCatADI2Page,
-	},
+  {
+    path: '',
+    component: PassFinalisationCatADI2Page,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class PassFinalisationCatADIPart2PageRoutingModule {}

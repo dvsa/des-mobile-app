@@ -12,8 +12,8 @@ import { TestDataByCategoryProvider } from '@providers/test-data-by-category/tes
 import { StoreModel } from '@shared/models/store.model';
 import { getTestData as getTestDataCatF } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import {
-	HighwayCodeSafetyAddDrivingFault,
-	HighwayCodeSafetyRemoveFault,
+  HighwayCodeSafetyAddDrivingFault,
+  HighwayCodeSafetyRemoveFault,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -23,165 +23,165 @@ import { CompetencyButtonComponent } from '../../competency-button/competency-bu
 import { HighwayCodeSafetyComponent } from '../highway-code-safety';
 
 describe('HighwayCodeSafetyComponent', () => {
-	let fixture: ComponentFixture<HighwayCodeSafetyComponent>;
-	let component: HighwayCodeSafetyComponent;
-	let store$: Store<StoreModel>;
-	let testDataByCategoryProvider: TestDataByCategoryProvider;
+  let fixture: ComponentFixture<HighwayCodeSafetyComponent>;
+  let component: HighwayCodeSafetyComponent;
+  let store$: Store<StoreModel>;
+  let testDataByCategoryProvider: TestDataByCategoryProvider;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [
-				HighwayCodeSafetyComponent,
-				MockComponent(TickIndicatorComponent),
-				MockComponent(DrivingFaultsBadgeComponent),
-				MockComponent(SeriousFaultBadgeComponent),
-				MockComponent(DangerousFaultBadgeComponent),
-				MockComponent(CompetencyButtonComponent),
-			],
-			providers: [
-				{
-					provide: TestDataByCategoryProvider,
-					useClass: TestDataByCategoryProviderMock,
-				},
-			],
-			imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        HighwayCodeSafetyComponent,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
+        MockComponent(CompetencyButtonComponent),
+      ],
+      providers: [
+        {
+          provide: TestDataByCategoryProvider,
+          useClass: TestDataByCategoryProviderMock,
+        },
+      ],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+    });
 
-		fixture = TestBed.createComponent(HighwayCodeSafetyComponent);
-		component = fixture.componentInstance;
-		store$ = TestBed.inject(Store);
-		store$.dispatch(StartTest(105, TestCategory.F));
-		testDataByCategoryProvider = TestBed.inject(TestDataByCategoryProvider);
-		spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').and.returnValue(getTestDataCatF);
-	}));
+    fixture = TestBed.createComponent(HighwayCodeSafetyComponent);
+    component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+    store$.dispatch(StartTest(105, TestCategory.F));
+    testDataByCategoryProvider = TestBed.inject(TestDataByCategoryProvider);
+    spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').and.returnValue(getTestDataCatF);
+  }));
 
-	describe('Class', () => {
-		describe('HighwayCodeSafetyAddDrivingFault', () => {
-			it('should dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for press', () => {
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault(true);
+  describe('Class', () => {
+    describe('HighwayCodeSafetyAddDrivingFault', () => {
+      it('should dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for press', () => {
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault(true);
 
-				expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
-			});
-			it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for tap', () => {
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
+      });
+      it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for tap', () => {
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault();
 
-				expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
-			});
-			it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if already a driving fault', () => {
-				component.highwayCodeSafetyDrivingFault = true;
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
+      });
+      it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if already a driving fault', () => {
+        component.highwayCodeSafetyDrivingFault = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault(true);
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault(true);
 
-				expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
-			});
-			it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if there is a serious fault', () => {
-				component.highwayCodeSafetySeriousFault = true;
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
+      });
+      it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if there is a serious fault', () => {
+        component.highwayCodeSafetySeriousFault = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault();
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault();
 
-				expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
-			});
-			it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if serious mode is active', () => {
-				component.isSeriousMode = true;
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
+      });
+      it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if serious mode is active', () => {
+        component.isSeriousMode = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault();
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault();
 
-				expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
-			});
-			it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
-				component.isDangerousMode = true;
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
+      });
+      it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
+        component.isDangerousMode = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault();
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault();
 
-				expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
-			});
-		});
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
+      });
+    });
 
-		describe('removeHighwayCodeSafetyDrivingFault', () => {
-			it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for press', () => {
-				component.isRemoveFaultMode = true;
-				component.highwayCodeSafetyDrivingFault = true;
+    describe('removeHighwayCodeSafetyDrivingFault', () => {
+      it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for press', () => {
+        component.isRemoveFaultMode = true;
+        component.highwayCodeSafetyDrivingFault = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault(true);
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault(true);
 
-				expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
-			});
-			it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for tap', () => {
-				component.isRemoveFaultMode = true;
-				component.highwayCodeSafetyDrivingFault = true;
+        expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
+      });
+      it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for tap', () => {
+        component.isRemoveFaultMode = true;
+        component.highwayCodeSafetyDrivingFault = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault();
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault();
 
-				expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
-			});
-			it('should not dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if in the wrong mode', () => {
-				component.isRemoveFaultMode = true;
-				component.isSeriousMode = true;
-				component.highwayCodeSafetyDrivingFault = true;
+        expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
+      });
+      it('should not dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if in the wrong mode', () => {
+        component.isRemoveFaultMode = true;
+        component.isSeriousMode = true;
+        component.highwayCodeSafetyDrivingFault = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault();
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault();
 
-				expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
-			});
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
+      });
 
-			it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if there is a serious fault', () => {
-				component.isRemoveFaultMode = true;
-				component.isSeriousMode = true;
-				component.highwayCodeSafetySeriousFault = true;
+      it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if there is a serious fault', () => {
+        component.isRemoveFaultMode = true;
+        component.isSeriousMode = true;
+        component.highwayCodeSafetySeriousFault = true;
 
-				const storeDispatchSpy = spyOn(store$, 'dispatch');
-				component.addOrRemoveFault(true);
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.addOrRemoveFault(true);
 
-				expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
-			});
-		});
-	});
+        expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
+      });
+    });
+  });
 
-	describe('DOM', () => {
-		it('should pass the number of driving faults to the driving faults badge component', () => {
-			fixture.detectChanges();
-			const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-				.componentInstance as DrivingFaultsBadgeComponent;
-			component.highwayCodeSafetyDrivingFault = true;
+  describe('DOM', () => {
+    it('should pass the number of driving faults to the driving faults badge component', () => {
+      fixture.detectChanges();
+      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
+        .componentInstance as DrivingFaultsBadgeComponent;
+      component.highwayCodeSafetyDrivingFault = true;
 
-			fixture.detectChanges();
-			expect(drivingFaultsBadge.count).toBe(1);
-		});
+      fixture.detectChanges();
+      expect(drivingFaultsBadge.count).toBe(1);
+    });
 
-		it('should pass a ripple value of false to the competency button component', () => {
-			fixture.detectChanges();
-			component.isRemoveFaultMode = true;
-			component.isSeriousMode = true;
-			const competencyButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-competency'))
-				.componentInstance as CompetencyButtonComponent;
+    it('should pass a ripple value of false to the competency button component', () => {
+      fixture.detectChanges();
+      component.isRemoveFaultMode = true;
+      component.isSeriousMode = true;
+      const competencyButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-competency'))
+        .componentInstance as CompetencyButtonComponent;
 
-			fixture.detectChanges();
-			expect(competencyButton.ripple).toEqual(false);
-		});
+      fixture.detectChanges();
+      expect(competencyButton.ripple).toEqual(false);
+    });
 
-		describe('Tick button effects', () => {
-			it('should have added no classes to the tick button', () => {
-				const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
-				fixture.detectChanges();
-				expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick');
-			});
+    describe('Tick button effects', () => {
+      it('should have added no classes to the tick button', () => {
+        const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
+        fixture.detectChanges();
+        expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick');
+      });
 
-			it('should have added a checked class to the tick button', () => {
-				const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
-				fixture.detectChanges();
-				component.selectedHighwayCodeSafety = true;
-				fixture.detectChanges();
-				expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick checked');
-			});
-		});
-	});
+      it('should have added a checked class to the tick button', () => {
+        const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
+        fixture.detectChanges();
+        component.selectedHighwayCodeSafety = true;
+        fixture.detectChanges();
+        expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick checked');
+      });
+    });
+  });
 });

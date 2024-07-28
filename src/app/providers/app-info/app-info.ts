@@ -5,12 +5,12 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AppInfoProvider {
-	public getVersionNumber(): Observable<string> {
-		return from(App.getInfo()).pipe(map((info) => info.version));
-	}
+  public getVersionNumber(): Observable<string> {
+    return from(App.getInfo()).pipe(map((info) => info.version));
+  }
 
-	public async getFullVersionNumber(): Promise<string> {
-		const info = await App.getInfo();
-		return info.version;
-	}
+  public async getFullVersionNumber(): Promise<string> {
+    const info = await App.getInfo();
+    return info.version;
+  }
 }

@@ -5,58 +5,58 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 import { get, pickBy } from 'lodash-es';
 
 export class FaultCountAM2Helper {
-	public static getSafetyAndBalanceFaultCountCatAM2 = (
-		safetyAndBalanceQuestions: SafetyAndBalanceQuestions
-	): SafetyQuestionsScore => {
-		if (!safetyAndBalanceQuestions) {
-			return { drivingFaults: 0 };
-		}
+  public static getSafetyAndBalanceFaultCountCatAM2 = (
+    safetyAndBalanceQuestions: SafetyAndBalanceQuestions
+  ): SafetyQuestionsScore => {
+    if (!safetyAndBalanceQuestions) {
+      return { drivingFaults: 0 };
+    }
 
-		const safetyQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'safetyQuestions', []);
-		const balanceQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'balanceQuestions', []);
+    const safetyQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'safetyQuestions', []);
+    const balanceQuestions: QuestionResult[] = get(safetyAndBalanceQuestions, 'balanceQuestions', []);
 
-		const numberOfIncorrectSafetyAnswers: number = safetyQuestions.filter((safetyQuestion) => {
-			return safetyQuestion.outcome === CompetencyOutcome.DF;
-		}).length;
-		const numberOfIncorrectBalanceAnswers: number = balanceQuestions.filter((balanceQuestion) => {
-			return balanceQuestion.outcome === CompetencyOutcome.DF;
-		}).length;
+    const numberOfIncorrectSafetyAnswers: number = safetyQuestions.filter((safetyQuestion) => {
+      return safetyQuestion.outcome === CompetencyOutcome.DF;
+    }).length;
+    const numberOfIncorrectBalanceAnswers: number = balanceQuestions.filter((balanceQuestion) => {
+      return balanceQuestion.outcome === CompetencyOutcome.DF;
+    }).length;
 
-		const totalIncorrectAnswerCount: number = numberOfIncorrectSafetyAnswers + numberOfIncorrectBalanceAnswers;
+    const totalIncorrectAnswerCount: number = numberOfIncorrectSafetyAnswers + numberOfIncorrectBalanceAnswers;
 
-		return {
-			drivingFaults: totalIncorrectAnswerCount >= 1 ? 1 : 0,
-		};
-	};
+    return {
+      drivingFaults: totalIncorrectAnswerCount >= 1 ? 1 : 0,
+    };
+  };
 
-	public static getRidingFaultSumCountCatAM2 = (data: TestData): number => {
-		// The way how we store the driving faults differs for certain competencies
-		// Because of this we need to pay extra attention on summing up all of them
-		const { drivingFaults, safetyAndBalanceQuestions } = data;
-		let faultTotal = 0;
-		getCompetencyFaults(drivingFaults).forEach((fault) => {
-			faultTotal += fault.faultCount;
-		});
-		faultTotal += FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(safetyAndBalanceQuestions).drivingFaults;
+  public static getRidingFaultSumCountCatAM2 = (data: TestData): number => {
+    // The way how we store the driving faults differs for certain competencies
+    // Because of this we need to pay extra attention on summing up all of them
+    const { drivingFaults, safetyAndBalanceQuestions } = data;
+    let faultTotal = 0;
+    getCompetencyFaults(drivingFaults).forEach((fault) => {
+      faultTotal += fault.faultCount;
+    });
+    faultTotal += FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(safetyAndBalanceQuestions).drivingFaults;
 
-		return faultTotal;
-	};
+    return faultTotal;
+  };
 
-	public static getSeriousFaultSumCountCatAM2 = (data: TestData): number => {
-		const { seriousFaults, eyesightTest } = data;
+  public static getSeriousFaultSumCountCatAM2 = (data: TestData): number => {
+    const { seriousFaults, eyesightTest } = data;
 
-		const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
+    const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
 
-		const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
+    const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
 
-		const result = seriousFaultSumOfSimpleCompetencies + eyesightTestSeriousFaults;
+    const result = seriousFaultSumOfSimpleCompetencies + eyesightTestSeriousFaults;
 
-		return result;
-	};
+    return result;
+  };
 
-	public static getDangerousFaultSumCountCatAM2 = (data: TestData): number => {
-		const { dangerousFaults } = data;
+  public static getDangerousFaultSumCountCatAM2 = (data: TestData): number => {
+    const { dangerousFaults } = data;
 
-		return Object.keys(pickBy(dangerousFaults)).length;
-	};
+    return Object.keys(pickBy(dangerousFaults)).length;
+  };
 }

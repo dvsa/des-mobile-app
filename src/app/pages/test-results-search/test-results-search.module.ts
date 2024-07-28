@@ -17,19 +17,19 @@ import { TestResultsSearchPage } from './test-results-search';
 import { TestResultsSearchAnalyticsEffects } from './test-results-search.analytics.effects';
 
 @NgModule({
-	declarations: [TestResultsSearchPage],
-	imports: [
-		ComponentsModule,
-		TestResultsSearchComponentsModule,
-		IonicModule,
-		CommonModule,
-		ErrorPageModule,
-		TestResultsSearchRoutingModule,
-		ScrollingModule,
-		EffectsModule.forFeature([TestResultsSearchAnalyticsEffects]),
-		DirectivesModule,
-		ViewTestResultPageModule,
-	],
-	providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
+  declarations: [TestResultsSearchPage],
+  imports: [
+    ComponentsModule,
+    TestResultsSearchComponentsModule,
+    IonicModule,
+    CommonModule,
+    ErrorPageModule,
+    TestResultsSearchRoutingModule,
+    ScrollingModule,
+    EffectsModule.forFeature([TestResultsSearchAnalyticsEffects]),
+    DirectivesModule,
+    ViewTestResultPageModule,
+  ],
+  providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
 })
 export class TestResultsSearchPageModule {}

@@ -73,23 +73,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 export function createTranslateLoader(http: HttpClient) {
-	return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
 export function localStorageSyncReducer(reducer: ActionReducer<StoreModel>): ActionReducer<StoreModel> {
-	return localStorageSync({
-		keys: ['appInfo', 'tests', 'appConfig', 'refData'],
-		rehydrate: true,
-	})(reducer);
+  return localStorageSync({
+    keys: ['appInfo', 'tests', 'appConfig', 'refData'],
+    rehydrate: true,
+  })(reducer);
 }
 
 const reducers: ActionReducerMap<any> = {
-	journal: journalReducer,
-	appInfo: appInfoReducer,
-	appConfig: appConfigReducer,
-	tests: testsReducer,
-	rekeySearch: rekeySearchReducer,
-	delegatedRekeySearch: delegatedSearchReducer,
+  journal: journalReducer,
+  appInfo: appInfoReducer,
+  appConfig: appConfigReducer,
+  tests: testsReducer,
+  rekeySearch: rekeySearchReducer,
+  delegatedRekeySearch: delegatedSearchReducer,
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];
@@ -98,108 +98,108 @@ const enableRehydrationPlugin = environment && (environment as EnvironmentFile).
 
 // Register our remote devtools if we're on-device and not in a browser and dev tools enabled
 if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && enableDevTools) {
-	const remoteDevToolsProxy = new RemoteDevToolsProxy({
-		connectTimeout: 300000, // extend for pauses during debugging
-		ackTimeout: 120000, // extend for pauses during debugging
-		secure: false, // dev only
-	});
+  const remoteDevToolsProxy = new RemoteDevToolsProxy({
+    connectTimeout: 300000, // extend for pauses during debugging
+    ackTimeout: 120000, // extend for pauses during debugging
+    secure: false, // dev only
+  });
 
-	// support both the legacy and new keys, for now
-	window['devToolsExtension'] = remoteDevToolsProxy;
-	window['__REDUX_DEVTOOLS_EXTENSION__'] = remoteDevToolsProxy;
+  // support both the legacy and new keys, for now
+  window['devToolsExtension'] = remoteDevToolsProxy;
+  window['__REDUX_DEVTOOLS_EXTENSION__'] = remoteDevToolsProxy;
 }
 
 if (enableRehydrationPlugin) {
-	metaReducers.push(localStorageSyncReducer);
+  metaReducers.push(localStorageSyncReducer);
 }
 
 @NgModule({
-	declarations: [AppComponent],
-	imports: [
-		DirectivesModule,
-		BrowserModule,
-		IonicModule.forRoot({
-			swipeBackEnabled: false,
-			animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
-			mode: 'ios',
-			scrollAssist: false,
-			scrollPadding: false,
-		}),
-		AppRoutingModule,
-		HttpClientModule,
-		IonicStorageModule.forRoot(),
-		StoreModule.forRoot(reducers, { metaReducers }),
-		EffectsModule.forRoot(),
-		...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
-		AppInfoStoreModule,
-		ReferenceDataStoreModule,
-		AppConfigStoreModule,
-		LogsStoreModule,
-		TestCentreJournalStoreModule,
-		JournalModule,
-		TestsModule,
-		NgbModule,
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: createTranslateLoader,
-				deps: [HttpClient],
-			},
-		}),
-		HammerModule,
-		PipesModule,
-	],
-	providers: [
-		{
-			provide: RouteReuseStrategy,
-			useClass: IonicRouteStrategy,
-		},
-		{
-			provide: HTTP_INTERCEPTORS,
-			useClass: AuthInterceptor,
-			multi: true,
-		},
-		{
-			provide: HAMMER_GESTURE_CONFIG,
-			useClass: IonicGestureConfig,
-		},
-		{
-			provide: ErrorHandler,
-			useClass: SentryIonicErrorHandler,
-		},
-		AppConfigProvider,
-		AuthenticationProvider,
-		AppInfoProvider,
-		DateTimeProvider,
-		SecureStorage,
-		IsDebug,
-		GoogleAnalytics,
-		DataStoreProvider,
-		Network,
-		NetworkStateProvider,
-		UrlProvider,
-		JournalProvider,
-		AnalyticsProvider,
-		DeviceProvider,
-		CompressionProvider,
-		LogsProvider,
-		LogHelper,
-		SchemaValidatorProvider,
-		TestPersistenceProvider,
-		CompletedTestPersistenceProvider,
-		CategoryWhitelistProvider,
-		TestCentreJournalProvider,
-		RouteByCategoryProvider,
-		DeviceAuthenticationProvider,
-		QuestionProvider,
-		CommonModule,
-		WeatherConditionProvider,
-		OutcomeBehaviourMapProvider,
-		BikeCategoryDetailProvider,
-		CPCQuestionProvider,
-		ADI3AssessmentProvider,
-		PassCertificateValidationProvider,
-	],
-	bootstrap: [AppComponent],
+  declarations: [AppComponent],
+  imports: [
+    DirectivesModule,
+    BrowserModule,
+    IonicModule.forRoot({
+      swipeBackEnabled: false,
+      animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
+      mode: 'ios',
+      scrollAssist: false,
+      scrollPadding: false,
+    }),
+    AppRoutingModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot(),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot(),
+    ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
+    AppInfoStoreModule,
+    ReferenceDataStoreModule,
+    AppConfigStoreModule,
+    LogsStoreModule,
+    TestCentreJournalStoreModule,
+    JournalModule,
+    TestsModule,
+    NgbModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
+    HammerModule,
+    PipesModule,
+  ],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: IonicGestureConfig,
+    },
+    {
+      provide: ErrorHandler,
+      useClass: SentryIonicErrorHandler,
+    },
+    AppConfigProvider,
+    AuthenticationProvider,
+    AppInfoProvider,
+    DateTimeProvider,
+    SecureStorage,
+    IsDebug,
+    GoogleAnalytics,
+    DataStoreProvider,
+    Network,
+    NetworkStateProvider,
+    UrlProvider,
+    JournalProvider,
+    AnalyticsProvider,
+    DeviceProvider,
+    CompressionProvider,
+    LogsProvider,
+    LogHelper,
+    SchemaValidatorProvider,
+    TestPersistenceProvider,
+    CompletedTestPersistenceProvider,
+    CategoryWhitelistProvider,
+    TestCentreJournalProvider,
+    RouteByCategoryProvider,
+    DeviceAuthenticationProvider,
+    QuestionProvider,
+    CommonModule,
+    WeatherConditionProvider,
+    OutcomeBehaviourMapProvider,
+    BikeCategoryDetailProvider,
+    CPCQuestionProvider,
+    ADI3AssessmentProvider,
+    PassCertificateValidationProvider,
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

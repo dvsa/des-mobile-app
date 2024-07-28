@@ -16,74 +16,74 @@ import { Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-	selector: 'manoeuvres',
-	templateUrl: 'manoeuvres.html',
-	styleUrls: ['./manoeuvres.scss'],
+  selector: 'manoeuvres',
+  templateUrl: 'manoeuvres.html',
+  styleUrls: ['./manoeuvres.scss'],
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
-	@Input()
-	controlLabel: string;
-	@Input()
-	completed: boolean;
+  @Input()
+  controlLabel: string;
+  @Input()
+  completed: boolean;
 
-	@Input()
-	clickCallback: OverlayCallback;
+  @Input()
+  clickCallback: OverlayCallback;
 
-	drivingFaults = 0;
-	hasSeriousFault = false;
-	hasDangerousFault = false;
+  drivingFaults = 0;
+  hasSeriousFault = false;
+  hasDangerousFault = false;
 
-	subscription: Subscription;
+  subscription: Subscription;
 
-	displayPopover: boolean;
-	manoeuvres$: Observable<CatBUniqueTypes.Manoeuvres>;
+  displayPopover: boolean;
+  manoeuvres$: Observable<CatBUniqueTypes.Manoeuvres>;
 
-	constructor(
-		private store$: Store<StoreModel>,
-		private faultCountProvider: FaultCountProvider
-	) {
-		this.displayPopover = false;
-	}
+  constructor(
+    private store$: Store<StoreModel>,
+    private faultCountProvider: FaultCountProvider
+  ) {
+    this.displayPopover = false;
+  }
 
-	ngOnInit(): void {
-		this.manoeuvres$ = this.store$.pipe(
-			select(getTests),
-			select(getCurrentTest),
-			select(getTestData),
-			select(getManoeuvres)
-		);
+  ngOnInit(): void {
+    this.manoeuvres$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+      select(getTestData),
+      select(getManoeuvres)
+    );
 
-		this.subscription = this.manoeuvres$
-			.pipe(takeUntil(trDestroy$))
-			.subscribe((manoeuvres: CatBUniqueTypes.Manoeuvres) => {
-				this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
-					TestCategory.B,
-					manoeuvres,
-					CompetencyOutcome.DF
-				);
-				this.hasSeriousFault =
-					this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(TestCategory.B, manoeuvres, CompetencyOutcome.S) >
-					0;
-				this.hasDangerousFault =
-					this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(TestCategory.B, manoeuvres, CompetencyOutcome.D) >
-					0;
-			});
-	}
+    this.subscription = this.manoeuvres$
+      .pipe(takeUntil(trDestroy$))
+      .subscribe((manoeuvres: CatBUniqueTypes.Manoeuvres) => {
+        this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
+          TestCategory.B,
+          manoeuvres,
+          CompetencyOutcome.DF
+        );
+        this.hasSeriousFault =
+          this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(TestCategory.B, manoeuvres, CompetencyOutcome.S) >
+          0;
+        this.hasDangerousFault =
+          this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(TestCategory.B, manoeuvres, CompetencyOutcome.D) >
+          0;
+      });
+  }
 
-	ngOnDestroy(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	togglePopoverDisplay(): void {
-		this.displayPopover = !this.displayPopover;
-		this.toggleOverlay();
-	}
+  togglePopoverDisplay(): void {
+    this.displayPopover = !this.displayPopover;
+    this.toggleOverlay();
+  }
 
-	toggleOverlay(): void {
-		if (this.clickCallback) {
-			this.clickCallback.callbackMethod();
-		}
-	}
+  toggleOverlay(): void {
+    if (this.clickCallback) {
+      this.clickCallback.callbackMethod();
+    }
+  }
 }

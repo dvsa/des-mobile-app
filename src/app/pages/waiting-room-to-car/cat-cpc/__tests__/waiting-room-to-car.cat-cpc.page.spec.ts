@@ -40,165 +40,165 @@ import { Subscription } from 'rxjs';
 import { WaitingRoomToCarCatCPCPage } from '../waiting-room-to-car.cat-cpc.page';
 
 describe('WaitingRoomToCarCatCPCPage', () => {
-	let component: WaitingRoomToCarCatCPCPage;
-	let fixture: ComponentFixture<WaitingRoomToCarCatCPCPage>;
-	let store$: Store<StoreModel>;
-	let routeByCategoryProvider: RouteByCategoryProvider;
-	let cpcQuestionProvider: CPCQuestionProvider;
+  let component: WaitingRoomToCarCatCPCPage;
+  let fixture: ComponentFixture<WaitingRoomToCarCatCPCPage>;
+  let store$: Store<StoreModel>;
+  let routeByCategoryProvider: RouteByCategoryProvider;
+  let cpcQuestionProvider: CPCQuestionProvider;
 
-	const initialState = {
-		appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
-		tests: {
-			currentTest: { slotId: '123' },
-			testStatus: {},
-			startedTests: {
-				123: {
-					vehicleDetails: {},
-					accompaniment: {},
-					category: TestCategory.CCPC,
-					testData: {},
-					journalData: {
-						candidate: {
-							candidateName: {
-								firstName: 'Joe',
-								lastName: 'Bloggs',
-							},
-						},
-					},
-				} as TestResultCatCPCSchema,
-			},
-		} as TestsModel,
-	} as StoreModel;
+  const initialState = {
+    appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
+    tests: {
+      currentTest: { slotId: '123' },
+      testStatus: {},
+      startedTests: {
+        123: {
+          vehicleDetails: {},
+          accompaniment: {},
+          category: TestCategory.CCPC,
+          testData: {},
+          journalData: {
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
+          },
+        } as TestResultCatCPCSchema,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				WaitingRoomToCarCatCPCPage,
-				MockComponent(EndTestLinkComponent),
-				MockComponent(VehicleRegistrationComponent),
-				MockComponent(VehicleDetailsCatCPCComponent),
-				MockComponent(VehicleDetailsComponent),
-				MockComponent(AccompanimentCardCatCPCComponent),
-				MockComponent(AccompanimentComponent),
-				MockComponent(WarningBannerComponent),
-				MockComponent(CandidateDeclarationSignedComponent),
-				MockComponent(CombinationComponent),
-			],
-			imports: [AppModule, ReactiveFormsModule],
-			providers: [
-				{
-					provide: RouteByCategoryProvider,
-					useClass: RouteByCategoryProviderMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: CPCQuestionProvider,
-					useClass: CpcQuestionsMock,
-				},
-				provideMockStore({ initialState }),
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        WaitingRoomToCarCatCPCPage,
+        MockComponent(EndTestLinkComponent),
+        MockComponent(VehicleRegistrationComponent),
+        MockComponent(VehicleDetailsCatCPCComponent),
+        MockComponent(VehicleDetailsComponent),
+        MockComponent(AccompanimentCardCatCPCComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(CandidateDeclarationSignedComponent),
+        MockComponent(CombinationComponent),
+      ],
+      imports: [AppModule, ReactiveFormsModule],
+      providers: [
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: CPCQuestionProvider,
+          useClass: CpcQuestionsMock,
+        },
+        provideMockStore({ initialState }),
+      ],
+    });
 
-		fixture = TestBed.createComponent(WaitingRoomToCarCatCPCPage);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
+    fixture = TestBed.createComponent(WaitingRoomToCarCatCPCPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
 
-		store$ = TestBed.inject(Store);
-		routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-		cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
-		spyOn(store$, 'dispatch');
-	}));
+    store$ = TestBed.inject(Store);
+    routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
+    cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
+    spyOn(store$, 'dispatch');
+  }));
 
-	afterEach(() => {
-		fixture.destroy();
-	});
+  afterEach(() => {
+    fixture.destroy();
+  });
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('Class', () => {
-		describe('ngOnInit', () => {
-			it('should call through to the base page init method', () => {
-				spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
-				component.ngOnInit();
-				expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
-			});
-		});
-		describe('combinationSelected', () => {
-			it('should receive a combination selection and emit actions for questions to populate state', () => {
-				const questions: Question[] = new CpcQuestionsMock().getQuestionsBank();
-				spyOn(cpcQuestionProvider, 'getQuestionsBank').and.returnValue(questions);
-				spyOn(cpcQuestionProvider, 'getQuestion5ByVehicleType').and.returnValue({} as Question5);
-				component.combinationSelected('LGV1');
-				expect(cpcQuestionProvider.getQuestionsBank).toHaveBeenCalledWith('LGV1');
-				expect(cpcQuestionProvider.getQuestion5ByVehicleType).toHaveBeenCalledWith('LGV1');
-				expect(store$.dispatch).toHaveBeenCalledWith(PopulateCombination('LGV1'));
-				expect(store$.dispatch).toHaveBeenCalledWith(PopulateQuestions([...questions, {}] as Question[]));
-			});
-		});
-		describe('vehicleConfiguration', () => {
-			it('should dispatch the PopulateVehicleConfiguration action', () => {
-				component.vehicleConfiguration('Articulated');
-				expect(store$.dispatch).toHaveBeenCalledWith(PopulateVehicleConfiguration('Articulated'));
-			});
-		});
-		describe('ionViewDidLeave', () => {
-			it('should unsubscribe from the subscription if there is one', () => {
-				component.subscription = new Subscription();
-				spyOn(component.subscription, 'unsubscribe');
-				component.ionViewDidLeave();
-				expect(component.subscription.unsubscribe).toHaveBeenCalled();
-			});
-		});
-		describe('onSubmit', () => {
-			beforeEach(() => {
-				spyOn(routeByCategoryProvider, 'navigateToPage');
-			});
-			it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-				component.form = new UntypedFormGroup({
-					notRequiredControl: new UntypedFormControl(null),
-				});
-				component.testCategory = TestCategory.CCPC;
-				await component.onSubmit();
-				tick();
-				expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-					TestFlowPageNames.TEST_REPORT_PAGE,
-					TestCategory.CCPC,
-					{ replaceUrl: true }
-				);
-			}));
-			it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-				component.form = new UntypedFormGroup({
-					requiredControl1: new UntypedFormControl(null, [Validators.required]),
-					requiredControl2: new UntypedFormControl(null, [Validators.required]),
-					notRequiredControl: new UntypedFormControl(null),
-				});
+  describe('Class', () => {
+    describe('ngOnInit', () => {
+      it('should call through to the base page init method', () => {
+        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
+        component.ngOnInit();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+      });
+    });
+    describe('combinationSelected', () => {
+      it('should receive a combination selection and emit actions for questions to populate state', () => {
+        const questions: Question[] = new CpcQuestionsMock().getQuestionsBank();
+        spyOn(cpcQuestionProvider, 'getQuestionsBank').and.returnValue(questions);
+        spyOn(cpcQuestionProvider, 'getQuestion5ByVehicleType').and.returnValue({} as Question5);
+        component.combinationSelected('LGV1');
+        expect(cpcQuestionProvider.getQuestionsBank).toHaveBeenCalledWith('LGV1');
+        expect(cpcQuestionProvider.getQuestion5ByVehicleType).toHaveBeenCalledWith('LGV1');
+        expect(store$.dispatch).toHaveBeenCalledWith(PopulateCombination('LGV1'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PopulateQuestions([...questions, {}] as Question[]));
+      });
+    });
+    describe('vehicleConfiguration', () => {
+      it('should dispatch the PopulateVehicleConfiguration action', () => {
+        component.vehicleConfiguration('Articulated');
+        expect(store$.dispatch).toHaveBeenCalledWith(PopulateVehicleConfiguration('Articulated'));
+      });
+    });
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+    describe('onSubmit', () => {
+      beforeEach(() => {
+        spyOn(routeByCategoryProvider, 'navigateToPage');
+      });
+      it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
+        });
+        component.testCategory = TestCategory.CCPC;
+        await component.onSubmit();
+        tick();
+        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+          TestFlowPageNames.TEST_REPORT_PAGE,
+          TestCategory.CCPC,
+          { replaceUrl: true }
+        );
+      }));
+      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-				await component.onSubmit();
-				tick();
-				expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-				expect(store$.dispatch).not.toHaveBeenCalledWith(
-					WaitingRoomToCarValidationError('notRequiredControl is blank')
-				);
-			}));
-		});
-	});
+        await component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          WaitingRoomToCarValidationError('notRequiredControl is blank')
+        );
+      }));
+    });
+  });
 });

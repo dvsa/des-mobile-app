@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 
 @NgModule({
-	imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
-	declarations: [PreviewModeModal],
+  imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
+  declarations: [PreviewModeModal],
 })
 export class PreviewModeModalModule {}

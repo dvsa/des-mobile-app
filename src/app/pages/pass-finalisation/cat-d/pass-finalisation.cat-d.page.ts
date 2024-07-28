@@ -7,12 +7,12 @@ import { behaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
-	PassFinalisationReportActivityCode,
-	PassFinalisationValidationError,
+  PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
-	CommonPassFinalisationPageState,
-	PassFinalisationPageComponent,
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -25,113 +25,113 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface CatDPassFinalisationPageState {
-	code78$: Observable<boolean>;
-	testCategory$: Observable<CategoryCode>;
+  code78$: Observable<boolean>;
+  testCategory$: Observable<CategoryCode>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatDPassFinalisationPageState;
 
 @Component({
-	selector: 'app-pass-finalisation-cat-d',
-	templateUrl: './pass-finalisation.cat-d.page.html',
-	styleUrls: ['./../pass-finalisation.page.scss'],
+  selector: 'app-pass-finalisation-cat-d',
+  templateUrl: './pass-finalisation.cat-d.page.html',
+  styleUrls: ['./../pass-finalisation.page.scss'],
 })
 export class PassFinalisationCatDPage extends PassFinalisationPageComponent implements OnInit {
-	pageState: PassFinalisationPageState;
-	form: UntypedFormGroup;
-	merged$: Observable<string | boolean>;
-	manualMessage = 'A <b><em>manual</em></b> licence will be issued';
-	automaticMessage = 'An <b><em>automatic</em></b> licence will be issued';
-	askCandidateLicenseMessage = "Check that the candidate doesn't need their driving licence (e.g CPC Mod4)";
-	transmission: GearboxCategory;
-	subscription: Subscription;
-	code78Present: boolean = null;
-	provisionalLicenseIsReceived: boolean;
-	testCategory: TestCategory;
+  pageState: PassFinalisationPageState;
+  form: UntypedFormGroup;
+  merged$: Observable<string | boolean>;
+  manualMessage = 'A <b><em>manual</em></b> licence will be issued';
+  automaticMessage = 'An <b><em>automatic</em></b> licence will be issued';
+  askCandidateLicenseMessage = "Check that the candidate doesn't need their driving licence (e.g CPC Mod4)";
+  transmission: GearboxCategory;
+  subscription: Subscription;
+  code78Present: boolean = null;
+  provisionalLicenseIsReceived: boolean;
+  testCategory: TestCategory;
 
-	constructor(injector: Injector) {
-		super(injector);
-		this.form = new UntypedFormGroup({});
-		this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-	}
+  constructor(injector: Injector) {
+    super(injector);
+    this.form = new UntypedFormGroup({});
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+  }
 
-	ngOnInit(): void {
-		super.onInitialisation();
+  ngOnInit(): void {
+    super.onInitialisation();
 
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.pageState = {
-			...this.commonPageState,
-			code78$: currentTest$.pipe(select(getPassCompletion), select(getCode78)),
-			testCategory$: currentTest$.pipe(select(getTestCategory)),
-		};
+    this.pageState = {
+      ...this.commonPageState,
+      code78$: currentTest$.pipe(select(getPassCompletion), select(getCode78)),
+      testCategory$: currentTest$.pipe(select(getTestCategory)),
+    };
 
-		const { transmission$, code78$, provisionalLicense$, testCategory$ } = this.pageState;
+    const { transmission$, code78$, provisionalLicense$, testCategory$ } = this.pageState;
 
-		this.merged$ = merge(
-			transmission$.pipe(map((value) => (this.transmission = value))),
-			code78$.pipe(map((value) => (this.code78Present = value))),
-			provisionalLicense$.pipe(map((value) => (this.provisionalLicenseIsReceived = value))),
-			testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory)))
-		);
-	}
+    this.merged$ = merge(
+      transmission$.pipe(map((value) => (this.transmission = value))),
+      code78$.pipe(map((value) => (this.code78Present = value))),
+      provisionalLicense$.pipe(map((value) => (this.provisionalLicenseIsReceived = value))),
+      testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory)))
+    );
+  }
 
-	ionViewWillEnter(): boolean {
-		super.ionViewWillEnter();
-		if (this.merged$) {
-			this.subscription = this.merged$.subscribe();
-		}
-		return true;
-	}
+  ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+    return true;
+  }
 
-	ionViewDidLeave(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	shouldShowCode78Banner(): boolean {
-		return this.code78Present !== null && this.transmission !== null;
-	}
+  shouldShowCode78Banner(): boolean {
+    return this.code78Present !== null && this.transmission !== null;
+  }
 
-	shouldShowManualBanner(): boolean {
-		if (this.shouldShowCode78Banner()) {
-			return (
-				this.transmission === TransmissionType.Manual ||
-				(this.transmission === TransmissionType.Automatic && !this.code78Present)
-			);
-		}
-		return false;
-	}
+  shouldShowManualBanner(): boolean {
+    if (this.shouldShowCode78Banner()) {
+      return (
+        this.transmission === TransmissionType.Manual ||
+        (this.transmission === TransmissionType.Automatic && !this.code78Present)
+      );
+    }
+    return false;
+  }
 
-	shouldShowAutomaticBanner(): boolean {
-		if (this.shouldShowCode78Banner()) {
-			return this.code78Present && this.transmission === TransmissionType.Automatic;
-		}
-		return false;
-	}
+  shouldShowAutomaticBanner(): boolean {
+    if (this.shouldShowCode78Banner()) {
+      return this.code78Present && this.transmission === TransmissionType.Automatic;
+    }
+    return false;
+  }
 
-	shouldShowCandidateDoesntNeedLicenseBanner(): boolean {
-		return this.provisionalLicenseIsReceived;
-	}
+  shouldShowCandidateDoesntNeedLicenseBanner(): boolean {
+    return this.provisionalLicenseIsReceived;
+  }
 
-	async onSubmit(): Promise<void> {
-		Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+  async onSubmit(): Promise<void> {
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
-		if (this.form.valid) {
-			this.store$.dispatch(PersistTests());
-			this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
-			await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
-			return;
-		}
+    if (this.form.valid) {
+      this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
+      await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
+      return;
+    }
 
-		Object.keys(this.form.controls).forEach((controlName) => {
-			if (this.form.controls[controlName].invalid) {
-				if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-					this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
-				}
-				this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-			}
-		});
-	}
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+        }
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
+  }
 }

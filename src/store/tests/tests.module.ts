@@ -18,25 +18,25 @@ import { TestsEffects } from './tests.effects';
 import { testsReducer } from './tests.reducer';
 
 @NgModule({
-	imports: [
-		StoreModule.forFeature('tests', testsReducer),
-		EffectsModule.forFeature([
-			TestsEffects,
-			TestsAnalyticsEffects,
-			TestDataEffects,
-			ExaminerBookedEffects,
-			ExaminerConductedEffects,
-			TestStatusAnalyticsEffects,
-		]),
-		RouterModule,
-	],
-	providers: [
-		TestSubmissionProvider,
-		FaultCountProvider,
-		NavigationStateProvider,
-		TestDataByCategoryProvider,
-		ManoeuvresByCategoryProvider,
-		VehicleDetailsByCategoryProvider,
-	],
+  imports: [
+    StoreModule.forFeature('tests', testsReducer),
+    EffectsModule.forFeature([
+      TestsEffects,
+      TestsAnalyticsEffects,
+      TestDataEffects,
+      ExaminerBookedEffects,
+      ExaminerConductedEffects,
+      TestStatusAnalyticsEffects,
+    ]),
+    RouterModule,
+  ],
+  providers: [
+    TestSubmissionProvider,
+    FaultCountProvider,
+    NavigationStateProvider,
+    TestDataByCategoryProvider,
+    ManoeuvresByCategoryProvider,
+    VehicleDetailsByCategoryProvider,
+  ],
 })
 export class TestsModule {}

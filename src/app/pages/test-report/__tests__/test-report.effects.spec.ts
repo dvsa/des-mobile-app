@@ -17,76 +17,76 @@ import * as testReportActions from '../test-report.actions';
 import { TestReportEffects } from '../test-report.effects';
 
 describe('TestReportEffects', () => {
-	let effects: TestReportEffects;
-	let actions$: ReplaySubject<any>;
-	let testResultProvider: TestResultProvider;
-	let store$: Store<StoreModel>;
+  let effects: TestReportEffects;
+  let actions$: ReplaySubject<any>;
+  let testResultProvider: TestResultProvider;
+  let store$: Store<StoreModel>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				StoreModule.forRoot({
-					tests: testsReducer,
-				}),
-			],
-			providers: [TestReportEffects, provideMockActions(() => actions$), TestResultProvider, FaultCountProvider, Store],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+      ],
+      providers: [TestReportEffects, provideMockActions(() => actions$), TestResultProvider, FaultCountProvider, Store],
+    });
 
-		actions$ = new ReplaySubject(1);
-		testResultProvider = TestBed.inject(TestResultProvider);
-		effects = TestBed.inject(TestReportEffects);
-		store$ = TestBed.inject(Store);
-	}));
+    actions$ = new ReplaySubject(1);
+    testResultProvider = TestBed.inject(TestResultProvider);
+    effects = TestBed.inject(TestReportEffects);
+    store$ = TestBed.inject(Store);
+  }));
 
-	describe('calculateTestResult', () => {
-		beforeEach(() => {
-			store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-			store$.dispatch(PopulateTestCategory(TestCategory.B));
-		});
+  describe('calculateTestResult', () => {
+    beforeEach(() => {
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+    });
 
-		it('should dispatch an action containing the correct result for a test', (done) => {
-			// ARRANGE
-			spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
-			// ACT
-			actions$.next(testReportActions.CalculateTestResult());
-			// ASSERT
-			effects.calculateTestResult$.subscribe((result) => {
-				expect(testResultProvider.calculateTestResult).toHaveBeenCalled();
-				expect(result).toEqual(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-				done();
-			});
-		});
-	});
+    it('should dispatch an action containing the correct result for a test', (done) => {
+      // ARRANGE
+      spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
+      // ACT
+      actions$.next(testReportActions.CalculateTestResult());
+      // ASSERT
+      effects.calculateTestResult$.subscribe((result) => {
+        expect(testResultProvider.calculateTestResult).toHaveBeenCalled();
+        expect(result).toEqual(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+        done();
+      });
+    });
+  });
 
-	describe('persistTestReport', () => {
-		beforeEach(() => {
-			store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-		});
+  describe('persistTestReport', () => {
+    beforeEach(() => {
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
+    });
 
-		it('should dispatch an action requesting the test data to be saved when triggered', (done) => {
-			// ACT
-			actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
-			// ASSERT
-			effects.persistTestReport$.subscribe((result) => {
-				expect(result).toEqual(testsActions.PersistTests());
-				done();
-			});
-		});
-	});
+    it('should dispatch an action requesting the test data to be saved when triggered', (done) => {
+      // ACT
+      actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
+      // ASSERT
+      effects.persistTestReport$.subscribe((result) => {
+        expect(result).toEqual(testsActions.PersistTests());
+        done();
+      });
+    });
+  });
 
-	describe('terminateTestReport', () => {
-		beforeEach(() => {
-			store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-		});
+  describe('terminateTestReport', () => {
+    beforeEach(() => {
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
+    });
 
-		it('should dispatch an action terminating the test', (done) => {
-			// ACT
-			actions$.next(testReportActions.TerminateTestFromTestReport());
-			// ASSERT
-			effects.terminateTestFromTestReport$.subscribe((result) => {
-				expect(result).toEqual(activityCodeActions.SetActivityCode(null));
-				done();
-			});
-		});
-	});
+    it('should dispatch an action terminating the test', (done) => {
+      // ACT
+      actions$.next(testReportActions.TerminateTestFromTestReport());
+      // ASSERT
+      effects.terminateTestFromTestReport$.subscribe((result) => {
+        expect(result).toEqual(activityCodeActions.SetActivityCode(null));
+        done();
+      });
+    });
+  });
 });

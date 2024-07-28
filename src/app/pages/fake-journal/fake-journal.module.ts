@@ -17,19 +17,19 @@ import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 import { FakeJournalPage } from './fake-journal.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		FakeJournalPageRoutingModule,
-		ComponentsModule,
-		TestSlotComponentsModule,
-		FakeJournalComponentsModule,
-		CandidateDetailsPageModule,
-		EffectsModule.forFeature([FakeJournalEffects, FakeJournalAnalyticsEffects]),
-		JournalComponentsModule,
-	],
-	declarations: [FakeJournalPage],
-	providers: [OrientationMonitorProvider],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    FakeJournalPageRoutingModule,
+    ComponentsModule,
+    TestSlotComponentsModule,
+    FakeJournalComponentsModule,
+    CandidateDetailsPageModule,
+    EffectsModule.forFeature([FakeJournalEffects, FakeJournalAnalyticsEffects]),
+    JournalComponentsModule,
+  ],
+  declarations: [FakeJournalPage],
+  providers: [OrientationMonitorProvider],
 })
 export class FakeJournalPageModule {}

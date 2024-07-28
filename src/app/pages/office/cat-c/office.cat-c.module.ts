@@ -16,19 +16,19 @@ import { OfficeCatCPageRoutingModule } from './office.cat-c-routing.module';
 import { OfficeCatCPage } from './office.cat-c.page';
 
 @NgModule({
-	declarations: [OfficeCatCPage],
-	imports: [
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-		ComponentsModule,
-		OfficeComponentsModule,
-		CommonModule,
-		ReactiveFormsModule,
-		IonicModule,
-		OfficeCatCPageRoutingModule,
-		PassFinalisationComponentsModule,
-		TestFinalisationComponentsModule,
-		WaitingRoomToCarComponentsModule,
-	],
-	providers: [FaultSummaryProvider],
+  declarations: [OfficeCatCPage],
+  imports: [
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    ComponentsModule,
+    OfficeComponentsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    IonicModule,
+    OfficeCatCPageRoutingModule,
+    PassFinalisationComponentsModule,
+    TestFinalisationComponentsModule,
+    WaitingRoomToCarComponentsModule,
+  ],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatCPageModule {}

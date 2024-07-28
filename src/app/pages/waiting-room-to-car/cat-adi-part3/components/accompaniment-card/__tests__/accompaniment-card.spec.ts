@@ -14,68 +14,68 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 describe('AccompanimentCardADI3Component', () => {
-	let component: AccompanimentCardADI3Component;
-	let fixture: ComponentFixture<AccompanimentCardADI3Component>;
+  let component: AccompanimentCardADI3Component;
+  let fixture: ComponentFixture<AccompanimentCardADI3Component>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [AccompanimentCardADI3Component],
-			imports: [AppModule, ReactiveFormsModule],
-			providers: [
-				{
-					provide: RouteByCategoryProvider,
-					useClass: RouteByCategoryProviderMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: QuestionProvider,
-					useClass: QuestionProviderMock,
-				},
-				{
-					provide: FaultCountProvider,
-					useClass: FaultCountProvider,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [AccompanimentCardADI3Component],
+      imports: [AppModule, ReactiveFormsModule],
+      providers: [
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(AccompanimentCardADI3Component);
-		component = fixture.componentInstance;
-		component.formGroup = new UntypedFormGroup({});
-	}));
+    fixture = TestBed.createComponent(AccompanimentCardADI3Component);
+    component = fixture.componentInstance;
+    component.formGroup = new UntypedFormGroup({});
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('Class', () => {
-		describe('trainerAccompanimentChanged', () => {
-			it('should emit the correct event', () => {
-				spyOn(component.trainerAccompanimentChange, 'emit');
-				component.trainerAccompanimentChanged();
-				expect(component.trainerAccompanimentChange.emit).toHaveBeenCalled();
-			});
-		});
-		describe('supervisorAccompanimentChanged', () => {
-			it('should emit the correct event', () => {
-				spyOn(component.supervisorAccompanimentChange, 'emit');
-				component.supervisorAccompanimentChanged();
-				expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
-			});
-		});
-		describe('otherAccompanimentChanged', () => {
-			it('should emit the correct event', () => {
-				spyOn(component.otherAccompanimentChange, 'emit');
-				component.otherAccompanimentChanged();
-				expect(component.otherAccompanimentChange.emit).toHaveBeenCalled();
-			});
-		});
-	});
+  describe('Class', () => {
+    describe('trainerAccompanimentChanged', () => {
+      it('should emit the correct event', () => {
+        spyOn(component.trainerAccompanimentChange, 'emit');
+        component.trainerAccompanimentChanged();
+        expect(component.trainerAccompanimentChange.emit).toHaveBeenCalled();
+      });
+    });
+    describe('supervisorAccompanimentChanged', () => {
+      it('should emit the correct event', () => {
+        spyOn(component.supervisorAccompanimentChange, 'emit');
+        component.supervisorAccompanimentChanged();
+        expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
+      });
+    });
+    describe('otherAccompanimentChanged', () => {
+      it('should emit the correct event', () => {
+        spyOn(component.otherAccompanimentChange, 'emit');
+        component.otherAccompanimentChanged();
+        expect(component.otherAccompanimentChange.emit).toHaveBeenCalled();
+      });
+    });
+  });
 });

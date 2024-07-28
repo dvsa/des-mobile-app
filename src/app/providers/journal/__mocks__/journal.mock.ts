@@ -4,62 +4,62 @@ import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Observable, of, throwError } from 'rxjs';
 
 export class JournalProviderMock {
-	static mockJournal = localJournalJson as ExaminerWorkSchedule;
+  static mockJournal = localJournalJson as ExaminerWorkSchedule;
 
-	private do304ErrorNextCall = false;
-	private doTimeoutErrorNextCall = false;
-	private doActualError = false;
-	private doHttpResponseError = false;
+  private do304ErrorNextCall = false;
+  private doTimeoutErrorNextCall = false;
+  private doActualError = false;
+  private doHttpResponseError = false;
 
-	public getJournal(): Observable<ExaminerWorkSchedule> {
-		if (this.do304ErrorNextCall) {
-			return throwError(() => ({ status: 304 }));
-		}
-		if (this.doTimeoutErrorNextCall) {
-			return throwError(() => ({ message: 'Timeout has occurred' }));
-		}
-		if (this.doActualError) {
-			return throwError(() => ({}));
-		}
-		if (this.doHttpResponseError) {
-			return throwError(
-				() =>
-					new HttpErrorResponse({
-						error: 'Error message',
-						status: 403,
-						statusText: 'Forbidden',
-					})
-			);
-		}
-		return of(JournalProviderMock.mockJournal);
-	}
+  public getJournal(): Observable<ExaminerWorkSchedule> {
+    if (this.do304ErrorNextCall) {
+      return throwError(() => ({ status: 304 }));
+    }
+    if (this.doTimeoutErrorNextCall) {
+      return throwError(() => ({ message: 'Timeout has occurred' }));
+    }
+    if (this.doActualError) {
+      return throwError(() => ({}));
+    }
+    if (this.doHttpResponseError) {
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            error: 'Error message',
+            status: 403,
+            statusText: 'Forbidden',
+          })
+      );
+    }
+    return of(JournalProviderMock.mockJournal);
+  }
 
-	public saveJournalForOffline = () => {};
+  public saveJournalForOffline = () => {};
 
-	public setupHttp304Error() {
-		this.do304ErrorNextCall = true;
-	}
+  public setupHttp304Error() {
+    this.do304ErrorNextCall = true;
+  }
 
-	public setupActualError() {
-		this.doActualError = true;
-	}
+  public setupActualError() {
+    this.doActualError = true;
+  }
 
-	public setupTimeoutError() {
-		this.doTimeoutErrorNextCall = true;
-	}
+  public setupTimeoutError() {
+    this.doTimeoutErrorNextCall = true;
+  }
 
-	public setupHttpError() {
-		this.doHttpResponseError = true;
-	}
+  public setupHttpError() {
+    this.doHttpResponseError = true;
+  }
 
-	public resetErrors() {
-		this.do304ErrorNextCall = false;
-		this.doActualError = false;
-		this.doTimeoutErrorNextCall = false;
-		this.doHttpResponseError = false;
-	}
+  public resetErrors() {
+    this.do304ErrorNextCall = false;
+    this.doActualError = false;
+    this.doTimeoutErrorNextCall = false;
+    this.doHttpResponseError = false;
+  }
 
-	emptyCachedData = () => ({}) as ExaminerWorkSchedule;
+  emptyCachedData = () => ({}) as ExaminerWorkSchedule;
 
-	isCacheTooOld = () => true;
+  isCacheTooOld = () => true;
 }

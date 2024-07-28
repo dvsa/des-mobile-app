@@ -10,38 +10,38 @@ import * as journalActions from './journal.actions';
 
 @Injectable()
 export class JournalLogsEffects {
-	constructor(
-		private actions$: Actions,
-		private authenticationProvider: AuthenticationProvider
-	) {}
+  constructor(
+    private actions$: Actions,
+    private authenticationProvider: AuthenticationProvider
+  ) {}
 
-	loadJournalFailureLogEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(journalActions.LoadJournalFailure),
-			switchMap((action) => {
-				const log: Log = this.createLog(LogType.ERROR, action.type);
-				return of(logsActions.SaveLog({ payload: log }));
-			})
-		)
-	);
+  loadJournalFailureLogEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(journalActions.LoadJournalFailure),
+      switchMap((action) => {
+        const log: Log = this.createLog(LogType.ERROR, action.type);
+        return of(logsActions.SaveLog({ payload: log }));
+      })
+    )
+  );
 
-	loadJournalSilentFailureLogEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(journalActions.LoadJournalSilentFailure),
-			switchMap((action) => {
-				const log: Log = this.createLog(LogType.WARNING, action.type);
-				return of(logsActions.SaveLog({ payload: log }));
-			})
-		)
-	);
+  loadJournalSilentFailureLogEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(journalActions.LoadJournalSilentFailure),
+      switchMap((action) => {
+        const log: Log = this.createLog(LogType.WARNING, action.type);
+        return of(logsActions.SaveLog({ payload: log }));
+      })
+    )
+  );
 
-	private createLog(logType: LogType, actionType: string): Log {
-		const employeeId: string = this.authenticationProvider.getEmployeeId();
-		return {
-			type: logType,
-			message: `DE with id: ${employeeId} - ${actionType}`,
-			timestamp: Date.now(),
-			drivingExaminerId: employeeId,
-		};
-	}
+  private createLog(logType: LogType, actionType: string): Log {
+    const employeeId: string = this.authenticationProvider.getEmployeeId();
+    return {
+      type: logType,
+      message: `DE with id: ${employeeId} - ${actionType}`,
+      timestamp: Date.now(),
+      drivingExaminerId: employeeId,
+    };
+  }
 }

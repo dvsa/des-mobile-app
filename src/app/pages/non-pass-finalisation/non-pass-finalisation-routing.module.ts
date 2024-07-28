@@ -5,15 +5,15 @@ import { NonPassFinalisationResolver } from '@pages/non-pass-finalisation/non-pa
 import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: NonPassFinalisationPage,
-		resolve: { nonPassData: NonPassFinalisationResolver },
-	},
+  {
+    path: '',
+    component: NonPassFinalisationPage,
+    resolve: { nonPassData: NonPassFinalisationResolver },
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class NonPassFinalisationPageRoutingModule {}

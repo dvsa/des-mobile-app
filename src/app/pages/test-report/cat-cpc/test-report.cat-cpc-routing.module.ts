@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: TestReportCatCPCPage,
-	},
+  {
+    path: '',
+    component: TestReportCatCPCPage,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class TestReportCatCPCPageRoutingModule {}

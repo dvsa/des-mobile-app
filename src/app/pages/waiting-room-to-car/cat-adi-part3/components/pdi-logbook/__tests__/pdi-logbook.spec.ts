@@ -14,102 +14,102 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 describe('PDILogbookComponent', () => {
-	let component: PDILogbookComponent;
-	let fixture: ComponentFixture<PDILogbookComponent>;
+  let component: PDILogbookComponent;
+  let fixture: ComponentFixture<PDILogbookComponent>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [PDILogbookComponent],
-			imports: [AppModule, ReactiveFormsModule],
-			providers: [
-				{
-					provide: RouteByCategoryProvider,
-					useClass: RouteByCategoryProviderMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: QuestionProvider,
-					useClass: QuestionProviderMock,
-				},
-				{
-					provide: FaultCountProvider,
-					useClass: FaultCountProvider,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [PDILogbookComponent],
+      imports: [AppModule, ReactiveFormsModule],
+      providers: [
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(PDILogbookComponent);
-		component = fixture.componentInstance;
-		component.formGroup = new UntypedFormGroup({});
-		component.formControl = new UntypedFormControl(null, [Validators.required]);
-	}));
+    fixture = TestBed.createComponent(PDILogbookComponent);
+    component = fixture.componentInstance;
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('Class', () => {
-		describe('ngOnChanges', () => {
-			it('should have fieldName form control be added to ' + 'form if there is no form control already there', () => {
-				component.formControl = null;
-				component.ngOnChanges();
+  describe('Class', () => {
+    describe('ngOnChanges', () => {
+      it('should have fieldName form control be added to ' + 'form if there is no form control already there', () => {
+        component.formControl = null;
+        component.ngOnChanges();
 
-				expect(component.formGroup.controls[PDILogbookComponent.fieldName]).toBeTruthy();
-			});
-			it('should patch control with value stored in pdiLogbook ', () => {
-				component.pdiLogbook = true;
+        expect(component.formGroup.controls[PDILogbookComponent.fieldName]).toBeTruthy();
+      });
+      it('should patch control with value stored in pdiLogbook ', () => {
+        component.pdiLogbook = true;
 
-				component.ngOnChanges();
-				expect(component.formControl.value).toEqual('true');
-			});
-		});
+        component.ngOnChanges();
+        expect(component.formControl.value).toEqual('true');
+      });
+    });
 
-		describe('invalid', () => {
-			it('should return true if the formControl is invalid and dirty', () => {
-				component.formControl.setValue(null);
-				component.formControl.markAsDirty();
+    describe('invalid', () => {
+      it('should return true if the formControl is invalid and dirty', () => {
+        component.formControl.setValue(null);
+        component.formControl.markAsDirty();
 
-				expect(component.invalid).toBeTruthy();
-			});
-			it('should return false if the formControl is valid and dirty', () => {
-				component.formControl.setValue(1);
-				component.formControl.markAsDirty();
+        expect(component.invalid).toBeTruthy();
+      });
+      it('should return false if the formControl is valid and dirty', () => {
+        component.formControl.setValue(1);
+        component.formControl.markAsDirty();
 
-				expect(component.invalid).toBeFalsy();
-			});
-			it('should return false if the formControl is invalid and clean', () => {
-				component.formControl.setValue(null);
-				component.formControl.markAsPristine();
+        expect(component.invalid).toBeFalsy();
+      });
+      it('should return false if the formControl is invalid and clean', () => {
+        component.formControl.setValue(null);
+        component.formControl.markAsPristine();
 
-				expect(component.invalid).toBeFalsy();
-			});
-			it('should return false if the formControl is valid and clean', () => {
-				component.formControl.setValue(1);
-				component.formControl.markAsPristine();
+        expect(component.invalid).toBeFalsy();
+      });
+      it('should return false if the formControl is valid and clean', () => {
+        component.formControl.setValue(1);
+        component.formControl.markAsPristine();
 
-				expect(component.invalid).toBeFalsy();
-			});
-		});
+        expect(component.invalid).toBeFalsy();
+      });
+    });
 
-		describe('pdiLogbookChanged', () => {
-			it('should emit the correct event with false if it is not passed the word true', () => {
-				spyOn(component.pdiLogbookChange, 'emit');
-				component.pdiLogbookChanged('test');
-				expect(component.pdiLogbookChange.emit).toHaveBeenCalledWith(false);
-			});
-			it('should emit the correct event with true if it is passed the word true', () => {
-				spyOn(component.pdiLogbookChange, 'emit');
-				component.pdiLogbookChanged('true');
-				expect(component.pdiLogbookChange.emit).toHaveBeenCalledWith(true);
-			});
-		});
-	});
+    describe('pdiLogbookChanged', () => {
+      it('should emit the correct event with false if it is not passed the word true', () => {
+        spyOn(component.pdiLogbookChange, 'emit');
+        component.pdiLogbookChanged('test');
+        expect(component.pdiLogbookChange.emit).toHaveBeenCalledWith(false);
+      });
+      it('should emit the correct event with true if it is passed the word true', () => {
+        spyOn(component.pdiLogbookChange, 'emit');
+        component.pdiLogbookChanged('true');
+        expect(component.pdiLogbookChange.emit).toHaveBeenCalledWith(true);
+      });
+    });
+  });
 });

@@ -14,39 +14,39 @@ import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.re
 import { testRequirementsCatHomeReducer } from './test-requirements/test-requirements.cat-home.reducer';
 
 export const initialState: CatGUniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	manoeuvres: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	controlledStop: {},
-	eyesightTest: {},
-	highwayCodeSafety: {},
-	vehicleChecks: {
-		tellMeQuestions: [],
-		showMeQuestions: [],
-	},
+  dangerousFaults: {},
+  drivingFaults: {},
+  manoeuvres: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  controlledStop: {},
+  eyesightTest: {},
+  highwayCodeSafety: {},
+  vehicleChecks: {
+    tellMeQuestions: [],
+    showMeQuestions: [],
+  },
 };
 
 export function testDataCatGReducer(
-	state: CatGUniqueTypes.TestData,
-	action: Action
+  state: CatGUniqueTypes.TestData,
+  action: Action
 ): Required<CatGUniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksCatHomeReducer,
-		controlledStop: controlledStopReducer,
-		highwayCodeSafety: highwayCodeSafetyReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		eyesightTest: eyesightTestReducer,
-		manoeuvres: manoeuvresReducer,
-		testRequirements: testRequirementsCatHomeReducer,
-	})(state as Required<CatGUniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksCatHomeReducer,
+    controlledStop: controlledStopReducer,
+    highwayCodeSafety: highwayCodeSafetyReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    eyesightTest: eyesightTestReducer,
+    manoeuvres: manoeuvresReducer,
+    testRequirements: testRequirementsCatHomeReducer,
+  })(state as Required<CatGUniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatGUniqueTypes.TestData>('testData');

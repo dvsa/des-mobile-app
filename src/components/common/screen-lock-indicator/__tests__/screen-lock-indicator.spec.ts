@@ -4,23 +4,23 @@ import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { LockScreenIndicator } from '../lock-screen-indicator';
 
 describe('LockScreenIndicator', () => {
-	let fixture: ComponentFixture<LockScreenIndicator>;
-	let component: LockScreenIndicator;
+  let fixture: ComponentFixture<LockScreenIndicator>;
+  let component: LockScreenIndicator;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [LockScreenIndicator],
-			imports: [TranslateModule],
-			providers: [{ provide: TranslateService, useValue: translateServiceMock }],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [LockScreenIndicator],
+      imports: [TranslateModule],
+      providers: [{ provide: TranslateService, useValue: translateServiceMock }],
+    });
 
-		fixture = TestBed.createComponent(LockScreenIndicator);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(LockScreenIndicator);
+    component = fixture.componentInstance;
+  }));
 
-	describe('Class', () => {
-		it('should create', () => {
-			expect(component).toBeDefined();
-		});
-	});
+  describe('Class', () => {
+    it('should create', () => {
+      expect(component).toBeDefined();
+    });
+  });
 });

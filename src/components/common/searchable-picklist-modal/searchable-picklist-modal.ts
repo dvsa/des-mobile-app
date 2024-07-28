@@ -4,66 +4,66 @@ import { ModalController } from '@ionic/angular';
 import { get } from 'lodash-es';
 
 @Component({
-	selector: 'searchable-picklist-modal',
-	templateUrl: './searchable-picklist-modal.html',
-	styleUrls: ['./searchable-picklist-modal.scss'],
+  selector: 'searchable-picklist-modal',
+  templateUrl: './searchable-picklist-modal.html',
+  styleUrls: ['./searchable-picklist-modal.scss'],
 })
 export class SearchablePicklistModal<T> {
-	@Input()
-	dataList: T[] = [];
+  @Input()
+  dataList: T[] = [];
 
-	@Input()
-	model: T;
+  @Input()
+  model: T;
 
-	@Input()
-	fuzzySearchKeys: (keyof T)[] = []; // Keys in the model in which the fuzzy search will be run against;
+  @Input()
+  fuzzySearchKeys: (keyof T)[] = []; // Keys in the model in which the fuzzy search will be run against;
 
-	@Input()
-	primaryKey: keyof T; // Property of the model (typically unique like an ID) to save or use as comparator;
+  @Input()
+  primaryKey: keyof T; // Property of the model (typically unique like an ID) to save or use as comparator;
 
-	@Input()
-	displayKey: string; // Property of the model to display in UI;
+  @Input()
+  displayKey: string; // Property of the model to display in UI;
 
-	@Input()
-	minCharactersBeforeListDisplay = 0;
+  @Input()
+  minCharactersBeforeListDisplay = 0;
 
-	@Input()
-	placeholder = 'Please enter a value';
+  @Input()
+  placeholder = 'Please enter a value';
 
-	@Input()
-	idPrefix: string;
+  @Input()
+  idPrefix: string;
 
-	searchedValue: string;
+  searchedValue: string;
 
-	constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) {}
 
-	isActiveSelection = (data: T): boolean => get(data, this.primaryKey) === get(this.model, this.primaryKey);
+  isActiveSelection = (data: T): boolean => get(data, this.primaryKey) === get(this.model, this.primaryKey);
 
-	trackBy = (_: any, data: T) => get(data, this.primaryKey, null);
+  trackBy = (_: any, data: T) => get(data, this.primaryKey, null);
 
-	conditionalStyles = (data: T) => ({
-		selected: this.isActiveSelection(data),
-		'button-style': true,
-	});
+  conditionalStyles = (data: T) => ({
+    selected: this.isActiveSelection(data),
+    'button-style': true,
+  });
 
-	get hasEnteredSufficientCharacters(): boolean {
-		return (this.searchedValue?.length || 0) >= this.minCharactersBeforeListDisplay;
-	}
+  get hasEnteredSufficientCharacters(): boolean {
+    return (this.searchedValue?.length || 0) >= this.minCharactersBeforeListDisplay;
+  }
 
-	onSearchbarChange(event: CustomEvent): void {
-		const value = event?.detail?.value || '';
+  onSearchbarChange(event: CustomEvent): void {
+    const value = event?.detail?.value || '';
 
-		if (value.trim().length === 0) {
-			return;
-		}
-		this.searchedValue = event?.detail?.value;
-	}
+    if (value.trim().length === 0) {
+      return;
+    }
+    this.searchedValue = event?.detail?.value;
+  }
 
-	onSearchbarClear(): void {
-		this.searchedValue = null;
-	}
+  onSearchbarClear(): void {
+    this.searchedValue = null;
+  }
 
-	onClick = async (data: T): Promise<void> => {
-		await this.modalController.dismiss(data, SearchablePicklistModalEvent.SUBMIT);
-	};
+  onClick = async (data: T): Promise<void> => {
+    await this.modalController.dismiss(data, SearchablePicklistModalEvent.SUBMIT);
+  };
 }

@@ -10,8 +10,8 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search';
 import { SearchResultComponent } from './search-result/search-result';
 
 @NgModule({
-	declarations: [SearchResultComponent, AdvancedSearchComponent],
-	imports: [ComponentsModule, CommonModule, IonicModule, DirectivesModule, IonicModule, FormsModule, PipesModule],
-	exports: [SearchResultComponent, AdvancedSearchComponent],
+  declarations: [SearchResultComponent, AdvancedSearchComponent],
+  imports: [ComponentsModule, CommonModule, IonicModule, DirectivesModule, IonicModule, FormsModule, PipesModule],
+  exports: [SearchResultComponent, AdvancedSearchComponent],
 })
 export class TestResultsSearchComponentsModule {}

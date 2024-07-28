@@ -5,11 +5,11 @@ import * as testRequirementsActions from '../../common/test-requirements/test-re
 export const initialState: CatFUniqueTypes.TestRequirements = {};
 
 export const testRequirementsCatHomeReducer = createReducer(
-	initialState,
-	on(testRequirementsActions.ToggleLegalRequirement, (state, { legalRequirement }) => ({
-		...state,
-		[legalRequirement]: !state[legalRequirement],
-	}))
+  initialState,
+  on(testRequirementsActions.ToggleLegalRequirement, (state, { legalRequirement }) => ({
+    ...state,
+    [legalRequirement]: !state[legalRequirement],
+  }))
 );
 
 export const getTestRequirementsCatHome = createFeatureSelector<CatFUniqueTypes.TestRequirements>('testRequirements');

@@ -13,18 +13,18 @@ import { PassFinalisationCatADIPart3PageRoutingModule } from './pass-finalisatio
 import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-part3.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		DirectivesModule,
-		FormsModule,
-		IonicModule,
-		PassFinalisationCatADIPart3PageRoutingModule,
-		ComponentsModule,
-		TestFinalisationComponentsModule,
-		ReactiveFormsModule,
-		PassFinalisationCatADI3ComponentsModule,
-		EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
-	],
-	declarations: [PassFinalisationCatADIPart3Page],
+  imports: [
+    CommonModule,
+    DirectivesModule,
+    FormsModule,
+    IonicModule,
+    PassFinalisationCatADIPart3PageRoutingModule,
+    ComponentsModule,
+    TestFinalisationComponentsModule,
+    ReactiveFormsModule,
+    PassFinalisationCatADI3ComponentsModule,
+    EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+  ],
+  declarations: [PassFinalisationCatADIPart3Page],
 })
 export class PassFinalisationCatADIPart3PageModule {}

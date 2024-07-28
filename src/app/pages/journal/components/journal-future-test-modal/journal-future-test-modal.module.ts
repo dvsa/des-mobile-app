@@ -7,7 +7,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { JournalFutureTestModal } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal';
 
 @NgModule({
-	imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
-	declarations: [JournalFutureTestModal],
+  imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
+  declarations: [JournalFutureTestModal],
 })
 export class JournalFutureTestModalModule {}

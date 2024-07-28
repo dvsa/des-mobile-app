@@ -6,7 +6,7 @@ import { DelegatedRekeyUploadOutcomePageRoutingModule } from '@pages/delegated-r
 import { DelegatedRekeyUploadOutcomePage } from './delegated-rekey-upload-outcome';
 
 @NgModule({
-	declarations: [DelegatedRekeyUploadOutcomePage],
-	imports: [ComponentsModule, IonicModule, CommonModule, DelegatedRekeyUploadOutcomePageRoutingModule],
+  declarations: [DelegatedRekeyUploadOutcomePage],
+  imports: [ComponentsModule, IonicModule, CommonModule, DelegatedRekeyUploadOutcomePageRoutingModule],
 })
 export class DelegatedRekeyUploadOutcomePageModule {}

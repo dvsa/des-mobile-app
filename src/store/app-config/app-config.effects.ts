@@ -6,9 +6,9 @@ import { StoreModel } from '@shared/models/store.model';
 
 @Injectable()
 export class AppConfigEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private appInfoProvider: AppInfoProvider
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private appInfoProvider: AppInfoProvider
+  ) {}
 }

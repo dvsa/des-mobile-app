@@ -17,27 +17,27 @@ import * as testsSelectors from '@store/tests/tests.selector';
  *  - are not in progress AND before today
  */
 export const getIncompleteTests = (
-	journal: JournalModel,
-	tests: TestsModel,
-	today: DateTime,
-	slotProvider: SlotProvider,
-	daysToView: number
+  journal: JournalModel,
+  tests: TestsModel,
+  today: DateTime,
+  slotProvider: SlotProvider,
+  daysToView: number
 ): SlotItem[] => {
-	const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
+  const slotIdsOfInProgressTests = testsSelectors.getIncompleteTestsSlotIds(tests);
 
-	return getPermittedSlotIdsBeforeToday(journal, today, slotProvider)
-		.filter(({ slotData }) => {
-			const isWithinDaysToView = new DateTime(slotData?.slotDetail?.start).daysDiff(today) <= (daysToView || 14);
-			const isNotStartedTest = !tests.startedTests[slotData?.slotDetail?.slotId];
-			const isNotCompletedTest = ![TestStatus.Submitted, TestStatus.Completed].includes(
-				tests.testStatus[slotData?.slotDetail?.slotId]
-			);
+  return getPermittedSlotIdsBeforeToday(journal, today, slotProvider)
+    .filter(({ slotData }) => {
+      const isWithinDaysToView = new DateTime(slotData?.slotDetail?.start).daysDiff(today) <= (daysToView || 14);
+      const isNotStartedTest = !tests.startedTests[slotData?.slotDetail?.slotId];
+      const isNotCompletedTest = ![TestStatus.Submitted, TestStatus.Completed].includes(
+        tests.testStatus[slotData?.slotDetail?.slotId]
+      );
 
-			return isWithinDaysToView && (isNotStartedTest || isNotCompletedTest);
-		})
-		.filter(({ slotData }) => {
-			const { slotId } = slotData.slotDetail;
-			const eligibleTests = [...slotIdsOfInProgressTests, slotId.toString()];
-			return eligibleTests.includes(slotId.toString());
-		});
+      return isWithinDaysToView && (isNotStartedTest || isNotCompletedTest);
+    })
+    .filter(({ slotData }) => {
+      const { slotId } = slotData.slotDetail;
+      const eligibleTests = [...slotIdsOfInProgressTests, slotId.toString()];
+      return eligibleTests.includes(slotId.toString());
+    });
 };

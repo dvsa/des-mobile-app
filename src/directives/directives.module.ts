@@ -7,22 +7,22 @@ import { InputRestrictionNumbersDirective } from './input-restriction-numbers.di
 import { InputRestrictionUppercaseAlphanumDirective } from './input-restriction-uppercasealphanum.directive';
 
 @NgModule({
-	declarations: [
-		InputRestrictionNumbersDirective,
-		InputRestrictionUppercaseAlphanumDirective,
-		CharacterCountDirective,
-		EmojiBlockDirective,
-		PasteSanitiserDirective,
-		AddOrRemoveLangCyDirective,
-	],
-	imports: [],
-	exports: [
-		InputRestrictionNumbersDirective,
-		InputRestrictionUppercaseAlphanumDirective,
-		CharacterCountDirective,
-		EmojiBlockDirective,
-		PasteSanitiserDirective,
-		AddOrRemoveLangCyDirective,
-	],
+  declarations: [
+    InputRestrictionNumbersDirective,
+    InputRestrictionUppercaseAlphanumDirective,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    AddOrRemoveLangCyDirective,
+  ],
+  imports: [],
+  exports: [
+    InputRestrictionNumbersDirective,
+    InputRestrictionUppercaseAlphanumDirective,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    AddOrRemoveLangCyDirective,
+  ],
 })
 export class DirectivesModule {}

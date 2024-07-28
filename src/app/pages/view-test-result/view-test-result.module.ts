@@ -12,15 +12,15 @@ import { ViewTestResultAnalyticsEffects } from '@pages/view-test-result/view-tes
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		ComponentsModule,
-		ViewTestResultComponentsModule,
-		EffectsModule.forFeature([ViewTestResultAnalyticsEffects]),
-		CandidateDetailsComponentsModule,
-	],
-	declarations: [ViewTestResultPage, ActivityCodeCard],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ComponentsModule,
+    ViewTestResultComponentsModule,
+    EffectsModule.forFeature([ViewTestResultAnalyticsEffects]),
+    CandidateDetailsComponentsModule,
+  ],
+  declarations: [ViewTestResultPage, ActivityCodeCard],
 })
 export class ViewTestResultPageModule {}

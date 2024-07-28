@@ -2,4 +2,4 @@ import { OrientationType } from '@capawesome/capacitor-screen-orientation/dist/e
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 export const isPortrait = (type: OrientationType) =>
-	isAnyOf(type, [OrientationType.PORTRAIT, OrientationType.PORTRAIT_PRIMARY, OrientationType.PORTRAIT_SECONDARY]);
+  isAnyOf(type, [OrientationType.PORTRAIT, OrientationType.PORTRAIT_PRIMARY, OrientationType.PORTRAIT_SECONDARY]);

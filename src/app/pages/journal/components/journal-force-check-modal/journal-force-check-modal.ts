@@ -6,45 +6,45 @@ import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-n
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({
-	selector: 'journal-force-check-modal',
-	templateUrl: './journal-force-check-modal.html',
-	styleUrls: ['./journal-force-check-modal.scss'],
+  selector: 'journal-force-check-modal',
+  templateUrl: './journal-force-check-modal.html',
+  styleUrls: ['./journal-force-check-modal.scss'],
 })
 export class JournalForceCheckModal {
-	@Input()
-	slot: TestSlot;
+  @Input()
+  slot: TestSlot;
 
-	@Input()
-	slotChanged: boolean;
+  @Input()
+  slotChanged: boolean;
 
-	@Input()
-	isTeamJournal: boolean;
+  @Input()
+  isTeamJournal: boolean;
 
-	@Input()
-	textZoomClass: string;
+  @Input()
+  textZoomClass: string;
 
-	constructor(public modalController: ModalController) {}
+  constructor(public modalController: ModalController) {}
 
-	onCancel = async (): Promise<void> => {
-		await this.modalController.dismiss(ModalEvent.CANCEL);
-	};
+  onCancel = async (): Promise<void> => {
+    await this.modalController.dismiss(ModalEvent.CANCEL);
+  };
 
-	async openCandidateDetailsModal() {
-		// Modals are at the same level as the ion-nav so are not getting the zoom level class,
-		// this needs to be passed in the create options.
-		const zoomClass = `modal-fullscreen ${this.textZoomClass}`;
-		const profileModal = await this.modalController.create({
-			component: CandidateDetailsPage,
-			id: CANDIDATE_DETAILS_PAGE,
-			cssClass: zoomClass,
-			componentProps: {
-				slot: this.slot,
-				slotChanged: this.slotChanged,
-				isTeamJournal: this.isTeamJournal,
-			},
-		});
-		await profileModal.present();
-		const dismiss = await profileModal.onWillDismiss();
-		if (dismiss) await this.modalController.dismiss(ModalEvent.CANCEL, null, JOURNAL_FORCE_CHECK_MODAL);
-	}
+  async openCandidateDetailsModal() {
+    // Modals are at the same level as the ion-nav so are not getting the zoom level class,
+    // this needs to be passed in the create options.
+    const zoomClass = `modal-fullscreen ${this.textZoomClass}`;
+    const profileModal = await this.modalController.create({
+      component: CandidateDetailsPage,
+      id: CANDIDATE_DETAILS_PAGE,
+      cssClass: zoomClass,
+      componentProps: {
+        slot: this.slot,
+        slotChanged: this.slotChanged,
+        isTeamJournal: this.isTeamJournal,
+      },
+    });
+    await profileModal.present();
+    const dismiss = await profileModal.onWillDismiss();
+    if (dismiss) await this.modalController.dismiss(ModalEvent.CANCEL, null, JOURNAL_FORCE_CHECK_MODAL);
+  }
 }

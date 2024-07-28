@@ -2,19 +2,19 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CategoryWhitelistProvider } from '../category-whitelist';
 
 describe('CategoryWhitelistProvider', () => {
-	let provider: CategoryWhitelistProvider;
+  let provider: CategoryWhitelistProvider;
 
-	beforeEach(() => {
-		provider = new CategoryWhitelistProvider();
-	});
+  beforeEach(() => {
+    provider = new CategoryWhitelistProvider();
+  });
 
-	describe('isWhiteListed', () => {
-		it('shout return true if category whitelisted', () => {
-			expect(provider.isWhiteListed(TestCategory.B)).toEqual(true);
-		});
+  describe('isWhiteListed', () => {
+    it('shout return true if category whitelisted', () => {
+      expect(provider.isWhiteListed(TestCategory.B)).toEqual(true);
+    });
 
-		it('shout return false if category blacklisted', () => {
-			expect(provider.isWhiteListed(TestCategory.A)).toEqual(false);
-		});
-	});
+    it('shout return false if category blacklisted', () => {
+      expect(provider.isWhiteListed(TestCategory.A)).toEqual(false);
+    });
+  });
 });

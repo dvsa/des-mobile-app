@@ -4,16 +4,16 @@ import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-cert
 import { StoreModel } from '@shared/models/store.model';
 
 @Component({
-	selector: 'pass-certificates',
-	templateUrl: './pass-certificates.page.html',
-	styleUrls: ['./pass-certificates.page.scss'],
+  selector: 'pass-certificates',
+  templateUrl: './pass-certificates.page.html',
+  styleUrls: ['./pass-certificates.page.scss'],
 })
 export class PassCertificatesPage implements OnInit {
-	constructor(public store$: Store<StoreModel>) {}
+  constructor(public store$: Store<StoreModel>) {}
 
-	ngOnInit() {}
+  ngOnInit() {}
 
-	ionViewDidEnter() {
-		this.store$.dispatch(PassCertificatedViewDidEnter());
-	}
+  ionViewDidEnter() {
+    this.store$.dispatch(PassCertificatedViewDidEnter());
+  }
 }

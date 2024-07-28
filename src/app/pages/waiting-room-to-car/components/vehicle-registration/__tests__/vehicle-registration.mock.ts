@@ -1,17 +1,17 @@
 export const mockValidRegistrationNumber = {
-	target: {
-		value: 'Abc123',
-	},
+  target: {
+    value: 'Abc123',
+  },
 };
 
 export const mockInvalidRegistrationNumber = {
-	target: {
-		value: 'DEf!23',
-	},
+  target: {
+    value: 'DEf!23',
+  },
 };
 
 export const mockBlankRegistrationNumber = {
-	target: {
-		value: '',
-	},
+  target: {
+    value: '',
+  },
 };

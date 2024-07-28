@@ -12,20 +12,20 @@ import { ContinueFromDeclaration } from './health-declaration.actions';
 
 @Injectable()
 export class HealthDeclarationEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 
-	endHealthDeclarationEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(ContinueFromDeclaration),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
-			),
-			concatMap(() => {
-				return [testsActions.PersistTests()];
-			})
-		)
-	);
+  endHealthDeclarationEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContinueFromDeclaration),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
+      ),
+      concatMap(() => {
+        return [testsActions.PersistTests()];
+      })
+    )
+  );
 }

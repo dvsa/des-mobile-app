@@ -2,46 +2,46 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
-	selector: 'vehicle-details-card',
-	templateUrl: 'vehicle-details-card.html',
+  selector: 'vehicle-details-card',
+  templateUrl: 'vehicle-details-card.html',
 })
 export class VehicleDetailsCardComponent {
-	@Input()
-	schoolVehicleDetails: boolean;
+  @Input()
+  schoolVehicleDetails: boolean;
 
-	@Input()
-	dualVehicleDetails: boolean;
+  @Input()
+  dualVehicleDetails: boolean;
 
-	@Input()
-	schoolBikeVehicleDetails: boolean;
+  @Input()
+  schoolBikeVehicleDetails: boolean;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Input()
-	hideSchoolVehicleAndDualControlRow = false;
+  @Input()
+  hideSchoolVehicleAndDualControlRow = false;
 
-	@Input()
-	hideSchoolBikeRow = true;
+  @Input()
+  hideSchoolBikeRow = true;
 
-	@Output()
-	schoolVehicleDetailsChange = new EventEmitter();
+  @Output()
+  schoolVehicleDetailsChange = new EventEmitter();
 
-	@Output()
-	dualVehicleDetailsChange = new EventEmitter();
+  @Output()
+  dualVehicleDetailsChange = new EventEmitter();
 
-	@Output()
-	schoolBikeVehicleDetailsChange = new EventEmitter();
+  @Output()
+  schoolBikeVehicleDetailsChange = new EventEmitter();
 
-	schoolVehicleDetailsChanged(): void {
-		this.schoolVehicleDetailsChange.emit();
-	}
+  schoolVehicleDetailsChanged(): void {
+    this.schoolVehicleDetailsChange.emit();
+  }
 
-	dualVehicleDetailsChanged(): void {
-		this.dualVehicleDetailsChange.emit();
-	}
+  dualVehicleDetailsChanged(): void {
+    this.dualVehicleDetailsChange.emit();
+  }
 
-	schoolBikeVehicleDetailsChanged(): void {
-		this.schoolBikeVehicleDetailsChange.emit();
-	}
+  schoolBikeVehicleDetailsChanged(): void {
+    this.schoolBikeVehicleDetailsChange.emit();
+  }
 }

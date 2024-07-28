@@ -2,38 +2,38 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-	selector: 'trainee-licence',
-	templateUrl: 'trainee-licence.html',
+  selector: 'trainee-licence',
+  templateUrl: 'trainee-licence.html',
 })
 export class TraineeLicenceComponent implements OnChanges {
-	@Input()
-	traineeLicence: boolean;
+  @Input()
+  traineeLicence: boolean;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Output()
-	traineeLicenceChange = new EventEmitter<boolean>();
+  @Output()
+  traineeLicenceChange = new EventEmitter<boolean>();
 
-	formControl: UntypedFormControl;
-	static readonly fieldName: string = 'traineeLicenceCtrl';
+  formControl: UntypedFormControl;
+  static readonly fieldName: string = 'traineeLicenceCtrl';
 
-	ngOnChanges(): void {
-		if (!this.formControl) {
-			this.formControl = new UntypedFormControl(null, [Validators.required]);
-			this.formGroup.addControl(TraineeLicenceComponent.fieldName, this.formControl);
-		}
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
+      this.formGroup.addControl(TraineeLicenceComponent.fieldName, this.formControl);
+    }
 
-		if (this.traineeLicence === true || this.traineeLicence === false) {
-			this.formControl.patchValue(String(this.traineeLicence));
-		}
-	}
+    if (this.traineeLicence === true || this.traineeLicence === false) {
+      this.formControl.patchValue(String(this.traineeLicence));
+    }
+  }
 
-	traineeLicenceChanged(traineeLicence: string): void {
-		this.traineeLicenceChange.emit(traineeLicence === 'true');
-	}
+  traineeLicenceChanged(traineeLicence: string): void {
+    this.traineeLicenceChange.emit(traineeLicence === 'true');
+  }
 
-	get invalid(): boolean {
-		return !this.formControl.valid && this.formControl.dirty;
-	}
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 }

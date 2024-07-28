@@ -14,17 +14,17 @@ import { WaitingRoomToCarCatADIPart2PageRoutingModule } from './waiting-room-to-
 import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-part2.page';
 
 @NgModule({
-	declarations: [WaitingRoomToCarCatADIPart2Page],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		WaitingRoomToCarCatADIPart2ComponentsModule,
-		WaitingRoomToCarCatADIPart2PageRoutingModule,
-		ComponentsModule,
-		ReactiveFormsModule,
-		WaitingRoomToCarComponentsModule,
-		EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
-	],
+  declarations: [WaitingRoomToCarCatADIPart2Page],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    WaitingRoomToCarCatADIPart2ComponentsModule,
+    WaitingRoomToCarCatADIPart2PageRoutingModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    WaitingRoomToCarComponentsModule,
+    EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
+  ],
 })
 export class WaitingRoomToCarCatADIPart2PageModule {}

@@ -6,26 +6,26 @@ import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-m
 import { MockComponent } from 'ng-mocks';
 
 describe('Code4Modal', () => {
-	let fixture: ComponentFixture<Code4Modal>;
-	let component: Code4Modal;
-	let modalController: ModalController;
+  let fixture: ComponentFixture<Code4Modal>;
+  let component: Code4Modal;
+  let modalController: ModalController;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [Code4Modal, MockComponent(ModalAlertTitleComponent)],
-			providers: [{ provide: ModalController, useClass: ModalControllerMock }],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [Code4Modal, MockComponent(ModalAlertTitleComponent)],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
+    });
 
-		fixture = TestBed.createComponent(Code4Modal);
-		component = fixture.componentInstance;
-		modalController = TestBed.inject(ModalController);
-	}));
+    fixture = TestBed.createComponent(Code4Modal);
+    component = fixture.componentInstance;
+    modalController = TestBed.inject(ModalController);
+  }));
 
-	describe('dismiss', () => {
-		it('should call dismiss with the variable passed in', async () => {
-			spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-			await component.dismiss(false);
-			expect(modalController.dismiss).toHaveBeenCalledWith(false);
-		});
-	});
+  describe('dismiss', () => {
+    it('should call dismiss with the variable passed in', async () => {
+      spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      await component.dismiss(false);
+      expect(modalController.dismiss).toHaveBeenCalledWith(false);
+    });
+  });
 });

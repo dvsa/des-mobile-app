@@ -4,8 +4,8 @@ import { createAction } from '@ngrx/store';
 export const CandidateLicenceViewDidEnter = createAction('[CandidateLicencePage] View did enter');
 
 export const CandidateLicenceDataValidationError = createAction(
-	'[CandidateLicencePage] Validation Error',
-	(errorMessage: string) => ({ errorMessage })
+  '[CandidateLicencePage] Validation Error',
+  (errorMessage: string) => ({ errorMessage })
 );
 
 // Data actions

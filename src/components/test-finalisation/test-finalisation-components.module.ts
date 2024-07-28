@@ -8,8 +8,8 @@ import { LanguagePreferencesComponent } from '@components/test-finalisation/lang
 import { IonicModule } from '@ionic/angular';
 
 @NgModule({
-	declarations: [LanguagePreferencesComponent, D255Component, DebriefWitnessedComponent, FinalisationHeaderComponent],
-	imports: [CommonModule, IonicModule, ReactiveFormsModule],
-	exports: [LanguagePreferencesComponent, D255Component, DebriefWitnessedComponent, FinalisationHeaderComponent],
+  declarations: [LanguagePreferencesComponent, D255Component, DebriefWitnessedComponent, FinalisationHeaderComponent],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule],
+  exports: [LanguagePreferencesComponent, D255Component, DebriefWitnessedComponent, FinalisationHeaderComponent],
 })
 export class TestFinalisationComponentsModule {}

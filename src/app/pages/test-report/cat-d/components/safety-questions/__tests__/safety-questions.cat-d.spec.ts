@@ -16,57 +16,57 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { SafetyQuestionsCatDComponent } from '../safety-questions.cat-d';
 
 describe('SafetyQuestionsComponent', () => {
-	let fixture: ComponentFixture<SafetyQuestionsCatDComponent>;
-	let component: SafetyQuestionsCatDComponent;
-	let store$: Store<StoreModel>;
+  let fixture: ComponentFixture<SafetyQuestionsCatDComponent>;
+  let component: SafetyQuestionsCatDComponent;
+  let store$: Store<StoreModel>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [SafetyQuestionsCatDComponent, MockComponent(DrivingFaultsBadgeComponent)],
-			imports: [
-				IonicModule,
-				StoreModule.forRoot({
-					tests: testsReducer,
-				}),
-			],
-			providers: [FaultCountProvider, TestDataByCategoryProvider],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SafetyQuestionsCatDComponent, MockComponent(DrivingFaultsBadgeComponent)],
+      imports: [
+        IonicModule,
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+      ],
+      providers: [FaultCountProvider, TestDataByCategoryProvider],
+    });
 
-		fixture = TestBed.createComponent(SafetyQuestionsCatDComponent);
-		component = fixture.componentInstance;
-		store$ = TestBed.inject(Store);
-		store$.dispatch(StartTest(105, TestCategory.D));
-	}));
+    fixture = TestBed.createComponent(SafetyQuestionsCatDComponent);
+    component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+    store$.dispatch(StartTest(105, TestCategory.D));
+  }));
 
-	describe('Class', () => {
-		const safetyQuestionsScore: SafetyQuestionsScore = {
-			drivingFaults: 1,
-		};
+  describe('Class', () => {
+    const safetyQuestionsScore: SafetyQuestionsScore = {
+      drivingFaults: 1,
+    };
 
-		beforeEach(() => {
-			spyOn(component.faultCountProvider, 'getSafetyQuestionsFaultCount').and.returnValue(safetyQuestionsScore);
-		});
+    beforeEach(() => {
+      spyOn(component.faultCountProvider, 'getSafetyQuestionsFaultCount').and.returnValue(safetyQuestionsScore);
+    });
 
-		it('should set the safety questions driving fault count', (done: DoneFn) => {
-			component.testCategory = TestCategory.D;
-			component.ngOnInit();
-			component.componentState.safetyQuestionsDrivingFaultCount$.subscribe((result) => {
-				expect(component.faultCountProvider.getSafetyQuestionsFaultCount).toHaveBeenCalled();
-				expect(result).toEqual(1);
-				done();
-			});
-		});
-	});
+    it('should set the safety questions driving fault count', (done: DoneFn) => {
+      component.testCategory = TestCategory.D;
+      component.ngOnInit();
+      component.componentState.safetyQuestionsDrivingFaultCount$.subscribe((result) => {
+        expect(component.faultCountProvider.getSafetyQuestionsFaultCount).toHaveBeenCalled();
+        expect(result).toEqual(1);
+        done();
+      });
+    });
+  });
 
-	describe('DOM', () => {
-		it('should pass the number of safety Question driving faults to the driving faults component', () => {
-			component.testCategory = TestCategory.D;
-			fixture.detectChanges();
-			const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-				.componentInstance as DrivingFaultsBadgeComponent;
-			component.componentState.safetyQuestionsDrivingFaultCount$ = of(1);
-			fixture.detectChanges();
-			expect(drivingFaultsBadge.count).toBe(1);
-		});
-	});
+  describe('DOM', () => {
+    it('should pass the number of safety Question driving faults to the driving faults component', () => {
+      component.testCategory = TestCategory.D;
+      fixture.detectChanges();
+      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
+        .componentInstance as DrivingFaultsBadgeComponent;
+      component.componentState.safetyQuestionsDrivingFaultCount$ = of(1);
+      fixture.detectChanges();
+      expect(drivingFaultsBadge.count).toBe(1);
+    });
+  });
 });

@@ -7,29 +7,29 @@ import { createFeatureSelector } from '@ngrx/store';
 import { some } from 'lodash-es';
 
 export type CatCVehicleChecks =
-	| CatCUniqueTypes.VehicleChecks
-	| CatC1UniqueTypes.VehicleChecks
-	| CatCEUniqueTypes.VehicleChecks
-	| CatC1EUniqueTypes.VehicleChecks;
+  | CatCUniqueTypes.VehicleChecks
+  | CatC1UniqueTypes.VehicleChecks
+  | CatCEUniqueTypes.VehicleChecks
+  | CatC1EUniqueTypes.VehicleChecks;
 
 export const getSelectedShowMeQuestions = (vehicleChecks: CatCVehicleChecks): QuestionResult[] => {
-	return vehicleChecks.showMeQuestions;
+  return vehicleChecks.showMeQuestions;
 };
 
 export const getSelectedTellMeQuestions = (vehicleChecksCatCReducer: CatCVehicleChecks): QuestionResult[] => {
-	return vehicleChecksCatCReducer.tellMeQuestions;
+  return vehicleChecksCatCReducer.tellMeQuestions;
 };
 
 export const getFullLicenceHeld = (vehicleChecksCatCReducer: CatCVehicleChecks): boolean =>
-	(vehicleChecksCatCReducer as CatCUniqueTypes.VehicleChecks).fullLicenceHeld;
+  (vehicleChecksCatCReducer as CatCUniqueTypes.VehicleChecks).fullLicenceHeld;
 
 export const vehicleChecksExist = (vehicleChecks: CatCVehicleChecks): boolean => {
-	const questions = [...vehicleChecks.showMeQuestions, ...vehicleChecks.tellMeQuestions];
-	return some(questions, (fault) => fault.outcome != null);
+  const questions = [...vehicleChecks.showMeQuestions, ...vehicleChecks.tellMeQuestions];
+  return some(questions, (fault) => fault.outcome != null);
 };
 
 export const hasFullLicenceHeldBeenSelected = (fullLicenceHeld: boolean): string =>
-	fullLicenceHeld === null ? null : fullLicenceHeld ? 'Y' : 'N';
+  fullLicenceHeld === null ? null : fullLicenceHeld ? 'Y' : 'N';
 
 export const getVehicleChecksCompleted = (vehicleChecks: CatCVehicleChecks) => vehicleChecks.vehicleChecksCompleted;
 

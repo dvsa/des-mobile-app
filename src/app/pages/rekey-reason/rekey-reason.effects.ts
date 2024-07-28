@@ -15,30 +15,30 @@ import * as rekeyActions from './rekey-reason.actions';
 
 @Injectable()
 export class RekeyReasonEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private findUserProvider: FindUserProvider
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private findUserProvider: FindUserProvider
+  ) {}
 
-	rekeyReasonValidateTransferEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(rekeyActions.ValidateTransferRekey),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTest))))
-			),
-			switchMap(([, test]: [ReturnType<typeof rekeyActions.ValidateTransferRekey>, TestResultCommonSchema]) => {
-				if (test.examinerBooked === test.examinerConducted) {
-					return of(testActions.SendCurrentTest());
-				}
+  rekeyReasonValidateTransferEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(rekeyActions.ValidateTransferRekey),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTest))))
+      ),
+      switchMap(([, test]: [ReturnType<typeof rekeyActions.ValidateTransferRekey>, TestResultCommonSchema]) => {
+        if (test.examinerBooked === test.examinerConducted) {
+          return of(testActions.SendCurrentTest());
+        }
 
-				return this.findUserProvider.userExists(test.examinerConducted).pipe(
-					switchMap(() => of(testActions.SendCurrentTest())),
-					catchError((error: HttpErrorResponse) =>
-						of(rekeyActions.ValidateTransferRekeyFailed(error.status === HttpStatusCode.NotFound))
-					)
-				);
-			})
-		)
-	);
+        return this.findUserProvider.userExists(test.examinerConducted).pipe(
+          switchMap(() => of(testActions.SendCurrentTest())),
+          catchError((error: HttpErrorResponse) =>
+            of(rekeyActions.ValidateTransferRekeyFailed(error.status === HttpStatusCode.NotFound))
+          )
+        );
+      })
+    )
+  );
 }

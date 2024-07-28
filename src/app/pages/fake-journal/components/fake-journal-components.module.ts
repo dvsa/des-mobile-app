@@ -6,6 +6,6 @@ import { PreviewModeModalModule } from '@pages/fake-journal/components/preview-m
 import { JournalComponentsModule } from '../../journal/components/journal-components.module';
 
 @NgModule({
-	imports: [CommonModule, IonicModule, JournalComponentsModule, TestSlotComponentsModule, PreviewModeModalModule],
+  imports: [CommonModule, IonicModule, JournalComponentsModule, TestSlotComponentsModule, PreviewModeModalModule],
 })
 export class FakeJournalComponentsModule {}

@@ -11,40 +11,40 @@ import { MockComponent } from 'ng-mocks';
 import { PostDebriefHoldingPage } from '../post-debrief-holding.page';
 
 describe('PostDebriefHoldingPage', () => {
-	let fixture: ComponentFixture<PostDebriefHoldingPage>;
-	let component: PostDebriefHoldingPage;
-	let router: Router;
+  let fixture: ComponentFixture<PostDebriefHoldingPage>;
+  let component: PostDebriefHoldingPage;
+  let router: Router;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeBanner)],
-			imports: [RouterModule.forRoot([]), AppModule, StoreModule.forFeature('tests', () => ({}))],
-			providers: [
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeBanner)],
+      imports: [RouterModule.forRoot([]), AppModule, StoreModule.forFeature('tests', () => ({}))],
+      providers: [
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(PostDebriefHoldingPage);
-		component = fixture.componentInstance;
-		router = TestBed.inject(Router);
-		spyOn(router, 'navigate');
-	}));
+    fixture = TestBed.createComponent(PostDebriefHoldingPage);
+    component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+  }));
 
-	describe('Class', () => {
-		it('should create component', () => {
-			expect(component).toBeTruthy();
-		});
+  describe('Class', () => {
+    it('should create component', () => {
+      expect(component).toBeTruthy();
+    });
 
-		describe('continueButton', () => {
-			it('should call navigateToPage function', fakeAsync(async () => {
-				await component.continueButton();
-				tick();
-				expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
-			}));
-		});
-	});
+    describe('continueButton', () => {
+      it('should call navigateToPage function', fakeAsync(async () => {
+        await component.continueButton();
+        tick();
+        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
+      }));
+    });
+  });
 });

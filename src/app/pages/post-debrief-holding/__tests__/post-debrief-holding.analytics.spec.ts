@@ -6,9 +6,9 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-	AnalyticsEventCategories,
-	AnalyticsScreenNames,
-	GoogleAnalyticsEventPrefix,
+  AnalyticsEventCategories,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
 } from '@providers/analytics/analytics.model';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -24,79 +24,79 @@ import * as postDebriefHoldingActions from '../post-debrief-holding.actions';
 import { PostDebriefHoldingAnalyticsEffects } from '../post-debrief-holding.analytics.effects';
 
 describe('PostDebriefHoldingAnalyticsEffects', () => {
-	let effects: PostDebriefHoldingAnalyticsEffects;
-	let analyticsProviderMock: AnalyticsProvider;
-	let actions$: ReplaySubject<any>;
-	let store$: Store<StoreModel>;
-	const screenName = AnalyticsScreenNames.POST_DEBRIEF_HOLDING;
-	const practiceScreenName = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.POST_DEBRIEF_HOLDING}`;
+  let effects: PostDebriefHoldingAnalyticsEffects;
+  let analyticsProviderMock: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
+  let store$: Store<StoreModel>;
+  const screenName = AnalyticsScreenNames.POST_DEBRIEF_HOLDING;
+  const practiceScreenName = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.POST_DEBRIEF_HOLDING}`;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				StoreModule.forRoot({
-					tests: testsReducer,
-				}),
-			],
-			providers: [
-				PostDebriefHoldingAnalyticsEffects,
-				{
-					provide: AnalyticsProvider,
-					useClass: AnalyticsProviderMock,
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProviderMock,
-				},
-				provideMockActions(() => actions$),
-				Store,
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+      ],
+      providers: [
+        PostDebriefHoldingAnalyticsEffects,
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        provideMockActions(() => actions$),
+        Store,
+      ],
+    });
 
-		actions$ = new ReplaySubject(1);
-		effects = TestBed.inject(PostDebriefHoldingAnalyticsEffects);
-		analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-		store$ = TestBed.inject(Store);
-	});
+    actions$ = new ReplaySubject(1);
+    effects = TestBed.inject(PostDebriefHoldingAnalyticsEffects);
+    analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    store$ = TestBed.inject(Store);
+  });
 
-	describe('backToOfficeViewDidEnter', () => {
-		it('should call setCurrentPage', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			// ACT
-			actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
-			// ASSERT
-			effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-				expect(result.type === AnalyticRecorded.type).toBe(true);
+  describe('backToOfficeViewDidEnter', () => {
+    it('should call setCurrentPage', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
+      // ASSERT
+      effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-				done();
-			});
-		});
-		it('should call setCurrentPage with practice mode prefix', (done) => {
-			// ARRANGE
-			store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			// ACT
-			actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
-			// ASSERT
-			effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-				expect(result.type === AnalyticRecorded.type).toBe(true);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+        done();
+      });
+    });
+    it('should call setCurrentPage with practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
+      // ASSERT
+      effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(practiceScreenName);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(practiceScreenName);
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-				);
-				done();
-			});
-		});
-	});
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
+        done();
+      });
+    });
+  });
 });

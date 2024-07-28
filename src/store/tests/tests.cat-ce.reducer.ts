@@ -23,30 +23,30 @@ import { testSummaryReducer } from './test-summary/test-summary.reducer';
 import { vehicleDetailsCatCReducer } from './vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 
 export function testsCatCEReducer(
-	action: Action,
-	state: CatCEUniqueTypes.TestResult
+  action: Action,
+  state: CatCEUniqueTypes.TestResult
 ): Required<CatCEUniqueTypes.TestResult> {
-	return combineReducers({
-		accompaniment: accompanimentReducer,
-		activityCode: activityCodeReducer,
-		appVersion: appVersionReducer,
-		category: categoryReducer,
-		changeMarker: changeMarkerReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		delegatedTest: delegatedTestReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		journalData: journalDataCatCReducer,
-		passCompletion: passCompletionCatCReducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		preTestDeclarations: preTestDeclarationsCatCReducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		testData: testDataCatCEReducer,
-		testSummary: testSummaryReducer,
-		vehicleDetails: vehicleDetailsCatCReducer,
-		version: schemaVersionReducer,
-	})(state as Required<CatCEUniqueTypes.TestResult>, action);
+  return combineReducers({
+    accompaniment: accompanimentReducer,
+    activityCode: activityCodeReducer,
+    appVersion: appVersionReducer,
+    category: categoryReducer,
+    changeMarker: changeMarkerReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    delegatedTest: delegatedTestReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    journalData: journalDataCatCReducer,
+    passCompletion: passCompletionCatCReducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    preTestDeclarations: preTestDeclarationsCatCReducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    testData: testDataCatCEReducer,
+    testSummary: testSummaryReducer,
+    vehicleDetails: vehicleDetailsCatCReducer,
+    version: schemaVersionReducer,
+  })(state as Required<CatCEUniqueTypes.TestResult>, action);
 }

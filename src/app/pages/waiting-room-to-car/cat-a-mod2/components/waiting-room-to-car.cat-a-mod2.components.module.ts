@@ -7,8 +7,8 @@ import { VehicleChecksModalCatAMod2Module } from './vehicle-checks-modal/vehicle
 import { VehicleChecksCatAMod2Component } from './vehicle-checks/vehicle-checks';
 
 @NgModule({
-	declarations: [VehicleChecksCatAMod2Component],
-	imports: [IonicModule, ComponentsModule, CommonModule, ReactiveFormsModule, VehicleChecksModalCatAMod2Module],
-	exports: [VehicleChecksCatAMod2Component],
+  declarations: [VehicleChecksCatAMod2Component],
+  imports: [IonicModule, ComponentsModule, CommonModule, ReactiveFormsModule, VehicleChecksModalCatAMod2Module],
+  exports: [VehicleChecksCatAMod2Component],
 })
 export class WaitingRoomToCarCatAMod2ComponentsModule {}

@@ -9,49 +9,49 @@ import { UrlProvider } from '../../url/url';
 import { TestCentreJournalProvider } from '../test-centre-journal';
 
 describe('TestCentreJournalProvider', () => {
-	let testCentreJournalProvider: TestCentreJournalProvider;
-	let httpMock: HttpTestingController;
-	let urlProviderMock: UrlProvider;
-	let appConfigProviderMock: AppConfigProvider;
-	const mockTestCentreJournalUrl = 'https://www.example.com/api/v1/journals/testcentre';
+  let testCentreJournalProvider: TestCentreJournalProvider;
+  let httpMock: HttpTestingController;
+  let urlProviderMock: UrlProvider;
+  let appConfigProviderMock: AppConfigProvider;
+  const mockTestCentreJournalUrl = 'https://www.example.com/api/v1/journals/testcentre';
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			imports: [HttpClientTestingModule],
-			providers: [
-				TestCentreJournalProvider,
-				{
-					provide: UrlProvider,
-					useClass: UrlProviderMock,
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProviderMock,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        TestCentreJournalProvider,
+        {
+          provide: UrlProvider,
+          useClass: UrlProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+      ],
+    });
 
-		httpMock = TestBed.inject(HttpTestingController);
-		testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
-		urlProviderMock = TestBed.inject(UrlProvider);
-		appConfigProviderMock = TestBed.inject(AppConfigProvider);
-	}));
+    httpMock = TestBed.inject(HttpTestingController);
+    testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
+    urlProviderMock = TestBed.inject(UrlProvider);
+    appConfigProviderMock = TestBed.inject(AppConfigProvider);
+  }));
 
-	afterAll(() => {
-		httpMock.verify();
-	});
+  afterAll(() => {
+    httpMock.verify();
+  });
 
-	describe('getTestCentreJournal', () => {
-		beforeEach(() => {
-			spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
-		});
-		it('should call through to the URL provider for the test centre journal URL', () => {
-			testCentreJournalProvider.getTestCentreJournal().pipe(take(1)).subscribe();
+  describe('getTestCentreJournal', () => {
+    beforeEach(() => {
+      spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
+    });
+    it('should call through to the URL provider for the test centre journal URL', () => {
+      testCentreJournalProvider.getTestCentreJournal().pipe(take(1)).subscribe();
 
-			const req = httpMock.expectOne((request) => request.url === mockTestCentreJournalUrl);
+      const req = httpMock.expectOne((request) => request.url === mockTestCentreJournalUrl);
 
-			expect(req.request.method).toBe('GET');
-			expect(urlProviderMock.getTestCentreJournalUrl).toHaveBeenCalled();
-		});
-	});
+      expect(req.request.method).toBe('GET');
+      expect(urlProviderMock.getTestCentreJournalUrl).toHaveBeenCalled();
+    });
+  });
 });

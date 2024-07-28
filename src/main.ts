@@ -10,10 +10,10 @@ import { AppModule } from 'src/app/app.module';
 import 'hammerjs';
 
 if (environment.production) {
-	enableProdMode();
+  enableProdMode();
 }
 
 platformBrowserDynamic()
-	.bootstrapModule(AppModule)
-	// eslint-disable-next-line no-console
-	.catch((err) => console.log(err));
+  .bootstrapModule(AppModule)
+  // eslint-disable-next-line no-console
+  .catch((err) => console.log(err));

@@ -9,60 +9,60 @@ import { ReverseDiagramLinkComponent } from '../../reverse-diagram-link/reverse-
 import { ReverseLeftPopoverComponent } from '../reverse-left-popover';
 
 describe('reverseLeftComponent', () => {
-	let fixture: ComponentFixture<ReverseLeftPopoverComponent>;
-	let component: ReverseLeftPopoverComponent;
+  let fixture: ComponentFixture<ReverseLeftPopoverComponent>;
+  let component: ReverseLeftPopoverComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [
-				ReverseLeftPopoverComponent,
-				MockComponent(ManoeuvreCompetencyComponent),
-				MockComponent(ReverseDiagramLinkComponent),
-			],
-			imports: [IonicModule],
-			providers: [FaultCountProvider],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ReverseLeftPopoverComponent,
+        MockComponent(ManoeuvreCompetencyComponent),
+        MockComponent(ReverseDiagramLinkComponent),
+      ],
+      imports: [IonicModule],
+      providers: [FaultCountProvider],
+    });
 
-		fixture = TestBed.createComponent(ReverseLeftPopoverComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(ReverseLeftPopoverComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('Class', () => {
-		describe('getId', () => {
-			it('should return reverseLeft-controlFault', () => {
-				const result = component.getId(ManoeuvreCompetencies.controlFault);
-				expect(result).toBe('reverseLeft-controlFault');
-			});
+  describe('Class', () => {
+    describe('getId', () => {
+      it('should return reverseLeft-controlFault', () => {
+        const result = component.getId(ManoeuvreCompetencies.controlFault);
+        expect(result).toBe('reverseLeft-controlFault');
+      });
 
-			it('should return reverseLeft-observationFault', () => {
-				const result = component.getId(ManoeuvreCompetencies.observationFault);
-				expect(result).toBe('reverseLeft-observationFault');
-			});
-		});
-		describe('shouldShowReverseDiagramLink', () => {
-			const testCases = [
-				{ category: TestCategory.BE, outcome: true },
-				{ category: TestCategory.C, outcome: true },
-				{ category: TestCategory.C1, outcome: true },
-				{ category: TestCategory.C1E, outcome: true },
-				{ category: TestCategory.CE, outcome: true },
-				{ category: TestCategory.D, outcome: true },
-				{ category: TestCategory.D1, outcome: true },
-				{ category: TestCategory.DE, outcome: true },
-				{ category: TestCategory.D1E, outcome: true },
-				{ category: TestCategory.F, outcome: false },
-				{ category: TestCategory.G, outcome: false },
-				{ category: TestCategory.H, outcome: false },
-				{ category: TestCategory.K, outcome: false },
-			];
+      it('should return reverseLeft-observationFault', () => {
+        const result = component.getId(ManoeuvreCompetencies.observationFault);
+        expect(result).toBe('reverseLeft-observationFault');
+      });
+    });
+    describe('shouldShowReverseDiagramLink', () => {
+      const testCases = [
+        { category: TestCategory.BE, outcome: true },
+        { category: TestCategory.C, outcome: true },
+        { category: TestCategory.C1, outcome: true },
+        { category: TestCategory.C1E, outcome: true },
+        { category: TestCategory.CE, outcome: true },
+        { category: TestCategory.D, outcome: true },
+        { category: TestCategory.D1, outcome: true },
+        { category: TestCategory.DE, outcome: true },
+        { category: TestCategory.D1E, outcome: true },
+        { category: TestCategory.F, outcome: false },
+        { category: TestCategory.G, outcome: false },
+        { category: TestCategory.H, outcome: false },
+        { category: TestCategory.K, outcome: false },
+      ];
 
-			testCases.forEach((testCase) => {
-				it(`should return the correct result for a category ${testCase.category} test`, () => {
-					component.testCategory = testCase.category;
-					fixture.detectChanges();
-					expect(component.shouldShowReverseDiagramLink()).toEqual(testCase.outcome);
-				});
-			});
-		});
-	});
+      testCases.forEach((testCase) => {
+        it(`should return the correct result for a category ${testCase.category} test`, () => {
+          component.testCategory = testCase.category;
+          fixture.detectChanges();
+          expect(component.shouldShowReverseDiagramLink()).toEqual(testCase.outcome);
+        });
+      });
+    });
+  });
 });

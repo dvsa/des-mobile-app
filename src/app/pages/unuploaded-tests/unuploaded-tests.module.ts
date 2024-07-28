@@ -13,16 +13,16 @@ import { UnuploadedTestsPage } from '@pages/unuploaded-tests/unuploaded-tests.pa
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		IonicModule,
-		ComponentsModule,
-		UnuploadedTestsRoutingModule,
-		DashboardComponentsModule,
-		TestSlotComponentsModule,
-		EffectsModule.forFeature([UnuploadedTestsEffects, UnuploadedTestsAnalyticsEffects]),
-	],
-	declarations: [UnuploadedTestsPage],
-	providers: [OrientationMonitorProvider],
+  imports: [
+    CommonModule,
+    IonicModule,
+    ComponentsModule,
+    UnuploadedTestsRoutingModule,
+    DashboardComponentsModule,
+    TestSlotComponentsModule,
+    EffectsModule.forFeature([UnuploadedTestsEffects, UnuploadedTestsAnalyticsEffects]),
+  ],
+  declarations: [UnuploadedTestsPage],
+  providers: [OrientationMonitorProvider],
 })
 export class UnuploadedTestsModule {}

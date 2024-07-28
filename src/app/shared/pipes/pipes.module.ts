@@ -8,8 +8,8 @@ import { RoleFilterPipe } from '@shared/pipes/roleFilter.pipe';
 import { ModifyCompetencyLabel } from './modifyCompetencyLabel';
 
 @NgModule({
-	declarations: [ModifyCompetencyLabel, FormatIdPipe, EllipsisPipe, CustomKeyValuePipe, ContainsPipe, RoleFilterPipe],
-	exports: [ModifyCompetencyLabel, FormatIdPipe, EllipsisPipe, CustomKeyValuePipe, ContainsPipe, RoleFilterPipe],
-	imports: [],
+  declarations: [ModifyCompetencyLabel, FormatIdPipe, EllipsisPipe, CustomKeyValuePipe, ContainsPipe, RoleFilterPipe],
+  exports: [ModifyCompetencyLabel, FormatIdPipe, EllipsisPipe, CustomKeyValuePipe, ContainsPipe, RoleFilterPipe],
+  imports: [],
 })
 export class PipesModule {}

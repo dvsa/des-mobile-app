@@ -24,126 +24,126 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { rekeyReasonReducer } from '../../rekey-reason/rekey-reason.reducer';
 
 describe('RekeyUploadOutcomePage', () => {
-	let fixture: ComponentFixture<RekeyUploadOutcomePage>;
-	let component: RekeyUploadOutcomePage;
-	let store$: Store<StoreModel>;
-	let deviceProvider: DeviceProvider;
-	let router: Router;
+  let fixture: ComponentFixture<RekeyUploadOutcomePage>;
+  let component: RekeyUploadOutcomePage;
+  let store$: Store<StoreModel>;
+  let deviceProvider: DeviceProvider;
+  let router: Router;
 
-	beforeEach(waitForAsync(() => {
-		jasmine.getEnv().allowRespy(true);
-		TestBed.configureTestingModule({
-			declarations: [RekeyUploadOutcomePage],
-			imports: [
-				IonicModule,
-				AppModule,
-				StoreModule.forRoot({
-					tests: testsReducer,
-					rekeyReason: rekeyReasonReducer,
-				}),
-			],
-			providers: [
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: DeviceProvider,
-					useClass: DeviceProviderMock,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    jasmine.getEnv().allowRespy(true);
+    TestBed.configureTestingModule({
+      declarations: [RekeyUploadOutcomePage],
+      imports: [
+        IonicModule,
+        AppModule,
+        StoreModule.forRoot({
+          tests: testsReducer,
+          rekeyReason: rekeyReasonReducer,
+        }),
+      ],
+      providers: [
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(RekeyUploadOutcomePage);
-		component = fixture.componentInstance;
-		deviceProvider = TestBed.inject(DeviceProvider);
-		store$ = TestBed.inject(Store);
-		router = TestBed.inject(Router);
-		spyOn(router, 'navigate');
-		spyOn(store$, 'dispatch');
-		spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-	}));
+    fixture = TestBed.createComponent(RekeyUploadOutcomePage);
+    component = fixture.componentInstance;
+    deviceProvider = TestBed.inject(DeviceProvider);
+    store$ = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+    spyOn(store$, 'dispatch');
+    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+  }));
 
-	describe('Class', () => {
-		describe('ionViewDidEnter', () => {
-			it('should disable test inhibitions', async () => {
-				spyOn(Insomnia, 'allowSleep');
-				await component.ionViewDidEnter();
-				expect(Insomnia.allowSleep).toHaveBeenCalled();
-				expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
-				expect(store$.dispatch).toHaveBeenCalledWith(RekeyUploadOutcomeViewDidEnter());
-			});
-		});
+  describe('Class', () => {
+    describe('ionViewDidEnter', () => {
+      it('should disable test inhibitions', async () => {
+        spyOn(Insomnia, 'allowSleep');
+        await component.ionViewDidEnter();
+        expect(Insomnia.allowSleep).toHaveBeenCalled();
+        expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith(RekeyUploadOutcomeViewDidEnter());
+      });
+    });
 
-		describe('goToJournal', () => {
-			it('should navigate to rekey search when fromRekeySearch is true', async () => {
-				component.fromRekeySearch = true;
-				await component.goToJournal();
-				expect(router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
-			});
-			it('should navigate to journal when fromRekeySearch is false', async () => {
-				component.fromRekeySearch = false;
-				await component.goToJournal();
-				expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
-			});
-			it('should dispatch rekey action always', async () => {
-				await component.goToJournal();
-				expect(store$.dispatch).toHaveBeenCalledWith(EndRekey());
-			});
-		});
-	});
+    describe('goToJournal', () => {
+      it('should navigate to rekey search when fromRekeySearch is true', async () => {
+        component.fromRekeySearch = true;
+        await component.goToJournal();
+        expect(router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
+      });
+      it('should navigate to journal when fromRekeySearch is false', async () => {
+        component.fromRekeySearch = false;
+        await component.goToJournal();
+        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
+      });
+      it('should dispatch rekey action always', async () => {
+        await component.goToJournal();
+        expect(store$.dispatch).toHaveBeenCalledWith(EndRekey());
+      });
+    });
+  });
 
-	describe('ionViewWillEnter', () => {
-		it('should subscribe to merged if it exists', () => {
-			component.subscription = null;
-			component.merged$ = of(true);
-			spyOn(component.merged$, 'subscribe');
-			component.ionViewWillEnter();
-			expect(component.subscription).not.toEqual(null);
-		});
-	});
+  describe('ionViewWillEnter', () => {
+    it('should subscribe to merged if it exists', () => {
+      component.subscription = null;
+      component.merged$ = of(true);
+      spyOn(component.merged$, 'subscribe');
+      component.ionViewWillEnter();
+      expect(component.subscription).not.toEqual(null);
+    });
+  });
 
-	describe('ionViewDidLeave', () => {
-		it('should unsubscribe from the subscription if there is one', () => {
-			component.subscription = new Subscription();
-			spyOn(component.subscription, 'unsubscribe');
-			component.ionViewDidLeave();
-			expect(component.subscription.unsubscribe).toHaveBeenCalled();
-		});
-	});
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
 
-	describe('DOM', () => {
-		describe('isDuplicate', () => {
-			it('should show the success message when the upload succeeded', () => {
-				fixture.detectChanges();
-				component.pageState.duplicateUpload$ = of(false);
-				fixture.detectChanges();
-				const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-				expect(element.textContent).toEqual('Rekeyed test uploaded successfully');
-				expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeDefined();
-				expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeNull();
-			});
-			it('should show the duplicate upload message when the upload was detected as a duplicate', () => {
-				fixture.detectChanges();
-				component.pageState.duplicateUpload$ = of(true);
-				fixture.detectChanges();
-				const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-				expect(element.textContent).toEqual('Rekeyed test has already been uploaded');
-				expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeDefined();
-				expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeNull();
-			});
-		});
-	});
+  describe('DOM', () => {
+    describe('isDuplicate', () => {
+      it('should show the success message when the upload succeeded', () => {
+        fixture.detectChanges();
+        component.pageState.duplicateUpload$ = of(false);
+        fixture.detectChanges();
+        const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
+        expect(element.textContent).toEqual('Rekeyed test uploaded successfully');
+        expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeDefined();
+        expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeNull();
+      });
+      it('should show the duplicate upload message when the upload was detected as a duplicate', () => {
+        fixture.detectChanges();
+        component.pageState.duplicateUpload$ = of(true);
+        fixture.detectChanges();
+        const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
+        expect(element.textContent).toEqual('Rekeyed test has already been uploaded');
+        expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeDefined();
+        expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeNull();
+      });
+    });
+  });
 });

@@ -29,171 +29,171 @@ import { TestResultsSearchComponentsModule } from '../components/test-results-se
 import { TestResultsSearchPage } from '../test-results-search';
 
 enum SearchBy {
-	DriverNumber = 'driverNumber',
-	ApplicationReference = 'appReference',
+  DriverNumber = 'driverNumber',
+  ApplicationReference = 'appReference',
 }
 
 describe('TestResultsSearchPage', () => {
-	let fixture: ComponentFixture<TestResultsSearchPage>;
-	let component: TestResultsSearchPage;
-	let modalController: ModalController;
-	let appConfigProviderMock: AppConfigProvider;
-	let authProviderMock: AuthenticationProvider;
+  let fixture: ComponentFixture<TestResultsSearchPage>;
+  let component: TestResultsSearchPage;
+  let modalController: ModalController;
+  let appConfigProviderMock: AppConfigProvider;
+  let authProviderMock: AuthenticationProvider;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				TestResultsSearchPage,
-				MockComponent(AdvancedSearchComponent),
-				MockComponent(SearchResultComponent),
-			],
-			imports: [AppModule, TestResultsSearchComponentsModule, ComponentsModule],
-			providers: [
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: ModalController,
-					useClass: ModalControllerMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: SearchProvider,
-					useClass: SearchProviderMock,
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProviderMock,
-				},
-				{
-					provide: AppComponent,
-					useClass: MockAppComponent,
-				},
-				{
-					provide: NetworkStateProvider,
-					useClass: NetworkStateProviderMock,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        TestResultsSearchPage,
+        MockComponent(AdvancedSearchComponent),
+        MockComponent(SearchResultComponent),
+      ],
+      imports: [AppModule, TestResultsSearchComponentsModule, ComponentsModule],
+      providers: [
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: SearchProvider,
+          useClass: SearchProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: AppComponent,
+          useClass: MockAppComponent,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(TestResultsSearchPage);
-		component = fixture.componentInstance;
-		modalController = TestBed.inject(ModalController);
-		appConfigProviderMock = TestBed.inject(AppConfigProvider);
-		authProviderMock = TestBed.inject(AuthenticationProvider);
-	}));
+    fixture = TestBed.createComponent(TestResultsSearchPage);
+    component = fixture.componentInstance;
+    modalController = TestBed.inject(ModalController);
+    appConfigProviderMock = TestBed.inject(AppConfigProvider);
+    authProviderMock = TestBed.inject(AuthenticationProvider);
+  }));
 
-	describe('DOM', () => {
-		describe('ionViewWillEnter', () => {
-			it('should setup subscription if merged is present', () => {
-				component.merged$ = new Observable<TestCentre[]>();
-				component.ionViewWillEnter();
+  describe('DOM', () => {
+    describe('ionViewWillEnter', () => {
+      it('should setup subscription if merged is present', () => {
+        component.merged$ = new Observable<TestCentre[]>();
+        component.ionViewWillEnter();
 
-				expect(component.subscription).toBeDefined();
-			});
-		});
-		describe('advanced search', () => {
-			describe('when the user is an LDTM', () => {
-				beforeEach(() => {
-					spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.LDTM } as AppConfig);
-					fixture.detectChanges();
-				});
+        expect(component.subscription).toBeDefined();
+      });
+    });
+    describe('advanced search', () => {
+      describe('when the user is an LDTM', () => {
+        beforeEach(() => {
+          spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.LDTM } as AppConfig);
+          fixture.detectChanges();
+        });
 
-				it('displays the advanced search', () => {
-					expect(fixture.debugElement.query(By.css('#tab-search-advanced'))).not.toBeNull();
-				});
-			});
+        it('displays the advanced search', () => {
+          expect(fixture.debugElement.query(By.css('#tab-search-advanced'))).not.toBeNull();
+        });
+      });
 
-			describe('when the user is a DE', () => {
-				beforeEach(() => {
-					spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.DE } as AppConfig);
-					spyOn(authProviderMock, 'getEmployeeId').and.returnValue('testValue');
-					fixture.detectChanges();
-				});
+      describe('when the user is a DE', () => {
+        beforeEach(() => {
+          spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.DE } as AppConfig);
+          spyOn(authProviderMock, 'getEmployeeId').and.returnValue('testValue');
+          fixture.detectChanges();
+        });
 
-				it('verifyAdvancedSearch returns employee ID when the user is a DE', () => {
-					expect(component.verifyAdvancedSearch()).toBe('testValue');
-				});
-			});
-		});
+        it('verifyAdvancedSearch returns employee ID when the user is a DE', () => {
+          expect(component.verifyAdvancedSearch()).toBe('testValue');
+        });
+      });
+    });
 
-		describe('ionViewDidEnter', () => {
-			it('should dispatch the view did enter action', () => {
-				spyOn(component['store$'], 'dispatch');
-				component.ionViewDidEnter();
-				expect(component['store$'].dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
-			});
-		});
+    describe('ionViewDidEnter', () => {
+      it('should dispatch the view did enter action', () => {
+        spyOn(component['store$'], 'dispatch');
+        component.ionViewDidEnter();
+        expect(component['store$'].dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
+      });
+    });
 
-		describe('ionViewDidLeave', () => {
-			it('should unsubscribe from the subscription if there is one', () => {
-				component.subscription = new Subscription();
-				spyOn(component.subscription, 'unsubscribe');
-				component.ionViewDidLeave();
-				expect(component.subscription.unsubscribe).toHaveBeenCalled();
-			});
-		});
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
 
-		describe('searchTests', () => {
-			it('should set define subscription using ApplicationReference', () => {
-				component.searchBy = SearchBy.ApplicationReference;
-				component.searchTests();
-				expect(component.subscription).toBeDefined();
-			});
-			it('should set define subscription using DriverNumber', () => {
-				component.searchBy = SearchBy.DriverNumber;
-				component.searchTests();
-				expect(component.subscription).toBeDefined();
-			});
-		});
+    describe('searchTests', () => {
+      it('should set define subscription using ApplicationReference', () => {
+        component.searchBy = SearchBy.ApplicationReference;
+        component.searchTests();
+        expect(component.subscription).toBeDefined();
+      });
+      it('should set define subscription using DriverNumber', () => {
+        component.searchBy = SearchBy.DriverNumber;
+        component.searchTests();
+        expect(component.subscription).toBeDefined();
+      });
+    });
 
-		describe('advancedSearch', () => {
-			it('should set define subscription', () => {
-				component.advancedSearch({});
-				expect(component.subscription).toBeDefined();
-			});
-		});
+    describe('advancedSearch', () => {
+      it('should set define subscription', () => {
+        component.advancedSearch({});
+        expect(component.subscription).toBeDefined();
+      });
+    });
 
-		describe('setFocus', () => {
-			it('should set focusedElement to the passed parameter', () => {
-				component.setFocus('test');
-				expect(component.focusedElement).toEqual('test');
-			});
-		});
+    describe('setFocus', () => {
+      it('should set focusedElement to the passed parameter', () => {
+        component.setFocus('test');
+        expect(component.focusedElement).toEqual('test');
+      });
+    });
 
-		describe('searchByChanged', () => {
-			it('should set searchBy to the passed parameter', () => {
-				component.searchByChanged('test');
-				expect(component.searchBy).toEqual('test');
-			});
-		});
+    describe('searchByChanged', () => {
+      it('should set searchBy to the passed parameter', () => {
+        component.searchByChanged('test');
+        expect(component.searchBy).toEqual('test');
+      });
+    });
 
-		describe('candidateInfoChanged', () => {
-			it('should set candidateInfo to the passed parameter', () => {
-				component.candidateInfoChanged('test');
-				expect(component.candidateInfo).toEqual('test');
-			});
-		});
+    describe('candidateInfoChanged', () => {
+      it('should set candidateInfo to the passed parameter', () => {
+        component.candidateInfoChanged('test');
+        expect(component.candidateInfo).toEqual('test');
+      });
+    });
 
-		describe('showError', () => {
-			it('should display a modal on error', async () => {
-				spyOn(modalController, 'create').and.returnValue(
-					Promise.resolve({
-						present: async () => {},
-					} as HTMLIonModalElement)
-				);
-				await component.showError({
-					status: HttpStatusCode.InternalServerError,
-					statusText: 'error',
-					message: 'error',
-				});
-				expect(modalController.create).toHaveBeenCalled();
-			});
-		});
-	});
+    describe('showError', () => {
+      it('should display a modal on error', async () => {
+        spyOn(modalController, 'create').and.returnValue(
+          Promise.resolve({
+            present: async () => {},
+          } as HTMLIonModalElement)
+        );
+        await component.showError({
+          status: HttpStatusCode.InternalServerError,
+          statusText: 'error',
+          message: 'error',
+        });
+        expect(modalController.create).toHaveBeenCalled();
+      });
+    });
+  });
 });

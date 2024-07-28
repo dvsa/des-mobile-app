@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: OfficeCatADI2Page,
-	},
+  {
+    path: '',
+    component: OfficeCatADI2Page,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class OfficeCatADIPart2PageRoutingModule {}

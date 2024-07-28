@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { TestReportCatManoeuvrePage } from './test-report.cat-manoeuvre.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: TestReportCatManoeuvrePage,
-	},
+  {
+    path: '',
+    component: TestReportCatManoeuvrePage,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class TestReportCatManoeuvrePageRoutingModule {}

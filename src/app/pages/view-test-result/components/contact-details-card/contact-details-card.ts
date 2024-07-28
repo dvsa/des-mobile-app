@@ -4,38 +4,38 @@ import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.mode
 import { get } from 'lodash-es';
 
 @Component({
-	selector: 'contact-details-card',
-	templateUrl: 'contact-details-card.html',
+  selector: 'contact-details-card',
+  templateUrl: 'contact-details-card.html',
 })
 export class ContactDetailsCardComponent {
-	@Input()
-	candidateData: Candidate;
+  @Input()
+  candidateData: Candidate;
 
-	@Input()
-	reEnterEmail: RegeneratedEmails = null;
+  @Input()
+  reEnterEmail: RegeneratedEmails = null;
 
-	@Input()
-	communicationPreferencesData: CommunicationPreferences;
+  @Input()
+  communicationPreferencesData: CommunicationPreferences;
 
-	get testResultPreference(): string {
-		return get(this.communicationPreferencesData, 'communicationMethod', 'None');
-	}
+  get testResultPreference(): string {
+    return get(this.communicationPreferencesData, 'communicationMethod', 'None');
+  }
 
-	get phoneNumber(): string {
-		return get(this.candidateData, 'primaryTelephone', 'None');
-	}
+  get phoneNumber(): string {
+    return get(this.candidateData, 'primaryTelephone', 'None');
+  }
 
-	get oldEmailAddress(): string {
-		return get(this.candidateData, 'emailAddress', 'None');
-	}
+  get oldEmailAddress(): string {
+    return get(this.candidateData, 'emailAddress', 'None');
+  }
 
-	get newEmailAddress(): string {
-		const updatedEmail = get(this.communicationPreferencesData, 'updatedEmail');
-		const bookingEmail = get(this.candidateData, 'emailAddress');
-		return updatedEmail && updatedEmail !== bookingEmail ? updatedEmail : 'Same as booking email';
-	}
+  get newEmailAddress(): string {
+    const updatedEmail = get(this.communicationPreferencesData, 'updatedEmail');
+    const bookingEmail = get(this.candidateData, 'emailAddress');
+    return updatedEmail && updatedEmail !== bookingEmail ? updatedEmail : 'Same as booking email';
+  }
 
-	get address(): Address {
-		return get(this.candidateData, 'candidateAddress');
-	}
+  get address(): Address {
+    return get(this.candidateData, 'candidateAddress');
+  }
 }

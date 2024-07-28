@@ -24,31 +24,31 @@ import { trainerDetailsCatADIPart2Reducer } from './trainer-details/cat-adi-part
 import { vehicleDetailsCatADIPart2Reducer } from './vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
 
 export function testsCatADIPart2Reducer(
-	action: Action,
-	state: CatADI2UniqueTypes.TestResult
+  action: Action,
+  state: CatADI2UniqueTypes.TestResult
 ): Required<CatADI2UniqueTypes.TestResult> {
-	return combineReducers({
-		accompaniment: accompanimentReducer,
-		activityCode: activityCodeReducer,
-		appVersion: appVersionReducer,
-		category: categoryReducer,
-		changeMarker: changeMarkerReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		delegatedTest: delegatedTestReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		journalData: journalDataCatADIPart2Reducer,
-		passCompletion: nullReducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		preTestDeclarations: preTestDeclarationsReducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		version: schemaVersionReducer,
-		testData: testDataCatADI2Reducer,
-		testSummary: testSummaryReducer,
-		trainerDetails: trainerDetailsCatADIPart2Reducer,
-		vehicleDetails: vehicleDetailsCatADIPart2Reducer,
-	})(state as Required<CatADI2UniqueTypes.TestResult>, action);
+  return combineReducers({
+    accompaniment: accompanimentReducer,
+    activityCode: activityCodeReducer,
+    appVersion: appVersionReducer,
+    category: categoryReducer,
+    changeMarker: changeMarkerReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    delegatedTest: delegatedTestReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    journalData: journalDataCatADIPart2Reducer,
+    passCompletion: nullReducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    preTestDeclarations: preTestDeclarationsReducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    version: schemaVersionReducer,
+    testData: testDataCatADI2Reducer,
+    testSummary: testSummaryReducer,
+    trainerDetails: trainerDetailsCatADIPart2Reducer,
+    vehicleDetails: vehicleDetailsCatADIPart2Reducer,
+  })(state as Required<CatADI2UniqueTypes.TestResult>, action);
 }

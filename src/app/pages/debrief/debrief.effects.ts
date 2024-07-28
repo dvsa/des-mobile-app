@@ -13,20 +13,20 @@ import * as debriefActions from './debrief.actions';
 
 @Injectable()
 export class DebriefEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 
-	endDebriefEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(debriefActions.EndDebrief),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
-			),
-			switchMap(([, slotId]) => {
-				return [testStatusActions.SetTestStatusDecided(slotId), testsActions.PersistTests()];
-			})
-		)
-	);
+  endDebriefEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(debriefActions.EndDebrief),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
+      ),
+      switchMap(([, slotId]) => {
+        return [testStatusActions.SetTestStatusDecided(slotId), testsActions.PersistTests()];
+      })
+    )
+  );
 }

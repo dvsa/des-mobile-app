@@ -4,5 +4,5 @@ import { of } from 'rxjs';
 
 @Injectable()
 export class ReferenceDataProviderMock {
-	public getTestCentres = () => of({} as RefDataTestCentreResponse);
+  public getTestCentres = () => of({} as RefDataTestCentreResponse);
 }

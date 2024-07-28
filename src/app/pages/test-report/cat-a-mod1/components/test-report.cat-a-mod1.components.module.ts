@@ -10,16 +10,16 @@ import { SpeedCheckModalModule } from './speed-check-modal/speed-check-modal.mod
 import { SpeedCheckComponent } from './speed-check/speed-check';
 
 @NgModule({
-	declarations: [SpeedCheckHeaderComponent, SpeedCheckComponent],
-	imports: [
-		CommonModule,
-		ComponentsModule,
-		TestReportComponentsModule,
-		IonicModule,
-		DirectivesModule,
-		ActivityCode4ModalModule,
-		SpeedCheckModalModule,
-	],
-	exports: [SpeedCheckHeaderComponent, SpeedCheckComponent],
+  declarations: [SpeedCheckHeaderComponent, SpeedCheckComponent],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    TestReportComponentsModule,
+    IonicModule,
+    DirectivesModule,
+    ActivityCode4ModalModule,
+    SpeedCheckModalModule,
+  ],
+  exports: [SpeedCheckHeaderComponent, SpeedCheckComponent],
 })
 export class TestReportCatAMod1ComponentsModule {}

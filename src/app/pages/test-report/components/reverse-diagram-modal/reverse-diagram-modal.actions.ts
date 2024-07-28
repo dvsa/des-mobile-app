@@ -7,11 +7,11 @@ export const ReverseDiagramOpened = createAction('[ReverseDiagramPage] Reverse D
 export const ReverseDiagramClosed = createAction('[ReverseDiagramPage] Reverse Diagram Closed');
 
 export const ReverseDiagramLengthChanged = createAction(
-	'[ReverseDiagramPage] Change Vehicle Length',
-	(previousLength: number, newLength: number) => ({ previousLength, newLength })
+  '[ReverseDiagramPage] Change Vehicle Length',
+  (previousLength: number, newLength: number) => ({ previousLength, newLength })
 );
 
 export const ReverseDiagramWidthChanged = createAction(
-	'[ReverseDiagramPage] Change Vehicle Width',
-	(previousWidth: number, newWidth: number) => ({ previousWidth, newWidth })
+  '[ReverseDiagramPage] Change Vehicle Width',
+  (previousWidth: number, newWidth: number) => ({ previousWidth, newWidth })
 );

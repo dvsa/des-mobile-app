@@ -8,8 +8,8 @@ import { ManoeuvresComponent } from './manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
 
 @NgModule({
-	declarations: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
-	imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
-	exports: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
+  declarations: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
+  imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
+  exports: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
 })
 export class TestReportCatBComponentsModule {}

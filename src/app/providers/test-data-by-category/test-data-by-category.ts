@@ -21,55 +21,55 @@ import { getTestData as getTestDataCatManoeuvre } from '@store/tests/test-data/c
 
 @Injectable()
 export class TestDataByCategoryProvider {
-	static getTestDataByCategoryCodeErrMsg = 'Error getting test category';
+  static getTestDataByCategoryCodeErrMsg = 'Error getting test category';
 
-	public getTestDataByCategoryCode(category: CategoryCode) {
-		switch (category) {
-			case TestCategory.ADI2:
-				return getTestDataCatADI2;
-			case TestCategory.ADI3:
-			case TestCategory.SC:
-				return getTestDataCatAdI3;
-			case TestCategory.B:
-				return getTestDataCatB;
-			case TestCategory.C:
-				return getTestDataC;
-			case TestCategory.C1:
-				return getTestDataC1;
-			case TestCategory.CE:
-				return getTestDataCE;
-			case TestCategory.C1E:
-				return getTestDataC1E;
-			case TestCategory.D:
-				return getTestDataCatD;
-			case TestCategory.D1:
-				return getTestDataCatD1;
-			case TestCategory.DE:
-				return getTestDataCatDE;
-			case TestCategory.D1E:
-				return getTestDataCatD1E;
-			case TestCategory.F:
-				return getTestDataCatF;
-			case TestCategory.G:
-				return getTestDataCatG;
-			case TestCategory.H:
-				return getTestDataCatH;
-			case TestCategory.K:
-				return getTestDataCatK;
-			case TestCategory.CM:
-			case TestCategory.C1M:
-			case TestCategory.CEM:
-			case TestCategory.C1EM:
-			case TestCategory.DM:
-			case TestCategory.D1M:
-			case TestCategory.DEM:
-			case TestCategory.D1EM:
-				return getTestDataCatManoeuvre;
-			case TestCategory.CCPC:
-			case TestCategory.DCPC:
-				return getTestDataCatCPC;
-			default:
-				throw new Error(TestDataByCategoryProvider.getTestDataByCategoryCodeErrMsg);
-		}
-	}
+  public getTestDataByCategoryCode(category: CategoryCode) {
+    switch (category) {
+      case TestCategory.ADI2:
+        return getTestDataCatADI2;
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return getTestDataCatAdI3;
+      case TestCategory.B:
+        return getTestDataCatB;
+      case TestCategory.C:
+        return getTestDataC;
+      case TestCategory.C1:
+        return getTestDataC1;
+      case TestCategory.CE:
+        return getTestDataCE;
+      case TestCategory.C1E:
+        return getTestDataC1E;
+      case TestCategory.D:
+        return getTestDataCatD;
+      case TestCategory.D1:
+        return getTestDataCatD1;
+      case TestCategory.DE:
+        return getTestDataCatDE;
+      case TestCategory.D1E:
+        return getTestDataCatD1E;
+      case TestCategory.F:
+        return getTestDataCatF;
+      case TestCategory.G:
+        return getTestDataCatG;
+      case TestCategory.H:
+        return getTestDataCatH;
+      case TestCategory.K:
+        return getTestDataCatK;
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return getTestDataCatManoeuvre;
+      case TestCategory.CCPC:
+      case TestCategory.DCPC:
+        return getTestDataCatCPC;
+      default:
+        throw new Error(TestDataByCategoryProvider.getTestDataByCategoryCodeErrMsg);
+    }
+  }
 }

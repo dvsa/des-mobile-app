@@ -5,11 +5,11 @@ import { BikeCategoryDetail, BikeTestType } from './bike-category-detail.model';
 
 @Injectable()
 export class BikeCategoryDetailProvider {
-	public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
-		return bikeCategoryDetails.find((item) => item.categoryCode === category);
-	}
+  public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
+    return bikeCategoryDetails.find((item) => item.categoryCode === category);
+  }
 
-	public getAllDetailsByTestType(testType: BikeTestType): BikeCategoryDetail[] {
-		return bikeCategoryDetails.filter((bikeDetail) => bikeDetail.testType === testType);
-	}
+  public getAllDetailsByTestType(testType: BikeTestType): BikeCategoryDetail[] {
+    return bikeCategoryDetails.filter((bikeDetail) => bikeDetail.testType === testType);
+  }
 }

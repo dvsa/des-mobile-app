@@ -9,5 +9,5 @@ export const HighwayCodeSafetyAddSeriousFault = createAction('[HighwayCodeSafety
 export const HighwayCodeSafetyRemoveFault = createAction('[HighwayCodeSafety] Remove Fault');
 
 export const HighwayCodeSafetyAddComment = createAction('[HighwayCodeSafety] Add Comment', (comment: string) => ({
-	comment,
+  comment,
 }));

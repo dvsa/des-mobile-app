@@ -16,33 +16,33 @@ import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class CandidateLicenceAnalyticsEffects {
-	constructor(
-		public analytics: AnalyticsProvider,
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private appConfigProvider: AppConfigProvider
-	) {}
+  constructor(
+    public analytics: AnalyticsProvider,
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider
+  ) {}
 
-	candidateLicenceInfoViewDidEnter$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(CandidateLicenceViewDidEnter),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
-				)
-			),
-			filter(([, practiceMode]) =>
-				!practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-			),
-			switchMap(([, tests]: [ReturnType<typeof CandidateLicenceViewDidEnter>, TestsModel, boolean]) => {
-				// TODO - MES-9495 - remove old analytics
-				const screenName = formatAnalyticsText(AnalyticsScreenNames.CANDIDATE_LICENCE_INFO, tests);
-				this.analytics.setCurrentPage(screenName);
+  candidateLicenceInfoViewDidEnter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CandidateLicenceViewDidEnter),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof CandidateLicenceViewDidEnter>, TestsModel, boolean]) => {
+        // TODO - MES-9495 - remove old analytics
+        const screenName = formatAnalyticsText(AnalyticsScreenNames.CANDIDATE_LICENCE_INFO, tests);
+        this.analytics.setCurrentPage(screenName);
 
-				// GA4 Analytics
-				this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.CANDIDATE_LICENCE_INFO, tests));
-				return of(AnalyticRecorded());
-			})
-		)
-	);
+        // GA4 Analytics
+        this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.CANDIDATE_LICENCE_INFO, tests));
+        return of(AnalyticRecorded());
+      })
+    )
+  );
 }

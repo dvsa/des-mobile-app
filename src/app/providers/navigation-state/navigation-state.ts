@@ -4,13 +4,13 @@ import { DELEGATED_REKEY_SEARCH_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-name
 
 @Injectable()
 export class NavigationStateProvider {
-	constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
-	public isRekeySearch(): boolean {
-		return this.router.url.indexOf(REKEY_SEARCH_PAGE) >= 0;
-	}
+  public isRekeySearch(): boolean {
+    return this.router.url.indexOf(REKEY_SEARCH_PAGE) >= 0;
+  }
 
-	public isDelegatedExaminerRekeySearch(): boolean {
-		return this.router.url.indexOf(DELEGATED_REKEY_SEARCH_PAGE) >= 0;
-	}
+  public isDelegatedExaminerRekeySearch(): boolean {
+    return this.router.url.indexOf(DELEGATED_REKEY_SEARCH_PAGE) >= 0;
+  }
 }

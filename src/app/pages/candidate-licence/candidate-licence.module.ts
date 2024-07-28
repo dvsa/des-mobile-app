@@ -14,18 +14,18 @@ import { CandidateLicencePageRoutingModule } from './candidate-licence-routing.m
 import { CandidateLicencePage } from './candidate-licence.page';
 
 @NgModule({
-	declarations: [CandidateLicencePage],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		CandidateLicencePageRoutingModule,
-		CandidateLicenceComponentsModule,
-		ComponentsModule,
-		ReactiveFormsModule,
-		OfficeComponentsModule,
-		EffectsModule.forFeature([CandidateLicenceEffects, CandidateLicenceAnalyticsEffects]),
-		CandidateDetailsComponentsModule,
-	],
+  declarations: [CandidateLicencePage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    CandidateLicencePageRoutingModule,
+    CandidateLicenceComponentsModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    OfficeComponentsModule,
+    EffectsModule.forFeature([CandidateLicenceEffects, CandidateLicenceAnalyticsEffects]),
+    CandidateDetailsComponentsModule,
+  ],
 })
 export class CandidateLicencePageModule {}

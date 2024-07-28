@@ -12,35 +12,35 @@ import { testRequirementsCatCReducer } from './test-requirements/test-requiremen
 import { vehicleChecksCatCReducer } from './vehicle-checks/vehicle-checks.cat-c.reducer';
 
 export const initialState: CatC1EUniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	manoeuvres: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	vehicleChecks: {
-		tellMeQuestions: [],
-		showMeQuestions: [],
-	},
-	uncoupleRecouple: {},
+  dangerousFaults: {},
+  drivingFaults: {},
+  manoeuvres: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  vehicleChecks: {
+    tellMeQuestions: [],
+    showMeQuestions: [],
+  },
+  uncoupleRecouple: {},
 };
 
 export function testDataCatC1EReducer(
-	state: CatC1EUniqueTypes.TestData,
-	action: Action
+  state: CatC1EUniqueTypes.TestData,
+  action: Action
 ): Required<CatC1EUniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksCatCReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		manoeuvres: manoeuvresReducer,
-		testRequirements: testRequirementsCatCReducer,
-		uncoupleRecouple: uncoupleRecoupleReducer,
-	})(state as Required<CatC1EUniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksCatCReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    manoeuvres: manoeuvresReducer,
+    testRequirements: testRequirementsCatCReducer,
+    uncoupleRecouple: uncoupleRecoupleReducer,
+  })(state as Required<CatC1EUniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatC1EUniqueTypes.TestData>('testData');

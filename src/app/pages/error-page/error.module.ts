@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { ErrorPage } from './error';
 
 @NgModule({
-	declarations: [ErrorPage],
-	imports: [CommonModule, IonicModule, ComponentsModule],
-	exports: [ErrorPage],
+  declarations: [ErrorPage],
+  imports: [CommonModule, IonicModule, ComponentsModule],
+  exports: [ErrorPage],
 })
 export class ErrorPageModule {}

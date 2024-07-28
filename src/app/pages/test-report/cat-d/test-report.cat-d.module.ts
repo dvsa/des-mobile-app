@@ -17,18 +17,18 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatDPage } from './test-report.cat-d.page';
 
 @NgModule({
-	declarations: [TestReportCatDPage],
-	imports: [
-		TestReportCatDComponentsModule,
-		TestReportComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		ComponentsModule,
-		CommonModule,
-		IonicModule,
-		TestReportCatDPageRoutingModule,
-		ReverseDiagramModalComponentsModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatDPage],
+  imports: [
+    TestReportCatDComponentsModule,
+    TestReportComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    ComponentsModule,
+    CommonModule,
+    IonicModule,
+    TestReportCatDPageRoutingModule,
+    ReverseDiagramModalComponentsModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatDPageModule {}

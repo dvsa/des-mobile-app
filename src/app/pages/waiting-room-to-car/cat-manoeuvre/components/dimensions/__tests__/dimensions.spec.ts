@@ -4,21 +4,21 @@ import { DimensionsComponent } from '@pages/waiting-room-to-car/cat-manoeuvre/co
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('DimensionsComponent', () => {
-	let component: DimensionsComponent;
-	let fixture: ComponentFixture<DimensionsComponent>;
+  let component: DimensionsComponent;
+  let fixture: ComponentFixture<DimensionsComponent>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [DimensionsComponent],
-			imports: [IonicModule, PipesModule],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [DimensionsComponent],
+      imports: [IonicModule, PipesModule],
+    });
 
-		fixture = TestBed.createComponent(DimensionsComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	}));
+    fixture = TestBed.createComponent(DimensionsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

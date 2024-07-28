@@ -4,8 +4,8 @@ import * as examinerBookedActions from './examiner-booked.actions';
 export const initialState: number | string = null;
 
 export const examinerBookedReducer = createReducer(
-	initialState,
-	on(examinerBookedActions.SetExaminerBooked, (_, { examinerBooked }) => examinerBooked)
+  initialState,
+  on(examinerBookedActions.SetExaminerBooked, (_, { examinerBooked }) => examinerBooked)
 );
 
 export const getExaminerBooked = createFeatureSelector<number>('examinerBooked');

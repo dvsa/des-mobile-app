@@ -13,65 +13,65 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface ManoeuvresFaultState {
-	reverseRight: boolean;
-	reverseParkRoad: boolean;
-	reverseParkCarpark: boolean;
-	forwardPark: boolean;
-	reverseLeft?: boolean;
+  reverseRight: boolean;
+  reverseParkRoad: boolean;
+  reverseParkCarpark: boolean;
+  forwardPark: boolean;
+  reverseLeft?: boolean;
 }
 
 @Component({
-	selector: 'manoeuvres-popover',
-	templateUrl: 'manoeuvres-popover.html',
-	styleUrls: ['./manoeuvres-popover.scss'],
+  selector: 'manoeuvres-popover',
+  templateUrl: 'manoeuvres-popover.html',
+  styleUrls: ['./manoeuvres-popover.scss'],
 })
 export class ManoeuvresPopoverComponent {
-	manoeuvreTypes = ManoeuvreTypes;
-	manoeuvres$: Observable<CatBUniqueTypes.Manoeuvres>;
-	competencies = ManoeuvreCompetencies;
-	manoeuvresWithFaults$: Observable<ManoeuvresFaultState>;
+  manoeuvreTypes = ManoeuvreTypes;
+  manoeuvres$: Observable<CatBUniqueTypes.Manoeuvres>;
+  competencies = ManoeuvreCompetencies;
+  manoeuvresWithFaults$: Observable<ManoeuvresFaultState>;
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		this.manoeuvres$ = this.store$.pipe(
-			select(getTests),
-			select(getCurrentTest),
-			select(getTestData),
-			select(getManoeuvres)
-		);
-		this.manoeuvresWithFaults$ = this.manoeuvres$.pipe(
-			map((manoeuvres: CatBUniqueTypes.Manoeuvres) => ({
-				reverseRight: this.manoeuvreHasFaults(manoeuvres.reverseRight),
-				reverseParkRoad: this.manoeuvreHasFaults(manoeuvres.reverseParkRoad),
-				reverseParkCarpark: this.manoeuvreHasFaults(manoeuvres.reverseParkCarpark),
-				forwardPark: this.manoeuvreHasFaults(manoeuvres.forwardPark),
-			}))
-		);
-	}
+  ngOnInit(): void {
+    this.manoeuvres$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+      select(getTestData),
+      select(getManoeuvres)
+    );
+    this.manoeuvresWithFaults$ = this.manoeuvres$.pipe(
+      map((manoeuvres: CatBUniqueTypes.Manoeuvres) => ({
+        reverseRight: this.manoeuvreHasFaults(manoeuvres.reverseRight),
+        reverseParkRoad: this.manoeuvreHasFaults(manoeuvres.reverseParkRoad),
+        reverseParkCarpark: this.manoeuvreHasFaults(manoeuvres.reverseParkCarpark),
+        forwardPark: this.manoeuvreHasFaults(manoeuvres.forwardPark),
+      }))
+    );
+  }
 
-	recordManoeuvreSelection(manoeuvre: ManoeuvreTypes): void {
-		this.store$.dispatch(RecordManoeuvresSelection(manoeuvre));
-	}
+  recordManoeuvreSelection(manoeuvre: ManoeuvreTypes): void {
+    this.store$.dispatch(RecordManoeuvresSelection(manoeuvre));
+  }
 
-	/**
-	 * @param  {string} manoeuvre
-	 * @returns Observable<boolean>
-	 * Called by the manoeuvre input elements in manoeuvres-popover.html
-	 * Tells the input whether it needs to be disabled based on whether
-	 * or not another manoeuvre has a fault recorded
-	 */
-	shouldManoeuvreDisable(manoeuvre: Exclude<ManoeuvreTypes, ManoeuvreTypes.reverseManoeuvre>): Observable<boolean> {
-		return this.manoeuvresWithFaults$.pipe(
-			map((manoeuvresWithFaults: ManoeuvresFaultState) => {
-				const { [manoeuvre]: manoeuvreToOmit, ...otherManoeuvres } = manoeuvresWithFaults;
-				return some(otherManoeuvres, (value: boolean) => value);
-			})
-		);
-	}
+  /**
+   * @param  {string} manoeuvre
+   * @returns Observable<boolean>
+   * Called by the manoeuvre input elements in manoeuvres-popover.html
+   * Tells the input whether it needs to be disabled based on whether
+   * or not another manoeuvre has a fault recorded
+   */
+  shouldManoeuvreDisable(manoeuvre: Exclude<ManoeuvreTypes, ManoeuvreTypes.reverseManoeuvre>): Observable<boolean> {
+    return this.manoeuvresWithFaults$.pipe(
+      map((manoeuvresWithFaults: ManoeuvresFaultState) => {
+        const { [manoeuvre]: manoeuvreToOmit, ...otherManoeuvres } = manoeuvresWithFaults;
+        return some(otherManoeuvres, (value: boolean) => value);
+      })
+    );
+  }
 
-	manoeuvreHasFaults = (manoeuvre): boolean =>
-		manoeuvre && (manoeuvre.controlFault != null || manoeuvre.observationFault != null);
+  manoeuvreHasFaults = (manoeuvre): boolean =>
+    manoeuvre && (manoeuvre.controlFault != null || manoeuvre.observationFault != null);
 
-	getId = (manoeuvre: ManoeuvreTypes, competency: ManoeuvreCompetencies) => `${manoeuvre}-${competency}`;
+  getId = (manoeuvre: ManoeuvreTypes, competency: ManoeuvreCompetencies) => `${manoeuvre}-${competency}`;
 }

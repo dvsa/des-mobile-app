@@ -14,30 +14,30 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 
 @NgModule({
-	declarations: [
-		StudentComponent,
-		AssessmentAnswerComponent,
-		LessonThemeComponent,
-		TestReportAssessmentAnswer,
-		TestReportAssessmentCard,
-	],
-	imports: [
-		CommonModule,
-		ComponentsModule,
-		TestReportComponentsModule,
-		IonicModule,
-		DirectivesModule,
-		ReactiveFormsModule,
-		FormsModule,
-		PipesModule,
-		Code4ModalModule,
-	],
-	exports: [
-		StudentComponent,
-		AssessmentAnswerComponent,
-		LessonThemeComponent,
-		TestReportAssessmentAnswer,
-		TestReportAssessmentCard,
-	],
+  declarations: [
+    StudentComponent,
+    AssessmentAnswerComponent,
+    LessonThemeComponent,
+    TestReportAssessmentAnswer,
+    TestReportAssessmentCard,
+  ],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    TestReportComponentsModule,
+    IonicModule,
+    DirectivesModule,
+    ReactiveFormsModule,
+    FormsModule,
+    PipesModule,
+    Code4ModalModule,
+  ],
+  exports: [
+    StudentComponent,
+    AssessmentAnswerComponent,
+    LessonThemeComponent,
+    TestReportAssessmentAnswer,
+    TestReportAssessmentCard,
+  ],
 })
 export class TestReportCatADIPart3ComponentsModule {}

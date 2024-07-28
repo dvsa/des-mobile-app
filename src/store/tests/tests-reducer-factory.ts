@@ -41,65 +41,65 @@ import { testsCatHReducer } from './tests.cat-h.reducer';
 import { testsCatKReducer } from './tests.cat-k.reducer';
 
 export function testsReducerFactory(
-	category: TestCategory | null,
-	action: Action,
-	state: TestResultSchemasUnion
+  category: TestCategory | null,
+  action: Action,
+  state: TestResultSchemasUnion
 ): TestResultSchemasUnion {
-	switch (category) {
-		case TestCategory.ADI2:
-			return testsCatADIPart2Reducer(action, state as Required<CatADI2UniqueTypes.TestResult>);
-		case TestCategory.ADI3:
-		case TestCategory.SC:
-			return testsCatADIPart3Reducer(action, state as Required<TestResultCatADI3Schema>);
-		case TestCategory.B:
-			return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
-		case TestCategory.C:
-			return testsCatCReducer(action, state as Required<CatCUniqueTypes.TestResult>);
-		case TestCategory.CE:
-			return testsCatCEReducer(action, state as Required<CatCEUniqueTypes.TestResult>);
-		case TestCategory.C1:
-			return testsCatC1Reducer(action, state as Required<CatC1UniqueTypes.TestResult>);
-		case TestCategory.C1E:
-			return testsCatC1EReducer(action, state as Required<CatC1EUniqueTypes.TestResult>);
-		case TestCategory.CCPC:
-		case TestCategory.DCPC:
-			return testsCatCPCReducer(action, state as Required<TestResultCatCPCSchema>);
-		case TestCategory.D:
-			return testsCatDReducer(action, state as Required<CatDUniqueTypes.TestResult>);
-		case TestCategory.DE:
-			return testsCatDEReducer(action, state as Required<CatDEUniqueTypes.TestResult>);
-		case TestCategory.D1:
-			return testsCatD1Reducer(action, state as Required<CatD1UniqueTypes.TestResult>);
-		case TestCategory.D1E:
-			return testsCatD1EReducer(action, state as Required<CatD1EUniqueTypes.TestResult>);
-		case TestCategory.EUAMM1:
-		case TestCategory.EUA1M1:
-		case TestCategory.EUA2M1:
-		case TestCategory.EUAM1:
-			return testsCatAMod1Reducer(action, state as Required<TestResultCatAM1Schema>);
-		case TestCategory.EUAMM2:
-		case TestCategory.EUA1M2:
-		case TestCategory.EUA2M2:
-		case TestCategory.EUAM2:
-			return testsCatAMod2Reducer(action, state as Required<TestResultCatAM2Schema>);
-		case TestCategory.F:
-			return testsCatFReducer(action, state as Required<CatFUniqueTypes.TestResult>);
-		case TestCategory.G:
-			return testsCatGReducer(action, state as Required<CatGUniqueTypes.TestResult>);
-		case TestCategory.H:
-			return testsCatHReducer(action, state as Required<CatHUniqueTypes.TestResult>);
-		case TestCategory.K:
-			return testsCatKReducer(action, state as Required<CatKUniqueTypes.TestResult>);
-		case TestCategory.CM:
-		case TestCategory.C1M:
-		case TestCategory.C1EM:
-		case TestCategory.CEM:
-		case TestCategory.DM:
-		case TestCategory.D1M:
-		case TestCategory.D1EM:
-		case TestCategory.DEM:
-			return testsCatManoeuvreReducer(action, state as Required<TestResultManoeuvresUnion>);
-		default:
-			return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
-	}
+  switch (category) {
+    case TestCategory.ADI2:
+      return testsCatADIPart2Reducer(action, state as Required<CatADI2UniqueTypes.TestResult>);
+    case TestCategory.ADI3:
+    case TestCategory.SC:
+      return testsCatADIPart3Reducer(action, state as Required<TestResultCatADI3Schema>);
+    case TestCategory.B:
+      return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
+    case TestCategory.C:
+      return testsCatCReducer(action, state as Required<CatCUniqueTypes.TestResult>);
+    case TestCategory.CE:
+      return testsCatCEReducer(action, state as Required<CatCEUniqueTypes.TestResult>);
+    case TestCategory.C1:
+      return testsCatC1Reducer(action, state as Required<CatC1UniqueTypes.TestResult>);
+    case TestCategory.C1E:
+      return testsCatC1EReducer(action, state as Required<CatC1EUniqueTypes.TestResult>);
+    case TestCategory.CCPC:
+    case TestCategory.DCPC:
+      return testsCatCPCReducer(action, state as Required<TestResultCatCPCSchema>);
+    case TestCategory.D:
+      return testsCatDReducer(action, state as Required<CatDUniqueTypes.TestResult>);
+    case TestCategory.DE:
+      return testsCatDEReducer(action, state as Required<CatDEUniqueTypes.TestResult>);
+    case TestCategory.D1:
+      return testsCatD1Reducer(action, state as Required<CatD1UniqueTypes.TestResult>);
+    case TestCategory.D1E:
+      return testsCatD1EReducer(action, state as Required<CatD1EUniqueTypes.TestResult>);
+    case TestCategory.EUAMM1:
+    case TestCategory.EUA1M1:
+    case TestCategory.EUA2M1:
+    case TestCategory.EUAM1:
+      return testsCatAMod1Reducer(action, state as Required<TestResultCatAM1Schema>);
+    case TestCategory.EUAMM2:
+    case TestCategory.EUA1M2:
+    case TestCategory.EUA2M2:
+    case TestCategory.EUAM2:
+      return testsCatAMod2Reducer(action, state as Required<TestResultCatAM2Schema>);
+    case TestCategory.F:
+      return testsCatFReducer(action, state as Required<CatFUniqueTypes.TestResult>);
+    case TestCategory.G:
+      return testsCatGReducer(action, state as Required<CatGUniqueTypes.TestResult>);
+    case TestCategory.H:
+      return testsCatHReducer(action, state as Required<CatHUniqueTypes.TestResult>);
+    case TestCategory.K:
+      return testsCatKReducer(action, state as Required<CatKUniqueTypes.TestResult>);
+    case TestCategory.CM:
+    case TestCategory.C1M:
+    case TestCategory.C1EM:
+    case TestCategory.CEM:
+    case TestCategory.DM:
+    case TestCategory.D1M:
+    case TestCategory.D1EM:
+    case TestCategory.DEM:
+      return testsCatManoeuvreReducer(action, state as Required<TestResultManoeuvresUnion>);
+    default:
+      return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
+  }
 }

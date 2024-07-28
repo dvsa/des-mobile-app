@@ -24,11 +24,11 @@ import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal
 import { LegalRequirementsModal } from '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
 import { SpecialLegalRequirementModal } from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
 import {
-	CalculateTestResult,
-	ResetFaultMode,
-	ReturnToTest,
-	TerminateTestFromTestReport,
-	TestReportViewDidEnter,
+  CalculateTestResult,
+  ResetFaultMode,
+  ReturnToTest,
+  TerminateTestFromTestReport,
+  TestReportViewDidEnter,
 } from '@pages/test-report/test-report.actions';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { OverlayCallback } from '@pages/test-report/test-report.model';
@@ -58,274 +58,274 @@ import { Competencies, ExaminerActions, LegalRequirements } from '@store/tests/t
 import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonTestReportPageState {
-	candidateUntitledName$: Observable<string>;
-	isRemoveFaultMode$: Observable<boolean>;
-	isSeriousMode$: Observable<boolean>;
-	isDangerousMode$: Observable<boolean>;
-	manoeuvres$: Observable<boolean>;
-	testData$: Observable<TestDataUnion>;
-	testRequirements$: Observable<TestRequirementsUnion>;
-	category$: Observable<CategoryCode>;
-	delegatedTest$: Observable<boolean>;
+  candidateUntitledName$: Observable<string>;
+  isRemoveFaultMode$: Observable<boolean>;
+  isSeriousMode$: Observable<boolean>;
+  isDangerousMode$: Observable<boolean>;
+  manoeuvres$: Observable<boolean>;
+  testData$: Observable<TestDataUnion>;
+  testRequirements$: Observable<TestRequirementsUnion>;
+  category$: Observable<CategoryCode>;
+  delegatedTest$: Observable<boolean>;
 }
 
 export const trDestroy$ = new Subject<{}>();
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
-	public modalController = this.injector.get(ModalController);
-	protected testReportValidatorProvider = this.injector.get(TestReportValidatorProvider);
-	protected routeByCategory = this.injector.get(RouteByCategoryProvider);
+  public modalController = this.injector.get(ModalController);
+  protected testReportValidatorProvider = this.injector.get(TestReportValidatorProvider);
+  protected routeByCategory = this.injector.get(RouteByCategoryProvider);
 
-	commonPageState: CommonTestReportPageState;
-	subscription: Subscription;
-	competencies = Competencies;
-	legalRequirements = LegalRequirements;
-	eta = ExaminerActions;
-	displayOverlay: boolean;
+  commonPageState: CommonTestReportPageState;
+  subscription: Subscription;
+  competencies = Competencies;
+  legalRequirements = LegalRequirements;
+  eta = ExaminerActions;
+  displayOverlay: boolean;
 
-	isRemoveFaultMode = false;
-	isSeriousMode = false;
-	isDangerousMode = false;
-	manoeuvresCompleted = false;
-	delegatedTest = false;
-	isTestReportValid = false;
-	isEtaValid = true;
-	testCategory: TestCategory;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
+  manoeuvresCompleted = false;
+  delegatedTest = false;
+  isTestReportValid = false;
+  isEtaValid = true;
+  testCategory: TestCategory;
 
-	missingLegalRequirements: legalRequirementsLabels[] = [];
-	modal: HTMLIonModalElement;
+  missingLegalRequirements: legalRequirementsLabels[] = [];
+  modal: HTMLIonModalElement;
 
-	protected constructor(
-		injector: Injector,
-		@Inject(false) public loginRequired = false
-	) {
-		super(injector, loginRequired);
-	}
+  protected constructor(
+    injector: Injector,
+    @Inject(false) public loginRequired = false
+  ) {
+    super(injector, loginRequired);
+  }
 
-	getCallback(): OverlayCallback {
-		return {
-			callbackMethod: () => {
-				this.toggleReportOverlay();
-			},
-		};
-	}
+  getCallback(): OverlayCallback {
+    return {
+      callbackMethod: () => {
+        this.toggleReportOverlay();
+      },
+    };
+  }
 
-	onInitialisation(): void {
-		super.ngOnInit();
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+  onInitialisation(): void {
+    super.ngOnInit();
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.commonPageState = {
-			candidateUntitledName$: currentTest$.pipe(
-				select(getJournalData),
-				select(getCandidate),
-				select(getUntitledCandidateName)
-			),
-			isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-			isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-			isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-			testData$: currentTest$.pipe(select(getTestData)),
-			manoeuvres$: currentTest$.pipe(
-				select(getTestData),
-				withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-				map(([testData, category]) => this.hasManoeuvreBeenCompleted(testData, category))
-			),
-			testRequirements$: currentTest$.pipe(
-				select(getTestData),
-				withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-				map(([testData, category]) => this.getTestRequirements(testData, category))
-			),
-			category$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => category as TestCategory)
-			),
-			delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
-		};
-	}
+    this.commonPageState = {
+      candidateUntitledName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getUntitledCandidateName)
+      ),
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
+      testData$: currentTest$.pipe(select(getTestData)),
+      manoeuvres$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
+        map(([testData, category]) => this.hasManoeuvreBeenCompleted(testData, category))
+      ),
+      testRequirements$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
+        map(([testData, category]) => this.getTestRequirements(testData, category))
+      ),
+      category$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => category as TestCategory)
+      ),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
+    };
+  }
 
-	getTestRequirements(testData: TestDataUnion, category: CategoryCode): TestRequirementsUnion {
-		switch (category) {
-			case TestCategory.B:
-				return getTestRequirementsCatB(testData) as CatBUniqueTypes.TestRequirements;
-			case TestCategory.C:
-			case TestCategory.C1:
-			case TestCategory.C1E:
-				return getTestRequirementsCatC(testData) as CatCUniqueTypes.TestRequirements;
-			case TestCategory.D:
-			case TestCategory.D1:
-			case TestCategory.DE:
-			case TestCategory.D1E:
-				return getTestRequirementsCatD(testData) as CatDUniqueTypes.TestRequirements;
-			case TestCategory.F:
-			case TestCategory.G:
-			case TestCategory.H:
-			case TestCategory.K:
-				return getTestRequirementsCatHome(testData) as CatHUniqueTypes.TestRequirements;
-			default:
-				return getTestRequirementsCatB(testData) as CatBUniqueTypes.TestRequirements;
-		}
-	}
+  getTestRequirements(testData: TestDataUnion, category: CategoryCode): TestRequirementsUnion {
+    switch (category) {
+      case TestCategory.B:
+        return getTestRequirementsCatB(testData) as CatBUniqueTypes.TestRequirements;
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.C1E:
+        return getTestRequirementsCatC(testData) as CatCUniqueTypes.TestRequirements;
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return getTestRequirementsCatD(testData) as CatDUniqueTypes.TestRequirements;
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return getTestRequirementsCatHome(testData) as CatHUniqueTypes.TestRequirements;
+      default:
+        return getTestRequirementsCatB(testData) as CatBUniqueTypes.TestRequirements;
+    }
+  }
 
-	hasManoeuvreBeenCompleted(data: TestDataUnion, category: CategoryCode) {
-		switch (category) {
-			case TestCategory.ADI2:
-				return hasManoeuvreBeenCompletedCatADIPart2((data as CatADI2UniqueTypes.TestData)?.manoeuvres);
-			case TestCategory.B:
-				return hasManoeuvreBeenCompletedCatB(data as CatBUniqueTypes.TestData);
-			case TestCategory.C:
-			case TestCategory.C1:
-			case TestCategory.C1E:
-				return hasManoeuvreBeenCompletedCatC(data as CatCUniqueTypes.TestData);
-			case TestCategory.D:
-			case TestCategory.D1:
-			case TestCategory.DE:
-			case TestCategory.D1E:
-				return hasManoeuvreBeenCompletedCatD(data as CatDUniqueTypes.TestData);
-			case TestCategory.F:
-			case TestCategory.G:
-			case TestCategory.H:
-			case TestCategory.K:
-				return hasManoeuvreBeenCompletedCatHomeTest(data as CatHUniqueTypes.TestData);
-			default:
-				return null;
-		}
-	}
+  hasManoeuvreBeenCompleted(data: TestDataUnion, category: CategoryCode) {
+    switch (category) {
+      case TestCategory.ADI2:
+        return hasManoeuvreBeenCompletedCatADIPart2((data as CatADI2UniqueTypes.TestData)?.manoeuvres);
+      case TestCategory.B:
+        return hasManoeuvreBeenCompletedCatB(data as CatBUniqueTypes.TestData);
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.C1E:
+        return hasManoeuvreBeenCompletedCatC(data as CatCUniqueTypes.TestData);
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return hasManoeuvreBeenCompletedCatD(data as CatDUniqueTypes.TestData);
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return hasManoeuvreBeenCompletedCatHomeTest(data as CatHUniqueTypes.TestData);
+      default:
+        return null;
+    }
+  }
 
-	async ionViewWillEnter(): Promise<void> {
-		// ionViewWillEnter lifecycle event used to ensure screen orientation is correct before page transition
-		if (super.isIos() && this.isPracticeMode) {
-			await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
-			await Insomnia.keepAwake();
-			await StatusBar.hide();
-		}
-	}
+  async ionViewWillEnter(): Promise<void> {
+    // ionViewWillEnter lifecycle event used to ensure screen orientation is correct before page transition
+    if (super.isIos() && this.isPracticeMode) {
+      await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
+      await Insomnia.keepAwake();
+      await StatusBar.hide();
+    }
+  }
 
-	ionViewDidEnter(): void {
-		// it is possible that we come back to the page from the terminate screen
-		// so need to re-establish the subscription if it doesn't exists or is closed
-		if (!this.subscription || this.subscription.closed) {
-			this.setupSubscription();
-		}
-		this.store$.dispatch(TestReportViewDidEnter());
-	}
+  ionViewDidEnter(): void {
+    // it is possible that we come back to the page from the terminate screen
+    // so need to re-establish the subscription if it doesn't exists or is closed
+    if (!this.subscription || this.subscription.closed) {
+      this.setupSubscription();
+    }
+    this.store$.dispatch(TestReportViewDidEnter());
+  }
 
-	async ionViewWillLeave(): Promise<void> {
-		if (super.isIos() && this.isPracticeMode) {
-			await StatusBar.show();
-		}
-		this.store$.dispatch(ResetFaultMode());
-	}
+  async ionViewWillLeave(): Promise<void> {
+    if (super.isIos() && this.isPracticeMode) {
+      await StatusBar.show();
+    }
+    this.store$.dispatch(ResetFaultMode());
+  }
 
-	toggleReportOverlay(): void {
-		this.displayOverlay = !this.displayOverlay;
-	}
+  toggleReportOverlay(): void {
+    this.displayOverlay = !this.displayOverlay;
+  }
 
-	setupSubscription() {
-		const {
-			candidateUntitledName$,
-			isRemoveFaultMode$,
-			isSeriousMode$,
-			isDangerousMode$,
-			manoeuvres$,
-			testData$,
-			delegatedTest$,
-			category$,
-		} = this.commonPageState;
+  setupSubscription() {
+    const {
+      candidateUntitledName$,
+      isRemoveFaultMode$,
+      isSeriousMode$,
+      isDangerousMode$,
+      manoeuvres$,
+      testData$,
+      delegatedTest$,
+      category$,
+    } = this.commonPageState;
 
-		this.subscription = merge(
-			candidateUntitledName$,
-			isRemoveFaultMode$.pipe(map((result) => (this.isRemoveFaultMode = result))),
-			isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
-			isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
-			manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
-			delegatedTest$.pipe(map((result) => (this.delegatedTest = result))),
-			testData$.pipe(
-				withLatestFrom(category$),
-				map(([data, category]) => {
-					this.testCategory = category as TestCategory;
-					this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
-						data,
-						category as TestCategory,
-						this.delegatedTest
-					);
-					this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
-						data,
-						category as TestCategory,
-						this.delegatedTest
-					);
-					this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
-				})
-			)
-		).subscribe();
-	}
+    this.subscription = merge(
+      candidateUntitledName$,
+      isRemoveFaultMode$.pipe(map((result) => (this.isRemoveFaultMode = result))),
+      isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
+      isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
+      manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
+      delegatedTest$.pipe(map((result) => (this.delegatedTest = result))),
+      testData$.pipe(
+        withLatestFrom(category$),
+        map(([data, category]) => {
+          this.testCategory = category as TestCategory;
+          this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
+            data,
+            category as TestCategory,
+            this.delegatedTest
+          );
+          this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
+            data,
+            category as TestCategory,
+            this.delegatedTest
+          );
+          this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
+        })
+      )
+    ).subscribe();
+  }
 
-	cancelSubscription(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  cancelSubscription(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	onEndTestClick = async (): Promise<void> => {
-		const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
-		if (!this.isTestReportValid) {
-			this.modal = await this.modalController.create({
-				component: LegalRequirementsModal,
-				componentProps: {
-					legalRequirements: this.missingLegalRequirements,
-					isDelegated: this.delegatedTest,
-				},
-				cssClass: modalCssClass,
-			});
-		} else if (!this.isEtaValid) {
-			this.modal = await this.modalController.create({
-				component: EtaInvalidModal,
-				cssClass: modalCssClass,
-			});
-		} else if (
-			!this.manoeuvresCompleted &&
-			isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
-			this.testCategory !== TestCategory.K
-		) {
-			this.modal = await this.modalController.create({
-				component: SpecialLegalRequirementModal,
-				cssClass: modalCssClass,
-			});
-		} else {
-			this.modal = await this.modalController.create({
-				component: EndTestModal,
-				cssClass: modalCssClass,
-			});
-		}
+  onEndTestClick = async (): Promise<void> => {
+    const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
+    if (!this.isTestReportValid) {
+      this.modal = await this.modalController.create({
+        component: LegalRequirementsModal,
+        componentProps: {
+          legalRequirements: this.missingLegalRequirements,
+          isDelegated: this.delegatedTest,
+        },
+        cssClass: modalCssClass,
+      });
+    } else if (!this.isEtaValid) {
+      this.modal = await this.modalController.create({
+        component: EtaInvalidModal,
+        cssClass: modalCssClass,
+      });
+    } else if (
+      !this.manoeuvresCompleted &&
+      isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
+      this.testCategory !== TestCategory.K
+    ) {
+      this.modal = await this.modalController.create({
+        component: SpecialLegalRequirementModal,
+        cssClass: modalCssClass,
+      });
+    } else {
+      this.modal = await this.modalController.create({
+        component: EndTestModal,
+        cssClass: modalCssClass,
+      });
+    }
 
-		await this.modal.present();
-		const { data } = await this.modal.onWillDismiss();
-		if (data) {
-			await this.onModalDismiss(data);
-		}
-	};
+    await this.modal.present();
+    const { data } = await this.modal.onWillDismiss();
+    if (data) {
+      await this.onModalDismiss(data);
+    }
+  };
 
-	onModalDismiss = async (event: ModalEvent): Promise<void> => {
-		const nextPage: string = this.delegatedTest
-			? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory)
-			: TestFlowPageNames.DEBRIEF_PAGE;
+  onModalDismiss = async (event: ModalEvent): Promise<void> => {
+    const nextPage: string = this.delegatedTest
+      ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory)
+      : TestFlowPageNames.DEBRIEF_PAGE;
 
-		switch (event) {
-			case ModalEvent.CONTINUE:
-				this.store$.dispatch(CalculateTestResult());
-				await this.router.navigate([nextPage]);
-				break;
-			case ModalEvent.TERMINATE:
-				this.store$.dispatch(TerminateTestFromTestReport());
-				await this.router.navigate([nextPage]);
-				break;
-			case ModalEvent.END_WITH_ACTIVITY_CODE_4:
-				this.store$.dispatch(SetActivityCode('4'));
-				await this.router.navigate([nextPage]);
-				break;
-			case ModalEvent.CANCEL:
-				this.store$.dispatch(ReturnToTest());
-				break;
-			default:
-				break;
-		}
-	};
+    switch (event) {
+      case ModalEvent.CONTINUE:
+        this.store$.dispatch(CalculateTestResult());
+        await this.router.navigate([nextPage]);
+        break;
+      case ModalEvent.TERMINATE:
+        this.store$.dispatch(TerminateTestFromTestReport());
+        await this.router.navigate([nextPage]);
+        break;
+      case ModalEvent.END_WITH_ACTIVITY_CODE_4:
+        this.store$.dispatch(SetActivityCode('4'));
+        await this.router.navigate([nextPage]);
+        break;
+      case ModalEvent.CANCEL:
+        this.store$.dispatch(ReturnToTest());
+        break;
+      default:
+        break;
+    }
+  };
 }

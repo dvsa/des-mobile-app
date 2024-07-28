@@ -6,51 +6,51 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { CircuitType } from '@shared/models/circuit-type';
 
 @Component({
-	selector: 'circuit',
-	templateUrl: 'circuit.html',
+  selector: 'circuit',
+  templateUrl: 'circuit.html',
 })
 export class CircuitComponent implements OnChanges {
-	@Input()
-	display: boolean;
+  @Input()
+  display: boolean;
 
-	@Input()
-	outcome: string;
+  @Input()
+  outcome: string;
 
-	@Input()
-	circuit: Circuit;
+  @Input()
+  circuit: Circuit;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Output()
-	circuitChange = new EventEmitter<Circuit>();
+  @Output()
+  circuitChange = new EventEmitter<Circuit>();
 
-	formControl: UntypedFormControl;
-	formField = 'circuit';
-	constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
+  formControl: UntypedFormControl;
+  formField = 'circuit';
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
-	ngOnChanges(): void {
-		if (!this.formControl) {
-			this.formControl = new UntypedFormControl(CircuitType.Left);
-			this.formGroup.addControl(this.formField, this.formControl);
-		}
-		const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, this.formField);
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl(CircuitType.Left);
+      this.formGroup.addControl(this.formField, this.formControl);
+    }
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, this.formField);
 
-		if (visibilityType === VisibilityType.NotVisible) {
-			this.formGroup.get(this.formField).clearValidators();
-		} else {
-			this.formGroup.get(this.formField).setValidators([Validators.required]);
-		}
-		this.formControl.patchValue(this.circuit);
-	}
+    if (visibilityType === VisibilityType.NotVisible) {
+      this.formGroup.get(this.formField).clearValidators();
+    } else {
+      this.formGroup.get(this.formField).setValidators([Validators.required]);
+    }
+    this.formControl.patchValue(this.circuit);
+  }
 
-	circuitChanged(circuit: Circuit): void {
-		if (this.formControl.valid) {
-			this.circuitChange.emit(circuit);
-		}
-	}
+  circuitChanged(circuit: Circuit): void {
+    if (this.formControl.valid) {
+      this.circuitChange.emit(circuit);
+    }
+  }
 
-	get invalid(): boolean {
-		return !this.formControl.valid && this.formControl.dirty;
-	}
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 }

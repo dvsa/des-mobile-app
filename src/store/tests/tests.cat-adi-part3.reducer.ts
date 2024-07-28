@@ -24,31 +24,31 @@ import { rekeyReducer } from './rekey/rekey.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 
 export function testsCatADIPart3Reducer(
-	action: Action,
-	state: TestResultCatADI3Schema
+  action: Action,
+  state: TestResultCatADI3Schema
 ): Required<TestResultCatADI3Schema> {
-	return combineReducers({
-		accompaniment: accompanimentCatADI3Reducer,
-		activityCode: activityCodeReducer,
-		appVersion: appVersionReducer,
-		category: categoryReducer,
-		changeMarker: changeMarkerReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		delegatedTest: delegatedTestReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		journalData: journalDataCatADIPart2Reducer,
-		passCompletion: passCompletionCatADI3Reducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		preTestDeclarations: preTestDeclarationsCatADI3Reducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		version: schemaVersionReducer,
-		testData: testDataCatADI3Reducer,
-		testSummary: testSummaryADIPart3Reducer,
-		trainerDetails: trainerDetailsCatADIPart3Reducer,
-		vehicleDetails: vehicleDetailsCatADIPart3Reducer,
-	})(state as Required<TestResultCatADI3Schema>, action);
+  return combineReducers({
+    accompaniment: accompanimentCatADI3Reducer,
+    activityCode: activityCodeReducer,
+    appVersion: appVersionReducer,
+    category: categoryReducer,
+    changeMarker: changeMarkerReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    delegatedTest: delegatedTestReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    journalData: journalDataCatADIPart2Reducer,
+    passCompletion: passCompletionCatADI3Reducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    preTestDeclarations: preTestDeclarationsCatADI3Reducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    version: schemaVersionReducer,
+    testData: testDataCatADI3Reducer,
+    testSummary: testSummaryADIPart3Reducer,
+    trainerDetails: trainerDetailsCatADIPart3Reducer,
+    vehicleDetails: vehicleDetailsCatADIPart3Reducer,
+  })(state as Required<TestResultCatADI3Schema>, action);
 }

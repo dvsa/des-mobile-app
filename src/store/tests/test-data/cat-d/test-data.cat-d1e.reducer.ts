@@ -14,40 +14,40 @@ import { testRequirementsCatDReducer } from './test-requirements/test-requiremen
 import { vehicleChecksCatDReducer } from './vehicle-checks/vehicle-checks.cat-d.reducer';
 
 export const initialState: CatD1EUniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	manoeuvres: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	vehicleChecks: {
-		tellMeQuestions: [],
-		showMeQuestions: [],
-	},
-	safetyQuestions: {
-		questions: [],
-	},
-	uncoupleRecouple: {},
+  dangerousFaults: {},
+  drivingFaults: {},
+  manoeuvres: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  vehicleChecks: {
+    tellMeQuestions: [],
+    showMeQuestions: [],
+  },
+  safetyQuestions: {
+    questions: [],
+  },
+  uncoupleRecouple: {},
 };
 
 export function testDataCatD1EReducer(
-	state: CatD1EUniqueTypes.TestData,
-	action: Action
+  state: CatD1EUniqueTypes.TestData,
+  action: Action
 ): Required<CatD1EUniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksCatDReducer,
-		safetyQuestions: safetyQuestionsCatDReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		manoeuvres: manoeuvresReducer,
-		testRequirements: testRequirementsCatDReducer,
-		uncoupleRecouple: uncoupleRecoupleReducer,
-		pcvDoorExercise: pcvDoorExerciseReducer,
-	})(state as Required<CatD1EUniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksCatDReducer,
+    safetyQuestions: safetyQuestionsCatDReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    manoeuvres: manoeuvresReducer,
+    testRequirements: testRequirementsCatDReducer,
+    uncoupleRecouple: uncoupleRecoupleReducer,
+    pcvDoorExercise: pcvDoorExerciseReducer,
+  })(state as Required<CatD1EUniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatD1EUniqueTypes.TestData>('testData');

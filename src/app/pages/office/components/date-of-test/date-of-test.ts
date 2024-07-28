@@ -6,101 +6,101 @@ import { PRESS_TIME_TO_ENABLE_EDIT, isValidStartDate } from '@shared/helpers/tes
 import moment from 'moment';
 
 @Component({
-	selector: 'date-of-test',
-	templateUrl: 'date-of-test.html',
-	styleUrls: ['date-of-test.scss'],
+  selector: 'date-of-test',
+  templateUrl: 'date-of-test.html',
+  styleUrls: ['date-of-test.scss'],
 })
 export class DateOfTest implements OnInit {
-	@Input()
-	dateOfTest: string;
+  @Input()
+  dateOfTest: string;
 
-	@Output()
-	dateOfTestChange = new EventEmitter<string>();
+  @Output()
+  dateOfTestChange = new EventEmitter<string>();
 
-	@Output()
-	setIsValidStartDateTime = new EventEmitter<boolean>();
+  @Output()
+  setIsValidStartDateTime = new EventEmitter<boolean>();
 
-	@ViewChild('editDateInput') inputEl: ElementRef;
+  @ViewChild('editDateInput') inputEl: ElementRef;
 
-	isPressed = false;
-	timeoutId: NodeJS.Timeout;
-	editMode = false;
-	isInvalid = false;
+  isPressed = false;
+  timeoutId: NodeJS.Timeout;
+  editMode = false;
+  isInvalid = false;
 
-	customTestDate = '';
-	maxDate: string;
-	minDate: string;
-	protected readonly DisplayType = DisplayType;
+  customTestDate = '';
+  maxDate: string;
+  minDate: string;
+  protected readonly DisplayType = DisplayType;
 
-	ngOnInit() {
-		this.customTestDate = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
-		this.maxDate = new DateTime().format('YYYY-MM-DD');
-		this.minDate = new DateTime().subtract(1, Duration.YEAR).format('YYYY-MM-DD');
-	}
+  ngOnInit() {
+    this.customTestDate = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    this.maxDate = new DateTime().format('YYYY-MM-DD');
+    this.minDate = new DateTime().subtract(1, Duration.YEAR).format('YYYY-MM-DD');
+  }
 
-	handleCancel(dateTime: IonDatetime): Promise<void> {
-		return dateTime.cancel(true).then(() => {
-			this.disableEdit();
-		});
-	}
+  handleCancel(dateTime: IonDatetime): Promise<void> {
+    return dateTime.cancel(true).then(() => {
+      this.disableEdit();
+    });
+  }
 
-	handleDone(dateTime: IonDatetime): Promise<void> {
-		return dateTime
-			.confirm(false)
-			.then(() => {
-				// if date not set, then close the modal on done click as fail safe before handling the data;
-				if (!dateTime.value) {
-					return dateTime.confirm(true);
-				}
+  handleDone(dateTime: IonDatetime): Promise<void> {
+    return dateTime
+      .confirm(false)
+      .then(() => {
+        // if date not set, then close the modal on done click as fail safe before handling the data;
+        if (!dateTime.value) {
+          return dateTime.confirm(true);
+        }
 
-				const currentDate: string = new DateTime().format('YYYY-MM-DD');
-				const selectedDate: string = DateTime.at(dateTime.value as string).format('YYYY-MM-DD');
+        const currentDate: string = new DateTime().format('YYYY-MM-DD');
+        const selectedDate: string = DateTime.at(dateTime.value as string).format('YYYY-MM-DD');
 
-				if (!isValidStartDate(selectedDate, currentDate)) {
-					this.isInvalid = true;
-					this.setIsValidStartDateTime.emit(false);
-					return;
-				}
+        if (!isValidStartDate(selectedDate, currentDate)) {
+          this.isInvalid = true;
+          this.setIsValidStartDateTime.emit(false);
+          return;
+        }
 
-				this.isInvalid = false;
-				this.customTestDate = dateTime.value as string;
-				this.setIsValidStartDateTime.emit(true);
-				this.dateOfTestChange.emit(this.customTestDate);
-				this.disableEdit();
-			})
-			.finally(() => dateTime.confirm(true));
-	}
+        this.isInvalid = false;
+        this.customTestDate = dateTime.value as string;
+        this.setIsValidStartDateTime.emit(true);
+        this.dateOfTestChange.emit(this.customTestDate);
+        this.disableEdit();
+      })
+      .finally(() => dateTime.confirm(true));
+  }
 
-	onTouchStart() {
-		this.isPressed = true;
+  onTouchStart() {
+    this.isPressed = true;
 
-		setTimeout(() => {
-			if (this.isPressed) {
-				this.editMode = true;
-			}
-		}, PRESS_TIME_TO_ENABLE_EDIT);
-	}
+    setTimeout(() => {
+      if (this.isPressed) {
+        this.editMode = true;
+      }
+    }, PRESS_TIME_TO_ENABLE_EDIT);
+  }
 
-	onTouchEnd() {
-		this.isPressed = false;
-	}
+  onTouchEnd() {
+    this.isPressed = false;
+  }
 
-	disableEdit = () => (this.editMode = false);
+  disableEdit = () => (this.editMode = false);
 
-	handleEvents(dateTime: IonDatetime, buttonType: string): Promise<void> {
-		switch (buttonType) {
-			case 'clear':
-				return dateTime.reset();
-			case 'done':
-				return dateTime.confirm().then(() => {
-					this.handleDone(dateTime).then(null);
-				});
-			case 'cancel':
-				return dateTime.cancel().then(() => {
-					this.handleCancel(dateTime).then(null);
-				});
-			default:
-				break;
-		}
-	}
+  handleEvents(dateTime: IonDatetime, buttonType: string): Promise<void> {
+    switch (buttonType) {
+      case 'clear':
+        return dateTime.reset();
+      case 'done':
+        return dateTime.confirm().then(() => {
+          this.handleDone(dateTime).then(null);
+        });
+      case 'cancel':
+        return dateTime.cancel().then(() => {
+          this.handleCancel(dateTime).then(null);
+        });
+      default:
+        break;
+    }
+  }
 }

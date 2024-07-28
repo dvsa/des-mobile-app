@@ -9,14 +9,14 @@ import { PostDebriefHoldingPageRoutingModule } from './post-debrief-holding-rout
 import { PostDebriefHoldingPage } from './post-debrief-holding.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		PostDebriefHoldingPageRoutingModule,
-		ComponentsModule,
-		EffectsModule.forFeature([PostDebriefHoldingAnalyticsEffects]),
-	],
-	declarations: [PostDebriefHoldingPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    PostDebriefHoldingPageRoutingModule,
+    ComponentsModule,
+    EffectsModule.forFeature([PostDebriefHoldingAnalyticsEffects]),
+  ],
+  declarations: [PostDebriefHoldingPage],
 })
 export class PostDebriefHoldingPageModule {}

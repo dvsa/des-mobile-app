@@ -8,8 +8,8 @@ import { DashboardItemComponent } from '@pages/test-report-dashboard/components/
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
 
 @NgModule({
-	declarations: [DashboardItemComponent, ReviewFeedback],
-	imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
-	exports: [DashboardItemComponent, ReviewFeedback],
+  declarations: [DashboardItemComponent, ReviewFeedback],
+  imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
+  exports: [DashboardItemComponent, ReviewFeedback],
 })
 export class TestReportCatADIPart3ComponentsModule {}

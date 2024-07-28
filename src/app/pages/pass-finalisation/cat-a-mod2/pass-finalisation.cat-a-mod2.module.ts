@@ -14,18 +14,18 @@ import { PassFinalisationCatAMod2PageRoutingModule } from './pass-finalisation.c
 import { PassFinalisationCatAMod2Page } from './pass-finalisation.cat-a-mod2.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		PassFinalisationCatAMod2PageRoutingModule,
-		ComponentsModule,
-		ReactiveFormsModule,
-		TestFinalisationComponentsModule,
-		PassFinalisationComponentsModule,
-		EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
-	],
-	declarations: [PassFinalisationCatAMod2Page],
-	providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    PassFinalisationCatAMod2PageRoutingModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    TestFinalisationComponentsModule,
+    PassFinalisationComponentsModule,
+    EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+  ],
+  declarations: [PassFinalisationCatAMod2Page],
+  providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })
 export class PassFinalisationCatAMod2PageModule {}

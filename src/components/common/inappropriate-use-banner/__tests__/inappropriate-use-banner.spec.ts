@@ -3,21 +3,21 @@ import { InappropriateUseBannerComponent } from '@components/common/inappropriat
 import { IonicModule } from '@ionic/angular';
 
 describe('InappropriateUseBannerComponent', () => {
-	let component: InappropriateUseBannerComponent;
-	let fixture: ComponentFixture<InappropriateUseBannerComponent>;
+  let component: InappropriateUseBannerComponent;
+  let fixture: ComponentFixture<InappropriateUseBannerComponent>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [InappropriateUseBannerComponent],
-			imports: [IonicModule],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [InappropriateUseBannerComponent],
+      imports: [IonicModule],
+    });
 
-		fixture = TestBed.createComponent(InappropriateUseBannerComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	}));
+    fixture = TestBed.createComponent(InappropriateUseBannerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

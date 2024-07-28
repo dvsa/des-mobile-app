@@ -12,20 +12,20 @@ import { PrivacyNoticeComponent } from './privacy-notice/privacy-notice';
 import { ProvidedEmailComponent } from './provided-email/provided-email';
 
 @NgModule({
-	declarations: [
-		ProvidedEmailComponent,
-		NewEmailComponent,
-		PostalAddressComponent,
-		PrivacyNoticeComponent,
-		ValidCertificateComponent,
-	],
-	imports: [CommonModule, ComponentsModule, IonicModule, TranslateModule, ReactiveFormsModule, DirectivesModule],
-	exports: [
-		ProvidedEmailComponent,
-		NewEmailComponent,
-		PostalAddressComponent,
-		PrivacyNoticeComponent,
-		ValidCertificateComponent,
-	],
+  declarations: [
+    ProvidedEmailComponent,
+    NewEmailComponent,
+    PostalAddressComponent,
+    PrivacyNoticeComponent,
+    ValidCertificateComponent,
+  ],
+  imports: [CommonModule, ComponentsModule, IonicModule, TranslateModule, ReactiveFormsModule, DirectivesModule],
+  exports: [
+    ProvidedEmailComponent,
+    NewEmailComponent,
+    PostalAddressComponent,
+    PrivacyNoticeComponent,
+    ValidCertificateComponent,
+  ],
 })
 export class CommunicationComponentsModule {}

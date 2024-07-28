@@ -7,15 +7,15 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-	AnalyticsDimensionIndices,
-	AnalyticsEventCategories,
-	AnalyticsEvents,
-	AnalyticsScreenNames,
-	GoogleAnalyticsCustomDimension,
-	GoogleAnalyticsEventPrefix,
-	GoogleAnalyticsEvents,
-	GoogleAnalyticsEventsTitles,
-	GoogleAnalyticsEventsValues,
+  AnalyticsDimensionIndices,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEventPrefix,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -34,264 +34,264 @@ import * as backToOfficeActions from '../back-to-office.actions';
 import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effects';
 
 describe('BackToOfficeAnalyticsEffects', () => {
-	let effects: BackToOfficeAnalyticsEffects;
-	let analyticsProviderMock;
-	let actions$: ReplaySubject<any>;
-	let store$: Store<StoreModel>;
-	const screenName = AnalyticsScreenNames.BACK_TO_OFFICE;
-	const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.BACK_TO_OFFICE}`;
-	const mockApplication: Application = {
-		applicationId: 123456,
-		bookingSequence: 78,
-		checkDigit: 9,
-	};
+  let effects: BackToOfficeAnalyticsEffects;
+  let analyticsProviderMock;
+  let actions$: ReplaySubject<any>;
+  let store$: Store<StoreModel>;
+  const screenName = AnalyticsScreenNames.BACK_TO_OFFICE;
+  const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.BACK_TO_OFFICE}`;
+  const mockApplication: Application = {
+    applicationId: 123456,
+    bookingSequence: 78,
+    checkDigit: 9,
+  };
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				StoreModule.forRoot({
-					tests: testsReducer,
-				}),
-			],
-			providers: [
-				BackToOfficeAnalyticsEffects,
-				{
-					provide: AnalyticsProvider,
-					useClass: AnalyticsProviderMock,
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProviderMock,
-				},
-				provideMockActions(() => actions$),
-				Store,
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+      ],
+      providers: [
+        BackToOfficeAnalyticsEffects,
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        provideMockActions(() => actions$),
+        Store,
+      ],
+    });
 
-		actions$ = new ReplaySubject(1);
-		effects = TestBed.inject(BackToOfficeAnalyticsEffects);
-		analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-		store$ = TestBed.inject(Store);
-		spyOn(analyticsProviderMock, 'logEvent');
-	}));
+    actions$ = new ReplaySubject(1);
+    effects = TestBed.inject(BackToOfficeAnalyticsEffects);
+    analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
+  }));
 
-	describe('backToOfficeViewDidEnter', () => {
-		it('should call setCurrentPage', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			// ACT
-			actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
-			// ASSERT
-			effects.backToOfficeViewDidEnter$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+  describe('backToOfficeViewDidEnter', () => {
+    it('should call setCurrentPage', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
+      // ASSERT
+      effects.backToOfficeViewDidEnter$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-				done();
-			});
-		});
-		it('should call setCurrentPage with practice mode prefix', (done) => {
-			// ARRANGE
-			store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			// ACT
-			actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
-			// ASSERT
-			effects.backToOfficeViewDidEnter$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+        done();
+      });
+    });
+    it('should call setCurrentPage with practice mode prefix', (done) => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
+      // ASSERT
+      effects.backToOfficeViewDidEnter$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePracticeMode);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePracticeMode);
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-				);
-				done();
-			});
-		});
-	});
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
+        done();
+      });
+    });
+  });
 
-	describe('deferWriteUpEffect', () => {
-		it('should call logEvent with pass page and addCustomDimension', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			// ACT
-			actions$.next(backToOfficeActions.DeferWriteUp());
-			// ASSERT
-			effects.deferWriteUpEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+  describe('deferWriteUpEffect', () => {
+    it('should call logEvent with pass page and addCustomDimension', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      // ACT
+      actions$.next(backToOfficeActions.DeferWriteUp());
+      // ASSERT
+      effects.deferWriteUpEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.BACK_TO_OFFICE,
-					AnalyticsEvents.DEFER_WRITE_UP,
-					'pass'
-				);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.BACK_TO_OFFICE,
+          AnalyticsEvents.DEFER_WRITE_UP,
+          'pass'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.DEFER_WRITE_UP,
-					GoogleAnalyticsEventsTitles.RESULT,
-					GoogleAnalyticsEventsValues.PASS
-				);
-				done();
-			});
-		});
-		it('should call logEvent with fail page and addCustomDimension', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			// ACT
-			actions$.next(backToOfficeActions.DeferWriteUp());
-			// ASSERT
-			effects.deferWriteUpEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+        // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DEFER_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        done();
+      });
+    });
+    it('should call logEvent with fail page and addCustomDimension', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      // ACT
+      actions$.next(backToOfficeActions.DeferWriteUp());
+      // ASSERT
+      effects.deferWriteUpEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.BACK_TO_OFFICE,
-					AnalyticsEvents.DEFER_WRITE_UP,
-					'fail'
-				);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.BACK_TO_OFFICE,
+          AnalyticsEvents.DEFER_WRITE_UP,
+          'fail'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.DEFER_WRITE_UP,
-					GoogleAnalyticsEventsTitles.RESULT,
-					GoogleAnalyticsEventsValues.FAIL
-				);
-				done();
-			});
-		});
-		it('should call logEvent with pass page, practice mode prefix and addCustomDimension', (done) => {
-			// ARRANGE
-			store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			// ACT
-			actions$.next(backToOfficeActions.DeferWriteUp());
-			// ASSERT
-			effects.deferWriteUpEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+        // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DEFER_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
+        done();
+      });
+    });
+    it('should call logEvent with pass page, practice mode prefix and addCustomDimension', (done) => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      // ACT
+      actions$.next(backToOfficeActions.DeferWriteUp());
+      // ASSERT
+      effects.deferWriteUpEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					`${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.BACK_TO_OFFICE}`,
-					`${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DEFER_WRITE_UP}`,
-					'pass'
-				);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.BACK_TO_OFFICE}`,
+          `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DEFER_WRITE_UP}`,
+          'pass'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-					GoogleAnalyticsEventsTitles.RESULT,
-					GoogleAnalyticsEventsValues.PASS
-				);
-				done();
-			});
-		});
-		it('should call logEvent with fail page, practice mode prefix and addCustomDimension', (done) => {
-			// ARRANGE
-			store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			// ACT
-			actions$.next(backToOfficeActions.DeferWriteUp());
-			// ASSERT
-			effects.deferWriteUpEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+        // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        done();
+      });
+    });
+    it('should call logEvent with fail page, practice mode prefix and addCustomDimension', (done) => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      // ACT
+      actions$.next(backToOfficeActions.DeferWriteUp());
+      // ASSERT
+      effects.deferWriteUpEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					`${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.BACK_TO_OFFICE}`,
-					`${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DEFER_WRITE_UP}`,
-					'fail'
-				);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.BACK_TO_OFFICE}`,
+          `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DEFER_WRITE_UP}`,
+          'fail'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-					GoogleAnalyticsEventsTitles.RESULT,
-					GoogleAnalyticsEventsValues.FAIL
-				);
-				done();
-			});
-		});
-	});
+        // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
+        done();
+      });
+    });
+  });
 });

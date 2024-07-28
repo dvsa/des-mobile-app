@@ -1,4 +1,4 @@
 export enum ExitRekeyModalEvent {
-	CANCEL = 'cancel',
-	EXIT_REKEY = 'exitRekey',
+  CANCEL = 'cancel',
+  EXIT_REKEY = 'exitRekey',
 }

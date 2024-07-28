@@ -5,8 +5,8 @@ import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import {
-	CommonOfficePageState,
-	OfficeBasePageComponent,
+  CommonOfficePageState,
+  OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -22,53 +22,53 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface CatADI3OfficePageState {
-	testOutcomeGrade$: Observable<string>;
-	isStandardsCheck$: Observable<boolean>;
-	prn$: Observable<number>;
+  testOutcomeGrade$: Observable<string>;
+  isStandardsCheck$: Observable<boolean>;
+  prn$: Observable<number>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 
 @Component({
-	selector: 'app-office-cat-adi-part3',
-	templateUrl: './office.cat-adi-part3.page.html',
-	styleUrls: ['../../office/office.page.scss'],
+  selector: 'app-office-cat-adi-part3',
+  templateUrl: './office.cat-adi-part3.page.html',
+  styleUrls: ['../../office/office.page.scss'],
 })
 export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit {
-	pageState: OfficePageState;
+  pageState: OfficePageState;
 
-	constructor(
-		private appConfig: AppConfigProvider,
-		injector: Injector
-	) {
-		super(injector);
-		this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-		this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG, true);
-	}
+  constructor(
+    private appConfig: AppConfigProvider,
+    injector: Injector
+  ) {
+    super(injector);
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG, true);
+  }
 
-	ngOnInit(): void {
-		super.onInitialisation();
+  ngOnInit(): void {
+    super.onInitialisation();
 
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.pageState = {
-			...this.commonPageState,
-			testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
-			isStandardsCheck$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => isAnyOf(category, [TestCategory.SC]))
-			),
-			prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
-		};
+    this.pageState = {
+      ...this.commonPageState,
+      testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC]))
+      ),
+      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
+    };
 
-		super.setupSubscriptions();
-	}
+    super.setupSubscriptions();
+  }
 
-	async ionViewWillEnter() {
-		super.ionViewWillEnter();
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
 
-		if (!this.isPracticeMode && super.isIos()) {
-			await this.deviceProvider.disableSingleAppMode();
-		}
-	}
+    if (!this.isPracticeMode && super.isIos()) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
+  }
 }

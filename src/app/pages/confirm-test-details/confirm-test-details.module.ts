@@ -10,13 +10,13 @@ import { ConfirmTestDetailsAnalyticsEffects } from '@pages/confirm-test-details/
 import { ConfirmTestDetailsPage } from './confirm-test-details.page';
 
 @NgModule({
-	declarations: [ConfirmTestDetailsPage, ConfirmSubmitModal],
-	imports: [
-		CommonModule,
-		ComponentsModule,
-		IonicModule,
-		ConfirmTestDetailsPageRoutingModule,
-		EffectsModule.forFeature([ConfirmTestDetailsAnalyticsEffects]),
-	],
+  declarations: [ConfirmTestDetailsPage, ConfirmSubmitModal],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonicModule,
+    ConfirmTestDetailsPageRoutingModule,
+    EffectsModule.forFeature([ConfirmTestDetailsAnalyticsEffects]),
+  ],
 })
 export class ConfirmTestDetailsPageModule {}

@@ -7,8 +7,8 @@ import { ReverseDiagramPage } from './reverse-diagram-modal';
 import { ReverseDiagramModalAnalyticsEffects } from './reverse-diagram-modal.analytics.effects';
 
 @NgModule({
-	declarations: [ReverseDiagramPage],
-	imports: [EffectsModule.forFeature([ReverseDiagramModalAnalyticsEffects]), IonicModule, DirectivesModule],
-	providers: [ReversingDistancesProvider],
+  declarations: [ReverseDiagramPage],
+  imports: [EffectsModule.forFeature([ReverseDiagramModalAnalyticsEffects]), IonicModule, DirectivesModule],
+  providers: [ReversingDistancesProvider],
 })
 export class ReverseDiagramPageModule {}

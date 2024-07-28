@@ -13,49 +13,49 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
 interface ComponentState {
-	vehicleChecksDrivingFaultCount$: Observable<number>;
-	vehicleChecksSeriousFaultCount$: Observable<number>;
+  vehicleChecksDrivingFaultCount$: Observable<number>;
+  vehicleChecksSeriousFaultCount$: Observable<number>;
 }
 
 @Component({
-	selector: 'vehicle-checks-compact-cat-d',
-	templateUrl: 'vehicle-checks-compact.cat-d.html',
-	styleUrls: ['vehicle-checks-compact.cat-d.scss'],
+  selector: 'vehicle-checks-compact-cat-d',
+  templateUrl: 'vehicle-checks-compact.cat-d.html',
+  styleUrls: ['vehicle-checks-compact.cat-d.scss'],
 })
 export class VehicleChecksCompactCatDComponent implements OnInit {
-	@Input()
-	testCategory: TestCategory | CategoryCode;
+  @Input()
+  testCategory: TestCategory | CategoryCode;
 
-	componentState: ComponentState;
+  componentState: ComponentState;
 
-	constructor(
-		private store$: Store<StoreModel>,
-		public faultCountProvider: FaultCountProvider,
-		private testDataByCategory: TestDataByCategoryProvider
-	) {}
+  constructor(
+    private store$: Store<StoreModel>,
+    public faultCountProvider: FaultCountProvider,
+    private testDataByCategory: TestDataByCategoryProvider
+  ) {}
 
-	ngOnInit(): void {
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+  ngOnInit(): void {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		const testCategory = this.testCategory as TestCategory;
+    const testCategory = this.testCategory as TestCategory;
 
-		this.componentState = {
-			vehicleChecksDrivingFaultCount$: currentTest$.pipe(
-				map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.testCategory)(data)),
-				select(getVehicleChecksCatD),
-				map(
-					(vehicleChecks) =>
-						this.faultCountProvider.getVehicleChecksFaultCount(testCategory, vehicleChecks).drivingFaults
-				)
-			),
-			vehicleChecksSeriousFaultCount$: currentTest$.pipe(
-				map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.testCategory)(data)),
-				select(getVehicleChecksCatD),
-				map(
-					(vehicleChecks) =>
-						this.faultCountProvider.getVehicleChecksFaultCount(testCategory, vehicleChecks).seriousFaults
-				)
-			),
-		};
-	}
+    this.componentState = {
+      vehicleChecksDrivingFaultCount$: currentTest$.pipe(
+        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.testCategory)(data)),
+        select(getVehicleChecksCatD),
+        map(
+          (vehicleChecks) =>
+            this.faultCountProvider.getVehicleChecksFaultCount(testCategory, vehicleChecks).drivingFaults
+        )
+      ),
+      vehicleChecksSeriousFaultCount$: currentTest$.pipe(
+        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.testCategory)(data)),
+        select(getVehicleChecksCatD),
+        map(
+          (vehicleChecks) =>
+            this.faultCountProvider.getVehicleChecksFaultCount(testCategory, vehicleChecks).seriousFaults
+        )
+      ),
+    };
+  }
 }

@@ -4,16 +4,16 @@ import { VehicleChecksUnion } from '@shared/unions/test-schema-unions';
 import { some } from 'lodash-es';
 
 export const getSelectedShowMeQuestions = (vehicleChecks: VehicleChecksUnion): QuestionResult[] => {
-	return vehicleChecks.showMeQuestions;
+  return vehicleChecks.showMeQuestions;
 };
 
 export const getSelectedTellMeQuestions = (vehicleChecks: VehicleChecksUnion): QuestionResult[] => {
-	return vehicleChecks.tellMeQuestions;
+  return vehicleChecks.tellMeQuestions;
 };
 
 export const vehicleChecksExist = (vehicleChecks: VehicleChecksUnion): boolean => {
-	const questions = [...vehicleChecks.showMeQuestions, ...vehicleChecks.tellMeQuestions];
-	return some(questions, (fault) => fault.outcome != null);
+  const questions = [...vehicleChecks.showMeQuestions, ...vehicleChecks.tellMeQuestions];
+  return some(questions, (fault) => fault.outcome != null);
 };
 
 export const getVehicleChecksCatHomeTest = createFeatureSelector<VehicleChecksUnion>('vehicleChecks');

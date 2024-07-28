@@ -15,57 +15,57 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
 enum DisplayMessage {
-	PRACTICE = "You're in practice mode",
-	PREVIEW = 'This is a preview of a category not yet available in DES',
+  PRACTICE = "You're in practice mode",
+  PREVIEW = 'This is a preview of a category not yet available in DES',
 }
 
 @Component({
-	selector: 'practice-mode-banner',
-	templateUrl: 'practice-mode-banner.html',
-	styleUrls: ['practice-mode-banner.scss'],
+  selector: 'practice-mode-banner',
+  templateUrl: 'practice-mode-banner.html',
+  styleUrls: ['practice-mode-banner.scss'],
 })
 export class PracticeModeBanner implements OnInit {
-	@Input()
-	practiceJournal = false;
+  @Input()
+  practiceJournal = false;
 
-	public displayMsg$: Observable<string>;
+  public displayMsg$: Observable<string>;
 
-	constructor(
-		public router: Router,
-		private categoryWhitelistProvider: CategoryWhitelistProvider,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    public router: Router,
+    private categoryWhitelistProvider: CategoryWhitelistProvider,
+    private store$: Store<StoreModel>
+  ) {}
 
-	ngOnInit(): void {
-		this.displayMsg$ = this.store$.pipe(
-			select(getTests),
-			select(getCurrentTest),
-			// we are using getCurrentTest outside the test flow, so if there are no test in the state, then default to empty
-			map((test) => test ?? {}),
-			select(getTestCategory),
-			take(1),
-			map((category) =>
-				this.practiceJournal || this.categoryWhitelistProvider.isWhiteListed(category as TestCategory)
-					? DisplayMessage.PRACTICE
-					: DisplayMessage.PREVIEW
-			)
-		);
-	}
+  ngOnInit(): void {
+    this.displayMsg$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+      // we are using getCurrentTest outside the test flow, so if there are no test in the state, then default to empty
+      map((test) => test ?? {}),
+      select(getTestCategory),
+      take(1),
+      map((category) =>
+        this.practiceJournal || this.categoryWhitelistProvider.isWhiteListed(category as TestCategory)
+          ? DisplayMessage.PRACTICE
+          : DisplayMessage.PREVIEW
+      )
+    );
+  }
 
-	async exitPracticeMode(): Promise<void> {
-		this.destroyTestSubs();
-		await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
-	}
+  async exitPracticeMode(): Promise<void> {
+    this.destroyTestSubs();
+    await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
+  }
 
-	private destroyTestSubs = (): void => {
-		// As you can exit at any time from a practice test using the exit button, you might not get to the parts of the
-		// code in which typically shut down the subs.
+  private destroyTestSubs = (): void => {
+    // As you can exit at any time from a practice test using the exit button, you might not get to the parts of the
+    // code in which typically shut down the subs.
 
-		// Waiting room to car
-		wrtcDestroy$.next(null);
-		wrtcDestroy$.complete();
-		// Test report
-		trDestroy$.next(null);
-		trDestroy$.complete();
-	};
+    // Waiting room to car
+    wrtcDestroy$.next(null);
+    wrtcDestroy$.complete();
+    // Test report
+    trDestroy$.next(null);
+    trDestroy$.complete();
+  };
 }

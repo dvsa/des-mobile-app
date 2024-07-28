@@ -11,55 +11,55 @@ import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import * as manoeuvresActions from '../../common/manoeuvres/manoeuvres.actions';
 
 export type ManoeuvresCatManoeuvreUnion =
-	| CatCMUniqueTypes.Manoeuvres
-	| CatCEMUniqueTypes.Manoeuvres
-	| CatC1MUniqueTypes.Manoeuvres
-	| CatC1EMUniqueTypes.Manoeuvres
-	| CatDMUniqueTypes.Manoeuvres
-	| CatDEMUniqueTypes.Manoeuvres
-	| CatD1MUniqueTypes.Manoeuvres
-	| CatD1EMUniqueTypes.Manoeuvres;
+  | CatCMUniqueTypes.Manoeuvres
+  | CatCEMUniqueTypes.Manoeuvres
+  | CatC1MUniqueTypes.Manoeuvres
+  | CatC1EMUniqueTypes.Manoeuvres
+  | CatDMUniqueTypes.Manoeuvres
+  | CatDEMUniqueTypes.Manoeuvres
+  | CatD1MUniqueTypes.Manoeuvres
+  | CatD1EMUniqueTypes.Manoeuvres;
 
 export const initialState: ManoeuvresCatManoeuvreUnion = {
-	reverseManoeuvre: {},
+  reverseManoeuvre: {},
 };
 
 export const manoeuvresCatManoeuvreReducer = createReducer(
-	initialState,
-	on(manoeuvresActions.RecordManoeuvresSelection, (state, { manoeuvre }) => ({
-		[manoeuvre]: {
-			...state[manoeuvre],
-			selected: !state[manoeuvre].selected,
-		},
-	})),
-	on(manoeuvresActions.AddManoeuvreComment, (state, payload) => ({
-		...state,
-		[payload.fieldName]: {
-			...state[payload.fieldName],
-			[`${payload.controlOrObservation.toLocaleLowerCase()}FaultComments`]: payload.comment,
-		},
-	})),
-	on(manoeuvresActions.AddManoeuvreSeriousFault, (state, { manoeuvrePayload }) => ({
-		...state,
-		[manoeuvrePayload.manoeuvre]: {
-			...state[manoeuvrePayload.manoeuvre],
-			[manoeuvrePayload.competency]: CompetencyOutcome.S,
-			selected: true,
-		},
-	})),
-	on(manoeuvresActions.AddManoeuvreDangerousFault, (state, { manoeuvrePayload }) => ({
-		...state,
-		[manoeuvrePayload.manoeuvre]: {
-			...state[manoeuvrePayload.manoeuvre],
-			[manoeuvrePayload.competency]: CompetencyOutcome.D,
-			selected: true,
-		},
-	})),
-	on(manoeuvresActions.RemoveManoeuvreFault, (state, { payload }) => {
-		const { [payload.competency]: competencyToOmit, ...stateToPreserve } = state[payload.manoeuvre];
-		return {
-			...state,
-			[payload.manoeuvre]: stateToPreserve,
-		};
-	})
+  initialState,
+  on(manoeuvresActions.RecordManoeuvresSelection, (state, { manoeuvre }) => ({
+    [manoeuvre]: {
+      ...state[manoeuvre],
+      selected: !state[manoeuvre].selected,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreComment, (state, payload) => ({
+    ...state,
+    [payload.fieldName]: {
+      ...state[payload.fieldName],
+      [`${payload.controlOrObservation.toLocaleLowerCase()}FaultComments`]: payload.comment,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreSeriousFault, (state, { manoeuvrePayload }) => ({
+    ...state,
+    [manoeuvrePayload.manoeuvre]: {
+      ...state[manoeuvrePayload.manoeuvre],
+      [manoeuvrePayload.competency]: CompetencyOutcome.S,
+      selected: true,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreDangerousFault, (state, { manoeuvrePayload }) => ({
+    ...state,
+    [manoeuvrePayload.manoeuvre]: {
+      ...state[manoeuvrePayload.manoeuvre],
+      [manoeuvrePayload.competency]: CompetencyOutcome.D,
+      selected: true,
+    },
+  })),
+  on(manoeuvresActions.RemoveManoeuvreFault, (state, { payload }) => {
+    const { [payload.competency]: competencyToOmit, ...stateToPreserve } = state[payload.manoeuvre];
+    return {
+      ...state,
+      [payload.manoeuvre]: stateToPreserve,
+    };
+  })
 );

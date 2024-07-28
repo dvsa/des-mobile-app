@@ -11,42 +11,42 @@ import { Observable } from 'rxjs';
 import { etaLabels } from './eta.constants';
 
 interface ETAComponentState {
-	actionTaken$: Observable<boolean>;
+  actionTaken$: Observable<boolean>;
 }
 
 @Component({
-	selector: 'eta',
-	templateUrl: 'eta.html',
-	styleUrls: ['eta.scss'],
+  selector: 'eta',
+  templateUrl: 'eta.html',
+  styleUrls: ['eta.scss'],
 })
 export class EtaComponent implements OnInit {
-	@Input()
-	eta: ExaminerActions;
+  @Input()
+  eta: ExaminerActions;
 
-	touchStateDelay = 100;
+  touchStateDelay = 100;
 
-	touchState = false;
-	label: string;
+  touchState = false;
+  label: string;
 
-	componentState: ETAComponentState;
+  componentState: ETAComponentState;
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		this.componentState = {
-			actionTaken$: this.store$.pipe(
-				select(getTests),
-				select(getCurrentTest),
-				select(getTestData),
-				select(getETA),
-				select((eta) => hasExaminerTakenAction(eta, this.eta))
-			),
-		};
+  ngOnInit(): void {
+    this.componentState = {
+      actionTaken$: this.store$.pipe(
+        select(getTests),
+        select(getCurrentTest),
+        select(getTestData),
+        select(getETA),
+        select((eta) => hasExaminerTakenAction(eta, this.eta))
+      ),
+    };
 
-		this.label = etaLabels[this.eta];
-	}
+    this.label = etaLabels[this.eta];
+  }
 
-	toggleETA = (): void => {
-		this.store$.dispatch(ToggleETA(this.eta));
-	};
+  toggleETA = (): void => {
+    this.store$.dispatch(ToggleETA(this.eta));
+  };
 }

@@ -8,9 +8,9 @@ import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-che
 import { StoreModel } from '@shared/models/store.model';
 import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import {
-	getFullLicenceHeld,
-	getVehicleChecksCatC,
-	hasFullLicenceHeldBeenSelected,
+  getFullLicenceHeld,
+  getVehicleChecksCatC,
+  hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -18,128 +18,128 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 enum VehicleChecksCompletedResult {
-	COMPLETED = 'Completed',
-	NOT_COMPLETED = 'Not completed',
+  COMPLETED = 'Completed',
+  NOT_COMPLETED = 'Not completed',
 }
 
 interface ComponentState {
-	fullLicenceHeld$: Observable<boolean>;
-	fullLicenceHeldSelection$: Observable<string>;
-	drivingFaultsNumberOptions$: Observable<number[]>;
+  fullLicenceHeld$: Observable<boolean>;
+  fullLicenceHeldSelection$: Observable<string>;
+  drivingFaultsNumberOptions$: Observable<number[]>;
 }
 
 @Component({
-	selector: 'vehicle-checks-completed',
-	templateUrl: 'vehicle-checks-completed.html',
-	styleUrls: ['vehicle-checks-completed.scss'],
+  selector: 'vehicle-checks-completed',
+  templateUrl: 'vehicle-checks-completed.html',
+  styleUrls: ['vehicle-checks-completed.scss'],
 })
 export class VehicleChecksToggleComponent implements OnChanges {
-	formControl: UntypedFormControl;
-	componentState: ComponentState;
-	drivingFaultNumberFormControl: UntypedFormControl;
-	subscription: Subscription;
-	merged$: Observable<boolean>;
-	drivingFaultsNumberOptions: number[] = [];
+  formControl: UntypedFormControl;
+  componentState: ComponentState;
+  drivingFaultNumberFormControl: UntypedFormControl;
+  subscription: Subscription;
+  merged$: Observable<boolean>;
+  drivingFaultsNumberOptions: number[] = [];
 
-	@Input()
-	vehicleChecksCompleted: boolean;
+  @Input()
+  vehicleChecksCompleted: boolean;
 
-	@Input()
-	testCategory: TestCategory | CategoryCode;
+  @Input()
+  testCategory: TestCategory | CategoryCode;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Output()
-	vehicleChecksCompletedOutcomeChange = new EventEmitter<boolean>();
+  @Output()
+  vehicleChecksCompletedOutcomeChange = new EventEmitter<boolean>();
 
-	@Output()
-	vehicleChecksDrivingFaultsNumberChange = new EventEmitter<number>();
+  @Output()
+  vehicleChecksDrivingFaultsNumberChange = new EventEmitter<number>();
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit() {
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+  ngOnInit() {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.componentState = {
-			fullLicenceHeld$: currentTest$.pipe(
-				select(getTestData),
-				select(getVehicleChecksCatC),
-				select(getFullLicenceHeld)
-			),
-			fullLicenceHeldSelection$: currentTest$.pipe(
-				select(getTestData),
-				select(getVehicleChecksCatC),
-				select(getFullLicenceHeld),
-				map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld))
-			),
-			drivingFaultsNumberOptions$: currentTest$.pipe(
-				select(getTestData),
-				select(getVehicleChecksCatC),
-				select(getFullLicenceHeld),
-				map((licenceHeld) =>
-					Array(vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1)
-						.fill(null)
-						.map((v, i) => i)
-				)
-			),
-		};
+    this.componentState = {
+      fullLicenceHeld$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld)
+      ),
+      fullLicenceHeldSelection$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld),
+        map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld))
+      ),
+      drivingFaultsNumberOptions$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld),
+        map((licenceHeld) =>
+          Array(vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1)
+            .fill(null)
+            .map((v, i) => i)
+        )
+      ),
+    };
 
-		const { fullLicenceHeld$ } = this.componentState;
+    const { fullLicenceHeld$ } = this.componentState;
 
-		const merged$ = merge(
-			fullLicenceHeld$.pipe(
-				tap(() => {
-					// when fullLicenceHeld changes, then set the fault count dropdown back to a null in it's default state
-					this.drivingFaultNumberFormControl.markAsPristine({ onlySelf: true });
-					this.drivingFaultNumberFormControl.patchValue(null);
-				})
-			)
-		);
+    const merged$ = merge(
+      fullLicenceHeld$.pipe(
+        tap(() => {
+          // when fullLicenceHeld changes, then set the fault count dropdown back to a null in it's default state
+          this.drivingFaultNumberFormControl.markAsPristine({ onlySelf: true });
+          this.drivingFaultNumberFormControl.patchValue(null);
+        })
+      )
+    );
 
-		this.subscription = merged$.pipe(takeUntil(wrtcDestroy$)).subscribe();
-	}
+    this.subscription = merged$.pipe(takeUntil(wrtcDestroy$)).subscribe();
+  }
 
-	ngOnDestroy(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	ngOnChanges(): void {
-		if (!this.formControl) {
-			this.formControl = new UntypedFormControl('', [Validators.required]);
-			this.formGroup.addControl('vehicleChecksToggleCtrl', this.formControl);
-		}
-		if (!this.drivingFaultNumberFormControl) {
-			this.drivingFaultNumberFormControl = new UntypedFormControl(null, [Validators.required]);
-			this.formGroup.addControl('vehicleChecksDrivingFaultsNumber', this.drivingFaultNumberFormControl);
-		}
-		this.formControl.patchValue(this.vehicleChecksCompleted);
-	}
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl('', [Validators.required]);
+      this.formGroup.addControl('vehicleChecksToggleCtrl', this.formControl);
+    }
+    if (!this.drivingFaultNumberFormControl) {
+      this.drivingFaultNumberFormControl = new UntypedFormControl(null, [Validators.required]);
+      this.formGroup.addControl('vehicleChecksDrivingFaultsNumber', this.drivingFaultNumberFormControl);
+    }
+    this.formControl.patchValue(this.vehicleChecksCompleted);
+  }
 
-	vehicleChecksToggleResultChanged(result: string): void {
-		if (this.formControl.valid) {
-			this.vehicleChecksCompletedOutcomeChange.emit(result === VehicleChecksCompletedResult.COMPLETED);
-		}
-	}
+  vehicleChecksToggleResultChanged(result: string): void {
+    if (this.formControl.valid) {
+      this.vehicleChecksCompletedOutcomeChange.emit(result === VehicleChecksCompletedResult.COMPLETED);
+    }
+  }
 
-	vehicleChecksDrivingFaultsNumberChanged(number: number) {
-		this.vehicleChecksDrivingFaultsNumberChange.emit(number);
-	}
+  vehicleChecksDrivingFaultsNumberChanged(number: number) {
+    this.vehicleChecksDrivingFaultsNumberChange.emit(number);
+  }
 
-	get invalidDropdown(): boolean {
-		return !this.drivingFaultNumberFormControl.valid && this.drivingFaultNumberFormControl.dirty;
-	}
+  get invalidDropdown(): boolean {
+    return !this.drivingFaultNumberFormControl.valid && this.drivingFaultNumberFormControl.dirty;
+  }
 
-	get invalid(): boolean {
-		return !this.formControl.valid && this.formControl.dirty;
-	}
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 
-	get interfaceOptions() {
-		return {
-			cssClass: 'mes-select vehicle-checks-question-select',
-			backdropDismiss: false,
-		};
-	}
+  get interfaceOptions() {
+    return {
+      cssClass: 'mes-select vehicle-checks-question-select',
+      backdropDismiss: false,
+    };
+  }
 }

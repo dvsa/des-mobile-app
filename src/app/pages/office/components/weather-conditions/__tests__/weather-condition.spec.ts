@@ -6,99 +6,99 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { CircuitType } from '@shared/models/circuit-type';
 
 describe('WeatherConditionsComponent', () => {
-	let fixture: ComponentFixture<WeatherConditionsComponent>;
-	let component: WeatherConditionsComponent;
+  let fixture: ComponentFixture<WeatherConditionsComponent>;
+  let component: WeatherConditionsComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [WeatherConditionsComponent],
-			imports: [IonicModule, ReactiveFormsModule],
-			providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [WeatherConditionsComponent],
+      imports: [IonicModule, ReactiveFormsModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
+    });
 
-		fixture = TestBed.createComponent(WeatherConditionsComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(WeatherConditionsComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('ngOnChanges', () => {
-		it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {
-			component.formControl = new UntypedFormControl(CircuitType.Left);
-			component.formGroup = new UntypedFormGroup({});
-			component.formGroup.addControl(WeatherConditionsComponent.fieldName, component.formControl);
-			component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
+  describe('ngOnChanges', () => {
+    it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {
+      component.formControl = new UntypedFormControl(CircuitType.Left);
+      component.formGroup = new UntypedFormGroup({});
+      component.formGroup.addControl(WeatherConditionsComponent.fieldName, component.formControl);
+      component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
 
-			spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
-			component.ngOnChanges();
+      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      component.ngOnChanges();
 
-			expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
-				false
-			);
-		});
-		it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
-			component.formGroup = new UntypedFormGroup({});
+      expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
+        false
+      );
+    });
+    it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
+      component.formGroup = new UntypedFormGroup({});
 
-			spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
-			component.ngOnChanges();
+      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      component.ngOnChanges();
 
-			expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
-				true
-			);
-		});
-	});
+      expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
+        true
+      );
+    });
+  });
 
-	describe('weatherConditionsChanged', () => {
-		it('should emit weatherConditions', () => {
-			spyOn(component.weatherConditionsChange, 'emit');
+  describe('weatherConditionsChanged', () => {
+    it('should emit weatherConditions', () => {
+      spyOn(component.weatherConditionsChange, 'emit');
 
-			component.weatherConditionsChanged(['Showers']);
-			expect(component.weatherConditionsChange.emit).toHaveBeenCalledWith(['Showers']);
-		});
-	});
+      component.weatherConditionsChanged(['Showers']);
+      expect(component.weatherConditionsChange.emit).toHaveBeenCalledWith(['Showers']);
+    });
+  });
 
-	describe('invalid', () => {
-		it('should return true if the formControl is invalid and dirty', () => {
-			component.formControl = null;
-			component.formGroup = new UntypedFormGroup({});
-			component.ngOnChanges();
-			component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
+  describe('invalid', () => {
+    it('should return true if the formControl is invalid and dirty', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
 
-			component.formControl.setValue(null);
-			component.formControl.markAsDirty();
+      component.formControl.setValue(null);
+      component.formControl.markAsDirty();
 
-			expect(component.invalid).toBeTruthy();
-		});
-		it('should return false if the formControl is valid and dirty', () => {
-			component.formControl = null;
-			component.formGroup = new UntypedFormGroup({});
-			component.ngOnChanges();
-			component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
+      expect(component.invalid).toBeTruthy();
+    });
+    it('should return false if the formControl is valid and dirty', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
 
-			component.formControl.setValue(1);
-			component.formControl.markAsDirty();
+      component.formControl.setValue(1);
+      component.formControl.markAsDirty();
 
-			expect(component.invalid).toBeFalsy();
-		});
-		it('should return false if the formControl is invalid and clean', () => {
-			component.formControl = null;
-			component.formGroup = new UntypedFormGroup({});
-			component.ngOnChanges();
-			component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is invalid and clean', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
 
-			component.formControl.setValue(null);
-			component.formControl.markAsPristine();
+      component.formControl.setValue(null);
+      component.formControl.markAsPristine();
 
-			expect(component.invalid).toBeFalsy();
-		});
-		it('should return false if the formControl is valid and clean', () => {
-			component.formControl = null;
-			component.formGroup = new UntypedFormGroup({});
-			component.ngOnChanges();
-			component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is valid and clean', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
 
-			component.formControl.setValue(1);
-			component.formControl.markAsPristine();
+      component.formControl.setValue(1);
+      component.formControl.markAsPristine();
 
-			expect(component.invalid).toBeFalsy();
-		});
-	});
+      expect(component.invalid).toBeFalsy();
+    });
+  });
 });

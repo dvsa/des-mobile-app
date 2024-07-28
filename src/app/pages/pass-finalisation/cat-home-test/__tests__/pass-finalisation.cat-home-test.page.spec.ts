@@ -27,79 +27,79 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { MockComponent } from 'ng-mocks';
 
 describe('PassFinalisationCatHomeTestPage', () => {
-	let fixture: ComponentFixture<PassFinalisationCatHomeTestPage>;
-	let component: PassFinalisationCatHomeTestPage;
-	let store$: Store<StoreModel>;
+  let fixture: ComponentFixture<PassFinalisationCatHomeTestPage>;
+  let component: PassFinalisationCatHomeTestPage;
+  let store$: Store<StoreModel>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				PassFinalisationCatHomeTestPage,
-				MockComponent(PracticeModeBanner),
-				MockComponent(PassCertificateNumberComponent),
-				MockComponent(LicenseProvidedComponent),
-				MockComponent(TransmissionComponent),
-				MockComponent(D255Component),
-				MockComponent(DebriefWitnessedComponent),
-				MockComponent(FinalisationHeaderComponent),
-				MockComponent(LanguagePreferencesComponent),
-				MockComponent(WarningBannerComponent),
-				MockComponent(LicenceProvidedWarningBannerComponent),
-			],
-			imports: [RouterModule.forRoot([]), AppModule],
-			providers: [
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: NavController,
-					useClass: NavControllerMock,
-				},
-				OutcomeBehaviourMapProvider,
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        PassFinalisationCatHomeTestPage,
+        MockComponent(PracticeModeBanner),
+        MockComponent(PassCertificateNumberComponent),
+        MockComponent(LicenseProvidedComponent),
+        MockComponent(TransmissionComponent),
+        MockComponent(D255Component),
+        MockComponent(DebriefWitnessedComponent),
+        MockComponent(FinalisationHeaderComponent),
+        MockComponent(LanguagePreferencesComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(LicenceProvidedWarningBannerComponent),
+      ],
+      imports: [RouterModule.forRoot([]), AppModule],
+      providers: [
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
+        OutcomeBehaviourMapProvider,
+      ],
+    });
 
-		fixture = TestBed.createComponent(PassFinalisationCatHomeTestPage);
-		component = fixture.componentInstance;
-		store$ = TestBed.inject(Store);
-		spyOn(store$, 'dispatch');
-	}));
+    fixture = TestBed.createComponent(PassFinalisationCatHomeTestPage);
+    component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
+  }));
 
-	describe('Class', () => {
-		describe('onSubmit', () => {
-			it('should dispatch the PersistTests action', () => {
-				component.onSubmit();
-				expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
-			});
-			it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-				component.form = new UntypedFormGroup({
-					requiredControl1: new UntypedFormControl(null, [Validators.required]),
-					requiredControl2: new UntypedFormControl(null, [Validators.required]),
-					[PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
-					notRequiredControl: new UntypedFormControl(null),
-				});
+  describe('Class', () => {
+    describe('onSubmit', () => {
+      it('should dispatch the PersistTests action', () => {
+        component.onSubmit();
+        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+      });
+      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-				component.onSubmit();
-				tick();
-				expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(
-					PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
-				);
-				expect(store$.dispatch).not.toHaveBeenCalledWith(
-					PassFinalisationValidationError('notRequiredControl is blank')
-				);
-			}));
-		});
-	});
+        component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
+        );
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          PassFinalisationValidationError('notRequiredControl is blank')
+        );
+      }));
+    });
+  });
 });

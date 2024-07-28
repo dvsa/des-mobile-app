@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { CandidateDetailNavigationComponent } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 
 @NgModule({
-	declarations: [InappropriateUseBannerComponent, FitMarkerBannerComponent, CandidateDetailNavigationComponent],
-	imports: [IonicModule, CommonModule, ComponentsModule],
-	exports: [InappropriateUseBannerComponent, FitMarkerBannerComponent, CandidateDetailNavigationComponent],
+  declarations: [InappropriateUseBannerComponent, FitMarkerBannerComponent, CandidateDetailNavigationComponent],
+  imports: [IonicModule, CommonModule, ComponentsModule],
+  exports: [InappropriateUseBannerComponent, FitMarkerBannerComponent, CandidateDetailNavigationComponent],
 })
 export class CandidateDetailsComponentsModule {}

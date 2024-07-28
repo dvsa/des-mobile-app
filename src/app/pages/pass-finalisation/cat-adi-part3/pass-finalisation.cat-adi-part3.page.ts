@@ -5,13 +5,13 @@ import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
-	PassFinalisationReportActivityCode,
-	PassFinalisationValidationError,
-	PassFinalisationViewDidEnter,
+  PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
-	CommonPassFinalisationPageState,
-	PassFinalisationPageComponent,
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -21,14 +21,14 @@ import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/cand
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import {
-	ReasonForNoAdviceGivenChanged,
-	SeekFurtherDevelopmentChanged,
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {
-	getFurtherDevelopment,
-	getGrade,
-	getReasonForNoAdviceGiven,
+  getFurtherDevelopment,
+  getGrade,
+  getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
@@ -40,136 +40,136 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 
 interface CatAdi3PassFinalisationPageState {
-	furtherDevelopment$: Observable<boolean>;
-	adviceReason$: Observable<string>;
-	testOutcomeGrade$: Observable<string>;
-	prn$: Observable<number>;
-	isStandardsCheck$: Observable<boolean>;
-	testStartTime$: Observable<string>;
-	testEndTime$: Observable<string>;
+  furtherDevelopment$: Observable<boolean>;
+  adviceReason$: Observable<string>;
+  testOutcomeGrade$: Observable<string>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
+  testStartTime$: Observable<string>;
+  testEndTime$: Observable<string>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
 
 @Component({
-	selector: 'pass-finalisation.cat-adi-part3.page',
-	templateUrl: './pass-finalisation.cat-adi-part3.page.html',
-	styleUrls: ['./../pass-finalisation.page.scss', './pass-finalisation.cat-adi-part3.page.scss'],
+  selector: 'pass-finalisation.cat-adi-part3.page',
+  templateUrl: './pass-finalisation.cat-adi-part3.page.html',
+  styleUrls: ['./../pass-finalisation.page.scss', './pass-finalisation.cat-adi-part3.page.scss'],
 })
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
-	form: UntypedFormGroup;
-	merged$: Observable<boolean | string>;
-	pageState: PassFinalisationPageState;
-	subscription: Subscription;
-	furtherDevelopment: boolean;
-	scStartTime: string;
-	scEndTime: string;
+  form: UntypedFormGroup;
+  merged$: Observable<boolean | string>;
+  pageState: PassFinalisationPageState;
+  subscription: Subscription;
+  furtherDevelopment: boolean;
+  scStartTime: string;
+  scEndTime: string;
 
-	constructor(injector: Injector) {
-		super(injector);
-		this.form = new UntypedFormGroup({});
-		this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-	}
+  constructor(injector: Injector) {
+    super(injector);
+    this.form = new UntypedFormGroup({});
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+  }
 
-	ngOnInit(): void {
-		super.onInitialisation();
+  ngOnInit(): void {
+    super.onInitialisation();
 
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		const category$ = currentTest$.pipe(select(getTestCategory));
+    const category$ = currentTest$.pipe(select(getTestCategory));
 
-		this.pageState = {
-			...this.commonPageState,
-			furtherDevelopment$: currentTest$.pipe(select(getTestData), select(getReview), select(getFurtherDevelopment)),
-			adviceReason$: currentTest$.pipe(select(getTestData), select(getReview), select(getReasonForNoAdviceGiven)),
-			testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
-			prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
-			isStandardsCheck$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => isAnyOf(category, [TestCategory.SC]))
-			),
-			testStartTime$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.SC),
-				map(([testResult]) => testResult),
-				select(getTestData),
-				select(getTestStartTime),
-				map((time: string) => time || new DateTime().toISOString())
-			),
-			testEndTime$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.SC),
-				map(([testResult]) => testResult),
-				select(getTestData),
-				select(getTestEndTime),
-				map((time: string) => time || new DateTime().add(1, 'hour').toISOString())
-			),
-		};
+    this.pageState = {
+      ...this.commonPageState,
+      furtherDevelopment$: currentTest$.pipe(select(getTestData), select(getReview), select(getFurtherDevelopment)),
+      adviceReason$: currentTest$.pipe(select(getTestData), select(getReview), select(getReasonForNoAdviceGiven)),
+      testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
+      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC]))
+      ),
+      testStartTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getTestStartTime),
+        map((time: string) => time || new DateTime().toISOString())
+      ),
+      testEndTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getTestEndTime),
+        map((time: string) => time || new DateTime().add(1, 'hour').toISOString())
+      ),
+    };
 
-		const { furtherDevelopment$, testStartTime$, testEndTime$ } = this.pageState;
+    const { furtherDevelopment$, testStartTime$, testEndTime$ } = this.pageState;
 
-		this.merged$ = merge(
-			furtherDevelopment$.pipe(map((value) => (this.furtherDevelopment = value))),
-			testStartTime$.pipe(map((value) => (this.scStartTime = value))),
-			testEndTime$.pipe(map((value) => (this.scEndTime = value)))
-		);
-		this.subscription = this.merged$.subscribe();
-	}
+    this.merged$ = merge(
+      furtherDevelopment$.pipe(map((value) => (this.furtherDevelopment = value))),
+      testStartTime$.pipe(map((value) => (this.scStartTime = value))),
+      testEndTime$.pipe(map((value) => (this.scEndTime = value)))
+    );
+    this.subscription = this.merged$.subscribe();
+  }
 
-	ionViewWillEnter(): boolean {
-		super.ionViewWillEnter();
-		this.store$.dispatch(PassFinalisationViewDidEnter());
-		return true;
-	}
+  ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
+    this.store$.dispatch(PassFinalisationViewDidEnter());
+    return true;
+  }
 
-	ionViewDidLeave(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	furtherDevelopmentChanged(furtherDevelopment: boolean) {
-		this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
-	}
+  furtherDevelopmentChanged(furtherDevelopment: boolean) {
+    this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
+  }
 
-	adviceReasonChanged(adviceReason: string) {
-		this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
-	}
+  adviceReasonChanged(adviceReason: string) {
+    this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
+  }
 
-	testStartTimeChanged(startTime: string): void {
-		this.scStartTime = startTime;
-		this.store$.dispatch(StartTimeChanged(startTime));
-	}
+  testStartTimeChanged(startTime: string): void {
+    this.scStartTime = startTime;
+    this.store$.dispatch(StartTimeChanged(startTime));
+  }
 
-	testEndTimeChanged(endTime: string): void {
-		this.scEndTime = endTime;
-		this.store$.dispatch(EndTimeChanged(endTime));
-	}
+  testEndTimeChanged(endTime: string): void {
+    this.scEndTime = endTime;
+    this.store$.dispatch(EndTimeChanged(endTime));
+  }
 
-	async onSubmit(): Promise<void> {
-		Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+  async onSubmit(): Promise<void> {
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
-		this.form.updateValueAndValidity();
+    this.form.updateValueAndValidity();
 
-		if (this.form.valid) {
-			if (this.furtherDevelopment) {
-				this.adviceReasonChanged(null);
-			}
+    if (this.form.valid) {
+      if (this.furtherDevelopment) {
+        this.adviceReasonChanged(null);
+      }
 
-			this.testStartTimeChanged(this.scStartTime);
-			this.testEndTimeChanged(this.scEndTime);
+      this.testStartTimeChanged(this.scStartTime);
+      this.testEndTimeChanged(this.scEndTime);
 
-			this.store$.dispatch(PersistTests());
-			this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
+      this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
 
-			await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
-			return;
-		}
+      await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
+      return;
+    }
 
-		Object.keys(this.form.controls).forEach((controlName) => {
-			if (this.form.controls[controlName].invalid) {
-				this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-			}
-		});
-	}
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
+  }
 }

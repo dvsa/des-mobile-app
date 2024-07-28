@@ -22,26 +22,26 @@ import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routi
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 
 @NgModule({
-	declarations: [
-		OfficeCatADI2Page,
-		VehicleChecksOfficeCardCatADI2Component,
-		ShowMeQuestionsCatADI2Component,
-		EcoCaptureReasonComponent,
-		EcoRelatedFaultComponent,
-		FuelEfficientDriving,
-	],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		OfficeCatADIPart2PageRoutingModule,
-		ComponentsModule,
-		OfficeComponentsModule,
-		ReactiveFormsModule,
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-		WaitingRoomToCarComponentsModule,
-		DirectivesModule,
-	],
-	providers: [FaultSummaryProvider],
+  declarations: [
+    OfficeCatADI2Page,
+    VehicleChecksOfficeCardCatADI2Component,
+    ShowMeQuestionsCatADI2Component,
+    EcoCaptureReasonComponent,
+    EcoRelatedFaultComponent,
+    FuelEfficientDriving,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    OfficeCatADIPart2PageRoutingModule,
+    ComponentsModule,
+    OfficeComponentsModule,
+    ReactiveFormsModule,
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    WaitingRoomToCarComponentsModule,
+    DirectivesModule,
+  ],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatADIPart2PageModule {}

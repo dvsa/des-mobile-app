@@ -5,8 +5,8 @@ import * as activityCodeActions from './activity-code.actions';
 export const initialState: ActivityCode = null;
 
 export const activityCodeReducer = createReducer(
-	initialState,
-	on(activityCodeActions.SetActivityCode, (_, { activityCode }) => activityCode)
+  initialState,
+  on(activityCodeActions.SetActivityCode, (_, { activityCode }) => activityCode)
 );
 
 export const getActivityCode = createFeatureSelector<ActivityCode>('activityCode');

@@ -9,18 +9,18 @@ import { ManoeuvresComponent } from './manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
 
 @NgModule({
-	declarations: [
-		ManoeuvresComponent,
-		ManoeuvresPopoverComponentAdiPart2,
-		ManoeuvreCompetencyComponentAdiPart2,
-		VehicleCheckComponent,
-	],
-	imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
-	exports: [
-		ManoeuvresComponent,
-		ManoeuvresPopoverComponentAdiPart2,
-		ManoeuvreCompetencyComponentAdiPart2,
-		VehicleCheckComponent,
-	],
+  declarations: [
+    ManoeuvresComponent,
+    ManoeuvresPopoverComponentAdiPart2,
+    ManoeuvreCompetencyComponentAdiPart2,
+    VehicleCheckComponent,
+  ],
+  imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
+  exports: [
+    ManoeuvresComponent,
+    ManoeuvresPopoverComponentAdiPart2,
+    ManoeuvreCompetencyComponentAdiPart2,
+    VehicleCheckComponent,
+  ],
 })
 export class TestReportCatADIPart2ComponentsModule {}

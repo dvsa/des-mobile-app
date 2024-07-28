@@ -2,37 +2,37 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-	selector: 'residency-declaration',
-	templateUrl: 'residency-declaration.html',
-	styleUrls: ['residency-declaration.scss'],
+  selector: 'residency-declaration',
+  templateUrl: 'residency-declaration.html',
+  styleUrls: ['residency-declaration.scss'],
 })
 export class ResidencyDeclarationComponent implements OnChanges {
-	@Input()
-	selected: boolean;
+  @Input()
+  selected: boolean;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Output()
-	residencyDeclarationChange = new EventEmitter();
+  @Output()
+  residencyDeclarationChange = new EventEmitter();
 
-	formControl: UntypedFormControl;
-	static readonly fieldName: string = 'residencyCheckbox';
+  formControl: UntypedFormControl;
+  static readonly fieldName: string = 'residencyCheckbox';
 
-	ngOnChanges(): void {
-		if (!this.formControl) {
-			this.formControl = new UntypedFormControl('', [Validators.requiredTrue]);
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl('', [Validators.requiredTrue]);
 
-			this.formGroup.addControl(ResidencyDeclarationComponent.fieldName, this.formControl);
-		}
-		this.formControl.patchValue(this.selected);
-	}
+      this.formGroup.addControl(ResidencyDeclarationComponent.fieldName, this.formControl);
+    }
+    this.formControl.patchValue(this.selected);
+  }
 
-	residencyDeclarationChanged(): void {
-		this.residencyDeclarationChange.emit();
-	}
+  residencyDeclarationChanged(): void {
+    this.residencyDeclarationChange.emit();
+  }
 
-	isInvalid(): boolean {
-		return !this.formControl.valid && this.formControl.dirty;
-	}
+  isInvalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 }

@@ -6,33 +6,33 @@ import { TestDetailsModel } from './test-details-card.model';
 export type CandidateDetails = { prn: number; attemptNumber: number };
 
 @Component({
-	selector: 'test-details-card',
-	templateUrl: 'test-details-card.html',
-	styleUrls: ['test-details-card.scss'],
+  selector: 'test-details-card',
+  templateUrl: 'test-details-card.html',
+  styleUrls: ['test-details-card.scss'],
 })
 export class TestDetailsCardComponent {
-	@Input()
-	data: TestDetailsModel;
+  @Input()
+  data: TestDetailsModel;
 
-	@Input()
-	candidateDetails: CandidateDetails;
+  @Input()
+  candidateDetails: CandidateDetails;
 
-	additionalReqsIsPopulated(additionalReqsArray: string[]): boolean {
-		return additionalReqsArray.length > 0 && additionalReqsArray[0] !== 'None';
-	}
+  additionalReqsIsPopulated(additionalReqsArray: string[]): boolean {
+    return additionalReqsArray.length > 0 && additionalReqsArray[0] !== 'None';
+  }
 
-	showFullCatHeld(): boolean {
-		return [TestCategory.CE, TestCategory.C1E, TestCategory.DE, TestCategory.D1E].includes(this.data.category);
-	}
+  showFullCatHeld(): boolean {
+    return [TestCategory.CE, TestCategory.C1E, TestCategory.DE, TestCategory.D1E].includes(this.data.category);
+  }
 
-	showAttemptNumber(): boolean {
-		return (
-			get(this.candidateDetails, 'attemptNumber', null) !== null ||
-			typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined'
-		);
-	}
+  showAttemptNumber(): boolean {
+    return (
+      get(this.candidateDetails, 'attemptNumber', null) !== null ||
+      typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined'
+    );
+  }
 
-	showPrn(): boolean {
-		return get(this.candidateDetails, 'prn', null) !== null || typeof get(this.candidateDetails, 'prn') !== 'undefined';
-	}
+  showPrn(): boolean {
+    return get(this.candidateDetails, 'prn', null) !== null || typeof get(this.candidateDetails, 'prn') !== 'undefined';
+  }
 }

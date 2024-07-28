@@ -7,8 +7,8 @@ import { DimensionsComponent } from '@pages/waiting-room-to-car/cat-manoeuvre/co
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 @NgModule({
-	declarations: [DimensionsComponent],
-	imports: [IonicModule, ComponentsModule, ReactiveFormsModule, CommonModule, PipesModule],
-	exports: [DimensionsComponent],
+  declarations: [DimensionsComponent],
+  imports: [IonicModule, ComponentsModule, ReactiveFormsModule, CommonModule, PipesModule],
+  exports: [DimensionsComponent],
 })
 export class WaitingRoomToCarCatManoeuvreComponentsModule {}

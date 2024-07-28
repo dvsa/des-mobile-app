@@ -14,19 +14,19 @@ import { WaitingRoomPageRoutingModule } from './waiting-room-routing.module';
 import { WaitingRoomPage } from './waiting-room.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		EffectsModule.forFeature([WaitingRoomAnalyticsEffects]),
-		WaitingRoomPageRoutingModule,
-		TranslateModule,
-		ComponentsModule,
-		ReactiveFormsModule,
-		WaitingRoomComponentsModule,
-		DirectivesModule,
-	],
-	providers: [PassCertificateValidationProvider],
-	declarations: [WaitingRoomPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    EffectsModule.forFeature([WaitingRoomAnalyticsEffects]),
+    WaitingRoomPageRoutingModule,
+    TranslateModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    WaitingRoomComponentsModule,
+    DirectivesModule,
+  ],
+  providers: [PassCertificateValidationProvider],
+  declarations: [WaitingRoomPage],
 })
 export class WaitingRoomPageModule {}

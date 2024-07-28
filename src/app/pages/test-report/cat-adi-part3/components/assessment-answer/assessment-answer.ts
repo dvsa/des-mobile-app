@@ -1,27 +1,27 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-	selector: 'assessment-answer',
-	templateUrl: 'assessment-answer.html',
-	styleUrls: ['assessment-answer.scss'],
+  selector: 'assessment-answer',
+  templateUrl: 'assessment-answer.html',
+  styleUrls: ['assessment-answer.scss'],
 })
 export class AssessmentAnswerComponent {
-	@Input()
-	radio = false;
+  @Input()
+  radio = false;
 
-	@Input()
-	assessmentLabel: string;
+  @Input()
+  assessmentLabel: string;
 
-	@Input()
-	key: string;
+  @Input()
+  key: string;
 
-	@Input()
-	comparator: string;
+  @Input()
+  comparator: string;
 
-	@Output()
-	answerToggled = new EventEmitter<string>();
+  @Output()
+  answerToggled = new EventEmitter<string>();
 
-	valueChanged = (key: string): void => {
-		this.answerToggled.emit(key);
-	};
+  valueChanged = (key: string): void => {
+    this.answerToggled.emit(key);
+  };
 }

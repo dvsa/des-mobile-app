@@ -9,28 +9,28 @@ import { getManoeuvres as getManoeuvresHomeTest } from '@store/tests/test-data/c
 
 @Injectable()
 export class ManoeuvresByCategoryProvider {
-	static getManoeuvresByCategoryCodeErrMsg = 'Error getting test category manoeuvres';
+  static getManoeuvresByCategoryCodeErrMsg = 'Error getting test category manoeuvres';
 
-	public getManoeuvresByCategoryCode(category: CategoryCode): (testData: TestDataUnion) => ManoeuvreUnion {
-		switch (category) {
-			case TestCategory.C:
-			case TestCategory.C1:
-			case TestCategory.CE:
-			case TestCategory.C1E:
-				return getManoeuvresC;
-			case TestCategory.D:
-			case TestCategory.D1:
-			case TestCategory.DE:
-			case TestCategory.D1E:
-				return getManoeuvresD;
-			case TestCategory.F:
-			case TestCategory.G:
-			case TestCategory.H:
-			case TestCategory.K:
-				return getManoeuvresHomeTest;
+  public getManoeuvresByCategoryCode(category: CategoryCode): (testData: TestDataUnion) => ManoeuvreUnion {
+    switch (category) {
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.CE:
+      case TestCategory.C1E:
+        return getManoeuvresC;
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return getManoeuvresD;
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return getManoeuvresHomeTest;
 
-			default:
-				throw new Error(ManoeuvresByCategoryProvider.getManoeuvresByCategoryCodeErrMsg);
-		}
-	}
+      default:
+        throw new Error(ManoeuvresByCategoryProvider.getManoeuvresByCategoryCodeErrMsg);
+    }
+  }
 }

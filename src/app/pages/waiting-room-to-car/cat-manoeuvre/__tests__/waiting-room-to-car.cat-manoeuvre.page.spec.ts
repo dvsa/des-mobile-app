@@ -34,140 +34,140 @@ import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
 
 describe('WaitingRoomToCarCatManoeuvrePage', () => {
-	let component: WaitingRoomToCarCatManoeuvrePage;
-	let fixture: ComponentFixture<WaitingRoomToCarCatManoeuvrePage>;
-	let store$: Store<StoreModel>;
-	let routeByCategoryProvider: RouteByCategoryProvider;
+  let component: WaitingRoomToCarCatManoeuvrePage;
+  let fixture: ComponentFixture<WaitingRoomToCarCatManoeuvrePage>;
+  let store$: Store<StoreModel>;
+  let routeByCategoryProvider: RouteByCategoryProvider;
 
-	const initialState = {
-		appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
-		tests: {
-			currentTest: { slotId: '123' },
-			testStatus: {},
-			startedTests: {
-				123: {
-					vehicleDetails: {},
-					accompaniment: {},
-					category: TestCategory.CM,
-					testData: {
-						seriousFaults: {},
-					},
-					journalData: {
-						candidate: {
-							candidateName: {
-								firstName: 'Joe',
-								lastName: 'Bloggs',
-							},
-						},
-					},
-				} as CatCMUniqueTypes.TestResult,
-			},
-		} as TestsModel,
-	} as StoreModel;
+  const initialState = {
+    appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
+    tests: {
+      currentTest: { slotId: '123' },
+      testStatus: {},
+      startedTests: {
+        123: {
+          vehicleDetails: {},
+          accompaniment: {},
+          category: TestCategory.CM,
+          testData: {
+            seriousFaults: {},
+          },
+          journalData: {
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
+          },
+        } as CatCMUniqueTypes.TestResult,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				WaitingRoomToCarCatManoeuvrePage,
-				MockComponent(EndTestLinkComponent),
-				MockComponent(VehicleRegistrationComponent),
-				MockComponent(AccompanimentCardComponent),
-				MockComponent(AccompanimentComponent),
-				MockComponent(WarningBannerComponent),
-				MockComponent(DimensionsComponent),
-			],
-			imports: [AppModule, ReactiveFormsModule],
-			providers: [
-				{
-					provide: RouteByCategoryProvider,
-					useClass: RouteByCategoryProviderMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: QuestionProvider,
-					useClass: QuestionProviderMock,
-				},
-				{
-					provide: FaultCountProvider,
-					useClass: FaultCountProvider,
-				},
-				provideMockStore({ initialState }),
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        WaitingRoomToCarCatManoeuvrePage,
+        MockComponent(EndTestLinkComponent),
+        MockComponent(VehicleRegistrationComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(DimensionsComponent),
+      ],
+      imports: [AppModule, ReactiveFormsModule],
+      providers: [
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
+        provideMockStore({ initialState }),
+      ],
+    });
 
-		fixture = TestBed.createComponent(WaitingRoomToCarCatManoeuvrePage);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
+    fixture = TestBed.createComponent(WaitingRoomToCarCatManoeuvrePage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
 
-		store$ = TestBed.inject(Store);
-		routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-		spyOn(store$, 'dispatch');
-	}));
+    store$ = TestBed.inject(Store);
+    routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
+    spyOn(store$, 'dispatch');
+  }));
 
-	afterEach(() => {
-		fixture.destroy();
-	});
+  afterEach(() => {
+    fixture.destroy();
+  });
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('Class', () => {
-		describe('ngOnInit', () => {
-			it('should call through to the base page init method', () => {
-				spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
-				component.ngOnInit();
-				expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
-			});
-		});
-		describe('onSubmit', () => {
-			beforeEach(() => {
-				spyOn(routeByCategoryProvider, 'navigateToPage');
-			});
-			it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-				component.form = new UntypedFormGroup({
-					notRequiredControl: new UntypedFormControl(null),
-				});
-				component.testCategory = TestCategory.CM;
-				await component.onSubmit();
-				tick();
-				expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-					TestFlowPageNames.TEST_REPORT_PAGE,
-					TestCategory.CM,
-					{ replaceUrl: true }
-				);
-			}));
-			it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-				component.form = new UntypedFormGroup({
-					requiredControl1: new UntypedFormControl(null, [Validators.required]),
-					requiredControl2: new UntypedFormControl(null, [Validators.required]),
-					notRequiredControl: new UntypedFormControl(null),
-				});
+  describe('Class', () => {
+    describe('ngOnInit', () => {
+      it('should call through to the base page init method', () => {
+        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
+        component.ngOnInit();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+      });
+    });
+    describe('onSubmit', () => {
+      beforeEach(() => {
+        spyOn(routeByCategoryProvider, 'navigateToPage');
+      });
+      it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
+        });
+        component.testCategory = TestCategory.CM;
+        await component.onSubmit();
+        tick();
+        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+          TestFlowPageNames.TEST_REPORT_PAGE,
+          TestCategory.CM,
+          { replaceUrl: true }
+        );
+      }));
+      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-				await component.onSubmit();
-				tick();
-				expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-				expect(store$.dispatch).not.toHaveBeenCalledWith(
-					WaitingRoomToCarValidationError('notRequiredControl is blank')
-				);
-			}));
-		});
-	});
+        await component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          WaitingRoomToCarValidationError('notRequiredControl is blank')
+        );
+      }));
+    });
+  });
 });

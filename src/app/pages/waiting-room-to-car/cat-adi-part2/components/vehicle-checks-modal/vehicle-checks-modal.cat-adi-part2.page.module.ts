@@ -9,15 +9,15 @@ import { VehicleChecksModalAnalyticsEffects } from './vehicle-checks-modal.cat-a
 import { VehicleChecksCatADIPart2Modal } from './vehicle-checks-modal.cat-adi-part2.page';
 
 @NgModule({
-	declarations: [VehicleChecksCatADIPart2Modal],
-	imports: [
-		EffectsModule.forFeature([VehicleChecksModalAnalyticsEffects]),
-		ComponentsModule,
-		WaitingRoomToCarComponentsModule,
-		IonicModule,
-		CommonModule,
-		ReactiveFormsModule,
-		FormsModule,
-	],
+  declarations: [VehicleChecksCatADIPart2Modal],
+  imports: [
+    EffectsModule.forFeature([VehicleChecksModalAnalyticsEffects]),
+    ComponentsModule,
+    WaitingRoomToCarComponentsModule,
+    IonicModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class VehicleChecksModalCatADIPart2Module {}

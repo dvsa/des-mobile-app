@@ -13,17 +13,17 @@ import { WaitingRoomToCarCatBPageRoutingModule } from './waiting-room-to-car.cat
 import { WaitingRoomToCarCatBPage } from './waiting-room-to-car.cat-b.page';
 
 @NgModule({
-	declarations: [WaitingRoomToCarCatBPage],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		WaitingRoomToCarCatBPageRoutingModule,
-		ReactiveFormsModule,
-		ComponentsModule,
-		WaitingRoomToCarComponentsModule,
-		WaitingRoomToCarCatBComponentsModule,
-		EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
-	],
+  declarations: [WaitingRoomToCarCatBPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    WaitingRoomToCarCatBPageRoutingModule,
+    ReactiveFormsModule,
+    ComponentsModule,
+    WaitingRoomToCarComponentsModule,
+    WaitingRoomToCarCatBComponentsModule,
+    EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
+  ],
 })
 export class WaitingRoomToCarCatBPageModule {}

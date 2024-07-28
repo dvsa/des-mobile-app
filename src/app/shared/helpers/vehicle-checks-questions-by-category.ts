@@ -7,8 +7,8 @@ import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER } fr
 import { NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER } from '../constants/show-me-questions/show-me-questions.vocational-trailer.constants';
 
 export const vehicleChecksQuestionsByLicenceHeld = (fullLicenceHeld: boolean): number => {
-	if (fullLicenceHeld) {
-		return NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER + NUMBER_OF_TELL_ME_QUESTIONS_TRAILER;
-	}
-	return NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER + NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER;
+  if (fullLicenceHeld) {
+    return NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER + NUMBER_OF_TELL_ME_QUESTIONS_TRAILER;
+  }
+  return NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER + NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER;
 };

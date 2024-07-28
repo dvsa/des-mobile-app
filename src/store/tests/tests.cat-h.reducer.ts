@@ -23,30 +23,30 @@ import { rekeyReducer } from './rekey/rekey.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 
 export function testsCatHReducer(
-	action: Action,
-	state: CatHUniqueTypes.TestResult
+  action: Action,
+  state: CatHUniqueTypes.TestResult
 ): Required<CatHUniqueTypes.TestResult> {
-	return combineReducers({
-		appVersion: appVersionReducer,
-		version: schemaVersionReducer,
-		category: categoryReducer,
-		activityCode: activityCodeReducer,
-		journalData: journalDataCatHomeReducer,
-		preTestDeclarations: preTestDeclarationsReducer,
-		accompaniment: accompanimentReducer,
-		vehicleDetails: vehicleDetailsReducer,
-		testData: testDataCatHReducer,
-		passCompletion: passCompletionReducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		testSummary: testSummaryReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		delegatedTest: delegatedTestReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		changeMarker: changeMarkerReducer,
-	})(state as Required<CatHUniqueTypes.TestResult>, action);
+  return combineReducers({
+    appVersion: appVersionReducer,
+    version: schemaVersionReducer,
+    category: categoryReducer,
+    activityCode: activityCodeReducer,
+    journalData: journalDataCatHomeReducer,
+    preTestDeclarations: preTestDeclarationsReducer,
+    accompaniment: accompanimentReducer,
+    vehicleDetails: vehicleDetailsReducer,
+    testData: testDataCatHReducer,
+    passCompletion: passCompletionReducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    testSummary: testSummaryReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    delegatedTest: delegatedTestReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    changeMarker: changeMarkerReducer,
+  })(state as Required<CatHUniqueTypes.TestResult>, action);
 }

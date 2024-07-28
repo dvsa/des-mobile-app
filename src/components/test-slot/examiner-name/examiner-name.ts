@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-	selector: 'examiner-name',
-	templateUrl: 'examiner-name.html',
-	styleUrls: ['examiner-name.scss'],
+  selector: 'examiner-name',
+  templateUrl: 'examiner-name.html',
+  styleUrls: ['examiner-name.scss'],
 })
 export class ExaminerNameComponent {
-	@Input()
-	examinerName: string;
+  @Input()
+  examinerName: string;
 
-	@Input()
-	id: number;
+  @Input()
+  id: number;
 }

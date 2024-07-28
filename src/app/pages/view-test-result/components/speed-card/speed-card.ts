@@ -2,17 +2,17 @@ import { Component, Input } from '@angular/core';
 import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 
 @Component({
-	selector: 'speed-card',
-	templateUrl: 'speed-card.html',
-	styleUrls: ['speed-card.scss'],
+  selector: 'speed-card',
+  templateUrl: 'speed-card.html',
+  styleUrls: ['speed-card.scss'],
 })
 export class SpeedCardComponent {
-	@Input()
-	shouldHaveSeperator = true;
+  @Input()
+  shouldHaveSeperator = true;
 
-	@Input()
-	public emergencyStop: EmergencyStop;
+  @Input()
+  public emergencyStop: EmergencyStop;
 
-	@Input()
-	public avoidance: Avoidance;
+  @Input()
+  public avoidance: Avoidance;
 }

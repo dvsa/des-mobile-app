@@ -13,11 +13,11 @@ import { JournalLogsEffects } from './journal.logs.effects';
 import { journalReducer } from './journal.reducer';
 
 @NgModule({
-	imports: [
-		StoreModule.forFeature('journal', journalReducer),
-		EffectsModule.forFeature([JournalEffects, JournalLogsEffects]),
-		RouterModule,
-	],
-	providers: [JournalProvider, SlotProvider, SlotSelectorProvider, DateTimeProvider, SearchProvider],
+  imports: [
+    StoreModule.forFeature('journal', journalReducer),
+    EffectsModule.forFeature([JournalEffects, JournalLogsEffects]),
+    RouterModule,
+  ],
+  providers: [JournalProvider, SlotProvider, SlotSelectorProvider, DateTimeProvider, SearchProvider],
 })
 export class JournalModule {}

@@ -2,38 +2,38 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-	selector: 'pdi-logbook',
-	templateUrl: 'pdi-logbook.html',
+  selector: 'pdi-logbook',
+  templateUrl: 'pdi-logbook.html',
 })
 export class PDILogbookComponent implements OnChanges {
-	@Input()
-	pdiLogbook: boolean;
+  @Input()
+  pdiLogbook: boolean;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Output()
-	pdiLogbookChange = new EventEmitter<boolean>();
+  @Output()
+  pdiLogbookChange = new EventEmitter<boolean>();
 
-	formControl: UntypedFormControl;
-	static readonly fieldName: string = 'pdiLogbookCtrl';
+  formControl: UntypedFormControl;
+  static readonly fieldName: string = 'pdiLogbookCtrl';
 
-	ngOnChanges(): void {
-		if (!this.formControl) {
-			this.formControl = new UntypedFormControl(null, [Validators.required]);
-			this.formGroup.addControl(PDILogbookComponent.fieldName, this.formControl);
-		}
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
+      this.formGroup.addControl(PDILogbookComponent.fieldName, this.formControl);
+    }
 
-		if (this.pdiLogbook === true || this.pdiLogbook === false) {
-			this.formControl.patchValue(String(this.pdiLogbook));
-		}
-	}
+    if (this.pdiLogbook === true || this.pdiLogbook === false) {
+      this.formControl.patchValue(String(this.pdiLogbook));
+    }
+  }
 
-	pdiLogbookChanged(pdiLogbook: string): void {
-		this.pdiLogbookChange.emit(pdiLogbook === 'true');
-	}
+  pdiLogbookChanged(pdiLogbook: string): void {
+    this.pdiLogbookChange.emit(pdiLogbook === 'true');
+  }
 
-	get invalid(): boolean {
-		return !this.formControl.valid && this.formControl.dirty;
-	}
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 }

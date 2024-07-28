@@ -4,8 +4,8 @@ import * as appVersionActions from './app-version.actions';
 export const initialState: string = '';
 
 export const appVersionReducer = createReducer(
-	initialState,
-	on(appVersionActions.PopulateAppVersion, (_, { appVersion }) => appVersion)
+  initialState,
+  on(appVersionActions.PopulateAppVersion, (_, { appVersion }) => appVersion)
 );
 
 export const getAppVersion = createFeatureSelector<string>('appVersion');

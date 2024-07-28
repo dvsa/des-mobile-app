@@ -4,53 +4,53 @@ import { StoreModel } from '@shared/models/store.model';
 import { StartTimer } from '../../test-report.actions';
 
 @Component({
-	selector: 'timer',
-	templateUrl: 'timer.html',
-	styleUrls: ['timer.scss'],
+  selector: 'timer',
+  templateUrl: 'timer.html',
+  styleUrls: ['timer.scss'],
 })
 export class TimerComponent {
-	showStartTimerButton: boolean;
-	interval: NodeJS.Timeout;
-	seconds: number;
-	timerString: string;
-	isPaused = true;
+  showStartTimerButton: boolean;
+  interval: NodeJS.Timeout;
+  seconds: number;
+  timerString: string;
+  isPaused = true;
 
-	constructor(private store$: Store<StoreModel>) {
-		this.showStartTimerButton = true;
-		this.seconds = 0;
+  constructor(private store$: Store<StoreModel>) {
+    this.showStartTimerButton = true;
+    this.seconds = 0;
 
-		this.generateTimerString();
-	}
+    this.generateTimerString();
+  }
 
-	toggleTimer = (): void => {
-		this.isPaused = !this.isPaused;
-		return this.interval ? this.pauseTimer() : this.startTimer();
-	};
+  toggleTimer = (): void => {
+    this.isPaused = !this.isPaused;
+    return this.interval ? this.pauseTimer() : this.startTimer();
+  };
 
-	startTimer = (): void => {
-		this.showStartTimerButton = false;
-		this.interval = setInterval(() => {
-			this.seconds += 1;
-			this.generateTimerString();
-		}, 1000);
-		this.store$.dispatch(StartTimer());
-	};
+  startTimer = (): void => {
+    this.showStartTimerButton = false;
+    this.interval = setInterval(() => {
+      this.seconds += 1;
+      this.generateTimerString();
+    }, 1000);
+    this.store$.dispatch(StartTimer());
+  };
 
-	pauseTimer = (): void => {
-		clearInterval(this.interval);
-		this.interval = undefined;
-	};
+  pauseTimer = (): void => {
+    clearInterval(this.interval);
+    this.interval = undefined;
+  };
 
-	generateTimerString = (): void => {
-		const date: Date = new Date(1970, 0, 1, 0, 0, 0);
-		date.setSeconds(this.seconds);
+  generateTimerString = (): void => {
+    const date: Date = new Date(1970, 0, 1, 0, 0, 0);
+    date.setSeconds(this.seconds);
 
-		const showExtraZeroHours = date.getHours() < 10;
-		const showExtraZeroMinutes = date.getMinutes() < 10;
-		const showExtraZeroSeconds = date.getSeconds() < 10;
+    const showExtraZeroHours = date.getHours() < 10;
+    const showExtraZeroMinutes = date.getMinutes() < 10;
+    const showExtraZeroSeconds = date.getSeconds() < 10;
 
-		this.timerString = `${showExtraZeroHours ? '0' : ''}${date.getHours()}:${
-			showExtraZeroMinutes ? '0' : ''
-		}${date.getMinutes()}:${showExtraZeroSeconds ? '0' : ''}${date.getSeconds()}`;
-	};
+    this.timerString = `${showExtraZeroHours ? '0' : ''}${date.getHours()}:${
+      showExtraZeroMinutes ? '0' : ''
+    }${date.getMinutes()}:${showExtraZeroSeconds ? '0' : ''}${date.getSeconds()}`;
+  };
 }

@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { VRNCaptureModal } from './vrn-capture-modal';
 
 @NgModule({
-	imports: [CommonModule, IonicModule, FormsModule, ReactiveFormsModule, DirectivesModule],
-	declarations: [VRNCaptureModal],
-	providers: [AppComponent],
+  imports: [CommonModule, IonicModule, FormsModule, ReactiveFormsModule, DirectivesModule],
+  declarations: [VRNCaptureModal],
+  providers: [AppComponent],
 })
 export class VRNCaptureModalModule {}

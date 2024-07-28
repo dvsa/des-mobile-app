@@ -4,29 +4,29 @@ import { PopulateManoeuvreVehicleDimensions } from '@store/tests/vehicle-details
 import { PopulateVehicleDimensions } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 type VehicleDimensionsUnion =
-	| ReturnType<typeof PopulateManoeuvreVehicleDimensions>
-	| ReturnType<typeof PopulateVehicleDimensions>;
+  | ReturnType<typeof PopulateManoeuvreVehicleDimensions>
+  | ReturnType<typeof PopulateVehicleDimensions>;
 
 export const createPopulateVehicleDimensionsAction = (
-	testCategory: string,
-	application: Application
+  testCategory: string,
+  application: Application
 ): VehicleDimensionsUnion => {
-	switch (testCategory) {
-		case TestCategory.CM:
-		case TestCategory.C1M:
-		case TestCategory.CEM:
-		case TestCategory.C1EM:
-		case TestCategory.DM:
-		case TestCategory.D1M:
-		case TestCategory.DEM:
-		case TestCategory.D1EM:
-			return PopulateManoeuvreVehicleDimensions(
-				application.vehicleWidth,
-				application.vehicleLength,
-				application.vehicleHeight,
-				application.vehicleSeats
-			);
-		default:
-			return PopulateVehicleDimensions(application.vehicleWidth, application.vehicleLength);
-	}
+  switch (testCategory) {
+    case TestCategory.CM:
+    case TestCategory.C1M:
+    case TestCategory.CEM:
+    case TestCategory.C1EM:
+    case TestCategory.DM:
+    case TestCategory.D1M:
+    case TestCategory.DEM:
+    case TestCategory.D1EM:
+      return PopulateManoeuvreVehicleDimensions(
+        application.vehicleWidth,
+        application.vehicleLength,
+        application.vehicleHeight,
+        application.vehicleSeats
+      );
+    default:
+      return PopulateVehicleDimensions(application.vehicleWidth, application.vehicleLength);
+  }
 };

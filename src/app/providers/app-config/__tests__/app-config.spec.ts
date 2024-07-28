@@ -24,135 +24,135 @@ import { remoteEnvironmentMock } from '../__mocks__/environment.mock';
 import { AppConfigProvider } from '../app-config';
 
 describe('AppConfigProvider', () => {
-	let appConfig: AppConfigProvider;
-	let httpMock: HttpTestingController;
-	let platform: Platform;
-	let isDebug: IsDebug;
+  let appConfig: AppConfigProvider;
+  let httpMock: HttpTestingController;
+  let platform: Platform;
+  let isDebug: IsDebug;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				HttpClientTestingModule,
-				StoreModule.forRoot({
-					tests: testsReducer,
-					appConfig: appConfigReducer,
-					appInfo: () => ({
-						versionNumber: '5',
-					}),
-				}),
-			],
-			providers: [
-				{
-					provide: NetworkStateProvider,
-					useClass: NetworkStateProviderMock,
-				},
-				{
-					provide: DataStoreProvider,
-					useClass: DataStoreProviderMock,
-				},
-				{
-					provide: SchemaValidatorProvider,
-					useClass: SchemaValidatorProviderMock,
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProvider,
-					environmentFile: remoteEnvironmentMock,
-				},
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: AppInfoProvider,
-					useClass: AppInfoProviderMock,
-				},
-				{
-					provide: LogHelper,
-					useClass: LogHelperMock,
-				},
-				{
-					provide: IsDebug,
-					useClass: IsDebugMock,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({
+          tests: testsReducer,
+          appConfig: appConfigReducer,
+          appInfo: () => ({
+            versionNumber: '5',
+          }),
+        }),
+      ],
+      providers: [
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
+        {
+          provide: SchemaValidatorProvider,
+          useClass: SchemaValidatorProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProvider,
+          environmentFile: remoteEnvironmentMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AppInfoProvider,
+          useClass: AppInfoProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: IsDebug,
+          useClass: IsDebugMock,
+        },
+      ],
+    });
 
-		appConfig = TestBed.inject(AppConfigProvider);
-		httpMock = TestBed.inject(HttpTestingController);
-		platform = TestBed.inject(Platform);
-		isDebug = TestBed.inject(IsDebug);
-		appConfig.isDebugMode = true;
-		spyOn(appConfig, 'getDebugMode').and.returnValue(Promise.resolve());
-	});
+    appConfig = TestBed.inject(AppConfigProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    platform = TestBed.inject(Platform);
+    isDebug = TestBed.inject(IsDebug);
+    appConfig.isDebugMode = true;
+    spyOn(appConfig, 'getDebugMode').and.returnValue(Promise.resolve());
+  });
 
-	afterEach(() => {
-		httpMock.verify();
-	});
+  afterEach(() => {
+    httpMock.verify();
+  });
 
-	describe('initialiseAppConfig', () => {
-		it('should run loadMangedConfig() when platform is Ios', fakeAsync(() => {
-			platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
-			appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
+  describe('initialiseAppConfig', () => {
+    it('should run loadMangedConfig() when platform is Ios', fakeAsync(() => {
+      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
+      appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
 
-			appConfig.initialiseAppConfig();
-			tick();
+      appConfig.initialiseAppConfig();
+      tick();
 
-			expect(appConfig.loadManagedConfig).toHaveBeenCalled();
-		}));
-		it('should not run loadMangedConfig() when platform is not ios', fakeAsync(() => {
-			platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
-			appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
+      expect(appConfig.loadManagedConfig).toHaveBeenCalled();
+    }));
+    it('should not run loadMangedConfig() when platform is not ios', fakeAsync(() => {
+      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
+      appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
 
-			appConfig.initialiseAppConfig();
-			tick();
+      appConfig.initialiseAppConfig();
+      tick();
 
-			expect(appConfig.loadManagedConfig).toHaveBeenCalledTimes(0);
-		}));
-	});
+      expect(appConfig.loadManagedConfig).toHaveBeenCalledTimes(0);
+    }));
+  });
 
-	describe('loadRemoteConfig', () => {
-		it('should load remote config', fakeAsync(() => {
-			appConfig.environmentFile = remoteEnvironmentMock;
+  describe('loadRemoteConfig', () => {
+    it('should load remote config', fakeAsync(() => {
+      appConfig.environmentFile = remoteEnvironmentMock;
 
-			appConfig.loadRemoteConfig();
-			tick();
+      appConfig.loadRemoteConfig();
+      tick();
 
-			const request = httpMock.expectOne(`${remoteEnvironmentMock.configUrl}?app_version=4.0.0.0`);
-			expect(request.request.method).toBe('GET');
-			request.flush(environmentResponseMock);
-		}));
-	});
+      const request = httpMock.expectOne(`${remoteEnvironmentMock.configUrl}?app_version=4.0.0.0`);
+      expect(request.request.method).toBe('GET');
+      request.flush(environmentResponseMock);
+    }));
+  });
 
-	describe('getAppConfig', () => {
-		it('should asynchronously set the appConfig then return it', async () => {
-			spyOn(appConfig, 'getAppConfigAsync').and.returnValue(Promise.resolve({ configUrl: 'url' } as AppConfig));
-			const conf = appConfig.getAppConfig();
-			expect(conf).not.toBeUndefined();
-		});
-	});
+  describe('getAppConfig', () => {
+    it('should asynchronously set the appConfig then return it', async () => {
+      spyOn(appConfig, 'getAppConfigAsync').and.returnValue(Promise.resolve({ configUrl: 'url' } as AppConfig));
+      const conf = appConfig.getAppConfig();
+      expect(conf).not.toBeUndefined();
+    });
+  });
 
-	describe('getDebugMode', () => {
-		beforeEach(() => {
-			(environment as TestersEnvironmentFile)!.isTest = false;
-		});
+  describe('getDebugMode', () => {
+    beforeEach(() => {
+      (environment as TestersEnvironmentFile)!.isTest = false;
+    });
 
-		it('should return the value from the plugin when not isTest', async () => {
-			spyOn(isDebug, 'getIsDebug').and.returnValue(Promise.resolve(true));
+    it('should return the value from the plugin when not isTest', async () => {
+      spyOn(isDebug, 'getIsDebug').and.returnValue(Promise.resolve(true));
 
-			await appConfig.getDebugMode();
+      await appConfig.getDebugMode();
 
-			expect(appConfig.isDebugMode).toEqual(true);
-		});
+      expect(appConfig.isDebugMode).toEqual(true);
+    });
 
-		it('should return true when isTest regardless of plugin', async () => {
-			(environment as TestersEnvironmentFile).isTest = true;
+    it('should return true when isTest regardless of plugin', async () => {
+      (environment as TestersEnvironmentFile).isTest = true;
 
-			spyOn(isDebug, 'getIsDebug').and.returnValue(Promise.resolve(false));
+      spyOn(isDebug, 'getIsDebug').and.returnValue(Promise.resolve(false));
 
-			await appConfig.getDebugMode();
+      await appConfig.getDebugMode();
 
-			expect(appConfig.isDebugMode).toEqual(true);
-		});
-	});
+      expect(appConfig.isDebugMode).toEqual(true);
+    });
+  });
 });

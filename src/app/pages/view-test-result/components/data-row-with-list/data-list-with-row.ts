@@ -3,19 +3,19 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { DataRowListItem } from './data-list-with-row.model';
 
 @Component({
-	selector: 'data-row-with-list',
-	templateUrl: 'data-row-with-list.html',
-	styleUrls: ['data-row-with-list.scss'],
+  selector: 'data-row-with-list',
+  templateUrl: 'data-row-with-list.html',
+  styleUrls: ['data-row-with-list.scss'],
 })
 export class DataRowWithListComponent {
-	@Input()
-	label: string;
+  @Input()
+  label: string;
 
-	@Input()
-	shouldHaveSeperator = true;
+  @Input()
+  shouldHaveSeperator = true;
 
-	@Input()
-	data: DataRowListItem[];
+  @Input()
+  data: DataRowListItem[];
 
-	constructor(public accessibilityService: AccessibilityService) {}
+  constructor(public accessibilityService: AccessibilityService) {}
 }

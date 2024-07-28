@@ -5,7 +5,7 @@ import { ValidatorResult, validate } from 'jsonschema';
 
 @Injectable()
 export class SchemaValidatorProvider {
-	validateRemoteConfig = (data: RemoteConfig): ValidatorResult => {
-		return validate(data, remoteConfigSchema);
-	};
+  validateRemoteConfig = (data: RemoteConfig): ValidatorResult => {
+    return validate(data, remoteConfigSchema);
+  };
 }

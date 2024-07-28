@@ -3,36 +3,36 @@ import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as lessonAndThemeActions from './lesson-and-theme.actions';
 
 export const initialState: LessonAndTheme = {
-	studentLevel: null,
-	lessonThemes: [],
-	other: null,
+  studentLevel: null,
+  lessonThemes: [],
+  other: null,
 };
 
 export const lessonAndThemeReducer = createReducer(
-	initialState,
-	on(
-		lessonAndThemeActions.StudentLevelChanged,
-		(state, { studentLevel }): LessonAndTheme => ({
-			...state,
-			studentLevel: state.studentLevel === studentLevel ? null : studentLevel,
-		})
-	),
-	on(
-		lessonAndThemeActions.LessonThemeChanged,
-		(state, { lessonTheme }): LessonAndTheme => ({
-			...state,
-			lessonThemes: state.lessonThemes?.includes(lessonTheme)
-				? state.lessonThemes.filter((theme) => theme !== lessonTheme)
-				: [...state.lessonThemes, lessonTheme],
-		})
-	),
-	on(
-		lessonAndThemeActions.OtherChanged,
-		(state, { other }): LessonAndTheme => ({
-			...state,
-			other,
-		})
-	)
+  initialState,
+  on(
+    lessonAndThemeActions.StudentLevelChanged,
+    (state, { studentLevel }): LessonAndTheme => ({
+      ...state,
+      studentLevel: state.studentLevel === studentLevel ? null : studentLevel,
+    })
+  ),
+  on(
+    lessonAndThemeActions.LessonThemeChanged,
+    (state, { lessonTheme }): LessonAndTheme => ({
+      ...state,
+      lessonThemes: state.lessonThemes?.includes(lessonTheme)
+        ? state.lessonThemes.filter((theme) => theme !== lessonTheme)
+        : [...state.lessonThemes, lessonTheme],
+    })
+  ),
+  on(
+    lessonAndThemeActions.OtherChanged,
+    (state, { other }): LessonAndTheme => ({
+      ...state,
+      other,
+    })
+  )
 );
 
 export const getLessonAndTheme = createFeatureSelector<LessonAndTheme>('lessonAndTheme');

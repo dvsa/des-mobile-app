@@ -12,24 +12,24 @@ import { TrainingRecordsCatAdiPart2Component } from './training-records/training
 import { VehicleChecksModalCatADIPart2Module } from './vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page.module';
 
 @NgModule({
-	declarations: [
-		TrainingRecordsCatAdiPart2Component,
-		OrditTrainerCatAdiPart2Component,
-		TrainerRegistrationNumberCatAdiPart2Component,
-	],
-	imports: [
-		CommonModule,
-		ComponentsModule,
-		IonicModule,
-		DirectivesModule,
-		WaitingRoomToCarComponentsModule,
-		ReactiveFormsModule,
-		VehicleChecksModalCatADIPart2Module,
-	],
-	exports: [
-		TrainingRecordsCatAdiPart2Component,
-		OrditTrainerCatAdiPart2Component,
-		TrainerRegistrationNumberCatAdiPart2Component,
-	],
+  declarations: [
+    TrainingRecordsCatAdiPart2Component,
+    OrditTrainerCatAdiPart2Component,
+    TrainerRegistrationNumberCatAdiPart2Component,
+  ],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonicModule,
+    DirectivesModule,
+    WaitingRoomToCarComponentsModule,
+    ReactiveFormsModule,
+    VehicleChecksModalCatADIPart2Module,
+  ],
+  exports: [
+    TrainingRecordsCatAdiPart2Component,
+    OrditTrainerCatAdiPart2Component,
+    TrainerRegistrationNumberCatAdiPart2Component,
+  ],
 })
 export class WaitingRoomToCarCatADIPart2ComponentsModule {}

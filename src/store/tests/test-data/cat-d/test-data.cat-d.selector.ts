@@ -2,10 +2,10 @@ import { NUMBER_OF_SHOW_ME_QUESTIONS } from '@shared/constants/show-me-questions
 import { NUMBER_OF_TELL_ME_QUESTIONS } from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
-	CatDManoeuvres,
-	CatDTestData,
-	CatDTestRequirements,
-	CatDVehicleChecks,
+  CatDManoeuvres,
+  CatDTestData,
+  CatDTestRequirements,
+  CatDVehicleChecks,
 } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
 import { Competencies, LegalRequirements } from '../test-data.constants';
@@ -16,65 +16,65 @@ export const getManoeuvres = (data: CatDTestData): CatDManoeuvres => data.manoeu
 
 // @TODO: MES-7135 - We should pass a Manoeuvre object here instead of TestData
 export const hasManoeuvreBeenCompletedCatD = (data: CatDTestData) => {
-	return get(data.manoeuvres, 'reverseLeft.selected');
+  return get(data.manoeuvres, 'reverseLeft.selected');
 };
 
 export const hasLegalRequirementBeenCompleted = (data: CatDTestRequirements, legalRequirement: LegalRequirements) => {
-	return data[legalRequirement];
+  return data[legalRequirement];
 };
 
 export const getVehicleChecks = (state: CatDTestData): CatDVehicleChecks => state.vehicleChecks;
 
 export const areTellMeQuestionsSelected = (state: CatDVehicleChecks) =>
-	typeof get(state, 'tellMeQuestions') !== 'undefined';
+  typeof get(state, 'tellMeQuestions') !== 'undefined';
 
 export const areTellMeQuestionsCorrect = (state: CatDVehicleChecks) => {
-	const tellMeQuestions = get(state, 'tellMeQuestions');
-	let correct = true;
+  const tellMeQuestions = get(state, 'tellMeQuestions');
+  let correct = true;
 
-	if (typeof tellMeQuestions === 'undefined' || tellMeQuestions === null || !(tellMeQuestions instanceof Array)) {
-		correct = false;
-	} else {
-		tellMeQuestions.forEach((question) => {
-			if (question.outcome !== CompetencyOutcome.P) {
-				correct = false;
-			}
-		});
-	}
+  if (typeof tellMeQuestions === 'undefined' || tellMeQuestions === null || !(tellMeQuestions instanceof Array)) {
+    correct = false;
+  } else {
+    tellMeQuestions.forEach((question) => {
+      if (question.outcome !== CompetencyOutcome.P) {
+        correct = false;
+      }
+    });
+  }
 
-	return correct;
+  return correct;
 };
 
 // @TODO - MES-7135 We should really pass a Vehicle Checks object here and not Test Data
 export const hasVehicleChecksBeenCompletedCatD = (data: CatDTestData): boolean => {
-	let showMeQuestionComplete = true;
-	let tellMeQuestionComplete = true;
+  let showMeQuestionComplete = true;
+  let tellMeQuestionComplete = true;
 
-	if (
-		!(data.vehicleChecks && data.vehicleChecks.showMeQuestions instanceof Array) ||
-		data.vehicleChecks.showMeQuestions.length !== NUMBER_OF_SHOW_ME_QUESTIONS
-	) {
-		showMeQuestionComplete = false;
-	} else {
-		data.vehicleChecks.showMeQuestions.forEach((element) => {
-			if (element.outcome == null) {
-				showMeQuestionComplete = false;
-			}
-		});
-	}
+  if (
+    !(data.vehicleChecks && data.vehicleChecks.showMeQuestions instanceof Array) ||
+    data.vehicleChecks.showMeQuestions.length !== NUMBER_OF_SHOW_ME_QUESTIONS
+  ) {
+    showMeQuestionComplete = false;
+  } else {
+    data.vehicleChecks.showMeQuestions.forEach((element) => {
+      if (element.outcome == null) {
+        showMeQuestionComplete = false;
+      }
+    });
+  }
 
-	if (
-		!(data.vehicleChecks && data.vehicleChecks.tellMeQuestions instanceof Array) ||
-		data.vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
-	) {
-		tellMeQuestionComplete = false;
-	} else {
-		data.vehicleChecks.tellMeQuestions.forEach((element) => {
-			if (element.outcome == null) {
-				tellMeQuestionComplete = false;
-			}
-		});
-	}
+  if (
+    !(data.vehicleChecks && data.vehicleChecks.tellMeQuestions instanceof Array) ||
+    data.vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
+  ) {
+    tellMeQuestionComplete = false;
+  } else {
+    data.vehicleChecks.tellMeQuestions.forEach((element) => {
+      if (element.outcome == null) {
+        tellMeQuestionComplete = false;
+      }
+    });
+  }
 
-	return showMeQuestionComplete && tellMeQuestionComplete;
+  return showMeQuestionComplete && tellMeQuestionComplete;
 };

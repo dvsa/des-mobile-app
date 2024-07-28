@@ -7,18 +7,18 @@ import { createFeatureSelector } from '@ngrx/store';
 import { some } from 'lodash-es';
 
 export type CatDSafetyQuestions =
-	| CatDUniqueTypes.SafetyQuestions
-	| CatD1UniqueTypes.SafetyQuestions
-	| CatDEUniqueTypes.SafetyQuestions
-	| CatD1EUniqueTypes.SafetyQuestions;
+  | CatDUniqueTypes.SafetyQuestions
+  | CatD1UniqueTypes.SafetyQuestions
+  | CatDEUniqueTypes.SafetyQuestions
+  | CatD1EUniqueTypes.SafetyQuestions;
 
 export const getSafetyQuestions = (safetyQuestionsCatDReducer: CatDSafetyQuestions): SafetyQuestionResult[] => {
-	return safetyQuestionsCatDReducer.questions;
+  return safetyQuestionsCatDReducer.questions;
 };
 
 export const safetyQuestionsExist = (safetyQuestions: CatDSafetyQuestions): boolean => {
-	const questions = [...safetyQuestions.questions];
-	return some(questions, (fault) => fault.outcome != null);
+  const questions = [...safetyQuestions.questions];
+  return some(questions, (fault) => fault.outcome != null);
 };
 
 export const getSafetyQuestionsCatD = createFeatureSelector<CatDSafetyQuestions>('safetyQuestions');

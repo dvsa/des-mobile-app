@@ -9,8 +9,8 @@ import { ReasonGivenComponent } from '@pages/pass-finalisation/cat-adi-part3/com
 import { TestStartEndTimesComponent } from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times';
 
 @NgModule({
-	declarations: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
-	imports: [IonicModule, CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule],
-	exports: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
+  declarations: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
+  imports: [IonicModule, CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule],
+  exports: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
 })
 export class PassFinalisationCatADI3ComponentsModule {}

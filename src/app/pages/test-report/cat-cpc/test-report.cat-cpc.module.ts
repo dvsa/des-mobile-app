@@ -17,17 +17,17 @@ import { TestReportCatCPCPageRoutingModule } from './test-report.cat-cpc-routing
 import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
 
 @NgModule({
-	declarations: [TestReportCatCPCPage],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		TestReportCatCPCComponentsModule,
-		TestReportCatCPCPageRoutingModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		ComponentsModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatCPCPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TestReportCatCPCComponentsModule,
+    TestReportCatCPCPageRoutingModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    ComponentsModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatCPCPageModule {}

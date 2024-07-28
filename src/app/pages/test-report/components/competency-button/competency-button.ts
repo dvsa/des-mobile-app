@@ -1,77 +1,77 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-	selector: 'competency-button',
-	templateUrl: './competency-button.html',
-	styleUrls: ['./competency-button.scss'],
+  selector: 'competency-button',
+  templateUrl: './competency-button.html',
+  styleUrls: ['./competency-button.scss'],
 })
 export class CompetencyButtonComponent {
-	@Input()
-	onPress?: Function;
+  @Input()
+  onPress?: Function;
 
-	@Input()
-	onTap?: Function;
+  @Input()
+  onTap?: Function;
 
-	@Input()
-	ripple?: boolean = true;
+  @Input()
+  ripple?: boolean = true;
 
-	@Input()
-	disabled?: boolean = false;
+  @Input()
+  disabled?: boolean = false;
 
-	@Input()
-	redBorder?: boolean = false;
+  @Input()
+  redBorder?: boolean = false;
 
-	touchState = false;
-	touchStateDelay = 100;
-	touchTimeout: NodeJS.Timeout;
-	rippleTimeout: NodeJS.Timeout;
-	rippleState = false;
-	rippleEffectAnimationDuration = 300;
+  touchState = false;
+  touchStateDelay = 100;
+  touchTimeout: NodeJS.Timeout;
+  rippleTimeout: NodeJS.Timeout;
+  rippleState = false;
+  rippleEffectAnimationDuration = 300;
 
-	onTapEvent(): void {
-		if (this.disabled) {
-			return;
-		}
-		if (this.onTap) {
-			this.onTap();
-		}
-	}
+  onTapEvent(): void {
+    if (this.disabled) {
+      return;
+    }
+    if (this.onTap) {
+      this.onTap();
+    }
+  }
 
-	onPressEvent(): void {
-		if (this.disabled) {
-			return;
-		}
-		if (this.onPress) {
-			this.onPress();
-		}
-		if (this.ripple) {
-			this.applyRippleEffect();
-		}
-	}
+  onPressEvent(): void {
+    if (this.disabled) {
+      return;
+    }
+    if (this.onPress) {
+      this.onPress();
+    }
+    if (this.ripple) {
+      this.applyRippleEffect();
+    }
+  }
 
-	applyRippleEffect = (): any => {
-		this.rippleState = true;
-		this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
-	};
+  applyRippleEffect = (): any => {
+    this.rippleState = true;
+    this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
+  };
 
-	removeRippleEffect = (): any => {
-		this.rippleState = false;
-		clearTimeout(this.rippleTimeout);
-	};
+  removeRippleEffect = (): any => {
+    this.rippleState = false;
+    clearTimeout(this.rippleTimeout);
+  };
 
-	onTouchStart(): void {
-		if (this.disabled) {
-			return;
-		}
-		clearTimeout(this.touchTimeout);
-		this.touchState = true;
-	}
+  onTouchStart(): void {
+    if (this.disabled) {
+      return;
+    }
+    clearTimeout(this.touchTimeout);
+    this.touchState = true;
+  }
 
-	onTouchEnd(): void {
-		if (this.disabled) {
-			return;
-		}
-		// defer the removal of the touch state to allow the page to render
-		this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
-	}
+  onTouchEnd(): void {
+    if (this.disabled) {
+      return;
+    }
+    // defer the removal of the touch state to allow the page to render
+    this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
+  }
 }

@@ -12,40 +12,40 @@ import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 interface ComponentState {
-	safetyAndBalanceDrivingFaultCount$: Observable<number>;
+  safetyAndBalanceDrivingFaultCount$: Observable<number>;
 }
 
 @Component({
-	selector: 'safety-and-balance',
-	templateUrl: 'safety-and-balance.html',
-	styleUrls: ['safety-and-balance.scss'],
+  selector: 'safety-and-balance',
+  templateUrl: 'safety-and-balance.html',
+  styleUrls: ['safety-and-balance.scss'],
 })
 export class SafetyAndBalanceComponent implements OnInit {
-	componentState: ComponentState;
-	category: TestCategory = TestCategory.EUAM2;
+  componentState: ComponentState;
+  category: TestCategory = TestCategory.EUAM2;
 
-	constructor(
-		private store$: Store<StoreModel>,
-		public faultCountProvider: FaultCountProvider
-	) {}
+  constructor(
+    private store$: Store<StoreModel>,
+    public faultCountProvider: FaultCountProvider
+  ) {}
 
-	ngOnInit(): void {
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-		const category$ = currentTest$.pipe(
-			select(getTestCategory),
-			map((result) => (this.category = result as TestCategory))
-		);
+  ngOnInit(): void {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const category$ = currentTest$.pipe(
+      select(getTestCategory),
+      map((result) => (this.category = result as TestCategory))
+    );
 
-		this.componentState = {
-			safetyAndBalanceDrivingFaultCount$: currentTest$.pipe(
-				select(getTestData),
-				select(getSafetyAndBalanceQuestions),
-				withLatestFrom(category$),
-				map(
-					([safetyAndBalance, category]) =>
-						this.faultCountProvider.getSafetyAndBalanceFaultCount(category, safetyAndBalance).drivingFaults
-				)
-			),
-		};
-	}
+    this.componentState = {
+      safetyAndBalanceDrivingFaultCount$: currentTest$.pipe(
+        select(getTestData),
+        select(getSafetyAndBalanceQuestions),
+        withLatestFrom(category$),
+        map(
+          ([safetyAndBalance, category]) =>
+            this.faultCountProvider.getSafetyAndBalanceFaultCount(category, safetyAndBalance).drivingFaults
+        )
+      ),
+    };
+  }
 }

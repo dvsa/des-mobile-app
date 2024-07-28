@@ -1,3 +1,3 @@
 export type SafetyQuestion = {
-	description: string;
+  description: string;
 };

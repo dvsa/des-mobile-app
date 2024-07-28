@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { SpeedCheckModal } from './speed-check-modal';
 
 @NgModule({
-	declarations: [SpeedCheckModal],
-	imports: [IonicModule, ComponentsModule, CommonModule],
-	exports: [SpeedCheckModal],
+  declarations: [SpeedCheckModal],
+  imports: [IonicModule, ComponentsModule, CommonModule],
+  exports: [SpeedCheckModal],
 })
 export class SpeedCheckModalModule {}

@@ -7,9 +7,9 @@ import { select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { HealthDeclarationModal } from '@pages/health-declaration/components/health-declaration-modal/health-declaration-modal';
 import {
-	ContinueFromDeclaration,
-	HealthDeclarationValidationError,
-	HealthDeclarationViewDidEnter,
+  ContinueFromDeclaration,
+  HealthDeclarationValidationError,
+  HealthDeclarationViewDidEnter,
 } from '@pages/health-declaration/health-declaration.actions';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
@@ -22,24 +22,24 @@ import { getCommunicationPreference } from '@store/tests/communication-preferenc
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
-	formatDriverNumber,
-	getCandidateDriverNumber,
-	getCandidateName,
-	getCandidatePrn,
-	getUntitledCandidateName,
+  formatDriverNumber,
+  getCandidateDriverNumber,
+  getCandidateName,
+  getCandidatePrn,
+  getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
 import {
-	getPassCertificateNumber,
-	isProvisionalLicenseProvided,
+  getPassCertificateNumber,
+  isProvisionalLicenseProvided,
 } from '@store/tests/pass-completion/pass-completion.selector';
 import * as postTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import {
-	getHealthDeclarationStatus,
-	getReceiptDeclarationStatus,
-	getSignatureStatus,
+  getHealthDeclarationStatus,
+  getReceiptDeclarationStatus,
+  getSignatureStatus,
 } from '@store/tests/post-test-declarations/post-test-declarations.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -47,201 +47,201 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 interface HealthDeclarationPageState {
-	healthDeclarationAccepted$: Observable<boolean>;
-	receiptDeclarationAccepted$: Observable<boolean>;
-	signature$: Observable<string>;
-	candidateName$: Observable<string>;
-	candidateUntitledName$: Observable<string>;
-	candidateDriverNumber$: Observable<string>;
-	passCertificateNumber$: Observable<string>;
-	licenseProvided$: Observable<boolean>;
-	conductedLanguage$: Observable<string>;
-	testCategory$: Observable<CategoryCode>;
-	showHealthDec$: Observable<boolean>;
-	prn$: Observable<number>;
-	isStandardsCheck$: Observable<boolean>;
+  healthDeclarationAccepted$: Observable<boolean>;
+  receiptDeclarationAccepted$: Observable<boolean>;
+  signature$: Observable<string>;
+  candidateName$: Observable<string>;
+  candidateUntitledName$: Observable<string>;
+  candidateDriverNumber$: Observable<string>;
+  passCertificateNumber$: Observable<string>;
+  licenseProvided$: Observable<boolean>;
+  conductedLanguage$: Observable<string>;
+  testCategory$: Observable<CategoryCode>;
+  showHealthDec$: Observable<boolean>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
 }
 
 @Component({
-	selector: 'app-health-declaration',
-	templateUrl: './health-declaration.page.html',
-	styleUrls: ['./health-declaration.page.scss'],
+  selector: 'app-health-declaration',
+  templateUrl: './health-declaration.page.html',
+  styleUrls: ['./health-declaration.page.scss'],
 })
 export class HealthDeclarationPage
-	extends PracticeableBasePageComponent
-	implements OnInit, ViewDidEnter, ViewWillEnter, ViewDidLeave
+  extends PracticeableBasePageComponent
+  implements OnInit, ViewDidEnter, ViewWillEnter, ViewDidLeave
 {
-	static readonly fieldName: string = 'healthCheckbox';
-	pageState: HealthDeclarationPageState;
-	formGroup: UntypedFormGroup;
-	licenseProvided: boolean;
-	healthDeclarationAccepted: boolean;
-	subscription: Subscription;
-	merged$: Observable<boolean | string>;
-	formControl: UntypedFormControl;
-	showHealthDec = true;
+  static readonly fieldName: string = 'healthCheckbox';
+  pageState: HealthDeclarationPageState;
+  formGroup: UntypedFormGroup;
+  licenseProvided: boolean;
+  healthDeclarationAccepted: boolean;
+  subscription: Subscription;
+  merged$: Observable<boolean | string>;
+  formControl: UntypedFormControl;
+  showHealthDec = true;
 
-	constructor(
-		public deviceAuthenticationProvider: DeviceAuthenticationProvider,
-		private translate: TranslateService,
-		public modalController: ModalController,
-		injector: Injector
-	) {
-		super(injector, false);
-		this.formGroup = new UntypedFormGroup({});
-	}
+  constructor(
+    public deviceAuthenticationProvider: DeviceAuthenticationProvider,
+    private translate: TranslateService,
+    public modalController: ModalController,
+    injector: Injector
+  ) {
+    super(injector, false);
+    this.formGroup = new UntypedFormGroup({});
+  }
 
-	ionViewDidEnter(): void {
-		this.store$.dispatch(HealthDeclarationViewDidEnter());
-	}
+  ionViewDidEnter(): void {
+    this.store$.dispatch(HealthDeclarationViewDidEnter());
+  }
 
-	async canDeActivate(): Promise<boolean> {
-		try {
-			await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
-			return true;
-		} catch {
-			return false;
-		}
-	}
+  async canDeActivate(): Promise<boolean> {
+    try {
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
-	ngOnInit(): void {
-		super.ngOnInit();
+  ngOnInit(): void {
+    super.ngOnInit();
 
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.pageState = {
-			healthDeclarationAccepted$: currentTest$.pipe(
-				select(getPostTestDeclarations),
-				select(getHealthDeclarationStatus)
-			),
-			receiptDeclarationAccepted$: currentTest$.pipe(
-				select(getPostTestDeclarations),
-				select(getReceiptDeclarationStatus)
-			),
-			signature$: currentTest$.pipe(select(getPostTestDeclarations), select(getSignatureStatus)),
-			candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
-			candidateUntitledName$: currentTest$.pipe(
-				select(getJournalData),
-				select(getCandidate),
-				select(getUntitledCandidateName)
-			),
-			candidateDriverNumber$: currentTest$.pipe(
-				select(getJournalData),
-				select(getCandidate),
-				select(getCandidateDriverNumber),
-				map(formatDriverNumber)
-			),
-			passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
-			licenseProvided$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
-			conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-			testCategory$: currentTest$.pipe(select(getTestCategory)),
-			showHealthDec$: currentTest$.pipe(
-				select(getTestCategory),
-				map(
-					(category) =>
-						!isAnyOf(category, [
-							TestCategory.CM,
-							TestCategory.C1M,
-							TestCategory.CEM,
-							TestCategory.C1EM,
-							TestCategory.DM,
-							TestCategory.D1M,
-							TestCategory.DEM,
-							TestCategory.D1EM,
-						])
-				)
-			),
-			prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
-			isStandardsCheck$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => isAnyOf(category, [TestCategory.SC]))
-			),
-		};
+    this.pageState = {
+      healthDeclarationAccepted$: currentTest$.pipe(
+        select(getPostTestDeclarations),
+        select(getHealthDeclarationStatus)
+      ),
+      receiptDeclarationAccepted$: currentTest$.pipe(
+        select(getPostTestDeclarations),
+        select(getReceiptDeclarationStatus)
+      ),
+      signature$: currentTest$.pipe(select(getPostTestDeclarations), select(getSignatureStatus)),
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
+      candidateUntitledName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getUntitledCandidateName)
+      ),
+      candidateDriverNumber$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidateDriverNumber),
+        map(formatDriverNumber)
+      ),
+      passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
+      licenseProvided$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
+      testCategory$: currentTest$.pipe(select(getTestCategory)),
+      showHealthDec$: currentTest$.pipe(
+        select(getTestCategory),
+        map(
+          (category) =>
+            !isAnyOf(category, [
+              TestCategory.CM,
+              TestCategory.C1M,
+              TestCategory.CEM,
+              TestCategory.C1EM,
+              TestCategory.DM,
+              TestCategory.D1M,
+              TestCategory.DEM,
+              TestCategory.D1EM,
+            ])
+        )
+      ),
+      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC]))
+      ),
+    };
 
-		const { licenseProvided$, healthDeclarationAccepted$, conductedLanguage$, showHealthDec$ } = this.pageState;
+    const { licenseProvided$, healthDeclarationAccepted$, conductedLanguage$, showHealthDec$ } = this.pageState;
 
-		this.merged$ = merge(
-			licenseProvided$.pipe(map((val) => (this.licenseProvided = val))),
-			healthDeclarationAccepted$.pipe(map((val) => (this.healthDeclarationAccepted = val))),
-			showHealthDec$.pipe(map((val) => (this.showHealthDec = val))),
-			conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate)))
-		);
-	}
+    this.merged$ = merge(
+      licenseProvided$.pipe(map((val) => (this.licenseProvided = val))),
+      healthDeclarationAccepted$.pipe(map((val) => (this.healthDeclarationAccepted = val))),
+      showHealthDec$.pipe(map((val) => (this.showHealthDec = val))),
+      conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate)))
+    );
+  }
 
-	ionViewWillEnter(): boolean {
-		if (this.merged$) {
-			this.subscription = this.merged$.subscribe();
-		}
+  ionViewWillEnter(): boolean {
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	getSignatureDrawCompleteAction(signature: string): void {
-		this.store$.dispatch(postTestDeclarationsActions.SignatureDataChanged(signature));
-	}
+  getSignatureDrawCompleteAction(signature: string): void {
+    this.store$.dispatch(postTestDeclarationsActions.SignatureDataChanged(signature));
+  }
 
-	getSignatureClearAction(): void {
-		this.store$.dispatch(postTestDeclarationsActions.SignatureDataCleared());
-	}
+  getSignatureClearAction(): void {
+    this.store$.dispatch(postTestDeclarationsActions.SignatureDataCleared());
+  }
 
-	healthDeclarationChanged(): void {
-		this.store$.dispatch(postTestDeclarationsActions.ToggleHealthDeclaration());
-	}
+  healthDeclarationChanged(): void {
+    this.store$.dispatch(postTestDeclarationsActions.ToggleHealthDeclaration());
+  }
 
-	receiptDeclarationChanged(): void {
-		this.store$.dispatch(postTestDeclarationsActions.ToggleReceiptDeclaration());
-	}
+  receiptDeclarationChanged(): void {
+    this.store$.dispatch(postTestDeclarationsActions.ToggleReceiptDeclaration());
+  }
 
-	async onSubmit(): Promise<void> {
-		Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+  async onSubmit(): Promise<void> {
+    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
-		if (this.formGroup.valid) {
-			if (!this.healthDeclarationAccepted && this.showHealthDec) {
-				await this.showConfirmHealthDeclarationModal();
-			} else {
-				await this.persistAndNavigate(false);
-			}
-			return;
-		}
+    if (this.formGroup.valid) {
+      if (!this.healthDeclarationAccepted && this.showHealthDec) {
+        await this.showConfirmHealthDeclarationModal();
+      } else {
+        await this.persistAndNavigate(false);
+      }
+      return;
+    }
 
-		Object.keys(this.formGroup.controls).forEach((controlName) => {
-			if (this.formGroup.controls[controlName].invalid) {
-				this.store$.dispatch(HealthDeclarationValidationError(`${controlName} is blank`));
-			}
-		});
-	}
+    Object.keys(this.formGroup.controls).forEach((controlName) => {
+      if (this.formGroup.controls[controlName].invalid) {
+        this.store$.dispatch(HealthDeclarationValidationError(`${controlName} is blank`));
+      }
+    });
+  }
 
-	async showConfirmHealthDeclarationModal(): Promise<void> {
-		const modal: HTMLIonModalElement = await this.modalController.create({
-			id: 'HealthDeclarationModal',
-			component: HealthDeclarationModal,
-			cssClass: 'mes-modal-alert text-zoom-regular',
-			backdropDismiss: false,
-			showBackdrop: true,
-			componentProps: {
-				onTestDetailsConfirm: async () => this.persistAndNavigate(true),
-				licenseProvided: this.licenseProvided,
-			},
-		});
-		await modal.present();
-	}
+  async showConfirmHealthDeclarationModal(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      id: 'HealthDeclarationModal',
+      component: HealthDeclarationModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+      backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        onTestDetailsConfirm: async () => this.persistAndNavigate(true),
+        licenseProvided: this.licenseProvided,
+      },
+    });
+    await modal.present();
+  }
 
-	async persistAndNavigate(resetLicenseProvided: boolean) {
-		const canNavigate: boolean = await this.router.navigate([CONFIRM_TEST_DETAILS]);
+  async persistAndNavigate(resetLicenseProvided: boolean) {
+    const canNavigate: boolean = await this.router.navigate([CONFIRM_TEST_DETAILS]);
 
-		if (canNavigate) {
-			if (this.licenseProvided && resetLicenseProvided) {
-				this.store$.dispatch(ProvisionalLicenseNotReceived());
-			}
-			this.store$.dispatch(ContinueFromDeclaration());
-		}
-	}
+    if (canNavigate) {
+      if (this.licenseProvided && resetLicenseProvided) {
+        this.store$.dispatch(ProvisionalLicenseNotReceived());
+      }
+      this.store$.dispatch(ContinueFromDeclaration());
+    }
+  }
 
-	ionViewDidLeave(): void {
-		super.ionViewDidLeave();
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
 
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

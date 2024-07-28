@@ -13,37 +13,37 @@ import { testRequirementsCatADI2Reducer } from './test-requirements/test-require
 import { vehicleChecksCatADI2Reducer } from './vehicle-checks/vehicle-checks.cat-adi-part2.reducer';
 
 export const initialState: CatADI2UniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	eyesightTest: {},
-	vehicleChecks: {
-		tellMeQuestions: [],
-		showMeQuestions: [],
-	},
-	controlledStop: {},
-	manoeuvres: [{}, {}],
+  dangerousFaults: {},
+  drivingFaults: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  eyesightTest: {},
+  vehicleChecks: {
+    tellMeQuestions: [],
+    showMeQuestions: [],
+  },
+  controlledStop: {},
+  manoeuvres: [{}, {}],
 };
 
 export function testDataCatADI2Reducer(
-	state: CatADI2UniqueTypes.TestData,
-	action: Action
+  state: CatADI2UniqueTypes.TestData,
+  action: Action
 ): Required<CatADI2UniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksCatADI2Reducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		eyesightTest: eyesightTestReducer,
-		testRequirements: testRequirementsCatADI2Reducer,
-		manoeuvres: manoeuvresCatADI2Reducer,
-		controlledStop: controlledStopReducer,
-	})(state as Required<CatADI2UniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksCatADI2Reducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    eyesightTest: eyesightTestReducer,
+    testRequirements: testRequirementsCatADI2Reducer,
+    manoeuvres: manoeuvresCatADI2Reducer,
+    controlledStop: controlledStopReducer,
+  })(state as Required<CatADI2UniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatADI2UniqueTypes.TestData>('testData');

@@ -1,4 +1,4 @@
 export interface RekeySearchParams {
-	applicationReference: string;
-	staffNumber: string;
+  applicationReference: string;
+  staffNumber: string;
 }

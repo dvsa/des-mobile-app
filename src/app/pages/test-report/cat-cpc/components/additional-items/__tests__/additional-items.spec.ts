@@ -6,26 +6,26 @@ import { mockEmptyAdditionalItems, mockPopulatedAdditionalItems } from '../__moc
 import { AdditionalItemsComponent } from '../additional-items';
 
 describe('AdditionalItemsComponent', () => {
-	let fixture: ComponentFixture<AdditionalItemsComponent>;
-	let component: AdditionalItemsComponent;
+  let fixture: ComponentFixture<AdditionalItemsComponent>;
+  let component: AdditionalItemsComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [AdditionalItemsComponent],
-			imports: [IonicModule, AppModule],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [AdditionalItemsComponent],
+      imports: [IonicModule, AppModule],
+    });
 
-		fixture = TestBed.createComponent(AdditionalItemsComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(AdditionalItemsComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('showAdditionalItems', () => {
-		it('should return a true when the additionalItems length is greater than 0', () => {
-			expect(component.showAdditionalItems(mockPopulatedAdditionalItems)).toEqual(true);
-		});
+  describe('showAdditionalItems', () => {
+    it('should return a true when the additionalItems length is greater than 0', () => {
+      expect(component.showAdditionalItems(mockPopulatedAdditionalItems)).toEqual(true);
+    });
 
-		it('should return a false when the additionalItems length is not greater than 0', () => {
-			expect(component.showAdditionalItems(mockEmptyAdditionalItems)).toEqual(false);
-		});
-	});
+    it('should return a false when the additionalItems length is not greater than 0', () => {
+      expect(component.showAdditionalItems(mockEmptyAdditionalItems)).toEqual(false);
+    });
+  });
 });

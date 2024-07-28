@@ -24,85 +24,85 @@ import { StoreModel } from '@shared/models/store.model';
 import { FakeJournalPage } from '../fake-journal.page';
 
 describe('FakeJournalPage', () => {
-	let component: FakeJournalPage;
-	let fixture: ComponentFixture<FakeJournalPage>;
-	let store$: Store<StoreModel>;
+  let component: FakeJournalPage;
+  let fixture: ComponentFixture<FakeJournalPage>;
+  let store$: Store<StoreModel>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [
-				FakeJournalPage,
-				MockComponent(PracticeModeBanner),
-				MockComponent(LocationComponent),
-				MockComponent(TestSlotComponent),
-				MockComponent(JournalNavigationComponent),
-			],
-			imports: [IonicModule],
-			providers: [
-				OrientationMonitorProvider,
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: DeviceProvider,
-					useClass: DeviceProviderMock,
-				},
-				{
-					provide: LogHelper,
-					useClass: LogHelperMock,
-				},
-				{
-					provide: ActivatedRoute,
-					useClass: ActivatedRouteMock,
-				},
-				provideMockStore({ initialState: {} }),
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        FakeJournalPage,
+        MockComponent(PracticeModeBanner),
+        MockComponent(LocationComponent),
+        MockComponent(TestSlotComponent),
+        MockComponent(JournalNavigationComponent),
+      ],
+      imports: [IonicModule],
+      providers: [
+        OrientationMonitorProvider,
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteMock,
+        },
+        provideMockStore({ initialState: {} }),
+      ],
+    });
 
-		fixture = TestBed.createComponent(FakeJournalPage);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-		store$ = TestBed.inject(Store);
-		spyOn(store$, 'dispatch');
-	}));
+    fixture = TestBed.createComponent(FakeJournalPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
+  }));
 
-	it('should setup test', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should setup test', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('ionViewDidEnter', () => {
-		it('should dispatch an action', () => {
-			component.ionViewDidEnter();
-			expect(store$.dispatch).toHaveBeenCalledWith(FakeJournalDidEnter());
-		});
-	});
+  describe('ionViewDidEnter', () => {
+    it('should dispatch an action', () => {
+      component.ionViewDidEnter();
+      expect(store$.dispatch).toHaveBeenCalledWith(FakeJournalDidEnter());
+    });
+  });
 
-	describe('ionViewWillLeave', () => {
-		it('should call tearDownListener', () => {
-			spyOn(component.orientationMonitorProvider, 'tearDownListener');
-			component.ionViewWillLeave();
-			expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
-		});
-	});
+  describe('ionViewWillLeave', () => {
+    it('should call tearDownListener', () => {
+      spyOn(component.orientationMonitorProvider, 'tearDownListener');
+      component.ionViewWillLeave();
+      expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
+    });
+  });
 
-	describe('ionViewWillEnter', () => {
-		it('should call monitorOrientation', () => {
-			spyOn(component.orientationMonitorProvider, 'monitorOrientation');
-			component.ionViewWillEnter();
-			expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
-		});
-	});
+  describe('ionViewWillEnter', () => {
+    it('should call monitorOrientation', () => {
+      spyOn(component.orientationMonitorProvider, 'monitorOrientation');
+      component.ionViewWillEnter();
+      expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
+    });
+  });
 });

@@ -11,10 +11,10 @@ import { TestsModel } from '@store/tests/tests.model';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
 
 export interface StoreModel {
-	[appInfoFeatureKey]: AppInfoStateModel;
-	[journalFeatureKey]: JournalModel;
-	[appConfigFeatureKey]: AppConfig;
-	[testCentreJournalFeatureKey]: TestCentreJournalModel;
-	[testsFeatureKey]: TestsModel;
-	[refDataFeatureKey]: RefDataStateModel;
+  [appInfoFeatureKey]: AppInfoStateModel;
+  [journalFeatureKey]: JournalModel;
+  [appConfigFeatureKey]: AppConfig;
+  [testCentreJournalFeatureKey]: TestCentreJournalModel;
+  [testsFeatureKey]: TestsModel;
+  [refDataFeatureKey]: RefDataStateModel;
 }

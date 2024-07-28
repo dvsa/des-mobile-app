@@ -5,8 +5,8 @@ import { StoreModel } from '@shared/models/store.model';
 
 @Injectable()
 export class TestCentreJournalEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 }

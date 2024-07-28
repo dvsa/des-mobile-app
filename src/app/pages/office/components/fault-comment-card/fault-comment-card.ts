@@ -4,64 +4,64 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-	selector: 'fault-comment-card',
-	templateUrl: 'fault-comment-card.html',
-	styleUrls: ['fault-comment-card.scss'],
+  selector: 'fault-comment-card',
+  templateUrl: 'fault-comment-card.html',
+  styleUrls: ['fault-comment-card.scss'],
 })
 export class FaultCommentCardComponent {
-	@Input()
-	outcome: string;
+  @Input()
+  outcome: string;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Input()
-	faultComments: FaultSummary[] = [];
+  @Input()
+  faultComments: FaultSummary[] = [];
 
-	@Input()
-	header: string;
+  @Input()
+  header: string;
 
-	@Input()
-	badgeLabel: string;
+  @Input()
+  badgeLabel: string;
 
-	@Input()
-	faultType: string;
+  @Input()
+  faultType: string;
 
-	@Input()
-	shouldRender: boolean;
+  @Input()
+  shouldRender: boolean;
 
-	@Input()
-	faultCount: number;
+  @Input()
+  faultCount: number;
 
-	@Input()
-	maxFaultCount: number;
+  @Input()
+  maxFaultCount: number;
 
-	@Input()
-	isDelegatedTest?: boolean = false;
+  @Input()
+  isDelegatedTest?: boolean = false;
 
-	@Input()
-	testCategory?: TestCategory;
+  @Input()
+  testCategory?: TestCategory;
 
-	@Output()
-	faultCommentsChange = new EventEmitter<FaultSummary>();
+  @Output()
+  faultCommentsChange = new EventEmitter<FaultSummary>();
 
-	idPrefix = 'fault-card-header';
+  idPrefix = 'fault-card-header';
 
-	ngOnChanges() {
-		this.faultComments?.forEach((value) => {
-			const control = new UntypedFormControl(null);
-			this.formGroup.addControl(
-				`faultComment-${value.source}-${this.faultType}-${value.competencyIdentifier}`,
-				control
-			);
-		});
-	}
+  ngOnChanges() {
+    this.faultComments?.forEach((value) => {
+      const control = new UntypedFormControl(null);
+      this.formGroup.addControl(
+        `faultComment-${value.source}-${this.faultType}-${value.competencyIdentifier}`,
+        control
+      );
+    });
+  }
 
-	faultCommentChanged(faultComment: FaultSummary): void {
-		this.faultCommentsChange.emit(faultComment);
-	}
+  faultCommentChanged(faultComment: FaultSummary): void {
+    this.faultCommentsChange.emit(faultComment);
+  }
 
-	trackByIndex = (_: number, fs: FaultSummary) => {
-		return `${fs.source}-${this.faultType}-${fs.competencyIdentifier}`;
-	};
+  trackByIndex = (_: number, fs: FaultSummary) => {
+    return `${fs.source}-${this.faultType}-${fs.competencyIdentifier}`;
+  };
 }

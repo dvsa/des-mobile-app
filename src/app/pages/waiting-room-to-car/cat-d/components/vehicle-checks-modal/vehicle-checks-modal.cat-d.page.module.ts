@@ -10,15 +10,15 @@ import { VehicleChecksModalCatDAnalyticsEffects } from './vehicle-checks-modal.c
 import { VehicleChecksCatDModal } from './vehicle-checks-modal.cat-d.page';
 
 @NgModule({
-	declarations: [VehicleChecksCatDModal, SafetyQuestionComponent],
-	imports: [
-		EffectsModule.forFeature([VehicleChecksModalCatDAnalyticsEffects]),
-		ComponentsModule,
-		WaitingRoomToCarComponentsModule,
-		IonicModule,
-		CommonModule,
-		ReactiveFormsModule,
-		FormsModule,
-	],
+  declarations: [VehicleChecksCatDModal, SafetyQuestionComponent],
+  imports: [
+    EffectsModule.forFeature([VehicleChecksModalCatDAnalyticsEffects]),
+    ComponentsModule,
+    WaitingRoomToCarComponentsModule,
+    IonicModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class VehicleChecksModalCatDModule {}

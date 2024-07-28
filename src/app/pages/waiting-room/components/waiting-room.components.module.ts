@@ -12,20 +12,20 @@ import { ManoeuvresPassCertificateComponent } from './manoeuvres-pass-cert/manoe
 import { ResidencyDeclarationComponent } from './residency-declaration/residency-declaration';
 
 @NgModule({
-	declarations: [
-		ConductedLanguageComponent,
-		InsuranceDeclarationComponent,
-		ResidencyDeclarationComponent,
-		CBTNumberComponent,
-		ManoeuvresPassCertificateComponent,
-	],
-	imports: [IonicModule, TranslateModule, ComponentsModule, ReactiveFormsModule, CommonModule, DirectivesModule],
-	exports: [
-		ConductedLanguageComponent,
-		InsuranceDeclarationComponent,
-		ResidencyDeclarationComponent,
-		CBTNumberComponent,
-		ManoeuvresPassCertificateComponent,
-	],
+  declarations: [
+    ConductedLanguageComponent,
+    InsuranceDeclarationComponent,
+    ResidencyDeclarationComponent,
+    CBTNumberComponent,
+    ManoeuvresPassCertificateComponent,
+  ],
+  imports: [IonicModule, TranslateModule, ComponentsModule, ReactiveFormsModule, CommonModule, DirectivesModule],
+  exports: [
+    ConductedLanguageComponent,
+    InsuranceDeclarationComponent,
+    ResidencyDeclarationComponent,
+    CBTNumberComponent,
+    ManoeuvresPassCertificateComponent,
+  ],
 })
 export class WaitingRoomComponentsModule {}

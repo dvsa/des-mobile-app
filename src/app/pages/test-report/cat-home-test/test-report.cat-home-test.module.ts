@@ -16,19 +16,19 @@ import { TestReportCatHomeTestComponentsModule } from './components/test-report.
 import { TestReportCatHomeTestPage } from './test-report.cat-home-test.page';
 
 @NgModule({
-	declarations: [TestReportCatHomeTestPage],
-	imports: [
-		TestReportComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		ComponentsModule,
-		TestReportCatHomeTestComponentsModule,
-		ReverseDiagramModalComponentsModule,
-		CommonModule,
-		IonicModule,
-		ComponentsModule,
-		TestReportCatHomeTestPageRoutingModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatHomeTestPage],
+  imports: [
+    TestReportComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    ComponentsModule,
+    TestReportCatHomeTestComponentsModule,
+    ReverseDiagramModalComponentsModule,
+    CommonModule,
+    IonicModule,
+    ComponentsModule,
+    TestReportCatHomeTestPageRoutingModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatHomeTestPageModule {}

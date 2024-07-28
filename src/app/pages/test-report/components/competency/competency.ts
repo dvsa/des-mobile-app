@@ -11,16 +11,16 @@ import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.sele
 import { getDrivingFaultCount } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
-	AddDangerousFault,
-	RemoveDangerousFault,
+  AddDangerousFault,
+  RemoveDangerousFault,
 } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import {
-	RemoveDrivingFault,
-	ThrottleAddDrivingFault,
+  RemoveDrivingFault,
+  ThrottleAddDrivingFault,
 } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import {
-	AddSeriousFault,
-	RemoveSeriousFault,
+  AddSeriousFault,
+  RemoveSeriousFault,
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { hasDangerousFault, hasSeriousFault } from '@store/tests/test-data/common/test-data.selector';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
@@ -31,223 +31,223 @@ import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 
 interface CompetencyState {
-	isRemoveFaultMode$: Observable<boolean>;
-	isSeriousMode$: Observable<boolean>;
-	isDangerousMode$: Observable<boolean>;
-	drivingFaultCount$: Observable<number>;
-	hasSeriousFault$: Observable<boolean>;
-	hasDangerousFault$: Observable<boolean>;
-	isDelegated$: Observable<boolean>;
+  isRemoveFaultMode$: Observable<boolean>;
+  isSeriousMode$: Observable<boolean>;
+  isDangerousMode$: Observable<boolean>;
+  drivingFaultCount$: Observable<number>;
+  hasSeriousFault$: Observable<boolean>;
+  hasDangerousFault$: Observable<boolean>;
+  isDelegated$: Observable<boolean>;
 }
 
 @Component({
-	selector: 'competency',
-	templateUrl: 'competency.html',
-	styleUrls: ['competency.scss'],
+  selector: 'competency',
+  templateUrl: 'competency.html',
+  styleUrls: ['competency.scss'],
 })
 export class CompetencyComponent {
-	@Input()
-	competency: Competencies;
-	@Input()
-	labelOverride: Competencies;
+  @Input()
+  competency: Competencies;
+  @Input()
+  labelOverride: Competencies;
 
-	competencyState: CompetencyState;
-	subscription: Subscription;
+  competencyState: CompetencyState;
+  subscription: Subscription;
 
-	isRemoveFaultMode = false;
-	faultCount: number;
-	isSeriousMode = false;
-	hasSeriousFault = false;
-	isDangerousMode = false;
-	hasDangerousFault = false;
-	isDelegated = false;
+  isRemoveFaultMode = false;
+  faultCount: number;
+  isSeriousMode = false;
+  hasSeriousFault = false;
+  isDangerousMode = false;
+  hasDangerousFault = false;
+  isDelegated = false;
 
-	allowRipple = true;
-	label: string;
+  allowRipple = true;
+  label: string;
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+  ngOnInit(): void {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.competencyState = {
-			isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-			isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-			isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-			drivingFaultCount$: currentTest$.pipe(
-				select(getTestData),
-				select((testData) => getDrivingFaultCount(testData, this.competency))
-			),
-			hasSeriousFault$: currentTest$.pipe(
-				select(getTestData),
-				select((testData) => hasSeriousFault(testData, this.competency))
-			),
-			hasDangerousFault$: currentTest$.pipe(
-				select(getTestData),
-				select((testData) => hasDangerousFault(testData, this.competency))
-			),
-			isDelegated$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
-		};
+    this.competencyState = {
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
+      drivingFaultCount$: currentTest$.pipe(
+        select(getTestData),
+        select((testData) => getDrivingFaultCount(testData, this.competency))
+      ),
+      hasSeriousFault$: currentTest$.pipe(
+        select(getTestData),
+        select((testData) => hasSeriousFault(testData, this.competency))
+      ),
+      hasDangerousFault$: currentTest$.pipe(
+        select(getTestData),
+        select((testData) => hasDangerousFault(testData, this.competency))
+      ),
+      isDelegated$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
+    };
 
-		const {
-			drivingFaultCount$,
-			isRemoveFaultMode$,
-			isSeriousMode$,
-			hasSeriousFault$,
-			isDangerousMode$,
-			hasDangerousFault$,
-			isDelegated$,
-		} = this.competencyState;
+    const {
+      drivingFaultCount$,
+      isRemoveFaultMode$,
+      isSeriousMode$,
+      hasSeriousFault$,
+      isDangerousMode$,
+      hasDangerousFault$,
+      isDelegated$,
+    } = this.competencyState;
 
-		const merged$ = merge(
-			drivingFaultCount$.pipe(map((count) => (this.faultCount = count))),
-			isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-			isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-			hasSeriousFault$.pipe(map((toggle) => (this.hasSeriousFault = toggle))),
-			isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-			hasDangerousFault$.pipe(map((toggle) => (this.hasDangerousFault = toggle))),
-			isDelegated$.pipe(map((toggle) => (this.isDelegated = toggle)))
-		).pipe(tap(this.canButtonRipple));
+    const merged$ = merge(
+      drivingFaultCount$.pipe(map((count) => (this.faultCount = count))),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      hasSeriousFault$.pipe(map((toggle) => (this.hasSeriousFault = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      hasDangerousFault$.pipe(map((toggle) => (this.hasDangerousFault = toggle))),
+      isDelegated$.pipe(map((toggle) => (this.isDelegated = toggle)))
+    ).pipe(tap(this.canButtonRipple));
 
-		this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-		this.label = this.getLabel();
-	}
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
+    this.label = this.getLabel();
+  }
 
-	ngOnDestroy(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	onTap = () => {
-		this.addOrRemoveFault(this.isDelegated);
-	};
+  onTap = () => {
+    this.addOrRemoveFault(this.isDelegated);
+  };
 
-	onPress = () => {
-		this.addOrRemoveFault(true);
-	};
+  onPress = () => {
+    this.addOrRemoveFault(true);
+  };
 
-	canButtonRipple = (): void => {
-		if (this.isRemoveFaultMode) {
-			if (this.hasDangerousFault && this.isDangerousMode) {
-				this.allowRipple = true;
-				return;
-			}
+  canButtonRipple = (): void => {
+    if (this.isRemoveFaultMode) {
+      if (this.hasDangerousFault && this.isDangerousMode) {
+        this.allowRipple = true;
+        return;
+      }
 
-			if (this.hasSeriousFault && this.isSeriousMode) {
-				this.allowRipple = true;
-				return;
-			}
+      if (this.hasSeriousFault && this.isSeriousMode) {
+        this.allowRipple = true;
+        return;
+      }
 
-			if (!this.isSeriousMode && !this.isDangerousMode && this.faultCount > 0) {
-				this.allowRipple = true;
-				return;
-			}
+      if (!this.isSeriousMode && !this.isDangerousMode && this.faultCount > 0) {
+        this.allowRipple = true;
+        return;
+      }
 
-			this.allowRipple = false;
-			return;
-		}
+      this.allowRipple = false;
+      return;
+    }
 
-		if (this.hasDangerousFault) {
-			this.allowRipple = false;
-			return;
-		}
+    if (this.hasDangerousFault) {
+      this.allowRipple = false;
+      return;
+    }
 
-		if (this.isDangerousMode) {
-			this.allowRipple = true;
-			return;
-		}
+    if (this.isDangerousMode) {
+      this.allowRipple = true;
+      return;
+    }
 
-		if (this.hasSeriousFault) {
-			this.allowRipple = false;
-			return;
-		}
+    if (this.hasSeriousFault) {
+      this.allowRipple = false;
+      return;
+    }
 
-		if (this.isSeriousMode) {
-			this.allowRipple = true;
-			return;
-		}
+    if (this.isSeriousMode) {
+      this.allowRipple = true;
+      return;
+    }
 
-		this.allowRipple = true;
-	};
+    this.allowRipple = true;
+  };
 
-	getLabel = (): string => {
-		if (this.labelOverride) {
-			return competencyLabels[this.labelOverride];
-		}
-		return competencyLabels[this.competency];
-	};
+  getLabel = (): string => {
+    if (this.labelOverride) {
+      return competencyLabels[this.labelOverride];
+    }
+    return competencyLabels[this.competency];
+  };
 
-	addOrRemoveFault = (wasPress = false): void => {
-		if (this.isRemoveFaultMode) {
-			this.removeFault();
-		} else {
-			this.addFault(wasPress);
-		}
-	};
+  addOrRemoveFault = (wasPress = false): void => {
+    if (this.isRemoveFaultMode) {
+      this.removeFault();
+    } else {
+      this.addFault(wasPress);
+    }
+  };
 
-	addFault = (wasPress: boolean): void => {
-		if (this.hasDangerousFault) {
-			return;
-		}
+  addFault = (wasPress: boolean): void => {
+    if (this.hasDangerousFault) {
+      return;
+    }
 
-		if (this.isDangerousMode) {
-			this.store$.dispatch(AddDangerousFault(this.competency));
-			this.store$.dispatch(ToggleDangerousFaultMode());
-			return;
-		}
+    if (this.isDangerousMode) {
+      this.store$.dispatch(AddDangerousFault(this.competency));
+      this.store$.dispatch(ToggleDangerousFaultMode());
+      return;
+    }
 
-		if (this.hasSeriousFault) {
-			return;
-		}
+    if (this.hasSeriousFault) {
+      return;
+    }
 
-		if (this.isSeriousMode) {
-			this.store$.dispatch(AddSeriousFault(this.competency));
-			this.store$.dispatch(ToggleSeriousFaultMode());
-			return;
-		}
+    if (this.isSeriousMode) {
+      this.store$.dispatch(AddSeriousFault(this.competency));
+      this.store$.dispatch(ToggleSeriousFaultMode());
+      return;
+    }
 
-		if (wasPress) {
-			const { competency } = this;
-			return this.store$.dispatch(
-				ThrottleAddDrivingFault({
-					competency,
-					newFaultCount: this.faultCount ? this.faultCount + 1 : 1,
-				})
-			);
-		}
-	};
+    if (wasPress) {
+      const { competency } = this;
+      return this.store$.dispatch(
+        ThrottleAddDrivingFault({
+          competency,
+          newFaultCount: this.faultCount ? this.faultCount + 1 : 1,
+        })
+      );
+    }
+  };
 
-	removeFault = (): void => {
-		if (this.hasDangerousFault && this.isDangerousMode && this.isRemoveFaultMode) {
-			this.store$.dispatch(RemoveDangerousFault(this.competency));
-			this.store$.dispatch(ToggleDangerousFaultMode());
-			this.store$.dispatch(ToggleRemoveFaultMode());
-			return;
-		}
+  removeFault = (): void => {
+    if (this.hasDangerousFault && this.isDangerousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(RemoveDangerousFault(this.competency));
+      this.store$.dispatch(ToggleDangerousFaultMode());
+      this.store$.dispatch(ToggleRemoveFaultMode());
+      return;
+    }
 
-		if (this.hasSeriousFault && this.isSeriousMode && this.isRemoveFaultMode) {
-			this.store$.dispatch(RemoveSeriousFault(this.competency));
-			this.store$.dispatch(ToggleSeriousFaultMode());
-			this.store$.dispatch(ToggleRemoveFaultMode());
-			return;
-		}
-		if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.faultCount > 0) {
-			this.store$.dispatch(
-				RemoveDrivingFault({
-					competency: this.competency,
-					newFaultCount: this.faultCount ? this.faultCount - 1 : 0,
-				})
-			);
-			this.store$.dispatch(ToggleRemoveFaultMode());
-		}
-	};
+    if (this.hasSeriousFault && this.isSeriousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(RemoveSeriousFault(this.competency));
+      this.store$.dispatch(ToggleSeriousFaultMode());
+      this.store$.dispatch(ToggleRemoveFaultMode());
+      return;
+    }
+    if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.faultCount > 0) {
+      this.store$.dispatch(
+        RemoveDrivingFault({
+          competency: this.competency,
+          newFaultCount: this.faultCount ? this.faultCount - 1 : 0,
+        })
+      );
+      this.store$.dispatch(ToggleRemoveFaultMode());
+    }
+  };
 
-	competencyHasFault = (): boolean => {
-		return this.hasDangerousFault || this.hasSeriousFault || this.hasDrivingFault();
-	};
+  competencyHasFault = (): boolean => {
+    return this.hasDangerousFault || this.hasSeriousFault || this.hasDrivingFault();
+  };
 
-	hasDrivingFault = (): boolean => {
-		return this.faultCount !== undefined;
-	};
+  hasDrivingFault = (): boolean => {
+    return this.faultCount !== undefined;
+  };
 }

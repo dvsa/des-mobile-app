@@ -5,25 +5,25 @@ import { BikeCategoryDetail, BikeTestType } from '@providers/bike-category-detai
 
 @Injectable()
 export class BikeCategoryDetailProviderMock {
-	public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
-		return {
-			testType: BikeTestType.MOD1,
-			categoryCode: category,
-			displayId: 'testID',
-			displayName: 'testName',
-			imageUrl: 'testUrl',
-		};
-	}
+  public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
+    return {
+      testType: BikeTestType.MOD1,
+      categoryCode: category,
+      displayId: 'testID',
+      displayName: 'testName',
+      imageUrl: 'testUrl',
+    };
+  }
 
-	public getAllDetailsByTestType(testType: BikeTestType): BikeCategoryDetail[] {
-		return [
-			{
-				testType: testType,
-				categoryCode: TestCategory.EUAM1,
-				displayId: 'testID',
-				displayName: 'testName',
-				imageUrl: 'testUrl',
-			},
-		];
-	}
+  public getAllDetailsByTestType(testType: BikeTestType): BikeCategoryDetail[] {
+    return [
+      {
+        testType: testType,
+        categoryCode: TestCategory.EUAM1,
+        displayId: 'testID',
+        displayName: 'testName',
+        imageUrl: 'testUrl',
+      },
+    ];
+  }
 }

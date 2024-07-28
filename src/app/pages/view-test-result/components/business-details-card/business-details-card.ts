@@ -7,34 +7,34 @@ import { Address } from '@dvsa/mes-test-schema/categories/common';
 import { get } from 'lodash-es';
 
 export type CandidateWithBusinessDetails =
-	| CatCUniqueTypes.Candidate
-	| CatC1UniqueTypes.Candidate
-	| CatCEUniqueTypes.Candidate
-	| CatC1EUniqueTypes.Candidate;
+  | CatCUniqueTypes.Candidate
+  | CatC1UniqueTypes.Candidate
+  | CatCEUniqueTypes.Candidate
+  | CatC1EUniqueTypes.Candidate;
 
 @Component({
-	selector: 'business-details-card',
-	templateUrl: 'business-details-card.html',
+  selector: 'business-details-card',
+  templateUrl: 'business-details-card.html',
 })
 export class BusinessDetailsCardComponent {
-	@Input()
-	data: CandidateWithBusinessDetails;
+  @Input()
+  data: CandidateWithBusinessDetails;
 
-	public shouldHideCard(): boolean {
-		return (
-			!get(this.data, 'businessName') && !get(this.data, 'businessTelephone') && !get(this.data, 'businessAddress')
-		);
-	}
+  public shouldHideCard(): boolean {
+    return (
+      !get(this.data, 'businessName') && !get(this.data, 'businessTelephone') && !get(this.data, 'businessAddress')
+    );
+  }
 
-	public get businessName(): string {
-		return get(this.data, 'businessName', 'Not supplied');
-	}
+  public get businessName(): string {
+    return get(this.data, 'businessName', 'Not supplied');
+  }
 
-	public get phoneNumber(): string {
-		return get(this.data, 'businessTelephone', 'Not supplied');
-	}
+  public get phoneNumber(): string {
+    return get(this.data, 'businessTelephone', 'Not supplied');
+  }
 
-	public get address(): Address {
-		return get(this.data, 'businessAddress');
-	}
+  public get address(): Address {
+    return get(this.data, 'businessAddress');
+  }
 }

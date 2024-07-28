@@ -1,4 +1,4 @@
 export type ReversingLengths = {
-	startDistance: number;
-	middleDistance: number;
+  startDistance: number;
+  middleDistance: number;
 };

@@ -11,24 +11,24 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-	selector: 'safety-and-balance-card-cat-a-mod2',
-	templateUrl: 'safety-and-balance-card.cat-a-mod2.html',
-	styleUrls: ['safety-and-balance-card.cat-a-mod2.scss'],
+  selector: 'safety-and-balance-card-cat-a-mod2',
+  templateUrl: 'safety-and-balance-card.cat-a-mod2.html',
+  styleUrls: ['safety-and-balance-card.cat-a-mod2.scss'],
 })
 export class SafetyAndBalanceCardCatAMod2Component implements OnInit {
-	safetyAndBalanceQuestions$: Observable<QuestionResult[]>;
-	constructor(private store$: Store<StoreModel>) {}
+  safetyAndBalanceQuestions$: Observable<QuestionResult[]>;
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		this.safetyAndBalanceQuestions$ = this.store$.pipe(
-			select(getTests),
-			select(getCurrentTest),
-			select(getTestData),
-			select(getSafetyAndBalanceQuestions),
-			map((questions) => [...questions.safetyQuestions, ...questions.balanceQuestions]),
-			map((checks) => checks.filter((c) => c.code !== undefined))
-		);
-	}
+  ngOnInit(): void {
+    this.safetyAndBalanceQuestions$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+      select(getTestData),
+      select(getSafetyAndBalanceQuestions),
+      map((questions) => [...questions.safetyQuestions, ...questions.balanceQuestions]),
+      map((checks) => checks.filter((c) => c.code !== undefined))
+    );
+  }
 
-	questionHasFault = (result: QuestionResult): boolean => result.outcome !== CompetencyOutcome.P;
+  questionHasFault = (result: QuestionResult): boolean => result.outcome !== CompetencyOutcome.P;
 }

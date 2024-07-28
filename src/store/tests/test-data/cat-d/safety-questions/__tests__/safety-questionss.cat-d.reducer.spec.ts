@@ -4,37 +4,37 @@ import { AddSafetyQuestionComment, SafetyQuestionOutcomeChanged } from '../safet
 import { safetyQuestionsCatDReducer } from '../safety-questions.cat-d.reducer';
 
 describe('Safety Questions Cat D Reducer', () => {
-	const mockSafetyQuestions: CatDUniqueTypes.SafetyQuestions = {
-		questions: [
-			{
-				description: 'Lebron',
-				outcome: CompetencyOutcome.P,
-			},
-			{
-				description: 'Kd',
-				outcome: CompetencyOutcome.P,
-			},
-			{
-				description: 'Dame',
-				outcome: CompetencyOutcome.P,
-			},
-		],
-		faultComments: '',
-	};
+  const mockSafetyQuestions: CatDUniqueTypes.SafetyQuestions = {
+    questions: [
+      {
+        description: 'Lebron',
+        outcome: CompetencyOutcome.P,
+      },
+      {
+        description: 'Kd',
+        outcome: CompetencyOutcome.P,
+      },
+      {
+        description: 'Dame',
+        outcome: CompetencyOutcome.P,
+      },
+    ],
+    faultComments: '',
+  };
 
-	describe('SAFETY_QUESTION_OUTCOME_CHANGED', () => {
-		it('should update the outcome property for the object at the specified index', () => {
-			const state = mockSafetyQuestions;
-			const result = safetyQuestionsCatDReducer(state, SafetyQuestionOutcomeChanged('DF', 1));
-			expect(result.questions[1].outcome).toEqual('DF');
-		});
-	});
+  describe('SAFETY_QUESTION_OUTCOME_CHANGED', () => {
+    it('should update the outcome property for the object at the specified index', () => {
+      const state = mockSafetyQuestions;
+      const result = safetyQuestionsCatDReducer(state, SafetyQuestionOutcomeChanged('DF', 1));
+      expect(result.questions[1].outcome).toEqual('DF');
+    });
+  });
 
-	describe('ADD_SAFETY_QUESTION_COMMENT', () => {
-		it('should update the outcome property for the object at the specified index', () => {
-			const state = mockSafetyQuestions;
-			const result = safetyQuestionsCatDReducer(state, AddSafetyQuestionComment('DVSA rocks!!!'));
-			expect(result.faultComments).toEqual('DVSA rocks!!!');
-		});
-	});
+  describe('ADD_SAFETY_QUESTION_COMMENT', () => {
+    it('should update the outcome property for the object at the specified index', () => {
+      const state = mockSafetyQuestions;
+      const result = safetyQuestionsCatDReducer(state, AddSafetyQuestionComment('DVSA rocks!!!'));
+      expect(result.faultComments).toEqual('DVSA rocks!!!');
+    });
+  });
 });

@@ -9,15 +9,15 @@ import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-ro
 import { VehicleChecksModalCatHomeTestAnalyticsEffects } from './vehicle-checks-modal.cat-home-test.analytics.effects';
 
 @NgModule({
-	declarations: [VehicleChecksCatHomeTestModal],
-	imports: [
-		EffectsModule.forFeature([VehicleChecksModalCatHomeTestAnalyticsEffects]),
-		ComponentsModule,
-		WaitingRoomToCarComponentsModule,
-		IonicModule,
-		CommonModule,
-		ReactiveFormsModule,
-		FormsModule,
-	],
+  declarations: [VehicleChecksCatHomeTestModal],
+  imports: [
+    EffectsModule.forFeature([VehicleChecksModalCatHomeTestAnalyticsEffects]),
+    ComponentsModule,
+    WaitingRoomToCarComponentsModule,
+    IonicModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class VehicleChecksModalCatHomeModule {}

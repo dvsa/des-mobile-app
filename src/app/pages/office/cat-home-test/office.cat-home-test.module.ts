@@ -15,18 +15,18 @@ import { OfficeCatHomeTestPageRoutingModule } from './office.cat-home-test-routi
 import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
 
 @NgModule({
-	imports: [
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		OfficeCatHomeTestPageRoutingModule,
-		ComponentsModule,
-		OfficeComponentsModule,
-		ReactiveFormsModule,
-		WaitingRoomToCarComponentsModule,
-	],
-	declarations: [OfficeCatHomeTestPage],
-	providers: [FaultSummaryProvider],
+  imports: [
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    OfficeCatHomeTestPageRoutingModule,
+    ComponentsModule,
+    OfficeComponentsModule,
+    ReactiveFormsModule,
+    WaitingRoomToCarComponentsModule,
+  ],
+  declarations: [OfficeCatHomeTestPage],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatHomeTestPageModule {}

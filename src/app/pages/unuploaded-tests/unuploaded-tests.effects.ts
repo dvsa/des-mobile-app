@@ -5,9 +5,9 @@ import { SearchProvider } from '@providers/search/search';
 
 @Injectable()
 export class UnuploadedTestsEffects {
-	constructor(
-		public networkStateProvider: NetworkStateProvider,
-		public searchProvider: SearchProvider,
-		public appConfigProvider: AppConfigProvider
-	) {}
+  constructor(
+    public networkStateProvider: NetworkStateProvider,
+    public searchProvider: SearchProvider,
+    public appConfigProvider: AppConfigProvider
+  ) {}
 }

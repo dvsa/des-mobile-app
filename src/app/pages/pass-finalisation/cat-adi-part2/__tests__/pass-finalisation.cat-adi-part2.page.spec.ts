@@ -17,8 +17,8 @@ import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/
 import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
-	PassFinalisationValidationError,
-	PassFinalisationViewDidEnter,
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -30,82 +30,82 @@ import { Subscription } from 'rxjs';
 import { PassFinalisationCatADI2Page } from '../pass-finalisation.cat-adi-part2.page';
 
 describe('PassFinalisationCatADI2Page', () => {
-	let fixture: ComponentFixture<PassFinalisationCatADI2Page>;
-	let component: PassFinalisationCatADI2Page;
-	let store$: Store<StoreModel>;
+  let fixture: ComponentFixture<PassFinalisationCatADI2Page>;
+  let component: PassFinalisationCatADI2Page;
+  let store$: Store<StoreModel>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				PassFinalisationCatADI2Page,
-				MockComponent(PracticeModeBanner),
-				MockComponent(LicenseProvidedComponent),
-				MockComponent(TransmissionComponent),
-				MockComponent(D255Component),
-				MockComponent(DebriefWitnessedComponent),
-				MockComponent(FinalisationHeaderComponent),
-				MockComponent(LanguagePreferencesComponent),
-				MockComponent(WarningBannerComponent),
-				MockComponent(LicenceProvidedWarningBannerComponent),
-			],
-			imports: [RouterModule.forRoot([]), AppModule],
-			providers: [
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: NavController,
-					useClass: NavControllerMock,
-				},
-				OutcomeBehaviourMapProvider,
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        PassFinalisationCatADI2Page,
+        MockComponent(PracticeModeBanner),
+        MockComponent(LicenseProvidedComponent),
+        MockComponent(TransmissionComponent),
+        MockComponent(D255Component),
+        MockComponent(DebriefWitnessedComponent),
+        MockComponent(FinalisationHeaderComponent),
+        MockComponent(LanguagePreferencesComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(LicenceProvidedWarningBannerComponent),
+      ],
+      imports: [RouterModule.forRoot([]), AppModule],
+      providers: [
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
+        OutcomeBehaviourMapProvider,
+      ],
+    });
 
-		fixture = TestBed.createComponent(PassFinalisationCatADI2Page);
-		component = fixture.componentInstance;
-		store$ = TestBed.inject(Store);
-		spyOn(store$, 'dispatch');
-		component.subscription = new Subscription();
-	}));
+    fixture = TestBed.createComponent(PassFinalisationCatADI2Page);
+    component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
+    component.subscription = new Subscription();
+  }));
 
-	describe('Class', () => {
-		describe('onSubmit', () => {
-			it('should dispatch the PersistTests action', () => {
-				component.onSubmit();
-				expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
-			});
-			it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-				component.form = new UntypedFormGroup({
-					requiredControl1: new UntypedFormControl(null, [Validators.required]),
-					requiredControl2: new UntypedFormControl(null, [Validators.required]),
-					[PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
-					notRequiredControl: new UntypedFormControl(null),
-				});
+  describe('Class', () => {
+    describe('onSubmit', () => {
+      it('should dispatch the PersistTests action', () => {
+        component.onSubmit();
+        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+      });
+      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-				component.onSubmit();
-				tick();
-				expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-				expect(store$.dispatch).not.toHaveBeenCalledWith(
-					PassFinalisationValidationError('notRequiredControl is blank')
-				);
-			}));
-		});
-		describe('ionViewWillEnter', () => {
-			it('should dispatch with PassFinalisationViewDidEnter', () => {
-				component.ionViewWillEnter();
-				expect(component.store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
-			});
-		});
-	});
+        component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          PassFinalisationValidationError('notRequiredControl is blank')
+        );
+      }));
+    });
+    describe('ionViewWillEnter', () => {
+      it('should dispatch with PassFinalisationViewDidEnter', () => {
+        component.ionViewWillEnter();
+        expect(component.store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+      });
+    });
+  });
 });

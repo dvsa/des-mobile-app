@@ -9,25 +9,25 @@ import { avoidanceReducer } from './avoidance/avoidance.reducer';
 import { emergencyStopReducer } from './emergency-stop/emergency-stop.reducer';
 
 export const initialState: TestData = {
-	singleFaultCompetencies: {},
-	emergencyStop: {},
-	avoidance: {},
-	dangerousFaults: {},
-	drivingFaults: {},
-	seriousFaults: {},
-	ETA: {},
+  singleFaultCompetencies: {},
+  emergencyStop: {},
+  avoidance: {},
+  dangerousFaults: {},
+  drivingFaults: {},
+  seriousFaults: {},
+  ETA: {},
 };
 
 export function testDataCatAMod1Reducer(state: TestData, action: Action): TestData {
-	return combineReducers({
-		singleFaultCompetencies: singleFaultCompetenciesReducer,
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		emergencyStop: emergencyStopReducer,
-		avoidance: avoidanceReducer,
-		ETA: etaReducer,
-	})(state as Required<TestData>, action);
+  return combineReducers({
+    singleFaultCompetencies: singleFaultCompetenciesReducer,
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    emergencyStop: emergencyStopReducer,
+    avoidance: avoidanceReducer,
+    ETA: etaReducer,
+  })(state as Required<TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<TestData>('testData');

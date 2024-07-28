@@ -5,18 +5,18 @@ export const TestReportViewDidEnter = createAction('[TestReportPage] Test Report
 // The aim of isUserGenerated in the actions below is so we know if we should track the event in analytics.
 // by default we don't as most of the time we programatically toggling the mode which we don't want to record
 export const ToggleRemoveFaultMode = createAction(
-	'[TestReportPage] Toggle Remove Fault Mode',
-	(isUserGenerated = false) => ({ isUserGenerated })
+  '[TestReportPage] Toggle Remove Fault Mode',
+  (isUserGenerated = false) => ({ isUserGenerated })
 );
 
 export const ToggleSeriousFaultMode = createAction(
-	'[TestReportPage] Toggle Serious Fault Mode',
-	(isUserGenerated = false) => ({ isUserGenerated })
+  '[TestReportPage] Toggle Serious Fault Mode',
+  (isUserGenerated = false) => ({ isUserGenerated })
 );
 
 export const ToggleDangerousFaultMode = createAction(
-	'[TestReportPage] Toggle Dangerous Fault Mode',
-	(isUserGenerated = false) => ({ isUserGenerated })
+  '[TestReportPage] Toggle Dangerous Fault Mode',
+  (isUserGenerated = false) => ({ isUserGenerated })
 );
 
 export const ResetFaultMode = createAction('[TestReportPage] Reset Fault Mode');
@@ -30,10 +30,10 @@ export const ReturnToTest = createAction('[TestReportPage] Return to Test');
 export const StartTimer = createAction('[TestReportPage] Start Timer');
 
 export type Types =
-	| typeof TestReportViewDidEnter
-	| typeof ToggleSeriousFaultMode
-	| typeof ToggleDangerousFaultMode
-	| typeof ToggleRemoveFaultMode
-	| typeof CalculateTestResult
-	| typeof TerminateTestFromTestReport
-	| typeof StartTimer;
+  | typeof TestReportViewDidEnter
+  | typeof ToggleSeriousFaultMode
+  | typeof ToggleDangerousFaultMode
+  | typeof ToggleRemoveFaultMode
+  | typeof CalculateTestResult
+  | typeof TerminateTestFromTestReport
+  | typeof StartTimer;

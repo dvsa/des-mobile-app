@@ -12,16 +12,16 @@ import { OtherReasonComponent } from './other-reason/other-reason';
 import { TransferComponent } from './transfer/transfer';
 
 @NgModule({
-	declarations: [IpadIssueComponent, TransferComponent, OtherReasonComponent],
-	imports: [
-		CommonModule,
-		ComponentsModule,
-		IonicModule,
-		ReactiveFormsModule,
-		DirectivesModule,
-		UploadRekeyModalModule,
-		ExitRekeyModalModule,
-	],
-	exports: [IpadIssueComponent, TransferComponent, OtherReasonComponent],
+  declarations: [IpadIssueComponent, TransferComponent, OtherReasonComponent],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonicModule,
+    ReactiveFormsModule,
+    DirectivesModule,
+    UploadRekeyModalModule,
+    ExitRekeyModalModule,
+  ],
+  exports: [IpadIssueComponent, TransferComponent, OtherReasonComponent],
 })
 export class RekeyReasonComponentsModule {}

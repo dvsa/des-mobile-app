@@ -16,17 +16,17 @@ import { TestReportCatBComponentsModule } from './components/test-report.cat-b.c
 import { TestReportCatBPage } from './test-report.cat-b.page';
 
 @NgModule({
-	declarations: [TestReportCatBPage],
-	imports: [
-		TestReportCatBComponentsModule,
-		TestReportComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		ComponentsModule,
-		CommonModule,
-		IonicModule,
-		TestReportCatBPageRoutingModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatBPage],
+  imports: [
+    TestReportCatBComponentsModule,
+    TestReportComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    ComponentsModule,
+    CommonModule,
+    IonicModule,
+    TestReportCatBPageRoutingModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatBPageModule {}

@@ -5,32 +5,32 @@ import { IonicModule } from '@ionic/angular';
 import { LicenceProvidedWarningBannerComponent } from '../licence-provided-warning-banner';
 
 describe('LicenceProvidedWarningBannerComponent', () => {
-	let fixture: ComponentFixture<LicenceProvidedWarningBannerComponent>;
-	let component: LicenceProvidedWarningBannerComponent;
+  let fixture: ComponentFixture<LicenceProvidedWarningBannerComponent>;
+  let component: LicenceProvidedWarningBannerComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
-			imports: [IonicModule],
-			providers: [LicenceProvidedWarningBannerComponent],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
+      imports: [IonicModule],
+      providers: [LicenceProvidedWarningBannerComponent],
+    });
 
-		fixture = TestBed.createComponent(LicenceProvidedWarningBannerComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(LicenceProvidedWarningBannerComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('DOM', () => {
-		it('should display correct message when licence provided', () => {
-			component.licenceProvided = true;
-			fixture.detectChanges();
-			const rendered = fixture.debugElement.query(By.css('.warning-text')).nativeElement.innerHTML;
-			expect(rendered).toBe(component.yesText);
-		});
-		it('should display correct message when licence NOT provided', () => {
-			component.licenceProvided = false;
-			fixture.detectChanges();
-			const rendered = fixture.debugElement.query(By.css('.warning-text')).nativeElement.innerHTML;
-			expect(rendered).toBe(component.noText);
-		});
-	});
+  describe('DOM', () => {
+    it('should display correct message when licence provided', () => {
+      component.licenceProvided = true;
+      fixture.detectChanges();
+      const rendered = fixture.debugElement.query(By.css('.warning-text')).nativeElement.innerHTML;
+      expect(rendered).toBe(component.yesText);
+    });
+    it('should display correct message when licence NOT provided', () => {
+      component.licenceProvided = false;
+      fixture.detectChanges();
+      const rendered = fixture.debugElement.query(By.css('.warning-text')).nativeElement.innerHTML;
+      expect(rendered).toBe(component.noText);
+    });
+  });
 });

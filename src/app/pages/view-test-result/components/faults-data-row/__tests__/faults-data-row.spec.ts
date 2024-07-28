@@ -11,87 +11,87 @@ import { MockComponent } from 'ng-mocks';
 import { FaultsDataRowComponent } from '../faults-data-row';
 
 describe('FaultsDataRowComponent', () => {
-	let fixture: ComponentFixture<FaultsDataRowComponent>;
-	let component: FaultsDataRowComponent;
+  let fixture: ComponentFixture<FaultsDataRowComponent>;
+  let component: FaultsDataRowComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [
-				FaultsDataRowComponent,
-				MockComponent(DangerousFaultBadgeComponent),
-				MockComponent(SeriousFaultBadgeComponent),
-				MockComponent(DrivingFaultsBadgeComponent),
-			],
-			imports: [IonicModule, ComponentsModule],
-			providers: [
-				{
-					provide: AccessibilityService,
-					useClass: AccessibilityServiceMock,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        FaultsDataRowComponent,
+        MockComponent(DangerousFaultBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+      ],
+      imports: [IonicModule, ComponentsModule],
+      providers: [
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(FaultsDataRowComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(FaultsDataRowComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('showFaultComment', () => {
-		const faultSummary: FaultSummary = {
-			competencyIdentifier: 'compId',
-			competencyDisplayName: 'dispName',
-			faultCount: 2,
-			comment: 'comment',
-		};
+  describe('showFaultComment', () => {
+    const faultSummary: FaultSummary = {
+      competencyIdentifier: 'compId',
+      competencyDisplayName: 'dispName',
+      faultCount: 2,
+      comment: 'comment',
+    };
 
-		it('should return false when drivingFaultCount is less than minDrivingFaultCount', () => {
-			component.drivingFaultCount = 5;
-			component.minDrivingFaultCount = 6;
+    it('should return false when drivingFaultCount is less than minDrivingFaultCount', () => {
+      component.drivingFaultCount = 5;
+      component.minDrivingFaultCount = 6;
 
-			const result = component.showFaultComment(faultSummary);
+      const result = component.showFaultComment(faultSummary);
 
-			expect(result).toBe(false);
-		});
+      expect(result).toBe(false);
+    });
 
-		it('should return false when drivingFaultCount is equal to minDrivingFaultCount', () => {
-			component.drivingFaultCount = 6;
-			component.minDrivingFaultCount = 6;
+    it('should return false when drivingFaultCount is equal to minDrivingFaultCount', () => {
+      component.drivingFaultCount = 6;
+      component.minDrivingFaultCount = 6;
 
-			const result = component.showFaultComment(faultSummary);
+      const result = component.showFaultComment(faultSummary);
 
-			expect(result).toBe(false);
-		});
+      expect(result).toBe(false);
+    });
 
-		it('should return false when there are no comments', () => {
-			const localFaultSummary = {
-				...faultSummary,
-				comment: null,
-			};
+    it('should return false when there are no comments', () => {
+      const localFaultSummary = {
+        ...faultSummary,
+        comment: null,
+      };
 
-			component.drivingFaultCount = 7;
-			component.minDrivingFaultCount = 6;
+      component.drivingFaultCount = 7;
+      component.minDrivingFaultCount = 6;
 
-			const result = component.showFaultComment(localFaultSummary);
+      const result = component.showFaultComment(localFaultSummary);
 
-			expect(result).toBe(false);
-		});
+      expect(result).toBe(false);
+    });
 
-		it('should return true when drivingFaultCount is greater than minDrivingFaultCount and has comments', () => {
-			component.drivingFaultCount = 7;
-			component.minDrivingFaultCount = 6;
+    it('should return true when drivingFaultCount is greater than minDrivingFaultCount and has comments', () => {
+      component.drivingFaultCount = 7;
+      component.minDrivingFaultCount = 6;
 
-			const result = component.showFaultComment(faultSummary);
+      const result = component.showFaultComment(faultSummary);
 
-			expect(result).toBe(true);
-		});
-	});
+      expect(result).toBe(true);
+    });
+  });
 
-	describe('getDriverType', () => {
-		it('should return riding when isRider is true', () => {
-			expect(component.getDriverType(true)).toBe('riding');
-		});
+  describe('getDriverType', () => {
+    it('should return riding when isRider is true', () => {
+      expect(component.getDriverType(true)).toBe('riding');
+    });
 
-		it('should return driving when isRider is false', () => {
-			expect(component.getDriverType(false)).toBe('driving');
-		});
-	});
+    it('should return driving when isRider is false', () => {
+      expect(component.getDriverType(false)).toBe('driving');
+    });
+  });
 });

@@ -16,7 +16,7 @@ type SentryError = RegExp | string;
 
 // Errors are being thrown via the live-server used to display state on simulator which are useless.
 const SENTRY_ERRORS_LIVERELOAD: SentryError[] = [
-	/^(SocketProtocolError|Socket closed without status code|Server ping timed out).*$/gi,
+  /^(SocketProtocolError|Socket closed without status code|Server ping timed out).*$/gi,
 ];
 
 // Errors being thrown within packages are filtering into the Sentry reports, these are inflating the stats.
@@ -26,68 +26,68 @@ export const SENTRY_ERRORS: SentryError[] = [...SENTRY_ERRORS_LIVERELOAD, ...SEN
 
 @Injectable()
 export class SentryIonicErrorHandler extends ErrorHandler {
-	// Cyclic DI dependency error if injecting services via the constructor
-	constructor(@Inject(Injector) private injector: Injector) {
-		super();
-	}
+  // Cyclic DI dependency error if injecting services via the constructor
+  constructor(@Inject(Injector) private injector: Injector) {
+    super();
+  }
 
-	async handleError(error: any) {
-		try {
-			// call through to ionic error handler which is default behaviour
-			super.handleError(error);
+  async handleError(error: any) {
+    try {
+      // call through to ionic error handler which is default behaviour
+      super.handleError(error);
 
-			// don't report missing apiKey errors that can be seen via Logs service;
-			if (
-				error instanceof HttpErrorResponse &&
-				error?.status === HttpStatusCode.Forbidden &&
-				error?.url?.includes('logs')
-			) {
-				return;
-			}
+      // don't report missing apiKey errors that can be seen via Logs service;
+      if (
+        error instanceof HttpErrorResponse &&
+        error?.status === HttpStatusCode.Forbidden &&
+        error?.url?.includes('logs')
+      ) {
+        return;
+      }
 
-			const appConfig = await this.appConfigProvider.getAppConfigAsync();
-			const employeeID = await this.authenticationProvider.getEmployeeIdFromIDToken();
-			const appVersion = await this.appInfoProvider.getFullVersionNumber();
-			const device = await Device.getId();
+      const appConfig = await this.appConfigProvider.getAppConfigAsync();
+      const employeeID = await this.authenticationProvider.getEmployeeIdFromIDToken();
+      const appVersion = await this.appInfoProvider.getFullVersionNumber();
+      const device = await Device.getId();
 
-			Sentry.withScope((scope) => {
-				if (employeeID) scope.setUser({ id: employeeID });
-				if (device?.identifier) scope.setTag('device-id', device.identifier);
-				if (appConfig?.role) scope.setTag('role', appConfig.role);
-				if (appVersion) scope.setTag('app-version', appVersion);
+      Sentry.withScope((scope) => {
+        if (employeeID) scope.setUser({ id: employeeID });
+        if (device?.identifier) scope.setTag('device-id', device.identifier);
+        if (appConfig?.role) scope.setTag('role', appConfig.role);
+        if (appVersion) scope.setTag('app-version', appVersion);
 
-				Sentry.captureException(error.originalError || error);
-			});
-		} catch (err) {
-			this.reportError(err);
-		}
-	}
+        Sentry.captureException(error.originalError || error);
+      });
+    } catch (err) {
+      this.reportError(err);
+    }
+  }
 
-	private reportError(error: unknown) {
-		this.store$.dispatch(
-			SaveLog({
-				payload: this.logHelper.createLog(LogType.ERROR, 'Error handler', serialiseLogMessage(error)),
-			})
-		);
-	}
+  private reportError(error: unknown) {
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'Error handler', serialiseLogMessage(error)),
+      })
+    );
+  }
 
-	get authenticationProvider(): AuthenticationProvider {
-		return this.injector.get<AuthenticationProvider>(AuthenticationProvider);
-	}
+  get authenticationProvider(): AuthenticationProvider {
+    return this.injector.get<AuthenticationProvider>(AuthenticationProvider);
+  }
 
-	get appConfigProvider(): AppConfigProvider {
-		return this.injector.get<AppConfigProvider>(AppConfigProvider);
-	}
+  get appConfigProvider(): AppConfigProvider {
+    return this.injector.get<AppConfigProvider>(AppConfigProvider);
+  }
 
-	get appInfoProvider(): AppInfoProvider {
-		return this.injector.get<AppInfoProvider>(AppInfoProvider);
-	}
+  get appInfoProvider(): AppInfoProvider {
+    return this.injector.get<AppInfoProvider>(AppInfoProvider);
+  }
 
-	get logHelper(): LogHelper {
-		return this.injector.get<LogHelper>(LogHelper);
-	}
+  get logHelper(): LogHelper {
+    return this.injector.get<LogHelper>(LogHelper);
+  }
 
-	get store$(): Store<StoreModel> {
-		return this.injector.get<Store<StoreModel>>(Store);
-	}
+  get store$(): Store<StoreModel> {
+    return this.injector.get<Store<StoreModel>>(Store);
+  }
 }

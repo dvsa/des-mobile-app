@@ -7,6 +7,6 @@ const initialState: string = null;
 const timeFormat = 'YYYY-MM-DDTHH:mm';
 
 export const startTimeReducer = createReducer(
-	initialState,
-	on(startTimeActionTypes.StartTimeChanged, (_, { time }) => DateTime.at(time).format(timeFormat))
+  initialState,
+  on(startTimeActionTypes.StartTimeChanged, (_, { time }) => DateTime.at(time).format(timeFormat))
 );

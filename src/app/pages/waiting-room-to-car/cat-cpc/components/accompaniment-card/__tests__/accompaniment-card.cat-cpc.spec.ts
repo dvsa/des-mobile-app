@@ -14,61 +14,61 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 describe('AccompanimentCardCatCPCComponent', () => {
-	let component: AccompanimentCardCatCPCComponent;
-	let fixture: ComponentFixture<AccompanimentCardCatCPCComponent>;
+  let component: AccompanimentCardCatCPCComponent;
+  let fixture: ComponentFixture<AccompanimentCardCatCPCComponent>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [AccompanimentCardCatCPCComponent],
-			imports: [AppModule, ReactiveFormsModule],
-			providers: [
-				{
-					provide: RouteByCategoryProvider,
-					useClass: RouteByCategoryProviderMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: QuestionProvider,
-					useClass: QuestionProviderMock,
-				},
-				{
-					provide: FaultCountProvider,
-					useClass: FaultCountProvider,
-				},
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [AccompanimentCardCatCPCComponent],
+      imports: [AppModule, ReactiveFormsModule],
+      providers: [
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
+      ],
+    });
 
-		fixture = TestBed.createComponent(AccompanimentCardCatCPCComponent);
-		component = fixture.componentInstance;
-		component.formGroup = new UntypedFormGroup({});
-	}));
+    fixture = TestBed.createComponent(AccompanimentCardCatCPCComponent);
+    component = fixture.componentInstance;
+    component.formGroup = new UntypedFormGroup({});
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('Class', () => {
-		describe('supervisorAccompanimentChanged', () => {
-			it('should emit the correct event', () => {
-				spyOn(component.supervisorAccompanimentChange, 'emit');
-				component.supervisorAccompanimentChanged();
-				expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
-			});
-		});
-		describe('interpreterAccompanimentChanged', () => {
-			it('should emit the correct event', () => {
-				spyOn(component.interpreterAccompanimentChange, 'emit');
-				component.interpreterAccompanimentChanged();
-				expect(component.interpreterAccompanimentChange.emit).toHaveBeenCalled();
-			});
-		});
-	});
+  describe('Class', () => {
+    describe('supervisorAccompanimentChanged', () => {
+      it('should emit the correct event', () => {
+        spyOn(component.supervisorAccompanimentChange, 'emit');
+        component.supervisorAccompanimentChanged();
+        expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
+      });
+    });
+    describe('interpreterAccompanimentChanged', () => {
+      it('should emit the correct event', () => {
+        spyOn(component.interpreterAccompanimentChange, 'emit');
+        component.interpreterAccompanimentChanged();
+        expect(component.interpreterAccompanimentChange.emit).toHaveBeenCalled();
+      });
+    });
+  });
 });

@@ -15,19 +15,19 @@ import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.mod
 import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		OfficeCatAMod2PageRoutingModule,
-		ComponentsModule,
-		OfficeComponentsModule,
-		ReactiveFormsModule,
-		PipesModule,
-		WaitingRoomToCarComponentsModule,
-		DirectivesModule,
-	],
-	declarations: [OfficeCatAMod2Page, ModeOfTransportCatAMod2Component, SafetyAndBalanceCardCatAMod2Component],
-	providers: [FaultSummaryProvider],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    OfficeCatAMod2PageRoutingModule,
+    ComponentsModule,
+    OfficeComponentsModule,
+    ReactiveFormsModule,
+    PipesModule,
+    WaitingRoomToCarComponentsModule,
+    DirectivesModule,
+  ],
+  declarations: [OfficeCatAMod2Page, ModeOfTransportCatAMod2Component, SafetyAndBalanceCardCatAMod2Component],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatAMod2PageModule {}

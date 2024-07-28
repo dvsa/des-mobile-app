@@ -17,18 +17,18 @@ import { TestReportCatCPageRoutingModule } from './test-report.cat-c-routing.mod
 import { TestReportCatCPage } from './test-report.cat-c.page';
 
 @NgModule({
-	declarations: [TestReportCatCPage],
-	imports: [
-		TestReportCatCComponentsModule,
-		TestReportComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		ComponentsModule,
-		CommonModule,
-		IonicModule,
-		TestReportCatCPageRoutingModule,
-		ReverseDiagramModalComponentsModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatCPage],
+  imports: [
+    TestReportCatCComponentsModule,
+    TestReportComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    ComponentsModule,
+    CommonModule,
+    IonicModule,
+    TestReportCatCPageRoutingModule,
+    ReverseDiagramModalComponentsModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatCPageModule {}

@@ -14,91 +14,91 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import {
-	SafetyQuestionOutcomeChanged,
-	SafetyQuestionSelected,
+  SafetyQuestionOutcomeChanged,
+  SafetyQuestionSelected,
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { SafetyAndBalanceCardCatAMod2Component } from '../safety-and-balance-card.cat-a-mod2';
 
 describe('SafetyAndBalanceCardCatAMod2Component', () => {
-	let fixture: ComponentFixture<SafetyAndBalanceCardCatAMod2Component>;
-	let store$: Store<StoreModel>;
-	let translate: TranslateService;
+  let fixture: ComponentFixture<SafetyAndBalanceCardCatAMod2Component>;
+  let store$: Store<StoreModel>;
+  let translate: TranslateService;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [SafetyAndBalanceCardCatAMod2Component],
-			imports: [
-				IonicModule,
-				HttpClientModule,
-				StoreModule.forRoot({ tests: testsReducer }),
-				TranslateModule.forRoot({
-					loader: {
-						provide: TranslateLoader,
-						useFactory: createTranslateLoader,
-						deps: [HttpClient],
-					},
-				}),
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SafetyAndBalanceCardCatAMod2Component],
+      imports: [
+        IonicModule,
+        HttpClientModule,
+        StoreModule.forRoot({ tests: testsReducer }),
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: createTranslateLoader,
+            deps: [HttpClient],
+          },
+        }),
+      ],
+    });
 
-		fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
-		store$ = TestBed.inject(Store);
-		translate = TestBed.inject(TranslateService);
-		translate.setDefaultLang('en');
-		store$.dispatch(StartTest(105, TestCategory.EUA2M2));
-		store$.dispatch(PopulateTestCategory(TestCategory.EUA2M2));
-		store$.dispatch(PopulateCandidateDetails(candidateMock));
-	}));
+    fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
+    store$ = TestBed.inject(Store);
+    translate = TestBed.inject(TranslateService);
+    translate.setDefaultLang('en');
+    store$.dispatch(StartTest(105, TestCategory.EUA2M2));
+    store$.dispatch(PopulateTestCategory(TestCategory.EUA2M2));
+    store$.dispatch(PopulateCandidateDetails(candidateMock));
+  }));
 
-	describe('DOM', () => {
-		describe('Safety and balance question reporting', () => {
-			it('should show results', () => {
-				const safetyQuestion: QuestionResult = {
-					code: 'M4',
-					description: 'Tell me how you would check that the lights and reflectors are clean and working.',
-				};
-				// Configure show safety and balance questions
-				store$.dispatch(SafetyQuestionSelected(safetyQuestion, 1));
-				store$.dispatch(SafetyQuestionOutcomeChanged('P', 1));
+  describe('DOM', () => {
+    describe('Safety and balance question reporting', () => {
+      it('should show results', () => {
+        const safetyQuestion: QuestionResult = {
+          code: 'M4',
+          description: 'Tell me how you would check that the lights and reflectors are clean and working.',
+        };
+        // Configure show safety and balance questions
+        store$.dispatch(SafetyQuestionSelected(safetyQuestion, 1));
+        store$.dispatch(SafetyQuestionOutcomeChanged('P', 1));
 
-				fixture.detectChanges();
+        fixture.detectChanges();
 
-				const safetyQuestionText = fixture.debugElement.query(
-					By.css('#safety-and-balance-questions .counter-label')
-				).nativeElement;
+        const safetyQuestionText = fixture.debugElement.query(
+          By.css('#safety-and-balance-questions .counter-label')
+        ).nativeElement;
 
-				expect(safetyQuestionText.innerHTML.trim()).toContain(
-					(<any>englishTranslations).debrief.safetyAndBalanceQuestions.M4
-				);
-			});
+        expect(safetyQuestionText.innerHTML.trim()).toContain(
+          (<any>englishTranslations).debrief.safetyAndBalanceQuestions.M4
+        );
+      });
 
-			it('should show results in Welsh for a Welsh test', (done) => {
-				const safetyQuestion: QuestionResult = {
-					code: 'M4',
-					description: 'Tell me how you would check that the lights and reflectors are clean and working.',
-				};
-				// Configure show safety and balance questions
-				store$.dispatch(SafetyQuestionSelected(safetyQuestion, 1));
-				store$.dispatch(SafetyQuestionOutcomeChanged('P', 1));
+      it('should show results in Welsh for a Welsh test', (done) => {
+        const safetyQuestion: QuestionResult = {
+          code: 'M4',
+          description: 'Tell me how you would check that the lights and reflectors are clean and working.',
+        };
+        // Configure show safety and balance questions
+        store$.dispatch(SafetyQuestionSelected(safetyQuestion, 1));
+        store$.dispatch(SafetyQuestionOutcomeChanged('P', 1));
 
-				fixture.detectChanges();
+        fixture.detectChanges();
 
-				// Language change handled by parent page component, force the switch
-				translate.use('cy').subscribe(() => {
-					fixture.detectChanges();
+        // Language change handled by parent page component, force the switch
+        translate.use('cy').subscribe(() => {
+          fixture.detectChanges();
 
-					const safetyQuestionText = fixture.debugElement.query(
-						By.css('#safety-and-balance-questions .counter-label')
-					).nativeElement;
+          const safetyQuestionText = fixture.debugElement.query(
+            By.css('#safety-and-balance-questions .counter-label')
+          ).nativeElement;
 
-					expect(safetyQuestionText.innerHTML.trim()).toContain(
-						(<any>welshTranslations).debrief.safetyAndBalanceQuestions.M4
-					);
-					done();
-				});
-			});
-		});
-	});
+          expect(safetyQuestionText.innerHTML.trim()).toContain(
+            (<any>welshTranslations).debrief.safetyAndBalanceQuestions.M4
+          );
+          done();
+        });
+      });
+    });
+  });
 });

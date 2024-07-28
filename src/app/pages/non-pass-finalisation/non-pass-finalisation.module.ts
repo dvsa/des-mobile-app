@@ -14,19 +14,19 @@ import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-ro
 import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		ComponentsModule,
-		NonPassFinalisationPageRoutingModule,
-		EffectsModule.forFeature([NonPassFinalisationAnalyticsEffects]),
-		ComponentsModule,
-		TestFinalisationComponentsModule,
-		ReactiveFormsModule,
-		PassFinalisationCatADI3ComponentsModule,
-	],
-	providers: [OutcomeBehaviourMapProvider, ActivityCodeFinalisationProvider, TestResultProvider],
-	declarations: [NonPassFinalisationPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ComponentsModule,
+    NonPassFinalisationPageRoutingModule,
+    EffectsModule.forFeature([NonPassFinalisationAnalyticsEffects]),
+    ComponentsModule,
+    TestFinalisationComponentsModule,
+    ReactiveFormsModule,
+    PassFinalisationCatADI3ComponentsModule,
+  ],
+  providers: [OutcomeBehaviourMapProvider, ActivityCodeFinalisationProvider, TestResultProvider],
+  declarations: [NonPassFinalisationPage],
 })
 export class NonPassFinalisationPageModule {}

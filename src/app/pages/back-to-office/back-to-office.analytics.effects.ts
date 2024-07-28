@@ -4,14 +4,14 @@ import { Store, select } from '@ngrx/store';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-	AnalyticsDimensionIndices,
-	AnalyticsEventCategories,
-	AnalyticsEvents,
-	AnalyticsScreenNames,
-	GoogleAnalyticsCustomDimension,
-	GoogleAnalyticsEvents,
-	GoogleAnalyticsEventsTitles,
-	GoogleAnalyticsEventsValues,
+  AnalyticsDimensionIndices,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -29,129 +29,129 @@ import { ASAMPopupPresented, BackToOfficeViewDidEnter, DeferWriteUp } from './ba
 
 @Injectable()
 export class BackToOfficeAnalyticsEffects {
-	constructor(
-		private analytics: AnalyticsProvider,
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private appConfigProvider: AppConfigProvider
-	) {}
+  constructor(
+    private analytics: AnalyticsProvider,
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider
+  ) {}
 
-	backToOfficeViewDidEnter$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(BackToOfficeViewDidEnter),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
-				)
-			),
-			filter(([, , practiceMode]) =>
-				!practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-			),
-			switchMap(([, tests]: [ReturnType<typeof BackToOfficeViewDidEnter>, TestsModel, boolean]) => {
-				// TODO - MES-9495 - remove old analytics
-				const screenName = formatAnalyticsText(AnalyticsScreenNames.BACK_TO_OFFICE, tests);
-				this.analytics.setCurrentPage(screenName);
+  backToOfficeViewDidEnter$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BackToOfficeViewDidEnter),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof BackToOfficeViewDidEnter>, TestsModel, boolean]) => {
+        // TODO - MES-9495 - remove old analytics
+        const screenName = formatAnalyticsText(AnalyticsScreenNames.BACK_TO_OFFICE, tests);
+        this.analytics.setCurrentPage(screenName);
 
-				// GA4 analytics
-				this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.BACK_TO_OFFICE, tests));
-				return of(AnalyticRecorded());
-			})
-		)
-	);
+        // GA4 analytics
+        this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.BACK_TO_OFFICE, tests));
+        return of(AnalyticRecorded());
+      })
+    )
+  );
 
-	deferWriteUpEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(DeferWriteUp),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(
-						this.store$.pipe(select(getTests)),
-						this.store$.pipe(select(getTests), select(getCurrentTest), select(isPassed)),
-						this.store$.pipe(
-							select(getTests),
-							select(getCurrentTest),
-							select(getJournalData),
-							select(getCandidate),
-							select(getCandidateId)
-						),
-						this.store$.pipe(
-							select(getTests),
-							select(getCurrentTest),
-							select(getJournalData),
-							select(getApplicationReference),
-							select(getApplicationNumber)
-						),
-						this.store$.pipe(select(getTests), select(isPracticeMode))
-					)
-				)
-			),
-			filter(([, , , , , practiceMode]) =>
-				!practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-			),
-			switchMap(
-				([, tests, isTestPassed, candidateId, applicationReference]: [
-					ReturnType<typeof DeferWriteUp>,
-					TestsModel,
-					boolean,
-					number,
-					string,
-					boolean,
-				]) => {
-					// TODO - MES-9495 - remove old analytics
-					this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-					this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
+  deferWriteUpEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeferWriteUp),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(isPassed)),
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getJournalData),
+              select(getCandidate),
+              select(getCandidateId)
+            ),
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getJournalData),
+              select(getApplicationReference),
+              select(getApplicationNumber)
+            ),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(
+        ([, tests, isTestPassed, candidateId, applicationReference]: [
+          ReturnType<typeof DeferWriteUp>,
+          TestsModel,
+          boolean,
+          number,
+          string,
+          boolean,
+        ]) => {
+          // TODO - MES-9495 - remove old analytics
+          this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
+          this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
-					this.analytics.logEvent(
-						formatAnalyticsText(AnalyticsEventCategories.BACK_TO_OFFICE, tests),
-						formatAnalyticsText(AnalyticsEvents.DEFER_WRITE_UP, tests),
-						isTestPassed ? 'pass' : 'fail'
-					);
+          this.analytics.logEvent(
+            formatAnalyticsText(AnalyticsEventCategories.BACK_TO_OFFICE, tests),
+            formatAnalyticsText(AnalyticsEvents.DEFER_WRITE_UP, tests),
+            isTestPassed ? 'pass' : 'fail'
+          );
 
-					//GA4 Analytics
-					this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
-					this.analytics.addGACustomDimension(
-						GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-						applicationReference
-					);
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
+          this.analytics.addGACustomDimension(
+            GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+            applicationReference
+          );
 
-					this.analytics.logGAEvent(
-						analyticsEventTypePrefix(GoogleAnalyticsEvents.DEFER_WRITE_UP, tests),
-						GoogleAnalyticsEventsTitles.RESULT,
-						isTestPassed ? GoogleAnalyticsEventsValues.PASS : GoogleAnalyticsEventsValues.FAIL
-					);
-					return of(AnalyticRecorded());
-				}
-			)
-		)
-	);
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.DEFER_WRITE_UP, tests),
+            GoogleAnalyticsEventsTitles.RESULT,
+            isTestPassed ? GoogleAnalyticsEventsValues.PASS : GoogleAnalyticsEventsValues.FAIL
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
 
-	asamPopupShown$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(ASAMPopupPresented),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
-				)
-			),
-			filter(([, , practiceMode]) =>
-				!practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-			),
-			switchMap(([, tests]: [ReturnType<typeof ASAMPopupPresented>, TestsModel, boolean]) => {
-				// TODO - MES-9495 - remove old analytics
-				this.analytics.logEvent(
-					formatAnalyticsText(AnalyticsEventCategories.ERROR, tests),
-					formatAnalyticsText(AnalyticsEvents.ASAM, tests),
-					'Modal Triggered'
-				);
+  asamPopupShown$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ASAMPopupPresented),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof ASAMPopupPresented>, TestsModel, boolean]) => {
+        // TODO - MES-9495 - remove old analytics
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.ERROR, tests),
+          formatAnalyticsText(AnalyticsEvents.ASAM, tests),
+          'Modal Triggered'
+        );
 
-				//GA4 Analytics
-				this.analytics.logGAEvent(
-					analyticsEventTypePrefix(GoogleAnalyticsEvents.ASAM, tests),
-					GoogleAnalyticsEventsTitles.MODAL,
-					GoogleAnalyticsEventsValues.TRIGGERED
-				);
-				return of(AnalyticRecorded());
-			})
-		)
-	);
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.ASAM, tests),
+          GoogleAnalyticsEventsTitles.MODAL,
+          GoogleAnalyticsEventsValues.TRIGGERED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
 }

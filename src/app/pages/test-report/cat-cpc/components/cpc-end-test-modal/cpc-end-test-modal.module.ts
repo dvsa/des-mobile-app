@@ -5,8 +5,8 @@ import { ModalResultItemComponent } from './components/modal-result-item/modal-r
 import { CPCEndTestModal } from './cpc-end-test-modal';
 
 @NgModule({
-	declarations: [CPCEndTestModal, ModalResultItemComponent],
-	exports: [CPCEndTestModal, ModalResultItemComponent],
-	imports: [IonicModule, CommonModule, NgOptimizedImage],
+  declarations: [CPCEndTestModal, ModalResultItemComponent],
+  exports: [CPCEndTestModal, ModalResultItemComponent],
+  imports: [IonicModule, CommonModule, NgOptimizedImage],
 })
 export class CPCEndTestModalModule {}

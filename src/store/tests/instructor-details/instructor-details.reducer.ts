@@ -5,14 +5,14 @@ import * as instructorDetailsActions from './instructor-details.actions';
 const initialState: CatBUniqueTypes.InstructorDetails = {};
 
 export const instructorDetailsReducer = createReducer(
-	initialState,
-	on(
-		instructorDetailsActions.InstructorRegistrationNumberChanged,
-		(state, { registrationNumber }): CatBUniqueTypes.InstructorDetails => ({
-			...state,
-			registrationNumber,
-		})
-	)
+  initialState,
+  on(
+    instructorDetailsActions.InstructorRegistrationNumberChanged,
+    (state, { registrationNumber }): CatBUniqueTypes.InstructorDetails => ({
+      ...state,
+      registrationNumber,
+    })
+  )
 );
 
 export const getInstructorDetails = createFeatureSelector<CatBUniqueTypes.InstructorDetails>('instructorDetails');

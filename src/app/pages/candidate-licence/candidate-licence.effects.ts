@@ -3,10 +3,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import {
-	ClearCandidateLicenceData,
-	GetCandidateLicenceData,
-	GetCandidateLicenceDataError,
-	GetCandidateLicenceDataSuccess,
+  ClearCandidateLicenceData,
+  GetCandidateLicenceData,
+  GetCandidateLicenceDataError,
+  GetCandidateLicenceDataSuccess,
 } from '@pages/candidate-licence/candidate-licence.actions';
 import { CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -29,69 +29,69 @@ import { catchError, concatMap, filter, map, repeat, switchMap, withLatestFrom }
 
 @Injectable()
 export class CandidateLicenceEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private candidateLicenceProvider: CandidateLicenceProvider,
-		private networkStateProvider: NetworkStateProvider,
-		private logHelper: LogHelper
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private candidateLicenceProvider: CandidateLicenceProvider,
+    private networkStateProvider: NetworkStateProvider,
+    private logHelper: LogHelper
+  ) {}
 
-	getCandidateLicenceData$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(GetCandidateLicenceData),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(
-						this.store$.pipe(
-							select(getTests),
-							select(getCurrentTest),
-							select(getJournalData),
-							select(getCandidate),
-							select(getCandidateDriverNumber)
-						),
-						this.store$.pipe(
-							select(getTests),
-							select(getCurrentTest),
-							select(getJournalData),
-							select(getApplicationReference),
-							select(getApplicationNumber)
-						),
-						this.store$.pipe(select(getTests), select(isPracticeMode)),
-						this.store$.pipe(select(getTests), select(getCurrentTest), select(getRekeyIndicator), select(isRekey)),
-						this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory))
-					)
-				)
-			),
-			filter(
-				([, driverNumber, appRef, isPracticeTest, isRekeyTest, category]) =>
-					driverNumber &&
-					appRef &&
-					!isPracticeTest &&
-					!isRekeyTest &&
-					!isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])
-			),
-			// above filter means we will not call through to candidate service when any of the above conditions fail.
-			switchMap(([, driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
-			map(() => GetCandidateLicenceDataSuccess()),
-			catchError((err) => {
-				this.store$.dispatch(
-					SaveLog({
-						payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving candidate licence', err.error),
-					})
-				);
-				return of(GetCandidateLicenceDataError());
-			}),
-			repeat()
-		)
-	);
+  getCandidateLicenceData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GetCandidateLicenceData),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getJournalData),
+              select(getCandidate),
+              select(getCandidateDriverNumber)
+            ),
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getJournalData),
+              select(getApplicationReference),
+              select(getApplicationNumber)
+            ),
+            this.store$.pipe(select(getTests), select(isPracticeMode)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getRekeyIndicator), select(isRekey)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory))
+          )
+        )
+      ),
+      filter(
+        ([, driverNumber, appRef, isPracticeTest, isRekeyTest, category]) =>
+          driverNumber &&
+          appRef &&
+          !isPracticeTest &&
+          !isRekeyTest &&
+          !isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])
+      ),
+      // above filter means we will not call through to candidate service when any of the above conditions fail.
+      switchMap(([, driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
+      map(() => GetCandidateLicenceDataSuccess()),
+      catchError((err) => {
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving candidate licence', err.error),
+          })
+        );
+        return of(GetCandidateLicenceDataError());
+      }),
+      repeat()
+    )
+  );
 
-	clearCandidateLicenceData$ = createEffect(
-		() =>
-			this.actions$.pipe(
-				ofType(ClearCandidateLicenceData),
-				map(() => this.candidateLicenceProvider.clearDriverData())
-			),
-		{ dispatch: false }
-	);
+  clearCandidateLicenceData$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ClearCandidateLicenceData),
+        map(() => this.candidateLicenceProvider.clearDriverData())
+      ),
+    { dispatch: false }
+  );
 }

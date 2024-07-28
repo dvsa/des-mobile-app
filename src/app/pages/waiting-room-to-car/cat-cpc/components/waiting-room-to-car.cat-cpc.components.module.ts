@@ -9,8 +9,8 @@ import { CombinationComponent } from './combination/combination';
 import { VehicleDetailsCatCPCComponent } from './vehicle-details/vehicle-details';
 
 @NgModule({
-	declarations: [AccompanimentCardCatCPCComponent, CombinationComponent, VehicleDetailsCatCPCComponent],
-	imports: [IonicModule, ComponentsModule, WaitingRoomToCarComponentsModule, ReactiveFormsModule, CommonModule],
-	exports: [AccompanimentCardCatCPCComponent, CombinationComponent, VehicleDetailsCatCPCComponent],
+  declarations: [AccompanimentCardCatCPCComponent, CombinationComponent, VehicleDetailsCatCPCComponent],
+  imports: [IonicModule, ComponentsModule, WaitingRoomToCarComponentsModule, ReactiveFormsModule, CommonModule],
+  exports: [AccompanimentCardCatCPCComponent, CombinationComponent, VehicleDetailsCatCPCComponent],
 })
 export class WaitingRoomToCarCatCPCComponentsModule {}

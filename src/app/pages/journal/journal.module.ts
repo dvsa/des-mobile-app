@@ -21,26 +21,26 @@ import { JournalAnalyticsEffects } from './journal.analytics.effects';
 import { JournalPage } from './journal.page';
 
 @NgModule({
-	declarations: [JournalPage],
-	imports: [
-		JournalComponentsModule,
-		TestSlotComponentsModule,
-		IonicModule,
-		EffectsModule.forFeature([JournalAnalyticsEffects, TestsEffects]),
-		ErrorPageModule,
-		JournalPageRoutingModule,
-		CommonModule,
-		ComponentsModule,
-		CandidateDetailsPageModule,
-	],
-	providers: [
-		OrientationMonitorProvider,
-		JournalProvider,
-		NavParams,
-		SlotProvider,
-		SlotSelectorProvider,
-		CompressionProvider,
-		DateTimeProvider,
-	],
+  declarations: [JournalPage],
+  imports: [
+    JournalComponentsModule,
+    TestSlotComponentsModule,
+    IonicModule,
+    EffectsModule.forFeature([JournalAnalyticsEffects, TestsEffects]),
+    ErrorPageModule,
+    JournalPageRoutingModule,
+    CommonModule,
+    ComponentsModule,
+    CandidateDetailsPageModule,
+  ],
+  providers: [
+    OrientationMonitorProvider,
+    JournalProvider,
+    NavParams,
+    SlotProvider,
+    SlotSelectorProvider,
+    CompressionProvider,
+    DateTimeProvider,
+  ],
 })
 export class JournalPageModule {}

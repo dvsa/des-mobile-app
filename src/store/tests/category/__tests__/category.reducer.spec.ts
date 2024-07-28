@@ -3,10 +3,10 @@ import { PopulateTestCategory } from '../category.actions';
 import { categoryReducer } from '../category.reducer';
 
 describe('category reducer', () => {
-	it('should return the test category for a test', () => {
-		const mockTestCategory: CategoryCode = 'B';
-		const result = categoryReducer(null, PopulateTestCategory(mockTestCategory));
+  it('should return the test category for a test', () => {
+    const mockTestCategory: CategoryCode = 'B';
+    const result = categoryReducer(null, PopulateTestCategory(mockTestCategory));
 
-		expect(result).toBe(mockTestCategory);
-	});
+    expect(result).toBe(mockTestCategory);
+  });
 });

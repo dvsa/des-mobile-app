@@ -9,36 +9,36 @@ import { StoreModule } from '@ngrx/store';
 import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 
 describe('CandidateLinkComponent', () => {
-	let fixture: ComponentFixture<CandidateLinkComponent>;
-	let component: CandidateLinkComponent;
+  let fixture: ComponentFixture<CandidateLinkComponent>;
+  let component: CandidateLinkComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [CandidateLinkComponent],
-			imports: [
-				IonicModule,
-				AppModule,
-				ComponentsModule,
-				CommonModule,
-				CandidateDetailsPageModule,
-				StoreModule.forRoot({}),
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CandidateLinkComponent],
+      imports: [
+        IonicModule,
+        AppModule,
+        ComponentsModule,
+        CommonModule,
+        CandidateDetailsPageModule,
+        StoreModule.forRoot({}),
+      ],
+    });
 
-		fixture = TestBed.createComponent(CandidateLinkComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(CandidateLinkComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('openCandidateDetailsModal', () => {
-		it('should display modal', async () => {
-			spyOn(component.modalController, 'create').and.returnValue(
-				Promise.resolve({
-					present: async () => {},
-					onDidDismiss: () => {},
-				} as HTMLIonModalElement)
-			);
-			await component.openCandidateDetailsModal();
-			expect(component.modalController.create).toHaveBeenCalledTimes(1);
-		});
-	});
+  describe('openCandidateDetailsModal', () => {
+    it('should display modal', async () => {
+      spyOn(component.modalController, 'create').and.returnValue(
+        Promise.resolve({
+          present: async () => {},
+          onDidDismiss: () => {},
+        } as HTMLIonModalElement)
+      );
+      await component.openCandidateDetailsModal();
+      expect(component.modalController.create).toHaveBeenCalledTimes(1);
+    });
+  });
 });

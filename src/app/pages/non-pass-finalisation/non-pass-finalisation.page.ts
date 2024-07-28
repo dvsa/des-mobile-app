@@ -7,9 +7,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ModalController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import {
-	NonPassFinalisationReportActivityCode,
-	NonPassFinalisationValidationError,
-	NonPassFinalisationViewDidEnter,
+  NonPassFinalisationReportActivityCode,
+  NonPassFinalisationValidationError,
+  NonPassFinalisationViewDidEnter,
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
@@ -24,31 +24,31 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
-	CandidateChoseToProceedWithTestInEnglish,
-	CandidateChoseToProceedWithTestInWelsh,
+  CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
-	formatDriverNumber,
-	getCandidateDriverNumber,
-	getCandidateName,
-	getCandidatePrn,
-	getUntitledCandidateName,
+  formatDriverNumber,
+  getCandidateDriverNumber,
+  getCandidateName,
+  getCandidatePrn,
+  getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import {
-	ReasonForNoAdviceGivenChanged,
-	SeekFurtherDevelopmentChanged,
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {
-	getFurtherDevelopment,
-	getGrade,
-	getImmediateDanger,
-	getReasonForNoAdviceGiven,
+  getFurtherDevelopment,
+  getGrade,
+  getImmediateDanger,
+  getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
@@ -59,374 +59,374 @@ import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import {
-	getActivityCode,
-	getCurrentTest,
-	getJournalData,
-	getTestOutcome,
-	getTestOutcomeText,
-	isTestOutcomeSet,
+  getActivityCode,
+  getCurrentTest,
+  getJournalData,
+  getTestOutcome,
+  getTestOutcomeText,
+  isTestOutcomeSet,
 } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { TestFinalisationInvalidTestDataModal } from '../test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 
 interface NonPassFinalisationPageState {
-	candidateName$: Observable<string>;
-	candidateUntitledName$: Observable<string>;
-	candidateDriverNumber$: Observable<string>;
-	isTestOutcomeSet$: Observable<boolean>;
-	testOutcome$: Observable<string>;
-	testOutcomeText$: Observable<string>;
-	activityCode$: Observable<ActivityCodeModel>;
-	displayDebriefWitnessed$: Observable<boolean>;
-	debriefWitnessed$: Observable<boolean>;
-	displayD255$: Observable<boolean>;
-	d255$: Observable<boolean>;
-	isWelshTest$: Observable<boolean>;
-	testData$: Observable<CatBUniqueTypes.TestData>;
-	eyesightTestFailed$: Observable<boolean>;
-	testCategory$: Observable<CategoryCode>;
-	showADIWarning$: Observable<boolean>;
-	showADI3Field$: Observable<boolean>;
-	furtherDevelopment$: Observable<boolean>;
-	displayFurtherDevelopment$: Observable<boolean>;
-	adviceReason$: Observable<string>;
-	displayAdviceReasonGiven$: Observable<boolean>;
-	testOutcomeGrade$: Observable<string>;
-	immediateDanger$: Observable<boolean>;
-	prn$: Observable<number>;
-	isStandardsCheck$: Observable<boolean>;
-	testStartTime$: Observable<string>;
-	testEndTime$: Observable<string>;
+  candidateName$: Observable<string>;
+  candidateUntitledName$: Observable<string>;
+  candidateDriverNumber$: Observable<string>;
+  isTestOutcomeSet$: Observable<boolean>;
+  testOutcome$: Observable<string>;
+  testOutcomeText$: Observable<string>;
+  activityCode$: Observable<ActivityCodeModel>;
+  displayDebriefWitnessed$: Observable<boolean>;
+  debriefWitnessed$: Observable<boolean>;
+  displayD255$: Observable<boolean>;
+  d255$: Observable<boolean>;
+  isWelshTest$: Observable<boolean>;
+  testData$: Observable<CatBUniqueTypes.TestData>;
+  eyesightTestFailed$: Observable<boolean>;
+  testCategory$: Observable<CategoryCode>;
+  showADIWarning$: Observable<boolean>;
+  showADI3Field$: Observable<boolean>;
+  furtherDevelopment$: Observable<boolean>;
+  displayFurtherDevelopment$: Observable<boolean>;
+  adviceReason$: Observable<string>;
+  displayAdviceReasonGiven$: Observable<boolean>;
+  testOutcomeGrade$: Observable<string>;
+  immediateDanger$: Observable<boolean>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
+  testStartTime$: Observable<string>;
+  testEndTime$: Observable<string>;
 }
 
 @Component({
-	selector: 'app-non-pass-finalisation',
-	templateUrl: './non-pass-finalisation.page.html',
-	styleUrls: ['./non-pass-finalisation.page.scss'],
+  selector: 'app-non-pass-finalisation',
+  templateUrl: './non-pass-finalisation.page.html',
+  styleUrls: ['./non-pass-finalisation.page.scss'],
 })
 export class NonPassFinalisationPage extends PracticeableBasePageComponent implements OnInit {
-	pageState: NonPassFinalisationPageState;
-	form: UntypedFormGroup;
-	activityCodeOptions: ActivityCodeModel[];
-	testData: CatBUniqueTypes.TestData;
-	activityCode: ActivityCodeModel;
-	subscription: Subscription;
-	invalidTestDataModal: HTMLIonModalElement;
-	testCategory: CategoryCode;
-	scStartTime: string;
-	scEndTime: string;
+  pageState: NonPassFinalisationPageState;
+  form: UntypedFormGroup;
+  activityCodeOptions: ActivityCodeModel[];
+  testData: CatBUniqueTypes.TestData;
+  activityCode: ActivityCodeModel;
+  subscription: Subscription;
+  invalidTestDataModal: HTMLIonModalElement;
+  testCategory: CategoryCode;
+  scStartTime: string;
+  scEndTime: string;
 
-	constructor(
-		public routeByCat: RouteByCategoryProvider,
-		private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-		public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
-		public modalController: ModalController,
-		private activatedRoute: ActivatedRoute,
-		private testDataByCategoryProvider: TestDataByCategoryProvider,
-		injector: Injector
-	) {
-		super(injector, false);
-		this.form = new UntypedFormGroup({});
-		const { nonPassData } = this.activatedRoute.snapshot.data;
-		const [behaviourMap, activityCodeList] = nonPassData;
-		this.activityCodeOptions = activityCodeList;
-		this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-	}
+  constructor(
+    public routeByCat: RouteByCategoryProvider,
+    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
+    public modalController: ModalController,
+    private activatedRoute: ActivatedRoute,
+    private testDataByCategoryProvider: TestDataByCategoryProvider,
+    injector: Injector
+  ) {
+    super(injector, false);
+    this.form = new UntypedFormGroup({});
+    const { nonPassData } = this.activatedRoute.snapshot.data;
+    const [behaviourMap, activityCodeList] = nonPassData;
+    this.activityCodeOptions = activityCodeList;
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+  }
 
-	ngOnInit(): void {
-		super.ngOnInit();
+  ngOnInit(): void {
+    super.ngOnInit();
 
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		const category$ = currentTest$.pipe(select(getTestCategory));
+    const category$ = currentTest$.pipe(select(getTestCategory));
 
-		this.pageState = {
-			candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
-			candidateUntitledName$: currentTest$.pipe(
-				select(getJournalData),
-				select(getCandidate),
-				select(getUntitledCandidateName)
-			),
-			candidateDriverNumber$: currentTest$.pipe(
-				select(getJournalData),
-				select(getCandidate),
-				select(getCandidateDriverNumber),
-				map(formatDriverNumber)
-			),
-			isTestOutcomeSet$: currentTest$.pipe(select(isTestOutcomeSet)),
-			testOutcome$: currentTest$.pipe(select(getTestOutcome)),
-			testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
-			activityCode$: currentTest$.pipe(select(getActivityCode)),
-			displayDebriefWitnessed$: currentTest$.pipe(
-				select(getTestOutcome),
-				withLatestFrom(currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed))),
-				map(([outcome, debrief]) => this.outcomeBehaviourProvider.isVisible(outcome, 'debriefWitnessed', debrief))
-			),
-			debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
-			displayD255$: currentTest$.pipe(
-				select(getTestOutcome),
-				withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getD255))),
-				map(([outcome, d255]) => this.outcomeBehaviourProvider.isVisible(outcome, 'd255', d255))
-			),
-			d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
-			isWelshTest$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(isWelshTest)),
-			testData$: currentTest$.pipe(select(getTestData)),
-			eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
-			testCategory$: currentTest$.pipe(select(getTestCategory)),
-			showADIWarning$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => isAnyOf(category, [TestCategory.ADI2]))
-			),
-			furtherDevelopment$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
-				map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-				select(getReview),
-				select(getFurtherDevelopment)
-			),
-			displayFurtherDevelopment$: currentTest$.pipe(
-				select(getTestOutcome),
-				withLatestFrom(
-					currentTest$.pipe(
-						withLatestFrom(category$),
-						filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
-						map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-						select(getReview),
-						select(getFurtherDevelopment)
-					)
-				),
-				map(([outcome, furtherDevelopment]) =>
-					this.outcomeBehaviourProvider.isVisible(outcome, 'furtherDevelopment', furtherDevelopment)
-				)
-			),
-			adviceReason$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
-				map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-				select(getReview),
-				select(getReasonForNoAdviceGiven)
-			),
-			displayAdviceReasonGiven$: currentTest$.pipe(
-				select(getTestOutcome),
-				withLatestFrom(
-					currentTest$.pipe(
-						withLatestFrom(category$),
-						filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
-						map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-						select(getReview),
-						select(getReasonForNoAdviceGiven)
-					)
-				),
-				map(([outcome, noAdviceGivenReason]) =>
-					this.outcomeBehaviourProvider.isVisible(outcome, 'reasonGiven', noAdviceGivenReason)
-				)
-			),
-			testOutcomeGrade$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
-				map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-				select(getReview),
-				select(getGrade)
-			),
-			showADI3Field$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC]))
-			),
-			immediateDanger$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
-				map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-				select(getReview),
-				select(getImmediateDanger)
-			),
-			prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
-			isStandardsCheck$: currentTest$.pipe(
-				select(getTestCategory),
-				map((category) => isAnyOf(category, [TestCategory.SC]))
-			),
-			testStartTime$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.SC),
-				map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-				select(getTestStartTime),
-				map((time: string) => time || new DateTime().toISOString())
-			),
-			testEndTime$: currentTest$.pipe(
-				withLatestFrom(category$),
-				filter(([, category]) => category === TestCategory.SC),
-				map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-				select(getTestEndTime),
-				map((time: string) => time || new DateTime().add(1, Duration.HOUR).toISOString())
-			),
-		};
+    this.pageState = {
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
+      candidateUntitledName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getUntitledCandidateName)
+      ),
+      candidateDriverNumber$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidateDriverNumber),
+        map(formatDriverNumber)
+      ),
+      isTestOutcomeSet$: currentTest$.pipe(select(isTestOutcomeSet)),
+      testOutcome$: currentTest$.pipe(select(getTestOutcome)),
+      testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
+      activityCode$: currentTest$.pipe(select(getActivityCode)),
+      displayDebriefWitnessed$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed))),
+        map(([outcome, debrief]) => this.outcomeBehaviourProvider.isVisible(outcome, 'debriefWitnessed', debrief))
+      ),
+      debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
+      displayD255$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getD255))),
+        map(([outcome, d255]) => this.outcomeBehaviourProvider.isVisible(outcome, 'd255', d255))
+      ),
+      d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
+      isWelshTest$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(isWelshTest)),
+      testData$: currentTest$.pipe(select(getTestData)),
+      eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
+      testCategory$: currentTest$.pipe(select(getTestCategory)),
+      showADIWarning$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.ADI2]))
+      ),
+      furtherDevelopment$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getFurtherDevelopment)
+      ),
+      displayFurtherDevelopment$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(
+          currentTest$.pipe(
+            withLatestFrom(category$),
+            filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
+            map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+            select(getReview),
+            select(getFurtherDevelopment)
+          )
+        ),
+        map(([outcome, furtherDevelopment]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'furtherDevelopment', furtherDevelopment)
+        )
+      ),
+      adviceReason$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getReasonForNoAdviceGiven)
+      ),
+      displayAdviceReasonGiven$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(
+          currentTest$.pipe(
+            withLatestFrom(category$),
+            filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
+            map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+            select(getReview),
+            select(getReasonForNoAdviceGiven)
+          )
+        ),
+        map(([outcome, noAdviceGivenReason]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'reasonGiven', noAdviceGivenReason)
+        )
+      ),
+      testOutcomeGrade$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getGrade)
+      ),
+      showADI3Field$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC]))
+      ),
+      immediateDanger$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getImmediateDanger)
+      ),
+      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC]))
+      ),
+      testStartTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTestStartTime),
+        map((time: string) => time || new DateTime().toISOString())
+      ),
+      testEndTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTestEndTime),
+        map((time: string) => time || new DateTime().add(1, Duration.HOUR).toISOString())
+      ),
+    };
 
-		const { testData$, activityCode$, testCategory$, testStartTime$, testEndTime$ } = this.pageState;
+    const { testData$, activityCode$, testCategory$, testStartTime$, testEndTime$ } = this.pageState;
 
-		this.subscription = merge(
-			testData$.pipe(map((testData) => (this.testData = testData))),
-			activityCode$.pipe(map((activityCode) => (this.activityCode = activityCode))),
-			testCategory$.pipe(map((result) => (this.testCategory = result))),
-			testStartTime$.pipe(map((value) => (this.scStartTime = value))),
-			testEndTime$.pipe(map((value) => (this.scEndTime = value)))
-		).subscribe();
-	}
+    this.subscription = merge(
+      testData$.pipe(map((testData) => (this.testData = testData))),
+      activityCode$.pipe(map((activityCode) => (this.activityCode = activityCode))),
+      testCategory$.pipe(map((result) => (this.testCategory = result))),
+      testStartTime$.pipe(map((value) => (this.scStartTime = value))),
+      testEndTime$.pipe(map((value) => (this.scEndTime = value)))
+    ).subscribe();
+  }
 
-	ionViewDidEnter(): void {
-		this.store$.dispatch(NonPassFinalisationViewDidEnter());
-		if (this.testCategory === TestCategory.ADI2) {
-			this.store$.dispatch(D255No());
-		}
-	}
+  ionViewDidEnter(): void {
+    this.store$.dispatch(NonPassFinalisationViewDidEnter());
+    if (this.testCategory === TestCategory.ADI2) {
+      this.store$.dispatch(D255No());
+    }
+  }
 
-	ionViewDidLeave(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	openTestDataValidationModal = async (): Promise<void> => {
-		this.invalidTestDataModal = await this.modalController.create({
-			id: 'TestFinalisationInvalidTestDataModal',
-			component: TestFinalisationInvalidTestDataModal,
-			backdropDismiss: false,
-			showBackdrop: true,
-			componentProps: {
-				onCancel: this.onCancel,
-				onReturnToTestReport: this.onReturnToTestReport,
-				message: this.testDataValidationMsg,
-			},
-			cssClass: 'mes-modal-alert text-zoom-regular',
-		});
-		await this.invalidTestDataModal.present();
-	};
+  openTestDataValidationModal = async (): Promise<void> => {
+    this.invalidTestDataModal = await this.modalController.create({
+      id: 'TestFinalisationInvalidTestDataModal',
+      component: TestFinalisationInvalidTestDataModal,
+      backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        onCancel: this.onCancel,
+        onReturnToTestReport: this.onReturnToTestReport,
+        message: this.testDataValidationMsg,
+      },
+      cssClass: 'mes-modal-alert text-zoom-regular',
+    });
+    await this.invalidTestDataModal.present();
+  };
 
-	private get testDataValidationMsg(): string {
-		switch (this.testCategory) {
-			case TestCategory.ADI3:
-			case TestCategory.SC:
-				return 'Code 4 cannot be selected because the PDI has a Risk Management score of more than 7';
-			default:
-				return 'The level of faults on this practical test does not meet the requirement for code 4 or 5.';
-		}
-	}
+  private get testDataValidationMsg(): string {
+    switch (this.testCategory) {
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return 'Code 4 cannot be selected because the PDI has a Risk Management score of more than 7';
+      default:
+        return 'The level of faults on this practical test does not meet the requirement for code 4 or 5.';
+    }
+  }
 
-	onCancel = async (): Promise<void> => {
-		await this.invalidTestDataModal.dismiss();
-	};
+  onCancel = async (): Promise<void> => {
+    await this.invalidTestDataModal.dismiss();
+  };
 
-	onReturnToTestReport = async (): Promise<void> => {
-		await this.invalidTestDataModal.dismiss();
+  onReturnToTestReport = async (): Promise<void> => {
+    await this.invalidTestDataModal.dismiss();
 
-		if (this.testCategory === TestCategory.ADI3) {
-			await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
-			return;
-		}
+    if (this.testCategory === TestCategory.ADI3) {
+      await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
+      return;
+    }
 
-		await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory as TestCategory);
-	};
+    await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory as TestCategory);
+  };
 
-	async continue() {
-		Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+  async continue() {
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
-		if (this.form.valid) {
-			const testDataIsInvalid = await this.activityCodeFinalisationProvider.testDataIsInvalid(
-				this.testCategory,
-				this.activityCode.activityCode,
-				this.testData
-			);
+    if (this.form.valid) {
+      const testDataIsInvalid = await this.activityCodeFinalisationProvider.testDataIsInvalid(
+        this.testCategory,
+        this.activityCode.activityCode,
+        this.testData
+      );
 
-			if (testDataIsInvalid) {
-				await this.openTestDataValidationModal();
-				return;
-			}
+      if (testDataIsInvalid) {
+        await this.openTestDataValidationModal();
+        return;
+      }
 
-			this.testStartTimeChanged(this.scStartTime);
-			this.testEndTimeChanged(this.scEndTime);
+      this.testStartTimeChanged(this.scStartTime);
+      this.testEndTimeChanged(this.scEndTime);
 
-			this.store$.dispatch(NonPassFinalisationReportActivityCode(this.activityCode.activityCode));
-			await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
-			return;
-		}
-		Object.keys(this.form.controls).forEach((controlName) => {
-			if (this.form.controls[controlName].invalid) {
-				this.store$.dispatch(NonPassFinalisationValidationError(`${controlName} is blank`));
-			}
-		});
-	}
+      this.store$.dispatch(NonPassFinalisationReportActivityCode(this.activityCode.activityCode));
+      await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
+      return;
+    }
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(NonPassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
+  }
 
-	activityCodeChanged(activityCodeModel: ActivityCodeModel) {
-		this.activityCode = activityCodeModel;
-		this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
-	}
+  activityCodeChanged(activityCodeModel: ActivityCodeModel) {
+    this.activityCode = activityCodeModel;
+    this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
+  }
 
-	debriefWitnessedChanged(debriefWitnessed: boolean): void {
-		this.store$.dispatch(debriefWitnessed ? DebriefWitnessed() : DebriefUnWitnessed());
-	}
+  debriefWitnessedChanged(debriefWitnessed: boolean): void {
+    this.store$.dispatch(debriefWitnessed ? DebriefWitnessed() : DebriefUnWitnessed());
+  }
 
-	d255Changed(d255: boolean): void {
-		this.store$.dispatch(d255 ? D255Yes() : D255No());
-	}
+  d255Changed(d255: boolean): void {
+    this.store$.dispatch(d255 ? D255Yes() : D255No());
+  }
 
-	furtherDevelopmentChanged(furtherDevelopment: boolean): void {
-		this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
-	}
+  furtherDevelopmentChanged(furtherDevelopment: boolean): void {
+    this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
+  }
 
-	adviceReasonChanged(adviceReason: string): void {
-		this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
-	}
+  adviceReasonChanged(adviceReason: string): void {
+    this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
+  }
 
-	isWelshChanged(isWelsh: boolean) {
-		this.store$.dispatch(
-			isWelsh ? CandidateChoseToProceedWithTestInWelsh('Cymraeg') : CandidateChoseToProceedWithTestInEnglish('English')
-		);
-	}
+  isWelshChanged(isWelsh: boolean) {
+    this.store$.dispatch(
+      isWelsh ? CandidateChoseToProceedWithTestInWelsh('Cymraeg') : CandidateChoseToProceedWithTestInEnglish('English')
+    );
+  }
 
-	testStartTimeChanged(startTime: string): void {
-		this.scStartTime = startTime;
-		this.store$.dispatch(StartTimeChanged(startTime));
-	}
+  testStartTimeChanged(startTime: string): void {
+    this.scStartTime = startTime;
+    this.store$.dispatch(StartTimeChanged(startTime));
+  }
 
-	testEndTimeChanged(endTime: string): void {
-		this.scEndTime = endTime;
-		this.store$.dispatch(EndTimeChanged(endTime));
-	}
+  testEndTimeChanged(endTime: string): void {
+    this.scEndTime = endTime;
+    this.store$.dispatch(EndTimeChanged(endTime));
+  }
 
-	async navigateToDebrief(): Promise<void> {
-		await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
-	}
+  async navigateToDebrief(): Promise<void> {
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+  }
 
-	showLanguage = (): boolean => {
-		return !isAnyOf(this.testCategory, [TestCategory.ADI3]);
-	};
+  showLanguage = (): boolean => {
+    return !isAnyOf(this.testCategory, [TestCategory.ADI3]);
+  };
 
-	showD255 = (): boolean => {
-		return !isAnyOf(this.testCategory, [
-			TestCategory.ADI2,
-			TestCategory.ADI3,
-			TestCategory.CM,
-			TestCategory.C1M,
-			TestCategory.CEM,
-			TestCategory.C1EM,
-			TestCategory.DM,
-			TestCategory.D1M,
-			TestCategory.DEM,
-			TestCategory.D1EM,
-		]);
-	};
+  showD255 = (): boolean => {
+    return !isAnyOf(this.testCategory, [
+      TestCategory.ADI2,
+      TestCategory.ADI3,
+      TestCategory.CM,
+      TestCategory.C1M,
+      TestCategory.CEM,
+      TestCategory.C1EM,
+      TestCategory.DM,
+      TestCategory.D1M,
+      TestCategory.DEM,
+      TestCategory.D1EM,
+    ]);
+  };
 
-	didTestComplete = (): boolean => {
-		if (this.activityCode) {
-			return isAnyOf(this.activityCode.activityCode, [
-				ActivityCodes.FAIL,
-				ActivityCodes.FAIL_PUBLIC_SAFETY,
-				ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
-			]);
-		}
-		return false;
-	};
+  didTestComplete = (): boolean => {
+    if (this.activityCode) {
+      return isAnyOf(this.activityCode.activityCode, [
+        ActivityCodes.FAIL,
+        ActivityCodes.FAIL_PUBLIC_SAFETY,
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
+      ]);
+    }
+    return false;
+  };
 
-	isADI3 = (): boolean => {
-		return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
-	};
+  isADI3 = (): boolean => {
+    return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
+  };
 }

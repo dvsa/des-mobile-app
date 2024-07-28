@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { PassFinalisationCatCPage } from './pass-finalisation.cat-c.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: PassFinalisationCatCPage,
-	},
+  {
+    path: '',
+    component: PassFinalisationCatCPage,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class PassFinalisationCatCPageRoutingModule {}

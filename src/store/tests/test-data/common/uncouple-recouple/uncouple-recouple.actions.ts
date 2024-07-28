@@ -11,5 +11,5 @@ export const UncoupleRecoupleAddDangerousFault = createAction('[UncoupleRecouple
 export const UncoupleRecoupleRemoveFault = createAction('[UncoupleRecouple] Remove Fault');
 
 export const AddUncoupleRecoupleComment = createAction('[UncoupleRecouple] Add Comment', (comment: string) => ({
-	comment,
+  comment,
 }));

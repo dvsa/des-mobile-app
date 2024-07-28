@@ -13,17 +13,17 @@ import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics
 import { PassFinalisationCatHomeTestPage } from './pass-finalisation.cat-home-test.page';
 
 @NgModule({
-	declarations: [PassFinalisationCatHomeTestPage],
-	imports: [
-		EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
-		ComponentsModule,
-		TestFinalisationComponentsModule,
-		PassFinalisationComponentsModule,
-		PassFinalisationCatHomeTestPageRoutingModule,
-		CommonModule,
-		IonicModule,
-		ReactiveFormsModule,
-	],
-	providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
+  declarations: [PassFinalisationCatHomeTestPage],
+  imports: [
+    EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+    ComponentsModule,
+    TestFinalisationComponentsModule,
+    PassFinalisationComponentsModule,
+    PassFinalisationCatHomeTestPageRoutingModule,
+    CommonModule,
+    IonicModule,
+    ReactiveFormsModule,
+  ],
+  providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })
 export class PassFinalisationCatHomeTestPageModule {}

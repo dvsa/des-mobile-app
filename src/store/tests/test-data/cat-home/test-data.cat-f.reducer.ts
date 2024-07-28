@@ -14,39 +14,39 @@ import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
 
 export const initialState: CatFUniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	manoeuvres: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	controlledStop: {},
-	eyesightTest: {},
-	highwayCodeSafety: {},
-	vehicleChecks: {
-		tellMeQuestions: [],
-		showMeQuestions: [],
-	},
+  dangerousFaults: {},
+  drivingFaults: {},
+  manoeuvres: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  controlledStop: {},
+  eyesightTest: {},
+  highwayCodeSafety: {},
+  vehicleChecks: {
+    tellMeQuestions: [],
+    showMeQuestions: [],
+  },
 };
 
 export function testDataCatFReducer(
-	state: CatFUniqueTypes.TestData,
-	action: Action
+  state: CatFUniqueTypes.TestData,
+  action: Action
 ): Required<CatFUniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksCatHomeReducer,
-		controlledStop: controlledStopReducer,
-		highwayCodeSafety: highwayCodeSafetyReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		eyesightTest: eyesightTestReducer,
-		manoeuvres: manoeuvresReducer,
-		testRequirements: testRequirementsCatHomeReducer,
-	})(state as Required<CatFUniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksCatHomeReducer,
+    controlledStop: controlledStopReducer,
+    highwayCodeSafety: highwayCodeSafetyReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    eyesightTest: eyesightTestReducer,
+    manoeuvres: manoeuvresReducer,
+    testRequirements: testRequirementsCatHomeReducer,
+  })(state as Required<CatFUniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatFUniqueTypes.TestData>('testData');

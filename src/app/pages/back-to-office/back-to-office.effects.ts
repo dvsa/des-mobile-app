@@ -6,17 +6,17 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BackToOfficeEffects {
-	constructor(
-		private actions$: Actions,
-		private vehicleDetailsApiService: VehicleDetailsApiService
-	) {}
+  constructor(
+    private actions$: Actions,
+    private vehicleDetailsApiService: VehicleDetailsApiService
+  ) {}
 
-	clearVehicleData$ = createEffect(
-		() =>
-			this.actions$.pipe(
-				ofType(ClearVehicleData),
-				map(() => this.vehicleDetailsApiService.clearVehicleData())
-			),
-		{ dispatch: false }
-	);
+  clearVehicleData$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ClearVehicleData),
+        map(() => this.vehicleDetailsApiService.clearVehicleData())
+      ),
+    { dispatch: false }
+  );
 }

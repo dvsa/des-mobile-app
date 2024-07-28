@@ -23,27 +23,27 @@ import { OfficeCatCPCPageRoutingModule } from './office.cat-cpc-routing.module';
 import { OfficeCatCPCPage } from './office.cat-cpc.page';
 
 @NgModule({
-	declarations: [
-		OfficeCatCPCPage,
-		AssessmentReportComponent,
-		CombinationComponent,
-		PassCertificateDeclarationComponent,
-	],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		PipesModule,
-		OfficeCatCPCPageRoutingModule,
-		ReactiveFormsModule,
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-		ComponentsModule,
-		OfficeComponentsModule,
-		TestFinalisationComponentsModule,
-		PassFinalisationComponentsModule,
-		WaitingRoomToCarCatCPCComponentsModule,
-		DirectivesModule,
-	],
-	providers: [FaultSummaryProvider],
+  declarations: [
+    OfficeCatCPCPage,
+    AssessmentReportComponent,
+    CombinationComponent,
+    PassCertificateDeclarationComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    PipesModule,
+    OfficeCatCPCPageRoutingModule,
+    ReactiveFormsModule,
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    ComponentsModule,
+    OfficeComponentsModule,
+    TestFinalisationComponentsModule,
+    PassFinalisationComponentsModule,
+    WaitingRoomToCarCatCPCComponentsModule,
+    DirectivesModule,
+  ],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatCPCPageModule {}

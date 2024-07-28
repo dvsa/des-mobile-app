@@ -30,40 +30,40 @@ import { rekeyReducer } from './rekey/rekey.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 
 export type TestResultManoeuvresUnion =
-	| CatCMUniqueTypes.TestResult
-	| CatC1MUniqueTypes.TestResult
-	| CatCEMUniqueTypes.TestResult
-	| CatC1EMUniqueTypes.TestResult
-	| CatDMUniqueTypes.TestResult
-	| CatD1MUniqueTypes.TestResult
-	| CatDEMUniqueTypes.TestResult
-	| CatD1EMUniqueTypes.TestResult;
+  | CatCMUniqueTypes.TestResult
+  | CatC1MUniqueTypes.TestResult
+  | CatCEMUniqueTypes.TestResult
+  | CatC1EMUniqueTypes.TestResult
+  | CatDMUniqueTypes.TestResult
+  | CatD1MUniqueTypes.TestResult
+  | CatDEMUniqueTypes.TestResult
+  | CatD1EMUniqueTypes.TestResult;
 
 export function testsCatManoeuvreReducer(
-	action: Action,
-	state: TestResultManoeuvresUnion
+  action: Action,
+  state: TestResultManoeuvresUnion
 ): Required<TestResultManoeuvresUnion> {
-	return combineReducers({
-		accompaniment: accompanimentReducer,
-		activityCode: activityCodeReducer,
-		appVersion: appVersionReducer,
-		category: categoryReducer,
-		changeMarker: changeMarkerReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		delegatedTest: delegatedTestReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		journalData: journalDataCatManoeuvreReducer,
-		passCompletion: passCompletionReducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		preTestDeclarations: preTestDeclarationsReducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		testData: testDataCatManoeuvresReducer,
-		testSummary: testSummaryReducer,
-		vehicleDetails: vehicleDetailsCatManoeuvreReducer,
-		version: schemaVersionReducer,
-	})(state as Required<TestResultManoeuvresUnion>, action);
+  return combineReducers({
+    accompaniment: accompanimentReducer,
+    activityCode: activityCodeReducer,
+    appVersion: appVersionReducer,
+    category: categoryReducer,
+    changeMarker: changeMarkerReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    delegatedTest: delegatedTestReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    journalData: journalDataCatManoeuvreReducer,
+    passCompletion: passCompletionReducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    preTestDeclarations: preTestDeclarationsReducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    testData: testDataCatManoeuvresReducer,
+    testSummary: testSummaryReducer,
+    vehicleDetails: vehicleDetailsCatManoeuvreReducer,
+    version: schemaVersionReducer,
+  })(state as Required<TestResultManoeuvresUnion>, action);
 }

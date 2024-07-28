@@ -1,3 +1,3 @@
 export type SafetyQuestionsScore = {
-	drivingFaults: number;
+  drivingFaults: number;
 };

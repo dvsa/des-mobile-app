@@ -5,22 +5,22 @@ import { MockComponent } from 'ng-mocks';
 import { ExaminerDetailsCardComponent } from '../examiner-details';
 
 describe('ExaminerDetailsCardComponent', () => {
-	let fixture: ComponentFixture<ExaminerDetailsCardComponent>;
-	let component: ExaminerDetailsCardComponent;
+  let fixture: ComponentFixture<ExaminerDetailsCardComponent>;
+  let component: ExaminerDetailsCardComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
-			imports: [IonicModule],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
+      imports: [IonicModule],
+    });
 
-		fixture = TestBed.createComponent(ExaminerDetailsCardComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(ExaminerDetailsCardComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('Class', () => {
-		it('should create', () => {
-			expect(component).toBeDefined();
-		});
-	});
+  describe('Class', () => {
+    it('should create', () => {
+      expect(component).toBeDefined();
+    });
+  });
 });

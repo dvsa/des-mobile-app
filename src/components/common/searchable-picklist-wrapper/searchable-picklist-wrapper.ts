@@ -3,92 +3,92 @@ import { SearchablePicklistModal } from '@components/common/searchable-picklist-
 import { ModalController } from '@ionic/angular';
 
 export enum SearchablePicklistModalEvent {
-	CANCEL = 'cancel',
-	SUBMIT = 'submit',
+  CANCEL = 'cancel',
+  SUBMIT = 'submit',
 }
 
 @Component({
-	selector: 'searchable-picklist-wrapper',
-	templateUrl: './searchable-picklist-wrapper.html',
-	styleUrls: ['./searchable-picklist-wrapper.scss'],
+  selector: 'searchable-picklist-wrapper',
+  templateUrl: './searchable-picklist-wrapper.html',
+  styleUrls: ['./searchable-picklist-wrapper.scss'],
 })
 export class SearchablePicklistComponentWrapper<T> {
-	@Input()
-	dataList: T[] = [];
+  @Input()
+  dataList: T[] = [];
 
-	@Input()
-	model: T;
+  @Input()
+  model: T;
 
-	@Input()
-	isAdvancedSearch = false;
+  @Input()
+  isAdvancedSearch = false;
 
-	@Input()
-	fieldLabel: string;
+  @Input()
+  fieldLabel: string;
 
-	@Input()
-	fuzzySearchKeys: (keyof T)[] = []; // Keys in the model in which the fuzzy search will be run against;
+  @Input()
+  fuzzySearchKeys: (keyof T)[] = []; // Keys in the model in which the fuzzy search will be run against;
 
-	@Input()
-	primaryKey: keyof T; // Property of the model (typically unique like an ID) to save or use as comparator;
+  @Input()
+  primaryKey: keyof T; // Property of the model (typically unique like an ID) to save or use as comparator;
 
-	@Input()
-	displayKey: string; // Property of the model to display in UI;
+  @Input()
+  displayKey: string; // Property of the model to display in UI;
 
-	@Input()
-	minCharactersBeforeListDisplay = 0;
+  @Input()
+  minCharactersBeforeListDisplay = 0;
 
-	@Input()
-	placeholder = 'Please enter a value';
+  @Input()
+  placeholder = 'Please enter a value';
 
-	@Input()
-	idPrefix: string;
+  @Input()
+  idPrefix: string;
 
-	@Input()
-	differentDisplay = false;
+  @Input()
+  differentDisplay = false;
 
-	@Input()
-	disabled = false;
+  @Input()
+  disabled = false;
 
-	@Input()
-	customWidth: number;
+  @Input()
+  customWidth: number;
 
-	@Output()
-	outputChanged = new EventEmitter<T>();
+  @Output()
+  outputChanged = new EventEmitter<T>();
 
-	searchedValue: string;
+  searchedValue: string;
 
-	constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) {}
 
-	async openModal(): Promise<void> {
-		// Don't create new modal if disabled property is set or a modal already exists;
-		if (this.disabled || (await this.modalController.getTop())) {
-			return;
-		}
+  async openModal(): Promise<void> {
+    // Don't create new modal if disabled property is set or a modal already exists;
+    if (this.disabled || (await this.modalController.getTop())) {
+      return;
+    }
 
-		const modal: HTMLIonModalElement = await this.modalController.create({
-			component: SearchablePicklistModal,
-			componentProps: {
-				dataList: this.dataList,
-				model: this.model,
-				fuzzySearchKeys: this.fuzzySearchKeys,
-				minCharactersBeforeListDisplay: this.minCharactersBeforeListDisplay,
-				primaryKey: this.primaryKey,
-				displayKey: this.displayKey,
-				idPrefix: this.idPrefix,
-				placeholder: this.placeholder,
-			},
-		});
-		await modal.present();
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: SearchablePicklistModal,
+      componentProps: {
+        dataList: this.dataList,
+        model: this.model,
+        fuzzySearchKeys: this.fuzzySearchKeys,
+        minCharactersBeforeListDisplay: this.minCharactersBeforeListDisplay,
+        primaryKey: this.primaryKey,
+        displayKey: this.displayKey,
+        idPrefix: this.idPrefix,
+        placeholder: this.placeholder,
+      },
+    });
+    await modal.present();
 
-		const { data } = await modal.onWillDismiss<T>();
+    const { data } = await modal.onWillDismiss<T>();
 
-		// Define emitter so the calling components can listen out for data changes
-		this.outputChanged.emit(data);
-	}
+    // Define emitter so the calling components can listen out for data changes
+    this.outputChanged.emit(data);
+  }
 
-	clearInput(): void {
-		this.model = null;
-		this.searchedValue = null;
-		this.outputChanged.emit(null);
-	}
+  clearInput(): void {
+    this.model = null;
+    this.searchedValue = null;
+    this.outputChanged.emit(null);
+  }
 }

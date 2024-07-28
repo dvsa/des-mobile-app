@@ -7,8 +7,8 @@ import { SafetyAndBalanceComponent } from '@pages/test-report/cat-a-mod2/compone
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 
 @NgModule({
-	declarations: [SafetyAndBalanceComponent],
-	imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonicModule, DirectivesModule],
-	exports: [SafetyAndBalanceComponent],
+  declarations: [SafetyAndBalanceComponent],
+  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonicModule, DirectivesModule],
+  exports: [SafetyAndBalanceComponent],
 })
 export class TestReportCatAMod2ComponentsModule {}

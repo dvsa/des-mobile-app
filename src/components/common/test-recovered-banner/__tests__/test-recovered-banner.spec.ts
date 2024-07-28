@@ -3,21 +3,21 @@ import { TestRecoveredBannerComponent } from '@components/common/test-recovered-
 import { IonicModule } from '@ionic/angular';
 
 describe('TestRecoveredBannerComponent', () => {
-	let component: TestRecoveredBannerComponent;
-	let fixture: ComponentFixture<TestRecoveredBannerComponent>;
+  let component: TestRecoveredBannerComponent;
+  let fixture: ComponentFixture<TestRecoveredBannerComponent>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [TestRecoveredBannerComponent],
-			imports: [IonicModule],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestRecoveredBannerComponent],
+      imports: [IonicModule],
+    });
 
-		fixture = TestBed.createComponent(TestRecoveredBannerComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	}));
+    fixture = TestBed.createComponent(TestRecoveredBannerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

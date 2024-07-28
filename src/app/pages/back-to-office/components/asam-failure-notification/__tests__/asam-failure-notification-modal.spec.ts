@@ -6,31 +6,31 @@ import { MockComponent } from 'ng-mocks';
 import { AsamFailureNotificationModal } from '../asam-failure-notification-modal';
 
 describe('AsamFailureNotificationModal', () => {
-	let component: AsamFailureNotificationModal;
-	let fixture: ComponentFixture<AsamFailureNotificationModal>;
-	let modalController: ModalController;
+  let component: AsamFailureNotificationModal;
+  let fixture: ComponentFixture<AsamFailureNotificationModal>;
+  let modalController: ModalController;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [AsamFailureNotificationModal, MockComponent(ModalAlertTitleComponent)],
-			imports: [IonicModule.forRoot()],
-			providers: [{ provide: ModalController, useClass: ModalControllerMock }],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [AsamFailureNotificationModal, MockComponent(ModalAlertTitleComponent)],
+      imports: [IonicModule.forRoot()],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
+    });
 
-		fixture = TestBed.createComponent(AsamFailureNotificationModal);
-		component = fixture.componentInstance;
-		modalController = TestBed.inject(ModalController);
-		spyOn(modalController, 'dismiss');
-	}));
+    fixture = TestBed.createComponent(AsamFailureNotificationModal);
+    component = fixture.componentInstance;
+    modalController = TestBed.inject(ModalController);
+    spyOn(modalController, 'dismiss');
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('onCompleteTest', () => {
-		it('should dismiss modal', async () => {
-			await component.onCompleteTest();
-			expect(modalController.dismiss).toHaveBeenCalled();
-		});
-	});
+  describe('onCompleteTest', () => {
+    it('should dismiss modal', async () => {
+      await component.onCompleteTest();
+      expect(modalController.dismiss).toHaveBeenCalled();
+    });
+  });
 });

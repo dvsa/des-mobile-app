@@ -15,18 +15,18 @@ import { CommunicationPageRoutingModule } from './communication-routing.module';
 import { CommunicationPage } from './communication.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		CommunicationPageRoutingModule,
-		ComponentsModule,
-		TranslateModule,
-		CommunicationComponentsModule,
-		ReactiveFormsModule,
-		EffectsModule.forFeature([CommunicationEffects, CommunicationAnalyticsEffects]),
-		DirectivesModule,
-	],
-	declarations: [CommunicationPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    CommunicationPageRoutingModule,
+    ComponentsModule,
+    TranslateModule,
+    CommunicationComponentsModule,
+    ReactiveFormsModule,
+    EffectsModule.forFeature([CommunicationEffects, CommunicationAnalyticsEffects]),
+    DirectivesModule,
+  ],
+  declarations: [CommunicationPage],
 })
 export class CommunicationPageModule {}

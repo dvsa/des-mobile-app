@@ -10,8 +10,8 @@ import { HealthDeclarationComponent } from './health-declaration/health-declarat
 import { ReceiptDeclarationComponent } from './receipt-declaration/receipt-declaration';
 
 @NgModule({
-	declarations: [HealthDeclarationComponent, ReceiptDeclarationComponent, HealthDeclarationModal],
-	imports: [IonicModule, TranslateModule, ComponentsModule, ReactiveFormsModule, CommonModule, DirectivesModule],
-	exports: [HealthDeclarationComponent, ReceiptDeclarationComponent],
+  declarations: [HealthDeclarationComponent, ReceiptDeclarationComponent, HealthDeclarationModal],
+  imports: [IonicModule, TranslateModule, ComponentsModule, ReactiveFormsModule, CommonModule, DirectivesModule],
+  exports: [HealthDeclarationComponent, ReceiptDeclarationComponent],
 })
 export class HealthDeclarationComponentsModule {}

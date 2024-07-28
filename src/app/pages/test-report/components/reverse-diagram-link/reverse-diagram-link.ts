@@ -7,34 +7,34 @@ import { StoreModel } from '@shared/models/store.model';
 import { ReverseDiagramClosed, ReverseDiagramOpened } from '../reverse-diagram-modal/reverse-diagram-modal.actions';
 
 @Component({
-	selector: 'reverse-diagram-link',
-	templateUrl: 'reverse-diagram-link.html',
-	styleUrls: ['reverse-diagram-link.scss'],
+  selector: 'reverse-diagram-link',
+  templateUrl: 'reverse-diagram-link.html',
+  styleUrls: ['reverse-diagram-link.scss'],
 })
 export class ReverseDiagramLinkComponent {
-	constructor(
-		public modalController: ModalController,
-		private accessibilityService: AccessibilityService,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    public modalController: ModalController,
+    private accessibilityService: AccessibilityService,
+    private store$: Store<StoreModel>
+  ) {}
 
-	async openReverseDiagramModal(): Promise<void> {
-		this.store$.dispatch(ReverseDiagramOpened());
+  async openReverseDiagramModal(): Promise<void> {
+    this.store$.dispatch(ReverseDiagramOpened());
 
-		const reverseDiagramModal = await this.modalController.create({
-			component: ReverseDiagramPage,
-			componentProps: { onClose: async () => this.modalController.dismiss() },
-			cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
-		});
-		await reverseDiagramModal.present();
-		const didDismiss = await reverseDiagramModal.onDidDismiss();
+    const reverseDiagramModal = await this.modalController.create({
+      component: ReverseDiagramPage,
+      componentProps: { onClose: async () => this.modalController.dismiss() },
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
+    });
+    await reverseDiagramModal.present();
+    const didDismiss = await reverseDiagramModal.onDidDismiss();
 
-		if (didDismiss) {
-			this.closeReverseDiagramModal();
-		}
-	}
+    if (didDismiss) {
+      this.closeReverseDiagramModal();
+    }
+  }
 
-	closeReverseDiagramModal(): void {
-		this.store$.dispatch(ReverseDiagramClosed());
-	}
+  closeReverseDiagramModal(): void {
+    this.store$.dispatch(ReverseDiagramClosed());
+  }
 }

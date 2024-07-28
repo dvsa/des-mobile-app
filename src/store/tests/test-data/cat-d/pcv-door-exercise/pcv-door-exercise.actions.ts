@@ -13,6 +13,6 @@ export const PcvDoorExerciseRemoveSeriousFault = createAction('[PcvDoorExercise]
 export const PcvDoorExerciseRemoveDangerousFault = createAction('[PcvDoorExercise] Remove Dangerous Fault');
 
 export const AddPcvDoorExerciseComment = createAction(
-	'[PcvDoorExercise] Add Comment',
-	(fieldName: string, comment: string) => ({ fieldName, comment })
+  '[PcvDoorExercise] Add Comment',
+  (fieldName: string, comment: string) => ({ fieldName, comment })
 );

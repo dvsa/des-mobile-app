@@ -1,4 +1,4 @@
 export enum TestOutcome {
-	PASS = 'Pass',
-	FAIL = 'Fail',
+  PASS = 'Pass',
+  FAIL = 'Fail',
 }

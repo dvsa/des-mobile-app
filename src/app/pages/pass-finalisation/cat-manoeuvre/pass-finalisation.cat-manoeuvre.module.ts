@@ -15,18 +15,18 @@ import { PassCertificateValidationProvider } from '@providers/pass-certificate-v
 import { PassFinalisationComponentsModule } from '../components/pass-finalisation-components.module';
 
 @NgModule({
-	declarations: [PassFinalisationCatManoeuvrePage],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		ComponentsModule,
-		PassFinalisationComponentsModule,
-		PassFinalisationCatManoeuvrePageRoutingModule,
-		ReactiveFormsModule,
-		EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
-		TestFinalisationComponentsModule,
-	],
-	providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
+  declarations: [PassFinalisationCatManoeuvrePage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ComponentsModule,
+    PassFinalisationComponentsModule,
+    PassFinalisationCatManoeuvrePageRoutingModule,
+    ReactiveFormsModule,
+    EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+    TestFinalisationComponentsModule,
+  ],
+  providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })
 export class PassFinalisationCatManoeuvrePageModule {}

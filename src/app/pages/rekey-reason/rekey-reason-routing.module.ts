@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { RekeyReasonPage } from './rekey-reason.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: RekeyReasonPage,
-	},
+  {
+    path: '',
+    component: RekeyReasonPage,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class RekeyReasonPageRoutingModule {}

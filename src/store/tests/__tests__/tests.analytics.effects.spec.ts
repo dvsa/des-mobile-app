@@ -9,14 +9,14 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-	AnalyticsDimensionIndices,
-	AnalyticsEventCategories,
-	AnalyticsEvents,
-	GoogleAnalyticsCustomDimension,
-	GoogleAnalyticsEventPrefix,
-	GoogleAnalyticsEvents,
-	GoogleAnalyticsEventsTitles,
-	GoogleAnalyticsEventsValues,
+  AnalyticsDimensionIndices,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEventPrefix,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
@@ -41,445 +41,445 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { candidateMock } from '../__mocks__/tests.mock';
 
 describe('TestsAnalyticsEffects', () => {
-	let effects: TestsAnalyticsEffects;
-	let analyticsProviderMock: AnalyticsProvider;
-	let navigationStateProviderMock: NavigationStateProvider;
-	let actions$: ReplaySubject<any>;
-	let store$: Store<StoreModel>;
-	const mockApplication: Application = {
-		applicationId: 123456,
-		bookingSequence: 78,
-		checkDigit: 9,
-	};
+  let effects: TestsAnalyticsEffects;
+  let analyticsProviderMock: AnalyticsProvider;
+  let navigationStateProviderMock: NavigationStateProvider;
+  let actions$: ReplaySubject<any>;
+  let store$: Store<StoreModel>;
+  const mockApplication: Application = {
+    applicationId: 123456,
+    bookingSequence: 78,
+    checkDigit: 9,
+  };
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				StoreModule.forRoot({
-					journal: journalReducer,
-					tests: testsReducer,
-				}),
-			],
-			providers: [
-				TestsAnalyticsEffects,
-				{
-					provide: AnalyticsProvider,
-					useClass: AnalyticsProviderMock,
-				},
-				{
-					provide: NavigationStateProvider,
-					useClass: NavigationStateProviderMock,
-				},
-				{
-					provide: DeviceProvider,
-					useClass: DeviceProviderMock,
-				},
-				provideMockActions(() => actions$),
-				Store,
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          journal: journalReducer,
+          tests: testsReducer,
+        }),
+      ],
+      providers: [
+        TestsAnalyticsEffects,
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: NavigationStateProvider,
+          useClass: NavigationStateProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        provideMockActions(() => actions$),
+        Store,
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+      ],
+    });
 
-		actions$ = new ReplaySubject(1);
-		effects = TestBed.inject(TestsAnalyticsEffects);
-		analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-		navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
-		store$ = TestBed.inject(Store);
-		spyOn(analyticsProviderMock, 'logEvent');
-	});
+    actions$ = new ReplaySubject(1);
+    effects = TestBed.inject(TestsAnalyticsEffects);
+    analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
+    store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
+  });
 
-	describe('setTestStatusSubmittedEffect', () => {
-		it('should set an action saying the test has been submitted if it is not a rekey', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-			store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			// ACT
-			actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
-			// ASSERT
-			effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
+  describe('setTestStatusSubmittedEffect', () => {
+    it('should set an action saying the test has been submitted if it is not a rekey', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      // ACT
+      actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
+      // ASSERT
+      effects.setTestStatusSubmittedEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
 
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.POST_TEST,
-					AnalyticsEvents.SUBMIT_TEST,
-					'Pass'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.POST_TEST,
+          AnalyticsEvents.SUBMIT_TEST,
+          'Pass'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.SUBMIT_TEST,
-					GoogleAnalyticsEventsTitles.RESULT,
-					GoogleAnalyticsEventsValues.PASS
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				done();
-			});
-		});
-		it('should set an action saying the test has been submitted if it is a rekey', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-			store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-			store$.dispatch(rekeyActions.MarkAsRekey());
-			// ACT
-			actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
-			// ASSERT
-			effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.SUBMIT_TEST,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        done();
+      });
+    });
+    it('should set an action saying the test has been submitted if it is a rekey', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(rekeyActions.MarkAsRekey());
+      // ACT
+      actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
+      // ASSERT
+      effects.setTestStatusSubmittedEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.POST_TEST,
-					AnalyticsEvents.SUBMIT_REKEY_TEST,
-					'Fail'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.POST_TEST,
+          AnalyticsEvents.SUBMIT_REKEY_TEST,
+          'Fail'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.SUBMIT_TEST}`,
-					GoogleAnalyticsEventsTitles.RESULT,
-					GoogleAnalyticsEventsValues.FAIL
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				done();
-			});
-		});
-	});
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.SUBMIT_TEST}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        done();
+      });
+    });
+  });
 
-	describe('sendCompletedTestsFailureEffect', () => {
-		it('should send an error action', (done) => {
-			// ACT
-			actions$.next(testsActions.SendCompletedTestsFailure());
-			// ASSERT
-			effects.sendCompletedTestsFailureEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.logError).toHaveBeenCalledWith(
-					'Error connecting to microservice (test submission)',
-					'No message'
-				);
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.MICROSERVICE_ERROR,
-					GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
-					GoogleAnalyticsEventsValues.FULL
-				);
-				done();
-			});
-		});
-	});
+  describe('sendCompletedTestsFailureEffect', () => {
+    it('should send an error action', (done) => {
+      // ACT
+      actions$.next(testsActions.SendCompletedTestsFailure());
+      // ASSERT
+      effects.sendCompletedTestsFailureEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError).toHaveBeenCalledWith(
+          'Error connecting to microservice (test submission)',
+          'No message'
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.MICROSERVICE_ERROR,
+          GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
+          GoogleAnalyticsEventsValues.FULL
+        );
+        done();
+      });
+    });
+  });
 
-	describe('sendPartialTestsFailureEffect', () => {
-		it('should send an error action', (done) => {
-			// ACT
-			actions$.next(testsActions.SendPartialTestsFailure());
-			// ASSERT
-			effects.sendPartialTestsFailureEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.logError).toHaveBeenCalledWith(
-					'Error connecting to microservice (partial test submission)',
-					'No message'
-				);
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.MICROSERVICE_ERROR,
-					GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
-					GoogleAnalyticsEventsValues.PARTIAL
-				);
-				done();
-			});
-		});
-	});
+  describe('sendPartialTestsFailureEffect', () => {
+    it('should send an error action', (done) => {
+      // ACT
+      actions$.next(testsActions.SendPartialTestsFailure());
+      // ASSERT
+      effects.sendPartialTestsFailureEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logError).toHaveBeenCalledWith(
+          'Error connecting to microservice (partial test submission)',
+          'No message'
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.MICROSERVICE_ERROR,
+          GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
+          GoogleAnalyticsEventsValues.PARTIAL
+        );
+        done();
+      });
+    });
+  });
 
-	describe('testOutcomeChangedEffect', () => {
-		it('should log a fail to pass event', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			store$.dispatch(rekeyActions.MarkAsNonRekey());
-			const eventLabel = 'fail to pass';
-			// ACT
-			actions$.next(testsActions.TestOutcomeChanged(eventLabel));
-			// ASSERT
-			effects.testOutcomeChangedEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.TEST_REPORT,
-					AnalyticsEvents.TEST_OUTCOME_CHANGED,
-					eventLabel
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
+  describe('testOutcomeChangedEffect', () => {
+    it('should log a fail to pass event', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(rekeyActions.MarkAsNonRekey());
+      const eventLabel = 'fail to pass';
+      // ACT
+      actions$.next(testsActions.TestOutcomeChanged(eventLabel));
+      // ASSERT
+      effects.testOutcomeChangedEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.TEST_OUTCOME_CHANGED,
+          eventLabel
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
-					GoogleAnalyticsEventsTitles.OLD_RESULT,
-					GoogleAnalyticsEventsValues.FAIL,
-					GoogleAnalyticsEventsTitles.NEW_RESULT,
-					GoogleAnalyticsEventsValues.PASS
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				done();
-			});
-		});
-		it('should log a pass to fail event', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			store$.dispatch(rekeyActions.MarkAsNonRekey());
-			const eventLabel = 'pass to fail';
-			// ACT
-			actions$.next(testsActions.TestOutcomeChanged(eventLabel));
-			// ASSERT
-			effects.testOutcomeChangedEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.TEST_REPORT,
-					AnalyticsEvents.TEST_OUTCOME_CHANGED,
-					eventLabel
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+          GoogleAnalyticsEventsTitles.OLD_RESULT,
+          GoogleAnalyticsEventsValues.FAIL,
+          GoogleAnalyticsEventsTitles.NEW_RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        done();
+      });
+    });
+    it('should log a pass to fail event', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(rekeyActions.MarkAsNonRekey());
+      const eventLabel = 'pass to fail';
+      // ACT
+      actions$.next(testsActions.TestOutcomeChanged(eventLabel));
+      // ASSERT
+      effects.testOutcomeChangedEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.TEST_OUTCOME_CHANGED,
+          eventLabel
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
-					GoogleAnalyticsEventsTitles.OLD_RESULT,
-					GoogleAnalyticsEventsValues.PASS,
-					GoogleAnalyticsEventsTitles.NEW_RESULT,
-					GoogleAnalyticsEventsValues.FAIL
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				done();
-			});
-		});
-		it('should log an event that does not match the allowed format', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			store$.dispatch(rekeyActions.MarkAsNonRekey());
-			const eventLabel = 'test';
-			// ACT
-			actions$.next(testsActions.TestOutcomeChanged(eventLabel));
-			// ASSERT
-			effects.testOutcomeChangedEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.TEST_REPORT,
-					AnalyticsEvents.TEST_OUTCOME_CHANGED,
-					eventLabel
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-					'123456789'
-				);
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+          GoogleAnalyticsEventsTitles.OLD_RESULT,
+          GoogleAnalyticsEventsValues.PASS,
+          GoogleAnalyticsEventsTitles.NEW_RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        done();
+      });
+    });
+    it('should log an event that does not match the allowed format', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(rekeyActions.MarkAsNonRekey());
+      const eventLabel = 'test';
+      // ACT
+      actions$.next(testsActions.TestOutcomeChanged(eventLabel));
+      // ASSERT
+      effects.testOutcomeChangedEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.TEST_OUTCOME_CHANGED,
+          eventLabel
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
+          '123456789'
+        );
 
-				// GA4 Analytics
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
-					GoogleAnalyticsEventsTitles.OLD_RESULT,
-					GoogleAnalyticsEventsValues.UNKNOWN,
-					GoogleAnalyticsEventsTitles.NEW_RESULT,
-					GoogleAnalyticsEventsValues.UNKNOWN
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-					'1'
-				);
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-					'123456789'
-				);
-				done();
-			});
-		});
-	});
-	describe('startTestAnalyticsEffect', () => {
-		beforeEach(() => {
-			store$.dispatch(
-				journalActions.LoadJournalSuccess(
-					{
-						examiner: {
-							staffNumber: '123',
-							individualId: 456,
-						},
-						slotItemsByDate: journalSlotsDataMock,
-					},
-					ConnectionStatus.ONLINE,
-					false,
-					new Date()
-				)
-			); // Load in mock journal state
-		});
-		it('should log the correct event if it triggered from the journal page', (done) => {
-			// ARRANGE
-			spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			// ACT
-			actions$.next(testsActions.StartTest(12345, TestCategory.B));
-			// ASSERT
-			effects.startTestAnalyticsEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.TEST_CATEGORY,
-					TestCategory.B
-				);
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.JOURNAL,
-					AnalyticsEvents.START_TEST
-				);
-				// GA4 Analytics
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-					TestCategory.B
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.START_TEST);
-				done();
-			});
-		});
-		it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
-			// ARRANGE
-			spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
-			store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-			// ACT
-			actions$.next(testsActions.StartTest(12345, TestCategory.B));
-			// ASSERT
-			effects.startTestAnalyticsEffect$.subscribe((result) => {
-				expect(result.type).toEqual(AnalyticRecorded.type);
-				// TODO - MES-9495 - remove old analytics
-				expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-					AnalyticsDimensionIndices.TEST_CATEGORY,
-					TestCategory.B
-				);
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.REKEY_SEARCH,
-					AnalyticsEvents.START_TEST
-				);
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+          GoogleAnalyticsEventsTitles.OLD_RESULT,
+          GoogleAnalyticsEventsValues.UNKNOWN,
+          GoogleAnalyticsEventsTitles.NEW_RESULT,
+          GoogleAnalyticsEventsValues.UNKNOWN
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        done();
+      });
+    });
+  });
+  describe('startTestAnalyticsEffect', () => {
+    beforeEach(() => {
+      store$.dispatch(
+        journalActions.LoadJournalSuccess(
+          {
+            examiner: {
+              staffNumber: '123',
+              individualId: 456,
+            },
+            slotItemsByDate: journalSlotsDataMock,
+          },
+          ConnectionStatus.ONLINE,
+          false,
+          new Date()
+        )
+      ); // Load in mock journal state
+    });
+    it('should log the correct event if it triggered from the journal page', (done) => {
+      // ARRANGE
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      // ACT
+      actions$.next(testsActions.StartTest(12345, TestCategory.B));
+      // ASSERT
+      effects.startTestAnalyticsEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.TEST_CATEGORY,
+          TestCategory.B
+        );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.JOURNAL,
+          AnalyticsEvents.START_TEST
+        );
+        // GA4 Analytics
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          TestCategory.B
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.START_TEST);
+        done();
+      });
+    });
+    it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
+      // ARRANGE
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      // ACT
+      actions$.next(testsActions.StartTest(12345, TestCategory.B));
+      // ASSERT
+      effects.startTestAnalyticsEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        // TODO - MES-9495 - remove old analytics
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.TEST_CATEGORY,
+          TestCategory.B
+        );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.REKEY_SEARCH,
+          AnalyticsEvents.START_TEST
+        );
 
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.METADATA,
-					AnalyticsEvents.REPORT_DEVICE_STATE,
-					'batteryLevel',
-					0.9
-				);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          AnalyticsEvents.REPORT_DEVICE_STATE,
+          'batteryLevel',
+          0.9
+        );
 
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.METADATA,
-					AnalyticsEvents.REPORT_DEVICE_STATE,
-					'realDiskFree',
-					456
-				);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          AnalyticsEvents.REPORT_DEVICE_STATE,
+          'realDiskFree',
+          456
+        );
 
-				expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.METADATA,
-					AnalyticsEvents.REPORT_DEVICE_STATE,
-					'realDiskTotal',
-					1000
-				);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          AnalyticsEvents.REPORT_DEVICE_STATE,
+          'realDiskTotal',
+          1000
+        );
 
-				// GA4 Analytics
+        // GA4 Analytics
 
-				expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-					GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-					TestCategory.B
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					GoogleAnalyticsEvents.METADATA,
-					GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
-					'0.9'
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.METADATA,
-					GoogleAnalyticsEventsTitles.HDD_FREE_MB,
-					'456'
-				);
-				expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-					AnalyticsEventCategories.METADATA,
-					GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
-					'1000'
-				);
-				done();
-			});
-		});
-	});
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          TestCategory.B
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.METADATA,
+          GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
+          '0.9'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          GoogleAnalyticsEventsTitles.HDD_FREE_MB,
+          '456'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
+          '1000'
+        );
+        done();
+      });
+    });
+  });
 });

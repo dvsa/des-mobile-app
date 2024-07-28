@@ -12,15 +12,15 @@ import { DashboardAnalyticsEffects } from './dashboard.analytics.effects';
 import { DashboardPage } from './dashboard.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		DashboardPageRoutingModule,
-		DashboardComponentsModule,
-		ComponentsModule,
-		EffectsModule.forFeature([DashboardAnalyticsEffects]),
-	],
-	declarations: [DashboardPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    DashboardPageRoutingModule,
+    DashboardComponentsModule,
+    ComponentsModule,
+    EffectsModule.forFeature([DashboardAnalyticsEffects]),
+  ],
+  declarations: [DashboardPage],
 })
 export class DashboardPageModule {}

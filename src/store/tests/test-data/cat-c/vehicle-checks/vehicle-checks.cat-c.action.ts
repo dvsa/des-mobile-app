@@ -3,54 +3,54 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { createAction } from '@ngrx/store';
 
 export const InitialiseVehicleChecks = createAction(
-	'[VehicleChecksPage] [CatC] Initialise Vehicle Checks',
-	(category: TestCategory) => ({ category })
+  '[VehicleChecksPage] [CatC] Initialise Vehicle Checks',
+  (category: TestCategory) => ({ category })
 );
 
 export const ShowMeQuestionSelected = createAction(
-	'[VehicleChecksPage] [CatC] Show Me Question Selected',
-	(showMeQuestion: QuestionResult, index: number) => ({ showMeQuestion, index })
+  '[VehicleChecksPage] [CatC] Show Me Question Selected',
+  (showMeQuestion: QuestionResult, index: number) => ({ showMeQuestion, index })
 );
 
 export const ShowMeQuestionOutcomeChanged = createAction(
-	'[VehicleChecksPage] [CatC] Show Me Question Outcome Changed',
-	(showMeQuestionOutcome: QuestionOutcome, index: number) => ({ showMeQuestionOutcome, index })
+  '[VehicleChecksPage] [CatC] Show Me Question Outcome Changed',
+  (showMeQuestionOutcome: QuestionOutcome, index: number) => ({ showMeQuestionOutcome, index })
 );
 
 export const TellMeQuestionSelected = createAction(
-	'[VehicleChecksPage] [CatC] Tell Me Question Selected',
-	(tellMeQuestion: QuestionResult, index: number) => ({ tellMeQuestion, index })
+  '[VehicleChecksPage] [CatC] Tell Me Question Selected',
+  (tellMeQuestion: QuestionResult, index: number) => ({ tellMeQuestion, index })
 );
 
 export const TellMeQuestionOutcomeChanged = createAction(
-	'[VehicleChecksPage] [CatC] Tell Me Question Outcome Changed',
-	(tellMeQuestionOutcome: QuestionOutcome, index: number) => ({ tellMeQuestionOutcome, index })
+  '[VehicleChecksPage] [CatC] Tell Me Question Outcome Changed',
+  (tellMeQuestionOutcome: QuestionOutcome, index: number) => ({ tellMeQuestionOutcome, index })
 );
 
 export const AddShowMeTellMeComment = createAction(
-	'[Vehicle Checks] [CatC] Add Show me Tell me comment',
-	(comment: string) => ({ comment })
+  '[Vehicle Checks] [CatC] Add Show me Tell me comment',
+  (comment: string) => ({ comment })
 );
 
 export const VehicleChecksCompletedToggled = createAction(
-	'[Vehicle Checks] [CatC] Vehicle Checks Completed',
-	(toggled: boolean) => ({ toggled })
+  '[Vehicle Checks] [CatC] Vehicle Checks Completed',
+  (toggled: boolean) => ({ toggled })
 );
 
 export const VehicleChecksDrivingFaultsNumberChanged = createAction(
-	'[Vehicle Checks] [CatC] Vehicle Checks Driving Faults Number Changed',
-	(payload: QuestionResult[]) => ({ payload })
+  '[Vehicle Checks] [CatC] Vehicle Checks Driving Faults Number Changed',
+  (payload: QuestionResult[]) => ({ payload })
 );
 
 export const DropExtraVehicleChecks = createAction(
-	'[Vehicle Checks] [CatC] Vehicle Checks dropping extra as full licence held selected'
+  '[Vehicle Checks] [CatC] Vehicle Checks dropping extra as full licence held selected'
 );
 
 export const DropExtraVehicleChecksDelegated = createAction(
-	'[Vehicle Checks] [CatC] Vehicle Checks dropping extra as full licence held selected for DLG'
+  '[Vehicle Checks] [CatC] Vehicle Checks dropping extra as full licence held selected for DLG'
 );
 
 export const SetFullLicenceHeld = createAction(
-	'[Vehicle Checks] [CatC] Full Licence Held toggled',
-	(fullLicenceHeld: boolean) => ({ fullLicenceHeld })
+  '[Vehicle Checks] [CatC] Full Licence Held toggled',
+  (fullLicenceHeld: boolean) => ({ fullLicenceHeld })
 );

@@ -11,55 +11,55 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { get, has, pickBy } from 'lodash-es';
 
 type ManoeuvreTestData =
-	| CatCMUniqueTypes.TestData
-	| CatC1MUniqueTypes.TestData
-	| CatCEMUniqueTypes.TestData
-	| CatC1EMUniqueTypes.TestData
-	| CatDMUniqueTypes.TestData
-	| CatDEMUniqueTypes.TestData
-	| CatD1EMUniqueTypes.TestData
-	| CatD1MUniqueTypes.TestData;
+  | CatCMUniqueTypes.TestData
+  | CatC1MUniqueTypes.TestData
+  | CatCEMUniqueTypes.TestData
+  | CatC1EMUniqueTypes.TestData
+  | CatDMUniqueTypes.TestData
+  | CatDEMUniqueTypes.TestData
+  | CatD1EMUniqueTypes.TestData
+  | CatD1MUniqueTypes.TestData;
 
 export class FaultCountManoeuvreTestHelper {
-	public static getManoeuvreCountIfAny(data: ManoeuvreTestData, competencyType: CompetencyOutcome): number {
-		let manoeuvreCount = 0;
-		const hasManoeuvre: boolean = has(data, 'manoeuvres');
-		if (hasManoeuvre) {
-			const manoeuvres = get(data, 'manoeuvres', {});
-			manoeuvreCount = sumManoeuvreFaults(manoeuvres, competencyType);
-		}
-		return manoeuvreCount;
-	}
+  public static getManoeuvreCountIfAny(data: ManoeuvreTestData, competencyType: CompetencyOutcome): number {
+    let manoeuvreCount = 0;
+    const hasManoeuvre: boolean = has(data, 'manoeuvres');
+    if (hasManoeuvre) {
+      const manoeuvres = get(data, 'manoeuvres', {});
+      manoeuvreCount = sumManoeuvreFaults(manoeuvres, competencyType);
+    }
+    return manoeuvreCount;
+  }
 
-	public static getSeriousFaultSumCountManoeuvreTest = (data: ManoeuvreTestData): number => {
-		// The way how we store serious faults differs for certain competencies
-		// Because of this we need to pay extra attention on summing up all of them
-		const { seriousFaults, uncoupleRecouple } = data;
+  public static getSeriousFaultSumCountManoeuvreTest = (data: ManoeuvreTestData): number => {
+    // The way how we store serious faults differs for certain competencies
+    // Because of this we need to pay extra attention on summing up all of them
+    const { seriousFaults, uncoupleRecouple } = data;
 
-		const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
-		const uncoupleRecoupleSeriousFaults = uncoupleRecouple?.fault === CompetencyOutcome.S ? 1 : 0;
+    const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
+    const uncoupleRecoupleSeriousFaults = uncoupleRecouple?.fault === CompetencyOutcome.S ? 1 : 0;
 
-		const result =
-			seriousFaultSumOfSimpleCompetencies +
-			uncoupleRecoupleSeriousFaults +
-			FaultCountManoeuvreTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.S);
+    const result =
+      seriousFaultSumOfSimpleCompetencies +
+      uncoupleRecoupleSeriousFaults +
+      FaultCountManoeuvreTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.S);
 
-		return result;
-	};
+    return result;
+  };
 
-	public static getDangerousFaultSumCountManoeuvreTest = (data: ManoeuvreTestData): number => {
-		// The way how we store serious faults differs for certain competencies
-		// Because of this we need to pay extra attention on summing up all of them
-		const { dangerousFaults, uncoupleRecouple } = data;
+  public static getDangerousFaultSumCountManoeuvreTest = (data: ManoeuvreTestData): number => {
+    // The way how we store serious faults differs for certain competencies
+    // Because of this we need to pay extra attention on summing up all of them
+    const { dangerousFaults, uncoupleRecouple } = data;
 
-		const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
-		const uncoupleRecoupleDangerousFaults = uncoupleRecouple?.fault === CompetencyOutcome.D ? 1 : 0;
+    const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
+    const uncoupleRecoupleDangerousFaults = uncoupleRecouple?.fault === CompetencyOutcome.D ? 1 : 0;
 
-		const result =
-			dangerousFaultSumOfSimpleCompetencies +
-			uncoupleRecoupleDangerousFaults +
-			FaultCountManoeuvreTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.D);
+    const result =
+      dangerousFaultSumOfSimpleCompetencies +
+      uncoupleRecoupleDangerousFaults +
+      FaultCountManoeuvreTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.D);
 
-		return result;
-	};
+    return result;
+  };
 }

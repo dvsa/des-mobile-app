@@ -34,342 +34,342 @@ import { take } from 'rxjs/operators';
 import { PassFinalisationCatDPage } from '../pass-finalisation.cat-d.page';
 
 describe('PassFinalisationCatDPage', () => {
-	let fixture: ComponentFixture<PassFinalisationCatDPage>;
-	let component: PassFinalisationCatDPage;
-	let store$: Store<StoreModel>;
+  let fixture: ComponentFixture<PassFinalisationCatDPage>;
+  let component: PassFinalisationCatDPage;
+  let store$: Store<StoreModel>;
 
-	const initialState = {
-		appInfo: { employeeId: '123456' },
-		tests: {
-			currentTest: {
-				slotId: '123',
-			},
-			testStatus: {},
-			startedTests: {
-				123: {
-					version: '1',
-					rekey: false,
-					activityCode: '1',
-					passCompletion: {
-						passCertificateNumber: 'test',
-						code78Present: true,
-					},
-					category: TestCategory.D,
-					changeMarker: null,
-					examinerBooked: null,
-					examinerConducted: null,
-					examinerKeyed: null,
-					journalData: {
-						examiner: null,
-						testCentre: null,
-						testSlotAttributes: null,
-						applicationReference: null,
-						candidate: {
-							candidateName: {
-								firstName: 'Firstname',
-								lastName: 'Lastname',
-							},
-						},
-					},
-					testData: {
-						vehicleChecks: {
-							fullLicenceHeld: false,
-							showMeQuestions: [
-								{
-									code: 'Q1',
-									outcome: 'DF',
-									description: 'All doors secure',
-								},
-							],
-							tellMeQuestions: [
-								{
-									code: 'Q3',
-									outcome: 'P',
-									description: 'Safety factors while loading',
-								},
-							],
-						},
-						safetyQuestions: {
-							questions: [
-								{
-									outcome: 'DF',
-									description: 'Fire Extinguisher',
-								},
-								{
-									outcome: 'DF',
-									description: 'Emergency exit',
-								},
-								{
-									outcome: 'P',
-									description: 'Fuel cutoff',
-								},
-							],
-							faultComments: '',
-						},
-					},
-				} as TestResultCommonSchema,
-			},
-		} as TestsModel,
-	} as StoreModel;
+  const initialState = {
+    appInfo: { employeeId: '123456' },
+    tests: {
+      currentTest: {
+        slotId: '123',
+      },
+      testStatus: {},
+      startedTests: {
+        123: {
+          version: '1',
+          rekey: false,
+          activityCode: '1',
+          passCompletion: {
+            passCertificateNumber: 'test',
+            code78Present: true,
+          },
+          category: TestCategory.D,
+          changeMarker: null,
+          examinerBooked: null,
+          examinerConducted: null,
+          examinerKeyed: null,
+          journalData: {
+            examiner: null,
+            testCentre: null,
+            testSlotAttributes: null,
+            applicationReference: null,
+            candidate: {
+              candidateName: {
+                firstName: 'Firstname',
+                lastName: 'Lastname',
+              },
+            },
+          },
+          testData: {
+            vehicleChecks: {
+              fullLicenceHeld: false,
+              showMeQuestions: [
+                {
+                  code: 'Q1',
+                  outcome: 'DF',
+                  description: 'All doors secure',
+                },
+              ],
+              tellMeQuestions: [
+                {
+                  code: 'Q3',
+                  outcome: 'P',
+                  description: 'Safety factors while loading',
+                },
+              ],
+            },
+            safetyQuestions: {
+              questions: [
+                {
+                  outcome: 'DF',
+                  description: 'Fire Extinguisher',
+                },
+                {
+                  outcome: 'DF',
+                  description: 'Emergency exit',
+                },
+                {
+                  outcome: 'P',
+                  description: 'Fuel cutoff',
+                },
+              ],
+              faultComments: '',
+            },
+          },
+        } as TestResultCommonSchema,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
-	const automaticManualBannerConditions = [
-		{
-			category: TestCategory.D,
-			code78: true,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: true,
-			manualBanner: false,
-			desc: 'Automatic banner shown when automatic transmission and code78 present',
-		},
-		{
-			category: TestCategory.D,
-			code78: false,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when automatic transmission and no code78 present',
-		},
-		{
-			category: TestCategory.D,
-			code78: false,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and no code78 present',
-		},
-		{
-			category: TestCategory.D,
-			code78: true,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and code78 present',
-		},
-		{
-			category: TestCategory.DE,
-			code78: true,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: true,
-			manualBanner: false,
-			desc: 'Automatic banner shown when automatic transmission and code78 present',
-		},
-		{
-			category: TestCategory.DE,
-			code78: false,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when automatic transmission and no code78 present',
-		},
-		{
-			category: TestCategory.DE,
-			code78: false,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and no code78 present',
-		},
-		{
-			category: TestCategory.DE,
-			code78: true,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and code78 present',
-		},
-		{
-			category: TestCategory.D1,
-			code78: true,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: true,
-			manualBanner: false,
-			desc: 'Automatic banner shown when automatic transmission and code78 present',
-		},
-		{
-			category: TestCategory.D1,
-			code78: false,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when automatic transmission and no code78 present',
-		},
-		{
-			category: TestCategory.D1,
-			code78: false,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and no code78 present',
-		},
-		{
-			category: TestCategory.D1,
-			code78: true,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and code78 present',
-		},
-		{
-			category: TestCategory.D1E,
-			code78: true,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: true,
-			manualBanner: false,
-			desc: 'Automatic banner shown when automatic transmission and code78 present',
-		},
-		{
-			category: TestCategory.D1E,
-			code78: false,
-			transmission: TransmissionType.Automatic,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when automatic transmission and no code78 present',
-		},
-		{
-			category: TestCategory.D1E,
-			code78: false,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and no code78 present',
-		},
-		{
-			category: TestCategory.D1E,
-			code78: true,
-			transmission: TransmissionType.Manual,
-			automaticBanner: false,
-			manualBanner: true,
-			desc: 'Manual banner shown when manual transmission and code78 present',
-		},
-	];
+  const automaticManualBannerConditions = [
+    {
+      category: TestCategory.D,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: true,
+      manualBanner: false,
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.D,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.D,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.D,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
+    },
+    {
+      category: TestCategory.DE,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: true,
+      manualBanner: false,
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.DE,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.DE,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.DE,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
+    },
+    {
+      category: TestCategory.D1,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: true,
+      manualBanner: false,
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.D1,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.D1,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.D1,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
+    },
+    {
+      category: TestCategory.D1E,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: true,
+      manualBanner: false,
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.D1E,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.D1E,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.D1E,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
+    },
+  ];
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				PassFinalisationCatDPage,
-				MockComponent(PracticeModeBanner),
-				MockComponent(PassCertificateNumberComponent),
-				MockComponent(LicenseProvidedComponent),
-				MockComponent(TransmissionComponent),
-				MockComponent(D255Component),
-				MockComponent(DebriefWitnessedComponent),
-				MockComponent(FinalisationHeaderComponent),
-				MockComponent(LanguagePreferencesComponent),
-				MockComponent(WarningBannerComponent),
-				MockComponent(LicenceProvidedWarningBannerComponent),
-			],
-			imports: [RouterModule.forRoot([]), AppModule],
-			providers: [
-				{
-					provide: Platform,
-					useClass: PlatformMock,
-				},
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				{
-					provide: AuthenticationProvider,
-					useClass: AuthenticationProviderMock,
-				},
-				{
-					provide: NavController,
-					useClass: NavControllerMock,
-				},
-				provideMockStore({ initialState }),
-				OutcomeBehaviourMapProvider,
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        PassFinalisationCatDPage,
+        MockComponent(PracticeModeBanner),
+        MockComponent(PassCertificateNumberComponent),
+        MockComponent(LicenseProvidedComponent),
+        MockComponent(TransmissionComponent),
+        MockComponent(D255Component),
+        MockComponent(DebriefWitnessedComponent),
+        MockComponent(FinalisationHeaderComponent),
+        MockComponent(LanguagePreferencesComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(LicenceProvidedWarningBannerComponent),
+      ],
+      imports: [RouterModule.forRoot([]), AppModule],
+      providers: [
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
+        provideMockStore({ initialState }),
+        OutcomeBehaviourMapProvider,
+      ],
+    });
 
-		fixture = TestBed.createComponent(PassFinalisationCatDPage);
-		component = fixture.componentInstance;
-		store$ = TestBed.inject(Store);
-		spyOn(store$, 'dispatch');
-		component.subscription = new Subscription();
-	}));
+    fixture = TestBed.createComponent(PassFinalisationCatDPage);
+    component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
+    component.subscription = new Subscription();
+  }));
 
-	describe('Class', () => {
-		describe('onSubmit', () => {
-			it('should dispatch the PersistTests action', () => {
-				component.onSubmit();
-				expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
-			});
-			it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-				component.form = new UntypedFormGroup({
-					requiredControl1: new UntypedFormControl(null, [Validators.required]),
-					requiredControl2: new UntypedFormControl(null, [Validators.required]),
-					[PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
-					notRequiredControl: new UntypedFormControl(null),
-				});
+  describe('Class', () => {
+    describe('onSubmit', () => {
+      it('should dispatch the PersistTests action', () => {
+        component.onSubmit();
+        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+      });
+      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-				component.onSubmit();
-				tick();
-				expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(
-					PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
-				);
-				expect(store$.dispatch).not.toHaveBeenCalledWith(
-					PassFinalisationValidationError('notRequiredControl is blank')
-				);
-			}));
-		});
-		describe('shouldShowAutomaticBanner & shouldShowManualBanner', () => {
-			automaticManualBannerConditions.forEach((cat) => {
-				it(`${cat.desc} (${cat.category})`, () => {
-					component.transmission = cat.transmission;
-					component.code78Present = cat.code78;
-					component.testCategory = cat.category;
-					expect(component.shouldShowAutomaticBanner()).toEqual(cat.automaticBanner);
-					expect(component.shouldShowManualBanner()).toEqual(cat.manualBanner);
-				});
-			});
-		});
+        component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
+        );
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          PassFinalisationValidationError('notRequiredControl is blank')
+        );
+      }));
+    });
+    describe('shouldShowAutomaticBanner & shouldShowManualBanner', () => {
+      automaticManualBannerConditions.forEach((cat) => {
+        it(`${cat.desc} (${cat.category})`, () => {
+          component.transmission = cat.transmission;
+          component.code78Present = cat.code78;
+          component.testCategory = cat.category;
+          expect(component.shouldShowAutomaticBanner()).toEqual(cat.automaticBanner);
+          expect(component.shouldShowManualBanner()).toEqual(cat.manualBanner);
+        });
+      });
+    });
 
-		describe('ngOnInit', () => {
-			it('should define subscription', () => {
-				component.ngOnInit();
-				expect(component.subscription).toBeDefined();
-			});
-			it('should resolve state variables', () => {
-				component.ngOnInit();
+    describe('ngOnInit', () => {
+      it('should define subscription', () => {
+        component.ngOnInit();
+        expect(component.subscription).toBeDefined();
+      });
+      it('should resolve state variables', () => {
+        component.ngOnInit();
 
-				component.pageState.testCategory$.pipe(take(1)).subscribe((res) => expect(res).toEqual(TestCategory.D));
-				component.pageState.code78$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-			});
-		});
+        component.pageState.testCategory$.pipe(take(1)).subscribe((res) => expect(res).toEqual(TestCategory.D));
+        component.pageState.code78$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
+      });
+    });
 
-		describe('ionViewWillEnter', () => {
-			it('should setup subscription if merged is present', () => {
-				component.merged$ = new Observable<string | boolean>();
-				component.ionViewWillEnter();
+    describe('ionViewWillEnter', () => {
+      it('should setup subscription if merged is present', () => {
+        component.merged$ = new Observable<string | boolean>();
+        component.ionViewWillEnter();
 
-				expect(component.subscription).toBeDefined();
-			});
-		});
+        expect(component.subscription).toBeDefined();
+      });
+    });
 
-		describe('shouldShowCandidateDoesntNeedLicenseBanner', () => {
-			it('should return provisionalLicenseIsReceived', () => {
-				component.provisionalLicenseIsReceived = true;
-				expect(component.shouldShowCandidateDoesntNeedLicenseBanner()).toEqual(true);
-			});
-		});
+    describe('shouldShowCandidateDoesntNeedLicenseBanner', () => {
+      it('should return provisionalLicenseIsReceived', () => {
+        component.provisionalLicenseIsReceived = true;
+        expect(component.shouldShowCandidateDoesntNeedLicenseBanner()).toEqual(true);
+      });
+    });
 
-		describe('ionViewDidLeave', () => {
-			it('should unsubscribe from subscription if there is one', () => {
-				component.subscription = new Subscription();
-				spyOn(component.subscription, 'unsubscribe');
-				component.ionViewDidLeave();
-				expect(component.subscription.unsubscribe).toHaveBeenCalled();
-			});
-		});
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
 
-		describe('shouldHideBanner', () => {
-			it('should hide banner when only transmission is selected', () => {
-				component.transmission = TransmissionType.Manual;
-				expect(component.shouldShowCode78Banner()).toEqual(false);
-			});
-		});
-	});
+    describe('shouldHideBanner', () => {
+      it('should hide banner when only transmission is selected', () => {
+        component.transmission = TransmissionType.Manual;
+        expect(component.shouldShowCode78Banner()).toEqual(false);
+      });
+    });
+  });
 });

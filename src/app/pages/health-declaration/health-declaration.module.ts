@@ -14,18 +14,18 @@ import { HealthDeclarationPageRoutingModule } from './health-declaration-routing
 import { HealthDeclarationPage } from './health-declaration.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		HealthDeclarationPageRoutingModule,
-		TranslateModule,
-		ComponentsModule,
-		ReactiveFormsModule,
-		HealthDeclarationComponentsModule,
-		EffectsModule.forFeature([HealthDeclarationAnalyticsEffects, HealthDeclarationEffects]),
-		DirectivesModule,
-	],
-	declarations: [HealthDeclarationPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    HealthDeclarationPageRoutingModule,
+    TranslateModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    HealthDeclarationComponentsModule,
+    EffectsModule.forFeature([HealthDeclarationAnalyticsEffects, HealthDeclarationEffects]),
+    DirectivesModule,
+  ],
+  declarations: [HealthDeclarationPage],
 })
 export class HealthDeclarationPageModule {}

@@ -11,18 +11,18 @@ import { TellMeQuestionOutcomeComponent } from './tell-me-question-outcome/tell-
 import { TellMeQuestionComponent } from './tell-me-question/tell-me-question';
 
 @NgModule({
-	declarations: [
-		TellMeQuestionCardComponent,
-		TellMeQuestionComponent,
-		TellMeQuestionOutcomeComponent,
-		InstructorRegistrationComponent,
-	],
-	imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
-	exports: [
-		TellMeQuestionCardComponent,
-		TellMeQuestionComponent,
-		TellMeQuestionOutcomeComponent,
-		InstructorRegistrationComponent,
-	],
+  declarations: [
+    TellMeQuestionCardComponent,
+    TellMeQuestionComponent,
+    TellMeQuestionOutcomeComponent,
+    InstructorRegistrationComponent,
+  ],
+  imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
+  exports: [
+    TellMeQuestionCardComponent,
+    TellMeQuestionComponent,
+    TellMeQuestionOutcomeComponent,
+    InstructorRegistrationComponent,
+  ],
 })
 export class WaitingRoomToCarCatBComponentsModule {}

@@ -10,16 +10,16 @@ import { teachingLearningStrategiesReducer } from '@store/tests/test-data/cat-ad
 import { totalScoreReducer } from '@store/tests/test-data/cat-adi-part3/total-score/total-score.reducer';
 
 export function testDataCatADI3Reducer(state: TestData, action: Action): Required<TestData> {
-	return combineReducers({
-		lessonAndTheme: lessonAndThemeReducer,
-		lessonPlanning: lessonPlanningReducer,
-		riskManagement: riskManagementReducer,
-		teachingLearningStrategies: teachingLearningStrategiesReducer,
-		review: reviewReducer,
-		endTime: endTimeReducer,
-		startTime: startTimeReducer,
-		totalScore: totalScoreReducer,
-	})(state as Required<TestData>, action);
+  return combineReducers({
+    lessonAndTheme: lessonAndThemeReducer,
+    lessonPlanning: lessonPlanningReducer,
+    riskManagement: riskManagementReducer,
+    teachingLearningStrategies: teachingLearningStrategiesReducer,
+    review: reviewReducer,
+    endTime: endTimeReducer,
+    startTime: startTimeReducer,
+    totalScore: totalScoreReducer,
+  })(state as Required<TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<TestData>('testData');

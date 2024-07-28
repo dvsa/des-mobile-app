@@ -12,34 +12,34 @@ import { testRequirementsReducer } from './test-requirements/test-requirements.r
 import { vehicleChecksReducer } from './vehicle-checks/vehicle-checks.reducer';
 
 export const initialState: CatBUniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	manoeuvres: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	controlledStop: {},
-	eyesightTest: {},
-	vehicleChecks: {
-		tellMeQuestion: {},
-		showMeQuestion: {},
-	},
+  dangerousFaults: {},
+  drivingFaults: {},
+  manoeuvres: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  controlledStop: {},
+  eyesightTest: {},
+  vehicleChecks: {
+    tellMeQuestion: {},
+    showMeQuestion: {},
+  },
 };
 
 export function testDataReducer(state = initialState, action: Action): Required<CatBUniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksReducer,
-		controlledStop: controlledStopReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		eyesightTest: eyesightTestReducer,
-		manoeuvres: manoeuvresReducer,
-		testRequirements: testRequirementsReducer,
-	})(state as Required<CatBUniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksReducer,
+    controlledStop: controlledStopReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    eyesightTest: eyesightTestReducer,
+    manoeuvres: manoeuvresReducer,
+    testRequirements: testRequirementsReducer,
+  })(state as Required<CatBUniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatBUniqueTypes.TestData>('testData');

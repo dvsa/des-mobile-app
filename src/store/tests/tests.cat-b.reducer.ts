@@ -24,31 +24,31 @@ import { testSummaryReducer } from './test-summary/test-summary.reducer';
 import { vehicleDetailsReducer } from './vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 
 export function testsCatBReducer(
-	action: Action,
-	state: CatBUniqueTypes.TestResult
+  action: Action,
+  state: CatBUniqueTypes.TestResult
 ): Required<CatBUniqueTypes.TestResult> {
-	return combineReducers({
-		appVersion: appVersionReducer,
-		version: schemaVersionReducer,
-		category: categoryReducer,
-		activityCode: activityCodeReducer,
-		journalData: journalDataReducer,
-		preTestDeclarations: preTestDeclarationsReducer,
-		accompaniment: accompanimentReducer,
-		vehicleDetails: vehicleDetailsReducer,
-		instructorDetails: instructorDetailsReducer,
-		testData: testDataReducer,
-		passCompletion: passCompletionReducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		testSummary: testSummaryReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		delegatedTest: delegatedTestReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		changeMarker: changeMarkerReducer,
-	})(state as Required<CatBUniqueTypes.TestResult>, action);
+  return combineReducers({
+    appVersion: appVersionReducer,
+    version: schemaVersionReducer,
+    category: categoryReducer,
+    activityCode: activityCodeReducer,
+    journalData: journalDataReducer,
+    preTestDeclarations: preTestDeclarationsReducer,
+    accompaniment: accompanimentReducer,
+    vehicleDetails: vehicleDetailsReducer,
+    instructorDetails: instructorDetailsReducer,
+    testData: testDataReducer,
+    passCompletion: passCompletionReducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    testSummary: testSummaryReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    delegatedTest: delegatedTestReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    changeMarker: changeMarkerReducer,
+  })(state as Required<CatBUniqueTypes.TestResult>, action);
 }

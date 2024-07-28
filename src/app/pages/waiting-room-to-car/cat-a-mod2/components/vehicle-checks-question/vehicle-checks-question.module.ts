@@ -7,15 +7,15 @@ import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-c
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 
 @NgModule({
-	declarations: [VehicleChecksQuestionCatAMod2Component],
-	imports: [
-		IonicModule,
-		ComponentsModule,
-		CommonModule,
-		ReactiveFormsModule,
-		FormsModule,
-		WaitingRoomToCarComponentsModule,
-	],
-	exports: [VehicleChecksQuestionCatAMod2Component],
+  declarations: [VehicleChecksQuestionCatAMod2Component],
+  imports: [
+    IonicModule,
+    ComponentsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    WaitingRoomToCarComponentsModule,
+  ],
+  exports: [VehicleChecksQuestionCatAMod2Component],
 })
 export class VehicleChecksQuestionCatAMod2Module {}

@@ -35,35 +35,35 @@
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Output } from '@angular/core';
 
 @Directive({
-	selector: '[charCount]',
-	host: {
-		'(input)': 'onInput($event)',
-		'(ionChange)': 'onIonChange($event)',
-	},
+  selector: '[charCount]',
+  host: {
+    '(input)': 'onInput($event)',
+    '(ionChange)': 'onIonChange($event)',
+  },
 })
 export class CharacterCountDirective implements AfterViewInit {
-	private charLimit: number = null;
+  private charLimit: number = null;
 
-	@Output() onCharacterCountChanged: any = new EventEmitter(true);
+  @Output() onCharacterCountChanged: any = new EventEmitter(true);
 
-	constructor(public el: ElementRef) {
-		this.charLimit = this.el.nativeElement.getAttribute('charLimit');
-	}
+  constructor(public el: ElementRef) {
+    this.charLimit = this.el.nativeElement.getAttribute('charLimit');
+  }
 
-	ngAfterViewInit() {
-		const valueLength = this.el.nativeElement.value ? this.el.nativeElement.value.length : 0;
-		if (this.charLimit) {
-			this.onCharacterCountChanged.emit(this.charLimit - valueLength);
-		}
-	}
+  ngAfterViewInit() {
+    const valueLength = this.el.nativeElement.value ? this.el.nativeElement.value.length : 0;
+    if (this.charLimit) {
+      this.onCharacterCountChanged.emit(this.charLimit - valueLength);
+    }
+  }
 
-	onInput(e: any) {
-		if (!this.charLimit || e.target.value === undefined) return;
-		this.onCharacterCountChanged.emit(this.charLimit - e.target.value.length);
-	}
+  onInput(e: any) {
+    if (!this.charLimit || e.target.value === undefined) return;
+    this.onCharacterCountChanged.emit(this.charLimit - e.target.value.length);
+  }
 
-	onIonChange(e: any) {
-		if (!this.charLimit || e.value === undefined) return;
-		this.onCharacterCountChanged.emit(this.charLimit - e.value.length);
-	}
+  onIonChange(e: any) {
+    if (!this.charLimit || e.value === undefined) return;
+    this.onCharacterCountChanged.emit(this.charLimit - e.value.length);
+  }
 }

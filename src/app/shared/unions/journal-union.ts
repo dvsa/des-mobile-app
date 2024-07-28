@@ -14,16 +14,16 @@ import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 
 export type JournalDataUnion =
-	| JournalData
-	| CatCUniqueTypes.JournalData
-	| CatC1UniqueTypes.JournalData
-	| CatCEUniqueTypes.JournalData
-	| CatC1EUniqueTypes.JournalData
-	| CatDUniqueTypes.JournalData
-	| CatD1UniqueTypes.JournalData
-	| CatDEUniqueTypes.JournalData
-	| CatD1EUniqueTypes.JournalData
-	| CatFUniqueTypes.JournalData
-	| CatGUniqueTypes.JournalData
-	| CatHUniqueTypes.JournalData
-	| CatKUniqueTypes.JournalData;
+  | JournalData
+  | CatCUniqueTypes.JournalData
+  | CatC1UniqueTypes.JournalData
+  | CatCEUniqueTypes.JournalData
+  | CatC1EUniqueTypes.JournalData
+  | CatDUniqueTypes.JournalData
+  | CatD1UniqueTypes.JournalData
+  | CatDEUniqueTypes.JournalData
+  | CatD1EUniqueTypes.JournalData
+  | CatFUniqueTypes.JournalData
+  | CatGUniqueTypes.JournalData
+  | CatHUniqueTypes.JournalData
+  | CatKUniqueTypes.JournalData;

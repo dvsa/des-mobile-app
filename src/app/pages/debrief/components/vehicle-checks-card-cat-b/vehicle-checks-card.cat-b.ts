@@ -13,48 +13,48 @@ import { getCurrentTest } from '@store//tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 
 interface VehicleChecksCardComponentState {
-	showMeQuestionOutcome$: Observable<QuestionOutcome>;
-	tellMeQuestionHasFault$: Observable<boolean>;
-	hasVehicleChecksFault$: Observable<boolean>;
-	hasShowMeFault$: Observable<boolean>;
+  showMeQuestionOutcome$: Observable<QuestionOutcome>;
+  tellMeQuestionHasFault$: Observable<boolean>;
+  hasVehicleChecksFault$: Observable<boolean>;
+  hasShowMeFault$: Observable<boolean>;
 }
 
 @Component({
-	selector: 'vehicle-checks-card-cat-b',
-	templateUrl: 'vehicle-checks-card.cat-b.html',
-	styleUrls: ['vehicle-checks-card.cat-b.scss'],
+  selector: 'vehicle-checks-card-cat-b',
+  templateUrl: 'vehicle-checks-card.cat-b.html',
+  styleUrls: ['vehicle-checks-card.cat-b.scss'],
 })
 export class VehicleChecksCardCatBComponent implements OnInit {
-	componentState: VehicleChecksCardComponentState;
+  componentState: VehicleChecksCardComponentState;
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		const vehicleChecks$: Observable<CatBUniqueTypes.VehicleChecks> = this.store$.pipe(
-			select(getTests),
-			select(getCurrentTest),
-			select(getTestData),
-			select(getVehicleChecks)
-		);
+  ngOnInit(): void {
+    const vehicleChecks$: Observable<CatBUniqueTypes.VehicleChecks> = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+      select(getTestData),
+      select(getVehicleChecks)
+    );
 
-		this.componentState = {
-			showMeQuestionOutcome$: vehicleChecks$.pipe(select(VehicleChecksCardCatBComponent.getShowMeQuestionOutcome)),
-			tellMeQuestionHasFault$: vehicleChecks$.pipe(select(VehicleChecksCardCatBComponent.tellMeQuestionHasFault)),
-			hasVehicleChecksFault$: vehicleChecks$.pipe(select(VehicleChecksCardCatBComponent.hasVehicleChecksFault)),
-			hasShowMeFault$: vehicleChecks$.pipe(
-				select(VehicleChecksCardCatBComponent.getShowMeQuestionOutcome),
-				map((val) => val !== CompetencyOutcome.P)
-			),
-		};
-	}
+    this.componentState = {
+      showMeQuestionOutcome$: vehicleChecks$.pipe(select(VehicleChecksCardCatBComponent.getShowMeQuestionOutcome)),
+      tellMeQuestionHasFault$: vehicleChecks$.pipe(select(VehicleChecksCardCatBComponent.tellMeQuestionHasFault)),
+      hasVehicleChecksFault$: vehicleChecks$.pipe(select(VehicleChecksCardCatBComponent.hasVehicleChecksFault)),
+      hasShowMeFault$: vehicleChecks$.pipe(
+        select(VehicleChecksCardCatBComponent.getShowMeQuestionOutcome),
+        map((val) => val !== CompetencyOutcome.P)
+      ),
+    };
+  }
 
-	static tellMeQuestionHasFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
-		vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF;
+  static tellMeQuestionHasFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
+    vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF;
 
-	static getShowMeQuestionOutcome = (vehicleChecks: CatBUniqueTypes.VehicleChecks): QuestionOutcome =>
-		vehicleChecks.showMeQuestion.outcome;
+  static getShowMeQuestionOutcome = (vehicleChecks: CatBUniqueTypes.VehicleChecks): QuestionOutcome =>
+    vehicleChecks.showMeQuestion.outcome;
 
-	static hasVehicleChecksFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
-		(vehicleChecks.tellMeQuestion.outcome && vehicleChecks.tellMeQuestion.outcome !== CompetencyOutcome.P) ||
-		(vehicleChecks.showMeQuestion.outcome && vehicleChecks.showMeQuestion.outcome !== CompetencyOutcome.P);
+  static hasVehicleChecksFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
+    (vehicleChecks.tellMeQuestion.outcome && vehicleChecks.tellMeQuestion.outcome !== CompetencyOutcome.P) ||
+    (vehicleChecks.showMeQuestion.outcome && vehicleChecks.showMeQuestion.outcome !== CompetencyOutcome.P);
 }

@@ -14,14 +14,14 @@ import { BackToOfficePageRoutingModule } from './back-to-office-routing.module';
 import { BackToOfficePage } from './back-to-office.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		BackToOfficePageRoutingModule,
-		ComponentsModule,
-		EffectsModule.forFeature([BackToOfficeEffects, BackToOfficeAnalyticsEffects]),
-	],
-	declarations: [BackToOfficePage, AsamFailureNotificationModal],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    BackToOfficePageRoutingModule,
+    ComponentsModule,
+    EffectsModule.forFeature([BackToOfficeEffects, BackToOfficeAnalyticsEffects]),
+  ],
+  declarations: [BackToOfficePage, AsamFailureNotificationModal],
 })
 export class BackToOfficePageModule {}

@@ -1,15 +1,15 @@
 export enum manoeuvreTypeLabels {
-	reverseRight = 'Reverse right',
-	reverseParkRoad = 'Reverse park (road)',
-	reverseParkCarpark = 'Reverse park (car park)',
-	forwardPark = 'Forward park',
+  reverseRight = 'Reverse right',
+  reverseParkRoad = 'Reverse park (road)',
+  reverseParkCarpark = 'Reverse park (car park)',
+  forwardPark = 'Forward park',
 }
 
 interface ManoeuvreCompetencyLabel {
-	[key: string]: 'Control' | 'Observation';
+  [key: string]: 'Control' | 'Observation';
 }
 
 export const manoeuvreCompetencyLabels: ManoeuvreCompetencyLabel = {
-	controlFault: 'Control',
-	observationFault: 'Observation',
+  controlFault: 'Control',
+  observationFault: 'Observation',
 };

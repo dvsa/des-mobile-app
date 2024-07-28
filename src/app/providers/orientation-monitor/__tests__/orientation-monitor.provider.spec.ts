@@ -7,48 +7,48 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { take } from 'rxjs/operators';
 
 describe('OrientationMonitorProvider', () => {
-	let provider: OrientationMonitorProvider;
-	const mockCurrentOrientation = {
-		type: 'portrait',
-	} as GetCurrentOrientationResult;
+  let provider: OrientationMonitorProvider;
+  const mockCurrentOrientation = {
+    type: 'portrait',
+  } as GetCurrentOrientationResult;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [
-				OrientationMonitorProvider,
-				{
-					provide: ApplicationRef,
-					useClass: ApplicationRefMock,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        OrientationMonitorProvider,
+        {
+          provide: ApplicationRef,
+          useClass: ApplicationRefMock,
+        },
+      ],
+    });
 
-		provider = TestBed.inject(OrientationMonitorProvider);
-		spyOn(ScreenOrientation, 'removeAllListeners');
-		spyOn(ScreenOrientation, 'addListener');
-		spyOn(ScreenOrientation, 'getCurrentOrientation').and.returnValue(Promise.resolve(mockCurrentOrientation));
-	});
+    provider = TestBed.inject(OrientationMonitorProvider);
+    spyOn(ScreenOrientation, 'removeAllListeners');
+    spyOn(ScreenOrientation, 'addListener');
+    spyOn(ScreenOrientation, 'getCurrentOrientation').and.returnValue(Promise.resolve(mockCurrentOrientation));
+  });
 
-	afterAll(() => {
-		ScreenOrientation.removeAllListeners();
-	});
+  afterAll(() => {
+    ScreenOrientation.removeAllListeners();
+  });
 
-	describe('tearDownListener', () => {
-		it('should call removeAllListeners', () => {
-			provider.tearDownListener();
-			expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
-		});
-	});
+  describe('tearDownListener', () => {
+    it('should call removeAllListeners', () => {
+      provider.tearDownListener();
+      expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
+    });
+  });
 
-	describe('monitorOrientation', () => {
-		it('should set iisPortraitMode$ to true if the device is in portrait mode', async () => {
-			await provider.monitorOrientation();
+  describe('monitorOrientation', () => {
+    it('should set iisPortraitMode$ to true if the device is in portrait mode', async () => {
+      await provider.monitorOrientation();
 
-			expect(ScreenOrientation.getCurrentOrientation).toHaveBeenCalled();
-			provider.isPortraitMode$.pipe(take(1)).subscribe((value) => {
-				expect(value).toEqual(true);
-			});
-			expect(ScreenOrientation.addListener).toHaveBeenCalled();
-		});
-	});
+      expect(ScreenOrientation.getCurrentOrientation).toHaveBeenCalled();
+      provider.isPortraitMode$.pipe(take(1)).subscribe((value) => {
+        expect(value).toEqual(true);
+      });
+      expect(ScreenOrientation.addListener).toHaveBeenCalled();
+    });
+  });
 });

@@ -7,48 +7,48 @@ import { testSlotsAttributesReducer } from '../common/test-slot-attributes/test-
 import { candidateCatManoeuvreReducer } from './candidate/candidate.cat-manoeuvre.reducer';
 
 export const initialState: CatCMUniqueTypes.JournalData = {
-	applicationReference: {
-		applicationId: null,
-		bookingSequence: null,
-		checkDigit: null,
-	},
-	candidate: {},
-	examiner: {
-		individualId: null,
-		staffNumber: null,
-	},
-	testCentre: {
-		centreId: null,
-		centreName: null,
-		costCode: null,
-	},
-	testSlotAttributes: {
-		entitlementCheck: null,
-		examinerVisiting: null,
-		extendedTest: null,
-		previousCancellation: null,
-		slotId: null,
-		slotType: null,
-		specialNeeds: null,
-		specialNeedsArray: null,
-		specialNeedsCode: null,
-		start: null,
-		vehicleTypeCode: null,
-		welshTest: null,
-	},
+  applicationReference: {
+    applicationId: null,
+    bookingSequence: null,
+    checkDigit: null,
+  },
+  candidate: {},
+  examiner: {
+    individualId: null,
+    staffNumber: null,
+  },
+  testCentre: {
+    centreId: null,
+    centreName: null,
+    costCode: null,
+  },
+  testSlotAttributes: {
+    entitlementCheck: null,
+    examinerVisiting: null,
+    extendedTest: null,
+    previousCancellation: null,
+    slotId: null,
+    slotType: null,
+    specialNeeds: null,
+    specialNeedsArray: null,
+    specialNeedsCode: null,
+    start: null,
+    vehicleTypeCode: null,
+    welshTest: null,
+  },
 };
 
 export function journalDataCatManoeuvreReducer(
-	state = initialState,
-	action: Action
+  state = initialState,
+  action: Action
 ): Required<CatCMUniqueTypes.JournalData> {
-	return combineReducers({
-		examiner: examinerReducer,
-		testCentre: testCentreReducer,
-		testSlotAttributes: testSlotsAttributesReducer,
-		candidate: candidateCatManoeuvreReducer,
-		applicationReference: applicationReferenceReducer,
-	})(state as Required<CatCMUniqueTypes.JournalData>, action);
+  return combineReducers({
+    examiner: examinerReducer,
+    testCentre: testCentreReducer,
+    testSlotAttributes: testSlotsAttributesReducer,
+    candidate: candidateCatManoeuvreReducer,
+    applicationReference: applicationReferenceReducer,
+  })(state as Required<CatCMUniqueTypes.JournalData>, action);
 }
 
 export const getJournalData = createFeatureSelector<CatCMUniqueTypes.JournalData>('journalData');

@@ -1,24 +1,24 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-	selector: 'driving-faults-badge',
-	templateUrl: './driving-faults-badge.html',
-	styleUrls: ['./driving-faults-badge.scss'],
+  selector: 'driving-faults-badge',
+  templateUrl: './driving-faults-badge.html',
+  styleUrls: ['./driving-faults-badge.scss'],
 })
 export class DrivingFaultsBadgeComponent {
-	@Input()
-	count: number;
+  @Input()
+  count: number;
 
-	@Input()
-	competencyDisplayName?: string = null;
+  @Input()
+  competencyDisplayName?: string = null;
 
-	@Input()
-	showOnZero = false;
+  @Input()
+  showOnZero = false;
 
-	@Input()
-	badgeLabel = 'Driving';
+  @Input()
+  badgeLabel = 'Driving';
 
-	shouldDisplay = () => {
-		return this.showOnZero || this.count > 0;
-	};
+  shouldDisplay = () => {
+    return this.showOnZero || this.count > 0;
+  };
 }

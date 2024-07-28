@@ -39,132 +39,132 @@ import { TrainerRegistrationNumberCatAdiPart2Component } from '../components/tra
 import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 
 describe('WaitingRoomToCarCatADIPart2Page', () => {
-	let component: WaitingRoomToCarCatADIPart2Page;
-	let fixture: ComponentFixture<WaitingRoomToCarCatADIPart2Page>;
-	let store$: Store<StoreModel>;
-	let routeByCategoryProvider: RouteByCategoryProvider;
+  let component: WaitingRoomToCarCatADIPart2Page;
+  let fixture: ComponentFixture<WaitingRoomToCarCatADIPart2Page>;
+  let store$: Store<StoreModel>;
+  let routeByCategoryProvider: RouteByCategoryProvider;
 
-	const initialState = {
-		appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
-		tests: {
-			currentTest: { slotId: '123' },
-			testStatus: {},
-			startedTests: {
-				123: {
-					vehicleDetails: {},
-					accompaniment: {},
-					category: TestCategory.ADI2,
-					trainerDetails: {},
-					testData: {
-						seriousFaults: {},
-					},
-					journalData: {
-						candidate: {
-							candidateName: {
-								firstName: 'Joe',
-								lastName: 'Bloggs',
-							},
-						},
-					},
-				} as CatADI2UniqueTypes.TestResult,
-			},
-		} as TestsModel,
-	} as StoreModel;
+  const initialState = {
+    appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
+    tests: {
+      currentTest: { slotId: '123' },
+      testStatus: {},
+      startedTests: {
+        123: {
+          vehicleDetails: {},
+          accompaniment: {},
+          category: TestCategory.ADI2,
+          trainerDetails: {},
+          testData: {
+            seriousFaults: {},
+          },
+          journalData: {
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
+          },
+        } as CatADI2UniqueTypes.TestResult,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			schemas: [CUSTOM_ELEMENTS_SCHEMA],
-			declarations: [
-				WaitingRoomToCarCatADIPart2Page,
-				MockComponent(EndTestLinkComponent),
-				MockComponent(VehicleRegistrationComponent),
-				MockComponent(VehicleDetailsCardComponent),
-				MockComponent(VehicleDetailsComponent),
-				MockComponent(AccompanimentCardComponent),
-				MockComponent(AccompanimentComponent),
-				MockComponent(WarningBannerComponent),
-				MockComponent(TransmissionComponent),
-				MockComponent(TrainingRecordsCatAdiPart2Component),
-				MockComponent(TrainerRegistrationNumberCatAdiPart2Component),
-				MockComponent(OrditTrainerCatAdiPart2Component),
-			],
-			imports: [AppModule, ReactiveFormsModule],
-			providers: [
-				{ provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-				{ provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-				{ provide: Platform, useClass: PlatformMock },
-				{ provide: Router, useClass: RouterMock },
-				{ provide: DateTimeProvider, useClass: DateTimeProviderMock },
-				{ provide: QuestionProvider, useClass: QuestionProviderMock },
-				{ provide: FaultCountProvider, useClass: FaultCountProvider },
-				provideMockStore({ initialState }),
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [
+        WaitingRoomToCarCatADIPart2Page,
+        MockComponent(EndTestLinkComponent),
+        MockComponent(VehicleRegistrationComponent),
+        MockComponent(VehicleDetailsCardComponent),
+        MockComponent(VehicleDetailsComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(TransmissionComponent),
+        MockComponent(TrainingRecordsCatAdiPart2Component),
+        MockComponent(TrainerRegistrationNumberCatAdiPart2Component),
+        MockComponent(OrditTrainerCatAdiPart2Component),
+      ],
+      imports: [AppModule, ReactiveFormsModule],
+      providers: [
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: Platform, useClass: PlatformMock },
+        { provide: Router, useClass: RouterMock },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: QuestionProvider, useClass: QuestionProviderMock },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
+        provideMockStore({ initialState }),
+      ],
+    });
 
-		fixture = TestBed.createComponent(WaitingRoomToCarCatADIPart2Page);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-		store$ = TestBed.inject(Store);
-		routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-		spyOn(store$, 'dispatch');
-	}));
+    fixture = TestBed.createComponent(WaitingRoomToCarCatADIPart2Page);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    store$ = TestBed.inject(Store);
+    routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
+    spyOn(store$, 'dispatch');
+  }));
 
-	afterEach(() => {
-		fixture.destroy();
-	});
+  afterEach(() => {
+    fixture.destroy();
+  });
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('Class', () => {
-		describe('ngOnInit', () => {
-			it('should call through to the base page init method', () => {
-				spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
-				component.ngOnInit();
-				expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
-			});
-		});
-		describe('eyesightFailCancelled', () => {
-			it('should reset eyesight control', () => {
-				const control = new UntypedFormControl('value');
-				component.form.addControl('eyesightCtrl', control);
-				component.eyesightFailCancelled();
-				expect(component.form.get('eyesightCtrl').value).toEqual(null);
-			});
-		});
-		describe('onSubmit', () => {
-			beforeEach(() => {
-				spyOn(routeByCategoryProvider, 'navigateToPage');
-			});
-			it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-				component.form = new UntypedFormGroup({
-					notRequiredControl: new UntypedFormControl(null),
-				});
-				component.testCategory = TestCategory.ADI2;
-				await component.onSubmit();
-				tick();
-				expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-					TestFlowPageNames.TEST_REPORT_PAGE,
-					TestCategory.ADI2,
-					{ replaceUrl: true }
-				);
-			}));
-			it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-				component.form = new UntypedFormGroup({
-					requiredControl1: new UntypedFormControl(null, [Validators.required]),
-					requiredControl2: new UntypedFormControl(null, [Validators.required]),
-					notRequiredControl: new UntypedFormControl(null),
-				});
+  describe('Class', () => {
+    describe('ngOnInit', () => {
+      it('should call through to the base page init method', () => {
+        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
+        component.ngOnInit();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+      });
+    });
+    describe('eyesightFailCancelled', () => {
+      it('should reset eyesight control', () => {
+        const control = new UntypedFormControl('value');
+        component.form.addControl('eyesightCtrl', control);
+        component.eyesightFailCancelled();
+        expect(component.form.get('eyesightCtrl').value).toEqual(null);
+      });
+    });
+    describe('onSubmit', () => {
+      beforeEach(() => {
+        spyOn(routeByCategoryProvider, 'navigateToPage');
+      });
+      it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
+        });
+        component.testCategory = TestCategory.ADI2;
+        await component.onSubmit();
+        tick();
+        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+          TestFlowPageNames.TEST_REPORT_PAGE,
+          TestCategory.ADI2,
+          { replaceUrl: true }
+        );
+      }));
+      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-				await component.onSubmit();
-				tick();
-				expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-				expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-				expect(store$.dispatch).not.toHaveBeenCalledWith(
-					WaitingRoomToCarValidationError('notRequiredControl is blank')
-				);
-			}));
-		});
-	});
+        await component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          WaitingRoomToCarValidationError('notRequiredControl is blank')
+        );
+      }));
+    });
+  });
 });

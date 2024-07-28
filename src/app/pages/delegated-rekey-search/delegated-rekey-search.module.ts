@@ -19,24 +19,24 @@ import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 
 @NgModule({
-	declarations: [DelegatedRekeySearchPage],
-	imports: [
-		StoreModule.forFeature('delegatedRekeySearch', delegatedSearchReducer),
-		EffectsModule.forFeature([DelegatedRekeySearchEffects]),
-		ComponentsModule,
-		TestSlotComponentsModule,
-		IonicModule,
-		DelegatedRekeySearchPageRoutingModule,
-		CommonModule,
-		ReactiveFormsModule,
-		DirectivesModule,
-	],
-	providers: [
-		OrientationMonitorProvider,
-		DelegatedRekeySearchProvider,
-		SearchProvider,
-		CompressionProvider,
-		SlotProvider,
-	],
+  declarations: [DelegatedRekeySearchPage],
+  imports: [
+    StoreModule.forFeature('delegatedRekeySearch', delegatedSearchReducer),
+    EffectsModule.forFeature([DelegatedRekeySearchEffects]),
+    ComponentsModule,
+    TestSlotComponentsModule,
+    IonicModule,
+    DelegatedRekeySearchPageRoutingModule,
+    CommonModule,
+    ReactiveFormsModule,
+    DirectivesModule,
+  ],
+  providers: [
+    OrientationMonitorProvider,
+    DelegatedRekeySearchProvider,
+    SearchProvider,
+    CompressionProvider,
+    SlotProvider,
+  ],
 })
 export class DelegatedRekeySearchPageModule {}

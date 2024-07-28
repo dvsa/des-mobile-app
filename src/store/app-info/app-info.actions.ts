@@ -4,8 +4,8 @@ import { UpdateAvailable } from '@pages/dashboard/components/update-available-mo
 export const LoadAppVersion = createAction('[AppComponent] Load App Version');
 
 export const LoadAppVersionSuccess = createAction(
-	'[AppInfoEffects] Load App Version Success',
-	props<{ versionNumber: string }>()
+  '[AppInfoEffects] Load App Version Success',
+  props<{ versionNumber: string }>()
 );
 
 export const LoadAppVersionFailure = createAction('[AppInfoEffects] Load App Version Failure', props<{ error: any }>());
@@ -15,21 +15,21 @@ export const LoadEmployeeId = createAction('[LoginComponent] Load Employee ID', 
 export const LoadEmployeeName = createAction('[LoginComponent] Load Employee Name');
 
 export const LoadEmployeeNameSuccess = createAction(
-	'[LoginComponent] Load Employee Name Success',
-	props<{ employeeName: string }>()
+  '[LoginComponent] Load Employee Name Success',
+  props<{ employeeName: string }>()
 );
 
 // @TODO: Rename to `LoadRemoteConfigSuccess` at later date
 export const LoadConfigSuccess = createAction('[AppInfoEffects] Load Config Success');
 
 export const SetDateConfigLoaded = createAction(
-	'[AppInfoEffects] Set Date Config Loaded',
-	props<{ refreshDate: string }>()
+  '[AppInfoEffects] Set Date Config Loaded',
+  props<{ refreshDate: string }>()
 );
 
 export const HasSeenUpdateAvailablePopup = createAction(
-	'[AppInfoEffects] Update available popup',
-	(hasSeen = false) => ({ hasSeen })
+  '[AppInfoEffects] Update available popup',
+  (hasSeen = false) => ({ hasSeen })
 );
 
 export const AppSuspended = createAction('[AppInfoEffects] App Suspended');
@@ -43,6 +43,6 @@ export const UpdateAvailablePopup = createAction('[AppInfoEffects] Update availa
 export const UpdateAvailableBadgeClicked = createAction('[AppInfoEffects] Update available badge clicked');
 
 export const UpdateAvailableOptionClicked = createAction(
-	'[AppInfoEffects] Update available presented',
-	(selected: UpdateAvailable) => ({ selected })
+  '[AppInfoEffects] Update available presented',
+  (selected: UpdateAvailable) => ({ selected })
 );

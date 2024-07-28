@@ -11,9 +11,9 @@ import { TestCentreNameComponent } from './test-centre-name/test-centre-name';
 import { ViewJournalsCardComponent } from './view-journals-card/view-journals-card';
 
 @NgModule({
-	declarations: [CandidateSearchCardComponent, TestCentreNameComponent, ViewJournalsCardComponent],
-	imports: [IonicModule, CommonModule, JournalComponentsModule, ComponentsModule, TestSlotComponentsModule],
-	providers: [OrientationMonitorProvider],
-	exports: [CandidateSearchCardComponent, TestCentreNameComponent, ViewJournalsCardComponent],
+  declarations: [CandidateSearchCardComponent, TestCentreNameComponent, ViewJournalsCardComponent],
+  imports: [IonicModule, CommonModule, JournalComponentsModule, ComponentsModule, TestSlotComponentsModule],
+  providers: [OrientationMonitorProvider],
+  exports: [CandidateSearchCardComponent, TestCentreNameComponent, ViewJournalsCardComponent],
 })
 export class TestCentreJournalComponentsModule {}

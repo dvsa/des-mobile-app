@@ -10,30 +10,30 @@ import { safetyAndBalanceCatAMod2Reducer } from './safety-and-balance/safety-and
 import { testRequirementsCatAMod2Reducer } from './test-requirements/test-requirements.cat-a-mod-2.reducer';
 
 export const initialState: TestData = {
-	testRequirements: {},
-	ETA: {},
-	drivingFaults: {},
-	seriousFaults: {},
-	dangerousFaults: {},
-	safetyAndBalanceQuestions: {
-		safetyQuestions: [],
-		balanceQuestions: [],
-	},
-	eco: {},
-	eyesightTest: {},
+  testRequirements: {},
+  ETA: {},
+  drivingFaults: {},
+  seriousFaults: {},
+  dangerousFaults: {},
+  safetyAndBalanceQuestions: {
+    safetyQuestions: [],
+    balanceQuestions: [],
+  },
+  eco: {},
+  eyesightTest: {},
 };
 
 export function testDataCatAMod2Reducer(state = initialState, action: Action): Required<TestData> {
-	return combineReducers({
-		testRequirements: testRequirementsCatAMod2Reducer,
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		safetyAndBalanceQuestions: safetyAndBalanceCatAMod2Reducer,
-		eyesightTest: eyesightTestReducer,
-	})(state as Required<TestData>, action);
+  return combineReducers({
+    testRequirements: testRequirementsCatAMod2Reducer,
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    safetyAndBalanceQuestions: safetyAndBalanceCatAMod2Reducer,
+    eyesightTest: eyesightTestReducer,
+  })(state as Required<TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<TestData>('testData');

@@ -18,43 +18,43 @@ import * as officeActions from './office.actions';
 
 @Injectable()
 export class OfficeEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 
-	persistOfficeDataEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(
-				dangerousFaultsActions.AddDangerousFaultComment,
-				seriousFaultsActions.AddSeriousFaultComment,
-				drivingFaultsActions.AddDrivingFaultComment,
-				singleFaultCompetencyActions.AddSingleFaultCompetencyComment,
-				testSummaryActions.DebriefWitnessed,
-				testSummaryActions.DebriefUnWitnessed,
-				testSummaryActions.IdentificationUsedChanged,
-				testSummaryActions.IndependentDrivingTypeChanged,
-				testSummaryActions.RouteNumberChanged,
-				testSummaryActions.WeatherConditionsChanged,
-				testSummaryActions.AdditionalInformationChanged,
-				testSummaryActions.CandidateDescriptionChanged,
-				testSummaryActions.D255Yes,
-				testSummaryActions.D255No,
-				testSummaryActions.TrueLikenessToPhotoChanged
-			),
-			map(() => testsActions.PersistTests())
-		)
-	);
+  persistOfficeDataEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        dangerousFaultsActions.AddDangerousFaultComment,
+        seriousFaultsActions.AddSeriousFaultComment,
+        drivingFaultsActions.AddDrivingFaultComment,
+        singleFaultCompetencyActions.AddSingleFaultCompetencyComment,
+        testSummaryActions.DebriefWitnessed,
+        testSummaryActions.DebriefUnWitnessed,
+        testSummaryActions.IdentificationUsedChanged,
+        testSummaryActions.IndependentDrivingTypeChanged,
+        testSummaryActions.RouteNumberChanged,
+        testSummaryActions.WeatherConditionsChanged,
+        testSummaryActions.AdditionalInformationChanged,
+        testSummaryActions.CandidateDescriptionChanged,
+        testSummaryActions.D255Yes,
+        testSummaryActions.D255No,
+        testSummaryActions.TrueLikenessToPhotoChanged
+      ),
+      map(() => testsActions.PersistTests())
+    )
+  );
 
-	completeTestEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(officeActions.CompleteTest),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
-			),
-			switchMap(([, slotId]) => {
-				return [testStatusActions.SetTestStatusCompleted(slotId), testsActions.PersistTests()];
-			})
-		)
-	);
+  completeTestEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(officeActions.CompleteTest),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
+      ),
+      switchMap(([, slotId]) => {
+        return [testStatusActions.SetTestStatusCompleted(slotId), testsActions.PersistTests()];
+      })
+    )
+  );
 }

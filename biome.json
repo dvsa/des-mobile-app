@@ -8,7 +8,7 @@
   "formatter": {
     "enabled": true,
     "formatWithErrors": true,
-    "indentStyle": "tab",
+    "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
     "lineWidth": 120,
@@ -27,10 +27,40 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useImportType": "off"
+        "useImportType": "off",
+        "useDefaultParameterLast": "off",
+        "noParameterAssign": "off",
+        "useTemplate": "off",
+        "useNodejsImportProtocol": "off",
+        "noNonNullAssertion": "off"
       },
       "complexity": {
-        "noStaticOnlyClass": "off"
+        "noStaticOnlyClass": "off",
+        "noForEach": "off",
+        "useLiteralKeys": "off",
+        "noThisInStatic": "off",
+        "noExtraBooleanCast": "off",
+        "useOptionalChain": "off",
+        "noBannedTypes": "off",
+        "noUselessConstructor": "off",
+        "noUselessCatch": "off"
+      },
+      "correctness": {
+        "noUnsafeOptionalChaining": "off",
+        "noSwitchDeclarations": "off",
+        "noVoidTypeReturn": "off"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "off",
+        "noExplicitAny": "off",
+        "noImplicitAnyLet": "off",
+        "noConfusingVoidType": "off",
+        "noDuplicateTestHooks": "off",
+        "useIsArray": "off"
+      },
+      "performance": {
+        "noDelete": "off",
+        "noAccumulatingSpread": "off"
       }
     },
     "ignore": [

@@ -1,12 +1,12 @@
 export interface FieldDetail {
-	display: 'A' | 'Y' | 'N';
-	defaultValue?: string;
-	showNotApplicable?: boolean;
+  display: 'A' | 'Y' | 'N';
+  defaultValue?: string;
+  showNotApplicable?: boolean;
 }
 export interface Field {
-	[k: string]: FieldDetail;
+  [k: string]: FieldDetail;
 }
 
 export interface OutcomeBehaviourMapping {
-	[k: string]: Field;
+  [k: string]: Field;
 }

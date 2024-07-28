@@ -13,17 +13,17 @@ import { OfficeEffects } from '@pages/office/office.effects';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 
 @NgModule({
-	declarations: [OfficeCatADI3Page],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		OfficeCatADIPart3PageRoutingModule,
-		ComponentsModule,
-		OfficeComponentsModule,
-		ReactiveFormsModule,
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-	],
-	providers: [FaultSummaryProvider],
+  declarations: [OfficeCatADI3Page],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    OfficeCatADIPart3PageRoutingModule,
+    ComponentsModule,
+    OfficeComponentsModule,
+    ReactiveFormsModule,
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+  ],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatADIPart3PageModule {}

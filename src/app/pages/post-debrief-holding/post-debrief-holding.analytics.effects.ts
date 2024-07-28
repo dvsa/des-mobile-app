@@ -16,33 +16,33 @@ import { concatMap, filter, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class PostDebriefHoldingAnalyticsEffects {
-	constructor(
-		private analytics: AnalyticsProvider,
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private appConfigProvider: AppConfigProvider
-	) {}
+  constructor(
+    private analytics: AnalyticsProvider,
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider
+  ) {}
 
-	postDebriefHoldingViewDidEnterEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(PostDebriefHoldingViewDidEnter),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
-				)
-			),
-			filter(([, , practiceMode]) =>
-				!practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-			),
-			concatMap(([, tests]: [ReturnType<typeof PostDebriefHoldingViewDidEnter>, TestsModel, boolean]) => {
-				// TODO - MES-9495 - remove old analytics
-				const screenName = formatAnalyticsText(AnalyticsScreenNames.POST_DEBRIEF_HOLDING, tests);
-				this.analytics.setCurrentPage(screenName);
+  postDebriefHoldingViewDidEnterEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostDebriefHoldingViewDidEnter),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof PostDebriefHoldingViewDidEnter>, TestsModel, boolean]) => {
+        // TODO - MES-9495 - remove old analytics
+        const screenName = formatAnalyticsText(AnalyticsScreenNames.POST_DEBRIEF_HOLDING, tests);
+        this.analytics.setCurrentPage(screenName);
 
-				// GA4 Analytics
-				this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.POST_DEBRIEF_HOLDING, tests));
-				return of(AnalyticRecorded());
-			})
-		)
-	);
+        // GA4 Analytics
+        this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.POST_DEBRIEF_HOLDING, tests));
+        return of(AnalyticRecorded());
+      })
+    )
+  );
 }

@@ -19,18 +19,18 @@ import { TestReportCatAMod1PageRoutingModule } from './test-report.cat-a-mod1-ro
 import { TestReportCatAMod1Page } from './test-report.cat-a-mod1.page';
 
 @NgModule({
-	declarations: [TestReportCatAMod1Page],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		TestReportCatAMod1PageRoutingModule,
-		ComponentsModule,
-		TestReportComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		TestReportCatAMod1ComponentsModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatAMod1Page],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TestReportCatAMod1PageRoutingModule,
+    ComponentsModule,
+    TestReportComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    TestReportCatAMod1ComponentsModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatAMod1PageModule {}

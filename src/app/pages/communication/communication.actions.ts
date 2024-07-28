@@ -5,13 +5,13 @@ export const CommunicationViewDidEnter = createAction('[CommunicationPage] Commu
 export const CommunicationSubmitInfo = createAction('[CommunicationPage] Submit Waiting Room Info');
 
 export const CommunicationSubmitInfoError = createAction(
-	'[CommunicationPage] Submit Waiting Room Info Error',
-	(errorMessage: string) => ({ errorMessage })
+  '[CommunicationPage] Submit Waiting Room Info Error',
+  (errorMessage: string) => ({ errorMessage })
 );
 
 export const CommunicationValidationError = createAction(
-	'[CommunicationPage] Communication page validation error',
-	(errorMessage: string) => ({ errorMessage })
+  '[CommunicationPage] Communication page validation error',
+  (errorMessage: string) => ({ errorMessage })
 );
 
 export const BookingEmailSelected = createAction('[CommunicationPage] Booking email selected');

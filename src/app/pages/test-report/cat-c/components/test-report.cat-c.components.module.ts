@@ -7,8 +7,8 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
 import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
 
 @NgModule({
-	declarations: [VehicleChecksComponent],
-	imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonicModule, DirectivesModule],
-	exports: [VehicleChecksComponent],
+  declarations: [VehicleChecksComponent],
+  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonicModule, DirectivesModule],
+  exports: [VehicleChecksComponent],
 })
 export class TestReportCatCComponentsModule {}

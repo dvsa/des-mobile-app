@@ -2,37 +2,37 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-	selector: 'insurance-declaration',
-	templateUrl: 'insurance-declaration.html',
-	styleUrls: ['insurance-declaration.scss'],
+  selector: 'insurance-declaration',
+  templateUrl: 'insurance-declaration.html',
+  styleUrls: ['insurance-declaration.scss'],
 })
 export class InsuranceDeclarationComponent implements OnChanges {
-	@Input()
-	selected: boolean;
+  @Input()
+  selected: boolean;
 
-	@Input()
-	formGroup: UntypedFormGroup;
+  @Input()
+  formGroup: UntypedFormGroup;
 
-	@Output()
-	insuranceDeclarationChange = new EventEmitter();
+  @Output()
+  insuranceDeclarationChange = new EventEmitter();
 
-	formControl: UntypedFormControl;
-	static readonly fieldName: string = 'insuranceCheckbox';
+  formControl: UntypedFormControl;
+  static readonly fieldName: string = 'insuranceCheckbox';
 
-	ngOnChanges(): void {
-		if (!this.formControl) {
-			this.formControl = new UntypedFormControl('', [Validators.requiredTrue]);
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl('', [Validators.requiredTrue]);
 
-			this.formGroup.addControl(InsuranceDeclarationComponent.fieldName, this.formControl);
-		}
-		this.formControl.patchValue(this.selected);
-	}
+      this.formGroup.addControl(InsuranceDeclarationComponent.fieldName, this.formControl);
+    }
+    this.formControl.patchValue(this.selected);
+  }
 
-	insuranceDeclarationChanged(): void {
-		this.insuranceDeclarationChange.emit();
-	}
+  insuranceDeclarationChanged(): void {
+    this.insuranceDeclarationChange.emit();
+  }
 
-	isInvalid(): boolean {
-		return !this.formControl.valid && this.formControl.dirty;
-	}
+  isInvalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 }

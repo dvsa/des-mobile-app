@@ -8,61 +8,61 @@ export type QuestionUnion = Question | Question5;
 export const MINIMUM_QUESTION_SCORE: number = 15;
 
 @Component({
-	selector: 'cpc-debrief-card',
-	templateUrl: 'cpc-debrief-card.html',
-	styleUrls: ['cpc-debrief-card.scss'],
+  selector: 'cpc-debrief-card',
+  templateUrl: 'cpc-debrief-card.html',
+  styleUrls: ['cpc-debrief-card.scss'],
 })
 export class CPCDebriefCardComponent implements OnInit {
-	@Input()
-	public question1: Question;
+  @Input()
+  public question1: Question;
 
-	@Input()
-	public question2: Question;
+  @Input()
+  public question2: Question;
 
-	@Input()
-	public question3: Question;
+  @Input()
+  public question3: Question;
 
-	@Input()
-	public question4: Question;
+  @Input()
+  public question4: Question;
 
-	@Input()
-	public question5: Question5;
+  @Input()
+  public question5: Question5;
 
-	@Input()
-	public overallScore: number;
+  @Input()
+  public overallScore: number;
 
-	@Input()
-	public testOutcome: string;
+  @Input()
+  public testOutcome: string;
 
-	@Input()
-	public isDetailedTestView = false;
+  @Input()
+  public isDetailedTestView = false;
 
-	@Input()
-	public combination: string;
+  @Input()
+  public combination: string;
 
-	public questions: QuestionUnion[];
+  public questions: QuestionUnion[];
 
-	getFormattedQuestion = (question: Question | Question5): string => {
-		return `${question.questionCode} - ${question.title}`;
-	};
+  getFormattedQuestion = (question: Question | Question5): string => {
+    return `${question.questionCode} - ${question.title}`;
+  };
 
-	getQuestionPercentage = (question: Question | Question5): number => {
-		return question.score || 0;
-	};
+  getQuestionPercentage = (question: Question | Question5): number => {
+    return question.score || 0;
+  };
 
-	shouldTickBox = (question: Question | Question5): boolean => {
-		return question.score >= MINIMUM_QUESTION_SCORE;
-	};
+  shouldTickBox = (question: Question | Question5): boolean => {
+    return question.score >= MINIMUM_QUESTION_SCORE;
+  };
 
-	getCardHeader = (): string => {
-		return this.isDetailedTestView ? 'Debrief' : 'Test details';
-	};
+  getCardHeader = (): string => {
+    return this.isDetailedTestView ? 'Debrief' : 'Test details';
+  };
 
-	isPass = (): boolean => {
-		return this.testOutcome === TestOutcome.PASS || this.testOutcome === OutcomeType.Passed;
-	};
+  isPass = (): boolean => {
+    return this.testOutcome === TestOutcome.PASS || this.testOutcome === OutcomeType.Passed;
+  };
 
-	ngOnInit(): void {
-		this.questions = [this.question1, this.question2, this.question3, this.question4, this.question5];
-	}
+  ngOnInit(): void {
+    this.questions = [this.question1, this.question2, this.question3, this.question4, this.question5];
+  }
 }

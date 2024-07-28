@@ -19,61 +19,61 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 export enum MotStatus {
-	NO_DETAILS = 'No details found',
+  NO_DETAILS = 'No details found',
 }
 
 @Injectable()
 export class WaitingRoomToCarEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private vehicleDetailsApiProvider: VehicleDetailsApiService,
-		private networkStateProvider: NetworkStateProvider,
-		private logHelper: LogHelper,
-		private platform: Platform
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private vehicleDetailsApiProvider: VehicleDetailsApiService,
+    private networkStateProvider: NetworkStateProvider,
+    private logHelper: LogHelper,
+    private platform: Platform
+  ) {}
 
-	getMotStatusData$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(GetMotStatus),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(
-						this.store$.pipe(
-							select(getTests),
-							select(getCurrentTest),
-							select(getVehicleDetails),
-							select(getRegistrationNumber)
-						),
-						this.store$.pipe(select(getTests), select(isPracticeMode))
-					)
-				)
-			),
-			// above filter means we will not call through to candidate service when any of the above conditions fail.
-			filter(
-				([, , isPracticeTest]) =>
-					this.platform.is('cordova') &&
-					!isPracticeTest &&
-					this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
-			),
-			// once we are happy user is online and not in a practice test, then we sanitise the input by removing whitespace
-			map(([, regNumber]) => regNumber?.replace(/\s/g, '').toUpperCase()),
-			// filter any requests that are nulls or empty strings from hitting service
-			filter((regNumber) => !!regNumber),
-			switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
-			map((vehicleDetails) => MotStatusChanged(vehicleDetails?.status || MotStatus.NO_DETAILS)),
-			catchError((err) => {
-				this.store$.dispatch(
-					SaveLog({
-						payload: this.logHelper.createLog(
-							LogType.ERROR,
-							'Error retrieving MOT status',
-							err instanceof Error ? err.message : err.error
-						),
-					})
-				);
-				return of(GetMotStatusFailure());
-			})
-		)
-	);
+  getMotStatusData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GetMotStatus),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getVehicleDetails),
+              select(getRegistrationNumber)
+            ),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      // above filter means we will not call through to candidate service when any of the above conditions fail.
+      filter(
+        ([, , isPracticeTest]) =>
+          this.platform.is('cordova') &&
+          !isPracticeTest &&
+          this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
+      ),
+      // once we are happy user is online and not in a practice test, then we sanitise the input by removing whitespace
+      map(([, regNumber]) => regNumber?.replace(/\s/g, '').toUpperCase()),
+      // filter any requests that are nulls or empty strings from hitting service
+      filter((regNumber) => !!regNumber),
+      switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
+      map((vehicleDetails) => MotStatusChanged(vehicleDetails?.status || MotStatus.NO_DETAILS)),
+      catchError((err) => {
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(
+              LogType.ERROR,
+              'Error retrieving MOT status',
+              err instanceof Error ? err.message : err.error
+            ),
+          })
+        );
+        return of(GetMotStatusFailure());
+      })
+    )
+  );
 }

@@ -4,7 +4,7 @@ import { WeatherConditionSelection } from './weather-conditions.model';
 
 @Injectable()
 export class WeatherConditionProvider {
-	getWeatherConditions(): WeatherConditionSelection[] {
-		return weatherConditions;
-	}
+  getWeatherConditions(): WeatherConditionSelection[] {
+    return weatherConditions;
+  }
 }

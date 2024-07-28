@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { OfficeCatDPage } from './office.cat-d.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: OfficeCatDPage,
-	},
+  {
+    path: '',
+    component: OfficeCatDPage,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class OfficeCatDPageRoutingModule {}

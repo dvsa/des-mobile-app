@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { TestReportCatAMod1Page } from './test-report.cat-a-mod1.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: TestReportCatAMod1Page,
-	},
+  {
+    path: '',
+    component: TestReportCatAMod1Page,
+  },
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class TestReportCatAMod1PageRoutingModule {}

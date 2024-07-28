@@ -14,17 +14,17 @@ import { RekeyReasonPage } from './rekey-reason.page';
 import { rekeyReasonReducer } from './rekey-reason.reducer';
 
 @NgModule({
-	declarations: [RekeyReasonPage],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		RekeyReasonPageRoutingModule,
-		ReactiveFormsModule,
-		RekeyReasonComponentsModule,
-		StoreModule.forFeature('rekeyReason', rekeyReasonReducer),
-		EffectsModule.forFeature([RekeyReasonAnalyticsEffects, RekeyReasonEffects]),
-	],
-	providers: [FindUserProvider],
+  declarations: [RekeyReasonPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RekeyReasonPageRoutingModule,
+    ReactiveFormsModule,
+    RekeyReasonComponentsModule,
+    StoreModule.forFeature('rekeyReason', rekeyReasonReducer),
+    EffectsModule.forFeature([RekeyReasonAnalyticsEffects, RekeyReasonEffects]),
+  ],
+  providers: [FindUserProvider],
 })
 export class RekeyReasonPageModule {}

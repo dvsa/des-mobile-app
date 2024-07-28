@@ -7,13 +7,13 @@ import { TestCentreJournalEffects } from './test-centre-journal.effects';
 import * as fromTestCentreJournalReducer from './test-centre-journal.reducer';
 
 @NgModule({
-	imports: [
-		StoreModule.forFeature(
-			fromTestCentreJournalReducer.testCentreJournalFeatureKey,
-			fromTestCentreJournalReducer.testCentreJournalReducer
-		),
-		EffectsModule.forFeature([TestCentreJournalEffects]),
-	],
-	providers: [SlotSelectorProvider, SlotProvider],
+  imports: [
+    StoreModule.forFeature(
+      fromTestCentreJournalReducer.testCentreJournalFeatureKey,
+      fromTestCentreJournalReducer.testCentreJournalReducer
+    ),
+    EffectsModule.forFeature([TestCentreJournalEffects]),
+  ],
+  providers: [SlotSelectorProvider, SlotProvider],
 })
 export class TestCentreJournalStoreModule {}

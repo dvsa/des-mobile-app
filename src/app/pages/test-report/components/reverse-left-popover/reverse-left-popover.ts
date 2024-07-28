@@ -4,25 +4,25 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 @Component({
-	selector: 'reverse-left-popover',
-	templateUrl: 'reverse-left-popover.html',
-	styleUrls: ['reverse-left-popover.scss'],
+  selector: 'reverse-left-popover',
+  templateUrl: 'reverse-left-popover.html',
+  styleUrls: ['reverse-left-popover.scss'],
 })
 export class ReverseLeftPopoverComponent {
-	@Input()
-	testCategory: TestCategory | CategoryCode;
+  @Input()
+  testCategory: TestCategory | CategoryCode;
 
-	@Input()
-	disableDrivingFaults?: boolean = false;
+  @Input()
+  disableDrivingFaults?: boolean = false;
 
-	manoeuvreTypes = ManoeuvreTypes;
-	competencies = ManoeuvreCompetencies;
+  manoeuvreTypes = ManoeuvreTypes;
+  competencies = ManoeuvreCompetencies;
 
-	getId = (competency: ManoeuvreCompetencies) => `${ManoeuvreTypes.reverseLeft}-${competency}`;
+  getId = (competency: ManoeuvreCompetencies) => `${ManoeuvreTypes.reverseLeft}-${competency}`;
 
-	shouldShowReverseDiagramLink = (): boolean =>
-		this.testCategory !== TestCategory.F &&
-		this.testCategory !== TestCategory.G &&
-		this.testCategory !== TestCategory.H &&
-		this.testCategory !== TestCategory.K;
+  shouldShowReverseDiagramLink = (): boolean =>
+    this.testCategory !== TestCategory.F &&
+    this.testCategory !== TestCategory.G &&
+    this.testCategory !== TestCategory.H &&
+    this.testCategory !== TestCategory.K;
 }

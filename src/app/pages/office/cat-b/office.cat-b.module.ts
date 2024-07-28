@@ -13,17 +13,17 @@ import { OfficeEffects } from '../office.effects';
 import { OfficeCatBPage } from './office.cat-b.page';
 
 @NgModule({
-	declarations: [OfficeCatBPage],
-	imports: [
-		EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
-		ComponentsModule,
-		OfficeComponentsModule,
-		OfficeCatBPageRoutingModule,
-		IonicModule,
-		ReactiveFormsModule,
-		CommonModule,
-		WaitingRoomToCarComponentsModule,
-	],
-	providers: [FaultSummaryProvider, NavParams],
+  declarations: [OfficeCatBPage],
+  imports: [
+    EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    ComponentsModule,
+    OfficeComponentsModule,
+    OfficeCatBPageRoutingModule,
+    IonicModule,
+    ReactiveFormsModule,
+    CommonModule,
+    WaitingRoomToCarComponentsModule,
+  ],
+  providers: [FaultSummaryProvider, NavParams],
 })
 export class OfficeCatBPageModule {}

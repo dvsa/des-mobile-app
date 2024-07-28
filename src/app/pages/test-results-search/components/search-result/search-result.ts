@@ -7,41 +7,41 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
-	selector: 'search-result',
-	templateUrl: 'search-result.html',
-	styleUrls: ['search-result.scss'],
+  selector: 'search-result',
+  templateUrl: 'search-result.html',
+  styleUrls: ['search-result.scss'],
 })
 export class SearchResultComponent {
-	@Input()
-	searchResult: SearchResultTestSchema;
+  @Input()
+  searchResult: SearchResultTestSchema;
 
-	constructor(
-		public modalController: ModalController,
-		private accessibilityService: AccessibilityService
-	) {}
+  constructor(
+    public modalController: ModalController,
+    private accessibilityService: AccessibilityService
+  ) {}
 
-	getDate(): string {
-		return DateTime.at(this.searchResult.testDate).format('DD/MM/YYYY');
-	}
+  getDate(): string {
+    return DateTime.at(this.searchResult.testDate).format('DD/MM/YYYY');
+  }
 
-	getTime(): string {
-		return DateTime.at(this.searchResult.testDate).format('HH:mm');
-	}
+  getTime(): string {
+    return DateTime.at(this.searchResult.testDate).format('HH:mm');
+  }
 
-	getName(): string {
-		const name: Name = this.searchResult.candidateName;
-		return name.title ? `${name.title} ${name.firstName} ${name.lastName}` : `${name.firstName} ${name.lastName}`;
-	}
+  getName(): string {
+    const name: Name = this.searchResult.candidateName;
+    return name.title ? `${name.title} ${name.firstName} ${name.lastName}` : `${name.firstName} ${name.lastName}`;
+  }
 
-	async openTestResult(): Promise<void> {
-		const modal = await this.modalController.create({
-			component: ViewTestResultPage,
-			componentProps: {
-				applicationReference: this.searchResult.applicationReference,
-				testCategory: this.searchResult.category,
-			},
-			cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
-		});
-		await modal.present();
-	}
+  async openTestResult(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ViewTestResultPage,
+      componentProps: {
+        applicationReference: this.searchResult.applicationReference,
+        testCategory: this.searchResult.category,
+      },
+      cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
+    });
+    await modal.present();
+  }
 }

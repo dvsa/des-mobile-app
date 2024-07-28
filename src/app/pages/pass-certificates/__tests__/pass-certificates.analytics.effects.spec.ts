@@ -9,38 +9,38 @@ import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { ReplaySubject } from 'rxjs';
 
 describe('PassCertificatesAnalyticsEffects', () => {
-	let effects: PassCertificatesAnalyticsEffects;
-	let analyticsProvider: AnalyticsProvider;
-	let actions$: ReplaySubject<any>;
+  let effects: PassCertificatesAnalyticsEffects;
+  let analyticsProvider: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [
-				PassCertificatesAnalyticsEffects,
-				provideMockActions(() => actions$),
-				{
-					provide: AnalyticsProvider,
-					useClass: AnalyticsProviderMock,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        PassCertificatesAnalyticsEffects,
+        provideMockActions(() => actions$),
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+      ],
+    });
 
-		effects = TestBed.inject(PassCertificatesAnalyticsEffects);
-		analyticsProvider = TestBed.inject(AnalyticsProvider);
-		actions$ = new ReplaySubject(1);
-	});
+    effects = TestBed.inject(PassCertificatesAnalyticsEffects);
+    analyticsProvider = TestBed.inject(AnalyticsProvider);
+    actions$ = new ReplaySubject(1);
+  });
 
-	it('should log page view when pass certificates page is entered', (done) => {
-		actions$.next(PassCertificatedViewDidEnter());
+  it('should log page view when pass certificates page is entered', (done) => {
+    actions$.next(PassCertificatedViewDidEnter());
 
-		effects.passCertificatesView$.subscribe((result) => {
-			expect(result.type).toEqual(AnalyticRecorded.type);
-			// TODO - MES-9495 - remove old analytics
-			expect(analyticsProvider.setCurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
+    effects.passCertificatesView$.subscribe((result) => {
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      // TODO - MES-9495 - remove old analytics
+      expect(analyticsProvider.setCurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
 
-			// GA4 Analytics
-			expect(analyticsProvider.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
-			done();
-		});
-	});
+      // GA4 Analytics
+      expect(analyticsProvider.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
+      done();
+    });
+  });
 });

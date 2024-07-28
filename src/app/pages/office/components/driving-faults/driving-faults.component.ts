@@ -3,19 +3,19 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-	selector: 'driving-faults',
-	templateUrl: './driving-faults.component.html',
+  selector: 'driving-faults',
+  templateUrl: './driving-faults.component.html',
 })
 export class DrivingFaultsComponent {
-	@Input()
-	label: string;
+  @Input()
+  label: string;
 
-	@Input()
-	faults: FaultSummary[];
+  @Input()
+  faults: FaultSummary[];
 
-	@Input()
-	testCategory?: TestCategory;
+  @Input()
+  testCategory?: TestCategory;
 
-	@Input()
-	badgeLabel = 'Driving';
+  @Input()
+  badgeLabel = 'Driving';
 }

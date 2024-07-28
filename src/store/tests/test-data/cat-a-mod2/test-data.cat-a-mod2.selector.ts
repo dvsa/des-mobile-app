@@ -6,36 +6,36 @@ import { Competencies } from '../test-data.constants';
 export const getDrivingFaultCount = (data: TestData, competency: Competencies) => data.drivingFaults[competency];
 
 export const getSafetyAndBalanceQuestions = (state: TestData): SafetyAndBalanceQuestions =>
-	state.safetyAndBalanceQuestions;
+  state.safetyAndBalanceQuestions;
 
 export const getEyesightTest = (data: TestData) => data.eyesightTest;
 
 export const haveSafetyAndBalanceQuestionsBeenCompleted = (data: SafetyAndBalanceQuestions): boolean => {
-	let safetyQuestionComplete = true;
-	let balanceQuestionComplete = true;
+  let safetyQuestionComplete = true;
+  let balanceQuestionComplete = true;
 
-	if (!(data && data.safetyQuestions instanceof Array) || data.safetyQuestions.length !== NUMBER_OF_SAFETY_QUESTIONS) {
-		safetyQuestionComplete = false;
-	} else {
-		data.safetyQuestions.forEach((element) => {
-			if (element.outcome == null) {
-				safetyQuestionComplete = false;
-			}
-		});
-	}
+  if (!(data && data.safetyQuestions instanceof Array) || data.safetyQuestions.length !== NUMBER_OF_SAFETY_QUESTIONS) {
+    safetyQuestionComplete = false;
+  } else {
+    data.safetyQuestions.forEach((element) => {
+      if (element.outcome == null) {
+        safetyQuestionComplete = false;
+      }
+    });
+  }
 
-	if (
-		!(data && data.balanceQuestions instanceof Array) ||
-		data.balanceQuestions.length !== NUMBER_OF_BALANCE_QUESTIONS
-	) {
-		balanceQuestionComplete = false;
-	} else {
-		data.balanceQuestions.forEach((element) => {
-			if (element.outcome == null) {
-				balanceQuestionComplete = false;
-			}
-		});
-	}
+  if (
+    !(data && data.balanceQuestions instanceof Array) ||
+    data.balanceQuestions.length !== NUMBER_OF_BALANCE_QUESTIONS
+  ) {
+    balanceQuestionComplete = false;
+  } else {
+    data.balanceQuestions.forEach((element) => {
+      if (element.outcome == null) {
+        balanceQuestionComplete = false;
+      }
+    });
+  }
 
-	return safetyQuestionComplete && balanceQuestionComplete;
+  return safetyQuestionComplete && balanceQuestionComplete;
 };

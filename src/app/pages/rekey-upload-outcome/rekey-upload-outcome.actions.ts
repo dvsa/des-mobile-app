@@ -1,5 +1,5 @@
 import { createAction } from '@ngrx/store';
 
 export const RekeyUploadOutcomeViewDidEnter = createAction(
-	'[RekeyUploadOutcomePage] RekeyUploadOutcome view did enter'
+  '[RekeyUploadOutcomePage] RekeyUploadOutcome view did enter'
 );

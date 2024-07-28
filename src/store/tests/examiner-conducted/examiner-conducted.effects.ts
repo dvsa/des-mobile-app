@@ -12,20 +12,20 @@ import { SetExaminerConducted } from './examiner-conducted.actions';
 
 @Injectable()
 export class ExaminerConductedEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 
-	setExaminerConductedEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(SetExaminerConducted),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTest))))
-			),
-			map(([action, test]: [ReturnType<typeof SetExaminerConducted>, TestResultSchemasUnion]) =>
-				SetChangeMarker(action.examinerConducted !== test.examinerBooked)
-			)
-		)
-	);
+  setExaminerConductedEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetExaminerConducted),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTest))))
+      ),
+      map(([action, test]: [ReturnType<typeof SetExaminerConducted>, TestResultSchemasUnion]) =>
+        SetChangeMarker(action.examinerConducted !== test.examinerBooked)
+      )
+    )
+  );
 }

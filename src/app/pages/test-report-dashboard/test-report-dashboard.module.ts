@@ -19,19 +19,19 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
 
 @NgModule({
-	declarations: [TestReportDashboardPage],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		TestReportDashboardPageRoutingModule,
-		ComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportDashboardAnalyticsEffects, TestReportEffects]),
-		TestReportComponentsModule,
-		Adi3EndTestModalModule,
-		TestReportCatADIPart3ComponentsModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportDashboardPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TestReportDashboardPageRoutingModule,
+    ComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportDashboardAnalyticsEffects, TestReportEffects]),
+    TestReportComponentsModule,
+    Adi3EndTestModalModule,
+    TestReportCatADIPart3ComponentsModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportDashboardPageModule {}

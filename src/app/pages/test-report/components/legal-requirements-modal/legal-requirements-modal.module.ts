@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { LegalRequirementsModal } from './legal-requirements-modal';
 
 @NgModule({
-	declarations: [LegalRequirementsModal],
-	imports: [ComponentsModule, IonicModule, CommonModule],
-	exports: [LegalRequirementsModal],
+  declarations: [LegalRequirementsModal],
+  imports: [ComponentsModule, IonicModule, CommonModule],
+  exports: [LegalRequirementsModal],
 })
 export class LegalRequirementsModalModule {}

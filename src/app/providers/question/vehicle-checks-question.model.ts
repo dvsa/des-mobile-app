@@ -1,5 +1,5 @@
 export type VehicleChecksQuestion = {
-	code: string;
-	description: string;
-	shortName: string;
+  code: string;
+  description: string;
+  shortName: string;
 };

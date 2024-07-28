@@ -16,18 +16,18 @@ import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.mo
 import { TestCentreJournalPage } from './test-centre-journal.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		TestCentreJournalRoutingModule,
-		TestCentreJournalComponentsModule,
-		ComponentsModule,
-		TestSlotComponentsModule,
-		EffectsModule.forFeature([TestCentreJournalAnalyticsEffects]),
-		CandidateDetailsPageModule,
-	],
-	declarations: [TestCentreJournalPage],
-	providers: [SlotSelectorProvider, SlotProvider, OrientationMonitorProvider],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TestCentreJournalRoutingModule,
+    TestCentreJournalComponentsModule,
+    ComponentsModule,
+    TestSlotComponentsModule,
+    EffectsModule.forFeature([TestCentreJournalAnalyticsEffects]),
+    CandidateDetailsPageModule,
+  ],
+  declarations: [TestCentreJournalPage],
+  providers: [SlotSelectorProvider, SlotProvider, OrientationMonitorProvider],
 })
 export class TestCentreJournalModule {}

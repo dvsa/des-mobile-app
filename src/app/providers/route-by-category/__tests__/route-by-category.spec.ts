@@ -6,28 +6,28 @@ import { CAT_B, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 describe('RouteByCategoryProvider', () => {
-	let provider: RouteByCategoryProvider;
-	let router: Router;
+  let provider: RouteByCategoryProvider;
+  let router: Router;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [
-				RouteByCategoryProvider,
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        RouteByCategoryProvider,
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+      ],
+    });
 
-		provider = TestBed.inject(RouteByCategoryProvider);
-		router = TestBed.inject(Router);
-	});
+    provider = TestBed.inject(RouteByCategoryProvider);
+    router = TestBed.inject(Router);
+  });
 
-	describe('navigateToPage', () => {
-		it('should call router navigate', async () => {
-			await provider.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
-			expect(router.navigate).toHaveBeenCalledWith([CAT_B.WAITING_ROOM_TO_CAR_PAGE], {});
-		});
-	});
+  describe('navigateToPage', () => {
+    it('should call router navigate', async () => {
+      await provider.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
+      expect(router.navigate).toHaveBeenCalledWith([CAT_B.WAITING_ROOM_TO_CAR_PAGE], {});
+    });
+  });
 });

@@ -6,6 +6,6 @@ import { IonicModule } from '@ionic/angular';
 import { VehicleChecksModalCatHomeModule } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page.module';
 
 @NgModule({
-	imports: [IonicModule, ComponentsModule, ReactiveFormsModule, CommonModule, VehicleChecksModalCatHomeModule],
+  imports: [IonicModule, ComponentsModule, ReactiveFormsModule, CommonModule, VehicleChecksModalCatHomeModule],
 })
 export class WaitingRoomToCarCatHomeComponentsModule {}

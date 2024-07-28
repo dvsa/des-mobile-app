@@ -23,26 +23,26 @@ import { testSummaryMod2Reducer } from './test-summary/cat-a-mod2/test-summary.c
 import { vehicleDetailsCatAMod2Reducer } from './vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
 
 export function testsCatAMod2Reducer(action: Action, state: TestResultCatAM2Schema): Required<TestResultCatAM2Schema> {
-	return combineReducers({
-		activityCode: activityCodeReducer,
-		accompaniment: accompanimentReducer,
-		appVersion: appVersionReducer,
-		category: categoryReducer,
-		changeMarker: changeMarkerReducer,
-		communicationPreferences: communicationPreferencesReducer,
-		examinerBooked: examinerBookedReducer,
-		examinerConducted: examinerConductedReducer,
-		examinerKeyed: examinerKeyedReducer,
-		journalData: journalDataCatAMod2Reducer,
-		passCompletion: passCompletionCatAMod2Reducer,
-		postTestDeclarations: postTestDeclarationsReducer,
-		preTestDeclarations: preTestDeclarationsCatAMod2Reducer,
-		rekey: rekeyReducer,
-		rekeyDate: rekeyDateReducer,
-		rekeyReason: rekeyReasonReducer,
-		testData: testDataCatAMod2Reducer,
-		testSummary: testSummaryMod2Reducer,
-		version: schemaVersionReducer,
-		vehicleDetails: vehicleDetailsCatAMod2Reducer,
-	})(state as Required<TestResultCatAM2Schema>, action);
+  return combineReducers({
+    activityCode: activityCodeReducer,
+    accompaniment: accompanimentReducer,
+    appVersion: appVersionReducer,
+    category: categoryReducer,
+    changeMarker: changeMarkerReducer,
+    communicationPreferences: communicationPreferencesReducer,
+    examinerBooked: examinerBookedReducer,
+    examinerConducted: examinerConductedReducer,
+    examinerKeyed: examinerKeyedReducer,
+    journalData: journalDataCatAMod2Reducer,
+    passCompletion: passCompletionCatAMod2Reducer,
+    postTestDeclarations: postTestDeclarationsReducer,
+    preTestDeclarations: preTestDeclarationsCatAMod2Reducer,
+    rekey: rekeyReducer,
+    rekeyDate: rekeyDateReducer,
+    rekeyReason: rekeyReasonReducer,
+    testData: testDataCatAMod2Reducer,
+    testSummary: testSummaryMod2Reducer,
+    version: schemaVersionReducer,
+    vehicleDetails: vehicleDetailsCatAMod2Reducer,
+  })(state as Required<TestResultCatAM2Schema>, action);
 }

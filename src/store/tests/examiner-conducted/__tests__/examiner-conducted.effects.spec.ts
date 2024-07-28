@@ -13,50 +13,50 @@ import { SetExaminerConducted } from '../examiner-conducted.actions';
 import { ExaminerConductedEffects } from '../examiner-conducted.effects';
 
 describe('ExaminerConductedEffects', () => {
-	let effects: ExaminerConductedEffects;
-	let actions$: ReplaySubject<any>;
-	let store$: Store<StoreModel>;
+  let effects: ExaminerConductedEffects;
+  let actions$: ReplaySubject<any>;
+  let store$: Store<StoreModel>;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				StoreModule.forRoot({
-					tests: testsReducer,
-					journal: journalReducer,
-				}),
-			],
-			providers: [ExaminerConductedEffects, provideMockActions(() => actions$), Store],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+          journal: journalReducer,
+        }),
+      ],
+      providers: [ExaminerConductedEffects, provideMockActions(() => actions$), Store],
+    });
 
-		actions$ = new ReplaySubject(1);
-		effects = TestBed.inject(ExaminerConductedEffects);
-		store$ = TestBed.inject(Store);
-	});
+    actions$ = new ReplaySubject(1);
+    effects = TestBed.inject(ExaminerConductedEffects);
+    store$ = TestBed.inject(Store);
+  });
 
-	describe('setExaminerConductedEffect', () => {
-		it('should set the change marker to true when the examiner conducted is different to the booked', (done) => {
-			// ARRANGE
-			store$.dispatch(StartTest(12345, TestCategory.B));
-			store$.dispatch(SetExaminerBooked(123456));
-			// ACT
-			actions$.next(SetExaminerConducted(100001));
-			// ASSERT
-			effects.setExaminerConductedEffect$.subscribe((result) => {
-				expect(result).toEqual(SetChangeMarker(true));
-				done();
-			});
-		});
-		it('should set the change marker to false when the examiner conducted is the same as the booked', (done) => {
-			// ARRANGE
-			store$.dispatch(StartTest(12345, TestCategory.B));
-			store$.dispatch(SetExaminerBooked(123456));
-			// ACT
-			actions$.next(SetExaminerConducted(123456));
-			// ASSERT
-			effects.setExaminerConductedEffect$.subscribe((result) => {
-				expect(result).toEqual(SetChangeMarker(false));
-				done();
-			});
-		});
-	});
+  describe('setExaminerConductedEffect', () => {
+    it('should set the change marker to true when the examiner conducted is different to the booked', (done) => {
+      // ARRANGE
+      store$.dispatch(StartTest(12345, TestCategory.B));
+      store$.dispatch(SetExaminerBooked(123456));
+      // ACT
+      actions$.next(SetExaminerConducted(100001));
+      // ASSERT
+      effects.setExaminerConductedEffect$.subscribe((result) => {
+        expect(result).toEqual(SetChangeMarker(true));
+        done();
+      });
+    });
+    it('should set the change marker to false when the examiner conducted is the same as the booked', (done) => {
+      // ARRANGE
+      store$.dispatch(StartTest(12345, TestCategory.B));
+      store$.dispatch(SetExaminerBooked(123456));
+      // ACT
+      actions$.next(SetExaminerConducted(123456));
+      // ASSERT
+      effects.setExaminerConductedEffect$.subscribe((result) => {
+        expect(result).toEqual(SetChangeMarker(false));
+        done();
+      });
+    });
+  });
 });

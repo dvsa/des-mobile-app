@@ -8,12 +8,12 @@ import { PcvDoorExerciseTypes } from '@providers/fault-summary/cat-d/fault-summa
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { StoreModel } from '@shared/models/store.model';
 import {
-	PcvDoorExerciseAddDangerousFault,
-	PcvDoorExerciseAddDrivingFault,
-	PcvDoorExerciseAddSeriousFault,
-	PcvDoorExerciseRemoveDangerousFault,
-	PcvDoorExerciseRemoveDrivingFault,
-	PcvDoorExerciseRemoveSeriousFault,
+  PcvDoorExerciseAddDangerousFault,
+  PcvDoorExerciseAddDrivingFault,
+  PcvDoorExerciseAddSeriousFault,
+  PcvDoorExerciseRemoveDangerousFault,
+  PcvDoorExerciseRemoveDrivingFault,
+  PcvDoorExerciseRemoveSeriousFault,
 } from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
 import { getPcvDoorExercise } from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.reducer';
 import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
@@ -24,176 +24,176 @@ import { getTestReportState } from '../../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 
 interface CompetencyState {
-	isRemoveFaultMode$: Observable<boolean>;
-	isSeriousMode$: Observable<boolean>;
-	isDangerousMode$: Observable<boolean>;
-	pcvDoorExercise$: Observable<PcvDoorExerciseTypes>;
+  isRemoveFaultMode$: Observable<boolean>;
+  isSeriousMode$: Observable<boolean>;
+  isDangerousMode$: Observable<boolean>;
+  pcvDoorExercise$: Observable<PcvDoorExerciseTypes>;
 }
 
 @Component({
-	selector: 'pcv-door-exercise',
-	templateUrl: 'pcv-door-exercise.html',
-	styleUrls: ['pcv-door-exercise.scss'],
+  selector: 'pcv-door-exercise',
+  templateUrl: 'pcv-door-exercise.html',
+  styleUrls: ['pcv-door-exercise.scss'],
 })
 export class PcvDoorExerciseComponent {
-	@Input()
-	oneFaultLimit = false;
+  @Input()
+  oneFaultLimit = false;
 
-	competencyState: CompetencyState;
-	subscription: Subscription;
-	isRemoveFaultMode = false;
-	isSeriousMode = false;
-	isDangerousMode = false;
-	pcvDoorExercise: PcvDoorExerciseTypes;
-	allowRipple = true;
+  competencyState: CompetencyState;
+  subscription: Subscription;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
+  pcvDoorExercise: PcvDoorExerciseTypes;
+  allowRipple = true;
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+  ngOnInit(): void {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.competencyState = {
-			isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-			isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-			isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-			pcvDoorExercise$: currentTest$.pipe(select(getTestData), select(getPcvDoorExercise)),
-		};
+    this.competencyState = {
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
+      pcvDoorExercise$: currentTest$.pipe(select(getTestData), select(getPcvDoorExercise)),
+    };
 
-		const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, pcvDoorExercise$ } = this.competencyState;
+    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, pcvDoorExercise$ } = this.competencyState;
 
-		const merged$ = merge(
-			isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-			isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-			isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-			pcvDoorExercise$.pipe(map((toggle) => (this.pcvDoorExercise = toggle)))
-		).pipe(tap(this.canButtonRipple));
+    const merged$ = merge(
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      pcvDoorExercise$.pipe(map((toggle) => (this.pcvDoorExercise = toggle)))
+    ).pipe(tap(this.canButtonRipple));
 
-		this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-	}
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
+  }
 
-	ngOnDestroy(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	onTap = () => {
-		this.addOrRemoveFault();
-	};
+  onTap = () => {
+    this.addOrRemoveFault();
+  };
 
-	onPress = () => {
-		this.addOrRemoveFault(true);
-	};
+  onPress = () => {
+    this.addOrRemoveFault(true);
+  };
 
-	canButtonRipple = (): void => {
-		if (this.isRemoveFaultMode) {
-			if (this.hasDangerousFault() && this.isDangerousMode) {
-				this.allowRipple = true;
-				return;
-			}
+  canButtonRipple = (): void => {
+    if (this.isRemoveFaultMode) {
+      if (this.hasDangerousFault() && this.isDangerousMode) {
+        this.allowRipple = true;
+        return;
+      }
 
-			if (this.hasSeriousFault() && this.isSeriousMode) {
-				this.allowRipple = true;
-				return;
-			}
+      if (this.hasSeriousFault() && this.isSeriousMode) {
+        this.allowRipple = true;
+        return;
+      }
 
-			if (!this.isSeriousMode && !this.isDangerousMode && this.hasDrivingFault()) {
-				this.allowRipple = true;
-				return;
-			}
-			this.allowRipple = false;
-		} else {
-			if (this.hasDangerousFault()) {
-				this.allowRipple = false;
-				return;
-			}
+      if (!this.isSeriousMode && !this.isDangerousMode && this.hasDrivingFault()) {
+        this.allowRipple = true;
+        return;
+      }
+      this.allowRipple = false;
+    } else {
+      if (this.hasDangerousFault()) {
+        this.allowRipple = false;
+        return;
+      }
 
-			if (this.isDangerousMode) {
-				this.allowRipple = true;
-				return;
-			}
+      if (this.isDangerousMode) {
+        this.allowRipple = true;
+        return;
+      }
 
-			if (this.hasSeriousFault()) {
-				this.allowRipple = false;
-				return;
-			}
+      if (this.hasSeriousFault()) {
+        this.allowRipple = false;
+        return;
+      }
 
-			if (this.isSeriousMode) {
-				this.allowRipple = true;
-				return;
-			}
-			this.allowRipple = true;
-		}
-	};
+      if (this.isSeriousMode) {
+        this.allowRipple = true;
+        return;
+      }
+      this.allowRipple = true;
+    }
+  };
 
-	addOrRemoveFault = (wasPress = false): void => {
-		if (this.isRemoveFaultMode) {
-			this.removeFault();
-		} else {
-			this.addFault(wasPress);
-		}
-	};
+  addOrRemoveFault = (wasPress = false): void => {
+    if (this.isRemoveFaultMode) {
+      this.removeFault();
+    } else {
+      this.addFault(wasPress);
+    }
+  };
 
-	addFault = (wasPress: boolean): void => {
-		if (this.hasDangerousFault()) {
-			return;
-		}
+  addFault = (wasPress: boolean): void => {
+    if (this.hasDangerousFault()) {
+      return;
+    }
 
-		if (this.isDangerousMode) {
-			this.store$.dispatch(PcvDoorExerciseAddDangerousFault());
-			this.store$.dispatch(ToggleDangerousFaultMode());
-			return;
-		}
+    if (this.isDangerousMode) {
+      this.store$.dispatch(PcvDoorExerciseAddDangerousFault());
+      this.store$.dispatch(ToggleDangerousFaultMode());
+      return;
+    }
 
-		if (this.hasSeriousFault()) {
-			return;
-		}
+    if (this.hasSeriousFault()) {
+      return;
+    }
 
-		if (this.isSeriousMode) {
-			this.store$.dispatch(PcvDoorExerciseAddSeriousFault());
-			this.store$.dispatch(ToggleSeriousFaultMode());
-			return;
-		}
+    if (this.isSeriousMode) {
+      this.store$.dispatch(PcvDoorExerciseAddSeriousFault());
+      this.store$.dispatch(ToggleSeriousFaultMode());
+      return;
+    }
 
-		if (wasPress) {
-			this.store$.dispatch(PcvDoorExerciseAddDrivingFault());
-		}
-	};
+    if (wasPress) {
+      this.store$.dispatch(PcvDoorExerciseAddDrivingFault());
+    }
+  };
 
-	removeFault = (): void => {
-		if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
-			this.store$.dispatch(PcvDoorExerciseRemoveDangerousFault());
-			this.store$.dispatch(ToggleDangerousFaultMode());
-			this.store$.dispatch(ToggleRemoveFaultMode());
-			return;
-		}
+  removeFault = (): void => {
+    if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(PcvDoorExerciseRemoveDangerousFault());
+      this.store$.dispatch(ToggleDangerousFaultMode());
+      this.store$.dispatch(ToggleRemoveFaultMode());
+      return;
+    }
 
-		if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
-			this.store$.dispatch(PcvDoorExerciseRemoveSeriousFault());
-			this.store$.dispatch(ToggleSeriousFaultMode());
-			this.store$.dispatch(ToggleRemoveFaultMode());
+    if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(PcvDoorExerciseRemoveSeriousFault());
+      this.store$.dispatch(ToggleSeriousFaultMode());
+      this.store$.dispatch(ToggleRemoveFaultMode());
 
-			return;
-		}
-		if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.hasDrivingFault()) {
-			this.store$.dispatch(PcvDoorExerciseRemoveDrivingFault());
-			this.store$.dispatch(ToggleRemoveFaultMode());
-		}
-	};
+      return;
+    }
+    if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.hasDrivingFault()) {
+      this.store$.dispatch(PcvDoorExerciseRemoveDrivingFault());
+      this.store$.dispatch(ToggleRemoveFaultMode());
+    }
+  };
 
-	competencyHasFault = (): boolean => {
-		return this.hasDangerousFault() || this.hasSeriousFault() || this.hasDrivingFault();
-	};
+  competencyHasFault = (): boolean => {
+    return this.hasDangerousFault() || this.hasSeriousFault() || this.hasDrivingFault();
+  };
 
-	hasDrivingFault = (): boolean => {
-		return get(this.pcvDoorExercise, 'drivingFault', false);
-	};
+  hasDrivingFault = (): boolean => {
+    return get(this.pcvDoorExercise, 'drivingFault', false);
+  };
 
-	hasSeriousFault = (): boolean => {
-		return get(this.pcvDoorExercise, 'seriousFault', false);
-	};
+  hasSeriousFault = (): boolean => {
+    return get(this.pcvDoorExercise, 'seriousFault', false);
+  };
 
-	hasDangerousFault = (): boolean => {
-		return get(this.pcvDoorExercise, 'dangerousFault', false);
-	};
+  hasDangerousFault = (): boolean => {
+    return get(this.pcvDoorExercise, 'dangerousFault', false);
+  };
 }

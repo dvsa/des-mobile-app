@@ -6,29 +6,29 @@ import { testSlotsAttributesReducer } from '../test-slot-attributes.reducer';
 const testTime = new DateTime().toString();
 
 describe('testSlotAttributes reducer', () => {
-	const mockTestSlotAttributes: TestSlotAttributes = {
-		slotId: 1234,
-		specialNeeds: true,
-		start: testTime,
-		vehicleTypeCode: 'C',
-		extendedTest: true,
-		welshTest: null,
-	};
+  const mockTestSlotAttributes: TestSlotAttributes = {
+    slotId: 1234,
+    specialNeeds: true,
+    start: testTime,
+    vehicleTypeCode: 'C',
+    extendedTest: true,
+    welshTest: null,
+  };
 
-	it('should return the testSlotAttributes for populate test centre actions', () => {
-		const result = testSlotsAttributesReducer(null, PopulateTestSlotAttributes(mockTestSlotAttributes));
-		expect(result).toBe(mockTestSlotAttributes);
-	});
+  it('should return the testSlotAttributes for populate test centre actions', () => {
+    const result = testSlotsAttributesReducer(null, PopulateTestSlotAttributes(mockTestSlotAttributes));
+    expect(result).toBe(mockTestSlotAttributes);
+  });
 
-	describe('SET_START_DATE', () => {
-		it('should return the testSlotAttributes with new start property', () => {
-			mockTestSlotAttributes.start = '2021-01-15T08:10:00.000Z';
-			const updatedDate = '2020-12-25T08:10:00.000Z';
-			const state = testSlotsAttributesReducer(null, PopulateTestSlotAttributes(mockTestSlotAttributes));
+  describe('SET_START_DATE', () => {
+    it('should return the testSlotAttributes with new start property', () => {
+      mockTestSlotAttributes.start = '2021-01-15T08:10:00.000Z';
+      const updatedDate = '2020-12-25T08:10:00.000Z';
+      const state = testSlotsAttributesReducer(null, PopulateTestSlotAttributes(mockTestSlotAttributes));
 
-			const result = testSlotsAttributesReducer(state, SetStartDate(updatedDate));
+      const result = testSlotsAttributesReducer(state, SetStartDate(updatedDate));
 
-			expect(result.start).toBe(updatedDate);
-		});
-	});
+      expect(result.start).toBe(updatedDate);
+    });
+  });
 });

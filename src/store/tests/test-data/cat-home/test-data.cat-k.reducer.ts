@@ -13,37 +13,37 @@ import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.re
 import { testRequirementsCatHomeReducer } from './test-requirements/test-requirements.cat-home.reducer';
 
 export const initialState: CatKUniqueTypes.TestData = {
-	dangerousFaults: {},
-	drivingFaults: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
-	controlledStop: {},
-	eyesightTest: {},
-	highwayCodeSafety: {},
-	vehicleChecks: {
-		tellMeQuestions: [],
-		showMeQuestions: [],
-	},
+  dangerousFaults: {},
+  drivingFaults: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
+  controlledStop: {},
+  eyesightTest: {},
+  highwayCodeSafety: {},
+  vehicleChecks: {
+    tellMeQuestions: [],
+    showMeQuestions: [],
+  },
 };
 
 export function testDataCatKReducer(
-	state: CatKUniqueTypes.TestData,
-	action: Action
+  state: CatKUniqueTypes.TestData,
+  action: Action
 ): Required<CatKUniqueTypes.TestData> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		vehicleChecks: vehicleChecksCatHomeReducer,
-		controlledStop: controlledStopReducer,
-		highwayCodeSafety: highwayCodeSafetyReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		eyesightTest: eyesightTestReducer,
-		testRequirements: testRequirementsCatHomeReducer,
-	})(state as Required<CatKUniqueTypes.TestData>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    vehicleChecks: vehicleChecksCatHomeReducer,
+    controlledStop: controlledStopReducer,
+    highwayCodeSafety: highwayCodeSafetyReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    eyesightTest: eyesightTestReducer,
+    testRequirements: testRequirementsCatHomeReducer,
+  })(state as Required<CatKUniqueTypes.TestData>, action);
 }
 
 export const getTestData = createFeatureSelector<CatKUniqueTypes.TestData>('testData');

@@ -15,47 +15,47 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
 
 @Injectable({
-	providedIn: 'root',
+  providedIn: 'root',
 })
 export class NonPassFinalisationResolver {
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	resolve(): Observable<[OutcomeBehaviourMapping, ActivityCodeModel[]]> {
-		return forkJoin([this.getBehaviourMap(), this.getActivityCodeList()]).pipe(
-			take(1),
-			catchError((err) => of(err))
-		);
-	}
+  resolve(): Observable<[OutcomeBehaviourMapping, ActivityCodeModel[]]> {
+    return forkJoin([this.getBehaviourMap(), this.getActivityCodeList()]).pipe(
+      take(1),
+      catchError((err) => of(err))
+    );
+  }
 
-	private getBehaviourMap(): Observable<OutcomeBehaviourMapping> {
-		return this.store$
-			.pipe(
-				select(getTests),
-				select(getCurrentTest),
-				select(getTestCategory),
-				map((testCategory) => getBehaviourMapByCategory(testCategory as TestCategory))
-			)
-			.pipe(
-				take(1),
-				catchError((err) => of(err))
-			);
-	}
+  private getBehaviourMap(): Observable<OutcomeBehaviourMapping> {
+    return this.store$
+      .pipe(
+        select(getTests),
+        select(getCurrentTest),
+        select(getTestCategory),
+        map((testCategory) => getBehaviourMapByCategory(testCategory as TestCategory))
+      )
+      .pipe(
+        take(1),
+        catchError((err) => of(err))
+      );
+  }
 
-	private getActivityCodeList(): Observable<ActivityCodeModel[]> {
-		return this.store$
-			.pipe(
-				select(getTests),
-				select(getCurrentTest),
-				map((test) =>
-					getActivityCodeOptions(
-						get(test, 'delegatedTest', false),
-						test.category === TestCategory.ADI3 || test.category === TestCategory.SC
-					)
-				)
-			)
-			.pipe(
-				take(1),
-				catchError((err) => of(err))
-			);
-	}
+  private getActivityCodeList(): Observable<ActivityCodeModel[]> {
+    return this.store$
+      .pipe(
+        select(getTests),
+        select(getCurrentTest),
+        map((test) =>
+          getActivityCodeOptions(
+            get(test, 'delegatedTest', false),
+            test.category === TestCategory.ADI3 || test.category === TestCategory.SC
+          )
+        )
+      )
+      .pipe(
+        take(1),
+        catchError((err) => of(err))
+      );
+  }
 }

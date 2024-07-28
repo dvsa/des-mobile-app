@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-	selector: 'date',
-	templateUrl: 'date.html',
-	styleUrls: ['date.scss'],
+  selector: 'date',
+  templateUrl: 'date.html',
+  styleUrls: ['date.scss'],
 })
 export class DateComponent {
-	@Input()
-	date: string;
+  @Input()
+  date: string;
 }

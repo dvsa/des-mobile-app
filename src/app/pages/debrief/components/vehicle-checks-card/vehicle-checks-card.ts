@@ -4,32 +4,32 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
-	selector: 'vehicle-checks-card',
-	templateUrl: 'vehicle-checks-card.html',
-	styleUrls: ['vehicle-checks-card.scss'],
+  selector: 'vehicle-checks-card',
+  templateUrl: 'vehicle-checks-card.html',
+  styleUrls: ['vehicle-checks-card.scss'],
 })
 export class VehicleChecksCardComponent implements OnInit {
-	@Input()
-	category: CategoryCode;
+  @Input()
+  category: CategoryCode;
 
-	@Input()
-	tellMeShowMeQuestions: QuestionResult[];
+  @Input()
+  tellMeShowMeQuestions: QuestionResult[];
 
-	ngOnInit(): void {
-		this.tellMeShowMeQuestions = this.tellMeShowMeQuestions.filter((result: QuestionResult) => 'outcome' in result);
-	}
+  ngOnInit(): void {
+    this.tellMeShowMeQuestions = this.tellMeShowMeQuestions.filter((result: QuestionResult) => 'outcome' in result);
+  }
 
-	questionHasFault = (result: QuestionResult): boolean => result.outcome !== CompetencyOutcome.P;
+  questionHasFault = (result: QuestionResult): boolean => result.outcome !== CompetencyOutcome.P;
 
-	isHomeTest(): boolean {
-		switch (this.category) {
-			case TestCategory.F:
-			case TestCategory.G:
-			case TestCategory.H:
-			case TestCategory.K:
-				return true;
-			default:
-				return false;
-		}
-	}
+  isHomeTest(): boolean {
+    switch (this.category) {
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return true;
+      default:
+        return false;
+    }
+  }
 }

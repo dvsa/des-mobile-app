@@ -9,45 +9,45 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { PracticeModeBanner } from '../practice-mode-banner';
 
 describe('PracticeModeBanner', () => {
-	let fixture: ComponentFixture<PracticeModeBanner>;
-	let component: PracticeModeBanner;
-	let router: Router;
+  let fixture: ComponentFixture<PracticeModeBanner>;
+  let component: PracticeModeBanner;
+  let router: Router;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [PracticeModeBanner],
-			imports: [
-				IonicModule,
-				RouterModule,
-				StoreModule.forRoot({
-					tests: () => ({
-						currentTest: { testCategory: TestCategory.B },
-						testStatus: {},
-						startedTests: {},
-					}),
-				}),
-			],
-			providers: [
-				{
-					provide: Router,
-					useClass: RouterMock,
-				},
-				CategoryWhitelistProvider,
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [PracticeModeBanner],
+      imports: [
+        IonicModule,
+        RouterModule,
+        StoreModule.forRoot({
+          tests: () => ({
+            currentTest: { testCategory: TestCategory.B },
+            testStatus: {},
+            startedTests: {},
+          }),
+        }),
+      ],
+      providers: [
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        CategoryWhitelistProvider,
+      ],
+    });
 
-		fixture = TestBed.createComponent(PracticeModeBanner);
-		router = TestBed.inject(Router);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(PracticeModeBanner);
+    router = TestBed.inject(Router);
+    component = fixture.componentInstance;
+  }));
 
-	describe('Class', () => {
-		describe('exitPracticeMode', () => {
-			it('should take the user back to the root page', async () => {
-				spyOn(router, 'navigate');
-				await component.exitPracticeMode();
-				expect(router.navigate).toHaveBeenCalled();
-			});
-		});
-	});
+  describe('Class', () => {
+    describe('exitPracticeMode', () => {
+      it('should take the user back to the root page', async () => {
+        spyOn(router, 'navigate');
+        await component.exitPracticeMode();
+        expect(router.navigate).toHaveBeenCalled();
+      });
+    });
+  });
 });

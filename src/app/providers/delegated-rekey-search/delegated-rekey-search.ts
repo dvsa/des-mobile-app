@@ -8,15 +8,15 @@ import { UrlProvider } from '../url/url';
 
 @Injectable()
 export class DelegatedRekeySearchProvider {
-	constructor(
-		private http: HttpClient,
-		private urlProvider: UrlProvider,
-		private appConfig: AppConfigProvider
-	) {}
+  constructor(
+    private http: HttpClient,
+    private urlProvider: UrlProvider,
+    private appConfig: AppConfigProvider
+  ) {}
 
-	getDelegatedExaminerBookingByAppRef(applicationReference: string): Observable<Object> {
-		return this.http
-			.get(this.urlProvider.getDelegatedExaminerSearchBookingUrl(applicationReference))
-			.pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
-	}
+  getDelegatedExaminerBookingByAppRef(applicationReference: string): Observable<Object> {
+    return this.http
+      .get(this.urlProvider.getDelegatedExaminerSearchBookingUrl(applicationReference))
+      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+  }
 }

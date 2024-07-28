@@ -9,22 +9,22 @@ import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class PassCertificatesAnalyticsEffects {
-	constructor(
-		private analytics: AnalyticsProvider,
-		private actions$: Actions
-	) {}
+  constructor(
+    private analytics: AnalyticsProvider,
+    private actions$: Actions
+  ) {}
 
-	passCertificatesView$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(PassCertificatedViewDidEnter),
-			switchMap(() => {
-				// TODO - MES-9495 - remove old analytics
-				this.analytics.setCurrentPage(AnalyticsScreenNames.PASS_CERTIFICATES);
+  passCertificatesView$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PassCertificatedViewDidEnter),
+      switchMap(() => {
+        // TODO - MES-9495 - remove old analytics
+        this.analytics.setCurrentPage(AnalyticsScreenNames.PASS_CERTIFICATES);
 
-				// GA4 Analytics
-				this.analytics.setGACurrentPage(AnalyticsScreenNames.PASS_CERTIFICATES);
-				return of(AnalyticRecorded());
-			})
-		)
-	);
+        // GA4 Analytics
+        this.analytics.setGACurrentPage(AnalyticsScreenNames.PASS_CERTIFICATES);
+        return of(AnalyticRecorded());
+      })
+    )
+  );
 }

@@ -18,40 +18,40 @@ import { etaReducer } from '../common/eta/eta.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
 
 export type TestDataManoeuvresUnion =
-	| CatCMUniqueTypes.TestData
-	| CatC1MUniqueTypes.TestData
-	| CatCEMUniqueTypes.TestData
-	| CatC1EMUniqueTypes.TestData
-	| CatDMUniqueTypes.TestData
-	| CatD1MUniqueTypes.TestData
-	| CatDEMUniqueTypes.TestData
-	| CatD1EMUniqueTypes.TestData;
+  | CatCMUniqueTypes.TestData
+  | CatC1MUniqueTypes.TestData
+  | CatCEMUniqueTypes.TestData
+  | CatC1EMUniqueTypes.TestData
+  | CatDMUniqueTypes.TestData
+  | CatD1MUniqueTypes.TestData
+  | CatDEMUniqueTypes.TestData
+  | CatD1EMUniqueTypes.TestData;
 
 export const initialState: TestDataManoeuvresUnion = {
-	uncoupleRecouple: {},
-	dangerousFaults: {},
-	drivingFaults: {},
-	manoeuvres: {},
-	seriousFaults: {},
-	testRequirements: {},
-	ETA: {},
-	eco: {},
+  uncoupleRecouple: {},
+  dangerousFaults: {},
+  drivingFaults: {},
+  manoeuvres: {},
+  seriousFaults: {},
+  testRequirements: {},
+  ETA: {},
+  eco: {},
 };
 
 export function testDataCatManoeuvresReducer(
-	state: TestDataManoeuvresUnion,
-	action: Action
+  state: TestDataManoeuvresUnion,
+  action: Action
 ): Required<TestDataManoeuvresUnion> {
-	return combineReducers({
-		drivingFaults: drivingFaultsReducer,
-		dangerousFaults: dangerousFaultsReducer,
-		seriousFaults: seriousFaultsReducer,
-		eco: ecoReducer,
-		ETA: etaReducer,
-		manoeuvres: manoeuvresCatManoeuvreReducer,
-		testRequirements: emptyObjReducer,
-		uncoupleRecouple: uncoupleRecoupleReducer,
-	})(state as Required<TestDataManoeuvresUnion>, action);
+  return combineReducers({
+    drivingFaults: drivingFaultsReducer,
+    dangerousFaults: dangerousFaultsReducer,
+    seriousFaults: seriousFaultsReducer,
+    eco: ecoReducer,
+    ETA: etaReducer,
+    manoeuvres: manoeuvresCatManoeuvreReducer,
+    testRequirements: emptyObjReducer,
+    uncoupleRecouple: uncoupleRecoupleReducer,
+  })(state as Required<TestDataManoeuvresUnion>, action);
 }
 
 export const getTestData = createFeatureSelector<TestDataManoeuvresUnion>('testData');

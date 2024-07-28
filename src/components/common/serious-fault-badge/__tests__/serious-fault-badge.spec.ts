@@ -3,32 +3,32 @@ import { By } from '@angular/platform-browser';
 import { SeriousFaultBadgeComponent } from '../serious-fault-badge';
 
 describe('SeriousFaultBadgeComponent', () => {
-	let fixture: ComponentFixture<SeriousFaultBadgeComponent>;
-	let component: SeriousFaultBadgeComponent;
+  let fixture: ComponentFixture<SeriousFaultBadgeComponent>;
+  let component: SeriousFaultBadgeComponent;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [SeriousFaultBadgeComponent],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SeriousFaultBadgeComponent],
+    });
 
-		fixture = TestBed.createComponent(SeriousFaultBadgeComponent);
-		component = fixture.componentInstance;
-	}));
+    fixture = TestBed.createComponent(SeriousFaultBadgeComponent);
+    component = fixture.componentInstance;
+  }));
 
-	describe('DOM', () => {
-		it('should display badge if showBadge is true', () => {
-			component.showBadge = true;
+  describe('DOM', () => {
+    it('should display badge if showBadge is true', () => {
+      component.showBadge = true;
 
-			fixture.detectChanges();
+      fixture.detectChanges();
 
-			expect(fixture.debugElement.query(By.css('.background'))).toBeDefined();
-		});
-		it('should not display badge if showBadge is false', () => {
-			component.showBadge = false;
+      expect(fixture.debugElement.query(By.css('.background'))).toBeDefined();
+    });
+    it('should not display badge if showBadge is false', () => {
+      component.showBadge = false;
 
-			fixture.detectChanges();
+      fixture.detectChanges();
 
-			expect(fixture.debugElement.query(By.css('.background'))).toBeNull();
-		});
-	});
+      expect(fixture.debugElement.query(By.css('.background'))).toBeNull();
+    });
+  });
 });

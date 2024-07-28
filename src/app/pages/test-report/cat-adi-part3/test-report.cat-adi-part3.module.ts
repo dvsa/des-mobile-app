@@ -18,19 +18,19 @@ import { TestReportCatADI3Page } from './test-report.cat-adi-part3.page';
 import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-part3.routing.module';
 
 @NgModule({
-	declarations: [TestReportCatADI3Page],
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		TestReportCatADIPart3PageRoutingModule,
-		TestReportCatADIPart3ComponentsModule,
-		TestReportCatCPCComponentsModule,
-		ComponentsModule,
-		StoreModule.forFeature('testReport', testReportReducer),
-		EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
-		TestReportComponentsModule,
-	],
-	providers: [TestReportValidatorProvider, TestResultProvider],
+  declarations: [TestReportCatADI3Page],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TestReportCatADIPart3PageRoutingModule,
+    TestReportCatADIPart3ComponentsModule,
+    TestReportCatCPCComponentsModule,
+    ComponentsModule,
+    StoreModule.forFeature('testReport', testReportReducer),
+    EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
+    TestReportComponentsModule,
+  ],
+  providers: [TestReportValidatorProvider, TestResultProvider],
 })
 export class TestReportCatADIPart3PageModule {}

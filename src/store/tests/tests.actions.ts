@@ -11,46 +11,46 @@ export const PersistTests = createAction('[Tests] Persist');
 export const LoadPersistedTests = createAction('[Tests] Load persisted');
 
 export const LoadPersistedTestsSuccess = createAction('[Tests] Load persisted success', (tests: TestsModel) => ({
-	tests,
+  tests,
 }));
 
 export const LoadPersistedTestsFailure = createAction('[Tests] Load persisted test failure');
 
 export const LoadRemoteTests = createAction('[Tests] Load remote tests', (tests: TestResultRehydration[]) => ({
-	tests,
+  tests,
 }));
 
 export const TestOutcomeChanged = createAction('[TestReportEffects] Test outcome changed', (outcome: string) => ({
-	outcome,
+  outcome,
 }));
 
 export const StartTest = createAction(
-	'[Tests] Start Test',
-	(slotId: number, category: TestCategory, rekey = false, delegatedTest = false, startDate: string = null) => ({
-		slotId,
-		category,
-		rekey,
-		delegatedTest,
-		startDate,
-	})
+  '[Tests] Start Test',
+  (slotId: number, category: TestCategory, rekey = false, delegatedTest = false, startDate: string = null) => ({
+    slotId,
+    category,
+    rekey,
+    delegatedTest,
+    startDate,
+  })
 );
 
 // Differs from START_TEST in that it won't trigger the journal -> test state copy effect
 export const ActivateTest = createAction(
-	'[Tests] Activate Test',
-	(slotId: number, category: TestCategory, rekey = false) => ({
-		slotId,
-		category,
-		rekey,
-	})
+  '[Tests] Activate Test',
+  (slotId: number, category: TestCategory, rekey = false) => ({
+    slotId,
+    category,
+    rekey,
+  })
 );
 
 export const StartTestReportPracticeTest = createAction(
-	'[Tests] Start practice test',
-	(slotId: number | string, category: TestCategory = TestCategory.B) => ({
-		slotId,
-		category,
-	})
+  '[Tests] Start practice test',
+  (slotId: number | string, category: TestCategory = TestCategory.B) => ({
+    slotId,
+    category,
+  })
 );
 
 export const StartSendingCompletedTests = createAction('[TestsEffects] Start Sending Completed Test');
@@ -60,21 +60,21 @@ export const SendCompletedTests = createAction('[TestsEffects] Send Completed Te
 export const StopSendingCompletedTests = createAction('[TestsEffects] Stop Sending Completed Tests');
 
 export const SendCompletedTestSuccess = createAction(
-	'[TestsEffects] Send Completed Tests Success',
-	(payload: string, testStatus: TestStatus) => ({
-		payload,
-		testStatus,
-	})
+  '[TestsEffects] Send Completed Tests Success',
+  (payload: string, testStatus: TestStatus) => ({
+    payload,
+    testStatus,
+  })
 );
 
 export const SendCompletedTestsFailure = createAction('[TestsEffects] Send Completed Tests Failure');
 
 export const SendPartialTestSuccess = createAction(
-	'[TestsEffects] Send Partial Tests Success',
-	(payload: string, testStatus: TestStatus) => ({
-		payload,
-		testStatus,
-	})
+  '[TestsEffects] Send Partial Tests Success',
+  (payload: string, testStatus: TestStatus) => ({
+    payload,
+    testStatus,
+  })
 );
 
 export const SendPartialTestsFailure = createAction('[TestsEffects] Send Partial Tests Failure');
@@ -88,26 +88,26 @@ export const SendCompletedNoneSent = createAction('[Tests] No completed tests se
 export const SendCurrentTestFailure = createAction('[Tests] Send Test Failure', (failure: boolean) => ({ failure }));
 
 const actions = union({
-	UnloadTests,
-	PersistTests,
-	LoadRemoteTests,
-	LoadPersistedTests,
-	LoadPersistedTestsSuccess,
-	LoadPersistedTestsFailure,
-	TestOutcomeChanged,
-	StartTest,
-	ActivateTest,
-	StartTestReportPracticeTest,
-	StartSendingCompletedTests,
-	SendCompletedTests,
-	SendCompletedTestSuccess,
-	SendCompletedTestsFailure,
-	SendCurrentTest,
-	SendCurrentTestSuccess,
-	SendCurrentTestFailure,
-	SendPartialTestSuccess,
-	SendPartialTestsFailure,
-	SendCompletedNoneSent,
+  UnloadTests,
+  PersistTests,
+  LoadRemoteTests,
+  LoadPersistedTests,
+  LoadPersistedTestsSuccess,
+  LoadPersistedTestsFailure,
+  TestOutcomeChanged,
+  StartTest,
+  ActivateTest,
+  StartTestReportPracticeTest,
+  StartSendingCompletedTests,
+  SendCompletedTests,
+  SendCompletedTestSuccess,
+  SendCompletedTestsFailure,
+  SendCurrentTest,
+  SendCurrentTestSuccess,
+  SendCurrentTestFailure,
+  SendPartialTestSuccess,
+  SendPartialTestsFailure,
+  SendCompletedNoneSent,
 });
 
 export type TestActionsTypes = typeof actions;

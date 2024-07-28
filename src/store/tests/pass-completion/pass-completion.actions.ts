@@ -1,8 +1,8 @@
 import { createAction } from '@ngrx/store';
 
 export const PassCertificateNumberChanged = createAction(
-	'[Pass Completion] Pass certificate number changed',
-	(passCertificateNumber: string) => ({ passCertificateNumber })
+  '[Pass Completion] Pass certificate number changed',
+  (passCertificateNumber: string) => ({ passCertificateNumber })
 );
 
 export const ProvisionalLicenseReceived = createAction('[Pass Completion] Provisional license received');

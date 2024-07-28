@@ -6,11 +6,11 @@ import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
  * @param sourcePage
  */
 export function mapAnalyticsScreenName(sourcePage: string): AnalyticsScreenNames {
-	const screenName = {
-		JournalPage: AnalyticsScreenNames.JOURNAL,
-		TestCentreJournalPage: AnalyticsScreenNames.TEST_CENTRE_JOURNAL,
-		RekeySearchPage: AnalyticsScreenNames.REKEY_SEARCH,
-	} as Record<PageNameKeys, AnalyticsScreenNames>;
+  const screenName = {
+    JournalPage: AnalyticsScreenNames.JOURNAL,
+    TestCentreJournalPage: AnalyticsScreenNames.TEST_CENTRE_JOURNAL,
+    RekeySearchPage: AnalyticsScreenNames.REKEY_SEARCH,
+  } as Record<PageNameKeys, AnalyticsScreenNames>;
 
-	return screenName[sourcePage] || '';
+  return screenName[sourcePage] || '';
 }

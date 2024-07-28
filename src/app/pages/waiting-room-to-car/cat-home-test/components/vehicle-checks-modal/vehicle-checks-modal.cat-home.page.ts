@@ -15,15 +15,15 @@ import { getCandidate } from '@store/tests/journal-data/cat-home/candidate/candi
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-h.reducer';
 import {
-	ShowMeQuestionOutcomeChanged,
-	ShowMeQuestionSelected,
-	TellMeQuestionOutcomeChanged,
-	TellMeQuestionSelected,
+  ShowMeQuestionOutcomeChanged,
+  ShowMeQuestionSelected,
+  TellMeQuestionOutcomeChanged,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
 import {
-	getSelectedShowMeQuestions,
-	getSelectedTellMeQuestions,
-	getVehicleChecksCatHomeTest,
+  getSelectedShowMeQuestions,
+  getSelectedTellMeQuestions,
+  getVehicleChecksCatHomeTest,
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -32,103 +32,103 @@ import { map } from 'rxjs/operators';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-home.actions';
 
 interface VehicleChecksModalCatHomeTestState {
-	candidateName$: Observable<string>;
-	showMeQuestions$: Observable<QuestionResult[]>;
-	tellMeQuestions$: Observable<QuestionResult[]>;
-	vehicleChecksScore$: Observable<VehicleChecksScore>;
+  candidateName$: Observable<string>;
+  showMeQuestions$: Observable<QuestionResult[]>;
+  tellMeQuestions$: Observable<QuestionResult[]>;
+  vehicleChecksScore$: Observable<VehicleChecksScore>;
 }
 
 @Component({
-	selector: 'vehicle-checks-modal-cat-home-test',
-	templateUrl: 'vehicle-checks-modal.cat-home.page.html',
-	styleUrls: ['vehicle-checks-modal.cat-home.page.scss'],
+  selector: 'vehicle-checks-modal-cat-home-test',
+  templateUrl: 'vehicle-checks-modal.cat-home.page.html',
+  styleUrls: ['vehicle-checks-modal.cat-home.page.scss'],
 })
 export class VehicleChecksCatHomeTestModal {
-	pageState: VehicleChecksModalCatHomeTestState;
-	formGroup: UntypedFormGroup;
-	showMeQuestions: VehicleChecksQuestion[];
-	tellMeQuestions: VehicleChecksQuestion[];
-	category: TestCategory;
-	submitClicked: boolean;
-	readonly showMeQuestionsNumberArray: number[] = Array(NUMBER_OF_SHOW_ME_QUESTIONS);
-	readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
-	vehicleChecksScore: VehicleChecksScore;
-	subscription: Subscription;
+  pageState: VehicleChecksModalCatHomeTestState;
+  formGroup: UntypedFormGroup;
+  showMeQuestions: VehicleChecksQuestion[];
+  tellMeQuestions: VehicleChecksQuestion[];
+  category: TestCategory;
+  submitClicked: boolean;
+  readonly showMeQuestionsNumberArray: number[] = Array(NUMBER_OF_SHOW_ME_QUESTIONS);
+  readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
+  vehicleChecksScore: VehicleChecksScore;
+  subscription: Subscription;
 
-	constructor(
-		public store$: Store<StoreModel>,
-		public modalCtrl: ModalController,
-		private faultCountProvider: FaultCountProvider,
-		private questionProvider: QuestionProvider,
-		params: NavParams
-	) {
-		this.category = params.get('category');
-		this.submitClicked = params.get('submitClicked');
-		this.formGroup = new UntypedFormGroup({});
-		this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
-		this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
-	}
+  constructor(
+    public store$: Store<StoreModel>,
+    public modalCtrl: ModalController,
+    private faultCountProvider: FaultCountProvider,
+    private questionProvider: QuestionProvider,
+    params: NavParams
+  ) {
+    this.category = params.get('category');
+    this.submitClicked = params.get('submitClicked');
+    this.formGroup = new UntypedFormGroup({});
+    this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
+  }
 
-	ngOnInit(): void {
-		const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+  ngOnInit(): void {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-		this.pageState = {
-			candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-			showMeQuestions$: currentTest$.pipe(
-				select(getTestData),
-				select(getVehicleChecksCatHomeTest),
-				select(getSelectedShowMeQuestions)
-			),
-			tellMeQuestions$: currentTest$.pipe(
-				select(getTestData),
-				select(getVehicleChecksCatHomeTest),
-				select(getSelectedTellMeQuestions)
-			),
-			vehicleChecksScore$: currentTest$.pipe(
-				select(getTestData),
-				select(getVehicleChecksCatHomeTest),
-				map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks))
-			),
-		};
+    this.pageState = {
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
+      showMeQuestions$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatHomeTest),
+        select(getSelectedShowMeQuestions)
+      ),
+      tellMeQuestions$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatHomeTest),
+        select(getSelectedTellMeQuestions)
+      ),
+      vehicleChecksScore$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatHomeTest),
+        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks))
+      ),
+    };
 
-		const { vehicleChecksScore$ } = this.pageState;
+    const { vehicleChecksScore$ } = this.pageState;
 
-		const merged$ = merge(vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))));
+    const merged$ = merge(vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))));
 
-		this.subscription = merged$.subscribe();
-	}
+    this.subscription = merged$.subscribe();
+  }
 
-	ionViewDidLeave(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	ionViewDidEnter() {
-		this.store$.dispatch(vehicleChecksModalActions.VehicleChecksViewDidEnter());
-	}
+  ionViewDidEnter() {
+    this.store$.dispatch(vehicleChecksModalActions.VehicleChecksViewDidEnter());
+  }
 
-	async onClose() {
-		await this.modalCtrl.dismiss();
-	}
+  async onClose() {
+    await this.modalCtrl.dismiss();
+  }
 
-	async onSubmit() {
-		await this.modalCtrl.dismiss();
-	}
+  async onSubmit() {
+    await this.modalCtrl.dismiss();
+  }
 
-	showMeQuestionChanged(result: QuestionResult, index: number): void {
-		this.store$.dispatch(ShowMeQuestionSelected(result, index));
-	}
+  showMeQuestionChanged(result: QuestionResult, index: number): void {
+    this.store$.dispatch(ShowMeQuestionSelected(result, index));
+  }
 
-	showMeQuestionOutcomeChanged(result: QuestionOutcome, index: number): void {
-		this.store$.dispatch(ShowMeQuestionOutcomeChanged(result, index));
-	}
+  showMeQuestionOutcomeChanged(result: QuestionOutcome, index: number): void {
+    this.store$.dispatch(ShowMeQuestionOutcomeChanged(result, index));
+  }
 
-	tellMeQuestionChanged(result: QuestionResult, index: number): void {
-		this.store$.dispatch(TellMeQuestionSelected(result, index));
-	}
+  tellMeQuestionChanged(result: QuestionResult, index: number): void {
+    this.store$.dispatch(TellMeQuestionSelected(result, index));
+  }
 
-	tellMeQuestionOutcomeChanged(result: QuestionOutcome, index: number): void {
-		this.store$.dispatch(TellMeQuestionOutcomeChanged(result, index));
-	}
+  tellMeQuestionOutcomeChanged(result: QuestionOutcome, index: number): void {
+    this.store$.dispatch(TellMeQuestionOutcomeChanged(result, index));
+  }
 }

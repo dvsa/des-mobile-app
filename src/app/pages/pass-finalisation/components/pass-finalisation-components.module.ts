@@ -11,20 +11,20 @@ import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/li
 import { PassCertificateNumberComponent } from './pass-certificate-number/pass-certificate-number';
 
 @NgModule({
-	declarations: [
-		LicenseProvidedComponent,
-		PassCertificateNumberComponent,
-		Code78Component,
-		LicenceProvidedWarningBannerComponent,
-		ApplicationReferenceComponent,
-	],
-	imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
-	exports: [
-		LicenseProvidedComponent,
-		PassCertificateNumberComponent,
-		Code78Component,
-		LicenceProvidedWarningBannerComponent,
-		ApplicationReferenceComponent,
-	],
+  declarations: [
+    LicenseProvidedComponent,
+    PassCertificateNumberComponent,
+    Code78Component,
+    LicenceProvidedWarningBannerComponent,
+    ApplicationReferenceComponent,
+  ],
+  imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
+  exports: [
+    LicenseProvidedComponent,
+    PassCertificateNumberComponent,
+    Code78Component,
+    LicenceProvidedWarningBannerComponent,
+    ApplicationReferenceComponent,
+  ],
 })
 export class PassFinalisationComponentsModule {}

@@ -4,32 +4,32 @@ import { PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
 import { isNil } from 'lodash-es';
 
 @Component({
-	selector: 'personal-commitment',
-	templateUrl: 'personal-commitment.html',
-	styleUrls: ['personal-commitment.scss'],
+  selector: 'personal-commitment',
+  templateUrl: 'personal-commitment.html',
+  styleUrls: ['personal-commitment.scss'],
 })
 export class PersonalCommitmentSlotComponent implements SlotComponent {
-	@Input()
-	slot: TestSlot;
+  @Input()
+  slot: TestSlot;
 
-	@Input()
-	hasSlotChanged: boolean;
+  @Input()
+  hasSlotChanged: boolean;
 
-	@Input()
-	showLocation: boolean;
+  @Input()
+  showLocation: boolean;
 
-	@Input()
-	personalCommitments: PersonalCommitment[];
+  @Input()
+  personalCommitments: PersonalCommitment[];
 
-	formatActivityCode(activityCode: any): string {
-		if (isNil(activityCode)) {
-			return '0';
-		}
-		// Remove leading zeros (e.g. 089 -> 89)
-		return activityCode.toString().replace(/^0+(?!$)/, '');
-	}
+  formatActivityCode(activityCode: any): string {
+    if (isNil(activityCode)) {
+      return '0';
+    }
+    // Remove leading zeros (e.g. 089 -> 89)
+    return activityCode.toString().replace(/^0+(?!$)/, '');
+  }
 
-	transformSlotTime(time: string, index: number) {
-		return index === 0 ? time : null;
-	}
+  transformSlotTime(time: string, index: number) {
+    return index === 0 ? time : null;
+  }
 }

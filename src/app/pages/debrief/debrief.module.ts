@@ -18,19 +18,19 @@ import { DebriefPage } from './debrief.page';
 import { DebriefPageRoutingModule } from './debrief.routing.module';
 
 @NgModule({
-	imports: [
-		DebriefComponentsModule,
-		ComponentsModule,
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		DebriefPageRoutingModule,
-		TranslateModule,
-		EffectsModule.forFeature([DebriefEffects, DebriefAnalyticsEffects]),
-		ViewTestResultComponentsModule,
-		DirectivesModule,
-	],
-	declarations: [DebriefPage],
-	providers: [FaultSummaryProvider],
+  imports: [
+    DebriefComponentsModule,
+    ComponentsModule,
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    DebriefPageRoutingModule,
+    TranslateModule,
+    EffectsModule.forFeature([DebriefEffects, DebriefAnalyticsEffects]),
+    ViewTestResultComponentsModule,
+    DirectivesModule,
+  ],
+  declarations: [DebriefPage],
+  providers: [FaultSummaryProvider],
 })
 export class DebriefPageModule {}

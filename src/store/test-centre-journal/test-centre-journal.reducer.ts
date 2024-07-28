@@ -5,15 +5,15 @@ import { TestCentreJournalModel } from './test-centre-journal.model';
 export const testCentreJournalFeatureKey = 'testCentreJournal';
 
 export const initialState: TestCentreJournalModel = {
-	lastRefreshed: null,
+  lastRefreshed: null,
 };
 
 export const testCentreJournalReducer = createReducer(
-	initialState,
-	on(SetLastRefreshed, (state: TestCentreJournalModel, { lastRefreshed }) => ({
-		...state,
-		lastRefreshed,
-	}))
+  initialState,
+  on(SetLastRefreshed, (state: TestCentreJournalModel, { lastRefreshed }) => ({
+    ...state,
+    lastRefreshed,
+  }))
 );
 
 export const getTestCentreJournalState = createFeatureSelector<TestCentreJournalModel>('testCentreJournal');

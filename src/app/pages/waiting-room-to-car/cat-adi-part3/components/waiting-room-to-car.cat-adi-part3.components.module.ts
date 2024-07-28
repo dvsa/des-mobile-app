@@ -12,15 +12,15 @@ import { TraineeLicenceComponent } from '@pages/waiting-room-to-car/cat-adi-part
 import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-to-car.components.module';
 
 @NgModule({
-	declarations: [TraineeLicenceComponent, AccompanimentCardADI3Component, DualControlsComponent, PDILogbookComponent],
-	imports: [
-		CommonModule,
-		ComponentsModule,
-		IonicModule,
-		DirectivesModule,
-		WaitingRoomToCarComponentsModule,
-		ReactiveFormsModule,
-	],
-	exports: [DualControlsComponent, PDILogbookComponent, TraineeLicenceComponent, AccompanimentCardADI3Component],
+  declarations: [TraineeLicenceComponent, AccompanimentCardADI3Component, DualControlsComponent, PDILogbookComponent],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonicModule,
+    DirectivesModule,
+    WaitingRoomToCarComponentsModule,
+    ReactiveFormsModule,
+  ],
+  exports: [DualControlsComponent, PDILogbookComponent, TraineeLicenceComponent, AccompanimentCardADI3Component],
 })
 export class WaitingRoomToCarCatADIPart3ComponentsModule {}

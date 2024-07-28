@@ -29,89 +29,89 @@ import { MockComponent } from 'ng-mocks';
 import { AppModule } from 'src/app/app.module';
 
 describe('OfficeCatADI3Page', () => {
-	let fixture: ComponentFixture<OfficeCatADI3Page>;
-	let component: OfficeCatADI3Page;
-	let store$: Store<StoreModel>;
+  let fixture: ComponentFixture<OfficeCatADI3Page>;
+  let component: OfficeCatADI3Page;
+  let store$: Store<StoreModel>;
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			declarations: [
-				OfficeCatADI3Page,
-				MockComponent(OfficeFooterComponent),
-				MockComponent(AdditionalInformationComponent),
-				MockComponent(CandidateSectionComponent),
-			],
-			imports: [
-				PipesModule,
-				IonicModule,
-				AppModule,
-				ComponentsModule,
-				StoreModule.forRoot({
-					tests: () => ({
-						currentTest: {
-							slotId: '123',
-						},
-						testStatus: {},
-						startedTests: {
-							123: {
-								category: TestCategory.SC,
-								accompaniment: {},
-								testData: {},
-								activityCode: '28',
-								journalData: {
-									candidate: {
-										candidateName: {},
-										driverNumber: '123',
-									},
-								},
-								rekey: false,
-							} as TestResultCatADI3Schema,
-						},
-					}),
-				}),
-				ReactiveFormsModule,
-			],
-			providers: [
-				{ provide: Platform, useClass: PlatformMock },
-				{ provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-				{ provide: NavController, useClass: NavControllerMock },
-				{ provide: ToastController, useClass: ToastControllerMock },
-				{ provide: ModalController, useClass: ModalControllerMock },
-				{ provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },
-				{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
-				{ provide: DeviceProvider, useClass: DeviceProviderMock },
-				{ provide: TestResultProvider, useClass: TestResultProviderMock },
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        OfficeCatADI3Page,
+        MockComponent(OfficeFooterComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(CandidateSectionComponent),
+      ],
+      imports: [
+        PipesModule,
+        IonicModule,
+        AppModule,
+        ComponentsModule,
+        StoreModule.forRoot({
+          tests: () => ({
+            currentTest: {
+              slotId: '123',
+            },
+            testStatus: {},
+            startedTests: {
+              123: {
+                category: TestCategory.SC,
+                accompaniment: {},
+                testData: {},
+                activityCode: '28',
+                journalData: {
+                  candidate: {
+                    candidateName: {},
+                    driverNumber: '123',
+                  },
+                },
+                rekey: false,
+              } as TestResultCatADI3Schema,
+            },
+          }),
+        }),
+        ReactiveFormsModule,
+      ],
+      providers: [
+        { provide: Platform, useClass: PlatformMock },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: NavController, useClass: NavControllerMock },
+        { provide: ToastController, useClass: ToastControllerMock },
+        { provide: ModalController, useClass: ModalControllerMock },
+        { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },
+        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: TestResultProvider, useClass: TestResultProviderMock },
+      ],
+    });
 
-		fixture = TestBed.createComponent(OfficeCatADI3Page);
-		component = fixture.componentInstance;
-		store$ = TestBed.inject(Store);
-		spyOn(store$, 'dispatch');
-		spyOn(component.deviceProvider, 'disableSingleAppMode');
-	}));
+    fixture = TestBed.createComponent(OfficeCatADI3Page);
+    component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
+    spyOn(component.deviceProvider, 'disableSingleAppMode');
+  }));
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-	describe('ionViewWillEnter', () => {
-		it('should disable single app mode if it not in practice mode and isIos is true', async () => {
-			component.isPracticeMode = false;
-			spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-			spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-			spyOn(component.deviceProvider, 'disableSingleAppMode');
-			await component.ionViewWillEnter();
-			expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
-		});
-	});
+  describe('ionViewWillEnter', () => {
+    it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+      component.isPracticeMode = false;
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      await component.ionViewWillEnter();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+    });
+  });
 
-	describe('ngOnInit', () => {
-		it('should resolve state variables', () => {
-			component.ngOnInit();
-			component.pageState.isStandardsCheck$.subscribe((val) => {
-				expect(val).toEqual(true);
-			});
-		});
-	});
+  describe('ngOnInit', () => {
+    it('should resolve state variables', () => {
+      component.ngOnInit();
+      component.pageState.isStandardsCheck$.subscribe((val) => {
+        expect(val).toEqual(true);
+      });
+    });
+  });
 });

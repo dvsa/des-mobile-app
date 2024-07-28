@@ -19,91 +19,91 @@ import { VehicleChecksQuestion } from './vehicle-checks-question.model';
 
 @Injectable()
 export class QuestionProvider {
-	getTellMeQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
-		switch (testCategory) {
-			case TestCategory.ADI2:
-				return tellMeQuestionsCatAdiPart2Constants;
-			case TestCategory.B:
-				return tellMeQuestionsCatBConstants;
-			case TestCategory.C:
-			case TestCategory.C1:
-			case TestCategory.D:
-			case TestCategory.D1:
-				return tellMeQuestionsVocationalConstants;
-			case TestCategory.CE:
-			case TestCategory.C1E:
-			case TestCategory.DE:
-			case TestCategory.D1E:
-				return tellMeQuestionsVocationalTrailerConstants;
-			case TestCategory.K:
-			case TestCategory.F:
-			case TestCategory.G:
-			case TestCategory.H:
-				return tellMeQuestionsCatHomeTestConstants;
-			default:
-				return [];
-		}
-	}
+  getTellMeQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
+    switch (testCategory) {
+      case TestCategory.ADI2:
+        return tellMeQuestionsCatAdiPart2Constants;
+      case TestCategory.B:
+        return tellMeQuestionsCatBConstants;
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.D:
+      case TestCategory.D1:
+        return tellMeQuestionsVocationalConstants;
+      case TestCategory.CE:
+      case TestCategory.C1E:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return tellMeQuestionsVocationalTrailerConstants;
+      case TestCategory.K:
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+        return tellMeQuestionsCatHomeTestConstants;
+      default:
+        return [];
+    }
+  }
 
-	getShowMeQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
-		switch (testCategory) {
-			case TestCategory.ADI2:
-				return showMeQuestionsCatAdiPart2Constants;
-			case TestCategory.B:
-				return showMeQuestionsCatBConstants;
-			case TestCategory.C:
-			case TestCategory.C1:
-			case TestCategory.D:
-			case TestCategory.D1:
-				return showMeQuestionsVocationalConstants;
-			case TestCategory.CE:
-			case TestCategory.C1E:
-			case TestCategory.DE:
-			case TestCategory.D1E:
-				return showMeQuestionsVocationalTrailerConstants;
-			case TestCategory.K:
-			case TestCategory.F:
-			case TestCategory.G:
-			case TestCategory.H:
-				return showMeQuestionsCatHomeTestConstants;
-			default:
-				return [];
-		}
-	}
+  getShowMeQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
+    switch (testCategory) {
+      case TestCategory.ADI2:
+        return showMeQuestionsCatAdiPart2Constants;
+      case TestCategory.B:
+        return showMeQuestionsCatBConstants;
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.D:
+      case TestCategory.D1:
+        return showMeQuestionsVocationalConstants;
+      case TestCategory.CE:
+      case TestCategory.C1E:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return showMeQuestionsVocationalTrailerConstants;
+      case TestCategory.K:
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+        return showMeQuestionsCatHomeTestConstants;
+      default:
+        return [];
+    }
+  }
 
-	getSafetyQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
-		switch (testCategory) {
-			case TestCategory.EUA1M2:
-			case TestCategory.EUA2M2:
-			case TestCategory.EUAM2:
-			case TestCategory.EUAMM2:
-				return safetyQuestionsCatAMod2Constants;
-			default:
-				return [];
-		}
-	}
+  getSafetyQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
+    switch (testCategory) {
+      case TestCategory.EUA1M2:
+      case TestCategory.EUA2M2:
+      case TestCategory.EUAM2:
+      case TestCategory.EUAMM2:
+        return safetyQuestionsCatAMod2Constants;
+      default:
+        return [];
+    }
+  }
 
-	getBalanceQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
-		switch (testCategory) {
-			case TestCategory.EUA1M2:
-			case TestCategory.EUA2M2:
-			case TestCategory.EUAM2:
-			case TestCategory.EUAMM2:
-				return balanceQuestionsCatAMod2Constants;
-			default:
-				return [];
-		}
-	}
+  getBalanceQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
+    switch (testCategory) {
+      case TestCategory.EUA1M2:
+      case TestCategory.EUA2M2:
+      case TestCategory.EUAM2:
+      case TestCategory.EUAMM2:
+        return balanceQuestionsCatAMod2Constants;
+      default:
+        return [];
+    }
+  }
 
-	getVocationalSafetyQuestions(testCategory: TestCategory): SafetyQuestion[] {
-		switch (testCategory) {
-			case TestCategory.D:
-			case TestCategory.D1:
-			case TestCategory.DE:
-			case TestCategory.D1E:
-				return safetyQuestionsCatDConstants;
-			default:
-				return [];
-		}
-	}
+  getVocationalSafetyQuestions(testCategory: TestCategory): SafetyQuestion[] {
+    switch (testCategory) {
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return safetyQuestionsCatDConstants;
+      default:
+        return [];
+    }
+  }
 }

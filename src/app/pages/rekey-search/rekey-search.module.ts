@@ -20,17 +20,17 @@ import { RekeySearchEffects } from './rekey-search.effects';
 import { rekeySearchReducer } from './rekey-search.reducer';
 
 @NgModule({
-	declarations: [RekeySearchPage],
-	imports: [
-		StoreModule.forFeature('rekeySearch', rekeySearchReducer),
-		EffectsModule.forFeature([RekeySearchEffects, RekeySearchAnalyticsEffects]),
-		ComponentsModule,
-		CommonModule,
-		TestSlotComponentsModule,
-		IonicModule,
-		RekeySearchPageRoutingModule,
-		DirectivesModule,
-	],
-	providers: [OrientationMonitorProvider, RekeySearchProvider, SearchProvider, CompressionProvider, SlotProvider],
+  declarations: [RekeySearchPage],
+  imports: [
+    StoreModule.forFeature('rekeySearch', rekeySearchReducer),
+    EffectsModule.forFeature([RekeySearchEffects, RekeySearchAnalyticsEffects]),
+    ComponentsModule,
+    CommonModule,
+    TestSlotComponentsModule,
+    IonicModule,
+    RekeySearchPageRoutingModule,
+    DirectivesModule,
+  ],
+  providers: [OrientationMonitorProvider, RekeySearchProvider, SearchProvider, CompressionProvider, SlotProvider],
 })
 export class RekeySearchPageModule {}

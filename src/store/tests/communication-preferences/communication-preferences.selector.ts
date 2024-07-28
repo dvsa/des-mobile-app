@@ -3,10 +3,10 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import { get } from 'lodash-es';
 
 export const getCommunicationPreferenceUpdatedEmail = (communicationPreferences: CommunicationPreferences) =>
-	get(communicationPreferences, 'updatedEmail', '');
+  get(communicationPreferences, 'updatedEmail', '');
 
 export const getCommunicationPreferenceType = (communicationPreferences: CommunicationPreferences) =>
-	get(communicationPreferences, 'communicationMethod', '');
+  get(communicationPreferences, 'communicationMethod', '');
 
 export const getConductedLanguage = (communicationPreferences: CommunicationPreferences): Language =>
-	communicationPreferences.conductedLanguage as Language;
+  communicationPreferences.conductedLanguage as Language;

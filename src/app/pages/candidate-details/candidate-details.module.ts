@@ -9,14 +9,14 @@ import { CandidateDetailsComponentsModule } from '@pages/candidate-details/compo
 import { CandidateDetailsPage } from './candidate-details.page';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		ComponentsModule,
-		CandidateDetailsComponentsModule,
-		EffectsModule.forFeature([CandidateDetailsAnalyticsEffects]),
-	],
-	declarations: [CandidateDetailsPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ComponentsModule,
+    CandidateDetailsComponentsModule,
+    EffectsModule.forFeature([CandidateDetailsAnalyticsEffects]),
+  ],
+  declarations: [CandidateDetailsPage],
 })
 export class CandidateDetailsPageModule {}

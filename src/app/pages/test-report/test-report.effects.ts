@@ -13,18 +13,18 @@ import * as activityCodeActions from '@store/tests/activity-code/activity-code.a
 import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import {
-	LessonPlanningOverallScoreChanged,
-	LessonPlanningQuestionScoreChanged,
+  LessonPlanningOverallScoreChanged,
+  LessonPlanningQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import {
-	RiskManagementOverallScoreChanged,
-	RiskManagementQuestionScoreChanged,
+  RiskManagementOverallScoreChanged,
+  RiskManagementQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
 import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
 import {
-	TeachingLearningStrategiesOverallScoreChanged,
-	TeachingLearningStrategiesQuestionScoreChanged,
+  TeachingLearningStrategiesOverallScoreChanged,
+  TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { getTeachingLearningStrategies } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
@@ -48,152 +48,152 @@ import * as testReportActions from './test-report.actions';
 export type NeverType<T> = T extends null ? never : T;
 
 export type ScoreChangedActions =
-	| typeof LessonPlanningQuestionScoreChanged
-	| typeof RiskManagementQuestionScoreChanged
-	| typeof TeachingLearningStrategiesQuestionScoreChanged;
+  | typeof LessonPlanningQuestionScoreChanged
+  | typeof RiskManagementQuestionScoreChanged
+  | typeof TeachingLearningStrategiesQuestionScoreChanged;
 
 @Injectable()
 export class TestReportEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>,
-		private testResultProvider: TestResultProvider
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>,
+    private testResultProvider: TestResultProvider
+  ) {}
 
-	calculateTestResult$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(testReportActions.CalculateTestResult),
-			concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), map(getCurrentTest))))),
-			switchMap(
-				([, currentTest]: [
-					ReturnType<typeof testReportActions.CalculateTestResult>,
-					NeverType<TestResultCommonSchema>,
-				]) => {
-					return this.testResultProvider.calculateTestResult(currentTest.category, currentTest.testData).pipe(
-						switchMap((result: ActivityCode) => {
-							const actions: Action[] = [activityCodeActions.SetActivityCode(result)];
-							if (!isEmpty(currentTest.activityCode) && currentTest.activityCode !== result) {
-								const label = result === '1' ? 'fail to pass' : 'pass to fail';
-								actions.push(testsActions.TestOutcomeChanged(label));
-							}
+  calculateTestResult$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(testReportActions.CalculateTestResult),
+      concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), map(getCurrentTest))))),
+      switchMap(
+        ([, currentTest]: [
+          ReturnType<typeof testReportActions.CalculateTestResult>,
+          NeverType<TestResultCommonSchema>,
+        ]) => {
+          return this.testResultProvider.calculateTestResult(currentTest.category, currentTest.testData).pipe(
+            switchMap((result: ActivityCode) => {
+              const actions: Action[] = [activityCodeActions.SetActivityCode(result)];
+              if (!isEmpty(currentTest.activityCode) && currentTest.activityCode !== result) {
+                const label = result === '1' ? 'fail to pass' : 'pass to fail';
+                actions.push(testsActions.TestOutcomeChanged(label));
+              }
 
-							return actions;
-						})
-					);
-				}
-			)
-		)
-	);
+              return actions;
+            })
+          );
+        }
+      )
+    )
+  );
 
-	persistTestReport$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(
-				drivingFaultsActions.AddDrivingFault,
-				drivingFaultsActions.RemoveDrivingFault,
-				seriousFaultsActions.RemoveSeriousFault,
-				seriousFaultsActions.AddSeriousFault,
-				dangerousFaultsActions.AddDangerousFault,
-				dangerousFaultsActions.RemoveDangerousFault,
-				manoeuvresActions.RecordManoeuvresSelection,
-				manoeuvresActions.AddManoeuvreDrivingFault,
-				manoeuvresActions.AddManoeuvreSeriousFault,
-				manoeuvresActions.AddManoeuvreDangerousFault,
-				manoeuvresActions.RemoveManoeuvreFault,
-				manoeuvresActions.RecordManoeuvresDeselection,
-				uncoupleRecoupleActions.ToggleUncoupleRecouple,
-				uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault,
-				uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault,
-				uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault,
-				uncoupleRecoupleActions.UncoupleRecoupleRemoveFault,
-				controlledStopActions.ToggleControlledStop,
-				controlledStopActions.ControlledStopAddDrivingFault,
-				controlledStopActions.ControlledStopAddSeriousFault,
-				controlledStopActions.ControlledStopAddDangerousFault,
-				controlledStopActions.ControlledStopRemoveFault,
-				vehicleChecksActions.ShowMeQuestionPassed,
-				vehicleChecksActions.ShowMeQuestionDrivingFault,
-				vehicleChecksActions.ShowMeQuestionSeriousFault,
-				vehicleChecksActions.ShowMeQuestionDangerousFault,
-				vehicleChecksActions.ShowMeQuestionRemoveFault,
-				ecoActions.ToggleEco,
-				ecoActions.ToggleControlEco,
-				ecoActions.TogglePlanningEco,
-				etaActions.ToggleETA,
-				testRequirementsActions.ToggleLegalRequirement,
-				avoidanceActions.AddAvoidanceSeriousFault,
-				avoidanceActions.RemoveAvoidanceSeriousFault,
-				avoidanceActions.RecordAvoidanceFirstAttempt,
-				avoidanceActions.RecordAvoidanceSecondAttempt,
-				emergencyStopActions.AddEmergencyStopSeriousFault,
-				emergencyStopActions.RemoveEmergencyStopSeriousFault,
-				emergencyStopActions.RecordEmergencyStopFirstAttempt,
-				emergencyStopActions.RecordEmergencyStopSecondAttempt,
-				singleFaultCompetenciesActions.SetSingleFaultCompetencyOutcome,
-				singleFaultCompetenciesActions.RemoveSingleFaultCompetencyOutcome,
-				singleFaultCompetenciesActions.RemoveSingleSeriousFaultCompetencyOutcome,
-				singleFaultCompetenciesActions.RemoveSingleDangerousFaultCompetencyOutcome,
-				highwayCodeActions.HighwayCodeSafetyAddDrivingFault,
-				highwayCodeActions.HighwayCodeSafetyAddSeriousFault,
-				highwayCodeActions.HighwayCodeSafetyRemoveFault,
-				highwayCodeActions.ToggleHighwayCodeSafety
-			),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), map(isTestReportPracticeTest))))
-			),
-			filter(([, isTestReportPracticeTestValue]) => !isTestReportPracticeTestValue),
-			delay(1000), // Added a 1-second delay allowing other action to complete/effects to fire
-			map(() => testsActions.PersistTests())
-		)
-	);
+  persistTestReport$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        drivingFaultsActions.AddDrivingFault,
+        drivingFaultsActions.RemoveDrivingFault,
+        seriousFaultsActions.RemoveSeriousFault,
+        seriousFaultsActions.AddSeriousFault,
+        dangerousFaultsActions.AddDangerousFault,
+        dangerousFaultsActions.RemoveDangerousFault,
+        manoeuvresActions.RecordManoeuvresSelection,
+        manoeuvresActions.AddManoeuvreDrivingFault,
+        manoeuvresActions.AddManoeuvreSeriousFault,
+        manoeuvresActions.AddManoeuvreDangerousFault,
+        manoeuvresActions.RemoveManoeuvreFault,
+        manoeuvresActions.RecordManoeuvresDeselection,
+        uncoupleRecoupleActions.ToggleUncoupleRecouple,
+        uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault,
+        uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault,
+        uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault,
+        uncoupleRecoupleActions.UncoupleRecoupleRemoveFault,
+        controlledStopActions.ToggleControlledStop,
+        controlledStopActions.ControlledStopAddDrivingFault,
+        controlledStopActions.ControlledStopAddSeriousFault,
+        controlledStopActions.ControlledStopAddDangerousFault,
+        controlledStopActions.ControlledStopRemoveFault,
+        vehicleChecksActions.ShowMeQuestionPassed,
+        vehicleChecksActions.ShowMeQuestionDrivingFault,
+        vehicleChecksActions.ShowMeQuestionSeriousFault,
+        vehicleChecksActions.ShowMeQuestionDangerousFault,
+        vehicleChecksActions.ShowMeQuestionRemoveFault,
+        ecoActions.ToggleEco,
+        ecoActions.ToggleControlEco,
+        ecoActions.TogglePlanningEco,
+        etaActions.ToggleETA,
+        testRequirementsActions.ToggleLegalRequirement,
+        avoidanceActions.AddAvoidanceSeriousFault,
+        avoidanceActions.RemoveAvoidanceSeriousFault,
+        avoidanceActions.RecordAvoidanceFirstAttempt,
+        avoidanceActions.RecordAvoidanceSecondAttempt,
+        emergencyStopActions.AddEmergencyStopSeriousFault,
+        emergencyStopActions.RemoveEmergencyStopSeriousFault,
+        emergencyStopActions.RecordEmergencyStopFirstAttempt,
+        emergencyStopActions.RecordEmergencyStopSecondAttempt,
+        singleFaultCompetenciesActions.SetSingleFaultCompetencyOutcome,
+        singleFaultCompetenciesActions.RemoveSingleFaultCompetencyOutcome,
+        singleFaultCompetenciesActions.RemoveSingleSeriousFaultCompetencyOutcome,
+        singleFaultCompetenciesActions.RemoveSingleDangerousFaultCompetencyOutcome,
+        highwayCodeActions.HighwayCodeSafetyAddDrivingFault,
+        highwayCodeActions.HighwayCodeSafetyAddSeriousFault,
+        highwayCodeActions.HighwayCodeSafetyRemoveFault,
+        highwayCodeActions.ToggleHighwayCodeSafety
+      ),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), map(isTestReportPracticeTest))))
+      ),
+      filter(([, isTestReportPracticeTestValue]) => !isTestReportPracticeTestValue),
+      delay(1000), // Added a 1-second delay allowing other action to complete/effects to fire
+      map(() => testsActions.PersistTests())
+    )
+  );
 
-	terminateTestFromTestReport$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(testReportActions.TerminateTestFromTestReport),
-			map(() => activityCodeActions.SetActivityCode(null))
-		)
-	);
+  terminateTestFromTestReport$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(testReportActions.TerminateTestFromTestReport),
+      map(() => activityCodeActions.SetActivityCode(null))
+    )
+  );
 
-	assessmentOverallScore$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(
-				LessonPlanningQuestionScoreChanged,
-				RiskManagementQuestionScoreChanged,
-				TeachingLearningStrategiesQuestionScoreChanged
-			),
-			concatMap((action) =>
-				of(action).pipe(
-					withLatestFrom(
-						this.store$.pipe(select(getTests), map(getCurrentTest), select(getTestData), select(getLessonPlanning)),
-						this.store$.pipe(select(getTests), map(getCurrentTest), select(getTestData), select(getRiskManagement)),
-						this.store$.pipe(
-							select(getTests),
-							map(getCurrentTest),
-							select(getTestData),
-							select(getTeachingLearningStrategies)
-						)
-					)
-				)
-			),
-			concatMap(
-				([, lessonPlanning, riskManagement, teachingLearningStrategies]: [
-					ReturnType<ScoreChangedActions>,
-					LessonPlanning,
-					RiskManagement,
-					TeachingLearningStrategies,
-				]) => {
-					const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
-					const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');
-					const totalScoreTLS: number = sumObjectKeyValues<TeachingLearningStrategies>(
-						teachingLearningStrategies,
-						'score'
-					);
-					return of(
-						LessonPlanningOverallScoreChanged(totalScoreLP),
-						RiskManagementOverallScoreChanged(totalScoreRM),
-						TeachingLearningStrategiesOverallScoreChanged(totalScoreTLS)
-					);
-				}
-			)
-		)
-	);
+  assessmentOverallScore$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        LessonPlanningQuestionScoreChanged,
+        RiskManagementQuestionScoreChanged,
+        TeachingLearningStrategiesQuestionScoreChanged
+      ),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests), map(getCurrentTest), select(getTestData), select(getLessonPlanning)),
+            this.store$.pipe(select(getTests), map(getCurrentTest), select(getTestData), select(getRiskManagement)),
+            this.store$.pipe(
+              select(getTests),
+              map(getCurrentTest),
+              select(getTestData),
+              select(getTeachingLearningStrategies)
+            )
+          )
+        )
+      ),
+      concatMap(
+        ([, lessonPlanning, riskManagement, teachingLearningStrategies]: [
+          ReturnType<ScoreChangedActions>,
+          LessonPlanning,
+          RiskManagement,
+          TeachingLearningStrategies,
+        ]) => {
+          const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
+          const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');
+          const totalScoreTLS: number = sumObjectKeyValues<TeachingLearningStrategies>(
+            teachingLearningStrategies,
+            'score'
+          );
+          return of(
+            LessonPlanningOverallScoreChanged(totalScoreLP),
+            RiskManagementOverallScoreChanged(totalScoreRM),
+            TeachingLearningStrategiesOverallScoreChanged(totalScoreTLS)
+          );
+        }
+      )
+    )
+  );
 }

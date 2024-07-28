@@ -3,33 +3,33 @@ import { AfterContentInit, Component, ContentChildren, EventEmitter, Output, Que
 import { TabComponent } from '../tab/tab';
 
 @Component({
-	selector: 'tabs',
-	templateUrl: 'tabs.html',
-	styleUrls: ['tabs.scss'],
+  selector: 'tabs',
+  templateUrl: 'tabs.html',
+  styleUrls: ['tabs.scss'],
 })
 export class TabsComponent implements AfterContentInit {
-	@ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
+  @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-	@Output()
-	tabChanged = new EventEmitter<TabComponent>();
+  @Output()
+  tabChanged = new EventEmitter<TabComponent>();
 
-	ngAfterContentInit(): void {
-		const activeTabs = this.tabs.filter((tab) => tab.active);
+  ngAfterContentInit(): void {
+    const activeTabs = this.tabs.filter((tab) => tab.active);
 
-		if (activeTabs.length === 0) {
-			this.selectTab(this.tabs.first);
-		}
-	}
+    if (activeTabs.length === 0) {
+      this.selectTab(this.tabs.first);
+    }
+  }
 
-	selectTab(selectedTab: TabComponent, emitEvent = false): void {
-		this.tabs.toArray().forEach((tab) => {
-			tab.active = false;
-		});
+  selectTab(selectedTab: TabComponent, emitEvent = false): void {
+    this.tabs.toArray().forEach((tab) => {
+      tab.active = false;
+    });
 
-		selectedTab.active = true;
+    selectedTab.active = true;
 
-		if (emitEvent) {
-			this.tabChanged.emit(selectedTab);
-		}
-	}
+    if (emitEvent) {
+      this.tabChanged.emit(selectedTab);
+    }
+  }
 }

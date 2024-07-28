@@ -5,33 +5,33 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-	selector: 'driving-faults-debrief-card',
-	templateUrl: 'driving-faults-debrief-card.html',
-	styleUrls: ['driving-faults-debrief-card.scss'],
+  selector: 'driving-faults-debrief-card',
+  templateUrl: 'driving-faults-debrief-card.html',
+  styleUrls: ['driving-faults-debrief-card.scss'],
 })
 export class DrivingFaultsDebriefCardComponent {
-	@Input()
-	public drivingFaults: FaultSummary[];
+  @Input()
+  public drivingFaults: FaultSummary[];
 
-	@Input()
-	public drivingFaultCount: number;
+  @Input()
+  public drivingFaultCount: number;
 
-	@Input()
-	public testCategory: TestCategory;
+  @Input()
+  public testCategory: TestCategory;
 
-	drivingFaultsCardDescriptionSwitch(testCategory: TestCategory): string {
-		return `debrief.${getDrivingOrRidingLabel(testCategory)}FaultsCardDescription`;
-	}
+  drivingFaultsCardDescriptionSwitch(testCategory: TestCategory): string {
+    return `debrief.${getDrivingOrRidingLabel(testCategory)}FaultsCardDescription`;
+  }
 
-	isRider = (): boolean =>
-		isAnyOf(this.testCategory, [
-			TestCategory.EUA1M1,
-			TestCategory.EUA2M1,
-			TestCategory.EUAM1,
-			TestCategory.EUAMM1, // Cat Mod1
-			TestCategory.EUA1M2,
-			TestCategory.EUA2M2,
-			TestCategory.EUAM2,
-			TestCategory.EUAMM2, // Cat Mod2
-		]);
+  isRider = (): boolean =>
+    isAnyOf(this.testCategory, [
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1, // Cat Mod1
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2, // Cat Mod2
+    ]);
 }

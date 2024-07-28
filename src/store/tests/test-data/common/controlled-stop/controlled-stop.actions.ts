@@ -10,10 +10,10 @@ export const ControlledStopAddSeriousFault = createAction('[ControlledStop] Add 
 export const ControlledStopAddDangerousFault = createAction('[ControlledStop] Add Dangerous Fault');
 
 export const ControlledStopRemoveFault = createAction(
-	'[ControlledStop] Remove Fault',
-	(faultLevel: CompetencyOutcome) => ({ faultLevel })
+  '[ControlledStop] Remove Fault',
+  (faultLevel: CompetencyOutcome) => ({ faultLevel })
 );
 
 export const AddControlledStopComment = createAction('[ControlledStop] Add Comment', (comment: string) => ({
-	comment,
+  comment,
 }));

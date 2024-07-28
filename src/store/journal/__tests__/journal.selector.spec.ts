@@ -10,397 +10,397 @@ import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 import { JournalModel } from '../journal.model';
 import {
-	canNavigateToNextDay,
-	canNavigateToPreviousDay,
-	getError,
-	getIsLoading,
-	getLastRefreshed,
-	getLastRefreshedTime,
-	getPermittedSlotIdsBeforeToday,
-	getSlotsOnSelectedDate,
+  canNavigateToNextDay,
+  canNavigateToPreviousDay,
+  getError,
+  getIsLoading,
+  getLastRefreshed,
+  getLastRefreshedTime,
+  getPermittedSlotIdsBeforeToday,
+  getSlotsOnSelectedDate,
 } from '../journal.selector';
 
 class MockStore {}
 
 describe('JournalSelector', () => {
-	let slotProvider: SlotProvider;
+  let slotProvider: SlotProvider;
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [
-				SlotProvider,
-				{
-					provide: SlotProvider,
-					useClass: SlotProvider,
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProviderMock,
-				},
-				{
-					provide: DateTimeProvider,
-					useClass: DateTimeProviderMock,
-				},
-				{
-					provide: Store,
-					useClass: MockStore,
-				},
-			],
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        SlotProvider,
+        {
+          provide: SlotProvider,
+          useClass: SlotProvider,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: Store,
+          useClass: MockStore,
+        },
+      ],
+    });
 
-		slotProvider = TestBed.inject(SlotProvider);
-	});
+    slotProvider = TestBed.inject(SlotProvider);
+  });
 
-	const state: JournalModel = {
-		isLoading: true,
-		lastRefreshed: new Date(0),
-		slots: {
-			'2019-01-17': [
-				{
-					hasSlotChanged: false,
-					hasSeenCandidateDetails: false,
-					slotData: {},
-				},
-			],
-		},
-		error: {
-			message: 'something failed',
-			status: HttpStatusCode.NotFound,
-			statusText: 'HTTP 404',
-		},
-		selectedDate: '2019-01-17',
-		examiner: {
-			staffNumber: '123',
-			individualId: 456,
-		},
-		completedTests: [],
-	};
+  const state: JournalModel = {
+    isLoading: true,
+    lastRefreshed: new Date(0),
+    slots: {
+      '2019-01-17': [
+        {
+          hasSlotChanged: false,
+          hasSeenCandidateDetails: false,
+          slotData: {},
+        },
+      ],
+    },
+    error: {
+      message: 'something failed',
+      status: HttpStatusCode.NotFound,
+      statusText: 'HTTP 404',
+    },
+    selectedDate: '2019-01-17',
+    examiner: {
+      staffNumber: '123',
+      individualId: 456,
+    },
+    completedTests: [],
+  };
 
-	describe('getIsLoading', () => {
-		it('should fetch the loading status from the state', () => {
-			expect(getIsLoading(state)).toEqual(true);
-		});
-	});
+  describe('getIsLoading', () => {
+    it('should fetch the loading status from the state', () => {
+      expect(getIsLoading(state)).toEqual(true);
+    });
+  });
 
-	describe('getSlots', () => {
-		it('should select the test slots from the state', () => {
-			const selectedSlots = getSlotsOnSelectedDate(state);
-			expect(selectedSlots.length).toBe(1);
-			expect(selectedSlots[0].hasSlotChanged).toBe(false);
-			expect(selectedSlots[0].slotData).toBeDefined();
-		});
-	});
+  describe('getSlots', () => {
+    it('should select the test slots from the state', () => {
+      const selectedSlots = getSlotsOnSelectedDate(state);
+      expect(selectedSlots.length).toBe(1);
+      expect(selectedSlots[0].hasSlotChanged).toBe(false);
+      expect(selectedSlots[0].slotData).toBeDefined();
+    });
+  });
 
-	describe('getLastRefreshed', () => {
-		it('should select the last refreshed date from the state', () => {
-			expect(getLastRefreshed(state).getUTCMilliseconds()).toBe(0);
-		});
-	});
+  describe('getLastRefreshed', () => {
+    it('should select the last refreshed date from the state', () => {
+      expect(getLastRefreshed(state).getUTCMilliseconds()).toBe(0);
+    });
+  });
 
-	describe('getLastRefreshedTime', () => {
-		it('should transform a nil date to the placeholder', () => {
-			expect(getLastRefreshedTime(null)).toBe('--:--');
-			expect(getLastRefreshedTime(undefined)).toBe('--:--');
-		});
-		it('should format the date to 24hr format with lowercase am/pm', () => {
-			expect(getLastRefreshedTime(new Date('2019-01-16T09:24:00'))).toBe('09:24am');
-			expect(getLastRefreshedTime(new Date('2019-01-16T15:45:10'))).toBe('03:45pm');
-		});
-	});
+  describe('getLastRefreshedTime', () => {
+    it('should transform a nil date to the placeholder', () => {
+      expect(getLastRefreshedTime(null)).toBe('--:--');
+      expect(getLastRefreshedTime(undefined)).toBe('--:--');
+    });
+    it('should format the date to 24hr format with lowercase am/pm', () => {
+      expect(getLastRefreshedTime(new Date('2019-01-16T09:24:00'))).toBe('09:24am');
+      expect(getLastRefreshedTime(new Date('2019-01-16T15:45:10'))).toBe('03:45pm');
+    });
+  });
 
-	describe('getError', () => {
-		it('should select the MesError from the state', () => {
-			const error: MesError = getError(state);
-			expect(error.status).toBe(404);
-		});
-	});
+  describe('getError', () => {
+    it('should select the MesError from the state', () => {
+      const error: MesError = getError(state);
+      expect(error.status).toBe(404);
+    });
+  });
 
-	describe('canNavigateToNextDay', () => {
-		beforeEach(() => {
-			spyOn(DateTime, 'today').and.returnValue(new Date('2019-01-29'));
-		});
+  describe('canNavigateToNextDay', () => {
+    beforeEach(() => {
+      spyOn(DateTime, 'today').and.returnValue(new Date('2019-01-29'));
+    });
 
-		it('should return true if there are any next days', () => {
-			const journal: JournalModel = {
-				isLoading: true,
-				lastRefreshed: new Date(0),
-				slots: {
-					'2019-01-29': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-					'2019-01-30': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-				},
-				selectedDate: '2019-01-29',
-				examiner: {
-					staffNumber: '123',
-					individualId: 456,
-				},
-				completedTests: [],
-			};
+    it('should return true if there are any next days', () => {
+      const journal: JournalModel = {
+        isLoading: true,
+        lastRefreshed: new Date(0),
+        slots: {
+          '2019-01-29': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+          '2019-01-30': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+        },
+        selectedDate: '2019-01-29',
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+        completedTests: [],
+      };
 
-			const result = canNavigateToNextDay(journal);
+      const result = canNavigateToNextDay(journal);
 
-			expect(result).toBe(true);
-		});
+      expect(result).toBe(true);
+    });
 
-		it('should return true if the current selected date is in the past', () => {
-			const journal: JournalModel = {
-				isLoading: true,
-				lastRefreshed: new Date(0),
-				slots: {
-					'2019-01-28': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-					'2019-01-29': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-				},
-				selectedDate: '2019-01-28',
-				examiner: {
-					staffNumber: '123',
-					individualId: 456,
-				},
-				completedTests: [],
-			};
+    it('should return true if the current selected date is in the past', () => {
+      const journal: JournalModel = {
+        isLoading: true,
+        lastRefreshed: new Date(0),
+        slots: {
+          '2019-01-28': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+          '2019-01-29': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+        },
+        selectedDate: '2019-01-28',
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+        completedTests: [],
+      };
 
-			const result = canNavigateToNextDay(journal);
+      const result = canNavigateToNextDay(journal);
 
-			expect(result).toBe(true);
-		});
+      expect(result).toBe(true);
+    });
 
-		it('should return false if the current selected date is not a weekend and in the future', () => {
-			const journal: JournalModel = {
-				isLoading: true,
-				lastRefreshed: new Date(0),
-				slots: {
-					'2019-01-28': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-					'2019-01-29': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-				},
-				selectedDate: '2019-02-14',
-				examiner: {
-					staffNumber: '123',
-					individualId: 456,
-				},
-				completedTests: [],
-			};
+    it('should return false if the current selected date is not a weekend and in the future', () => {
+      const journal: JournalModel = {
+        isLoading: true,
+        lastRefreshed: new Date(0),
+        slots: {
+          '2019-01-28': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+          '2019-01-29': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+        },
+        selectedDate: '2019-02-14',
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+        completedTests: [],
+      };
 
-			const result = canNavigateToNextDay(journal);
+      const result = canNavigateToNextDay(journal);
 
-			expect(result).toBe(false);
-		});
-	});
+      expect(result).toBe(false);
+    });
+  });
 
-	describe('canNavigateToPreviousDay', () => {
-		it('should return false if selected day is 14 days from today', () => {
-			const journal: JournalModel = {
-				isLoading: true,
-				lastRefreshed: new Date(0),
-				slots: {
-					'2019-01-01': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-				},
-				selectedDate: '2019-01-01',
-				examiner: {
-					staffNumber: '123',
-					individualId: 456,
-				},
-				completedTests: [],
-			};
+  describe('canNavigateToPreviousDay', () => {
+    it('should return false if selected day is 14 days from today', () => {
+      const journal: JournalModel = {
+        isLoading: true,
+        lastRefreshed: new Date(0),
+        slots: {
+          '2019-01-01': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+        },
+        selectedDate: '2019-01-01',
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+        completedTests: [],
+      };
 
-			const result = canNavigateToPreviousDay(journal, DateTime.at('2019-01-15'));
+      const result = canNavigateToPreviousDay(journal, DateTime.at('2019-01-15'));
 
-			expect(result).toBe(false);
-		});
+      expect(result).toBe(false);
+    });
 
-		it('should return true if selected day is not today and we have days to go to', () => {
-			const journal: JournalModel = {
-				isLoading: true,
-				lastRefreshed: new Date(0),
-				slots: {
-					'2019-01-13': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-					'2019-01-14': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {},
-						},
-					],
-				},
-				selectedDate: '2019-01-14',
-				examiner: {
-					staffNumber: '123',
-					individualId: 456,
-				},
-				completedTests: [],
-			};
+    it('should return true if selected day is not today and we have days to go to', () => {
+      const journal: JournalModel = {
+        isLoading: true,
+        lastRefreshed: new Date(0),
+        slots: {
+          '2019-01-13': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+          '2019-01-14': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
+          ],
+        },
+        selectedDate: '2019-01-14',
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+        completedTests: [],
+      };
 
-			const result = canNavigateToPreviousDay(journal, DateTime.at('2019-01-13'));
+      const result = canNavigateToPreviousDay(journal, DateTime.at('2019-01-13'));
 
-			expect(result).toBe(true);
-		});
-	});
+      expect(result).toBe(true);
+    });
+  });
 
-	describe('getPermittedSlotIdsBeforeToday', () => {
-		it('should select the startable test slots from the state', () => {
-			const journal: JournalModel = {
-				isLoading: true,
-				lastRefreshed: new Date(0),
-				slots: {
-					'2019-01-12': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {
-								slotDetail: {
-									slotId: 1001,
-									start: '2019-01-12T09:14:00',
-								},
-								booking: {
-									application: {
-										applicationId: 1234561,
-										bookingSequence: 1,
-										checkDigit: 4,
-										welshTest: false,
-										extendedTest: false,
-										meetingPlace: '',
-										progressiveAccess: false,
-										specialNeeds: '',
-										entitlementCheck: false,
-										testCategory: 'B',
-										vehicleGearbox: 'Manual',
-									},
-									candidate: null,
-									previousCancellation: null,
-									business: null,
-								},
-							},
-						},
-					],
-					'2019-01-13': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {
-								slotDetail: {
-									slotId: 2001,
-									start: '2019-01-13T09:14:00',
-								},
-								booking: {
-									application: {
-										applicationId: 1234562,
-										bookingSequence: 1,
-										checkDigit: 4,
-										welshTest: false,
-										extendedTest: false,
-										meetingPlace: '',
-										progressiveAccess: false,
-										specialNeeds: '',
-										entitlementCheck: false,
-										testCategory: 'B',
-										vehicleGearbox: 'Manual',
-									},
-									candidate: null,
-									previousCancellation: null,
-									business: null,
-								},
-							},
-						},
-					],
-					'2019-01-14': [
-						{
-							hasSlotChanged: false,
-							hasSeenCandidateDetails: false,
-							slotData: {
-								slotDetail: {
-									slotId: 3001,
-									start: '2019-01-14T09:14:00',
-								},
-								booking: {
-									application: {
-										applicationId: 1234563,
-										bookingSequence: 1,
-										checkDigit: 4,
-										welshTest: false,
-										extendedTest: false,
-										meetingPlace: '',
-										progressiveAccess: false,
-										specialNeeds: '',
-										entitlementCheck: false,
-										testCategory: 'B',
-										vehicleGearbox: 'Manual',
-									},
-									candidate: null,
-									previousCancellation: null,
-									business: null,
-								},
-							},
-						},
-					],
-				},
-				selectedDate: '2019-01-14',
-				examiner: {
-					staffNumber: '123',
-					individualId: 456,
-				},
-				completedTests: [
-					{
-						costCode: '1',
-						testDate: '2021-03-12',
-						driverNumber: 'AAAA',
-						candidateName: { firstName: 'Name' },
-						applicationReference: 1234561014,
-						category: 'B',
-						activityCode: '1',
-						autosave: 1,
-					},
-				],
-			};
+  describe('getPermittedSlotIdsBeforeToday', () => {
+    it('should select the startable test slots from the state', () => {
+      const journal: JournalModel = {
+        isLoading: true,
+        lastRefreshed: new Date(0),
+        slots: {
+          '2019-01-12': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {
+                slotDetail: {
+                  slotId: 1001,
+                  start: '2019-01-12T09:14:00',
+                },
+                booking: {
+                  application: {
+                    applicationId: 1234561,
+                    bookingSequence: 1,
+                    checkDigit: 4,
+                    welshTest: false,
+                    extendedTest: false,
+                    meetingPlace: '',
+                    progressiveAccess: false,
+                    specialNeeds: '',
+                    entitlementCheck: false,
+                    testCategory: 'B',
+                    vehicleGearbox: 'Manual',
+                  },
+                  candidate: null,
+                  previousCancellation: null,
+                  business: null,
+                },
+              },
+            },
+          ],
+          '2019-01-13': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {
+                slotDetail: {
+                  slotId: 2001,
+                  start: '2019-01-13T09:14:00',
+                },
+                booking: {
+                  application: {
+                    applicationId: 1234562,
+                    bookingSequence: 1,
+                    checkDigit: 4,
+                    welshTest: false,
+                    extendedTest: false,
+                    meetingPlace: '',
+                    progressiveAccess: false,
+                    specialNeeds: '',
+                    entitlementCheck: false,
+                    testCategory: 'B',
+                    vehicleGearbox: 'Manual',
+                  },
+                  candidate: null,
+                  previousCancellation: null,
+                  business: null,
+                },
+              },
+            },
+          ],
+          '2019-01-14': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {
+                slotDetail: {
+                  slotId: 3001,
+                  start: '2019-01-14T09:14:00',
+                },
+                booking: {
+                  application: {
+                    applicationId: 1234563,
+                    bookingSequence: 1,
+                    checkDigit: 4,
+                    welshTest: false,
+                    extendedTest: false,
+                    meetingPlace: '',
+                    progressiveAccess: false,
+                    specialNeeds: '',
+                    entitlementCheck: false,
+                    testCategory: 'B',
+                    vehicleGearbox: 'Manual',
+                  },
+                  candidate: null,
+                  previousCancellation: null,
+                  business: null,
+                },
+              },
+            },
+          ],
+        },
+        selectedDate: '2019-01-14',
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+        completedTests: [
+          {
+            costCode: '1',
+            testDate: '2021-03-12',
+            driverNumber: 'AAAA',
+            candidateName: { firstName: 'Name' },
+            applicationReference: 1234561014,
+            category: 'B',
+            activityCode: '1',
+            autosave: 1,
+          },
+        ],
+      };
 
-			const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
+      const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
 
-			expect(slotIds.length).toBe(2);
-			expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId)).toEqual([1001, 2001]);
-		});
-	});
+      expect(slotIds.length).toBe(2);
+      expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId)).toEqual([1001, 2001]);
+    });
+  });
 });

@@ -5,8 +5,8 @@ export const RekeyReasonViewDidEnter = createAction('[RekeyReasonPage] Rekey Rea
 export const ValidateTransferRekey = createAction('[RekeyReasonPage] Validate transfer rekey');
 
 export const ValidateTransferRekeyFailed = createAction(
-	'[RekeyReasonPage] Validate transfer rekey failed',
-	(staffNumberNotFound: boolean) => ({ staffNumberNotFound })
+  '[RekeyReasonPage] Validate transfer rekey failed',
+  (staffNumberNotFound: boolean) => ({ staffNumberNotFound })
 );
 
 export const ResetStaffNumberValidationError = createAction('[RekeyReasonPage] Reset staff number validation error');

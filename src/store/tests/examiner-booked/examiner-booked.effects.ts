@@ -13,20 +13,20 @@ import { SetExaminerBooked } from './examiner-booked.actions';
 
 @Injectable()
 export class ExaminerBookedEffects {
-	constructor(
-		private actions$: Actions,
-		private store$: Store<StoreModel>
-	) {}
+  constructor(
+    private actions$: Actions,
+    private store$: Store<StoreModel>
+  ) {}
 
-	setExaminerBookedEffect$ = createEffect(() =>
-		this.actions$.pipe(
-			ofType(SetExaminerBooked),
-			concatMap((action) =>
-				of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTest))))
-			),
-			map(([action, test]: [ReturnType<typeof SetExaminerBooked>, TestResultSchemasUnion]) =>
-				SetChangeMarker(action.examinerBooked !== test.examinerConducted)
-			)
-		)
-	);
+  setExaminerBookedEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetExaminerBooked),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTest))))
+      ),
+      map(([action, test]: [ReturnType<typeof SetExaminerBooked>, TestResultSchemasUnion]) =>
+        SetChangeMarker(action.examinerBooked !== test.examinerConducted)
+      )
+    )
+  );
 }

@@ -5,14 +5,14 @@ import * as testRequirementsActions from '../../common/test-requirements/test-re
 export const initialState: TestRequirements = {};
 
 export const testRequirementsCatAMod2Reducer = createReducer(
-	initialState,
-	on(
-		testRequirementsActions.ToggleLegalRequirement,
-		(state, { legalRequirement }): TestRequirements => ({
-			...state,
-			[legalRequirement]: !state[legalRequirement],
-		})
-	)
+  initialState,
+  on(
+    testRequirementsActions.ToggleLegalRequirement,
+    (state, { legalRequirement }): TestRequirements => ({
+      ...state,
+      [legalRequirement]: !state[legalRequirement],
+    })
+  )
 );
 
 export const getTestRequirementsCatEUAM2 = createFeatureSelector<TestRequirements>('testRequirements');

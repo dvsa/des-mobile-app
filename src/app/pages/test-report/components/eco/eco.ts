@@ -11,64 +11,64 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 interface EcoComponentState {
-	completed$: Observable<boolean>;
-	adviceGivenPlanning$: Observable<boolean>;
-	adviceGivenControl$: Observable<boolean>;
+  completed$: Observable<boolean>;
+  adviceGivenPlanning$: Observable<boolean>;
+  adviceGivenControl$: Observable<boolean>;
 }
 
 @Component({
-	selector: 'eco',
-	templateUrl: 'eco.html',
-	styleUrls: ['eco.scss'],
+  selector: 'eco',
+  templateUrl: 'eco.html',
+  styleUrls: ['eco.scss'],
 })
 export class EcoComponent implements OnInit {
-	subscription: Subscription;
+  subscription: Subscription;
 
-	adviceGivenPlanning = false;
-	adviceGivenControl = false;
-	componentState: EcoComponentState;
-	merged$: Observable<boolean>;
+  adviceGivenPlanning = false;
+  adviceGivenControl = false;
+  componentState: EcoComponentState;
+  merged$: Observable<boolean>;
 
-	constructor(private store$: Store<StoreModel>) {}
+  constructor(private store$: Store<StoreModel>) {}
 
-	ngOnInit(): void {
-		const eco$ = this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestData), select(getEco));
+  ngOnInit(): void {
+    const eco$ = this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestData), select(getEco));
 
-		this.componentState = {
-			completed$: eco$.pipe(map((eco) => eco.completed)),
-			adviceGivenPlanning$: eco$.pipe(map((eco) => eco.adviceGivenPlanning)),
-			adviceGivenControl$: eco$.pipe(map((eco) => eco.adviceGivenControl)),
-		};
+    this.componentState = {
+      completed$: eco$.pipe(map((eco) => eco.completed)),
+      adviceGivenPlanning$: eco$.pipe(map((eco) => eco.adviceGivenPlanning)),
+      adviceGivenControl$: eco$.pipe(map((eco) => eco.adviceGivenControl)),
+    };
 
-		const { completed$, adviceGivenPlanning$, adviceGivenControl$ } = this.componentState;
+    const { completed$, adviceGivenPlanning$, adviceGivenControl$ } = this.componentState;
 
-		const merged$ = merge(
-			completed$,
-			adviceGivenPlanning$.pipe(map((toggle) => (this.adviceGivenPlanning = toggle))),
-			adviceGivenControl$.pipe(map((toggle) => (this.adviceGivenControl = toggle)))
-		);
+    const merged$ = merge(
+      completed$,
+      adviceGivenPlanning$.pipe(map((toggle) => (this.adviceGivenPlanning = toggle))),
+      adviceGivenControl$.pipe(map((toggle) => (this.adviceGivenControl = toggle)))
+    );
 
-		this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-	}
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
+  }
 
-	ngOnDestroy(): void {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
-		}
-	}
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-	toggleEco = (): void => {
-		if (this.adviceGivenPlanning || this.adviceGivenControl) {
-			return;
-		}
-		this.store$.dispatch(ToggleEco());
-	};
+  toggleEco = (): void => {
+    if (this.adviceGivenPlanning || this.adviceGivenControl) {
+      return;
+    }
+    this.store$.dispatch(ToggleEco());
+  };
 
-	toggleEcoPlanning = (): void => {
-		this.store$.dispatch(TogglePlanningEco());
-	};
+  toggleEcoPlanning = (): void => {
+    this.store$.dispatch(TogglePlanningEco());
+  };
 
-	toggleEcoControl = (): void => {
-		this.store$.dispatch(ToggleControlEco());
-	};
+  toggleEcoControl = (): void => {
+    this.store$.dispatch(ToggleControlEco());
+  };
 }

@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 
 @NgModule({
-	imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
-	declarations: [JournalEarlyStartModal],
+  imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
+  declarations: [JournalEarlyStartModal],
 })
 export class JournalEarlyStartModule {}

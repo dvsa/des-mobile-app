@@ -25,82 +25,82 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as candidateLicenceActions from '../candidate-licence.actions';
 
 describe('CommunicationAnalyticsEffects', () => {
-	let effects: CandidateLicenceAnalyticsEffects;
-	let analyticsProviderMock;
-	let actions$: ReplaySubject<any>;
-	let store$: Store<StoreModel>;
-	const screenName = AnalyticsScreenNames.CANDIDATE_LICENCE_INFO;
-	const mockApplication: Application = {
-		applicationId: 123456,
-		bookingSequence: 78,
-		checkDigit: 9,
-	};
+  let effects: CandidateLicenceAnalyticsEffects;
+  let analyticsProviderMock;
+  let actions$: ReplaySubject<any>;
+  let store$: Store<StoreModel>;
+  const screenName = AnalyticsScreenNames.CANDIDATE_LICENCE_INFO;
+  const mockApplication: Application = {
+    applicationId: 123456,
+    bookingSequence: 78,
+    checkDigit: 9,
+  };
 
-	beforeEach(waitForAsync(() => {
-		TestBed.configureTestingModule({
-			imports: [
-				StoreModule.forRoot({
-					tests: testsReducer,
-				}),
-			],
-			providers: [
-				CandidateLicenceAnalyticsEffects,
-				{
-					provide: AnalyticsProvider,
-					useClass: AnalyticsProviderMock,
-				},
-				{
-					provide: Router,
-					useValue: { url: `/${TestFlowPageNames.CANDIDATE_LICENCE_PAGE}` },
-				},
-				{
-					provide: AppConfigProvider,
-					useClass: AppConfigProviderMock,
-				},
-				provideMockActions(() => actions$),
-				Store,
-			],
-		});
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+      ],
+      providers: [
+        CandidateLicenceAnalyticsEffects,
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: { url: `/${TestFlowPageNames.CANDIDATE_LICENCE_PAGE}` },
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        provideMockActions(() => actions$),
+        Store,
+      ],
+    });
 
-		actions$ = new ReplaySubject(1);
-		effects = TestBed.inject(CandidateLicenceAnalyticsEffects);
-		analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-		store$ = TestBed.inject(Store);
-	}));
+    actions$ = new ReplaySubject(1);
+    effects = TestBed.inject(CandidateLicenceAnalyticsEffects);
+    analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    store$ = TestBed.inject(Store);
+  }));
 
-	describe('candidateLicenceInfoViewDidEnter', () => {
-		it('should call setCurrentPage and addCustomDimension', (done) => {
-			// ARRANGE
-			store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-			store$.dispatch(PopulateTestCategory(TestCategory.B));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			// ACT
-			actions$.next(candidateLicenceActions.CandidateLicenceViewDidEnter());
-			// ASSERT
-			effects.candidateLicenceInfoViewDidEnter$.subscribe((result) => {
-				expect(result.type === AnalyticRecorded.type).toBe(true);
-				// GA4 Analytics
-				expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-				done();
-			});
-		});
-		it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
-			// ARRANGE
-			store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-			store$.dispatch(PopulateTestCategory(TestCategory.B));
-			store$.dispatch(PopulateCandidateDetails(candidateMock));
-			store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-			// ACT
-			actions$.next(candidateLicenceActions.CandidateLicenceViewDidEnter());
-			// ASSERT
-			effects.candidateLicenceInfoViewDidEnter$.subscribe((result) => {
-				expect(result.type === AnalyticRecorded.type).toBe(true);
-				// GA4 Analytics
-				expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-					`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-				);
-				done();
-			});
-		});
-	});
+  describe('candidateLicenceInfoViewDidEnter', () => {
+    it('should call setCurrentPage and addCustomDimension', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(candidateLicenceActions.CandidateLicenceViewDidEnter());
+      // ASSERT
+      effects.candidateLicenceInfoViewDidEnter$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+        done();
+      });
+    });
+    it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
+      // ARRANGE
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      // ACT
+      actions$.next(candidateLicenceActions.CandidateLicenceViewDidEnter());
+      // ASSERT
+      effects.candidateLicenceInfoViewDidEnter$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        // GA4 Analytics
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
+        done();
+      });
+    });
+  });
 });
