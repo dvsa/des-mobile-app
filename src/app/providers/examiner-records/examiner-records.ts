@@ -151,35 +151,27 @@ export class ExaminerRecordsProvider {
    * @returns {moment.Moment} The calculated date based on the provided range.
    */
   getRangeDate(range: DateRange): moment.Moment {
-    let dateRange: moment.Moment = null;
-
     switch (range) {
       case DateRange.TODAY:
-        dateRange = moment(new Date());
-        break;
+        return moment(new Date());
       case DateRange.WEEK:
-        dateRange = moment(new Date())
+        return moment(new Date())
           .subtract(1, 'week');
-        break;
       case DateRange.FORTNIGHT:
-        dateRange = moment(new Date())
+        return moment(new Date())
           .subtract(2, 'week');
-        break;
       case DateRange.NINETY_DAYS:
-        dateRange = moment(new Date())
+        return moment(new Date())
           .subtract(90, 'days');
-        break;
       case DateRange.ONE_YEAR:
-        dateRange = moment(new Date())
+        return moment(new Date())
           .subtract(1, 'year');
-        break;
       case DateRange.EIGHTEEN_MONTHS:
-        dateRange = moment(new Date())
+        return moment(new Date())
           .subtract(18, 'months');
-        break;
+      default:
+        return null
     }
-
-    return dateRange;
   }
 
   /**

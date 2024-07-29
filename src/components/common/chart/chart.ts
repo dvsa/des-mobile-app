@@ -9,16 +9,35 @@ import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.sel
   templateUrl: 'chart.html',
 })
 export class ChartComponent implements OnInit, OnChanges {
-  @Input() public zoomSize: string = '16px';
-  @Input() public chartId: string = '';
-  @Input() public chartType: ChartType = 'pie';
-  @Input() public passedData: ExaminerRecordData<any>[] = null;
-  @Input() public showLegend: boolean = false;
-  @Input() public isPortrait: boolean = false;
-  @Input() public horizontal: boolean = false;
-  @Input() public splitLabel: boolean = true;
-  @Input() public calculatePercentages: boolean = false;
-  @Input() public transformOptions: {
+  @Input()
+  public zoomSize: string = '16px';
+
+  @Input()
+  public chartId: string = '';
+
+  @Input()
+  public chartType: ChartType = 'pie';
+
+  @Input()
+  public passedData: ExaminerRecordData<any>[] = null;
+
+  @Input()
+  public showLegend: boolean = false;
+
+  @Input()
+  public isPortrait: boolean = false;
+
+  @Input()
+  public horizontal: boolean = false;
+
+  @Input()
+  public splitLabel: boolean = true;
+
+  @Input()
+  public calculatePercentages: boolean = false;
+
+  @Input()
+  public transformOptions: {
     portrait: {
       width: number | string, height: number | string,
     },
@@ -26,10 +45,18 @@ export class ChartComponent implements OnInit, OnChanges {
       width: number | string, height: number | string,
     }
   } = { portrait: { width: 740, height: 300 }, landscape: { width: 1020, height: 300 } };
-  @Input() public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
-  @Input() public labelColour: string = '#000000';
-  @Input() public strokeColour: string = '#FFFFFF';
-  @Input() public averageColour: string = '#FF0000';
+
+  @Input()
+  public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+
+  @Input()
+  public labelColour: string = '#000000';
+
+  @Input()
+  public strokeColour: string = '#FFFFFF';
+
+  @Input()
+  public averageColour: string = '#FF0000';
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
