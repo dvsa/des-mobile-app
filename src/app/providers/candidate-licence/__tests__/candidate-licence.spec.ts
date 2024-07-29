@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
+import {
+  CandidateLicenceErr,
+  CandidateLicenceProvider,
+  DriverLicenceDetails,
+} from '@providers/candidate-licence/candidate-licence';
 import {
   mockDriverPhoto,
   mockDriverSignature,
@@ -9,10 +13,12 @@ import {
 import { take } from 'rxjs/operators';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
-import { NetworkStateProvider } from '../../network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
+import { of, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('CandidateLicenceProvider', () => {
   let candidateLicenceProvider: CandidateLicenceProvider;
@@ -46,6 +52,87 @@ describe('CandidateLicenceProvider', () => {
 
   afterAll(() => {
     httpMock.verify();
+  });
+
+  describe('getCandidateData', () => {
+    it('should return cached data if driverLicenceResponse matches drivingLicenceNumber', () => {
+      candidateLicenceProvider.driverLicenceResponse = {
+        drivingLicenceNumber: 'ABC1',
+      } as DriverLicenceDetails;
+      candidateLicenceProvider.requestError = null;
+
+      candidateLicenceProvider.getCandidateData('ABC1', '1231212').subscribe((response) => {
+        expect(response).toEqual(candidateLicenceProvider.driverLicenceResponse);
+      });
+    });
+
+    it('should throw an error if requestError is set for cached data', () => {
+      candidateLicenceProvider.driverLicenceResponse = {
+        drivingLicenceNumber: 'ABC1',
+      } as DriverLicenceDetails;
+      candidateLicenceProvider.requestError = CandidateLicenceErr.NOT_FOUND;
+
+      expect(() => candidateLicenceProvider.getCandidateData(
+        'ABC1', '1231212')
+      ).toThrowError(CandidateLicenceErr.NOT_FOUND);
+    });
+
+    it('should throw an error for NI licence', () => {
+      expect(() => candidateLicenceProvider.getCandidateData(
+        '123456', '1231212')
+      ).toThrowError(CandidateLicenceErr.NI_LICENCE);
+    });
+
+    it('should throw an error if offline and no cached data', () => {
+      spyOn(
+        candidateLicenceProvider['networkStateProvider'],
+        'getNetworkState',
+      ).and.returnValue(ConnectionStatus.OFFLINE);
+
+      expect(() => candidateLicenceProvider.getCandidateData(
+        'ABC1',
+        '1231212')).toThrowError(CandidateLicenceErr.OFFLINE);
+    });
+
+    it('should return combined data from all endpoints', () => {
+      spyOn(candidateLicenceProvider, 'getDriverPhoto').and.returnValue(of(mockDriverPhoto));
+      spyOn(candidateLicenceProvider, 'getDriverSignature').and.returnValue(of(mockDriverSignature));
+      spyOn(candidateLicenceProvider, 'getDriverStandardData').and.returnValue(of(mockDriverStandard));
+
+      candidateLicenceProvider.getCandidateData('ABC1', '1231212').subscribe((response) => {
+        expect(response).toEqual({
+          driverPhotograph: mockDriverPhoto,
+          driverSignature: mockDriverSignature,
+          driverStandard: mockDriverStandard,
+        });
+      });
+    });
+
+    it('should throw an error if any endpoint returns an error', () => {
+      spyOn(candidateLicenceProvider, 'getDriverPhoto').and.throwError(CandidateLicenceErr.UNAVAILABLE);
+      spyOn(candidateLicenceProvider, 'getDriverSignature').and.returnValue(of(mockDriverSignature));
+      spyOn(candidateLicenceProvider, 'getDriverStandardData').and.returnValue(of(mockDriverStandard));
+
+      expect(() => candidateLicenceProvider.getCandidateData(
+        'ABC1', '1231212'
+      )).toThrowError(CandidateLicenceErr.UNAVAILABLE);
+    });
+
+    it('should set requestError and driverLicenceResponse if not found', () => {
+      spyOn(candidateLicenceProvider, 'getDriverPhoto').and.returnValue(
+        throwError(() => new HttpErrorResponse({ status: 404 }))
+      );
+      spyOn(candidateLicenceProvider, 'getDriverSignature').and.returnValue(of(mockDriverSignature));
+      spyOn(candidateLicenceProvider, 'getDriverStandardData').and.returnValue(of(mockDriverStandard));
+
+      candidateLicenceProvider.getCandidateData('ABC1', '1231212').subscribe({
+        error: (error) => {
+          expect(error.status).toBe(404);
+          expect(candidateLicenceProvider.requestError).toBe(CandidateLicenceErr.NOT_FOUND);
+          expect(candidateLicenceProvider.driverLicenceResponse.drivingLicenceNumber).toBe('ABC1');
+        },
+      });
+    });
   });
 
   describe('clearDriverData', () => {

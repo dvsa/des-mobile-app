@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { forOwn, has, isEmpty, isNil, isObject } from 'lodash-es';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { SlotItem } from './slot-item';
@@ -51,28 +51,7 @@ export class SlotSelectorProvider {
     return completedTest.passCertificateNumber;
   }
 
-  public hasSlotBeenTested(slotData: TestSlot, completedTests: SearchResultTestSchema[]): ActivityCode | null {
-    const completedTest = this.getCompletedTest(slotData, completedTests);
-    if (!completedTest) {
-      return null;
-    }
-    return completedTest.activityCode;
-  }
-
-  /**
-   * Returns the autosave status of a test if held remotely
-   * @param slotData
-   * @param completedTests
-   */
-  public hasSlotBeenPartiallyCompleted(slotData: TestSlot, completedTests: SearchResultTestSchema[]): number | null {
-    const completedTest: SearchResultTestSchema = this.getCompletedTest(slotData, completedTests);
-    if (!completedTest) {
-      return null;
-    }
-    return completedTest.autosave;
-  }
-
-  public getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
+  private getCompletedTest = (slotData: TestSlot, completedTests: SearchResultTestSchema[]) => {
     if (isEmpty(completedTests)) {
       return null;
     }
