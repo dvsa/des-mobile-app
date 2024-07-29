@@ -21,12 +21,15 @@ import { JournalModel } from '@store/journal/journal.model';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 
 describe('TestOutcomeComponent', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
@@ -261,12 +264,68 @@ describe('TestOutcomeComponent', () => {
       });
     });
 
+    describe('rekeyDelegatedTestStart', () => {
+      it('should dispatch StartTest with correct parameters', async () => {
+        component.slotDetail = testSlotDetail;
+        await component.rekeyDelegatedTestStart();
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          StartTest(component.slotDetail.slotId, component.category, true, true)
+        );
+      });
+
+      it('should dispatch SetExaminerConducted with correct examinerId', async () => {
+        component.slotDetail = testSlotDetail;
+        await component.rekeyDelegatedTestStart();
+        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerConducted(component.examinerId));
+      });
+
+      it('should dispatch SetExaminerBooked with correct examinerId', async () => {
+        component.slotDetail = testSlotDetail;
+        await component.rekeyDelegatedTestStart();
+        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerBooked(component.examinerId));
+      });
+
+      it('should navigate to the Waiting Room to Car page', async () => {
+        component.slotDetail = testSlotDetail;
+        await component.rekeyDelegatedTestStart();
+        expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+          TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE,
+          component.category);
+      });
+    });
+
+    describe('onModalDismiss', () => {
+      it('should set startTestAsRekey and isRekey to false and call' +
+        ' startOrResumeTestDependingOnStatus when event is START', async () => {
+        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        await component.onModalDismiss(ModalEvent.START);
+        expect(component.startTestAsRekey).toBe(false);
+        expect(component.isRekey).toBe(false);
+        expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
+      });
+
+      it('should set startTestAsRekey to true and call ' +
+        'startOrResumeTestDependingOnStatus when event is REKEY', async () => {
+        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        await component.onModalDismiss(ModalEvent.REKEY);
+        expect(component.startTestAsRekey).toBe(true);
+        expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
+      });
+
+      it('should do nothing when event is not START or REKEY', async () => {
+        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        await component.onModalDismiss('UNKNOWN_EVENT' as ModalEvent);
+        expect(component.startOrResumeTestDependingOnStatus).not.toHaveBeenCalled();
+      });
+    });
+
     describe('resumeTest', () => {
       beforeEach(() => {
         component.slotDetail = testSlotDetail;
         component.hasNavigatedFromUnsubmitted = false;
       });
-      it('should dispatch the ContinueUnuploadedTest when hasNavigatedFromUnsubmitted is set to true', async () => {
+      it('should dispatch the ContinueUnuploadedTest when ' +
+        'hasNavigatedFromUnsubmitted is set to true', async () => {
         component.hasNavigatedFromUnsubmitted = true;
         await component.resumeTest();
         expect(store$.dispatch)

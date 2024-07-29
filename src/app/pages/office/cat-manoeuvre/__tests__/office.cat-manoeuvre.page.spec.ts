@@ -65,8 +65,8 @@ import { CandidateDescriptionComponent } from '../../components/candidate-descri
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('OfficeCatManoeuvrePage', () => {
   let fixture: ComponentFixture<OfficeCatManoeuvrePage>;
@@ -216,6 +216,74 @@ describe('OfficeCatManoeuvrePage', () => {
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('dangerousFaultCommentChanged', () => {
+    it('should dispatch AddDangerousFaultComment when source is SIMPLE', () => {
+      const dangerousFaultComment = {
+        source: CommentSource.SIMPLE,
+        competencyIdentifier: 'competency1',
+        comment: 'comment1',
+      } as FaultSummary;
+      component.dangerousFaultCommentChanged(dangerousFaultComment);
+      expect(store$.dispatch).toHaveBeenCalledWith(AddDangerousFaultComment('competency1', 'comment1'));
+    });
+
+    it('should dispatch AddManoeuvreComment when source starts with Manoeuvres', () => {
+      const dangerousFaultComment = {
+        source: 'Manoeuvres-control-observation',
+        competencyIdentifier: 'competency2',
+        comment: 'comment2',
+      } as FaultSummary;
+      component.dangerousFaultCommentChanged(dangerousFaultComment);
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('control', CompetencyOutcome.D, 'observation', 'comment2')
+      );
+    });
+
+    it('should dispatch AddUncoupleRecoupleComment when source is UNCOUPLE_RECOUPLE', () => {
+      const dangerousFaultComment = {
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+        competencyIdentifier: 'competency3',
+        comment: 'comment3',
+      } as FaultSummary;
+      component.dangerousFaultCommentChanged(dangerousFaultComment);
+      expect(store$.dispatch).toHaveBeenCalledWith(AddUncoupleRecoupleComment('comment3'));
+    });
+  });
+
+  describe('seriousFaultCommentChanged', () => {
+    it('should dispatch AddSeriousFaultComment when source is SIMPLE', () => {
+      const dangerousFaultComment = {
+        source: CommentSource.SIMPLE,
+        competencyIdentifier: 'competency1',
+        comment: 'comment1',
+      } as FaultSummary;
+      component.seriousFaultCommentChanged(dangerousFaultComment);
+      expect(store$.dispatch).toHaveBeenCalledWith(AddSeriousFaultComment('competency1', 'comment1'));
+    });
+
+    it('should dispatch AddManoeuvreComment when source starts with Manoeuvres', () => {
+      const dangerousFaultComment = {
+        source: 'Manoeuvres-control-observation',
+        competencyIdentifier: 'competency2',
+        comment: 'comment2',
+      } as FaultSummary;
+      component.seriousFaultCommentChanged(dangerousFaultComment);
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('control', CompetencyOutcome.S, 'observation', 'comment2')
+      );
+    });
+
+    it('should dispatch AddUncoupleRecoupleComment when source is UNCOUPLE_RECOUPLE', () => {
+      const dangerousFaultComment = {
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+        competencyIdentifier: 'competency3',
+        comment: 'comment3',
+      } as FaultSummary;
+      component.seriousFaultCommentChanged(dangerousFaultComment);
+      expect(store$.dispatch).toHaveBeenCalledWith(AddUncoupleRecoupleComment('comment3'));
     });
   });
 

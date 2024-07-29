@@ -17,54 +17,25 @@ describe('SlotSelectorProvider', () => {
     slotSelector = TestBed.inject(SlotSelectorProvider);
   });
 
-  describe('hasSlotBeenPartiallyCompleted', () => {
-    it('should return null if completedTest is empty', () => {
-      expect(slotSelector.hasSlotBeenPartiallyCompleted(null, null))
-        .toEqual(null);
+  describe('isBookingEmptyOrNull', () => {
+    it('should return true if slotData has no booking property', () => {
+      const slot = { slotData: {} } as SlotItem;
+      expect(slotSelector.isBookingEmptyOrNull(slot)).toBe(true);
     });
 
-    it('should return autosave status if the searched test entry exists', () => {
-      expect(slotSelector.hasSlotBeenPartiallyCompleted({
-        booking: {
-          application: {
-            applicationId: 111,
-            bookingSequence: 222,
-            checkDigit: 333,
-          },
-        },
-      }, [{
-        costCode: '123456',
-        testDate: '11/1/11',
-        driverNumber: '1234',
-        candidateName: { firstName: 'name' },
-        applicationReference: 111222333,
-        category: 'A',
-        activityCode: '4',
-        autosave: 1,
-      }]))
-        .toEqual(1);
+    it('should return true if slotData.booking is empty', () => {
+      const slot = { slotData: { booking: {} } } as SlotItem;
+      expect(slotSelector.isBookingEmptyOrNull(slot)).toBe(true);
     });
 
-    it('should return null if the searched test entry does not exist', () => {
-      expect(slotSelector.hasSlotBeenPartiallyCompleted({
-        booking: {
-          application: {
-            applicationId: 111,
-            bookingSequence: 222,
-            checkDigit: 333,
-          },
-        },
-      }, [{
-        costCode: '123456',
-        testDate: '11/1/11',
-        driverNumber: '1234',
-        candidateName: { firstName: 'name' },
-        applicationReference: 999999999,
-        category: 'A',
-        activityCode: '4',
-        autosave: 1,
-      }]))
-        .toEqual(null);
+    it('should return true if slotData.booking properties are null or empty', () => {
+      const slot = { slotData: { booking: { application: null } } } as SlotItem;
+      expect(slotSelector.isBookingEmptyOrNull(slot)).toBe(true);
+    });
+
+    it('should return false if slotData.booking has non-null properties', () => {
+      const slot = { slotData: { booking: { application: { applicationId: 123 } } } } as SlotItem;
+      expect(slotSelector.isBookingEmptyOrNull(slot)).toBe(false);
     });
   });
 
