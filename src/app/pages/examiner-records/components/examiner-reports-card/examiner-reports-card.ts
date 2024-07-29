@@ -148,17 +148,13 @@ export class ExaminerReportsCard {
    * @returns {string} The minimum width of the card in pixels, or null if no minimum width is set.
    */
   setMinWidth(): string {
-    let minWidth: number = null;
-    if (this.hasChart) {
-      minWidth = (this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width);
-    }
+    if (!this.hasChart) return null;
+
+    let minWidth = this.isPortrait ? this.chartTransform.portrait.width : this.chartTransform.landscape.width;
     if (this.chartType === 'bar') {
-      minWidth = (this.isPortrait ? minWidth * 1.07 : minWidth * 1.04);
+      minWidth *= this.isPortrait ? 1.07 : 1.04;
     }
-    if (minWidth !== null) {
-      return minWidth.toFixed(1) + 'px';
-    } else {
-      return null;
-    }
+
+    return minWidth.toFixed(1) + 'px';
   }
 }
