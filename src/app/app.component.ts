@@ -18,7 +18,7 @@ import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, EXAMINER_RECORDS, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -58,6 +58,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       title: UNUPLOADED_TESTS_PAGE,
       descriptor: 'Unsubmitted tests',
       showUnSubmittedCount: true,
+      hideWhenRole: [ExaminerRole.DLG],
+    },
+    {
+      title: EXAMINER_RECORDS,
+      descriptor: 'Examiner records',
       hideWhenRole: [ExaminerRole.DLG],
     },
     // {

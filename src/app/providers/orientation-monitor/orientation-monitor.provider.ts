@@ -3,7 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { isPortrait } from '@shared/helpers/is-portrait-mode';
 
-@Injectable()
+@Injectable( {
+  providedIn: 'root',
+} )
 export class OrientationMonitorProvider {
 
   isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);

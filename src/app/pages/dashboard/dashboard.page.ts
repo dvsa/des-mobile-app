@@ -49,6 +49,7 @@ import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/j
 import { getTests } from '@store/tests/tests.reducer';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { LoadExaminerRecordsPreferences } from '@store/examiner-records/examiner-records.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -161,6 +162,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(StoreUnuploadedSlotsInTests());
+    this.store$.dispatch(LoadExaminerRecordsPreferences());
     //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalSilent());

@@ -46,6 +46,7 @@ export type AppConfig = {
   tests: {
     testSubmissionUrl: string,
     multipleTestResultsUrl: string,
+    examinerRecordsUrl: string,
     autoSendInterval: number,
   },
   user: {

@@ -1,0 +1,27 @@
+<ion-row class="display-flex ion-justify-content-start" id="view-filter-row" [formGroup]="formGroup">
+  <ion-col size="auto" class="ion-align-self-center">
+    <input
+      type="radio"
+      id="value-filter-default"
+      class="gds-radio-button white-background"
+      name="colourFilter"
+      formControlName="colourFilter"
+      value="Default"
+      (change)="viewFilterChanged($event.target.value)"
+    />
+    <label for="value-filter-default" class="radio-label" id="value-filter-default-label">Default</label>
+  </ion-col>
+  <ion-col size="2"></ion-col>
+  <ion-col size="auto" class="ion-align-self-center">
+    <input
+      type="radio"
+      id="value-filter-greyscale"
+      class="gds-radio-button white-background"
+      name="colourFilter"
+      formControlName="colourFilter"
+      value="Greyscale"
+      (change)="viewFilterChanged($event.target.value)"
+    />
+    <label for="value-filter-greyscale" class="radio-label" id="value-filter-greyscale-label">Greyscale</label>
+  </ion-col>
+</ion-row>

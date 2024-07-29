@@ -4,7 +4,6 @@ import { UpdateAvailable } from '@pages/dashboard/components/update-available-mo
 export const LoadAppVersion = createAction(
   '[AppComponent] Load App Version',
 );
-
 export const LoadAppVersionSuccess = createAction(
   '[AppInfoEffects] Load App Version Success',
   props<{ versionNumber: string }>(),

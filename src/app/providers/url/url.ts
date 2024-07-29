@@ -26,6 +26,9 @@ export class UrlProvider {
   getTestResultServiceUrl(): string {
     return this.appConfigProvider.getAppConfig()?.tests.testSubmissionUrl;
   }
+  getExaminerRecordsUrl(): string {
+    return this.appConfigProvider.getAppConfig()?.tests.examinerRecordsUrl;
+  }
 
   getMultipleTestResultsUrl(): string {
     return this.appConfigProvider.getAppConfig()?.tests.multipleTestResultsUrl;

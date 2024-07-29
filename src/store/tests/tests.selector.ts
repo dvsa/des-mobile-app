@@ -26,6 +26,10 @@ export const getCurrentTest = (tests: TestsModel): TestResultSchemasUnion => {
   return tests.startedTests[currentTestSlotId];
 };
 
+export const getStartedTests = (tests: TestsModel): StartedTests => {
+  return tests.startedTests;
+};
+
 export const isPassed = (test: TestResultSchemasUnion): boolean => {
   return test.activityCode === ActivityCodes.PASS;
 };

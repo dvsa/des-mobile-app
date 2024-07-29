@@ -47,6 +47,9 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { DirectivesModule } from '@directives/directives.module';
+import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { ChartComponent } from '@components/common/chart/chart';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 
 @NgModule({
@@ -85,6 +88,9 @@ import { TestRecoveredBannerComponent } from '@components/common/test-recovered-
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    DataGridComponent,
+    ChartComponent,
+    DataRowComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -98,6 +104,7 @@ import { TestRecoveredBannerComponent } from '@components/common/test-recovered-
     TerminateTestModalModule,
     NgOptimizedImage,
     DirectivesModule,
+    NgApexchartsModule,
   ],
   exports: [
     DateTimeInputComponent,
@@ -135,6 +142,9 @@ import { TestRecoveredBannerComponent } from '@components/common/test-recovered-
     Adi3DebriefCardBox,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
+    DataGridComponent,
+    ChartComponent,
+    DataRowComponent,
   ],
 })
 export class ComponentsModule {
