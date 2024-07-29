@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SlotSelectorProvider } from '../slot-selector';
 import { Application } from '@dvsa/mes-journal-schema';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 
 describe('SlotSelectorProvider', () => {
@@ -89,22 +88,7 @@ describe('SlotSelectorProvider', () => {
     });
   });
 
-  describe('hasSlotBeenTested', () => {
-    it('should return null when completedTest is not found', () => {
-      spyOn(slotSelector, 'getCompletedTest').and.returnValue(null);
-      expect(slotSelector.hasSlotBeenTested(null, [])).toBeNull();
-    });
-
-    it('should return activity code when completedTest is found', () => {
-      spyOn(slotSelector, 'getCompletedTest').and.returnValue({
-        activityCode: '1',
-      } as SearchResultTestSchema);
-      expect(slotSelector.hasSlotBeenTested(null, [])).toEqual('1');
-    });
-  });
-
   describe('isBookingEmptyOrNull', () => {
-
     it('should return true if slotData does not have booking', () => {
       const slotData: SlotItem = { slotData: {} } as SlotItem;
       expect(slotSelector.isBookingEmptyOrNull(slotData)).toBeTrue();
