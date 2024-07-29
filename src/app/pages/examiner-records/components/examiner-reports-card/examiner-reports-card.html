@@ -3,12 +3,7 @@
   [style.min-width]="setMinWidth()"
   (click)="handleCardClick()"
   [class.ion-activatable]="canExpand && getTotal(passedData)"
-  [class]="darkColours ? [
-'white-text',
-'navy-card',
-] : [
-'mes-black',
-]"
+  [class]="'mes-black'"
 >
   <ion-card-header>
     <ion-card-title>
