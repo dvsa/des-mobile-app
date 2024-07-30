@@ -93,34 +93,25 @@ export class DateTime {
   }
 
   isDuring(range: DateRange) {
-    let dateRange: moment.Moment = null;
-
-    switch (range) {
-      case DateRange.TODAY:
-        dateRange = moment(new Date())
-          .subtract(1, 'day');
-        break;
-      case DateRange.WEEK:
-        dateRange = moment(new Date())
-          .subtract(1, 'week');
-        break;
-      case DateRange.FORTNIGHT:
-        dateRange = moment(new Date())
-          .subtract(2, 'week');
-        break;
-      case DateRange.NINETY_DAYS:
-        dateRange = moment(new Date())
-          .subtract(90, 'days');
-        break;
-      case DateRange.ONE_YEAR:
-        dateRange = moment(new Date())
-          .subtract(1, 'year');
-        break;
-      case DateRange.EIGHTEEN_MONTHS:
-        dateRange = moment(new Date())
-          .subtract(18, 'months');
-        break;
-    }
+    const today = new Date();
+    const dateRange = (() => {
+      switch (range) {
+        case DateRange.TODAY:
+          return moment(today).subtract(1, 'day');
+        case DateRange.WEEK:
+          return moment(today).subtract(1, 'week');
+        case DateRange.FORTNIGHT:
+          return moment(today).subtract(2, 'weeks');
+        case DateRange.NINETY_DAYS:
+          return moment(today).subtract(90, 'days');
+        case DateRange.ONE_YEAR:
+          return moment(today).subtract(1, 'year');
+        case DateRange.EIGHTEEN_MONTHS:
+          return moment(today).subtract(18, 'months');
+        default:
+          return null;
+      }
+    })();
 
     return this.moment.isSameOrAfter(dateRange);
   }
