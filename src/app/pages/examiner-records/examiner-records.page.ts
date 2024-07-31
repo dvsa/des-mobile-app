@@ -443,6 +443,13 @@ export class ExaminerRecordsPage implements OnInit {
 
             //add every visited location to location array
             value.forEach((val) => {
+              if (!(val.item.centreName)) {
+                // Should there be no centre name available, display cost code or centre id,
+                // depending on whether cost code is available
+                val.item.centreName = `Limited details - ${
+                  !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
+                }`
+              }
               this.locationFilterOptions.push(val.item);
             });
 
@@ -679,7 +686,7 @@ export class ExaminerRecordsPage implements OnInit {
     if (ionSelectTriggered) {
       this.categorySelectPristine = false;
     }
-    if (this.categorySubject$.value !== event) {
+    if (event && this.categorySubject$.value !== event) {
       this.categoryDisplay = `Test category: ${event}`;
       this.currentCategory = event;
       this.categorySubject$.next(event ?? null);
