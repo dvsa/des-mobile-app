@@ -210,6 +210,160 @@ describe('VehicleDetailsCardComponent', () => {
       });
     });
 
+    describe('displayVehicleDetailsSeparator', () => {
+      it('should return true if instructorRegistrationNumber is defined', () => {
+        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(12345);
+        expect(component.displayVehicleDetailsSeparator).toBeTruthy();
+      });
+
+      it('should return true if shouldShowDimensions is true', () => {
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
+        expect(component.displayVehicleDetailsSeparator).toBeTruthy();
+      });
+
+      it('should return true if schoolBike is defined', () => {
+        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        expect(component.displayVehicleDetailsSeparator).toBeTruthy();
+      });
+
+      it('should return true if trainerPRN is defined and is not ADI3', () => {
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        expect(component.displayVehicleDetailsSeparator).toBeTruthy();
+      });
+
+      it('should return true if isADI2 is true', () => {
+        spyOn(component, 'isADI2').and.returnValue(true);
+        expect(component.displayVehicleDetailsSeparator).toBeTruthy();
+      });
+
+      it('should return true if isADI3 is true', () => {
+        spyOn(component, 'isADI3').and.returnValue(true);
+        expect(component.displayVehicleDetailsSeparator).toBeTruthy();
+      });
+
+      it('should return false if all conditions are false or undefined', () => {
+        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(undefined);
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
+        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOn(component, 'isADI2').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        expect(component.displayVehicleDetailsSeparator).toBeFalsy();
+      });
+    });
+
+    describe('showInstructorRegistrationNumberSeparator', () => {
+      it('returns true if shouldShowDimensions is true', () => {
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
+        expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if schoolBike is defined', () => {
+        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if isADI2 is true', () => {
+        spyOn(component, 'isADI2').and.returnValue(true);
+        expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if isADI3 is true', () => {
+        spyOn(component, 'isADI3').and.returnValue(true);
+        expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if trainerPRN is defined and isADI3 is false', () => {
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns false if all conditions are false or undefined', () => {
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
+        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
+        spyOn(component, 'isADI2').and.returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        expect(component.showInstructorRegistrationNumberSeparator).toBeFalsy();
+      });
+    });
+
+    describe('showRegistrationNumberSeparator', () => {
+      it('returns true if isADI2 is true', () => {
+        spyOn(component, 'isADI2').and.returnValue(true);
+        expect(component.showRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if isADI3 is true', () => {
+        spyOn(component, 'isADI3').and.returnValue(true);
+        expect(component.showRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if trainerPRN is defined and isADI3 is false', () => {
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        expect(component.showRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if schoolBike is defined', () => {
+        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        expect(component.showRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if displayRegistration is true', () => {
+        spyOn(component, 'displayRegistration').and.returnValue(true);
+        expect(component.showRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns true if vehicleDetails is defined', () => {
+        component.vehicleDetails = ['detail1', 'detail2'];
+        expect(component.showRegistrationNumberSeparator).toBeTruthy();
+      });
+
+      it('returns false if all conditions are false or undefined', () => {
+        spyOn(component, 'isADI2').and.returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
+        spyOn(component, 'displayRegistration').and.returnValue(false);
+        component.vehicleDetails = undefined;
+        expect(component.showRegistrationNumberSeparator).toBeFalsy();
+      });
+    });
+
+    describe('shouldShowDimensionsSeparator', () => {
+      it('returns true if isADI2 is true', () => {
+        spyOn(component, 'isADI2').and.returnValue(true);
+        expect(component.shouldShowDimensionsSeparator).toBeTruthy();
+      });
+
+      it('returns true if schoolBike is defined', () => {
+        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        expect(component.shouldShowDimensionsSeparator).toBeTruthy();
+      });
+
+      it('returns true if isADI3 is true', () => {
+        spyOn(component, 'isADI3').and.returnValue(true);
+        expect(component.shouldShowDimensionsSeparator).toBeTruthy();
+      });
+
+      it('returns true if trainerPRN is defined and isADI3 is false', () => {
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        expect(component.shouldShowDimensionsSeparator).toBeTruthy();
+      });
+
+      it('returns false if all conditions are false or undefined', () => {
+        spyOn(component, 'isADI2').and.returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
+        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        expect(component.shouldShowDimensionsSeparator).toBeFalsy();
+      });
+    });
+
     describe('shouldShowExtraDimensions', () => {
       [
         TestCategory.CM,

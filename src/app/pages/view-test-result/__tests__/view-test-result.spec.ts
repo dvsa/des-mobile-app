@@ -563,29 +563,59 @@ describe('ViewTestResultPage', () => {
       expect(component.getVehicleDetails())
         .toEqual(null);
     });
-    it('should return null if there a no test result and the category is not B', () => {
+    it('should return null if there a no test result and the category is not B or ADI2', () => {
       component.testResult = { activityCode: '1' } as TestResultSchemasUnion;
-      spyOn(component, 'isCategoryB')
-        .and
-        .returnValue(false);
+      component.testCategory = TestCategory.SC;
       expect(component.getVehicleDetails())
         .toEqual(null);
     });
     it('should return Dual controls if dualControls is true and the category is B', () => {
       component.testResult = { vehicleDetails: { dualControls: true } } as TestResultSchemasUnion;
-      spyOn(component, 'isCategoryB')
-        .and
-        .returnValue(true);
+      component.testCategory = TestCategory.B;
       expect(component.getVehicleDetails())
         .toEqual(['Dual controls']);
     });
     it('should return School car if schoolCar is true and the category is B', () => {
       component.testResult = { vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion;
-      spyOn(component, 'isCategoryB')
-        .and
-        .returnValue(true);
+      component.testCategory = TestCategory.B;
       expect(component.getVehicleDetails())
         .toEqual(['School car']);
+    });
+    it('should return School car and Dual controls' +
+      ' if schoolCar is true and the category is B', () => {
+      component.testResult = {
+        vehicleDetails: {
+          schoolCar: true,
+          dualControls: true,
+        },
+      } as TestResultSchemasUnion;
+      component.testCategory = TestCategory.B;
+      expect(component.getVehicleDetails())
+        .toEqual(['Dual controls', 'School car']);
+    });
+    it('should return Dual controls if dualControls is true and the category is ADI2', () => {
+      component.testResult = { vehicleDetails: { dualControls: true } } as TestResultSchemasUnion;
+      component.testCategory = TestCategory.ADI2;
+      expect(component.getVehicleDetails())
+        .toEqual(['Dual controls']);
+    });
+    it('should return School car if schoolCar is true and the category is ADI2', () => {
+      component.testResult = { vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion;
+      component.testCategory = TestCategory.ADI2;
+      expect(component.getVehicleDetails())
+        .toEqual(['School car']);
+    });
+    it('should return School car and Dual controls' +
+      ' if schoolCar is true and the category is ADI2', () => {
+      component.testResult = {
+        vehicleDetails: {
+          schoolCar: true,
+          dualControls: true,
+        },
+      } as TestResultSchemasUnion;
+      component.testCategory = TestCategory.ADI2;
+      expect(component.getVehicleDetails())
+        .toEqual(['Dual controls', 'School car']);
     });
   });
 
