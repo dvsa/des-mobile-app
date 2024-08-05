@@ -30,6 +30,7 @@ import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/te
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -89,6 +90,16 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     injector: Injector,
   ) {
     super(injector);
+  }
+
+  getFilteredPages(pages: Page[]): Page[] {
+    const role = this.appConfigProvider.getAppConfig()?.role;
+    if (!role) {
+      return pages;
+    }
+    return pages.filter(
+      (page) => !isAnyOf(role, (page.hideWhenRole || [])),
+    );
   }
 
   async ngOnInit() {
