@@ -74,6 +74,13 @@ export class VehicleDetailsCardComponent {
     }
   }
 
+  public get shouldShowDimensionsSeparator(): boolean {
+    return !!(this.isADI2() ||
+      this.schoolBike ||
+      this.isADI3() ||
+      (!this.isADI3() && this.trainerPRN))
+  }
+
   public get shouldShowExtraDimensions(): boolean {
     switch (this.category) {
       case TestCategory.CM:
@@ -126,12 +133,28 @@ export class VehicleDetailsCardComponent {
     return get(this.instructorDetails, 'registrationNumber');
   }
 
+  public get showInstructorRegistrationNumberSeparator(): boolean {
+    return !!(this.shouldShowDimensions ||
+      this.schoolBike ||
+      this.isADI2() ||
+      this.isADI3() ||
+      (!this.isADI3() && this.trainerPRN))
+  }
+
   public get transmission(): string {
     return get(this.data, 'gearboxCategory');
   }
 
   public get registrationNumber(): string {
     return get(this.data, 'registrationNumber');
+  }
+
+  public get showRegistrationNumberSeparator(): boolean {
+    return !!((this.isADI2() || this.isADI3()) ||
+      (!this.isADI3() && this.trainerPRN) ||
+      this.schoolBike ||
+      this.displayRegistration() ||
+      this.vehicleDetails)
   }
 
   public get vehicleLength(): string {
@@ -173,8 +196,12 @@ export class VehicleDetailsCardComponent {
     return get(this.trainerData, 'trainingRecords', false) ? 'Yes' : 'No';
   }
 
-  public get displayVehicleDetails(): boolean {
-    return get(this.data, 'schoolCar', false) || get(this.data, 'dualControls', false);
+  public get displayVehicleDetailsSeparator(): boolean {
+    return !!(this.instructorRegistrationNumber
+      || this.shouldShowDimensions
+      || this.schoolBike
+      || (!this.isADI3() && this.trainerPRN)
+      || (this.isADI2() || this.isADI3()))
   }
 
   public get schoolCarDualControls(): string {

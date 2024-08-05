@@ -18,11 +18,7 @@
 
       <data-row
         *ngIf="registrationNumber"
-        [shouldHaveSeperator]="!!((isADI2() || isADI3()) ||
-         (!isADI3() && trainerPRN) ||
-         schoolBike ||
-         displayRegistration() ||
-         vehicleDetails)"
+        [shouldHaveSeperator]="showRegistrationNumberSeparator"
         [label]="'Vehicle registration number'"
         [value]="registrationNumber"
       >
@@ -31,11 +27,7 @@
       <data-row-custom
         *ngIf="vehicleDetails"
         [label]="'Vehicle details'"
-        [shouldHaveSeperator]="!!(instructorRegistrationNumber
-         || shouldShowDimensions
-         || schoolBike
-         || (!isADI3() && trainerPRN)
-         || (isADI2() || isADI3()))"
+        [shouldHaveSeperator]="displayVehicleDetailsSeparator"
       >
         <span class="mes-data" *ngIf="vehicleDetails?.length === 0">None</span>
         <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
@@ -45,20 +37,13 @@
         *ngIf="instructorRegistrationNumber"
         [label]="'Instructor registration number'"
         [value]="instructorRegistrationNumber"
-        [shouldHaveSeperator]="!!(shouldShowDimensions ||
-        schoolBike ||
-        isADI2() ||
-        isADI3() ||
-        (!isADI3() && trainerPRN))"
+        [shouldHaveSeperator]="showInstructorRegistrationNumberSeparator"
       >
       </data-row>
 
       <data-row-custom
         *ngIf="shouldShowDimensions"
-        [shouldHaveSeperator]="!!(isADI2() ||
-        schoolBike ||
-        isADI3() ||
-        (!isADI3() && trainerPRN))"
+        [shouldHaveSeperator]="shouldShowDimensionsSeparator"
         [label]="'Vehicle dimensions'"
       >
         <ion-grid>
