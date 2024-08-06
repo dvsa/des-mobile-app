@@ -402,6 +402,87 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
+   * Sets up the category select list with the provided values.
+   *
+   * This method performs the following actions:
+   * 1. Initializes the `categoryFilterOptions` array.
+   * 2. Adds every completed category to the `categoryFilterOptions` array.
+   * 3. Checks if the current category is included in the `categoryFilterOptions`.
+   *    - If not, finds the most common category and sets it as the default.
+   *    - If yes, calls `changeEligibleTests` to update the eligible tests.
+   *
+   * @param {Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]} categories - The array of category data to
+   * set up the select list.
+   */
+  setupCategorySelectList(categories: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) {
+    this.categoryFilterOptions = [];
+
+    //add every completed category to category array
+    categories.forEach((val: Omit<ExaminerRecordData<TestCategory>, 'percentage'>) => {
+      this.categoryFilterOptions.push(val.item);
+    });
+
+    if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
+      //find most common category and set it as the default
+      const mostUsed: Omit<ExaminerRecordData<TestCategory>, 'percentage'> = this.setDefault(categories);
+
+      if (!!mostUsed) {
+        this.categoryPlaceholder = mostUsed.item;
+        this.handleCategoryFilter(mostUsed.item);
+        this.categorySelectPristine = true;
+      }
+    } else {
+      this.changeEligibleTests();
+    }
+  }
+
+  /**
+   * Sets up the location select list with the provided values.
+   *
+   * This method performs the following actions:
+   * 1. Initializes the `locationFilterOptions` array.
+   * 2. Adds every visited location to the `locationFilterOptions` array.
+   * 3. Checks if the current location is included in the `locationFilterOptions`.
+   *    - If not, finds the most common location and sets it as the default.
+   *
+   * @param {Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]} locations - The array of location data to
+   * set up the select list.
+   */
+  setupLocationSelectList(locations: Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]) {
+    this.locationFilterOptions = [];
+
+    //add every visited location to location array
+    locations.forEach((val: Omit<ExaminerRecordData<TestCentre>, 'percentage'>) => {
+      if (!val.item?.centreName) {
+        // Should there be no centre name available, display cost code or centre id,
+        // depending on whether cost code is available
+        val.item = {
+          ...val.item,
+          centreName: `Limited details - ${
+            !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
+          }`
+        }
+      }
+      this.locationFilterOptions.push(val.item);
+    });
+
+    if (!this.locationFilterOptions.map(({ centreId }) => centreId)
+      .includes(this.locationSubject$.value)) {
+      //find most common location and set it as the default
+      const mostUsed: Omit<ExaminerRecordData<TestCentre>, 'percentage'> = this.setDefault(locations);
+      if (!!mostUsed) {
+        this.locationPlaceholder = mostUsed.item.centreName;
+        this.handleLocationFilter(mostUsed.item);
+        this.locationSelectPristine = true;
+      } else if (locations.length === 0) {
+        this.locationPlaceholder = '';
+        this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+        this.locationSelectPristine = true;
+      }
+    }
+  }
+
+  /**
    * Initializes the component and sets up the necessary data and subscriptions.
    *
    * This method performs the following actions:
@@ -441,63 +522,14 @@ export class ExaminerRecordsPage implements OnInit {
       circuits$: this.getTestsByParameters(getCircuits),
       locationList$: this.getLocationsByParameters(getLocations)
         .pipe(
-          tap((value) => {
-            this.locationFilterOptions = [];
-
-            //add every visited location to location array
-            value.forEach((val) => {
-              if (!val.item?.centreName) {
-                // Should there be no centre name available, display cost code or centre id,
-                // depending on whether cost code is available
-                val.item = {
-                  ...val.item,
-                  centreName: `Limited details - ${
-                    !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
-                  }`
-                }
-              }
-              this.locationFilterOptions.push(val.item);
-            });
-
-            if (!this.locationFilterOptions.map(({ centreId }) => centreId)
-              .includes(this.locationSubject$.value)) {
-              //find most common location and set it as the default
-              const mostUsed = this.setDefault(value);
-              if (!!mostUsed) {
-                this.locationPlaceholder = mostUsed.item.centreName;
-                this.handleLocationFilter(mostUsed.item);
-                this.locationSelectPristine = true;
-              } else if (value.length === 0) {
-                this.locationPlaceholder = '';
-                this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
-                this.locationSelectPristine = true;
-              }
-            }
-
+          tap((value: Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]) => {
+            this.setupLocationSelectList(value);
           }),
         ),
       categoryList$: this.getCategoriesByParameters(getCategories)
         .pipe(
           tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
-            this.categoryFilterOptions = [];
-
-            //add every completed category to category array
-            value.forEach((val) => {
-              this.categoryFilterOptions.push(val.item);
-            });
-
-            if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
-              //find most common category and set it as the default
-              const mostUsed = this.setDefault(value);
-
-              if (!!mostUsed) {
-                this.categoryPlaceholder = mostUsed.item;
-                this.handleCategoryFilter(mostUsed.item);
-                this.categorySelectPristine = true;
-              }
-            } else {
-              this.changeEligibleTests();
-            }
+            this.setupCategorySelectList(value)
           }),
         ),
       emergencyStops$: this.getTestsByParameters(getStartedTestCount)
