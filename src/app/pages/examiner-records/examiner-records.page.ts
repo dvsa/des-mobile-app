@@ -74,8 +74,8 @@ export interface ExaminerRecordsPageStateData {
   testCount: number,
   emergencyStops: ExaminerRecordData<string>[],
   circuits: ExaminerRecordData<string>[],
-  locationList: { item: TestCentre, count: number }[],
-  categoryList: { item: TestCategory, count: number }[]
+  locationList: Omit<ExaminerRecordData<TestCentre>, 'percentage'>[],
+  categoryList: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]
 }
 
 interface ExaminerRecordsState {
@@ -89,8 +89,8 @@ interface ExaminerRecordsState {
   balanceQuestions$: Observable<ExaminerRecordData<string>[]>;
   independentDriving$: Observable<ExaminerRecordData<string>[]>;
   testCount$: Observable<number>;
-  locationList$: Observable<{ item: TestCentre, count: number }[]>;
-  categoryList$: Observable<{ item: TestCategory, count: number }[]>;
+  locationList$: Observable<Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]>;
+  categoryList$: Observable<Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]>;
   emergencyStops$: Observable<ExaminerRecordData<string>[]>;
   circuits$: Observable<ExaminerRecordData<string>[]>;
 }
@@ -104,14 +104,14 @@ export class ExaminerRecordsPage implements OnInit {
 
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
-  testSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
-  testsInRangeSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
-  eligTestSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
-  rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
-  locationSubject$ = new BehaviorSubject<number | null>(null);
-  categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
+  testSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
+  testsInRangeSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
+  eligTestSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
+  rangeSubject$: BehaviorSubject<DateRange> = new BehaviorSubject<DateRange>(null);
+  locationSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  categorySubject$: BehaviorSubject<TestCategory> = new BehaviorSubject<TestCategory>(null);
   pageState: ExaminerRecordsState;
-  hideMainContent = false;
+  hideMainContent: boolean = false;
   colourOption: ColourScheme = this.getColour(this.store$.selectSignal(selectColourScheme)());
   categoryPlaceholder: string;
   locationPlaceholder: string;
@@ -295,7 +295,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
    * date range, category, and location.
    */
-  private getLocationsByParameters = <T>(fn: (
+  getLocationsByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
     range: DateRange,
     category: string,
@@ -343,7 +343,7 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * Removes duplicate entries from an array and sorts its content by the most recent date.
+   * Removes duplicate entries from an array and sorts the content by the most recent date.
    *
    * This method filters out duplicate entries in the provided array based on the `appRef` property
    * and then sorts the remaining entries in descending order by the `startDate` property.

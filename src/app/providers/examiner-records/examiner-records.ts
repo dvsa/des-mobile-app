@@ -28,11 +28,9 @@ export const enum ColourEnum {
   GREYSCALE = 'Greyscale',
 }
 
-export type ExaminerRecordsRange = DateRange;
-
 export interface SelectableDateRange {
   display: string;
-  val: ExaminerRecordsRange;
+  val: DateRange;
 }
 export type DESChartTypes = Extract<ChartType, 'bar' | 'pie'>;
 @Injectable()

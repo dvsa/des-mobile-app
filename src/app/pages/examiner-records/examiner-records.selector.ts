@@ -10,7 +10,6 @@ import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constan
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/constants/competencies/catadi2-manoeuvres';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
-import { ExaminerRecordsRange } from '@providers/examiner-records/examiner-records';
 
 // Generic `T` is the configurable type of the item
 export interface ExaminerRecordData<T> {
@@ -57,7 +56,7 @@ export const getIndex = (item: string) => {
 export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
-  range: ExaminerRecordsRange = null,
+  range: DateRange = null,
   centreId: number = null,
   filterByLocation: boolean = true,
   filterByCategory: boolean = true,
@@ -96,7 +95,7 @@ export const getEmergencyStopCount = (
  */
 export const getLocations = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange = null,
+  range: DateRange = null,
   // Omit is a TS type, to remove a property from an interface
 ): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
   if (startedTests) {
@@ -198,7 +197,7 @@ export const getCircuits = (
  */
 export const getCategories = (
   startedTests: ExaminerRecordModel[],
-  range: ExaminerRecordsRange,
+  range: DateRange,
   category: TestCategory,
   centreId: number,
 ): {
