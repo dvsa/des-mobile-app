@@ -9,6 +9,14 @@ export enum Duration {
   SECOND = 'second',
 }
 
+export enum DateRange {
+  TODAY = 'today',
+  WEEK = '7 days',
+  FORTNIGHT = '14 days',
+  NINETY_DAYS = '90 days',
+  ONE_YEAR = '1 year',
+  EIGHTEEN_MONTHS = '18 months',
+}
 export class DateTime {
   moment: moment.Moment;
 
@@ -82,6 +90,30 @@ export class DateTime {
   isBefore(targetDate: DateTime | string | Date): boolean {
     const date = new DateTime(targetDate);
     return date.moment.diff(this.moment, Duration.SECOND) > 0;
+  }
+
+  isDuring(range: DateRange) {
+    const today = new Date();
+    const dateRange = (() => {
+      switch (range) {
+        case DateRange.TODAY:
+          return moment(today).subtract(1, 'day');
+        case DateRange.WEEK:
+          return moment(today).subtract(1, 'week');
+        case DateRange.FORTNIGHT:
+          return moment(today).subtract(2, 'weeks');
+        case DateRange.NINETY_DAYS:
+          return moment(today).subtract(90, 'days');
+        case DateRange.ONE_YEAR:
+          return moment(today).subtract(1, 'year');
+        case DateRange.EIGHTEEN_MONTHS:
+          return moment(today).subtract(18, 'months');
+        default:
+          return null;
+      }
+    })();
+
+    return this.moment.isSameOrAfter(dateRange);
   }
 
   static today(): Date {

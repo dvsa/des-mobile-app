@@ -38,10 +38,12 @@ import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/das
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
-import { AppComponent } from '../app.component';
+import { AppComponent, Page } from '../app.component';
 import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { ExaminerRole } from '@dvsa/mes-microservice-common/domain/examiner-role';
+import { AppConfig } from '@providers/app-config/app-config.model';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -244,6 +246,48 @@ describe('AppComponent', () => {
       component.initialiseNetworkState();
       expect(networkStateProvider.initialiseNetworkState)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('getFilteredPages', () => {
+    it('should return all pages if role is not defined', () => {
+      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: undefined } as AppConfig);
+      const pages: Page[] = [
+        { title: 'Page1', descriptor: 'Page1' },
+        { title: 'Page2', descriptor: 'Page2' },
+      ];
+      const result = component.getFilteredPages(pages);
+      expect(result).toEqual(pages);
+    });
+
+    it('should return filtered pages based on role', () => {
+      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+      const pages: Page[] = [
+        { title: 'Page1', descriptor: 'Page1', hideWhenRole: [ExaminerRole.DLG] },
+        { title: 'Page2', descriptor: 'Page2' },
+      ];
+      const result = component.getFilteredPages(pages);
+      expect(result).toEqual([{ title: 'Page2', descriptor: 'Page2' }]);
+    });
+
+    it('should return all pages if hideWhenRole is not defined', () => {
+      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+      const pages: Page[] = [
+        { title: 'Page1', descriptor: 'Page1' },
+        { title: 'Page2', descriptor: 'Page2' },
+      ];
+      const result = component.getFilteredPages(pages);
+      expect(result).toEqual(pages);
+    });
+
+    it('should return empty array if all pages are hidden for the role', () => {
+      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+      const pages: Page[] = [
+        { title: 'Page1', descriptor: 'Page1', hideWhenRole: [ExaminerRole.DLG] },
+        { title: 'Page2', descriptor: 'Page2', hideWhenRole: [ExaminerRole.DLG] },
+      ];
+      const result = component.getFilteredPages(pages);
+      expect(result).toEqual([]);
     });
   });
 

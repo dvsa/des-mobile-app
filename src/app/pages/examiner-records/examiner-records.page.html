@@ -1,0 +1,459 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons id="pass-cert-burger-menu-btn" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
+  </ion-toolbar>
+  <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
+    <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
+  </div>
+  <ion-row
+    class="background-colour ion-padding-top ion-padding-bottom position-fixed width-100-percent"
+    *ngIf="displayScrollBanner && ((pageState.locationList$ | async).length > 0)"
+  >
+    <ion-text [innerHTML]="getLabelText()" class="mes-padding-left mes-data"> </ion-text>
+  </ion-row>
+</ion-header>
+
+<ion-content
+  [fullscreen]="true"
+  [scrollEvents]="true"
+  (ionScroll)="handleScroll($any($event))"
+  *ngIf="{
+  routeGrid: pageState.routeNumbers$ | async,
+  manoeuvresGrid: pageState.manoeuvres$ | async,
+  showMeQuestionsGrid: pageState.showMeQuestions$ | async,
+  independentDrivingGrid: pageState.independentDriving$ | async,
+  tellMeQuestionsGrid: pageState.tellMeQuestions$ | async,
+  safetyGrid: pageState.safetyQuestions$ | async,
+  balanceGrid: pageState.balanceQuestions$ | async,
+  testCount: pageState.testCount$ | async,
+  emergencyStops: pageState.emergencyStops$ | async,
+  circuits: pageState.circuits$ | async,
+  locationList: pageState.locationList$ | async,
+  categoryList: pageState.categoryList$ | async
+} as data"
+>
+  <ion-row class="ion-padding">
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
+      <ion-row>
+        <label>Location</label>
+      </ion-row>
+      <ion-row class="padding-top-10">
+        <ion-select
+          *ngIf="data.locationList?.length > 0"
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          id="locationSelect"
+          (ionChange)="handleLocationFilter($event?.detail?.value, true)"
+          labelPlacement="stacked"
+          [value]="locationSelectPristine ? null : currentTestCentre"
+          [placeholder]="locationPlaceholder"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of locationFilterOptions;">
+            {{ option.centreName }}
+          </ion-select-option>
+        </ion-select>
+        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available</ion-text>
+      </ion-row>
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 23 : 20">
+      <ion-row>
+        <label>Test category</label>
+      </ion-row>
+      <ion-row class="padding-top-10">
+        <ion-select
+          *ngIf="data.categoryList?.length > 0"
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
+          labelPlacement="stacked"
+          id="categorySelect"
+          [value]="categorySelectPristine ? null : categorySubject$.value"
+          [placeholder]="categoryPlaceholder"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of categoryFilterOptions;">
+            {{ option }}
+          </ion-select-option>
+        </ion-select>
+        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
+      </ion-row>
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col size="25">
+      <ion-row>
+        <label>Date range</label>
+      </ion-row>
+      <ion-row class="padding-top-10">
+        <ion-select
+          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+          class="input-styling-background black-text"
+          (ionChange)="handleDateFilter($event)"
+          labelPlacement="stacked"
+          [placeholder]="defaultDate.display"
+        >
+          <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.localFilterOptions;">
+            {{ option.display }}
+          </ion-select-option>
+          <div>
+            <ion-select-option
+              [disabled]="!cachedExaminerRecords"
+              [value]="option"
+              *ngFor="let option of examinerRecordsProvider.onlineFilterOptions;"
+            >
+              {{ option.display }}
+            </ion-select-option>
+          </div>
+        </ion-select>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row class="mes-padding-right mes-padding-left">
+    <ion-col size="auto">
+      <colour-filter-radio
+        [formGroup]="form"
+        [colourScheme]="colourOption.name"
+        (filterChange)="colourFilterChanged($event)"
+      >
+      </colour-filter-radio>
+    </ion-col>
+    <ion-col></ion-col>
+    <ion-col class="ion-align-items-center display-flex" size="auto">
+      <label>Hide charts</label>
+    </ion-col>
+    <ion-col size="7" class="display-flex ion-float-end ion-align-items-center">
+      <input
+        type="checkbox"
+        id="chart-toggle-input"
+        class="gds-checkbox"
+        (change)="hideChart()"
+        [checked]="hideMainContent"
+      />
+      <label [for]="'chart-toggle-input'"></label>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="((pageState.locationList$ | async).length > 0)" class="ion-padding-top ion-padding-bottom">
+    <ion-text
+      [style.color]="displayScrollBanner ? 'transparent' : 'black'"
+      [innerHTML]="getLabelText()"
+      class="mes-padding-left mes-data"
+    >
+    </ion-text>
+  </ion-row>
+
+  <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
+    <ion-row class="ion-justify-content-center display-flex">
+      <ion-col *ngIf="data.routeGrid?.length && !isMod1()" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [cardTitle]="'Test routes completed'"
+          [showMainContent]="!hideMainContent"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Route', 'Amount', '%']"
+          [chartID]="'testRoutes'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.routeGrid"
+          (onCardClick)="cardClicked($event)"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.independentDrivingGrid?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [hasChart]="false"
+          [hasCustomMainContent]="true"
+          [hasCustomExpandedContent]="true"
+          [useGrid]="false"
+          [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [passedData]="data.independentDrivingGrid"
+        >
+          <div head class="width-100-percent">
+            <ion-row>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ data.independentDrivingGrid[0].percentage }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="ion-justify-content-center padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6">
+                    {{ (data.independentDrivingGrid[0].item).split("- ")[1] }}
+                  </ion-text>
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ data.independentDrivingGrid[1].percentage }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="ion-justify-content-center padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6">
+                    {{ (data.independentDrivingGrid[1].item).split("- ")[1] }}
+                  </ion-text>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div body>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [value]="data.independentDrivingGrid[0].count + ' ('+data.independentDrivingGrid[0].percentage+')'"
+              label='Tests using {{(data.independentDrivingGrid[0].item).split("- ")[1].toLowerCase()}}'
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [value]="data.independentDrivingGrid[1].count + ' ('+data.independentDrivingGrid[1].percentage+')'"
+              label='Tests using {{(data.independentDrivingGrid[1].item).split("- ")[1].toLowerCase()}}'
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [value]="getTotal(data.independentDrivingGrid)"
+              [label]="'Total tests with ' + (isBike() ? 'independent riding' : 'independent driving')"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0', 'font-style': 'italic'}"
+              [labelStyling]="{'font-weight': 400, 'font-style': 'italic'}"
+              [shouldHaveSeperator]="false"
+              [value]="'20%'"
+              label='Target percentage of tests using {{(data.independentDrivingGrid[0].item).split("-")[1].toLowerCase()}}'
+            >
+            </data-row>
+          </div>
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.emergencyStops && showEmergencyStop()" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [hasChart]="false"
+          [hasCustomMainContent]="true"
+          [hasCustomExpandedContent]="true"
+          [useGrid]="false"
+          [cardTitle]="'Emergency stops'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [passedData]="data.emergencyStops"
+        >
+          <div head class="width-100-percent">
+            <ion-row>
+              <ion-col>
+                <ion-row class="ion-justify-content-center">
+                  <ion-text class="ion-text-center des-header-style-1">
+                    {{ data.emergencyStops[0].percentage }}
+                  </ion-text>
+                </ion-row>
+                <ion-row class="ion-justify-content-center padding-top-10">
+                  <ion-text class="ion-text-center des-header-style-6"> Emergency stop</ion-text>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div body>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [value]="data.emergencyStops[0].count + ' ('+data.emergencyStops[0].percentage+')'"
+              label="Tests with an emergency stop"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [value]="data.emergencyStops[1].count + ' ('+data.emergencyStops[1].percentage+')'"
+              label="Tests without emergency stop"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0'}"
+              [labelStyling]="{'font-weight': 400}"
+              [shouldHaveSeperator]="false"
+              [value]="getTotal(data.emergencyStops)"
+              [label]="'Total tests'"
+            >
+            </data-row>
+            <data-row
+              class="additional-data-row target-padding"
+              [customLabelWidth]="50"
+              [rowStyling]="{'padding': '0', 'font-style': 'italic'}"
+              [labelStyling]="{'font-weight': 400, 'font-style': 'italic'}"
+              [shouldHaveSeperator]="false"
+              [value]="'33%'"
+              label="Target percentage of tests with an emergency stop"
+            >
+            </data-row>
+          </div>
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.manoeuvresGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Manoeuvres completed'"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'manoeuvresChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.manoeuvresGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.showMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Show me questions asked'"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'showMeChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.showMeQuestionsGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.tellMeQuestionsGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Tell me questions asked'"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'tellMeChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.tellMeQuestionsGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.balanceGrid?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Balance questions asked'"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'balanceChart'"
+          [splitChartLabel]="true"
+          [chartType]="'pie'"
+          [colourScheme]="colourOption.pie"
+          [passedData]="data.balanceGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.safetyGrid?.length" class="ion-no-padding" size="auto">
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Safety questions asked'"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'safetyChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.safetyGrid"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      <ion-col *ngIf="data.circuits?.length" class="ion-no-padding" size="48">
+        <examiner-reports-card
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [canExpand]="!hideMainContent"
+          [cardTitle]="'Circuits'"
+          [averageColour]="colourOption.average"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Circuit', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'circuit'"
+          [splitChartLabel]="true"
+          [chartType]="'pie'"
+          [colourScheme]="colourOption.pie"
+          [passedData]="data.circuits"
+        >
+        </examiner-reports-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <ion-card *ngIf="displayNoDataCard(data)">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-row>
+          <ion-col>
+            <ion-text class="des-header-style-4 fault-heading">No data available</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="text-align-center">
+      <ion-text class="mes-data">
+        No driving test data available for this period.<br /><br />Select another date range.
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="footer-styling">
+  <ion-row class="ion-padding-top mes-full-width-card-half-padding box-shadow">
+    <ion-col class="ion-text-center">
+      <ion-button
+        id="dlg-return-to-dashboard-btn"
+        class="mes-primary-button width-80-percent"
+        (click)="goToDashboard()"
+      >
+        <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

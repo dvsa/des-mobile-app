@@ -1,0 +1,26 @@
+.text-align-center {
+  text-align: center;
+}
+.text-align-left {
+  text-align: left;
+}
+span, label {
+  color: inherit !important;
+}
+.colour-col {
+  display: flex;
+  align-items: start;
+}
+.data-row-padding {
+  padding-bottom: 10px;
+}
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+  &.placeholder {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}

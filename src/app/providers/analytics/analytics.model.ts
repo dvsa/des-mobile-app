@@ -50,6 +50,7 @@ export enum AnalyticsScreenNames {
   FAKE_JOURNAL = 'practice journal screen',
   UN_UPLOADED = 'incomplete tests screen',
   PASS_CERTIFICATES = 'pass certificates screen',
+  EXAMINER_RECORDS = 'examiner records screen',
 }
 
 export enum AnalyticsEventCategories {
@@ -364,6 +365,7 @@ export enum GoogleAnalyticsEvents {
   AVOIDANCE_MANOEUVRE = 'avoidance_manoeuvre',
   EMERGENCY_STOP = 'emergency_stop',
   STUDENT_EXPERIENCE = 'student_experience',
+  EXAMINER_RECORDS = 'examiner_records',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -426,6 +428,15 @@ export enum GoogleAnalyticsEventsTitles {
   LEVEL = 'level',
   ADDED = 'added',
   REMOVED = 'removed',
+  LOCATION_FILTER = 'location_filter',
+  TEST_CATEGORY_FILTER = 'test_category_filter',
+  DATE_RANGE_CHANGED = 'date_range_filter',
+  GREYSCALE_COLOUR = 'greyscale_scheme',
+  DEFAULT_COLOUR = 'default_scheme',
+  CHART_VISUALISATION = 'chart_visualisation',
+  TAP_TO_SHOW = 'tap_to_show_data',
+  TAP_TO_HIDE = 'tap_to_hide_data',
+  DATA_UNAVAILABLE = 'data_unavailable',
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -496,4 +507,8 @@ export enum GoogleAnalyticsEventsValues {
   REVERSE_MANOEUVRE = 'reverse_manoeuvre',
   OTHER_REASON = 'other_reason',
   TRAINER_ID_ENTERED = 'trainer_id_entered',
+  SELECTED = 'selected',
+  UNSELECTED = 'unselected',
+  RETURN_TO_DASHBOARD = 'return_to_dashboard',
+  DATA_BANNER_DISPLAY = 'data_banner_display',
 }

@@ -18,7 +18,7 @@ import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, EXAMINER_RECORDS, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -30,6 +30,7 @@ import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/te
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -60,6 +61,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
+    {
+      title: EXAMINER_RECORDS,
+      descriptor: 'Examiner records',
+      hideWhenRole: [ExaminerRole.DLG],
+    },
     // {
     //   title: PASS_CERTIFICATES,
     //   descriptor: 'Missing / spoiled pass certificates',
@@ -84,6 +90,16 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     injector: Injector,
   ) {
     super(injector);
+  }
+
+  getFilteredPages(pages: Page[]): Page[] {
+    const role = this.appConfigProvider.getAppConfig()?.role;
+    if (!role) {
+      return pages;
+    }
+    return pages.filter(
+      (page) => !isAnyOf(role, (page.hideWhenRole || [])),
+    );
   }
 
   async ngOnInit() {

@@ -4,6 +4,10 @@ import { searchResultsMock } from './search-results.mock';
 
 export class SearchProviderMock {
 
+  examinerRecordsSearch = jasmine.createSpy('examinerRecordsSearch')
+    .and
+    .returnValue(of(searchResultsMock));
+
   driverNumberSearch = jasmine.createSpy('driverNumberSearch')
     .and
     .returnValue(of(searchResultsMock));

@@ -4,6 +4,7 @@ import {
   DASHBOARD_PAGE,
   DELEGATED_REKEY_SEARCH_PAGE,
   DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
+  EXAMINER_RECORDS,
   FAKE_JOURNAL_PAGE,
   JOURNAL_PAGE,
   LOGIN_PAGE,
@@ -37,6 +38,11 @@ const routes: Routes = [
     path: PASS_CERTIFICATES,
     loadChildren: () => import('@pages/pass-certificates/pass-certificates.module')
       .then((m) => m.PassCertificatesPageModule),
+  },
+  {
+    path: EXAMINER_RECORDS,
+    loadChildren: () => import('@pages/examiner-records/examiner-records.module')
+      .then((m) => m.ExaminerRecordsPageModule),
   },
   {
     path: LOGIN_PAGE,

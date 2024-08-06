@@ -14,6 +14,13 @@
   padding: 32px;
 }
 
+.mes-full-width-card-half-padding {
+  &.box-shadow {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+  padding: 16px;
+}
+
 .mes-full-width-card-small-top {
   &.box-shadow {
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
@@ -54,7 +61,7 @@ signature-pad {
   &.ng-invalid {
     canvas {
       border: 4px solid var(--mes-validation-error) !important;
-      box-shadow: inset 0 0px 0px 0 #a5a2a2;
+      box-shadow: inset 0 0 0 0 #a5a2a2;
     }
   }
 }

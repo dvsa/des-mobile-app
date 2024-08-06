@@ -337,6 +337,7 @@ export class AppConfigProvider {
         testSubmissionUrl: data.tests.testSubmissionUrl,
         multipleTestResultsUrl: data.tests.multipleTestResultsUrl,
         autoSendInterval: data.tests.autoSendInterval,
+        examinerRecordsUrl: data.tests.examinerRecordsUrl
       },
       user: {
         findUserUrl: data.user.findUserUrl,
