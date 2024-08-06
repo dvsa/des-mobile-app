@@ -17,6 +17,7 @@ import {
 } from '@pages/examiner-records/examiner-records.actions';
 import {
   ExaminerRecordData,
+  ExaminerRecordDataWithPercentage,
   getBalanceQuestions,
   getCategories,
   getCircuits,
@@ -64,35 +65,35 @@ import {
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 export interface ExaminerRecordsPageStateData {
-  routeGrid: ExaminerRecordData<string>[],
-  manoeuvresGrid: ExaminerRecordData<string>[],
-  showMeQuestionsGrid: ExaminerRecordData<string>[],
-  independentDrivingGrid: ExaminerRecordData<string>[],
-  tellMeQuestionsGrid: ExaminerRecordData<string>[],
-  safetyGrid: ExaminerRecordData<string>[],
-  balanceGrid: ExaminerRecordData<string>[],
+  routeGrid: ExaminerRecordDataWithPercentage<string>[],
+  manoeuvresGrid: ExaminerRecordDataWithPercentage<string>[],
+  showMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[],
+  independentDrivingGrid: ExaminerRecordDataWithPercentage<string>[],
+  tellMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[],
+  safetyGrid: ExaminerRecordDataWithPercentage<string>[],
+  balanceGrid: ExaminerRecordDataWithPercentage<string>[],
   testCount: number,
-  emergencyStops: ExaminerRecordData<string>[],
-  circuits: ExaminerRecordData<string>[],
-  locationList: Omit<ExaminerRecordData<TestCentre>, 'percentage'>[],
-  categoryList: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]
+  emergencyStops: ExaminerRecordDataWithPercentage<string>[],
+  circuits: ExaminerRecordDataWithPercentage<string>[],
+  locationList: ExaminerRecordData<TestCentre>[],
+  categoryList: ExaminerRecordData<TestCategory>[]
 }
 
 interface ExaminerRecordsState {
   cachedRecords$: Observable<ExaminerRecordModel[]>;
   isLoadingRecords$: Observable<boolean>;
-  routeNumbers$: Observable<ExaminerRecordData<string>[]>;
-  manoeuvres$: Observable<ExaminerRecordData<string>[]>;
-  showMeQuestions$: Observable<ExaminerRecordData<string>[]>;
-  tellMeQuestions$: Observable<ExaminerRecordData<string>[]>;
-  safetyQuestions$: Observable<ExaminerRecordData<string>[]>;
-  balanceQuestions$: Observable<ExaminerRecordData<string>[]>;
-  independentDriving$: Observable<ExaminerRecordData<string>[]>;
+  routeNumbers$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  manoeuvres$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  showMeQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  tellMeQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  safetyQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  balanceQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  independentDriving$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
   testCount$: Observable<number>;
-  locationList$: Observable<Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]>;
-  categoryList$: Observable<Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]>;
-  emergencyStops$: Observable<ExaminerRecordData<string>[]>;
-  circuits$: Observable<ExaminerRecordData<string>[]>;
+  locationList$: Observable<ExaminerRecordData<TestCentre>[]>;
+  categoryList$: Observable<ExaminerRecordData<TestCategory>[]>;
+  emergencyStops$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  circuits$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
 }
 
 @Component({
@@ -411,20 +412,20 @@ export class ExaminerRecordsPage implements OnInit {
    *    - If not, finds the most common category and sets it as the default.
    *    - If yes, calls `changeEligibleTests` to update the eligible tests.
    *
-   * @param {Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]} categories - The array of category data to
+   * @param {ExaminerRecordData<TestCategory>[]} categories - The array of category data to
    * set up the select list.
    */
-  setupCategorySelectList(categories: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) {
+  setupCategorySelectList(categories: ExaminerRecordData<TestCategory>[]) {
     this.categoryFilterOptions = [];
 
     //add every completed category to category array
-    categories.forEach((val: Omit<ExaminerRecordData<TestCategory>, 'percentage'>) => {
+    categories.forEach((val: ExaminerRecordData<TestCategory>) => {
       this.categoryFilterOptions.push(val.item);
     });
 
     if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
       //find most common category and set it as the default
-      const mostUsed: Omit<ExaminerRecordData<TestCategory>, 'percentage'> = this.setDefault(categories);
+      const mostUsed: ExaminerRecordData<TestCategory> = this.setDefault(categories);
 
       if (!!mostUsed) {
         this.categoryPlaceholder = mostUsed.item;
@@ -445,14 +446,14 @@ export class ExaminerRecordsPage implements OnInit {
    * 3. Checks if the current location is included in the `locationFilterOptions`.
    *    - If not, finds the most common location and sets it as the default.
    *
-   * @param {Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]} locations - The array of location data to
+   * @param {ExaminerRecordData<TestCentre>[]} locations - The array of location data to
    * set up the select list.
    */
-  setupLocationSelectList(locations: Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]) {
+  setupLocationSelectList(locations: ExaminerRecordData<TestCentre>[]) {
     this.locationFilterOptions = [];
 
     //add every visited location to location array
-    locations.forEach((val: Omit<ExaminerRecordData<TestCentre>, 'percentage'>) => {
+    locations.forEach((val: ExaminerRecordData<TestCentre>) => {
       if (!val.item?.centreName) {
         // Should there be no centre name available, display cost code or centre id,
         // depending on whether cost code is available
@@ -469,7 +470,7 @@ export class ExaminerRecordsPage implements OnInit {
     if (!this.locationFilterOptions.map(({ centreId }) => centreId)
       .includes(this.locationSubject$.value)) {
       //find most common location and set it as the default
-      const mostUsed: Omit<ExaminerRecordData<TestCentre>, 'percentage'> = this.setDefault(locations);
+      const mostUsed: ExaminerRecordData<TestCentre> = this.setDefault(locations);
       if (!!mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
         this.handleLocationFilter(mostUsed.item);
@@ -522,13 +523,13 @@ export class ExaminerRecordsPage implements OnInit {
       circuits$: this.getTestsByParameters(getCircuits),
       locationList$: this.getLocationsByParameters(getLocations)
         .pipe(
-          tap((value: Omit<ExaminerRecordData<TestCentre>, 'percentage'>[]) => {
+          tap((value: ExaminerRecordData<TestCentre>[]) => {
             this.setupLocationSelectList(value);
           }),
         ),
       categoryList$: this.getCategoriesByParameters(getCategories)
         .pipe(
-          tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
+          tap((value: ExaminerRecordData<TestCategory>[]) => {
             this.setupCategorySelectList(value)
           }),
         ),
@@ -644,11 +645,11 @@ export class ExaminerRecordsPage implements OnInit {
    * 2. Uses the reduce function to find the element with the highest count.
    *
    * @template T The type of the elements in the data array.
-   * @param {Omit<ExaminerRecordData<T>, 'percentage'>[]} data - The array of data elements to search.
-   * @returns {Omit<ExaminerRecordData<T>, 'percentage'> | null} The element with the highest count, or null if the
+   * @param {ExaminerRecordData<T>[]} data - The array of data elements to search.
+   * @returns {ExaminerRecordData<T>} The element with the highest count, or null if the
    * input data is null or empty.
    */
-  setDefault<T>(data: Omit<ExaminerRecordData<T>, 'percentage'>[]): Omit<ExaminerRecordData<T>, 'percentage'> {
+  setDefault<T>(data: ExaminerRecordData<T>[]): ExaminerRecordData<T> {
     if (!data || data?.length === 0) {
       return null;
     }
@@ -857,11 +858,11 @@ export class ExaminerRecordsPage implements OnInit {
    * by summing up the `count` property of each object in the array.
    *
    * @template T The type of the data in the `ExaminerRecordData` objects.
-   * @param {ExaminerRecordData<T>[]} value - The array of `ExaminerRecordData` objects.
+   * @param {ExaminerRecordDataWithPercentage<T>[]} value - The array of `ExaminerRecordData` objects.
    * @returns {number} The total count of individual instances of data.
    */
   getTotal = <T>(
-    value: ExaminerRecordData<T>[],
+    value: ExaminerRecordDataWithPercentage<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   /**

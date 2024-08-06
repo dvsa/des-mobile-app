@@ -15,6 +15,10 @@ import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examin
 export interface ExaminerRecordData<T> {
   item: T;
   count: number;
+}
+
+// Generic `T` is the configurable type of the item
+export interface ExaminerRecordDataWithPercentage<T> extends ExaminerRecordData<T>{
   percentage: string;
 }
 
@@ -97,7 +101,7 @@ export const getLocations = (
   startedTests: ExaminerRecordModel[],
   range: DateRange = null,
   // Omit is a TS type, to remove a property from an interface
-): Omit<ExaminerRecordData<TestCentre>, 'percentage'>[] => {
+): Omit<ExaminerRecordDataWithPercentage<TestCentre>, 'percentage'>[] => {
   if (startedTests) {
     const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null)
       .filter((record) => !!get(record, 'testCentre', null).centreId);
@@ -121,7 +125,7 @@ export const getLocations = (
 export const getIndependentDrivingStats = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
   if (!startedTests || !category || isAnyOf(category, [
     TestCategory.ADI3, TestCategory.SC,
@@ -165,7 +169,7 @@ export const getIndependentDrivingStats = (
 export const getCircuits = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   //getCircuits is only applicable to the following categories, and so we can avoid the entire function
   if (!startedTests || !category || !isAnyOf(category, [
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
@@ -238,7 +242,7 @@ export const getStartedTestCount = (
  */
 export const getRouteNumbers = (
   startedTests: ExaminerRecordModel[],
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   if (startedTests) {
     const data = (startedTests)
       .filter((record: ExaminerRecordModel) => get(record, 'routeNumber', null) !== null);
@@ -264,7 +268,7 @@ export const getRouteNumbers = (
 export const getSafetyQuestions = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
@@ -305,7 +309,7 @@ export const getSafetyQuestions = (
 export const getBalanceQuestions = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
@@ -344,7 +348,7 @@ export const getBalanceQuestions = (
 export const getShowMeQuestions = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
@@ -376,7 +380,7 @@ export const getShowMeQuestions = (
 export const getTellMeQuestions = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
@@ -422,7 +426,7 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
 export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
-): ExaminerRecordData<string>[] => {
+): ExaminerRecordDataWithPercentage<string>[] => {
   let faultsEncountered: string[] = [];
   let manoeuvreTypeLabels: string[] = [];
   if (category) {

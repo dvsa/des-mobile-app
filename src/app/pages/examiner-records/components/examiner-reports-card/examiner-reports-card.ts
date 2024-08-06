@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.selector';
+import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 import { ChartType } from 'ng-apexcharts';
 
 export interface ExaminerReportsCardClick {
@@ -20,7 +20,7 @@ export class ExaminerReportsCard {
   onCardClick: EventEmitter<ExaminerReportsCardClick> = new EventEmitter<ExaminerReportsCardClick>();
 
   @Input()
-  passedData: ExaminerRecordData<any>[] = null;
+  passedData: ExaminerRecordDataWithPercentage<any>[] = null;
   @Input()
   chartID: string = null;
   @Input()
@@ -87,11 +87,11 @@ export class ExaminerReportsCard {
    * The `count` property is converted to a number before summing.
    *
    * @template T - The type of the data contained in the `ExaminerRecordData` objects.
-   * @param {ExaminerRecordData<T>[]} value - The array of `ExaminerRecordData` objects to be totaled.
+   * @param {ExaminerRecordDataWithPercentage<T>[]} value - The array of `ExaminerRecordData` objects to be totaled.
    * @returns {number} The total count of all `ExaminerRecordData` objects.
    */
   getTotal = <T>(
-    value: ExaminerRecordData<T>[],
+    value: ExaminerRecordDataWithPercentage<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   /**
@@ -102,11 +102,12 @@ export class ExaminerReportsCard {
    * containing an empty array.
    *
    * @template T - The type of the data contained in the `ExaminerRecordData` objects.
-   * @param {ExaminerRecordData<T>[]} examinerRecordData - The array of `ExaminerRecordData` objects to be formatted.
+   * @param {ExaminerRecordDataWithPercentage<T>[]} examinerRecordData - The array of `ExaminerRecordData` objects
+   * to be formatted.
    * @returns {T[][]} A two-dimensional array where each inner array contains the values of an `ExaminerRecordData`
    * object.
    */
-  filterDataForGrid<T>(examinerRecordData: ExaminerRecordData<T>[]): T[][] {
+  filterDataForGrid<T>(examinerRecordData: ExaminerRecordDataWithPercentage<T>[]): T[][] {
     if (!!examinerRecordData && examinerRecordData.length > 0) {
       return examinerRecordData.map((obj) => Object.values(obj) as T[]);
     }
