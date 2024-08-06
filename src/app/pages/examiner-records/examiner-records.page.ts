@@ -327,7 +327,10 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {ExaminerRecordModel[]} cachedExaminerRecords - The cached online records to be merged.
    * @returns {ExaminerRecordModel[]} The merged array of local and cached online records.
    */
-  mergeWithOnlineResults(localRecords: ExaminerRecordModel[], cachedExaminerRecords: ExaminerRecordModel[]) {
+  mergeWithOnlineResults(
+    localRecords: ExaminerRecordModel[],
+    cachedExaminerRecords: ExaminerRecordModel[]
+  ): ExaminerRecordModel[] {
     this.cachedExaminerRecords = cachedExaminerRecords;
     if (!this.cachedExaminerRecords) {
       this.store$.dispatch(DisplayPartialBanner())
@@ -443,16 +446,18 @@ export class ExaminerRecordsPage implements OnInit {
 
             //add every visited location to location array
             value.forEach((val) => {
-              if (!(val.item.centreName)) {
+              if ((!val.item?.centreName)) {
                 // Should there be no centre name available, display cost code or centre id,
                 // depending on whether cost code is available
-                val.item.centreName = `Limited details - ${
-                  !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
-                }`
+                val.item = {
+                  ...val.item,
+                  centreName: `Limited details - ${
+                    !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
+                  }`
+                }
               }
               this.locationFilterOptions.push(val.item);
             });
-
 
             if (!this.locationFilterOptions.map(({ centreId }) => centreId)
               .includes(this.locationSubject$.value)) {
