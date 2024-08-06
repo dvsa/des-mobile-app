@@ -100,7 +100,6 @@ export const getEmergencyStopCount = (
 export const getLocations = (
   startedTests: ExaminerRecordModel[],
   range: DateRange = null,
-  // Omit is a TS type, to remove a property from an interface
 ): ExaminerRecordData<TestCentre>[] => {
   if (startedTests) {
     const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null)
