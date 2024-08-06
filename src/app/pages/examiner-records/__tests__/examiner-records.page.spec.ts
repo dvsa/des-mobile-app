@@ -25,7 +25,10 @@ import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ScrollDetail } from '@ionic/core';
 import moment from 'moment';
-import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
+import {
+  selectCachedExaminerRecords,
+  selectLastCachedDate,
+} from '@store/examiner-records/examiner-records.selectors';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { DateRange } from '@shared/helpers/date-time';
 
@@ -47,8 +50,8 @@ describe('ExaminerRecordsPage', () => {
     circuits$: of([]),
     locationList$: of([]),
     categoryList$: of([]),
-    emergencyStops$: of([])
-  }
+    emergencyStops$: of([]),
+  };
   const mockTests: ExaminerRecordModel[] = [
     {
       testCategory: TestCategory.B,
@@ -240,11 +243,51 @@ describe('ExaminerRecordsPage', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call setFilterLists', () => {
-      spyOn(component, 'setLocationFilter');
+    it('should initialize testResults and update testSubject$', async () => {
+      spyOn(component, 'removeDuplicatesAndSort').and.returnValue(mockTests);
+      spyOn(component.testSubject$, 'next');
 
-      component.ngOnInit();
+      await component.ngOnInit();
+
+      expect(component.removeDuplicatesAndSort).toHaveBeenCalledWith(component.getLocalResults());
+      expect(component.testSubject$.next).toHaveBeenCalledWith(mockTests);
+    });
+
+    it('should set default date filter', async () => {
+      spyOn(component, 'handleDateFilter');
+
+      await component.ngOnInit();
+
+      expect(component.handleDateFilter).toHaveBeenCalledWith(
+        {
+          detail: { value: component.defaultDate },
+        } as CustomEvent);
+    });
+
+    it('should set categorySelectPristine to false if categorySubject$ has value', async () => {
+      component.categorySubject$.next(TestCategory.B);
+
+      await component.ngOnInit();
+
+      expect(component.categorySelectPristine).toBeFalse();
+    });
+
+    it('should set locationSelectPristine to false if locationSubject$ has value', async () => {
+      component.locationSubject$.next(1);
+
+      await component.ngOnInit();
+
+      expect(component.locationSelectPristine).toBeFalse();
+    });
+
+    it('should set location filter and fetch online records', async () => {
+      spyOn(component, 'setLocationFilter');
+      spyOn(component, 'getOnlineRecords');
+
+      await component.ngOnInit();
+
       expect(component.setLocationFilter).toHaveBeenCalled();
+      expect(component.getOnlineRecords).toHaveBeenCalled();
     });
   });
 
@@ -259,6 +302,116 @@ describe('ExaminerRecordsPage', () => {
       component.displayScrollBanner = true;
       component.handleScroll({ detail: { scrollTop: 203 } } as CustomEvent<ScrollDetail>);
       expect(component.displayScrollBanner).toBe(false);
+    });
+  });
+
+  describe('setupCategorySelectList', () => {
+    it('should add every completed category to categoryFilterOptions', () => {
+      const categories = [
+        { item: TestCategory.B, count: 1 },
+        { item: TestCategory.C, count: 2 },
+      ];
+      component.setupCategorySelectList(categories);
+      expect(component.categoryFilterOptions).toEqual([TestCategory.B, TestCategory.C]);
+    });
+
+    it('should set the most common category as the default if current category is not included', () => {
+      const categories = [
+        { item: TestCategory.B, count: 1 },
+        { item: TestCategory.C, count: 2 },
+      ];
+      spyOn(component, 'setDefault').and.returnValue(categories[1]);
+      spyOn(component, 'handleCategoryFilter');
+
+      component.categorySubject$.next(TestCategory.A);
+      component.setupCategorySelectList(categories);
+      expect(component.categoryPlaceholder).toEqual(TestCategory.C);
+      expect(component.handleCategoryFilter).toHaveBeenCalledWith(TestCategory.C);
+    });
+
+    it('should call changeEligibleTests if current category is included in categoryFilterOptions', () => {
+      const categories = [
+        { item: TestCategory.B, count: 1 },
+        { item: TestCategory.C, count: 2 },
+      ];
+      component.categorySubject$.next(TestCategory.B);
+      spyOn(component, 'changeEligibleTests');
+      component.setupCategorySelectList(categories);
+      expect(component.changeEligibleTests).toHaveBeenCalled();
+    });
+
+    it('should set categorySelectPristine to true if most common category is set as default', () => {
+      const categories = [
+        { item: TestCategory.B, count: 1 },
+        { item: TestCategory.C, count: 2 },
+      ];
+      spyOn(component, 'setDefault').and.returnValue(categories[1]);
+      component.categorySubject$.next(TestCategory.A);
+      component.setupCategorySelectList(categories);
+      expect(component.categorySelectPristine).toBeTrue();
+    });
+
+    it('should not set categorySelectPristine if current category is included in categoryFilterOptions', () => {
+      component.categorySelectPristine = false;
+      const categories = [
+        { item: TestCategory.B, count: 1 },
+        { item: TestCategory.C, count: 2 },
+      ];
+      component.categorySubject$.next(TestCategory.B);
+      spyOn(component, 'changeEligibleTests');
+      component.setupCategorySelectList(categories);
+      expect(component.categorySelectPristine).toEqual(false);
+    });
+  });
+
+  describe('setupLocationSelectList', () => {
+    it('should add every visited location to locationFilterOptions', () => {
+      const locations = [
+        { item: { centreName: 'Centre 1', centreId: 1, costCode: 'X1' }, count: 1 },
+        { item: { centreName: 'Centre 2', centreId: 2, costCode: 'X2' }, count: 2 },
+      ];
+      component.setupLocationSelectList(locations);
+      expect(component.locationFilterOptions).toEqual([
+        { centreName: 'Centre 1', centreId: 1, costCode: 'X1' },
+        { centreName: 'Centre 2', centreId: 2, costCode: 'X2' },
+      ]);
+    });
+
+    it('should display cost code or centre id if centre name is not available', () => {
+      const locations = [
+        { item: { centreName: null, centreId: 1, costCode: 'X1' }, count: 1 },
+        { item: { centreName: null, centreId: 2, costCode: null }, count: 2 },
+      ];
+      component.setupLocationSelectList(locations);
+      expect(component.locationFilterOptions).toEqual([
+        { centreName: 'Limited details - X1', centreId: 1, costCode: 'X1' },
+        { centreName: 'Limited details - 2', centreId: 2, costCode: null },
+      ]);
+    });
+
+    it('should set the most common location as the default if current location is not included', () => {
+      const locations = [
+        { item: { centreName: 'Centre 1', centreId: 1, costCode: 'X1' }, count: 1 },
+        { item: { centreName: 'Centre 2', centreId: 2, costCode: 'X2' }, count: 2 },
+      ];
+      spyOn(component, 'setDefault').and.returnValue(locations[1]);
+      spyOn(component, 'handleLocationFilter');
+
+      component.locationSubject$.next(3);
+      component.setupLocationSelectList(locations);
+      expect(component.locationPlaceholder).toEqual('Centre 2');
+      expect(component.handleLocationFilter).toHaveBeenCalledWith(locations[1].item);
+    });
+
+    it('should set locationPlaceholder to an empty string if locations array is empty', () => {
+      const locations = [];
+      spyOn(component, 'handleLocationFilter');
+
+      component.setupLocationSelectList(locations);
+      expect(component.locationPlaceholder).toEqual('');
+      expect(component.handleLocationFilter).toHaveBeenCalledWith(
+        { centreId: null, centreName: '', costCode: '' }
+      );
     });
   });
 
@@ -278,7 +431,7 @@ describe('ExaminerRecordsPage', () => {
       ]);
     });
     it('should set locationPlaceholder to the centreName property ' +
-        'of the object in the location array with the highest count', () => {
+      'of the object in the location array with the highest count', () => {
       spyOn(component, 'ngOnInit');
       component.locationFilterOptions = null;
       component.pageState.locationList$ = of([
@@ -289,7 +442,7 @@ describe('ExaminerRecordsPage', () => {
       expect(component.locationPlaceholder).toEqual('2');
     });
     it('should call handleLocationFilter with the item of ' +
-        'the object in the location array with the highest count', () => {
+      'the object in the location array with the highest count', () => {
       spyOn(component, 'ngOnInit');
 
       spyOn(component, 'handleLocationFilter');
@@ -300,7 +453,9 @@ describe('ExaminerRecordsPage', () => {
         { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
       ]);
       component.setLocationFilter();
-      expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode: 'X2' });
+      expect(component.handleLocationFilter).toHaveBeenCalledWith(
+        { centreName: '2', centreId: 2, costCode: 'X2' }
+      );
     });
   });
 
@@ -320,9 +475,9 @@ describe('ExaminerRecordsPage', () => {
         {
           detail: {
             value:
-                {
-                  display: '1',
-                },
+              {
+                display: '1',
+              },
           },
         } as CustomEvent,
       );
@@ -333,10 +488,10 @@ describe('ExaminerRecordsPage', () => {
         {
           detail: {
             value:
-                {
-                  display: '1',
-                  val: 'today',
-                },
+              {
+                display: '1',
+                val: 'today',
+              },
           },
         } as CustomEvent,
       );
@@ -350,9 +505,9 @@ describe('ExaminerRecordsPage', () => {
         {
           detail: {
             value:
-                {
-                  val: '1',
-                },
+              {
+                val: '1',
+              },
           },
         } as CustomEvent,
       );
@@ -385,8 +540,8 @@ describe('ExaminerRecordsPage', () => {
   });
 
   describe('getOnlineRecords', () => {
-    // eslint-disable-next-line max-len
-    it('should dispatch LoadingExaminerRecords and GetExaminerRecords actions when cached records are not available or last cached date is different', () => {
+    it('should dispatch LoadingExaminerRecords and GetExaminerRecords actions when ' +
+      'cached records are not available or last cached date is different', () => {
       store$.overrideSelector(selectCachedExaminerRecords, null);
       store$.overrideSelector(selectLastCachedDate, 'some other date');
 
@@ -580,8 +735,8 @@ describe('ExaminerRecordsPage', () => {
 
   describe('cardClicked', () => {
     it('should dispatch the store', () => {
-      component.cardClicked({isExpanded: false, title: 'test'});
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ClickDataCard({isExpanded: false, title: 'test'}));
+      component.cardClicked({ isExpanded: false, title: 'test' });
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ClickDataCard({ isExpanded: false, title: 'test' }));
     });
   });
 
@@ -599,7 +754,7 @@ describe('ExaminerRecordsPage', () => {
         emergencyStops: [],
         circuits: [],
         locationList: [],
-        categoryList: []
+        categoryList: [],
       };
       expect(component.displayNoDataCard(emptyData)).toBeTrue();
     });
@@ -616,8 +771,8 @@ describe('ExaminerRecordsPage', () => {
         testCount: 1,
         emergencyStops: [],
         circuits: [],
-        locationList: [{item: {centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1'}, count: 1}],
-        categoryList: [{item: TestCategory.B, count: 1}]
+        locationList: [{ item: { centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1' }, count: 1 }],
+        categoryList: [{ item: TestCategory.B, count: 1 }],
       };
 
       spyOn(component, 'getTotal').and.returnValue(1);
@@ -637,7 +792,7 @@ describe('ExaminerRecordsPage', () => {
         emergencyStops: [],
         circuits: [],
         locationList: [],
-        categoryList: []
+        categoryList: [],
       };
       expect(component.displayNoDataCard(data)).toBeTrue();
     });
@@ -670,7 +825,7 @@ describe('ExaminerRecordsPage', () => {
 
       const expectedText = 'Displaying <strong>2</strong> Category <strong>C</strong>' +
         ' test<ion-text>s</ion-text>, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong>' +
-        '<ion-text> <br /></ion-text> at <strong>Test Centre 2</strong>'
+        '<ion-text> <br /></ion-text> at <strong>Test Centre 2</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
     });
 

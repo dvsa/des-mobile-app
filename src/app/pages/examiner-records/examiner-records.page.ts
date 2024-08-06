@@ -17,6 +17,7 @@ import {
 } from '@pages/examiner-records/examiner-records.actions';
 import {
   ExaminerRecordData,
+  ExaminerRecordDataWithPercentage,
   getBalanceQuestions,
   getCategories,
   getCircuits,
@@ -64,35 +65,35 @@ import {
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 export interface ExaminerRecordsPageStateData {
-  routeGrid: ExaminerRecordData<string>[],
-  manoeuvresGrid: ExaminerRecordData<string>[],
-  showMeQuestionsGrid: ExaminerRecordData<string>[],
-  independentDrivingGrid: ExaminerRecordData<string>[],
-  tellMeQuestionsGrid: ExaminerRecordData<string>[],
-  safetyGrid: ExaminerRecordData<string>[],
-  balanceGrid: ExaminerRecordData<string>[],
+  routeGrid: ExaminerRecordDataWithPercentage<string>[],
+  manoeuvresGrid: ExaminerRecordDataWithPercentage<string>[],
+  showMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[],
+  independentDrivingGrid: ExaminerRecordDataWithPercentage<string>[],
+  tellMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[],
+  safetyGrid: ExaminerRecordDataWithPercentage<string>[],
+  balanceGrid: ExaminerRecordDataWithPercentage<string>[],
   testCount: number,
-  emergencyStops: ExaminerRecordData<string>[],
-  circuits: ExaminerRecordData<string>[],
-  locationList: { item: TestCentre, count: number }[],
-  categoryList: { item: TestCategory, count: number }[]
+  emergencyStops: ExaminerRecordDataWithPercentage<string>[],
+  circuits: ExaminerRecordDataWithPercentage<string>[],
+  locationList: ExaminerRecordData<TestCentre>[],
+  categoryList: ExaminerRecordData<TestCategory>[]
 }
 
 interface ExaminerRecordsState {
   cachedRecords$: Observable<ExaminerRecordModel[]>;
   isLoadingRecords$: Observable<boolean>;
-  routeNumbers$: Observable<ExaminerRecordData<string>[]>;
-  manoeuvres$: Observable<ExaminerRecordData<string>[]>;
-  showMeQuestions$: Observable<ExaminerRecordData<string>[]>;
-  tellMeQuestions$: Observable<ExaminerRecordData<string>[]>;
-  safetyQuestions$: Observable<ExaminerRecordData<string>[]>;
-  balanceQuestions$: Observable<ExaminerRecordData<string>[]>;
-  independentDriving$: Observable<ExaminerRecordData<string>[]>;
+  routeNumbers$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  manoeuvres$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  showMeQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  tellMeQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  safetyQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  balanceQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  independentDriving$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
   testCount$: Observable<number>;
-  locationList$: Observable<{ item: TestCentre, count: number }[]>;
-  categoryList$: Observable<{ item: TestCategory, count: number }[]>;
-  emergencyStops$: Observable<ExaminerRecordData<string>[]>;
-  circuits$: Observable<ExaminerRecordData<string>[]>;
+  locationList$: Observable<ExaminerRecordData<TestCentre>[]>;
+  categoryList$: Observable<ExaminerRecordData<TestCategory>[]>;
+  emergencyStops$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
+  circuits$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
 }
 
 @Component({
@@ -104,14 +105,14 @@ export class ExaminerRecordsPage implements OnInit {
 
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
-  testSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
-  testsInRangeSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
-  eligTestSubject$ = new BehaviorSubject<ExaminerRecordModel[] | null>(null);
-  rangeSubject$ = new BehaviorSubject<DateRange | null>(null);
-  locationSubject$ = new BehaviorSubject<number | null>(null);
-  categorySubject$ = new BehaviorSubject<TestCategory | null>(null);
+  testSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
+  testsInRangeSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
+  eligTestSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
+  rangeSubject$: BehaviorSubject<DateRange> = new BehaviorSubject<DateRange>(null);
+  locationSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  categorySubject$: BehaviorSubject<TestCategory> = new BehaviorSubject<TestCategory>(null);
   pageState: ExaminerRecordsState;
-  hideMainContent = false;
+  hideMainContent: boolean = false;
   colourOption: ColourScheme = this.getColour(this.store$.selectSignal(selectColourScheme)());
   categoryPlaceholder: string;
   locationPlaceholder: string;
@@ -295,7 +296,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
    * date range, category, and location.
    */
-  private getLocationsByParameters = <T>(fn: (
+  getLocationsByParameters = <T>(fn: (
     tests: ExaminerRecordModel[],
     range: DateRange,
     category: string,
@@ -327,7 +328,10 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {ExaminerRecordModel[]} cachedExaminerRecords - The cached online records to be merged.
    * @returns {ExaminerRecordModel[]} The merged array of local and cached online records.
    */
-  mergeWithOnlineResults(localRecords: ExaminerRecordModel[], cachedExaminerRecords: ExaminerRecordModel[]) {
+  mergeWithOnlineResults(
+    localRecords: ExaminerRecordModel[],
+    cachedExaminerRecords: ExaminerRecordModel[]
+  ): ExaminerRecordModel[] {
     this.cachedExaminerRecords = cachedExaminerRecords;
     if (!this.cachedExaminerRecords) {
       this.store$.dispatch(DisplayPartialBanner())
@@ -340,7 +344,7 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
-   * Removes duplicate entries from an array and sorts its content by the most recent date.
+   * Removes duplicate entries from an array and sorts the content by the most recent date.
    *
    * This method filters out duplicate entries in the provided array based on the `appRef` property
    * and then sorts the remaining entries in descending order by the `startDate` property.
@@ -399,6 +403,85 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
+   * Sets up the category select list with the provided values.
+   *
+   * This method performs the following actions:
+   * 1. Initializes the `categoryFilterOptions` array.
+   * 2. Adds every completed category to the `categoryFilterOptions` array.
+   * 3. Checks if the current category is included in the `categoryFilterOptions`.
+   *    - If not, finds the most common category and sets it as the default.
+   *    - If yes, calls `changeEligibleTests` to update the eligible tests.
+   *
+   * @param {ExaminerRecordData<TestCategory>[]} categories - The array of category data to
+   * set up the select list.
+   */
+  setupCategorySelectList(categories: ExaminerRecordData<TestCategory>[]) {
+    this.categoryFilterOptions = [];
+
+    //add every completed category to category array
+    this.categoryFilterOptions = categories.map((val) => val.item);
+
+    if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
+      //find most common category and set it as the default
+      const mostUsed: ExaminerRecordData<TestCategory> = this.setDefault(categories);
+
+      if (!!mostUsed) {
+        this.categoryPlaceholder = mostUsed.item;
+        this.handleCategoryFilter(mostUsed.item);
+        this.categorySelectPristine = true;
+      }
+    } else {
+      this.changeEligibleTests();
+    }
+  }
+
+  /**
+   * Sets up the location select list with the provided values.
+   *
+   * This method performs the following actions:
+   * 1. Initializes the `locationFilterOptions` array.
+   * 2. Adds every visited location to the `locationFilterOptions` array.
+   * 3. Checks if the current location is included in the `locationFilterOptions`.
+   *    - If not, finds the most common location and sets it as the default.
+   *
+   * @param {ExaminerRecordData<TestCentre>[]} locations - The array of location data to
+   * set up the select list.
+   */
+  setupLocationSelectList(locations: ExaminerRecordData<TestCentre>[]) {
+    this.locationFilterOptions = [];
+
+    //add every visited location to location array
+    locations.forEach((val: ExaminerRecordData<TestCentre>) => {
+      if (!val.item?.centreName) {
+        // Should there be no centre name available, display cost code or centre id,
+        // depending on whether cost code is available
+        val.item = {
+          ...val.item,
+          centreName: `Limited details - ${
+            !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
+          }`
+        }
+      }
+      this.locationFilterOptions.push(val.item);
+    });
+
+    if (!this.locationFilterOptions.map(({ centreId }) => centreId)
+      .includes(this.locationSubject$.value)) {
+      //find most common location and set it as the default
+      const mostUsed: ExaminerRecordData<TestCentre> = this.setDefault(locations);
+      if (!!mostUsed) {
+        this.locationPlaceholder = mostUsed.item.centreName;
+        this.handleLocationFilter(mostUsed.item);
+        this.locationSelectPristine = true;
+      } else if (locations.length === 0) {
+        this.locationPlaceholder = '';
+        this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+        this.locationSelectPristine = true;
+      }
+    }
+  }
+
+  /**
    * Initializes the component and sets up the necessary data and subscriptions.
    *
    * This method performs the following actions:
@@ -438,61 +521,14 @@ export class ExaminerRecordsPage implements OnInit {
       circuits$: this.getTestsByParameters(getCircuits),
       locationList$: this.getLocationsByParameters(getLocations)
         .pipe(
-          tap((value) => {
-            this.locationFilterOptions = [];
-
-            //add every visited location to location array
-            value.forEach((val) => {
-              if (!(val.item.centreName)) {
-                // Should there be no centre name available, display cost code or centre id,
-                // depending on whether cost code is available
-                val.item.centreName = `Limited details - ${
-                  !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
-                }`
-              }
-              this.locationFilterOptions.push(val.item);
-            });
-
-
-            if (!this.locationFilterOptions.map(({ centreId }) => centreId)
-              .includes(this.locationSubject$.value)) {
-              //find most common location and set it as the default
-              const mostUsed = this.setDefault(value);
-              if (!!mostUsed) {
-                this.locationPlaceholder = mostUsed.item.centreName;
-                this.handleLocationFilter(mostUsed.item);
-                this.locationSelectPristine = true;
-              } else if (value.length === 0) {
-                this.locationPlaceholder = '';
-                this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
-                this.locationSelectPristine = true;
-              }
-            }
-
+          tap((value: ExaminerRecordData<TestCentre>[]) => {
+            this.setupLocationSelectList(value);
           }),
         ),
       categoryList$: this.getCategoriesByParameters(getCategories)
         .pipe(
-          tap((value: Omit<ExaminerRecordData<TestCategory>, 'percentage'>[]) => {
-            this.categoryFilterOptions = [];
-
-            //add every completed category to category array
-            value.forEach((val) => {
-              this.categoryFilterOptions.push(val.item);
-            });
-
-            if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
-              //find most common category and set it as the default
-              const mostUsed = this.setDefault(value);
-
-              if (!!mostUsed) {
-                this.categoryPlaceholder = mostUsed.item;
-                this.handleCategoryFilter(mostUsed.item);
-                this.categorySelectPristine = true;
-              }
-            } else {
-              this.changeEligibleTests();
-            }
+          tap((value: ExaminerRecordData<TestCategory>[]) => {
+            this.setupCategorySelectList(value)
           }),
         ),
       emergencyStops$: this.getTestsByParameters(getStartedTestCount)
@@ -585,12 +621,11 @@ export class ExaminerRecordsPage implements OnInit {
       let mostUsed = null;
 
       this.pageState.locationList$.subscribe(value => {
-        value.forEach((val) => {
-          this.locationFilterOptions.push(val.item);
-        });
+        //populate location filter options
+        this.locationFilterOptions = value.map((val) => val.item);
+        //find most common location and set it as the default
         mostUsed = this.setDefault(value);
-      })
-        .unsubscribe();
+      }).unsubscribe();
 
       if (!!mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
@@ -607,11 +642,11 @@ export class ExaminerRecordsPage implements OnInit {
    * 2. Uses the reduce function to find the element with the highest count.
    *
    * @template T The type of the elements in the data array.
-   * @param {Omit<ExaminerRecordData<T>, 'percentage'>[]} data - The array of data elements to search.
-   * @returns {Omit<ExaminerRecordData<T>, 'percentage'> | null} The element with the highest count, or null if the
+   * @param {ExaminerRecordData<T>[]} data - The array of data elements to search.
+   * @returns {ExaminerRecordData<T>} The element with the highest count, or null if the
    * input data is null or empty.
    */
-  setDefault<T>(data: Omit<ExaminerRecordData<T>, 'percentage'>[]): Omit<ExaminerRecordData<T>, 'percentage'> {
+  setDefault<T>(data: ExaminerRecordData<T>[]): ExaminerRecordData<T> {
     if (!data || data?.length === 0) {
       return null;
     }
@@ -820,11 +855,11 @@ export class ExaminerRecordsPage implements OnInit {
    * by summing up the `count` property of each object in the array.
    *
    * @template T The type of the data in the `ExaminerRecordData` objects.
-   * @param {ExaminerRecordData<T>[]} value - The array of `ExaminerRecordData` objects.
+   * @param {ExaminerRecordDataWithPercentage<T>[]} value - The array of `ExaminerRecordData` objects.
    * @returns {number} The total count of individual instances of data.
    */
   getTotal = <T>(
-    value: ExaminerRecordData<T>[],
+    value: ExaminerRecordDataWithPercentage<T>[],
   ): number => value.reduce((total, val) => total + Number(val.count), 0);
 
   /**

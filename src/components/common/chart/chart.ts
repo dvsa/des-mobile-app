@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import ApexCharts from 'apexcharts';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 import { isEqual } from 'lodash-es';
-import { ExaminerRecordData } from '@pages/examiner-records/examiner-records.selector';
+import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 
 @Component({
   selector: 'chart',
@@ -19,7 +19,7 @@ export class ChartComponent implements OnInit, OnChanges {
   public chartType: ChartType = 'pie';
 
   @Input()
-  public passedData: ExaminerRecordData<any>[] = null;
+  public passedData: ExaminerRecordDataWithPercentage<any>[] = null;
 
   @Input()
   public showLegend: boolean = false;
