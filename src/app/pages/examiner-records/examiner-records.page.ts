@@ -419,9 +419,7 @@ export class ExaminerRecordsPage implements OnInit {
     this.categoryFilterOptions = [];
 
     //add every completed category to category array
-    categories.forEach((val: ExaminerRecordData<TestCategory>) => {
-      this.categoryFilterOptions.push(val.item);
-    });
+    this.categoryFilterOptions = categories.map((val) => val.item);
 
     if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
       //find most common category and set it as the default
@@ -623,12 +621,11 @@ export class ExaminerRecordsPage implements OnInit {
       let mostUsed = null;
 
       this.pageState.locationList$.subscribe(value => {
-        value.forEach((val) => {
-          this.locationFilterOptions.push(val.item);
-        });
+        //populate location filter options
+        this.locationFilterOptions = value.map((val) => val.item);
+        //find most common location and set it as the default
         mostUsed = this.setDefault(value);
-      })
-        .unsubscribe();
+      }).unsubscribe();
 
       if (!!mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
