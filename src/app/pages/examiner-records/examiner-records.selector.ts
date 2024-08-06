@@ -101,12 +101,12 @@ export const getLocations = (
   startedTests: ExaminerRecordModel[],
   range: DateRange = null,
   // Omit is a TS type, to remove a property from an interface
-): Omit<ExaminerRecordDataWithPercentage<TestCentre>, 'percentage'>[] => {
+): ExaminerRecordData<TestCentre>[] => {
   if (startedTests) {
     const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null)
       .filter((record) => !!get(record, 'testCentre', null).centreId);
 
-    return uniqBy(data.map(({ testCentre }) => {
+    return uniqBy(data.map(({ testCentre }): ExaminerRecordData<TestCentre> => {
       return {
         item: testCentre,
         count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
