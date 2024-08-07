@@ -144,6 +144,15 @@ export class ExaminerRecordsPage implements OnInit {
   public testResults: ExaminerRecordModel[];
   subscription: Subscription;
 
+  labelColour: string = this.getColourSchemeDefault('Opposing')
+  strokeColour: string = this.getColourSchemeDefault('Main')
+  dataLabelBackgroundColour: string = this.getColourSchemeDefault('Opposing')
+  averageColour: string = this.getColourSchemeDefault('Opposing')
+  dataLabelFontColour: string = this.getColourSchemeDefault('Main')
+
+  darkModeListener: EventListener = null;
+  windowMedia: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+
   constructor(
     public store$: Store<StoreModel>,
     public router: Router,
@@ -247,6 +256,57 @@ export class ExaminerRecordsPage implements OnInit {
 
     this.setLocationFilter();
     await this.getOnlineRecords();
+  }
+
+  /**
+   * Retrieves the default color scheme value based on the specified color type.
+   *
+   * This method uses the `getComputedStyle` function to get the value of CSS variables
+   * that define the main and opposing colors of the current theme. If the specified color type
+   * is not recognized, it returns a default color value of white.
+   *
+   * @param {'Main' | 'Opposing'} colourNeeded - The type of color needed ('Main' or 'Opposing').
+   * @returns {string} The color value associated with the specified color type.
+   */
+  getColourSchemeDefault(colourNeeded: 'Main' | 'Opposing'): string {
+    //Switch has been commented out to force light mode,
+    // comment back in and delete the switch below if dark mode is fully integrated
+    // switch (colourNeeded) {
+    //   case 'Main':
+    //     return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-main-colour').trim();
+    //   case 'Opposing':
+    //     return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-opposing-colour').trim();
+    //   default:
+    //     return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+    // }
+    switch (colourNeeded) {
+      case 'Main':
+        return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+      case 'Opposing':
+        return getComputedStyle(document.documentElement).getPropertyValue('--gds-black').trim();
+      default:
+        return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+    }
+  }
+
+  /**
+   * Listens for changes in the user's device theme (dark mode) and updates
+   * the component's color properties accordingly.
+   *
+   * This method uses the `matchMedia` API to detect changes to the `prefers-color-scheme` media query.
+   * When the user switches to dark mode or light mode, the color properties of the component are updated
+   * to reflect the appropriate device theme.
+   */
+  listenForDarkMode(): void {
+    this.darkModeListener = () => {
+      console.log('swap')
+      this.labelColour = this.getColourSchemeDefault('Opposing');
+      this.strokeColour = this.getColourSchemeDefault('Main');
+      this.dataLabelBackgroundColour = this.getColourSchemeDefault('Opposing');
+      this.averageColour = this.getColourSchemeDefault('Opposing');
+      this.dataLabelFontColour = this.getColourSchemeDefault('Main');
+    };
+    this.windowMedia.addEventListener('change', this.darkModeListener);
   }
 
   /**
@@ -583,6 +643,101 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
+   * Initializes the component and sets up the necessary data and subscriptions.
+   *
+   * This method performs the following actions:
+   * 1. Retrieves and sorts local test results.
+   * 2. Sets the default date filter.
+   * 3. Initializes the page state with various observables.
+   * 4. Sets up subscriptions to handle changes in test results and loading state.
+   * 5. Sets the location filter and fetches online records if necessary.
+   *
+   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
+   */
+  async ngOnInit(): Promise<void> {
+    //Commented out to force light mode, comment back in if dark mode is fully integrated
+    this.listenForDarkMode();
+    this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
+    if (this.testResults.length > 0) {
+      this.testSubject$.next(this.testResults);
+    }
+    //Set default date
+    this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
+    if (this.categorySubject$.value) {
+      this.categorySelectPristine = false;
+    }
+    if (this.locationSubject$.value) {
+      this.locationSelectPristine = false;
+    }
+
+    this.pageState = {
+      cachedRecords$: this.store$.select(selectCachedExaminerRecords),
+      isLoadingRecords$: this.store$.select(getIsLoadingRecords),
+      routeNumbers$: this.getTestsByParameters(getRouteNumbers),
+      manoeuvres$: this.getTestsByParameters(getManoeuvresUsed),
+      balanceQuestions$: this.getTestsByParameters(getBalanceQuestions),
+      safetyQuestions$: this.getTestsByParameters(getSafetyQuestions),
+      independentDriving$: this.getTestsByParameters(getIndependentDrivingStats),
+      showMeQuestions$: this.getTestsByParameters(getShowMeQuestions),
+      tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
+      testCount$: this.getTestsByParameters(getStartedTestCount),
+      circuits$: this.getTestsByParameters(getCircuits),
+      locationList$: this.getLocationsByParameters(getLocations).pipe(
+        tap((value: ExaminerRecordData<TestCentre>[]) => {
+          this.setupLocationSelectList(value);
+        })
+      ),
+      categoryList$: this.getCategoriesByParameters(getCategories).pipe(
+        tap((value: ExaminerRecordData<TestCategory>[]) => {
+          this.setupCategorySelectList(value);
+        })
+      ),
+      emergencyStops$: this.getTestsByParameters(getStartedTestCount).pipe(
+        withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
+        //Turn emergency stop count into two objects containing tests with stops and tests without
+        map(([testCount, emergencyStopCount]) => [
+          {
+            item: 'Stop',
+            count: emergencyStopCount,
+            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
+          },
+          {
+            item: 'No stop',
+            count: testCount - emergencyStopCount,
+            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
+          },
+        ])
+      ),
+    };
+
+    const { cachedRecords$, isLoadingRecords$ } = this.pageState;
+
+    this.merged$ = merge(
+      //listen for changes to test result and send the result to the behaviour subject
+      cachedRecords$.pipe(
+        tap((value) => {
+          this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
+          if (this.testResults.length > 0) {
+            this.testSubject$.next(this.testResults);
+          }
+        })
+      ),
+      //deactivate loading ui when no longer loading
+      isLoadingRecords$.pipe(
+        map((value) => {
+          this.examinerRecordsProvider.handleLoadingUI(value);
+        })
+      )
+    );
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+
+    this.setLocationFilter();
+    await this.getOnlineRecords();
+  }
+
+  /**
    * Deactivates subscriptions and listeners when the view is about to leave.
    *
    * This method performs the following actions:
@@ -596,6 +751,7 @@ export class ExaminerRecordsPage implements OnInit {
       this.subscription.unsubscribe();
     }
     await ScreenOrientation.removeAllListeners();
+    this.windowMedia.removeAllListeners()
   }
 
   /**
