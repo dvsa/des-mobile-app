@@ -380,13 +380,11 @@ export class ExaminerRecordsPage implements OnInit {
       take(1),
       map((value) => Object.values(value)),
       map((value) => {
-        //Filter out rekeyd tests for other users
-        return value.filter((test) => (
-          ([
-            test.examinerBooked,
-            test.examinerKeyed,
-            test.examinerConducted,
-          ].every((val, i, arr) => val === arr[0]))));
+        let employeeId = this.store$.selectSignal(selectEmployeeId)();
+        //Filter out tests the user rekeyd for other users
+        return value.filter((test) => {
+          return test.examinerConducted.toString() === employeeId;
+        });
       }),
       map(value => {
         const recordArray: ExaminerRecordModel[] = [];
