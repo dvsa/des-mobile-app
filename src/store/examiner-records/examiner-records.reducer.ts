@@ -4,6 +4,7 @@ import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-recor
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import {
   CacheExaminerRecords,
+  ClearExaminerRecords,
   ColourFilterChanged,
   LoadingExaminerRecords,
   UpdateLastCached,
@@ -37,6 +38,7 @@ export const examinerRecordsReducer = createReducer(
     ...state,
     colourScheme: colour,
   })),
+  on(ClearExaminerRecords, () => (initialState)),
 );
 
 export const getExaminerRecordsState = createFeatureSelector<ExaminerRecordStateModel>('examinerRecords');
