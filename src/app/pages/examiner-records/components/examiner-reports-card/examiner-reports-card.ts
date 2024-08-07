@@ -32,6 +32,10 @@ export class ExaminerReportsCard {
   @Input()
   labelColour = '#000000';
   @Input()
+  dataLabelBackgroundColour: string = '#000000';
+  @Input()
+  dataLabelFontColour: string = '#FFFFFF';
+  @Input()
   chartSubtitle = false;
   @Input()
   isPortrait = false;
