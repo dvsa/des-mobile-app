@@ -6,13 +6,13 @@ textarea {
   border-radius: 6px;
   background: transparent;
   border: 2px solid var(--mes-theme-opposing-colour);
-  box-shadow: inset 0 3px 3px 0 #A5A2A2;
+  //box-shadow: inset 0 3px 3px 0 #A5A2A2;
   height: 158px;
   padding: 10px;
   width: 100%;
   &:focus {
     border : $input-border-invalid solid var(--gds-yellow);
-    box-shadow: inset 0 0 0 9px white;
+    box-shadow: inset 0 0 0 9px var(--mes-theme-main-colour);
   }
 
   &.ng-dirty {
