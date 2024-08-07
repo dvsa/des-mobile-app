@@ -197,7 +197,6 @@ export class ExaminerRecordsPage implements OnInit {
    */
   listenForDarkMode(): void {
     this.darkModeListener = () => {
-      console.log('swap')
       this.labelColour = this.getColourSchemeDefault('Opposing');
       this.strokeColour = this.getColourSchemeDefault('Main');
       this.dataLabelBackgroundColour = this.getColourSchemeDefault('Opposing');
