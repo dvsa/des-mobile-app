@@ -43,6 +43,11 @@ export const UpdateLastCached = createAction(
   '[ExaminerRecordsPage] Updated examiner records last cached time',
   (time: string) => ({ time }),
 );
+
+export const ClearExaminerRecords = createAction(
+  '[ExaminerRecordsPage] Examiner records cleared from device',
+);
+
 export const LoadingExaminerRecords = createAction(
   '[ExaminerRecordsPage] Examiner records begins loading',
 );

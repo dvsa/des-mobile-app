@@ -17,6 +17,7 @@ import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { DateTime } from '@shared/helpers/date-time';
 import { of } from 'rxjs';
+import moment from 'moment';
 
 @Injectable()
 export class ExaminerRecordsEffects {
@@ -37,6 +38,8 @@ export class ExaminerRecordsEffects {
       //Get backend tests in the examiner records format
       return this.searchProvider.examinerRecordsSearch(
         staffNumber,
+        '',
+        (moment(new Date()).subtract(15, 'days')).format('YYYY-MM-DD'),
       ).pipe(
         catchError((err) => {
           this.store$.dispatch(SaveLog({
