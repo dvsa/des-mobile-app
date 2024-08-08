@@ -38,7 +38,7 @@ export class ExaminerRecordsEffects {
       //Get backend tests in the examiner records format
       return this.searchProvider.examinerRecordsSearch(
         staffNumber,
-        '',
+        null,
         (moment(new Date()).subtract(15, 'days')).format('YYYY-MM-DD'),
       ).pipe(
         catchError((err) => {
