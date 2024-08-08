@@ -19,7 +19,6 @@ import { DataStoreProvider } from '../data-store/data-store';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
-import { ClearExaminerRecords } from '@pages/examiner-records/examiner-records.actions';
 
 export enum Token {
   ID = 'idToken',
@@ -256,7 +255,6 @@ export class AuthenticationProvider {
       if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
         this.store$.dispatch(UnloadJournal());
         this.store$.dispatch(UnloadTests());
-        this.store$.dispatch(ClearExaminerRecords());
         this.store$.dispatch(ClearTestCentresRefData());
       }
 
