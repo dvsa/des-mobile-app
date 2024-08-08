@@ -247,7 +247,7 @@ export class JournalEffects {
         return of({ type: 'NO_ACTION' });
       }
 
-      //Make a call to the backend service for the full test results for the tests we need to rehydrate
+      // Make a call to the test results service for the full test results for the tests we need to rehydrate
       return this.searchProvider.getTestResults(
         this.compressionProvider.compress({
           applicationReferences: testsToRehydrate.map(value => value.appRef),

@@ -112,7 +112,7 @@ export class ExaminerRecordsProvider {
   }
 
   /**
-   * Handler for loading spinner while pulling backend data.
+   * Handler for loading spinner while pulling remote data.
    *
    * This method manages the UI state for a loading spinner based on the `isLoading` parameter.
    * It updates the `currentlyLoading` state and invokes the `handleUILoading` method of the `loadingProvider`
