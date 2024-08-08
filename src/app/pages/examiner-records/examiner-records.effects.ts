@@ -34,7 +34,7 @@ export class ExaminerRecordsEffects {
   onlineExaminerRecordsCalled$ = createEffect(() => this.actions$.pipe(
     ofType(GetExaminerRecords),
     switchMap(({ staffNumber }) => {
-      //Get backend tests in the examiner records format
+      // Get remote data for examiner records
       return this.searchProvider.examinerRecordsSearch(
         staffNumber,
       ).pipe(
@@ -46,7 +46,7 @@ export class ExaminerRecordsEffects {
         }),
       );
     }),
-    //Remove blank properties from returned records
+    // Remove blank properties from returned records
     map((examinerHash: string) =>
       (examinerHash ? this.compressionProvider.extract(examinerHash) : null) as ExaminerRecordModel[]),
     map((examinerRecords): ExaminerRecordModel[] => {

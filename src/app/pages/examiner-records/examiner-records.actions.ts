@@ -27,7 +27,7 @@ export const TestCategoryChanged = createAction(
 );
 
 export const GetExaminerRecords = createAction(
-  '[ExaminerRecordsPage] Call backend tests',
+  '[ExaminerRecordsPage] Get remote examiner records details',
   (staffNumber: string) => ({ staffNumber }),
 );
 
@@ -36,7 +36,7 @@ export const ClickDataCard = createAction(
   (onClickData: ExaminerReportsCardClick) => ({ onClickData }),
 );
 export const CacheExaminerRecords = createAction(
-  '[ExaminerRecordsPage] Cache backend tests',
+  '[ExaminerRecordsPage] Cache remote examiner records details',
   (tests: ExaminerRecordModel[]) => ({ tests }),
 );
 export const UpdateLastCached = createAction(
