@@ -31,7 +31,7 @@
                 (ionBlur)="setFocus(null)"
                 [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                 [value]="applicationReference"
-                (change)="applicationReferenceChanged($event.target.value)"
+                (input)="applicationReferenceChanged($event.target.value)"
                 emojiBlock
                 pasteSanitiser
               >
@@ -56,7 +56,7 @@
                 (ionBlur)="setFocus(null)"
                 [ngClass]="{'input-focus': focusedElement === 'staffNum'}"
                 [value]="staffNumber"
-                (change)="staffNumberChanged($event.target.value)"
+                (input)="staffNumberChanged($event.target.value)"
                 emojiBlock
                 pasteSanitiser
               >
@@ -65,7 +65,10 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-button
-              [disabled]="(pageState.isLoading$ | async) || (pageState.isOffline$ | async)"
+              [disabled]="
+                (pageState.isLoading$ | async) ||
+                (pageState.isOffline$ | async) ||
+                disableSearch(applicationReference, staffNumber, isLDTM)"
               class="mes-primary-button search-tests"
               id="rekey-search-search-tests-btn"
               (click)="searchTests()"

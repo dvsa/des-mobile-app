@@ -22,6 +22,8 @@ import {
 } from '@pages/rekey-search/rekey-search.selector';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -43,10 +45,12 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   applicationReference: string = '';
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
+  isLDTM: boolean = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
     private networkStateProvider: NetworkStateProvider,
+    private appConfig: AppConfigProvider,
     injector: Injector,
   ) {
     super(injector);
@@ -72,6 +76,8 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       ),
       isOffline$: this.networkStateProvider.isOffline$,
     };
+
+    this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
   }
 
   async ionViewDidEnter(): Promise<void> {
@@ -87,12 +93,12 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     await this.orientationMonitorProvider.tearDownListener();
   }
 
-  staffNumberChanged(val: string) {
-    this.staffNumber = val;
-  }
-
   applicationReferenceChanged(val: string) {
     this.applicationReference = val;
+  }
+
+  staffNumberChanged(val: string) {
+    this.staffNumber = val;
   }
 
   searchTests() {
@@ -111,4 +117,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     this.focusedElement = focus;
   }
 
+  disableSearch(applicationReference: string, staffNumber: string, isLDTM: boolean): boolean {
+    return applicationReference === '' || (!isLDTM && staffNumber === '');
+  }
 }
