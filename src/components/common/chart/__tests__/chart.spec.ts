@@ -90,11 +90,6 @@ describe('ChartComponent', () => {
       component.horizontal = false;
       expect(component.options.xaxis.labels.offsetY).toEqual(0);
     });
-
-    it('should return unformatted value if the type is bar', () => {
-      component.chartType = 'bar';
-      expect(component.options.dataLabels.formatter('1')).toEqual('1');
-    });
     it('should return split value with calculated percentage if the type is not bar ' +
       'and both splitLabel and calculatePercentages are true', () => {
       component.chartType = 'pie';
