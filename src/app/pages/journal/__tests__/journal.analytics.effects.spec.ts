@@ -96,6 +96,8 @@ describe('JournalAnalyticsEffects', () => {
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
         done();
       });
     });
