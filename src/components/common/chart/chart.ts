@@ -358,7 +358,7 @@ export class ChartComponent implements OnInit, OnChanges {
    */
   filterData() {
     this.labels = this.passedData.map((val) => val.item);
-    let values: number[] = this.passedData.map((val) => val.count);
+    const values: number[] = this.passedData.map((val) => val.count);
     this.average = ((values.reduce((a, b) => a + b, 0)) / values.length) || 0;
     this.tickCount = this.getTickCount(values);
     this.createGraphLabels(values);
