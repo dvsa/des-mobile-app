@@ -57,9 +57,10 @@ export class JournalAnalyticsEffects {
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.JOURNAL);
-      // reset values
+      // reset values for custom dimensions
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
+      this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
       return of(AnalyticRecorded());
     }),
   ));
