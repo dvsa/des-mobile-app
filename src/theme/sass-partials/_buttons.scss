@@ -13,8 +13,10 @@ ion-modal {
 }
 .generic-button {
   --border-radius: 10px;
-  margin: 0 0.2rem;
+  margin: 0 3.2px;
   --outline: none;
+  font-size: 15px;
+
   .des-header-style-3 {
     color: var(--mes-white);
 
@@ -36,6 +38,8 @@ ion-modal {
   --border-radius: 10px;
   margin: 0 0.2rem;
   --outline: none;
+  font-size: 15px;
+
   .des-header-style-3 {
     color: var(--mes-white) !important;
 
