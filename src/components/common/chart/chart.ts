@@ -412,9 +412,8 @@ export class ChartComponent implements OnInit, OnChanges {
    * @param {number[]} dataValues - An array of data values to be used for creating the graph labels.
    */
   createGraphLabels(dataValues: number[]): void {
-    let tempGraphLabels: PointAnnotations[] = [];
-    for (let i = 0; i < dataValues.length; i++) {
-      tempGraphLabels.push({
+    this.graphLabels = dataValues.map((dataValue, i) => {
+      return {
         //Position the annotation at the corresponding label on the x-axis
         x: this.labels[i],
         y: 0,
@@ -425,7 +424,7 @@ export class ChartComponent implements OnInit, OnChanges {
         //create the label for the annotation
         label: {
           offsetY: -5,
-          text: dataValues[i].toString(),
+          text: dataValue.toString(),
           borderColor: '#FFFFFF',
           style: {
             padding: {top: -1, left: 3.5, right: 3.5},
@@ -436,8 +435,8 @@ export class ChartComponent implements OnInit, OnChanges {
             color: '#FFFFFF',
           },
         },
-      });
-    }
-    this.graphLabels = tempGraphLabels;
+      }
+    })
+
   }
 }
