@@ -90,11 +90,6 @@ describe('ChartComponent', () => {
       component.horizontal = false;
       expect(component.options.xaxis.labels.offsetY).toEqual(0);
     });
-
-    it('should return unformatted value if the type is bar', () => {
-      component.chartType = 'bar';
-      expect(component.options.dataLabels.formatter('1')).toEqual('1');
-    });
     it('should return split value with calculated percentage if the type is not bar ' +
       'and both splitLabel and calculatePercentages are true', () => {
       component.chartType = 'pie';
@@ -250,6 +245,43 @@ describe('ChartComponent', () => {
       expect(component.getTickCount([1,2,3,6])).toBe(null);
     });
   })
+
+  describe('createGraphLabels', () => {
+    it('should create graph labels with details', () => {
+      const dataValues = [10, 20, 30];
+      component.labels = ['Label1', 'Label2', 'Label3'];
+      component.createGraphLabels(dataValues);
+
+      for (let i = 0; i < component.graphLabels.length; i++) {
+        expect(component.graphLabels[i].x).toEqual(component.labels[i]);
+        expect(component.graphLabels[i].y).toEqual(0);
+        expect(component.graphLabels[i].label.text).toEqual(dataValues[i].toString());
+      }
+    });
+
+    it('should handle empty dataValues array', () => {
+      const dataValues = [];
+      component.labels = [];
+      component.createGraphLabels(dataValues);
+
+      expect(component.graphLabels).toEqual([]);
+    });
+
+    it('should create graph labels with correct styles', () => {
+      const dataValues = [10];
+      component.labels = ['Label1'];
+      component.createGraphLabels(dataValues);
+
+      expect(component.graphLabels[0].label.style).toEqual({
+        padding: { top: -1, left: 3.5, right: 3.5 },
+        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
+        fontSize: component.getFontSize(),
+        fontWeight: 'bold',
+        background: '#000000',
+        color: '#FFFFFF'
+      });
+    });
+  });
 
   describe('getFontSize', () => {
     it('should return 16px if the font size is set to text-zoom-regular', () => {

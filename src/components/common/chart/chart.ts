@@ -64,6 +64,7 @@ export class ChartComponent implements OnInit, OnChanges {
   public tickCount: number = null;
   public chart: ApexCharts = null;
   public chartOptions: ApexOptions;
+  public graphLabels: PointAnnotations[] = [];
 
   /**
    * Get the chart type as a string.
@@ -102,7 +103,7 @@ export class ChartComponent implements OnInit, OnChanges {
    * @returns {Promise<void>} A promise that resolves when the chart has been rendered.
    */
   async ngAfterViewInit(): Promise<void> {
-    let chartElement: HTMLElement = document.getElementById(this.chartId)
+    let chartElement: HTMLElement = document.getElementById(this.chartId);
     if (chartElement) {
       this.chart = new ApexCharts(chartElement, this.options);
       await this.chart.render();
@@ -118,8 +119,7 @@ export class ChartComponent implements OnInit, OnChanges {
    * @param {SimpleChanges} changes - An object of key/value pairs for the set of changed properties.
    * @returns {Promise<void>} A promise that resolves when the chart has been updated.
    */
-  async ngOnChanges(changes: SimpleChanges): Promise<void>
-  {
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
     //check if there are any changed elements
     const dataChanged = Object.keys(changes)
       .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
@@ -159,6 +159,7 @@ export class ChartComponent implements OnInit, OnChanges {
         },
       },
       annotations: {
+        points: this.graphLabels,
         //draws a line across the y-axis depicting the average value
         yaxis: [
           {
@@ -195,7 +196,7 @@ export class ChartComponent implements OnInit, OnChanges {
       },
       dataLabels: {
         //enables an external display of the value of the chart element on any chart that isn't a bar
-        enabled: true,
+        enabled: this.chartType !== 'bar',
         //styling for this label
         style: {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
@@ -215,10 +216,6 @@ export class ChartComponent implements OnInit, OnChanges {
         offsetY: 5,
 
         formatter: (val, opts) => {
-          //apply no styling if it's a bar chart
-          if (this.chartType === 'bar') {
-            return val;
-          }
           /*
           If the label itself contains the full name of the value, trim that section off and only take the code,
           then display either the percentage of the total or the value.
@@ -336,8 +333,8 @@ export class ChartComponent implements OnInit, OnChanges {
           horizontal: this.horizontal,
           dataLabels: {
             orientation: 'horizontal',
-            position: 'bottom'
-          }
+            position: 'bottom',
+          },
         },
         pie: {
           dataLabels: {
@@ -364,6 +361,7 @@ export class ChartComponent implements OnInit, OnChanges {
     const values: number[] = this.passedData.map((val) => val.count);
     this.average = ((values.reduce((a, b) => a + b, 0)) / values.length) || 0;
     this.tickCount = this.getTickCount(values);
+    this.createGraphLabels(values);
 
     this.dataValues = (this.getChartType() === '1Axis')
       ? values as ApexNonAxisChartSeries
@@ -381,7 +379,7 @@ export class ChartComponent implements OnInit, OnChanges {
    * @returns {number | null} The largest value if it is less than or equal to 5, otherwise null.
    */
   getTickCount(numbers: number[]): number | null {
-    const max = Math.max(...numbers)
+    const max = Math.max(...numbers);
     return max <= 5 ? max : null;
   }
 
@@ -402,5 +400,43 @@ export class ChartComponent implements OnInit, OnChanges {
       case 'text-zoom-x-large':
         return '20px';
     }
+  }
+
+  /**
+   * Creates graph labels for the chart.
+   *
+   * This method generates an array of point annotations for the chart based on the provided data values.
+   * Each annotation point is positioned at the corresponding label
+   * on the x-axis and has a label displaying the data value.
+   *
+   * @param {number[]} dataValues - An array of data values to be used for creating the graph labels.
+   */
+  createGraphLabels(dataValues: number[]): void {
+    this.graphLabels = dataValues.map((dataValue, i) => {
+      return {
+        //Position the annotation at the corresponding label on the x-axis
+        x: this.labels[i],
+        y: 0,
+        //remove the marker from the annotation
+        marker: {
+          size: 0,
+        },
+        //create the label for the annotation
+        label: {
+          offsetY: -5,
+          text: dataValue.toString(),
+          borderColor: '#FFFFFF',
+          style: {
+            padding: {top: -1, left: 3.5, right: 3.5},
+            fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
+            fontSize: this.getFontSize(),
+            fontWeight: 'bold',
+            background: '#000000',
+            color: '#FFFFFF',
+          },
+        },
+      }
+    })
+
   }
 }
