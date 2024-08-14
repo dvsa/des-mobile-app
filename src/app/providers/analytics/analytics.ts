@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
+// import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { createHash } from 'crypto';
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
@@ -8,7 +8,6 @@ import { AppConfigProvider } from '../app-config/app-config';
 import {
   AnalyticsEventCategories,
   GoogleAnalyticsCustomDimension,
-  IAnalyticsProvider,
 } from './analytics.model';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -16,16 +15,13 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 declare const gtag: Function;
 
 @Injectable()
-export class AnalyticsProvider implements IAnalyticsProvider {
-  googleAnalyticsKey: string = '';
+export class AnalyticsProvider {
   googleAnalytics4Key: string = '';
   uniqueDeviceId: string;
   uniqueUserId: string;
-  private analyticsStartupError: string = 'Error starting Google Analytics';
 
   constructor(
     private appConfig: AppConfigProvider,
-    private ga: GoogleAnalytics,
     private platform: Platform,
     private device: DeviceProvider,
     private authProvider: AuthenticationProvider,
@@ -235,38 +231,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   logGAValidationError(type: string, message: string): void {
     this.logGAEvent(type, AnalyticsEventCategories.VALIDATION_ERROR, message);
   }
-
-  enableExceptionReporting(): void {
-    this.platform.ready()
-      .then(() => {
-        if (this.isIos()) {
-          this.ga
-            .startTrackerWithId(this.googleAnalyticsKey)
-            .then(() => {
-              this.ga.enableUncaughtExceptionReporting(true)
-                .then(() => {
-                })
-                .catch((uncaughtError) => console.log('Error enabling uncaught exceptions', uncaughtError));
-            })
-            .catch((error) => console.log(`enableExceptionReporting: ${this.analyticsStartupError}`, error));
-        }
-      });
-  }
-
-  logException(message: string, fatal: boolean): void {
-    if (this.isIos()) {
-      this.ga
-        .startTrackerWithId(this.googleAnalyticsKey)
-        .then(() => {
-          this.ga.trackException(message, fatal)
-            .then(() => {
-            })
-            .catch((trackingError) => console.log('Error logging exception in Google Analytics', trackingError));
-        })
-        .catch((error) => console.log(`logException: ${this.analyticsStartupError}`, error));
-    }
-  }
-
 
   getDiffDays(userDate: string): number {
     const today = new DateTime();

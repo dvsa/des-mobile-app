@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { Platform } from '@ionic/angular';
-import { GoogleAnalyticsMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock } from '@mocks/index.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProviderMock } from '@providers//app-config/__mocks__/app-config.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -12,7 +11,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 
 xdescribe('AnalyticsProvider', () => {
   let analyticsProvider: AnalyticsProvider;
-  let googleAnalyticsMock: GoogleAnalytics;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,10 +19,6 @@ xdescribe('AnalyticsProvider', () => {
         {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
-        },
-        {
-          provide: GoogleAnalytics,
-          useClass: GoogleAnalyticsMock,
         },
         {
           provide: Platform,
@@ -42,9 +36,6 @@ xdescribe('AnalyticsProvider', () => {
     });
 
     analyticsProvider = TestBed.inject(AnalyticsProvider);
-    googleAnalyticsMock = TestBed.inject(GoogleAnalytics);
-    spyOn(googleAnalyticsMock, 'startTrackerWithId');
-    analyticsProvider.googleAnalyticsKey = 'abc123-ghj-123';
     spyOn(analyticsProvider, 'isIos')
       .and
       .returnValue(true);

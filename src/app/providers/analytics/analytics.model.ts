@@ -1,9 +1,3 @@
-
-export interface IAnalyticsProvider {
-
-  logException(message: string, fatal: boolean): void;
-}
-
 export enum AnalyticsScreenNames {
   COMMUNICATION = 'communication screen',
   HEALTH_DECLARATION = 'health declaration screen',
