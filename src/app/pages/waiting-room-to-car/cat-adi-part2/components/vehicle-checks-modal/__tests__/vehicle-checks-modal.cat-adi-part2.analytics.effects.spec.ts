@@ -10,8 +10,8 @@ import * as testsActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsEventCategories,
-  AnalyticsScreenNames, GoogleAnalyticsEventPrefix,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -53,7 +53,6 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
     effects = TestBed.inject(VehicleChecksModalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('vehicleChecksModalViewDidEnter$ effect', () => {
@@ -62,7 +61,6 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       actions$.next(VehicleChecksViewDidEnter());
       effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
@@ -79,11 +77,6 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.VEHICLE_CHECKS,
-          `tell me question ${questionNumber + 1} changed`,
-          tellMeQuestion.code,
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
@@ -98,11 +91,6 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
-          `tell me question ${questionNumber + 1} changed`,
-          tellMeQuestion.code,
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '1')}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
@@ -121,11 +109,6 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.VEHICLE_CHECKS,
-          `tell me question ${questionNumber + 1} outcome changed`,
-          'driving fault',
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
           GoogleAnalyticsEventsTitles.RESULT,
@@ -140,11 +123,6 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `practice mode - ${AnalyticsEventCategories.VEHICLE_CHECKS}`,
-          `tell me question ${questionNumber + 1} outcome changed`,
-          'driving fault',
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '1')}`,
           GoogleAnalyticsEventsTitles.RESULT,

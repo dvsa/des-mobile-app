@@ -11,7 +11,6 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsEventCategories,
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
 } from '@providers/analytics/analytics.model';
@@ -29,7 +28,6 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.POST_DEBRIEF_HOLDING;
-  const practiceScreenName = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.POST_DEBRIEF_HOLDING}`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -70,11 +68,6 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
-
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
@@ -91,10 +84,6 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(practiceScreenName);
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)

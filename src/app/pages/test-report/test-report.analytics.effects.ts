@@ -6,9 +6,6 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsLabels,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -36,17 +33,15 @@ import { getTests } from '@store/tests/tests.reducer';
 import {
   competencyLabels,
   fullAnalyticCompetencyLabels,
-  fullCompetencyLabels,
 } from '@shared/constants/competencies/competencies';
 import {
   manoeuvreCompetencyAnalyticLabels,
-  manoeuvreCompetencyLabels, manoeuvreTypeAnalyticLabels,
-  manoeuvreTypeLabels,
+  manoeuvreTypeAnalyticLabels,
 } from '@shared/constants/competencies/catb-manoeuvres';
 import { lessonThemeValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { TestsModel } from '@store/tests/tests.model';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import {
   legalRequirementsLabels,
   legalRequirementToggleValues,
@@ -59,7 +54,6 @@ import * as uncoupleRecoupleActions from '@store/tests/test-data/common/uncouple
 import { getTestData as getCatAmod1TestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
 import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
 import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
-import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
 import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
 import * as singleFaultCompetencyActions
   from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
@@ -92,7 +86,6 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import {
-  CompetencyOutcomeAnalyticEvent,
   CompetencyOutcomeGA4Event,
 } from '@shared/helpers/competency-outcome-analytic-event';
 import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
@@ -133,8 +126,6 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportActions.TestReportViewDidEnter>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.TEST_REPORT, tests));
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.TEST_REPORT, tests));
@@ -173,12 +164,6 @@ export class TestReportAnalyticsEffects {
       }
 
       if (removeFaultMode) {
-        // TODO MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.SELECT_REMOVE_MODE, tests),
-          formatAnalyticsText(AnalyticsEvents.REMOVE_MODE_SELECTED, tests),
-        );
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.SELECT_MODE, tests),
@@ -187,12 +172,7 @@ export class TestReportAnalyticsEffects {
         );
         return of(AnalyticRecorded());
       }
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.EXIT_REMOVE_MODE, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_MODE_EXITED, tests),
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_MODE, tests),
@@ -227,11 +207,7 @@ export class TestReportAnalyticsEffects {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
       }
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.SELECT_SERIOUS_MODE, tests),
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SELECT_MODE, tests),
@@ -266,11 +242,7 @@ export class TestReportAnalyticsEffects {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
       }
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.SELECT_DANGEROUS_MODE, tests),
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SELECT_MODE, tests),
@@ -302,13 +274,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof drivingFaultsActions.AddDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        fullCompetencyLabels[action.faultPayload.competency],
-        action.faultPayload.newFaultCount,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -342,13 +308,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof seriousFaultsActions.AddSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        fullCompetencyLabels[action.competency],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -382,13 +342,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof dangerousFaultsActions.AddDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
-        fullCompetencyLabels[action.competency],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -422,14 +376,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresActions.AddManoeuvreDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        // eslint-disable-next-line max-len
-        `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -467,13 +414,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -511,14 +452,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresActions.AddManoeuvreSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        // eslint-disable-next-line max-len
-        `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -556,13 +490,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -600,14 +528,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresActions.AddManoeuvreDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
-        // eslint-disable-next-line max-len
-        `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -645,13 +566,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -689,13 +604,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof controlledStopActions.ControlledStopAddDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        fullCompetencyLabels['outcomeControlledStop'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -729,13 +638,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof controlledStopActions.ControlledStopAddSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        fullCompetencyLabels['outcomeControlledStop'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -769,11 +672,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportActions.ReturnToTest>, TestsModel, boolean],
     ) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
-        formatAnalyticsText(AnalyticsEvents.RETURN_TO_TEST, tests),
-        'Test Report - Return To Test',
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.RETURN_TO_TEST, tests),
@@ -803,13 +702,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof controlledStopActions.ControlledStopAddDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
-        fullCompetencyLabels['outcomeControlledStop'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -843,13 +736,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        fullCompetencyLabels['outcomeHighwayCodeSafety'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -883,13 +770,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        fullCompetencyLabels['outcomeHighwayCodeSafety'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -923,13 +804,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        fullCompetencyLabels['showMeQuestion'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -963,13 +838,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof vehicleChecksActions.ShowMeQuestionSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        fullCompetencyLabels['showMeQuestion'],
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1003,13 +872,8 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
-        fullCompetencyLabels['showMeQuestion'],
-        1,
-      );
+
+      // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
           GoogleAnalyticsEvents.ADD_FAULT,
@@ -1042,13 +906,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof drivingFaultsActions.RemoveDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_DRIVING_FAULT, tests),
-        fullCompetencyLabels[action.faultPayload.competency],
-        action.faultPayload.newFaultCount,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1082,13 +940,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof seriousFaultsActions.RemoveSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_FAULT, tests),
-        fullCompetencyLabels[action.competency],
-        0,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1122,13 +974,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof dangerousFaultsActions.RemoveDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_FAULT, tests),
-        fullCompetencyLabels[action.competency],
-        0,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1162,12 +1008,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresActions.RemoveManoeuvreFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1205,12 +1046,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof manoeuvresADIPart2Actions.RemoveManoeuvreFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
-        `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1248,12 +1084,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof controlledStopActions.ControlledStopRemoveFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
-        fullCompetencyLabels['outcomeControlledStop'],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1286,12 +1117,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_FAULT, tests),
-        fullCompetencyLabels['outcomeHighwayCodeSafety'],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1323,12 +1149,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
-        fullCompetencyLabels.showMeQuestion,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -1362,12 +1183,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportActions.TerminateTestFromTestReport>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
-        formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
-        AnalyticsLabels.TERMINATE_TEST,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_TERMINATED, tests),
@@ -1397,12 +1213,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportActions.CalculateTestResult>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
-        formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
-        AnalyticsLabels.TEST_ENDED,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_ENDED, tests),
@@ -1442,12 +1253,6 @@ export class TestReportAnalyticsEffects {
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
 
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels[action.legalRequirement]} - ${toggleValue}`,
-      );
 
       // GA4 Analytics
       let itemName: string;
@@ -1527,12 +1332,6 @@ export class TestReportAnalyticsEffects {
       const toggleValue = eco.completed
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels['eco']} - ${toggleValue}`,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_ECO`,
@@ -1573,12 +1372,6 @@ export class TestReportAnalyticsEffects {
       const toggleValue = eco.adviceGivenControl
         ? 'selected'
         : 'unselected';
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_ECO_CONTROL, tests),
-        `${toggleValue}`,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.ECO_CONTROL, tests),
@@ -1619,12 +1412,6 @@ export class TestReportAnalyticsEffects {
       const toggleValue = eco.adviceGivenPlanning
         ? 'selected'
         : 'unselected';
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_ECO_PLANNING, tests),
-        `${toggleValue}`,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.ECO_PLANNING, tests),
@@ -1662,10 +1449,6 @@ export class TestReportAnalyticsEffects {
       [action, tests, eta]:
       [ReturnType<typeof etaActions.ToggleETA>, TestsModel, ETA, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics method
-      const event: string = (action.examinerAction === ExaminerActions.physical)
-        ? AnalyticsEvents.TOGGLE_ETA_PHYSICAL
-        : AnalyticsEvents.TOGGLE_ETA_VERBAL;
       // GA4 Analytics method
       const etaName: string = (action.examinerAction === ExaminerActions.physical)
         ? GoogleAnalyticsEventsValues.ETA_PHYSICAL
@@ -1679,12 +1462,6 @@ export class TestReportAnalyticsEffects {
         ? 'selected'
         : 'unselected';
 
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(event, tests),
-        `${toggleValue}`,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.ETA, tests),
@@ -1728,12 +1505,6 @@ export class TestReportAnalyticsEffects {
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
 
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_CONTROLLED_STOP, tests),
-        `${toggleValue}`,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.CONTROLLED_STOP, tests),
@@ -1775,12 +1546,7 @@ export class TestReportAnalyticsEffects {
       const toggleValue = highwayCodeSafety.selected
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels.highwayCodeSafety} - ${toggleValue}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests),
@@ -1814,12 +1580,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof manoeuvresActions.RecordManoeuvresSelection>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_MAN`,
@@ -1851,12 +1612,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof manoeuvresADIPart2Actions.RecordManoeuvresSelection>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_MAN`,
@@ -1888,12 +1644,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof manoeuvresActions.RecordManoeuvresDeselection>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.uncompleted}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_MAN`,
@@ -1927,12 +1678,7 @@ export class TestReportAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [VehicleChecksTypes, TestsModel, boolean]) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.completed}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_SM`,
@@ -1964,12 +1710,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-        `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.uncompleted}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(GoogleAnalyticsEvents.LEGAL_REQUIREMENT, tests)}_SM`,
@@ -2001,13 +1742,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
-        'Uncouple recouple',
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2041,13 +1776,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
-        'Uncouple recouple',
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2081,13 +1810,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
-        'Uncouple recouple',
-        1,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2121,11 +1844,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverOpened>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED, tests),
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
@@ -2157,11 +1876,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverClosed>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED, tests),
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
@@ -2193,18 +1908,10 @@ export class TestReportAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([action, tests]) => {
-      const toggleValue = (action.type === avoidanceActions.AddAvoidanceSeriousFault.type)
-        ? speedCheckToggleValues.speedNotMet
-        : speedCheckToggleValues.speedMet;
       const toggleGA4Value = (action.type === avoidanceActions.AddAvoidanceSeriousFault.type)
         ? GoogleAnalyticsEventsValues.NOT_MET
         : GoogleAnalyticsEventsValues.MET;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT, tests),
-        `${competencyLabels['speedCheckAvoidance']} - ${toggleValue}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE, tests),
@@ -2243,12 +1950,7 @@ export class TestReportAnalyticsEffects {
       [ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>, TestsModel, Avoidance, boolean],
     ) => {
       const attemptValue = avoidance.firstAttempt;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT, tests),
-        `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE, tests),
@@ -2287,12 +1989,7 @@ export class TestReportAnalyticsEffects {
       [ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>, TestsModel, Avoidance, boolean],
     ) => {
       const attemptValue = avoidance.secondAttempt;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT, tests),
-        `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE, tests),
@@ -2323,16 +2020,8 @@ export class TestReportAnalyticsEffects {
     filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
-    concatMap(([action, tests]) => {
-      // TODO MES-9495 - remove old analytics
-      const toggleValue = (action.type === emergencyStopActions.AddEmergencyStopSeriousFault.type)
-        ? speedCheckToggleValues.speedNotMet
-        : speedCheckToggleValues.speedMet;
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ, tests),
-        `${competencyLabels['speedCheckEmergency']} - ${toggleValue}`,
-      );
+    concatMap(([action,]) => {
+
       // GA4 Analytics
       const GA4Toggle = (action.type === emergencyStopActions.AddEmergencyStopSeriousFault.type)
         ? GoogleAnalyticsEventsValues.NOT_MET
@@ -2374,12 +2063,7 @@ export class TestReportAnalyticsEffects {
       [ReturnType<typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop, boolean],
     ) => {
       const attemptValue = emergencyStop.firstAttempt;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT, tests),
-        `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.EMERGENCY_STOP, tests),
@@ -2418,12 +2102,7 @@ export class TestReportAnalyticsEffects {
       [ReturnType<typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop, boolean],
     ) => {
       const attemptValue = emergencyStop.secondAttempt;
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT, tests),
-        `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.EMERGENCY_STOP, tests),
@@ -2455,12 +2134,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED, tests),
-        ModalReason.SPEED_REQUIREMENTS,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
@@ -2492,12 +2166,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED, tests),
-        ModalReason.EMERGENCY_STOP_DANGEROUS,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
@@ -2529,12 +2198,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED, tests),
-        ModalReason.EMERGENCY_STOP_SERIOUS,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
@@ -2566,50 +2230,24 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      if (action.outcome === CompetencyOutcome.DF) {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.ADD_SINGLE_FAULT, tests),
-          fullCompetencyLabels[action.competencyName],
-        );
-      } else if (action.outcome === CompetencyOutcome.D) {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT, tests),
-          fullCompetencyLabels[action.competencyName],
-        );
-      } else if (action.outcome === CompetencyOutcome.S) {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT, tests),
-          fullCompetencyLabels[action.competencyName],
-        );
-      }
+
       // GA4 Analytics
-      if (action.outcome === CompetencyOutcome.DF) {
+      const faultTypeMap = {
+        [CompetencyOutcome.DF]: ValidFaultTypes.DRIVING,
+        [CompetencyOutcome.D]: ValidFaultTypes.DANGEROUS,
+        [CompetencyOutcome.S]: ValidFaultTypes.SERIOUS,
+      };
+
+      const faultType = faultTypeMap[action.outcome];
+      if (faultType) {
+        const eventType = analyticsEventTypePrefix(GoogleAnalyticsEvents.ADD_FAULT, tests);
+        const competencyLabel = fullAnalyticCompetencyLabels[action.competencyName];
+        const eventLabel = `${eventType}_${competencyLabel}`;
+
         this.analytics.logGAEvent(
-          `${analyticsEventTypePrefix(
-            GoogleAnalyticsEvents.ADD_FAULT,
-            tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
+          eventLabel,
           GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING,
-        );
-      } else if (action.outcome === CompetencyOutcome.D) {
-        this.analytics.logGAEvent(
-          `${analyticsEventTypePrefix(
-            GoogleAnalyticsEvents.ADD_FAULT,
-            tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS,
-        );
-      } else if (action.outcome === CompetencyOutcome.S) {
-        this.analytics.logGAEvent(
-          `${analyticsEventTypePrefix(
-            GoogleAnalyticsEvents.ADD_FAULT,
-            tests)}_${fullAnalyticCompetencyLabels[action.competencyName]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS,
+          faultType,
         );
       }
       return of(AnalyticRecorded());
@@ -2637,12 +2275,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
-        fullCompetencyLabels[action.competencyName],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2677,12 +2310,7 @@ export class TestReportAnalyticsEffects {
       // eslint-disable-next-line max-len
       [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT, tests),
-        fullCompetencyLabels[action.competencyName],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2716,12 +2344,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT, tests),
-        fullCompetencyLabels[action.competencyName],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2755,12 +2378,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT, tests),
-        fullCompetencyLabels.pcvDoorExercise,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2794,12 +2412,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT, tests),
-        fullCompetencyLabels.pcvDoorExercise,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2833,12 +2446,6 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT, tests),
-        fullCompetencyLabels.pcvDoorExercise,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2872,12 +2479,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT, tests),
-        fullCompetencyLabels.pcvDoorExercise,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2911,12 +2513,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT, tests),
-        fullCompetencyLabels.pcvDoorExercise,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2950,12 +2547,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT, tests),
-        fullCompetencyLabels.pcvDoorExercise,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -2989,11 +2581,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testReportActions.StartTimer>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.START_TIMER, tests),
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.START_TIMER, tests),
@@ -3030,12 +2618,7 @@ export class TestReportAnalyticsEffects {
       [, tests, studentLevel]:
       [ReturnType<typeof StudentLevelChanged>, TestsModel, StudentLevel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.STUDENT_LEVEL_CHANGED, tests),
-        `student level changed to ${studentLevel}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.STUDENT_EXPERIENCE, tests),
@@ -3067,12 +2650,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof lessonThemeActions.LessonThemeAdded>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.LESSON_THEME_ADDED, tests),
-        lessonThemeValues[action.lessonTheme],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.LESSON_THEME, tests),
@@ -3104,12 +2682,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof lessonThemeActions.LessonThemeRemoved>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.LESSON_THEME_REMOVED, tests),
-        lessonThemeValues[action.lessonTheme],
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.LESSON_THEME, tests),
@@ -3148,12 +2721,7 @@ export class TestReportAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof OtherChanged>, TestsModel, string, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.OTHER_REASON_CHANGED, tests),
-        'Free text entered',
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
@@ -3190,12 +2758,7 @@ export class TestReportAnalyticsEffects {
       }, tests]:
       [ReturnType<typeof LessonPlanningQuestionScoreChanged>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.LESSON_PLANNING_CHANGED, tests),
-        `lesson planning changed: question ${question}, score ${score}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(`${GoogleAnalyticsEvents.LESSON_PLANNING}_Q${question}`, tests),
@@ -3230,12 +2793,7 @@ export class TestReportAnalyticsEffects {
       }, tests]:
       [ReturnType<typeof RiskManagementQuestionScoreChanged>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.RISK_MANAGEMENT_CHANGED, tests),
-        `risk management changed: question ${question}, score ${score}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(`${GoogleAnalyticsEvents.RISK_MANAGEMENT}_Q${question}`, tests),
@@ -3270,12 +2828,7 @@ export class TestReportAnalyticsEffects {
       }, tests]:
       [ReturnType<typeof TeachingLearningStrategiesQuestionScoreChanged>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TEACHING_LEARNING_STRATEGY_CHANGED, tests),
-        `teaching learning strategy changed: question ${question}, score ${score}`,
-      );
+
       // GA4 analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(`${GoogleAnalyticsEvents.LEARNING_STRATEGY}_Q${question}`, tests),
@@ -3309,12 +2862,7 @@ export class TestReportAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof AssessmentOverallScoreChanged>, TestsModel, boolean],
     ) => {
-      // TODO MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED, tests),
-        `overall assessment score changed: ${action.score}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.OVERALL_ASSESSMENT, tests),

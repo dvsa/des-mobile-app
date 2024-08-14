@@ -4,8 +4,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ContinueUnuploadedTest, UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { switchMap } from 'rxjs/operators';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
@@ -24,9 +22,6 @@ export class UnuploadedTestsAnalyticsEffects {
     ofType(UnuploadedTestsViewDidEnter),
     switchMap(() => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(AnalyticsScreenNames.UN_UPLOADED);
-
       //GA4 Analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.UN_UPLOADED);
 
@@ -37,13 +32,6 @@ export class UnuploadedTestsAnalyticsEffects {
   continueUnUploadedTest$ = createEffect(() => this.actions$.pipe(
     ofType(ContinueUnuploadedTest),
     switchMap(({ testStatus }) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.UN_UPLOADED_TESTS,
-        AnalyticsEvents.TEST_SELECTED,
-        testStatus,
-      );
 
       //GA4 Analytics
       this.analytics.logGAEvent(

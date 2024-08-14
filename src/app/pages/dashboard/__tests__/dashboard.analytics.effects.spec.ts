@@ -5,8 +5,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
@@ -60,7 +58,6 @@ describe('DashboardAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DashboardAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('dashboardViewDidEnter', () => {
@@ -69,9 +66,6 @@ describe('DashboardAnalyticsEffects', () => {
       effects.dashboardViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
         // GA4 analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
@@ -85,12 +79,6 @@ describe('DashboardAnalyticsEffects', () => {
       effects.practiceTestReportSelected$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.DASHBOARD,
-            AnalyticsEvents.PRACTICE_TEST_SELECTED,
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -108,13 +96,6 @@ describe('DashboardAnalyticsEffects', () => {
       effects.sideMenuOpen$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.DASHBOARD,
-            AnalyticsEvents.SIDE_MENU,
-            'Menu Opened',
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -132,13 +113,6 @@ describe('DashboardAnalyticsEffects', () => {
       effects.sideMenuClosed$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.DASHBOARD,
-            AnalyticsEvents.SIDE_MENU,
-            'Menu Closed',
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -156,13 +130,6 @@ describe('DashboardAnalyticsEffects', () => {
       effects.sideMenuItemSelected$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.DASHBOARD,
-            AnalyticsEvents.SIDE_MENU,
-            'opt1 Selected',
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -180,16 +147,14 @@ describe('DashboardAnalyticsEffects', () => {
       effects.updateAvailablePopup$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.APP_UPDATE_BADGE,
-            'Modal',
-            'New version modal displayed',
-          );
 
         // GA4 Analytics
-        // TBC
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.APP_UPDATE,
+            GoogleAnalyticsEventsTitles.STATUS,
+            GoogleAnalyticsEventsValues.OPEN,
+          );
         done();
       });
     });
@@ -201,16 +166,13 @@ describe('DashboardAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.APP_UPDATE_BADGE,
-            'Modal',
-            'Ok button selected',
-          );
-
         // GA4 Analytics
-        // TBC
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.APP_UPDATE,
+            GoogleAnalyticsEventsTitles.STATUS,
+            UpdateAvailable.OK,
+          );
         done();
       });
     });
@@ -222,42 +184,33 @@ describe('DashboardAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.APP_UPDATE_BADGE,
-            'New version badge selected',
-          );
-
         // GA4 Analytics
-        // TBC
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.APP_UPDATE,
+            GoogleAnalyticsEventsTitles.STATUS,
+            GoogleAnalyticsEventsValues.CLICKED,
+          );
         done();
       });
     });
-    describe('detectDeviceTheme$', () => {
-      it('should log an event', (done) => {
-        actions$.next(DetectDeviceTheme());
-        effects.detectDeviceTheme$.subscribe((result) => {
-          expect(result.type === AnalyticRecorded.type)
-            .toBe(true);
+  });
 
-          // TODO - MES-9495 - remove old analytics
-          expect(analyticsProviderMock.logEvent)
-            .toHaveBeenCalledWith(
-              AnalyticsEventCategories.METADATA,
-              'Device theme',
-              'Light mode',
-            );
+  describe('detectDeviceTheme$', () => {
+    it('should log an event', (done) => {
+      actions$.next(DetectDeviceTheme());
+      effects.detectDeviceTheme$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
 
-          // GA4 Analytics
-          expect(analyticsProviderMock.logGAEvent)
-            .toHaveBeenCalledWith(
-              GoogleAnalyticsEvents.METADATA,
-              GoogleAnalyticsEventsTitles.DEVICE_THEME,
-              GoogleAnalyticsEventsValues.LIGHT_MODE,
-            );
-          done();
-        });
+        // GA4 Analytics
+        expect(analyticsProviderMock.logGAEvent)
+          .toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.METADATA,
+            GoogleAnalyticsEventsTitles.DEVICE_THEME,
+            GoogleAnalyticsEventsValues.LIGHT_MODE,
+          );
+        done();
       });
     });
   });

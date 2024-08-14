@@ -5,9 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsErrorTypes,
-  AnalyticsEventCategories,
-  AnalyticsScreenNames, GoogleAnalyticsEventPrefix, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEventPrefix,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -29,8 +30,6 @@ describe('HealthDeclarationAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.HEALTH_DECLARATION;
-  // eslint-disable-next-line max-len
-  const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.HEALTH_DECLARATION}`;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -72,10 +71,6 @@ describe('HealthDeclarationAnalyticsEffects', () => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
-
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
@@ -92,10 +87,6 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeMode);
 
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
@@ -116,34 +107,10 @@ describe('HealthDeclarationAnalyticsEffects', () => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${AnalyticsScreenNames.HEALTH_DECLARATION})`,
-            'error message');
-
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.VALIDATION_ERROR,
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'error message');
-        done();
-      });
-    });
-
-    // TODO - MES-9495 - remove old analytics
-    it('should call logError with pass, prefixed with practice mode', (done) => {
-      // ARRANGE
-      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-      // eslint-disable-next-line max-len
-      const practiceScreenName = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.HEALTH_DECLARATION}`;
-      // ACT
-      actions$.next(healthDeclarationActions.HealthDeclarationValidationError('error message'));
-      // ASSERT
-      effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${practiceScreenName})`,
             'error message');
         done();
       });

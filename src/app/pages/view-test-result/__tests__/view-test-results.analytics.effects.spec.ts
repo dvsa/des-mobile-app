@@ -5,7 +5,6 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
   AnalyticsScreenNames,
-  AnalyticsDimensionIndices,
   GoogleAnalyticsCustomDimension,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -39,12 +38,6 @@ describe('ViewTestResultAnalyticsEffects', () => {
       // ASSERT
       effects.viewTestResultViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-          '12345',
-        );
-
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,

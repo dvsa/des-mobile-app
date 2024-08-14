@@ -5,10 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -71,7 +71,6 @@ describe('CandidateDetailsAnalyticsEffects', () => {
     effects = TestBed.inject(CandidateDetailsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('candidateView$', () => {
@@ -85,16 +84,6 @@ describe('CandidateDetailsAnalyticsEffects', () => {
       effects.candidateView$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '123');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, '1');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
@@ -120,15 +109,6 @@ describe('CandidateDetailsAnalyticsEffects', () => {
       effects.candidateModalDismiss$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, null);
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, null);
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(AnalyticsScreenNames.JOURNAL);
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
@@ -154,14 +134,6 @@ describe('CandidateDetailsAnalyticsEffects', () => {
       effects.slotChangeViewed$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.JOURNAL,
-            AnalyticsEvents.SLOT_CHANGE_VIEWED,
-            '123',
-          );
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)

@@ -6,9 +6,6 @@ import {
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
@@ -21,7 +18,7 @@ import {
   getCurrentTest, getJournalData, isPassed, isPracticeMode,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -63,10 +60,6 @@ export class BackToOfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([, tests]: [ReturnType<typeof BackToOfficeViewDidEnter>, TestsModel, boolean]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.BACK_TO_OFFICE, tests);
-      this.analytics.setCurrentPage(screenName);
 
       // GA4 analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.BACK_TO_OFFICE, tests));
@@ -113,16 +106,6 @@ export class BackToOfficeAnalyticsEffects {
     switchMap(([, tests, isTestPassed, candidateId, applicationReference]:
     [ReturnType<typeof DeferWriteUp>, TestsModel, boolean, number, string, boolean]) => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.BACK_TO_OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.DEFER_WRITE_UP, tests),
-        isTestPassed ? 'pass' : 'fail',
-      );
-
       //GA4 Analytics
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addGACustomDimension(
@@ -156,13 +139,6 @@ export class BackToOfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([, tests]: [ReturnType<typeof ASAMPopupPresented>, TestsModel, boolean]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.ERROR, tests),
-        formatAnalyticsText(AnalyticsEvents.ASAM, tests),
-        'Modal Triggered',
-      );
 
       //GA4 Analytics
       this.analytics.logGAEvent(

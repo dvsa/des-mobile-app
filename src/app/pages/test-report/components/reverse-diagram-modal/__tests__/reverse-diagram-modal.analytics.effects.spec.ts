@@ -7,10 +7,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsDimensionIndices,
   AnalyticsScreenNames,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -36,7 +33,6 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.REVERSE_DIAGRAM;
-  const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.REVERSE_DIAGRAM}`;
   const mockApplication: Application = {
     applicationId: 123456,
     bookingSequence: 78,
@@ -77,15 +73,6 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
       // ASSERT
       effects.reverseDiagramViewDidEnter$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B+E');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
@@ -110,15 +97,6 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
       // ASSERT
       effects.reverseDiagramViewDidEnter$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B+E');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeMode);
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
@@ -143,12 +121,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
       // ASSERT
       effects.reverseDiagramOpened$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_DIAGRAM_OPENED}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -170,12 +143,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
       // ASSERT
       effects.reverseDiagramClosed$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_DIAGRAM_CLOSED}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -197,13 +165,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
       // ASSERT
       effects.reverseDiagramLengthChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_DIAGRAM_LENGTH_CHANGED}`,
-          'from 100 to 10',
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -227,13 +189,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
       // ASSERT
       effects.reverseDiagramWidthChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_DIAGRAM_WIDTH_CHANGED}`,
-          'from 100 to 10',
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(

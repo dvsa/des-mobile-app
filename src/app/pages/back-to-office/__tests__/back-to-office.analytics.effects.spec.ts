@@ -5,10 +5,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -39,7 +37,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.BACK_TO_OFFICE;
-  const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.BACK_TO_OFFICE}`;
   const mockApplication: Application = {
     applicationId: 123456,
     bookingSequence: 78,
@@ -87,10 +84,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
-
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
@@ -107,11 +100,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
       effects.backToOfficeViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeMode);
-
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
@@ -134,18 +122,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
       effects.deferWriteUpEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.BACK_TO_OFFICE,
-            AnalyticsEvents.DEFER_WRITE_UP,
-            'pass',
-          );
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
@@ -174,18 +150,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.BACK_TO_OFFICE,
-            AnalyticsEvents.DEFER_WRITE_UP,
-            'fail',
-          );
-
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -213,18 +177,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.BACK_TO_OFFICE}`,
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DEFER_WRITE_UP}`,
-            'pass',
-          );
-
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -239,6 +191,7 @@ describe('BackToOfficeAnalyticsEffects', () => {
         done();
       });
     });
+
     it('should call logEvent with fail page, practice mode prefix and addCustomDimension', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
@@ -251,18 +204,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
       effects.deferWriteUpEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.BACK_TO_OFFICE}`,
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.DEFER_WRITE_UP}`,
-            'fail',
-          );
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)

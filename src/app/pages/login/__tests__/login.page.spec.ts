@@ -228,9 +228,6 @@ describe('LoginPage', () => {
       spyOn(store$, 'dispatch');
       spyOn(component, 'appInitializedLog');
       spyOn(component, 'dispatchLog');
-      spyOn(analytics, 'initialiseAnalytics')
-        .and
-        .returnValue(Promise.resolve());
       spyOn(analytics, 'logException');
     });
     describe('Successful login flow', () => {
@@ -253,8 +250,6 @@ describe('LoginPage', () => {
         expect(appConfigProvider.loadRemoteConfig)
           .toHaveBeenCalled();
         expect(component.handleLoadingUI)
-          .toHaveBeenCalled();
-        expect(analytics.initialiseAnalytics)
           .toHaveBeenCalled();
         expect(component.validateDeviceType)
           .toHaveBeenCalled();

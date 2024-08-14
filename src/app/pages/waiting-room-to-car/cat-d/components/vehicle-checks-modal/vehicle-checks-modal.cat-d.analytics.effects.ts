@@ -5,15 +5,17 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import {
-  AnalyticsEventCategories,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { TestsModel } from '@store/tests/tests.model';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import {
   ShowMeQuestionOutcomeChanged,
   ShowMeQuestionSelected,
@@ -47,10 +49,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       ),
     )),
     switchMap(([, tests]: [ReturnType<typeof VehicleChecksViewDidEnter>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(
-        formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
-      );
+
       // GA4 Analytics
       this.analytics.setGACurrentPage(
         analyticsEventTypePrefix(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
@@ -69,13 +68,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof ShowMeQuestionSelected>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      const eventText = `show me question ${action.index + 1} changed`;
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
-        eventText,
-        action.showMeQuestion.code,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1), tests),
@@ -96,14 +89,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof ShowMeQuestionOutcomeChanged>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      const eventText = `show me question ${action.index + 1} outcome changed`;
-      const outComeText = action.showMeQuestionOutcome === 'P' ? 'correct' : 'driving fault';
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
-        eventText,
-        outComeText,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SHOW_ME_QUESTION + (action.index + 1), tests),
@@ -125,13 +111,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof TellMeQuestionSelected>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      const eventText = `tell me question ${action.index + 1} changed`;
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
-        eventText,
-        action.tellMeQuestion.code,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1), tests),
@@ -152,14 +132,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof TellMeQuestionOutcomeChanged>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      const eventText = `tell me question ${action.index + 1} outcome changed`;
-      const outComeText = action.tellMeQuestionOutcome === 'P' ? 'correct' : 'driving fault';
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
-        eventText,
-        outComeText,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TELL_ME_QUESTION + (action.index + 1), tests),
@@ -181,14 +154,7 @@ export class VehicleChecksModalCatDAnalyticsEffects {
       ),
     )),
     switchMap(([action, tests]: [ReturnType<typeof SafetyQuestionOutcomeChanged>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      const eventText = `safety question ${action.index + 1} outcome changed`;
-      const outComeText = action.safetyQuestionOutcome === 'P' ? 'correct' : 'driving fault';
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.VEHICLE_CHECKS, tests),
-        eventText,
-        outComeText,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SAFETY_QUESTION + (action.index + 1), tests),

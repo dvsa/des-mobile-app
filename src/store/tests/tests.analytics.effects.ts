@@ -5,9 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents, GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -15,7 +13,7 @@ import {
 import { of } from 'rxjs';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { formatApplicationReference } from '@shared/helpers/formatters';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { Router } from '@angular/router';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
@@ -60,41 +58,14 @@ export class TestsAnalyticsEffects {
     concatMap(([action, tests]: [ReturnType<typeof SetTestStatusSubmitted>, TestsModel]) => {
       const test = getTestById(tests, action.slotId);
       const testOutcome = getTestOutcome(test as TestResultCommonSchema);
-      const isRekey: boolean = test.rekey;
       const journalDataOfTest = test.journalData;
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.POST_TEST,
-        isRekey ? AnalyticsEvents.SUBMIT_REKEY_TEST : AnalyticsEvents.SUBMIT_TEST,
-        testOutcome,
-      );
-
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-        formatApplicationReference(journalDataOfTest.applicationReference),
-      );
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.CANDIDATE_ID,
-        journalDataOfTest.candidate.candidateId ? journalDataOfTest.candidate.candidateId.toString() : null,
-      );
-
       // GA4 Analytics
-      let returnValue = null;
-      switch (testOutcome) {
-        case 'Fail':
-          returnValue = GoogleAnalyticsEventsValues.FAIL;
-          break;
-        case 'Pass':
-          returnValue = GoogleAnalyticsEventsValues.PASS;
-          break;
-        case 'Terminated':
-          returnValue = GoogleAnalyticsEventsValues.TERMINATED;
-          break;
-        default:
-          returnValue = GoogleAnalyticsEventsValues.UNKNOWN;
-          break;
-      }
+      const returnValue = {
+        'Fail': GoogleAnalyticsEventsValues.FAIL,
+        'Pass': GoogleAnalyticsEventsValues.PASS,
+        'Terminated': GoogleAnalyticsEventsValues.TERMINATED,
+      } [testOutcome] || GoogleAnalyticsEventsValues.UNKNOWN;
 
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SUBMIT_TEST, tests),
@@ -118,8 +89,6 @@ export class TestsAnalyticsEffects {
   sendCompletedTestsFailureEffect$ = createEffect(() => this.actions$.pipe(
     ofType(SendCompletedTestsFailure),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logError('Error connecting to microservice (test submission)', 'No message');
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.MICROSERVICE_ERROR,
@@ -133,8 +102,6 @@ export class TestsAnalyticsEffects {
   sendPartialTestsFailureEffect$ = createEffect(() => this.actions$.pipe(
     ofType(SendPartialTestsFailure),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logError('Error connecting to microservice (partial test submission)', 'No message');
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.MICROSERVICE_ERROR,
@@ -169,28 +136,12 @@ export class TestsAnalyticsEffects {
 
       const { journalData } = test;
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_SUBMISSION,
-        this.formatter(action.type),
-        JSON.stringify({
-          slotID,
-          appRef: formatApplicationReference(journalData.applicationReference),
-          testStatus: action.testStatus,
-        }),
-      );
       // GA4 Analytics
-      let submissionType: string;
-      switch (this.formatter(action.type)) {
-        case 'send completed tests success':
-          submissionType = GoogleAnalyticsEventsValues.COMPLETED;
-          break;
-        case 'send partial tests success':
-          submissionType = GoogleAnalyticsEventsValues.PARTIAL;
-          break;
-        default:
-          submissionType = GoogleAnalyticsEventsValues.UNKNOWN;
-      }
+      const submissionType = {
+        'send completed tests success': GoogleAnalyticsEventsValues.COMPLETED,
+        'send partial tests success': GoogleAnalyticsEventsValues.PARTIAL,
+      } [this.formatter(action.type)] || GoogleAnalyticsEventsValues.UNKNOWN;
+
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_SUBMISSION,
         GoogleAnalyticsEventsTitles.STATUS,
@@ -219,22 +170,6 @@ export class TestsAnalyticsEffects {
     switchMap(([action, tests]: [ReturnType<typeof TestOutcomeChanged>, TestsModel]) => {
       const test = getCurrentTest(tests);
       const journalDataOfTest = test.journalData;
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.TEST_OUTCOME_CHANGED, tests),
-        action.outcome,
-      );
-
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-        formatApplicationReference(journalDataOfTest.applicationReference),
-      );
-      this.analytics.addCustomDimension(
-        AnalyticsDimensionIndices.CANDIDATE_ID,
-        journalDataOfTest.candidate.candidateId.toString(),
-      );
 
       // GA4 Analytics
       let oldValue = null;
@@ -303,42 +238,6 @@ export class TestsAnalyticsEffects {
     switchMap((
       [action, applicationReference, device, battery],
     ) => {
-      const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
-        ? AnalyticsEventCategories.REKEY_SEARCH
-        : AnalyticsEventCategories.JOURNAL;
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
-
-      if (applicationReference) {
-        this.analytics.addCustomDimension(
-          AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-          formatApplicationReference(applicationReference),
-        );
-      }
-
-      this.analytics.logEvent(category, AnalyticsEvents.START_TEST);
-
-      this.analytics.logEvent(
-        AnalyticsEventCategories.METADATA,
-        AnalyticsEvents.REPORT_DEVICE_STATE,
-        'batteryLevel',
-        (battery as BatteryInfo).batteryLevel,
-      );
-
-      this.analytics.logEvent(
-        AnalyticsEventCategories.METADATA,
-        AnalyticsEvents.REPORT_DEVICE_STATE,
-        'realDiskFree',
-        (device as DeviceInfo).realDiskFree,
-      );
-
-      this.analytics.logEvent(
-        AnalyticsEventCategories.METADATA,
-        AnalyticsEvents.REPORT_DEVICE_STATE,
-        'realDiskTotal',
-        (device as DeviceInfo).realDiskTotal,
-      );
 
       // GA4 Analytics
       const prefix = this.navigationStateProvider.isRekeySearch()

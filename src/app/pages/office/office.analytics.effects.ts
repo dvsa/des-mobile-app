@@ -5,10 +5,6 @@ import {
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsErrorTypes,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
@@ -32,7 +28,7 @@ import {
   getCurrentTest, getJournalData, isPassed, isPracticeMode,
 } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -161,17 +157,9 @@ export class OfficeAnalyticsEffects {
       [, tests, isTestPassed, candidateId, applicationReference]:
       [ReturnType<typeof OfficeViewDidEnter>, TestsModel, boolean, number, string, boolean],
     ) => {
-      let screenName = isTestPassed
-        ? formatAnalyticsText(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
-        : formatAnalyticsText(AnalyticsScreenNames.FAIL_TEST_SUMMARY, tests);
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.setCurrentPage(screenName);
 
       // GA4 Analytics
-      screenName = isTestPassed
+      const screenName = isTestPassed
         ? analyticsEventTypePrefix(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
         : analyticsEventTypePrefix(AnalyticsScreenNames.FAIL_TEST_SUMMARY, tests);
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
@@ -215,18 +203,9 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [action, tests, candidateId, applicationReference]:
+      [action, , candidateId, applicationReference]:
       [ReturnType<typeof TestStartDateChanged>, TestsModel, number, string, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.DATE_OF_TEST_CHANGED, tests),
-        `previous date: ${action.previousStartDate}; new date: ${action.customStartDate}`,
-      );
 
       // GA4 Analytics
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
@@ -283,19 +262,9 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, testOutcome, candidateId, applicationReference]:
+      [, , testOutcome, candidateId, applicationReference]:
       [ReturnType<typeof SavingWriteUpForLater>, TestsModel, string, number, string, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.SAVE_WRITE_UP, tests),
-        testOutcome,
-      );
-
       // GA4 Analytics
       let eventValue = this.getEventValue(testOutcome);
 
@@ -336,12 +305,8 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [action, tests, isTestPassed]: [ReturnType<typeof OfficeValidationError>, TestsModel, boolean, boolean],
+      [action, tests, ]: [ReturnType<typeof OfficeValidationError>, TestsModel, boolean, boolean],
     ) => {
-      const screenName = isTestPassed ? AnalyticsScreenNames.PASS_TEST_SUMMARY : AnalyticsScreenNames.FAIL_TEST_SUMMARY;
-      // TODO - MES-9495 - remove old analytics
-      const formattedScreenName = formatAnalyticsText(screenName, tests);
-      this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`, action.errorMessage);
       // GA4 Analytics
 
       let controlName = null;
@@ -416,15 +381,6 @@ export class OfficeAnalyticsEffects {
       [, candidateId, applicationReference, testOutcome, tests]:
       [ReturnType<typeof CompleteTest>, number, string, string, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-
-      this.analytics.logEvent(
-        AnalyticsEventCategories.POST_TEST,
-        AnalyticsEvents.CONFIRM_UPLOAD,
-        formatAnalyticsText(`Upload confirmed - ${testOutcome}`, tests),
-      );
 
       //GA4 Analytics
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
@@ -467,15 +423,9 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [action, tests, category]: [ReturnType<typeof CircuitTypeChanged>, TestsModel, CategoryCode, boolean],
+      [action, , category]: [ReturnType<typeof CircuitTypeChanged>, TestsModel, CategoryCode, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.CIRCUIT_CHANGED, tests),
-        `Circuit type ${action.circuitType} selected`,
-      );
+
       //GA4 Analytics
       let eventValue = this.getEventValue(action.circuitType);
 
@@ -514,13 +464,6 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [action, tests, category]: [ReturnType<typeof IndependentDrivingTypeChanged>, TestsModel, CategoryCode, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.INDEPENDENT_DRIVING_TYPE_CHANGED, tests),
-        `${action.independentDriving} selected`,
-      );
 
       //GA4 Analytics
       let eventValue = this.getEventValue(action.independentDriving);
@@ -558,15 +501,9 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [action, tests, category]: [ReturnType<typeof ModeOfTransportChanged>, TestsModel, CategoryCode, boolean],
+      [action, , category]: [ReturnType<typeof ModeOfTransportChanged>, TestsModel, CategoryCode, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.MODE_OF_TRANSPORT_CHANGED, tests),
-        `${action.modeOfTransport} selected`,
-      );
+
       //GA4 Analytics
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
 
@@ -608,18 +545,14 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [, tests, fuelEfficientDriving]: [ReturnType<typeof ToggleFuelEfficientDriving>, TestsModel, boolean, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.TOGGLE_FUEL_EFFICIENT_DRIVING, tests),
-        `${fuelEfficientDriving ? 'Yes' : 'No'}`,
-      );
+
       //GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.FUEL_EFFICIENT_DRIVING, tests),
         GoogleAnalyticsEventsTitles.SELECTION,
         `${fuelEfficientDriving ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO}`,
       );
+
       return of(AnalyticRecorded());
     }),
   ));
@@ -651,12 +584,7 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [, tests, ecoRelatedFault]: [ReturnType<typeof AddEcoRelatedFault>, TestsModel, string, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.ECO_RELATED_FAULT_CHANGED, tests),
-        ecoRelatedFault,
-      );
+
       //GA4 Analytics
       this.analytics.logGAEvent(
         `${analyticsEventTypePrefix(
@@ -694,12 +622,7 @@ export class OfficeAnalyticsEffects {
     concatMap((
       [, tests]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
-        formatAnalyticsText(AnalyticsEvents.ECO_CAPTURE_REASON_CHANGED, tests),
-        'Free text entered',
-      );
+
       //GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
@@ -708,6 +631,7 @@ export class OfficeAnalyticsEffects {
         GoogleAnalyticsEventsTitles.REASON,
         GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED,
       );
+
       return of(AnalyticRecorded());
     }),
   ));

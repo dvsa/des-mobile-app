@@ -5,8 +5,6 @@ import { concatMap, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
@@ -55,9 +53,6 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(AnalyticsScreenNames.DASHBOARD);
-
       // GA4 analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.DASHBOARD);
       return of(AnalyticRecorded());
@@ -76,13 +71,6 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     switchMap(() => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.DASHBOARD,
-        AnalyticsEvents.PRACTICE_TEST_SELECTED,
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.PRACTICE_MODE_NAVIGATION,
@@ -105,13 +93,6 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.DASHBOARD,
-        AnalyticsEvents.SIDE_MENU,
-        'Menu Opened',
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.MENU,
@@ -134,14 +115,6 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     switchMap(() => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.DASHBOARD,
-        AnalyticsEvents.SIDE_MENU,
-        'Menu Closed',
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.MENU,
@@ -164,14 +137,6 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     switchMap(([{ item }]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.DASHBOARD,
-        AnalyticsEvents.SIDE_MENU,
-        `${item} Selected`,
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.MENU,
@@ -195,13 +160,6 @@ export class DashboardAnalyticsEffects {
       )),
     mergeMap(() => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.APP_UPDATE_BADGE,
-        'Modal',
-        'New version modal displayed',
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.APP_UPDATE,
@@ -224,19 +182,11 @@ export class DashboardAnalyticsEffects {
         ),
       )),
     mergeMap(([{ selected }]: [ReturnType<typeof UpdateAvailableOptionClicked>, boolean]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.APP_UPDATE_BADGE,
-        'Modal',
-        `${selected} button selected`,
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.APP_UPDATE,
         GoogleAnalyticsEventsTitles.STATUS,
-        '${selected}'
+        `${selected}`
       );
       return of(AnalyticRecorded());
     }),
@@ -255,12 +205,6 @@ export class DashboardAnalyticsEffects {
       )),
     mergeMap(() => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.APP_UPDATE_BADGE,
-        'New version badge selected',
-      );
-
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.APP_UPDATE,
@@ -274,13 +218,6 @@ export class DashboardAnalyticsEffects {
   detectDeviceTheme$ = createEffect(() => this.actions$.pipe(
     ofType(DetectDeviceTheme),
     switchMap(() => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.METADATA,
-        'Device theme',
-        isDeviceThemeDarkMode() ? 'Dark mode' : 'Light mode',
-      );
 
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.METADATA,

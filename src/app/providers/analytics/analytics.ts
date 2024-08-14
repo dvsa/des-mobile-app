@@ -6,7 +6,6 @@ import { DateTime } from '@shared/helpers/date-time';
 import { DeviceProvider } from '../device/device';
 import { AppConfigProvider } from '../app-config/app-config';
 import {
-  AnalyticsDimensionIndices,
   AnalyticsEventCategories,
   GoogleAnalyticsCustomDimension,
   IAnalyticsProvider,
@@ -237,20 +236,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     this.logGAEvent(type, AnalyticsEventCategories.VALIDATION_ERROR, message);
   }
 
-  // TODO - MES-9495 - remove old analytics
-  initialiseAnalytics = (): Promise<any> => new Promise((resolve) => {
-    this.googleAnalyticsKey = this.appConfig.getAppConfig()?.googleAnalyticsId;
-    this.platform.ready()
-      .then(async () => {
-        this.setDeviceId(await this.device.getUniqueDeviceId());
-        this.setUserId(this.authProvider.getEmployeeId());
-        this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
-        this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, await this.device.getDeviceName());
-        this.enableExceptionReporting();
-      });
-    resolve(true);
-  });
-
   enableExceptionReporting(): void {
     this.platform.ready()
       .then(() => {
@@ -268,62 +253,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       });
   }
 
-  // TODO - MES-9495 - remove old analytics
-  setCurrentPage(name: string): void {
-    this.platform.ready()
-      .then(() => {
-        if (this.isIos()) {
-          this.ga
-            .startTrackerWithId(this.googleAnalyticsKey)
-            .then(() => {
-              this.ga.trackView(name)
-                .then(() => {
-                })
-                .catch((pageError) => console.log('Error setting page', pageError));
-            })
-            .catch((error) => console.log('Error starting Google Analytics', error));
-        }
-      });
-  }
-
-  // TODO - MES-9495 - remove old analytics
-  logEvent(category: string, event: string, label?: string, value?: number): void {
-    this.platform.ready()
-      .then(() => {
-        if (this.isIos()) {
-          this.ga
-            .startTrackerWithId(this.googleAnalyticsKey)
-            .then(() => {
-              this.ga.trackEvent(category, event, label, value)
-                .then(() => {
-                })
-                .catch((eventError) => console.log('Error tracking event', eventError));
-            })
-            .catch((error) => console.log(`logEvent: ${this.analyticsStartupError}`, error));
-        }
-      });
-  }
-
-  // TODO - MES-9495 - remove old analytics
-  addCustomDimension(key: number, value: string): void {
-    if (this.isIos()) {
-      this.ga
-        .startTrackerWithId(this.googleAnalyticsKey)
-        .then(() => {
-          this.ga.addCustomDimension(key, value)
-            .then(() => {
-            })
-            .catch((dimError) => console.log('Error adding custom dimension ', dimError));
-        })
-        .catch((error) => console.log(`addCustomDimension: ${this.analyticsStartupError}`, error));
-    }
-  }
-
-  // TODO - MES-9495 - remove old analytics
-  logError(type: string, message: string): void {
-    this.logEvent(AnalyticsEventCategories.ERROR, type, message);
-  }
-
   logException(message: string, fatal: boolean): void {
     if (this.isIos()) {
       this.ga
@@ -338,36 +267,6 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
   }
 
-  // TODO - MES-9495 - remove old analytics
-  setUserId(userId: string): void {
-    if (this.isIos()) {
-      // @TODO: Consider using `createHash('sha512')` based on SonarQube suggestion.
-      // This will have GA user implications
-      this.uniqueUserId = createHash('sha256')
-        .update(userId || 'unavailable')
-        .digest('hex');
-      this.ga
-        .startTrackerWithId(this.googleAnalyticsKey)
-        .then(() => {
-          this.addCustomDimension(AnalyticsDimensionIndices.USER_ID, this.uniqueUserId);
-          this.ga.setUserId(this.uniqueUserId)
-            .then(() => {
-            })
-            .catch((idError) => console.log(`Error setting userid ${this.uniqueUserId}`, idError));
-        })
-        .catch((error) => console.log(`setUserId: ${this.analyticsStartupError}`, error));
-    }
-  }
-
-  // TODO - MES-9495 - remove old analytics
-  setDeviceId(deviceId: string): void {
-    // @TODO: Consider using `createHash('sha512')` based on SonarQube suggestion.
-    // This will have GA device implications
-    this.uniqueDeviceId = createHash('sha256')
-      .update(deviceId || 'defaultDevice')
-      .digest('hex');
-    this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
-  }
 
   getDiffDays(userDate: string): number {
     const today = new DateTime();

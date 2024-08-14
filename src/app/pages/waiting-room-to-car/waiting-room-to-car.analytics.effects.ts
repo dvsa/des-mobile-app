@@ -7,10 +7,6 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsErrorTypes,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -38,7 +34,7 @@ import {
   getApplicationNumber,
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   DualControlsToggledNo,
@@ -122,13 +118,6 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests, applicationReference, candidateId, category]:
       [ReturnType<typeof WaitingRoomToCarViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.setCurrentPage(
-        formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests),
-      );
 
       //GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests));
@@ -166,15 +155,8 @@ export class WaitingRoomToCarAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [action, tests, category]: [ReturnType<typeof WaitingRoomToCarError>, TestsModel, CategoryCode, boolean],
+      [action, tests,]: [ReturnType<typeof WaitingRoomToCarError>, TestsModel, CategoryCode, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.logError(
-        `${AnalyticsErrorTypes.SUBMIT_FORM_ERROR} (${screenName})`,
-        action.errorMessage,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -210,16 +192,9 @@ export class WaitingRoomToCarAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [action, tests, category]:
+      [action, tests, ]:
       [ReturnType<typeof WaitingRoomToCarValidationError>, TestsModel, CategoryCode, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.logError(
-        `${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`,
-        action.errorMessage,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -252,13 +227,6 @@ export class WaitingRoomToCarAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof WaitingRoomToCarBikeCategoryChanged>, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.selectedBikeCategory);
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.BIKE_CATEGORY_CHANGED, tests),
-        `bike category changed to ${action.initialBikeCategory} from ${action.selectedBikeCategory}`,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -293,13 +261,6 @@ export class WaitingRoomToCarAnalyticsEffects {
       [action, tests]:
       [ReturnType<typeof WaitingRoomToCarBikeCategorySelected>, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.bikeCategory);
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.BIKE_CATEGORY_SELECTED, tests),
-        `bike category ${action.bikeCategory} selected`,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -332,12 +293,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof WaitingRoomToCarViewBikeCategoryModal>, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.BIKE_CATEGORY_MODAL_TRIGGERED, tests),
-        'bike category selection modal triggered',
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.NAVIGATION, tests),
@@ -378,12 +334,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests, dualControls]:
       [ReturnType<typeof DualControlsToggledYes | typeof DualControlsToggledNo>, TestsModel, boolean, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.DUAL_CONTROLS_CHANGED, tests),
-        `dual controls changed to ${dualControls ? 'Yes' : 'No'}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.DUAL_CONTROLS, tests),
@@ -417,12 +368,7 @@ export class WaitingRoomToCarAnalyticsEffects {
     ) => {
       // Check current URL begins with WRTC prefix before recording analytic to stop duplicated events.
       if (this.router.url?.startsWith(this.classPrefix)) {
-        // TODO - MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-          formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
-          gearboxCategory,
-        );
+
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_TRANSMISSION, tests),
@@ -462,12 +408,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests, pdiLogBook]:
       [ReturnType<typeof PDILogbook>, TestsModel, boolean, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.PDI_LOGBOOK_CHANGED, tests),
-        `pdi logbook changed to ${pdiLogBook ? 'Yes' : 'No'}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.PDI_LOGBOOK, tests),
@@ -505,12 +446,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests, traineeLicence]:
       [ReturnType<typeof TraineeLicence>, TestsModel, boolean, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.TRAINEE_LICENCE_CHANGED, tests),
-        `trainee licence changed to ${traineeLicence ? 'Yes' : 'No'}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TRAINEE_LICENCE, tests),
@@ -548,12 +484,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests, orditTrained]:
       [ReturnType<typeof OrditTrainedChanged>, TestsModel, boolean, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.ORDIT_TRAINED_CHANGED, tests),
-        `ordit trained changed to ${orditTrained ? 'Yes' : 'No'}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.ORDIT_TRAINER, tests),
@@ -588,15 +519,10 @@ export class WaitingRoomToCarAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, trainerRegistrationNumber]:
+      [, tests, ]:
       [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.TRAINER_REG_NUMBER_CHANGED, tests),
-        `trainer registration number changed to ${trainerRegistrationNumber}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TRAINER_REG_NUMBER, tests),
@@ -634,12 +560,6 @@ export class WaitingRoomToCarAnalyticsEffects {
       [, tests, motStatus]:
       [ReturnType<typeof MotStatusChanged>, TestsModel, string, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.MOT_STATUS_CHANGED, tests),
-        `mot status: ${motStatus}`,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(

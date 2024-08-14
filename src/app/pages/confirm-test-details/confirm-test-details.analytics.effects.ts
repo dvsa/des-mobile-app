@@ -6,8 +6,6 @@ import {
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -19,7 +17,7 @@ import {
   BackToDebrief,
   ConfirmTestDetailsViewDidEnter,
 } from '@pages/confirm-test-details/confirm-test-details.actions';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
@@ -58,8 +56,6 @@ export class ConfirmTestDetailsAnalyticsEffects {
     switchMap((
       [, tests]: [ReturnType<typeof ConfirmTestDetailsViewDidEnter>, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(AnalyticsScreenNames.CONFIRM_TEST_DETAILS);
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.CONFIRM_TEST_DETAILS, tests));
       return of(AnalyticRecorded());
@@ -83,13 +79,7 @@ export class ConfirmTestDetailsAnalyticsEffects {
     filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
-    concatMap(([, tests]: [ReturnType<typeof BackToDebrief>, TestsModel, boolean]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.NAVIGATION, tests),
-        formatAnalyticsText(AnalyticsEvents.BACK, tests),
-        'Back to debrief',
-      );
+    concatMap(([, ]: [ReturnType<typeof BackToDebrief>, TestsModel, boolean]) => {
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.NAVIGATION,
@@ -117,13 +107,8 @@ export class ConfirmTestDetailsAnalyticsEffects {
     filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
-    concatMap(([, tests]: [ReturnType<typeof BackButtonClick>, TestsModel, boolean]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.NAVIGATION, tests),
-        formatAnalyticsText(AnalyticsEvents.BACK, tests),
-        'Back to finalise outcome',
-      );
+    concatMap(([,]: [ReturnType<typeof BackButtonClick>, TestsModel, boolean]) => {
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.NAVIGATION,

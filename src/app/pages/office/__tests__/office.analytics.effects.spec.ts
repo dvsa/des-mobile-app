@@ -22,10 +22,8 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
 import {
   AnalyticsDimensionIndices,
-  AnalyticsErrorTypes,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -47,10 +45,6 @@ describe('OfficeAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_TEST_SUMMARY;
   const screenNameFail = AnalyticsScreenNames.FAIL_TEST_SUMMARY;
-  const screenNamePracticeModePass =
-    `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_TEST_SUMMARY}`;
-  const screenNamePracticeModeFail =
-    `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.FAIL_TEST_SUMMARY}`;
   const mockApplication: Application = {
     applicationId: 123456,
     bookingSequence: 78,
@@ -99,13 +93,6 @@ describe('OfficeAnalyticsEffects', () => {
       effects.officeViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePass);
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
@@ -130,14 +117,6 @@ describe('OfficeAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNameFail);
-
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -161,14 +140,6 @@ describe('OfficeAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModePass);
-
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -191,14 +162,6 @@ describe('OfficeAnalyticsEffects', () => {
       effects.officeViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModeFail);
 
         // GA4 Analytics
         expect(analyticsProviderMock.addCustomDimension)
@@ -229,19 +192,6 @@ describe('OfficeAnalyticsEffects', () => {
       effects.testStartDateChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.OFFICE,
-            AnalyticsEvents.DATE_OF_TEST_CHANGED,
-            'previous date: 2020-12-25T08:10:00; new date: 2021-01-19T08:10:00',
-          );
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
@@ -276,18 +226,6 @@ describe('OfficeAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.SAVE_WRITE_UP,
-            'Pass',
-          );
-
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -315,18 +253,6 @@ describe('OfficeAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.SAVE_WRITE_UP,
-            'Fail',
-          );
-
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -353,17 +279,6 @@ describe('OfficeAnalyticsEffects', () => {
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.POST_TEST}`,
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.SAVE_WRITE_UP}`,
-            'Pass',
-          );
 
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
@@ -391,17 +306,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.POST_TEST}`,
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.SAVE_WRITE_UP}`,
-            'Fail',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
@@ -430,10 +335,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
-            'faultComment-simple-dangerous-useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -456,10 +358,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNameFail})`,
-            'faultComment-simple-dangerous-useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -482,10 +381,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
-            'useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -506,10 +402,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNameFail})`,
-            'useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -531,10 +424,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
-            'faultComment-simple-useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -558,10 +448,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
-            '');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -582,10 +469,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModePass})`,
-            'faultComment-simple-dangerous-useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -608,10 +492,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModeFail})`,
-            'faultComment-simple-dangerous-useOfMirrorsSignalling');
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -638,13 +519,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.completeTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.CONFIRM_UPLOAD,
-            'Upload confirmed - Pass',
-          );
+
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -677,13 +552,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.completeTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.CONFIRM_UPLOAD,
-            'practice mode - Upload confirmed - Pass',
-          );
+
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -719,13 +588,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.setCircuit$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.OFFICE,
-            AnalyticsEvents.CIRCUIT_CHANGED,
-            `Circuit type ${CircuitType.Left} selected`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -753,13 +616,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.setIndependentDrivingType$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.OFFICE,
-            AnalyticsEvents.INDEPENDENT_DRIVING_TYPE_CHANGED,
-            'Sat nav selected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -786,13 +643,7 @@ describe('OfficeAnalyticsEffects', () => {
       effects.setModeOfTransport$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.OFFICE,
-            AnalyticsEvents.MODE_OF_TRANSPORT_CHANGED,
-            'Car to bike selected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(

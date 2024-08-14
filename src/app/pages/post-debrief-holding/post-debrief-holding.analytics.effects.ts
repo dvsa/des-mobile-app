@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { TestsModel } from '@store/tests/tests.model';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { PostDebriefHoldingViewDidEnter } from '@pages/post-debrief-holding/post-debrief-holding.actions';
 import { isPracticeMode } from '@store/tests/tests.selector';
@@ -42,11 +42,6 @@ export class PostDebriefHoldingAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap(([, tests]: [ReturnType<typeof PostDebriefHoldingViewDidEnter>, TestsModel, boolean]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.POST_DEBRIEF_HOLDING, tests);
-      this.analytics.setCurrentPage(screenName);
-
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.POST_DEBRIEF_HOLDING, tests));
       return of(AnalyticRecorded());
