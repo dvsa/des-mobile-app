@@ -38,7 +38,7 @@ import { CommunicationAnalyticsEffects } from '../communication.analytics.effect
 
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CommunicationAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.COMMUNICATION;

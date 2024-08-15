@@ -21,7 +21,6 @@ import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  AnalyticsDimensionIndices,
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
@@ -40,7 +39,7 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('OfficeAnalyticsEffects', () => {
   let effects: OfficeAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_TEST_SUMMARY;
@@ -77,7 +76,6 @@ describe('OfficeAnalyticsEffects', () => {
     effects = TestBed.inject(OfficeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('officeViewDidEnter', () => {
@@ -164,10 +162,10 @@ describe('OfficeAnalyticsEffects', () => {
           .toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
+        expect(analyticsProviderMock.addGACustomDimension)
+          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`);
         done();
@@ -175,7 +173,7 @@ describe('OfficeAnalyticsEffects', () => {
     });
   });
 
-  describe('dateOfTestChangedEffect', () => {
+  describe('TestStartDateChanged', () => {
     it('should call the logEvent with the previous and new date text', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
@@ -520,11 +518,6 @@ describe('OfficeAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
 
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -552,11 +545,6 @@ describe('OfficeAnalyticsEffects', () => {
       effects.completeTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)

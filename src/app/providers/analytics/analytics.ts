@@ -1,4 +1,3 @@
-// import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { createHash } from 'crypto';
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';

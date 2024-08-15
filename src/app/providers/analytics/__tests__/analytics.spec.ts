@@ -8,8 +8,10 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DeviceProvider } from '@providers/device/device';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
 
-xdescribe('AnalyticsProvider', () => {
+describe('AnalyticsProvider', () => {
   let analyticsProvider: AnalyticsProvider;
 
   beforeEach(() => {
@@ -32,6 +34,10 @@ xdescribe('AnalyticsProvider', () => {
           provide: AuthenticationProvider,
           useClass: AuthenticationProviderMock,
         },
+        {
+          provide: AppInfoProvider,
+          useClass: AppInfoProviderMock,
+        },
       ],
     });
 
@@ -39,5 +45,10 @@ xdescribe('AnalyticsProvider', () => {
     spyOn(analyticsProvider, 'isIos')
       .and
       .returnValue(true);
+  });
+
+  it('should create', () => {
+    expect(analyticsProvider)
+      .toBeTruthy();
   });
 });

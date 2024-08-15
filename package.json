@@ -61,7 +61,6 @@
     "@angular/platform-browser-dynamic": "^17.3.9",
     "@angular/router": "^17.3.9",
     "@awesome-cordova-plugins/core": "^6.4.0",
-    "@awesome-cordova-plugins/google-analytics": "^6.4.0",
     "@awesome-cordova-plugins/is-debug": "^6.4.0",
     "@awesome-cordova-plugins/network": "^6.4.0",
     "@awesome-cordova-plugins/secure-storage": "^6.4.0",

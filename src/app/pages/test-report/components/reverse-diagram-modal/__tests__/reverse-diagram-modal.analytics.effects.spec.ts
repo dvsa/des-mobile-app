@@ -11,7 +11,8 @@ import {
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
-  GoogleAnalyticsEventsValues, GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsEventsValues,
+  GoogleAnalyticsCustomDimension,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -29,7 +30,7 @@ import { ReverseDiagramModalAnalyticsEffects } from '../reverse-diagram-modal.an
 
 describe('ReverseDiagramModalAnalyticsEffects', () => {
   let effects: ReverseDiagramModalAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.REVERSE_DIAGRAM;
@@ -58,7 +59,6 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
     effects = TestBed.inject(ReverseDiagramModalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('reverseDiagramViewDidEnter', () => {

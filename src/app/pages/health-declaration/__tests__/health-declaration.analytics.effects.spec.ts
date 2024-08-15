@@ -26,7 +26,7 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('HealthDeclarationAnalyticsEffects', () => {
   let effects: HealthDeclarationAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.HEALTH_DECLARATION;

@@ -24,7 +24,7 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('DebriefAnalyticsEffects', () => {
   let effects: DebriefAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_DEBRIEF;

@@ -6,7 +6,6 @@ export * from '@mocks/angular-mocks/dom-sanitizer.mock';
 export * from '@mocks/angular-mocks/nav-params.mock';
 export * from '@mocks/angular-mocks/router-mock';
 export * from '@mocks/ionic-mocks/alert-controller.mock';
-export * from '@mocks/ionic-mocks/google-analytics.mock';
 export * from '@mocks/ionic-mocks/is-debug.mock';
 export * from '@mocks/ionic-mocks/loading-controller.mock';
 export * from '@mocks/ionic-mocks/menu-controller.mock';

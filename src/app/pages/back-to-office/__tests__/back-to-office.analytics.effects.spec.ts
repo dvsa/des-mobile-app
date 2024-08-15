@@ -33,7 +33,7 @@ import * as backToOfficeActions from '../back-to-office.actions';
 
 describe('BackToOfficeAnalyticsEffects', () => {
   let effects: BackToOfficeAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.BACK_TO_OFFICE;
@@ -69,7 +69,6 @@ describe('BackToOfficeAnalyticsEffects', () => {
     effects = TestBed.inject(BackToOfficeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('backToOfficeViewDidEnter', () => {
