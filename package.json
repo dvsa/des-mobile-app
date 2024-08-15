@@ -76,7 +76,7 @@
     "@capawesome/capacitor-managed-configurations": "^6.0.0",
     "@capawesome/capacitor-screen-orientation": "^6.0.0",
     "@dvsa/capacitor-plugin-asam": "^1.0.1",
-    "@dvsa/mes-config-schema": "1.9.0",
+    "@dvsa/mes-config-schema": "1.9.1",
     "@dvsa/mes-driver-schema": "^0.0.2",
     "@dvsa/mes-journal-schema": "1.3.1",
     "@dvsa/mes-microservice-common": "^1.1.9",

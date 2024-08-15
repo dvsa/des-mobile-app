@@ -10,7 +10,6 @@ export const environment: LocalEnvironmentFile = {
   isRemote: false,
   enableDevTools: true,
   enableRehydrationPlugin: true,
-  googleAnalyticsId: 'UA-129489007-3',
 
   employeeNameKey: 'name',
   approvedDeviceIdentifiers: [
