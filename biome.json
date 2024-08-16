@@ -29,7 +29,11 @@
         "useImportType": "off",
         "useTemplate": "off",
         "useNodejsImportProtocol": "off",
-        "useDefaultParameterLast": "off"
+        "useDefaultParameterLast": "off",
+        "noUselessElse": "off",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off",
+        "useExponentiationOperator": "off"
       },
       "complexity": {
         "useLiteralKeys": "off",
@@ -37,15 +41,30 @@
         "noForEach": "off",
         "noThisInStatic": "off",
         "noStaticOnlyClass": "off",
-        "noUselessConstructor": "off"
+        "noUselessConstructor": "off",
+        "noExtraBooleanCast": "off",
+        "useOptionalChain": "off",
+        "noUselessCatch": "off"
+
+      },
+      "correctness": {
+        "noVoidTypeReturn": "off",
+        "noUnsafeOptionalChaining": "off",
+        "noEmptyPattern": "off",
+        "noSwitchDeclarations": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",
         "noExplicitAny": "off",
-        "useIsArray": "off"
+        "noImplicitAnyLet": "off",
+        "useIsArray": "off",
+        "noDoubleEquals": "off",
+        "noDuplicateTestHooks": "off",
+        "noConfusingVoidType": "off"
       },
       "performance": {
-        "noDelete": "off"
+        "noDelete": "off",
+        "noAccumulatingSpread": "off"
       }
     },
     "ignore": [

@@ -106,7 +106,6 @@ describe('PassFinalisationPageComponent', () => {
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends PassFinalisationPageComponent {
-      // biome-ignore lint/complexity/noUselessConstructor: <explanation>
       constructor(inj: Injector) {
         super(inj);
       }
