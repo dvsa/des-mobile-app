@@ -7,11 +7,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   styleUrls: ['dangerous-faults-debrief-card.scss'],
 })
 export class DangerousFaultsDebriefCardComponent {
-
   @Input()
   public dangerousFaults: string[];
 
   @Input()
   public testCategory?: TestCategory;
-
 }

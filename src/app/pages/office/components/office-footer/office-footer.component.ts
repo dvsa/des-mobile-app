@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'office-footer',
@@ -8,13 +6,12 @@ import {
   styleUrls: ['./office-footer.component.scss'],
 })
 export class OfficeFooterComponent {
-
   @Input()
   isRekey: boolean;
   @Input()
   isValidStartDateTime: boolean;
   @Input()
-  isDelegated: boolean = false;
+  isDelegated = false;
 
   @Output()
   saveClicked = new EventEmitter<void>();

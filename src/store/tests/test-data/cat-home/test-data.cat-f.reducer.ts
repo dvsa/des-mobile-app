@@ -1,19 +1,17 @@
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
 
-import { vehicleChecksCatHomeReducer } from
-  '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.reducer';
-import { testRequirementsCatHomeReducer }
-  from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
+import { testRequirementsCatHomeReducer } from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
+import { vehicleChecksCatHomeReducer } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.reducer';
+import { controlledStopReducer } from '../common/controlled-stop/controlled-stop.reducer';
 import { dangerousFaultsReducer } from '../common/dangerous-faults/dangerous-faults.reducer';
 import { drivingFaultsReducer } from '../common/driving-faults/driving-faults.reducer';
 import { ecoReducer } from '../common/eco/eco.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
-import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
-import { controlledStopReducer } from '../common/controlled-stop/controlled-stop.reducer';
 import { eyesightTestReducer } from '../common/eyesight-test/eyesight-test.reducer';
-import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
 import { highwayCodeSafetyReducer } from '../common/highway-code-safety/highway-code-safety.reducer';
+import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
+import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
 
 export const initialState: CatFUniqueTypes.TestData = {
   dangerousFaults: {},
@@ -34,7 +32,7 @@ export const initialState: CatFUniqueTypes.TestData = {
 
 export function testDataCatFReducer(
   state: CatFUniqueTypes.TestData,
-  action: Action,
+  action: Action
 ): Required<CatFUniqueTypes.TestData> {
   return combineReducers({
     drivingFaults: drivingFaultsReducer,

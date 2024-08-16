@@ -1,21 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
-import { MockComponent } from 'ng-mocks';
-import { Store } from '@ngrx/store';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import {
-  VehicleChecksCatAMod2Modal,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { Store } from '@ngrx/store';
+import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { MockComponent } from 'ng-mocks';
 import { VehicleChecksCatAMod2Component } from '../vehicle-checks';
 
-class MockStore { }
+class MockStore {}
 
 describe('VehicleChecksCatAMod2Component', () => {
   let fixture: ComponentFixture<VehicleChecksCatAMod2Component>;
@@ -47,10 +45,12 @@ describe('VehicleChecksCatAMod2Component', () => {
     accessibilityService = TestBed.inject(AccessibilityService);
 
     spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
-    spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-      present: async () => {},
-      onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
-    } as HTMLIonModalElement));
+    spyOn(modalController, 'create').and.returnValue(
+      Promise.resolve({
+        present: async () => {},
+        onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
+      } as HTMLIonModalElement)
+    );
   }));
 
   describe('Class', () => {

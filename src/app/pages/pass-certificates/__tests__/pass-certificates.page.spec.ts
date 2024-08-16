@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IonicModule } from '@ionic/angular';
 import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-certificates.actions';
 import { PassCertificatesPage } from '../pass-certificates.page';
 
@@ -14,10 +14,7 @@ describe('PassCertificatesPage', () => {
     TestBed.configureTestingModule({
       declarations: [PassCertificatesPage],
       imports: [IonicModule],
-      providers: [
-        { provide: Store, useClass: MockStore },
-        provideMockStore({ }),
-      ],
+      providers: [{ provide: Store, useClass: MockStore }, provideMockStore({})],
     });
     fixture = TestBed.createComponent(PassCertificatesPage);
     component = fixture.componentInstance;

@@ -1,32 +1,32 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Platform } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-import { map, timeout } from 'rxjs/operators';
-import { isEmpty, merge } from 'lodash-es';
-import { ValidationError, ValidatorResult } from 'jsonschema';
+import { Injectable } from '@angular/core';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
+import { Platform } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import { ValidationError, ValidatorResult } from 'jsonschema';
+import { isEmpty, merge } from 'lodash-es';
 import { Subscription } from 'rxjs';
+import { map, timeout } from 'rxjs/operators';
 
-import { environment } from '@environments/environment';
-import { EnvironmentFile, LocalEnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
-import { StoreModel } from '@shared/models/store.model';
-import { LogType } from '@shared/models/log.model';
-import { SaveLog } from '@store/logs/logs.actions';
-import { getAppConfigState } from '@store/app-config/app-config.reducer';
 import { MdmConfig } from '@dvsa/mes-config-schema/mdm-config';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
+import { environment } from '@environments/environment';
+import { EnvironmentFile, LocalEnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { getAppConfigState } from '@store/app-config/app-config.reducer';
+import { SaveLog } from '@store/logs/logs.actions';
 import { AppConfig } from './app-config.model';
 
-import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
-import { LogHelper } from '../logs/logs-helper';
-import { AuthenticationError } from '../authentication/authentication.constants';
-import { AppConfigError } from './app-config.constants';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { AppInfoProvider } from '../app-info/app-info';
+import { AuthenticationError } from '../authentication/authentication.constants';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
+import { LogHelper } from '../logs/logs-helper';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
+import { AppConfigError } from './app-config.constants';
 
 /**
  *  How Loading Config Works
@@ -59,7 +59,6 @@ import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 
 @Injectable()
 export class AppConfigProvider {
-
   isDebugMode = false;
   storeSubscription: Subscription;
   environmentFile: EnvironmentFile = environment as EnvironmentFile;
@@ -74,7 +73,7 @@ export class AppConfigProvider {
     private dataStoreProvider: DataStoreProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private isDebug: IsDebug,
+    private isDebug: IsDebug
   ) {
     this.setStoreSubscription();
   }
@@ -99,10 +98,9 @@ export class AppConfigProvider {
   };
 
   public setStoreSubscription(): void {
-    this.storeSubscription = this.store$.select(getAppConfigState)
-      .pipe(
-        map((appConfig: AppConfig) => this.appConfig = appConfig),
-      )
+    this.storeSubscription = this.store$
+      .select(getAppConfigState)
+      .pipe(map((appConfig: AppConfig) => (this.appConfig = appConfig)))
       .subscribe();
   }
 
@@ -126,16 +124,15 @@ export class AppConfigProvider {
         await this.initialiseAppConfig();
 
         // Get remote config from storage or env file
-        const remoteConfig = (this.environmentFile.isRemote)
+        const remoteConfig = this.environmentFile.isRemote
           ? await this.getCachedRemoteConfig()
-          : this.environmentFile as LocalEnvironmentFile;
+          : (this.environmentFile as LocalEnvironmentFile);
 
         // Validate the config
         const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(remoteConfig);
 
         // Re-bind local and remote configs if valid
         if (!!remoteConfig && result?.errors?.length === 0) this.mapRemoteConfig(remoteConfig);
-
       } catch (err) {
         this.logError('Get app config async', err);
       }
@@ -168,7 +165,7 @@ export class AppConfigProvider {
     };
 
     // Check to see if we have any config
-    if (!isEmpty((newEnvFile.configUrl))) {
+    if (!isEmpty(newEnvFile.configUrl)) {
       this.environmentFile = { ...newEnvFile };
       return;
     }
@@ -188,60 +185,64 @@ export class AppConfigProvider {
     return data?.value;
   };
 
-  public loadRemoteConfig = (): Promise<void> => this.getRemoteData()
-    .then((data) => {
-      const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
-      if (result?.errors?.length > 0) {
-        return Promise.reject(result.errors);
-      }
-      return data;
-    })
-    .then((data) => this.mapRemoteConfig(data))
-    .catch((error: HttpErrorResponse | ValidationError[] | string) => {
-      if (error instanceof HttpErrorResponse) {
-        this.store$.dispatch(SaveLog({
-          payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
-        }));
-
-        if (error && error.status === 403) {
-          return Promise.reject(AuthenticationError.USER_NOT_AUTHORISED);
+  public loadRemoteConfig = (): Promise<void> =>
+    this.getRemoteData()
+      .then((data) => {
+        const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
+        if (result?.errors?.length > 0) {
+          return Promise.reject(result.errors);
         }
-        if (error && error.error === AppConfigError.INVALID_APP_VERSION) {
-          return Promise.reject(AppConfigError.INVALID_APP_VERSION);
+        return data;
+      })
+      .then((data) => this.mapRemoteConfig(data))
+      .catch((error: HttpErrorResponse | ValidationError[] | string) => {
+        if (error instanceof HttpErrorResponse) {
+          this.store$.dispatch(
+            SaveLog({
+              payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
+            })
+          );
+
+          if (error && error.status === 403) {
+            return Promise.reject(AuthenticationError.USER_NOT_AUTHORISED);
+          }
+          if (error && error.error === AppConfigError.INVALID_APP_VERSION) {
+            return Promise.reject(AppConfigError.INVALID_APP_VERSION);
+          }
+          return Promise.reject(AppConfigError.UNKNOWN_ERROR);
         }
-        return Promise.reject(AppConfigError.UNKNOWN_ERROR);
+
+        if (typeof error === 'string') {
+          const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
+          if (!!errorEnumVal) {
+            return Promise.reject(errorEnumVal);
+          }
+        }
+
+        const configError = ((error || []) as ValidationError[]).map((err: ValidationError) => err.message).join(', ');
+
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
+          })
+        );
+        return Promise.reject(AppConfigError.VALIDATION_ERROR);
+      });
+
+  private getRemoteData = () =>
+    new Promise<RemoteConfig>((resolve, reject) => {
+      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+        this.getCachedRemoteConfig()
+          .then((data) => resolve(data))
+          .catch((error) => reject(error));
+
+        return;
       }
 
-      if (typeof error === 'string') {
-        const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
-        if (!!errorEnumVal) {
-          return Promise.reject(errorEnumVal);
-        }
-      }
-
-      const configError = ((error || []) as ValidationError[])
-        .map((err: ValidationError) => err.message)
-        .join(', ');
-
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
-      }));
-      return Promise.reject(AppConfigError.VALIDATION_ERROR);
-    });
-
-  private getRemoteData = () => new Promise<RemoteConfig>((resolve, reject) => {
-    if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
-      this.getCachedRemoteConfig()
-        .then((data) => resolve(data))
-        .catch((error) => reject(error));
-
-      return;
-    }
-
-    this.appInfoProvider.getFullVersionNumber()
-      .then((version: string) => {
+      this.appInfoProvider.getFullVersionNumber().then((version: string) => {
         const url = `${this.environmentFile.configUrl}?app_version=${version}`;
-        this.httpClient.get(url)
+        this.httpClient
+          .get(url)
           .pipe(timeout(30000))
           .subscribe({
             next: (data: RemoteConfig) => {
@@ -261,17 +262,20 @@ export class AppConfigProvider {
             },
           });
       });
-  });
+    });
 
   private shouldGetCachedConfig = (errorMessage: string): boolean => {
-    return errorMessage !== AuthenticationError.USER_NOT_AUTHORISED
-      && errorMessage !== AppConfigError.INVALID_APP_VERSION;
+    return (
+      errorMessage !== AuthenticationError.USER_NOT_AUTHORISED && errorMessage !== AppConfigError.INVALID_APP_VERSION
+    );
   };
 
   private logError = (description: string, error: string): void => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, description, error),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, description, error),
+      })
+    );
   };
 
   private getCachedRemoteConfig = async (): Promise<RemoteConfig> => {
@@ -337,7 +341,7 @@ export class AppConfigProvider {
         testSubmissionUrl: data.tests.testSubmissionUrl,
         multipleTestResultsUrl: data.tests.multipleTestResultsUrl,
         autoSendInterval: data.tests.autoSendInterval,
-        examinerRecordsUrl: data.tests.examinerRecordsUrl
+        examinerRecordsUrl: data.tests.examinerRecordsUrl,
       },
       user: {
         findUserUrl: data.user.findUserUrl,

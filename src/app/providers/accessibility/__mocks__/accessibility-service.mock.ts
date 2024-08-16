@@ -1,5 +1,5 @@
 export class AccessibilityServiceMock {
-  textZoom: number = 100;
+  textZoom = 100;
 
   configureAccessibility = (): Promise<void> => {
     return Promise.resolve();
@@ -9,8 +9,7 @@ export class AccessibilityServiceMock {
     return Promise.resolve();
   };
 
-  getTextZoomCallback = (): void => {
-  };
+  getTextZoomCallback = (): void => {};
 
   public getTextZoom(): string {
     return 'regular';

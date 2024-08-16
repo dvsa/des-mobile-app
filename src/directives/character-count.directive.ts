@@ -22,7 +22,7 @@
  *
  *   characterCountChanged(charactersRemaining: number) {
  *     this.descriptionCharactersRemaining = charactersRemaining;
-  *  }
+ *  }
  *   getCharacterCountText() {
  *     const characterString = Math.abs(this.descriptionCharactersRemaining) === 1 ? 'character' : 'characters';
  *     const endString = this.descriptionCharactersRemaining >= 0 ? 'remaining' : 'too many';
@@ -32,9 +32,7 @@
  * ```
  *
  * */
-import {
-  Directive, Output, ElementRef, EventEmitter, AfterViewInit,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Output } from '@angular/core';
 
 @Directive({
   selector: '[charCount]',
@@ -44,7 +42,6 @@ import {
   },
 })
 export class CharacterCountDirective implements AfterViewInit {
-
   private charLimit: number = null;
 
   @Output() onCharacterCountChanged: any = new EventEmitter(true);

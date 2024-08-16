@@ -1,30 +1,38 @@
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
 
 export const vehicleChecksNoFaults = {
-  tellMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'P',
-  }] as QuestionResult[],
-  showMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'P',
-  }] as QuestionResult[],
+  tellMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'P',
+    },
+  ] as QuestionResult[],
+  showMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'P',
+    },
+  ] as QuestionResult[],
 };
 
 export const vehicleChecksTwoFaults = {
-  tellMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'DF',
-  }] as QuestionResult[],
-  showMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'DF',
-  }] as QuestionResult[],
+  tellMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'DF',
+    },
+  ] as QuestionResult[],
+  showMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'DF',
+    },
+  ] as QuestionResult[],
 };
 
 export const vehicleChecksFiveFaults = {

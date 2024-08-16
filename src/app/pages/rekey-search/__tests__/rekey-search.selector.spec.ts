@@ -1,5 +1,5 @@
 import { RekeySearchModel, initialState } from '../rekey-search.reducer';
-import { getIsLoading, getHasSearched, getBookedTestSlot } from '../rekey-search.selector';
+import { getBookedTestSlot, getHasSearched, getIsLoading } from '../rekey-search.selector';
 
 describe('Rekey Search Selector', () => {
   describe('getIsLoading', () => {
@@ -82,5 +82,4 @@ describe('Rekey Search Selector', () => {
       expect(bookedTestSlot).toEqual(state.bookedTestSlot);
     });
   });
-
 });

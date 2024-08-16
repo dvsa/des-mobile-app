@@ -1,23 +1,23 @@
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
+import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
+import { IonicModule } from '@ionic/angular';
+import { AdditionalCandidateDetailsComponent } from './additional-candidate-details/additional-candidate-details';
 import { CandidateLinkComponent } from './candidate-link/candidate-link';
+import { DateComponent } from './date/date';
+import { ExaminerNameComponent } from './examiner-name/examiner-name';
 import { IndicatorsComponent } from './indicators/indicators';
 import { LanguageComponent } from './language/language';
+import { LocationComponent } from './location/location';
 import { ProgressiveAccessComponent } from './progressive-access/progressive-access';
 import { SubmissionStatusComponent } from './submission-status/submission-status';
 import { TestCategoryComponent } from './test-category/test-category';
 import { TestOutcomeComponent } from './test-outcome/test-outcome';
 import { TestSlotComponent } from './test-slot/test-slot';
 import { TimeComponent } from './time/time';
-import { DateComponent } from './date/date';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
-import { LocationComponent } from './location/location';
-import { AdditionalCandidateDetailsComponent } from './additional-candidate-details/additional-candidate-details';
-import { ExaminerNameComponent } from './examiner-name/examiner-name';
-import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
 
 @NgModule({
   declarations: [
@@ -38,11 +38,7 @@ import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/a
     ExaminerNameComponent,
     IntegrityMarkerComponent,
   ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    ComponentsModule,
-  ],
+  imports: [CommonModule, IonicModule, ComponentsModule],
   exports: [
     AdditionalCandidateDetailsComponent,
     AutosaveStatusComponent,
@@ -62,4 +58,4 @@ import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/a
     IntegrityMarkerComponent,
   ],
 })
-export class TestSlotComponentsModule { }
+export class TestSlotComponentsModule {}

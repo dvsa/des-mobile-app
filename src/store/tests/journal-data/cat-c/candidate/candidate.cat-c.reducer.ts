@@ -23,9 +23,7 @@ export const initialState: CatCUniqueTypes.Candidate = {
 
 export const candidateCatCReducer = createReducer(
   initialState,
-  on(candidateActions.PopulateCandidateDetailsCatC, (_, {
-    candidate,
-  }): CatCUniqueTypes.Candidate => candidate),
+  on(candidateActions.PopulateCandidateDetailsCatC, (_, { candidate }): CatCUniqueTypes.Candidate => candidate)
 );
 
 export const getCandidate = createFeatureSelector<CatCUniqueTypes.Candidate>('candidate');

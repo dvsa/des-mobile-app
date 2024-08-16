@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   FieldValidators,
   getTrainerRegistrationNumberValidator,
@@ -14,7 +12,6 @@ import {
   templateUrl: 'trainer-registration-number.cat-adi-part2.html',
 })
 export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges {
-
   @Input()
   trainerRegistration: number;
 
@@ -38,12 +35,10 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
 
   trainerRegistrationChanged(event: any): void {
     if (
-      typeof event.target.value === 'string'
-        && !this.trainerRegistrationNumberValidator.pattern.test(event.target.value)
+      typeof event.target.value === 'string' &&
+      !this.trainerRegistrationNumberValidator.pattern.test(event.target.value)
     ) {
-      event.target.value = event.target.value
-        .replace(leadingZero, '')
-        .replace(nonNumericValues, '');
+      event.target.value = event.target.value.replace(leadingZero, '').replace(nonNumericValues, '');
     }
     this.trainerRegistrationChange.emit(Number(event.target.value) || undefined);
   }
@@ -52,5 +47,5 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
     return !this.formControl.valid && this.formControl.dirty;
   }
 
-    protected readonly Number = Number;
+  protected readonly Number = Number;
 }

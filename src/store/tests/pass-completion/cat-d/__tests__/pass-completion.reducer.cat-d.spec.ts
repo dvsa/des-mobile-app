@@ -1,8 +1,11 @@
-import { passCompletionCatDReducer } from '../pass-completion.cat-d.reducer';
 import {
+  Code78NotPresent,
   Code78Present,
-  Code78NotPresent, ProvisionalLicenseReceived, PassCertificateNumberChanged, ProvisionalLicenseNotReceived,
+  PassCertificateNumberChanged,
+  ProvisionalLicenseNotReceived,
+  ProvisionalLicenseReceived,
 } from '../../pass-completion.actions';
+import { passCompletionCatDReducer } from '../pass-completion.cat-d.reducer';
 
 describe('pass completion reducer', () => {
   it('should put that the code 78 was present into the state when selected', () => {
@@ -25,5 +28,4 @@ describe('pass completion reducer', () => {
     const result = passCompletionCatDReducer(null, ProvisionalLicenseNotReceived());
     expect(result.provisionalLicenceProvided).toBe(false);
   });
-
 });

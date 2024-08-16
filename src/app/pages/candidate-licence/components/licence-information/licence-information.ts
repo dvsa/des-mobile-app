@@ -1,16 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
-import { get } from 'lodash-es';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
 import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'licence-information',
   templateUrl: 'licence-information.html',
 })
 export class LicenceInformation {
-
   @Input()
   candidateData: DriverLicenceSchema;
 
@@ -31,10 +30,9 @@ export class LicenceInformation {
 
   idPrefix = 'candidate-licence-card';
 
-  constructor(private domSanitizer: DomSanitizer) {
-  }
+  constructor(private domSanitizer: DomSanitizer) {}
 
-  private displayDateFormat: string = 'DD/MM/YYYY';
+  private displayDateFormat = 'DD/MM/YYYY';
 
   get driverNumber(): string {
     return this.isPracticeMode
@@ -58,35 +56,24 @@ export class LicenceInformation {
 
   get age(): number {
     const dob = get(this.candidateData, 'driverStandard.driver.dateOfBirth');
-    const age = new DateTime()
-      .diff(dob, Duration.YEAR);
+    const age = new DateTime().diff(dob, Duration.YEAR);
 
-    return this.isPracticeMode
-      ? this.bookingAge
-      : age;
+    return this.isPracticeMode ? this.bookingAge : age;
   }
 
   get gender(): string {
-    return this.isPracticeMode
-      ? this.bookingGender
-      : get(this.candidateData, 'driverStandard.driver.gender');
+    return this.isPracticeMode ? this.bookingGender : get(this.candidateData, 'driverStandard.driver.gender');
   }
 
   get cardExpiryDate(): string {
     return this.isPracticeMode
-      ? new DateTime()
-        .add('5', 'years')
-        .format(this.displayDateFormat)
-      : new DateTime(get(this.candidateData, 'driverStandard.token.validToDate'))
-        .format(this.displayDateFormat);
+      ? new DateTime().add('5', 'years').format(this.displayDateFormat)
+      : new DateTime(get(this.candidateData, 'driverStandard.token.validToDate')).format(this.displayDateFormat);
   }
 
   get signature(): string {
     if (this.isPracticeMode) {
-      const {
-        image,
-        imageFormat,
-      } = SIGNATURE_MOCK;
+      const { image, imageFormat } = SIGNATURE_MOCK;
       return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`) as string;
     }
 
@@ -99,5 +86,4 @@ export class LicenceInformation {
 
     return this.domSanitizer.bypassSecurityTrustUrl(`data:${signatureFormat};base64,${signature}`) as string;
   }
-
 }

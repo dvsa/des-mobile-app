@@ -1,12 +1,14 @@
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
-import { preTestDeclarationsCatADI3Reducer, initialState } from '../pre-test-declarations.cat-adi-part3.reducer';
 import {
-  ToggleInsuranceDeclaration,
-  ToggleResidencyDeclaration,
+  ClearPreTestDeclarations,
+  SetDeclarationStatus,
   SignatureDataChanged,
   SignatureDataCleared,
-  ClearPreTestDeclarations, ValidPassCertChanged, SetDeclarationStatus,
+  ToggleInsuranceDeclaration,
+  ToggleResidencyDeclaration,
+  ValidPassCertChanged,
 } from '../../pre-test-declarations.actions';
+import { initialState, preTestDeclarationsCatADI3Reducer } from '../pre-test-declarations.cat-adi-part3.reducer';
 
 describe('PreTestDeclarations ADI3 reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {

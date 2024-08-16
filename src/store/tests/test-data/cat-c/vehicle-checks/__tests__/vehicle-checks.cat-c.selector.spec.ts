@@ -2,7 +2,6 @@ import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { vehicleChecksExist } from '../vehicle-checks.cat-c.selector';
 
 describe('Vehicle Checks Selector Cat C', () => {
-
   describe('vehicleChecksExist', () => {
     it('should return false if there are no vehicle checks entered', () => {
       const emptyVehicleChecks: CatCUniqueTypes.VehicleChecks = { showMeQuestions: [{}], tellMeQuestions: [{}] };

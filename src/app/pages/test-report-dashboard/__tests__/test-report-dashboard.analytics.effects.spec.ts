@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ReplaySubject } from 'rxjs';
 
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
@@ -11,27 +12,24 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 
-import * as testReportDashboardActions from '../test-report-dashboard.actions';
-import {
-  TestReportDashboardAnalyticsEffects
-} from '@pages/test-report-dashboard/test-report-dashboard.analytics.effects';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import * as testsActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { TestReportDashboardModalOpened, TestReportDashboardNavigateToPage } from '../test-report-dashboard.actions';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import { TestReportDashboardAnalyticsEffects } from '@pages/test-report-dashboard/test-report-dashboard.analytics.effects';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import * as testReportDashboardActions from '../test-report-dashboard.actions';
+import { TestReportDashboardModalOpened, TestReportDashboardNavigateToPage } from '../test-report-dashboard.actions';
 
 describe('TestReportDashboardAnalyticsEffects', () => {
   let effects: TestReportDashboardAnalyticsEffects;
@@ -76,12 +74,10 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       actions$.next(testReportDashboardActions.TestReportDashboardViewDidEnter());
       // ASSERT
       effects.testReportDashboardViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT_DASHBOARD);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT_DASHBOARD);
         done();
       });
     });
@@ -95,17 +91,15 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       actions$.next(testReportDashboardActions.TestReportDashboardViewDidEnter());
       // ASSERT
       effects.testReportDashboardViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.TEST_REPORT_DASHBOARD}`);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.TEST_REPORT_DASHBOARD}`
+        );
         done();
       });
     });
-
   });
 
   describe('testReportDashboardModalOpened$', () => {
@@ -118,16 +112,14 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       actions$.next(TestReportDashboardModalOpened());
       // ASSERT
       effects.testReportDashboardModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.NAVIGATION,
-            GoogleAnalyticsEventsTitles.OPENED,
-            GoogleAnalyticsEventsValues.ASSESSMENT_MODAL,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.NAVIGATION,
+          GoogleAnalyticsEventsTitles.OPENED,
+          GoogleAnalyticsEventsValues.ASSESSMENT_MODAL
+        );
       });
     });
   });
@@ -142,16 +134,14 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       actions$.next(TestReportDashboardNavigateToPage(DASHBOARD_PAGE));
       // ASSERT
       effects.testReportDashboardNavigateToPage$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.NAVIGATION,
-            GoogleAnalyticsEventsTitles.OPENED,
-            DASHBOARD_PAGE,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.NAVIGATION,
+          GoogleAnalyticsEventsTitles.OPENED,
+          DASHBOARD_PAGE
+        );
       });
     });
   });
@@ -166,20 +156,17 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       actions$.next(FeedbackChanged('feedback'));
       // ASSERT
       effects.testReportDashboardFeedbackChanged$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.FEEDBACK,
-            GoogleAnalyticsEventsTitles.TEST_CATEGORY,
-            TestCategory.ADI3,
-            GoogleAnalyticsEventsTitles.REASON,
-            GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.FEEDBACK,
+          GoogleAnalyticsEventsTitles.TEST_CATEGORY,
+          TestCategory.ADI3,
+          GoogleAnalyticsEventsTitles.REASON,
+          GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
+        );
       });
     });
   });
-
 });

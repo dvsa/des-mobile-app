@@ -1,6 +1,6 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import { ProgressiveAccessComponent } from '../progressive-access';
 
 describe('ProgressiveAccessComponent', () => {
@@ -22,8 +22,7 @@ describe('ProgressiveAccessComponent', () => {
       it('should render text when the language is Welsh', () => {
         component.progressiveAccess = true;
         fixture.detectChanges();
-        const renderedText = fixture.debugElement.query(By.css('ion-text'))
-          .nativeElement;
+        const renderedText = fixture.debugElement.query(By.css('ion-text')).nativeElement;
         expect(renderedText.textContent).toBe('PROG');
       });
       it('should not render text when the language is not Welsh', () => {

@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
@@ -10,7 +8,6 @@ import { Combination } from '@shared/constants/cpc-questions/cpc-question-combin
   styleUrls: ['combination.scss'],
 })
 export class CombinationComponent {
-
   @Input()
   formGroup: UntypedFormGroup;
 
@@ -42,5 +39,4 @@ export class CombinationComponent {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

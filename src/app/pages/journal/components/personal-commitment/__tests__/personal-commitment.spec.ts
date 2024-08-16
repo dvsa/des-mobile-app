@@ -9,9 +9,7 @@ describe('PersonalCommitmentSlotComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PersonalCommitmentSlotComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(PersonalCommitmentSlotComponent);

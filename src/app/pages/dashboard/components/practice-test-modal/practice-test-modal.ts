@@ -8,10 +8,7 @@ import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/prac
   styleUrls: ['practice-test-modal.scss'],
 })
 export class PracticeTestModal {
-
-  constructor(
-    public modalController: ModalController,
-  ) {}
+  constructor(public modalController: ModalController) {}
 
   onCancel = async () => {
     await this.modalController.dismiss(ModalEvent.CANCEL);
@@ -24,5 +21,4 @@ export class PracticeTestModal {
   onFault = async () => {
     await this.modalController.dismiss(ModalEvent.FAULT);
   };
-
 }

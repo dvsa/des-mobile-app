@@ -5,8 +5,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: './application-reference.html',
 })
 export class ApplicationReferenceComponent {
-
   @Input()
   applicationNumber: string;
-
 }

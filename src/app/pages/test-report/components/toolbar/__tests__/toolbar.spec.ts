@@ -1,20 +1,20 @@
-import { IonicModule, NavController } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { IonicModule, NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StoreModel } from '@shared/models/store.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { ToolbarComponent } from '../toolbar';
-import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
-import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../../test-report.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
 import { DangerousTooltipComponent } from '../../dangerous-tooltip/dangerous-tooltip';
+import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
+import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
 import { TimerComponent } from '../../timer/timer';
+import { ToolbarComponent } from '../toolbar';
 
 describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;
@@ -32,10 +32,7 @@ describe('ToolbarComponent', () => {
         MockComponent(DangerousTooltipComponent),
         MockComponent(TimerComponent),
       ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
-      ],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
@@ -72,7 +69,6 @@ describe('ToolbarComponent', () => {
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
-
     });
 
     describe('toggleDangerousMode', () => {
@@ -121,7 +117,6 @@ describe('ToolbarComponent', () => {
 
   describe('DOM', () => {
     it('should not show any tooltips in default mode', () => {
-
       fixture.detectChanges();
       expect(component.isSeriousMode).toEqual(false);
       expect(component.isDangerousMode).toEqual(false);
@@ -134,7 +129,6 @@ describe('ToolbarComponent', () => {
       expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeNull();
     });
     it('should show the correct components when serious mode is activated', () => {
-
       fixture.detectChanges();
 
       component.isSeriousMode = true;
@@ -153,7 +147,6 @@ describe('ToolbarComponent', () => {
       expect(fixture.debugElement.query(By.css('dangerous-tooltip'))).toBeNull();
     });
     it('should show the correct components when dangerous mode is actived', () => {
-
       fixture.detectChanges();
 
       component.isDangerousMode = true;
@@ -169,7 +162,6 @@ describe('ToolbarComponent', () => {
 
       expect(fixture.debugElement.query(By.css('driving-faults-badge'))).toBeNull();
       expect(fixture.debugElement.query(By.css('serious-tooltip'))).toBeNull();
-
     });
   });
 });

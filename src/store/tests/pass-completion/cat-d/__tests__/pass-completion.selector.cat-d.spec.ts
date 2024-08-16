@@ -13,5 +13,4 @@ describe('pass completion cat D selector', () => {
       expect(getCode78(state)).toBe(true);
     });
   });
-
 });

@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavParams } from '@ionic/angular';
-import {
-  ReactiveFormsModule,
-} from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { ModalEvent } from '../../../../test-report.constants';
 
 describe('Adi3EndTestModal', () => {
@@ -30,10 +28,7 @@ describe('Adi3EndTestModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
       providers: [
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
         { provide: NavParams, useValue: mockNavParams },
@@ -98,36 +93,46 @@ describe('Adi3EndTestModal', () => {
   });
 
   describe('getTestResultClass', () => {
-    it('should return test-result-terminated-label if both'
-        + ' isTestReportPopulated and riskToPublicSafety are false', () => {
-      component.isTestReportPopulated = false;
-      component.riskToPublicSafety = false;
+    it(
+      'should return test-result-terminated-label if both' + ' isTestReportPopulated and riskToPublicSafety are false',
+      () => {
+        component.isTestReportPopulated = false;
+        component.riskToPublicSafety = false;
 
-      expect(component.getTestResultClass()).toBe('test-result-terminated-label');
-    });
-    it('should return test-result-terminated-label if both'
-        + ' isTestReportPopulated and riskToPublicSafety are true', () => {
-      component.isTestReportPopulated = true;
-      component.riskToPublicSafety = true;
+        expect(component.getTestResultClass()).toBe('test-result-terminated-label');
+      }
+    );
+    it(
+      'should return test-result-terminated-label if both' + ' isTestReportPopulated and riskToPublicSafety are true',
+      () => {
+        component.isTestReportPopulated = true;
+        component.riskToPublicSafety = true;
 
-      expect(component.getTestResultClass()).toBe('test-result-terminated-label');
-    });
-    it('should return test-result-fail-label if'
-        + ' isTestReportPopulated is true, riskToPublicSafety is false and activityCode is FAIL', () => {
-      component.isTestReportPopulated = true;
-      component.riskToPublicSafety = false;
-      component.testResult.activityCode = ActivityCodes.FAIL;
+        expect(component.getTestResultClass()).toBe('test-result-terminated-label');
+      }
+    );
+    it(
+      'should return test-result-fail-label if' +
+        ' isTestReportPopulated is true, riskToPublicSafety is false and activityCode is FAIL',
+      () => {
+        component.isTestReportPopulated = true;
+        component.riskToPublicSafety = false;
+        component.testResult.activityCode = ActivityCodes.FAIL;
 
-      expect(component.getTestResultClass()).toBe('test-result-fail-label');
-    });
-    it('should return test-result-pass-label if'
-        + ' isTestReportPopulated is true, riskToPublicSafety is false and activityCode is not FAIL', () => {
-      component.isTestReportPopulated = true;
-      component.riskToPublicSafety = false;
-      component.testResult.activityCode = ActivityCodes.PASS;
+        expect(component.getTestResultClass()).toBe('test-result-fail-label');
+      }
+    );
+    it(
+      'should return test-result-pass-label if' +
+        ' isTestReportPopulated is true, riskToPublicSafety is false and activityCode is not FAIL',
+      () => {
+        component.isTestReportPopulated = true;
+        component.riskToPublicSafety = false;
+        component.testResult.activityCode = ActivityCodes.PASS;
 
-      expect(component.getTestResultClass()).toBe('test-result-pass-label');
-    });
+        expect(component.getTestResultClass()).toBe('test-result-pass-label');
+      }
+    );
   });
 
   describe('getTestResultLabel', () => {
@@ -136,39 +141,47 @@ describe('Adi3EndTestModal', () => {
 
       expect(component.getTestResultLabel()).toBe('No result');
     });
-    it('should return Terminated if isTestReportPopulated is true '
-        + 'and riskToPublicSafety is true', () => {
+    it('should return Terminated if isTestReportPopulated is true ' + 'and riskToPublicSafety is true', () => {
       component.isTestReportPopulated = true;
       component.riskToPublicSafety = true;
 
       expect(component.getTestResultLabel()).toBe('Terminated');
     });
-    it('should return Unsuccessful if isTestReportPopulated is true, '
-        + 'riskToPublicSafety is false and testResult.activityCode is FAIL', () => {
-      component.isTestReportPopulated = true;
-      component.riskToPublicSafety = false;
-      component.testResult.activityCode = ActivityCodes.FAIL;
+    it(
+      'should return Unsuccessful if isTestReportPopulated is true, ' +
+        'riskToPublicSafety is false and testResult.activityCode is FAIL',
+      () => {
+        component.isTestReportPopulated = true;
+        component.riskToPublicSafety = false;
+        component.testResult.activityCode = ActivityCodes.FAIL;
 
-      expect(component.getTestResultLabel()).toBe('Unsuccessful');
-    });
-    it('should return Passed - Grade A if isTestReportPopulated is true, '
-        + 'riskToPublicSafety is false, testResult.activityCode is not FAIL and testResult.grade is A', () => {
-      component.isTestReportPopulated = true;
-      component.riskToPublicSafety = false;
-      component.testResult.activityCode = ActivityCodes.PASS;
-      component.testResult.grade = 'A';
+        expect(component.getTestResultLabel()).toBe('Unsuccessful');
+      }
+    );
+    it(
+      'should return Passed - Grade A if isTestReportPopulated is true, ' +
+        'riskToPublicSafety is false, testResult.activityCode is not FAIL and testResult.grade is A',
+      () => {
+        component.isTestReportPopulated = true;
+        component.riskToPublicSafety = false;
+        component.testResult.activityCode = ActivityCodes.PASS;
+        component.testResult.grade = 'A';
 
-      expect(component.getTestResultLabel()).toBe('Passed - Grade A');
-    });
-    it('should return Passed - Grade B if isTestReportPopulated is true, '
-        + 'riskToPublicSafety is false, '
-        + 'testResult.activityCode is not FAIL and testResult.grade is not A', () => {
-      component.isTestReportPopulated = true;
-      component.riskToPublicSafety = false;
-      component.testResult.activityCode = ActivityCodes.PASS;
-      component.testResult.grade = 'B';
+        expect(component.getTestResultLabel()).toBe('Passed - Grade A');
+      }
+    );
+    it(
+      'should return Passed - Grade B if isTestReportPopulated is true, ' +
+        'riskToPublicSafety is false, ' +
+        'testResult.activityCode is not FAIL and testResult.grade is not A',
+      () => {
+        component.isTestReportPopulated = true;
+        component.riskToPublicSafety = false;
+        component.testResult.activityCode = ActivityCodes.PASS;
+        component.testResult.grade = 'B';
 
-      expect(component.getTestResultLabel()).toBe('Passed - Grade B');
-    });
+        expect(component.getTestResultLabel()).toBe('Passed - Grade B');
+      }
+    );
   });
 });

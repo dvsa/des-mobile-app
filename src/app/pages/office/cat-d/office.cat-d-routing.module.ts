@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { OfficeCatDPage } from './office.cat-d.page';
 
 const routes: Routes = [

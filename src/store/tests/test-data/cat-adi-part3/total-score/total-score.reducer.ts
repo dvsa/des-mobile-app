@@ -5,5 +5,5 @@ const initialState: number = 0;
 
 export const totalScoreReducer = createReducer(
   initialState,
-  on(totalScoreActionTypes.TotalScoreChanged, (_, { score }) => score),
+  on(totalScoreActionTypes.TotalScoreChanged, (_, { score }) => score)
 );

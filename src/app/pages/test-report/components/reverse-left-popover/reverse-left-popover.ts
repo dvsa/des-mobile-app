@@ -1,7 +1,7 @@
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { Component, Input } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 @Component({
   selector: 'reverse-left-popover',
@@ -9,7 +9,6 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
   styleUrls: ['reverse-left-popover.scss'],
 })
 export class ReverseLeftPopoverComponent {
-
   @Input()
   testCategory: TestCategory | CategoryCode;
 
@@ -22,8 +21,8 @@ export class ReverseLeftPopoverComponent {
   getId = (competency: ManoeuvreCompetencies) => `${ManoeuvreTypes.reverseLeft}-${competency}`;
 
   shouldShowReverseDiagramLink = (): boolean =>
-    this.testCategory !== TestCategory.F
-    && this.testCategory !== TestCategory.G
-    && this.testCategory !== TestCategory.H
-    && this.testCategory !== TestCategory.K;
+    this.testCategory !== TestCategory.F &&
+    this.testCategory !== TestCategory.G &&
+    this.testCategory !== TestCategory.H &&
+    this.testCategory !== TestCategory.K;
 }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ChartType } from 'ng-apexcharts';
 
 export interface ExaminerReportsCardClick {
@@ -13,9 +13,7 @@ export interface ExaminerReportsCardClick {
   templateUrl: 'examiner-reports-card.html',
   styleUrls: ['examiner-reports-card.scss'],
 })
-
 export class ExaminerReportsCard {
-
   @Output()
   onCardClick: EventEmitter<ExaminerReportsCardClick> = new EventEmitter<ExaminerReportsCardClick>();
 
@@ -24,61 +22,57 @@ export class ExaminerReportsCard {
   @Input()
   chartID: string = null;
   @Input()
-  averageColour: string = '#000000';
+  averageColour = '#000000';
   @Input()
-  cardTitle: string = 'Card title';
+  cardTitle = 'Card title';
   @Input()
   gridHeaders: string[] = ['Item', 'Amount', 'Percentage of total'];
   @Input()
-  strokeColour: string = '#FFFFFF';
+  strokeColour = '#FFFFFF';
   @Input()
-  labelColour: string = '#000000';
+  labelColour = '#000000';
   @Input()
-  chartSubtitle: boolean = false;
+  chartSubtitle = false;
   @Input()
-  isPortrait: boolean = false;
+  isPortrait = false;
   @Input()
-  useGrid: boolean = true;
+  useGrid = true;
   @Input()
-  hasCustomMainContent: boolean = false;
+  hasCustomMainContent = false;
   @Input()
-  hasCustomExpandedContent: boolean = false;
+  hasCustomExpandedContent = false;
   @Input()
-  displayColoursOnDataGrid: boolean = false;
+  displayColoursOnDataGrid = false;
   @Input()
-  showExpandedData: boolean = false;
+  showExpandedData = false;
   @Input()
-  canExpand: boolean = true;
+  canExpand = true;
   @Input()
-  showMainContent: boolean = true;
+  showMainContent = true;
   @Input()
-  hasChart: boolean = true;
+  hasChart = true;
   @Input()
-  showTotal: boolean = true;
+  showTotal = true;
   @Input()
-  splitChartLabel: boolean = false;
+  splitChartLabel = false;
   @Input()
-  darkColours: boolean = false;
+  darkColours = false;
   @Input()
   chartType: ChartType = 'bar';
   @Input()
-  colourScheme: string[] = [
-    '#008FFB',
-    '#ED6926',
-    '#FF526F',
-    '#007C42',
-    '#a05195',
-  ];
-  @Input() public chartTransform: { portrait: {
-    width: number, height: number,
-  },
-  landscape: {
-    width: number, height: number,
-  }
+  colourScheme: string[] = ['#008FFB', '#ED6926', '#FF526F', '#007C42', '#a05195'];
+  @Input() public chartTransform: {
+    portrait: {
+      width: number;
+      height: number;
+    };
+    landscape: {
+      width: number;
+      height: number;
+    };
   } = { portrait: { width: 740, height: 300 }, landscape: { width: 1020, height: 300 } };
 
-  constructor(public accessibilityService: AccessibilityService) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   /**
    * Calculate the total number of individual instances of data.
@@ -90,9 +84,8 @@ export class ExaminerReportsCard {
    * @param {ExaminerRecordDataWithPercentage<T>[]} value - The array of `ExaminerRecordData` objects to be totaled.
    * @returns {number} The total count of all `ExaminerRecordData` objects.
    */
-  getTotal = <T>(
-    value: ExaminerRecordDataWithPercentage<T>[],
-  ): number => value.reduce((total, val) => total + Number(val.count), 0);
+  getTotal = <T>(value: ExaminerRecordDataWithPercentage<T>[]): number =>
+    value.reduce((total, val) => total + Number(val.count), 0);
 
   /**
    * Format data for use in a data grid.
@@ -137,7 +130,7 @@ export class ExaminerReportsCard {
   handleCardClick() {
     if (this.canExpand) {
       this.showExpandedData = !this.showExpandedData;
-      this.onCardClick.emit({ isExpanded: this.showExpandedData, title: this.cardTitle })
+      this.onCardClick.emit({ isExpanded: this.showExpandedData, title: this.cardTitle });
     }
   }
 

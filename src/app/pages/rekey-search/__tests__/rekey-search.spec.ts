@@ -1,25 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RekeySearchPage } from '../rekey-search';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { of } from 'rxjs';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { Store, StoreModule } from '@ngrx/store';
-import { Platform } from '@ionic/angular';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ActivatedRoute } from '@angular/router';
-import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { of } from 'rxjs';
+import { RekeySearchPage } from '../rekey-search';
 
 describe('RekeySearchPage', () => {
   let fixture: ComponentFixture<RekeySearchPage>;
@@ -28,18 +28,12 @@ describe('RekeySearchPage', () => {
 
   beforeEach(async () => {
     const appConfigProviderMock = {
-      getAppConfig: jasmine.createSpy('getAppConfig')
-        .and
-        .returnValue({ role: ExaminerRole.LDTM }),
+      getAppConfig: jasmine.createSpy('getAppConfig').and.returnValue({ role: ExaminerRole.LDTM }),
     };
 
     const orientationMonitorProviderMock = {
-      monitorOrientation: jasmine.createSpy('monitorOrientation')
-        .and
-        .returnValue(Promise.resolve()),
-      tearDownListener: jasmine.createSpy('tearDownListener')
-        .and
-        .returnValue(Promise.resolve()),
+      monitorOrientation: jasmine.createSpy('monitorOrientation').and.returnValue(Promise.resolve()),
+      tearDownListener: jasmine.createSpy('tearDownListener').and.returnValue(Promise.resolve()),
     };
 
     const networkStateProviderMock = {
@@ -48,11 +42,7 @@ describe('RekeySearchPage', () => {
 
     await TestBed.configureTestingModule({
       declarations: [RekeySearchPage],
-      imports: [
-        StoreModule.forRoot({}),
-        TranslateModule.forRoot(),
-        PipesModule,
-      ],
+      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule],
       providers: [
         {
           provide: AppConfigProvider,
@@ -91,8 +81,7 @@ describe('RekeySearchPage', () => {
           useClass: StorageMock,
         },
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RekeySearchPage);
     component = fixture.componentInstance;
@@ -101,16 +90,14 @@ describe('RekeySearchPage', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('applicationReferenceChanged', () => {
     it('should handle applicationReferenceChanged event', () => {
       const newValue = '12345';
       component.applicationReferenceChanged(newValue);
-      expect(component.applicationReference)
-        .toBe(newValue);
+      expect(component.applicationReference).toBe(newValue);
     });
   });
 
@@ -118,30 +105,23 @@ describe('RekeySearchPage', () => {
     it('should handle staffNumberChanged event', () => {
       const newValue = '67890';
       component.staffNumberChanged(newValue);
-      expect(component.staffNumber)
-        .toBe(newValue);
+      expect(component.staffNumber).toBe(newValue);
     });
   });
 
   describe('disableSearch', () => {
     it('should disable search if applicationReference is empty or staffNumber is empty and not LDTM', () => {
       component.isLDTM = false;
-      expect(component.disableSearch('', '12345', component.isLDTM))
-        .toBeTrue();
-      expect(component.disableSearch('12345', '', component.isLDTM))
-        .toBeTrue();
-      expect(component.disableSearch('12345', '67890', component.isLDTM))
-        .toBeFalse();
+      expect(component.disableSearch('', '12345', component.isLDTM)).toBeTrue();
+      expect(component.disableSearch('12345', '', component.isLDTM)).toBeTrue();
+      expect(component.disableSearch('12345', '67890', component.isLDTM)).toBeFalse();
     });
 
     it('should disable search if applicationReference is empty or staffNumber is empty and not LDTM', () => {
       component.isLDTM = true;
-      expect(component.disableSearch('', '12345', component.isLDTM))
-        .toBeTrue();
-      expect(component.disableSearch('12345', '', component.isLDTM))
-        .toBeFalse();
-      expect(component.disableSearch('12345', '67890', component.isLDTM))
-        .toBeFalse();
+      expect(component.disableSearch('', '12345', component.isLDTM)).toBeTrue();
+      expect(component.disableSearch('12345', '', component.isLDTM)).toBeFalse();
+      expect(component.disableSearch('12345', '67890', component.isLDTM)).toBeFalse();
     });
   });
 });

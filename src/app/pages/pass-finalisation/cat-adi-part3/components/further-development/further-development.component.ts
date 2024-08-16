@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
@@ -9,7 +7,6 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
   templateUrl: './further-development.component.html',
 })
 export class FurtherDevelopmentComponent implements OnChanges {
-
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'furtherDevelopment';
 
@@ -42,7 +39,7 @@ export class FurtherDevelopmentComponent implements OnChanges {
 
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
       this.outcome,
-      FurtherDevelopmentComponent.fieldName,
+      FurtherDevelopmentComponent.fieldName
     );
 
     if (visibilityType === VisibilityType.NotVisible) {

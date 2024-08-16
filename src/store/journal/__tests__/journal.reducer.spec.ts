@@ -1,7 +1,7 @@
-import { SlotItem } from '@providers/slot-selector/slot-item';
+import { Action } from '@ngrx/store';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { searchResultsMock } from '@providers/search/__mocks__/search-results.mock';
-import { initialState, journalReducer } from '../journal.reducer';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import {
   CandidateDetailsSeen,
   ClearChangedSlot,
@@ -12,17 +12,15 @@ import {
   UnsetError,
 } from '../journal.actions';
 import { JournalModel } from '../journal.model';
-import { Action } from '@ngrx/store';
+import { initialState, journalReducer } from '../journal.reducer';
 
 describe('Journal Reducer', () => {
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = { type: 'NOOP' } as Action;
       const result = journalReducer(undefined, action);
 
-      expect(result)
-        .toBe(initialState);
+      expect(result).toBe(initialState);
     });
   });
 
@@ -31,16 +29,15 @@ describe('Journal Reducer', () => {
       const action = LoadJournal();
       const result = journalReducer(initialState, action);
 
-      expect(result)
-        .toEqual({
-          ...initialState,
-          isLoading: true,
-          error: {
-            message: '',
-            status: 0,
-            statusText: '',
-          },
-        });
+      expect(result).toEqual({
+        ...initialState,
+        isLoading: true,
+        error: {
+          message: '',
+          status: 0,
+          statusText: '',
+        },
+      });
     });
   });
 
@@ -52,21 +49,17 @@ describe('Journal Reducer', () => {
           individualId: 456,
         },
         slotItemsByDate: {
-          '2019-01-13': [{
-            hasSlotChanged: false,
-            hasSeenCandidateDetails: false,
-            slotData: {},
-          },
+          '2019-01-13': [
+            {
+              hasSlotChanged: false,
+              hasSeenCandidateDetails: false,
+              slotData: {},
+            },
           ],
         },
       };
 
-      const action = LoadJournalSuccess(
-        actionPayload,
-        ConnectionStatus.ONLINE,
-        false,
-        new Date(),
-      );
+      const action = LoadJournalSuccess(actionPayload, ConnectionStatus.ONLINE, false, new Date());
 
       const state = {
         ...initialState,
@@ -75,24 +68,24 @@ describe('Journal Reducer', () => {
 
       const result = journalReducer(state, action);
 
-      expect(result)
-        .toEqual({
-          ...state,
-          isLoading: false,
-          lastRefreshed: jasmine.any(Date),
-          slots: {
-            '2019-01-13': [{
+      expect(result).toEqual({
+        ...state,
+        isLoading: false,
+        lastRefreshed: jasmine.any(Date),
+        slots: {
+          '2019-01-13': [
+            {
               hasSlotChanged: false,
               hasSeenCandidateDetails: false,
               slotData: {},
             },
-            ],
-          },
-          examiner: {
-            staffNumber: '123',
-            individualId: 456,
-          },
-        });
+          ],
+        },
+        examiner: {
+          staffNumber: '123',
+          individualId: 456,
+        },
+      });
     });
   });
 
@@ -106,8 +99,7 @@ describe('Journal Reducer', () => {
       };
       const action = UnloadJournal();
       const result = journalReducer(stateWithJournals, action);
-      expect(result.slots)
-        .toEqual({});
+      expect(result.slots).toEqual({});
     });
     it('should reset the rest of the journal to default state', () => {
       const stateWithJournals = {
@@ -124,14 +116,10 @@ describe('Journal Reducer', () => {
       };
       const action = UnloadJournal();
       const result = journalReducer(stateWithJournals, action);
-      expect(result.isLoading)
-        .toBe(false);
-      expect(result.lastRefreshed)
-        .toBeNull();
-      expect(result.selectedDate)
-        .toBe('');
-      expect(result.examiner)
-        .toBeNull();
+      expect(result.isLoading).toBe(false);
+      expect(result.lastRefreshed).toBeNull();
+      expect(result.selectedDate).toBe('');
+      expect(result.examiner).toBeNull();
     });
   });
 
@@ -147,8 +135,7 @@ describe('Journal Reducer', () => {
       };
       const action = UnsetError();
       const result = journalReducer(stateWithError, action);
-      expect(result.error)
-        .toBeUndefined();
+      expect(result.error).toBeUndefined();
     });
   });
 
@@ -164,9 +151,7 @@ describe('Journal Reducer', () => {
       };
       const action = ClearChangedSlot(1234);
       const result = journalReducer(stateWithChangedSlot, action);
-      expect(result.slots[slotDate][0].hasSlotChanged)
-        .toEqual(false);
-
+      expect(result.slots[slotDate][0].hasSlotChanged).toEqual(false);
     });
 
     it('should return current state when selectedDate in slots is undefined', () => {
@@ -177,8 +162,7 @@ describe('Journal Reducer', () => {
       } as JournalModel;
       const action = ClearChangedSlot(1234);
       const result = journalReducer(state, action);
-      expect(result)
-        .toEqual(state);
+      expect(result).toEqual(state);
     });
   });
 
@@ -195,9 +179,7 @@ describe('Journal Reducer', () => {
       const action = CandidateDetailsSeen({ slotId: 1234 });
       const result = journalReducer(stateWithChangedSlot, action);
 
-      expect(result.slots[slotDate][0].hasSeenCandidateDetails)
-        .toEqual(true);
-
+      expect(result.slots[slotDate][0].hasSeenCandidateDetails).toEqual(true);
     });
 
     it('should return current state when selectedDate in slots is undefined', () => {
@@ -208,8 +190,7 @@ describe('Journal Reducer', () => {
       } as JournalModel;
       const action = CandidateDetailsSeen({ slotId: 1234 });
       const result = journalReducer(state, action);
-      expect(result)
-        .toEqual(state);
+      expect(result).toEqual(state);
     });
   });
 
@@ -224,10 +205,8 @@ describe('Journal Reducer', () => {
 
       const result = journalReducer(state, action);
 
-      expect(result.isLoading)
-        .toBe(false);
-      expect(result.completedTests)
-        .toEqual(searchResultsMock);
+      expect(result.isLoading).toBe(false);
+      expect(result.completedTests).toEqual(searchResultsMock);
     });
   });
 });

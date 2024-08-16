@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
+import { IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { DataRowComponent } from '@components/common/data-row/data-row';
-import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
-import { IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
-import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestSummaryCardComponent } from '../test-summary-card';
 
 describe('TestSummaryCardComponent', () => {
@@ -13,14 +13,8 @@ describe('TestSummaryCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestSummaryCardComponent,
-        MockComponent(DataRowComponent),
-        MockComponent(DataRowCustomComponent),
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [TestSummaryCardComponent, MockComponent(DataRowComponent), MockComponent(DataRowCustomComponent)],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TestSummaryCardComponent);
@@ -104,7 +98,7 @@ describe('TestSummaryCardComponent', () => {
       });
     });
 
-    describe('getPassCertificateNumber', (() => {
+    describe('getPassCertificateNumber', () => {
       it('should return the correct data', () => {
         const passCompletion = {
           passCertificateNumber: 'A123456X',
@@ -118,7 +112,7 @@ describe('TestSummaryCardComponent', () => {
       it('should return undefined if the passCompletion is missing', () => {
         expect(component.passCertificateNumber).toEqual(undefined);
       });
-    }));
+    });
 
     describe('getRouteNumber', () => {
       it('should return the correct data', () => {
@@ -192,11 +186,7 @@ describe('TestSummaryCardComponent', () => {
     describe('getWeatherConditions', () => {
       it('should return the correct data', () => {
         const testSummary = {
-          weatherConditions: [
-            'Icy',
-            'Showers',
-            'Windy',
-          ] as WeatherConditions[],
+          weatherConditions: ['Icy', 'Showers', 'Windy'] as WeatherConditions[],
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
@@ -309,6 +299,5 @@ describe('TestSummaryCardComponent', () => {
         expect(component.conductedLanguage).toEqual('None');
       });
     });
-
   });
 });

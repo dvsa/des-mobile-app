@@ -1,7 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { vehicleChecksReducer } from '../vehicle-checks.reducer';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   AddShowMeTellMeComment,
   ShowMeQuestionDangerousFault,
@@ -14,9 +13,9 @@ import {
   TellMeQuestionDrivingFault,
   TellMeQuestionSelected,
 } from '../vehicle-checks.actions';
+import { vehicleChecksReducer } from '../vehicle-checks.reducer';
 
 describe('Vehicle Checks Reducer', () => {
-
   describe('TELL_ME_QUESTION_SELECTED', () => {
     it('should set the tell me question details', () => {
       const newQuestionPayload: VehicleChecksQuestion = {

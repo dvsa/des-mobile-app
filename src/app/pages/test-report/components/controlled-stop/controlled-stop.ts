@@ -1,27 +1,25 @@
-import {
-  Component, Input, OnDestroy, OnInit,
-} from '@angular/core';
-import { merge, Observable, Subscription } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-import { StoreModel } from '@shared/models/store.model';
-import { select, Store } from '@ngrx/store';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import * as controlledStopAction from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Store, select } from '@ngrx/store';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import * as controlledStopAction from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import { getControlledStop } from '@store/tests/test-data/common/controlled-stop/controlled-stop.reducer';
 import {
   getControlledStopFault,
   isControlledStopSelected,
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.selectors';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
-import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 
 interface ControlledStopComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -37,72 +35,53 @@ interface ControlledStopComponentState {
   styleUrls: ['controlled-stop.scss'],
 })
 export class ControlledStopComponent implements OnInit, OnDestroy {
-
   @Input()
   testCategory: TestCategory | CategoryCode;
 
   componentState: ControlledStopComponentState;
   subscription: Subscription;
 
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
 
-  selectedControlledStop: boolean = false;
+  selectedControlledStop = false;
   controlledStopOutcome: CompetencyOutcome;
   merged$: Observable<boolean | CompetencyOutcome>;
 
   constructor(
     private store$: Store<StoreModel>,
-    private testDataByCategoryProvider: TestDataByCategoryProvider,
-  ) {
-  }
+    private testDataByCategoryProvider: TestDataByCategoryProvider
+  ) {}
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode),
-      ),
-      isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode),
-      ),
-      isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode),
-      ),
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
       selectedControlledStop$: currentTest$.pipe(
         map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
         select(getControlledStop),
-        select(isControlledStopSelected),
+        select(isControlledStopSelected)
       ),
       controlledStopOutcome$: currentTest$.pipe(
         map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
         select(getControlledStop),
-        select(getControlledStopFault),
+        select(getControlledStopFault)
       ),
     };
 
-    const {
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      selectedControlledStop$,
-      controlledStopOutcome$,
-    } = this.componentState;
+    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, selectedControlledStop$, controlledStopOutcome$ } =
+      this.componentState;
 
     this.subscription = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      selectedControlledStop$.pipe(map((value) => this.selectedControlledStop = value)),
-      controlledStopOutcome$.pipe(map((outcome) => this.controlledStopOutcome = outcome)),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      selectedControlledStop$.pipe(map((value) => (this.selectedControlledStop = value))),
+      controlledStopOutcome$.pipe(map((outcome) => (this.controlledStopOutcome = outcome)))
     )
       .pipe(takeUntil(trDestroy$))
       .subscribe();
@@ -147,7 +126,7 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
     this.store$.dispatch(controlledStopAction.ToggleControlledStop());
   };
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
+  addOrRemoveFault = (wasPress = false): void => {
     if (this.isRemoveFaultMode) {
       this.removeFault();
     } else {
@@ -178,7 +157,6 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
   };
 
   removeFault = (): void => {
-
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
       this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault(CompetencyOutcome.D));
       this.store$.dispatch(ToggleDangerousFaultMode());
@@ -198,7 +176,7 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
     }
   };
 
-  faultCount = (): number => this.controlledStopOutcome === CompetencyOutcome.DF ? 1 : 0;
+  faultCount = (): number => (this.controlledStopOutcome === CompetencyOutcome.DF ? 1 : 0);
 
   hasSeriousFault = (): boolean => this.controlledStopOutcome === CompetencyOutcome.S;
 

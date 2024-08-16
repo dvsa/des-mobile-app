@@ -1,10 +1,10 @@
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AnalyticsEvents } from '@providers/analytics/analytics.model';
 import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
+import { AnalyticsEvents } from '@providers/analytics/analytics.model';
 import {
   CompetencyOutcomeAnalyticEvent,
   CompetencyOutcomeGA4Event,
 } from '@shared/helpers/competency-outcome-analytic-event';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('CompetencyOutcomeAnalyticEvent', () => {
   it('should return REMOVE_DANGEROUS_FAULT when faultLevel is D', () => {

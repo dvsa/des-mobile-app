@@ -1,13 +1,12 @@
-import { accompanimentReducer } from '../accompaniment.reducer';
 import {
   InstructorAccompanimentToggled,
-  SupervisorAccompanimentToggled,
-  OtherAccompanimentToggled,
   InterpreterAccompanimentToggled,
+  OtherAccompanimentToggled,
+  SupervisorAccompanimentToggled,
 } from '../accompaniment.actions';
+import { accompanimentReducer } from '../accompaniment.reducer';
 
 describe('accompaniment reducer', () => {
-
   it('should toggle ADI accompaniment when receiving the instructor toggle action', () => {
     let result;
     result = accompanimentReducer({}, InstructorAccompanimentToggled());
@@ -39,5 +38,4 @@ describe('accompaniment reducer', () => {
     result = accompanimentReducer(result, InterpreterAccompanimentToggled());
     expect(result.interpreter).toBe(false);
   });
-
 });

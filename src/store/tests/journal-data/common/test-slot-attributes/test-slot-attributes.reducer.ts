@@ -14,14 +14,20 @@ export const initialState: TestSlotAttributes = {
 export const testSlotsAttributesReducer = createReducer(
   initialState,
   on(testSlotAttributesActions.PopulateTestSlotAttributes, (_, { testSlotAttributes }) => testSlotAttributes),
-  on(testSlotAttributesActions.SetStartDate, (state, { startDateTime }): TestSlotAttributes => ({
-    ...state,
-    start: startDateTime,
-  })),
-  on(testSlotAttributesActions.SetWelshTestMarker, (state, { welshTest }): TestSlotAttributes => ({
-    ...state,
-    welshTest,
-  })),
+  on(
+    testSlotAttributesActions.SetStartDate,
+    (state, { startDateTime }): TestSlotAttributes => ({
+      ...state,
+      start: startDateTime,
+    })
+  ),
+  on(
+    testSlotAttributesActions.SetWelshTestMarker,
+    (state, { welshTest }): TestSlotAttributes => ({
+      ...state,
+      welshTest,
+    })
+  )
 );
 
 export const getTestSlotAttributes = createFeatureSelector<TestSlotAttributes>('testSlotAttributes');

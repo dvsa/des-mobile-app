@@ -1,13 +1,8 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
-import {
-  TranslateModule,
-  TranslateService,
-  TranslateLoader,
-  TranslateParser,
-} from '@ngx-translate/core';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { ResidencyDeclarationComponent } from '../residency-declaration';
 
 describe('ResidencyDeclarationComponent', () => {
@@ -16,19 +11,9 @@ describe('ResidencyDeclarationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ResidencyDeclarationComponent,
-      ],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-      ],
-      providers: [
-        TranslateService,
-        TranslateLoader,
-        TranslateParser,
-      ],
+      declarations: [ResidencyDeclarationComponent],
+      imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 
     fixture = TestBed.createComponent(ResidencyDeclarationComponent);

@@ -1,8 +1,5 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
-import {
-  getRegistrationNumber,
-  getGearboxCategory,
-} from '../vehicle-details.selector';
+import { getGearboxCategory, getRegistrationNumber } from '../vehicle-details.selector';
 
 describe('vehicle details selector', () => {
   const state: VehicleDetails = {

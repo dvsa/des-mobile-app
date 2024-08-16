@@ -1,15 +1,15 @@
-import { Candidate, PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { Candidate, PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as candidateActions from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import * as preTestDeclarationActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { TestsModel } from '../tests.model';
+import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import * as testsActions from '../tests.actions';
+import { TestsModel } from '../tests.model';
 import { testsReducer } from '../tests.reducer';
 
 describe('testsReducer', () => {
@@ -128,9 +128,8 @@ describe('testsReducer', () => {
 
     const output = testsReducer(state, { ...action, category: TestCategory.B });
 
-    const td = (
-      output.startedTests[testReportPracticeSlotId] as NeverType<TestResultCommonSchema>
-    ).testData as CatBUniqueTypes.TestData;
+    const td = (output.startedTests[testReportPracticeSlotId] as NeverType<TestResultCommonSchema>)
+      .testData as CatBUniqueTypes.TestData;
     const td1 = (output.startedTests[1] as NeverType<TestResultCommonSchema>).testData as CatBUniqueTypes.TestData;
 
     expect(td.seriousFaults.positioningNormalDriving).toBeUndefined();
@@ -178,5 +177,4 @@ describe('testsReducer', () => {
     const result = testsReducer(state, testsActions.ActivateTest(456, TestCategory.B));
     expect(result.currentTest.slotId).toBe('456');
   });
-
 });

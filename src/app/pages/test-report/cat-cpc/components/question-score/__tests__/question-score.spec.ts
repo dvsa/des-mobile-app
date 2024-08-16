@@ -7,9 +7,7 @@ describe('QuestionScoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        QuestionScoreComponent,
-      ],
+      declarations: [QuestionScoreComponent],
     });
 
     fixture = TestBed.createComponent(QuestionScoreComponent);

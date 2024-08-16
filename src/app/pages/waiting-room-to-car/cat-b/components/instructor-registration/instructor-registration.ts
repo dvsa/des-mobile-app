@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   FieldValidators,
   getInstructorRegistrationNumberValidator,
@@ -14,7 +12,6 @@ import {
   templateUrl: './instructor-registration.html',
 })
 export class InstructorRegistrationComponent implements OnChanges {
-
   @Input()
   instructorRegistration: number;
 
@@ -38,12 +35,10 @@ export class InstructorRegistrationComponent implements OnChanges {
 
   instructorRegistrationChanged(event: any): void {
     if (
-      typeof event.target.value === 'string'
-        && !this.instructorRegistrationNumberValidator.pattern.test(event.target.value)
+      typeof event.target.value === 'string' &&
+      !this.instructorRegistrationNumberValidator.pattern.test(event.target.value)
     ) {
-      event.target.value = event.target.value
-        .replace(leadingZero, '')
-        .replace(nonNumericValues, '');
+      event.target.value = event.target.value.replace(leadingZero, '').replace(nonNumericValues, '');
     }
     this.instructorRegistrationChange.emit(Number(event.target.value) || undefined);
   }

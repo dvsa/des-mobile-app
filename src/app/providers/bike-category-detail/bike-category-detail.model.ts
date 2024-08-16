@@ -8,4 +8,7 @@ export type BikeCategoryDetail = {
   imageUrl: string;
 };
 
-export enum BikeTestType {MOD1 = 'MOD1', MOD2 = 'MOD2'}
+export enum BikeTestType {
+  MOD1 = 'MOD1',
+  MOD2 = 'MOD2',
+}

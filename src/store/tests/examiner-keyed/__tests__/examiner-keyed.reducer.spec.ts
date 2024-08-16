@@ -1,5 +1,5 @@
-import { examinerKeyedReducer } from '../examiner-keyed.reducer';
 import { SetExaminerKeyed } from '../examiner-keyed.actions';
+import { examinerKeyedReducer } from '../examiner-keyed.reducer';
 
 describe('examinerKeyedReducer', () => {
   it('should return the correct value ', () => {

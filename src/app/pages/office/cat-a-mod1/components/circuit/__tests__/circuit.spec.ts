@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
-import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
 
 describe('CircuitComponent', () => {
@@ -15,10 +13,7 @@ describe('CircuitComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         provideMockStore({ ...{} }),

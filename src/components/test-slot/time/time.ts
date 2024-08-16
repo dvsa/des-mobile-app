@@ -6,7 +6,6 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['time.scss'],
 })
 export class TimeComponent implements OnInit {
-
   @Input()
   time: string;
 
@@ -14,7 +13,7 @@ export class TimeComponent implements OnInit {
   testComplete: boolean;
 
   @Input()
-  isUnSubmittedTestSlotView: boolean = false;
+  isUnSubmittedTestSlotView = false;
 
   ngOnInit() {
     this.testComplete = true;

@@ -1,28 +1,28 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { ReplaySubject } from 'rxjs';
+import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as healthDeclarationActions from '../health-declaration.actions';
 import { HealthDeclarationAnalyticsEffects } from '../health-declaration.analytics.effects';
-import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('HealthDeclarationAnalyticsEffects', () => {
   let effects: HealthDeclarationAnalyticsEffects;
@@ -68,11 +68,9 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       actions$.next(healthDeclarationActions.HealthDeclarationViewDidEnter());
       // ASSERT
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -85,15 +83,14 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       actions$.next(healthDeclarationActions.HealthDeclarationViewDidEnter());
       // ASSERT
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
         done();
       });
     });
-
   });
 
   describe('validationErrorEffect', () => {
@@ -104,17 +101,15 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       actions$.next(healthDeclarationActions.HealthDeclarationValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'error message');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'error message'
+        );
         done();
       });
     });
   });
-
 });

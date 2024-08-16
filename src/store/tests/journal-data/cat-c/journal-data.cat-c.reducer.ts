@@ -1,17 +1,16 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
+import { applicationReferenceReducer } from '../common/application-reference/application-reference.reducer';
 import { examinerReducer } from '../common/examiner/examiner.reducer';
 import { testCentreReducer } from '../common/test-centre/test-centre.reducer';
 import { testSlotsAttributesReducer } from '../common/test-slot-attributes/test-slot-attributes.reducer';
 import { candidateCatCReducer } from './candidate/candidate.cat-c.reducer';
-import { applicationReferenceReducer } from '../common/application-reference/application-reference.reducer';
 
 export const initialState: CatCUniqueTypes.JournalData = {
   applicationReference: {
     applicationId: null,
     bookingSequence: null,
     checkDigit: null,
-
   },
   candidate: {},
   examiner: {
@@ -39,10 +38,7 @@ export const initialState: CatCUniqueTypes.JournalData = {
   },
 };
 
-export function journalDataCatCReducer(
-  state = initialState,
-  action: Action,
-): Required<CatCUniqueTypes.JournalData> {
+export function journalDataCatCReducer(state = initialState, action: Action): Required<CatCUniqueTypes.JournalData> {
   return combineReducers({
     examiner: examinerReducer,
     testCentre: testCentreReducer,

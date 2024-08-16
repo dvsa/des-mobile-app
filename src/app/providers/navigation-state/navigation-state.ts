@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { REKEY_SEARCH_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
+import { DELEGATED_REKEY_SEARCH_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 
 @Injectable()
 export class NavigationStateProvider {
-
   constructor(private router: Router) {}
 
   public isRekeySearch(): boolean {
@@ -14,5 +13,4 @@ export class NavigationStateProvider {
   public isDelegatedExaminerRekeySearch(): boolean {
     return this.router.url.indexOf(DELEGATED_REKEY_SEARCH_PAGE) >= 0;
   }
-
 }

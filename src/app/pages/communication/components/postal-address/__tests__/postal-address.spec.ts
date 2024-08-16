@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PostalAddressComponent } from '../postal-address';
@@ -19,13 +19,8 @@ describe('PostalAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PostalAddressComponent,
-      ],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-      ],
+      declarations: [PostalAddressComponent],
+      imports: [IonicModule, TranslateModule.forRoot()],
     });
 
     fixture = TestBed.createComponent(PostalAddressComponent);

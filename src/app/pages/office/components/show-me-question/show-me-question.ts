@@ -1,11 +1,6 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
@@ -35,15 +30,17 @@ export class ShowMeQuestionComponent implements OnChanges {
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'showMeQuestion';
 
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl([]);
       this.formGroup.addControl(ShowMeQuestionComponent.fieldName, this.formControl);
     }
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
-      ShowMeQuestionComponent.fieldName);
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      ShowMeQuestionComponent.fieldName
+    );
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(ShowMeQuestionComponent.fieldName).clearValidators();
@@ -62,5 +59,4 @@ export class ShowMeQuestionComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

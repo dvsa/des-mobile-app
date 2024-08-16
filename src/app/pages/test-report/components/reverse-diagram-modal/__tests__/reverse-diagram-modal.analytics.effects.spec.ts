@@ -1,30 +1,29 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
-  GoogleAnalyticsCustomDimension,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { StoreModel } from '@shared/models/store.model';
-import * as testsActions from '@store/tests/tests.actions';
-import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { testReportPracticeModeSlot, candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import * as applicationReferenceActions
-  from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock, testReportPracticeModeSlot } from '@store/tests/__mocks__/tests.mock';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import * as reverseDiagramModalActions from '../reverse-diagram-modal.actions';
 import { ReverseDiagramModalAnalyticsEffects } from '../reverse-diagram-modal.analytics.effects';
 
@@ -75,14 +74,19 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, 'B+E');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          'B+E'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -99,14 +103,21 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, 'B+E');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          'B+E'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
         done();
       });
     });
@@ -127,7 +138,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.NAVIGATION,
           GoogleAnalyticsEventsTitles.OPENED,
-          GoogleAnalyticsEventsValues.REVERSE_DIAGRAM,
+          GoogleAnalyticsEventsValues.REVERSE_DIAGRAM
         );
         done();
       });
@@ -149,7 +160,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.NAVIGATION,
           GoogleAnalyticsEventsTitles.CLOSED,
-          GoogleAnalyticsEventsValues.REVERSE_DIAGRAM,
+          GoogleAnalyticsEventsValues.REVERSE_DIAGRAM
         );
         done();
       });
@@ -173,7 +184,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
           GoogleAnalyticsEventsTitles.CHANGED_FROM,
           '100',
           GoogleAnalyticsEventsTitles.CHANGED_TO,
-          '10',
+          '10'
         );
         done();
       });
@@ -197,7 +208,7 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
           GoogleAnalyticsEventsTitles.CHANGED_FROM,
           '100',
           GoogleAnalyticsEventsTitles.CHANGED_TO,
-          '10',
+          '10'
         );
         done();
       });

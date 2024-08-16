@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import {
-  AssessmentAnswerComponent,
-} from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
+import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 
 describe('AssessmentAnswerComponent', () => {
   let fixture: ComponentFixture<AssessmentAnswerComponent>;
@@ -10,12 +8,8 @@ describe('AssessmentAnswerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AssessmentAnswerComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [AssessmentAnswerComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(AssessmentAnswerComponent);

@@ -1,9 +1,9 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { LogHelper } from '@providers/logs/logs-helper';
+import { IonicModule } from '@ionic/angular';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { DateComponent } from '../date';
 
 xdescribe('TimeComponent', () => {
@@ -14,9 +14,7 @@ xdescribe('TimeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DateComponent],
       imports: [IonicModule],
-      providers: [
-        { provide: LogHelper, useClass: LogHelperMock },
-      ],
+      providers: [{ provide: LogHelper, useClass: LogHelperMock }],
     });
 
     fixture = TestBed.createComponent(DateComponent);
@@ -33,8 +31,7 @@ xdescribe('TimeComponent', () => {
 
     describe('Date output ', () => {
       it('should be displayed', () => {
-        const dateSpan: HTMLElement = componentEl.query(By.css('p'))
-          .nativeElement;
+        const dateSpan: HTMLElement = componentEl.query(By.css('p')).nativeElement;
         fixture.detectChanges();
         expect(dateSpan.textContent).toBe('31/12/2018');
       });

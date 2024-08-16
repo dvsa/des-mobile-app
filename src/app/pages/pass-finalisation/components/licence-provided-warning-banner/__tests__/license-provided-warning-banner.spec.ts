@@ -10,16 +10,9 @@ describe('LicenceProvidedWarningBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LicenceProvidedWarningBannerComponent,
-        WarningBannerComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
-      providers: [
-        LicenceProvidedWarningBannerComponent,
-      ],
+      declarations: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
+      imports: [IonicModule],
+      providers: [LicenceProvidedWarningBannerComponent],
     });
 
     fixture = TestBed.createComponent(LicenceProvidedWarningBannerComponent);

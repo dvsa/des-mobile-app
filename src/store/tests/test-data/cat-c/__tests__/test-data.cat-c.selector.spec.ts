@@ -1,20 +1,15 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { getETAFaultText, getEcoFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
+import { Competencies } from '../../test-data.constants';
 import {
-  hasSeriousFault,
-  hasDangerousFault,
-  getETAFaultText,
-  getEcoFaultText,
-} from '../../common/test-data.selector';
-import {
+  areTellMeQuestionsCorrect,
+  areTellMeQuestionsSelected,
   getDrivingFaultCount,
   getManoeuvres,
   hasManoeuvreBeenCompletedCatC,
-  areTellMeQuestionsSelected,
-  areTellMeQuestionsCorrect,
   hasVehicleChecksBeenCompletedCatC,
 } from '../test-data.cat-c.selector';
-import { Competencies } from '../../test-data.constants';
 
 describe('TestDataSelectors - CatC', () => {
   const state: CatCUniqueTypes.TestData = {
@@ -335,8 +330,7 @@ describe('TestDataSelectors - CatC', () => {
       it('should return false if show me question outcome is not defined', () => {
         const mockState = {
           vehicleChecks: {
-            showMeQuestions: [
-            ],
+            showMeQuestions: [],
             tellMeQuestions: [
               {
                 outcome: CompetencyOutcome.DF,

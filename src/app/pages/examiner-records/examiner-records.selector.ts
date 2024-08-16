@@ -1,15 +1,15 @@
-import { forOwn, get, transform, uniqBy } from 'lodash-es';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Manoeuvre, SafetyQuestionResult, TestCentre } from '@dvsa/mes-test-schema/categories/common';
-import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/C/partial';
+import { Manoeuvre, SafetyQuestionResult, TestCentre } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { QuestionProvider } from '@providers/question/question';
+import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/constants/competencies/catadi2-manoeuvres';
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatB } from '@shared/constants/competencies/catb-manoeuvres';
 import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constants/competencies/catbe-manoeuvres';
-import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatADI2 } from '@shared/constants/competencies/catadi2-manoeuvres';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { forOwn, get, transform, uniqBy } from 'lodash-es';
 
 // Generic `T` is the configurable type of the item
 export interface ExaminerRecordData<T> {
@@ -18,11 +18,11 @@ export interface ExaminerRecordData<T> {
 }
 
 // Generic `T` is the configurable type of the item
-export interface ExaminerRecordDataWithPercentage<T> extends ExaminerRecordData<T>{
+export interface ExaminerRecordDataWithPercentage<T> extends ExaminerRecordData<T> {
   percentage: string;
 }
 
-let unwantedCategories: TestCategory[] = [
+const unwantedCategories: TestCategory[] = [
   TestCategory.ADI3,
   TestCategory.SC,
   TestCategory.CCPC,
@@ -39,11 +39,12 @@ let unwantedCategories: TestCategory[] = [
 ];
 
 // add date range filter
-export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean => (range)
-  // use range when provided
-  ? new DateTime(get(test, 'startDate')).isDuring(range)
-  // return true to get all tests when no range provided
-  : true;
+export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean =>
+  range
+    ? // use range when provided
+      new DateTime(get(test, 'startDate')).isDuring(range)
+    : // return true to get all tests when no range provided
+      true;
 
 /**
  * strip out the prefix letter to get the numerical value in the code of the string
@@ -62,16 +63,18 @@ export const getEligibleTests = (
   category: TestCategory = null,
   range: DateRange = null,
   centreId: number = null,
-  filterByLocation: boolean = true,
-  filterByCategory: boolean = true,
-  allowExtendedTests: boolean = false,
+  filterByLocation = true,
+  filterByCategory = true,
+  allowExtendedTests = false
 ): ExaminerRecordModel[] => {
   if (startedTests) {
     return startedTests.filter((value: ExaminerRecordModel) => {
-      return (!!range ? dateFilter(value, range as DateRange) : true) &&
-        (filterByCategory ? (!!category ? (get(value, 'testCategory') === category) : true) : true) &&
-        (filterByLocation ? (!!centreId ? (get(value, 'testCentre.centreId') === centreId) : true) : true) &&
-        (allowExtendedTests ? true : !(get(value, 'extendedTest') === true));
+      return (
+        (!!range ? dateFilter(value, range as DateRange) : true) &&
+        (filterByCategory ? (!!category ? get(value, 'testCategory') === category : true) : true) &&
+        (filterByLocation ? (!!centreId ? get(value, 'testCentre.centreId') === centreId : true) : true) &&
+        (allowExtendedTests ? true : !(get(value, 'extendedTest') === true))
+      );
     });
   } else {
     return [];
@@ -81,13 +84,9 @@ export const getEligibleTests = (
 /**
  * Return the total amount of tests with an emergency stop from the eligible tests
  */
-export const getEmergencyStopCount = (
-  startedTests: ExaminerRecordModel[],
-): number => {
+export const getEmergencyStopCount = (startedTests: ExaminerRecordModel[]): number => {
   if (startedTests) {
-    return (startedTests)
-      .filter((controlledStop) => (get(controlledStop, 'controlledStop', null) === true))
-      .length;
+    return startedTests.filter((controlledStop) => get(controlledStop, 'controlledStop', null) === true).length;
   } else {
     return 0;
   }
@@ -99,20 +98,22 @@ export const getEmergencyStopCount = (
  */
 export const getLocations = (
   startedTests: ExaminerRecordModel[],
-  range: DateRange = null,
+  range: DateRange = null
 ): ExaminerRecordData<TestCentre>[] => {
   if (startedTests) {
-    const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null)
-      .filter((record) => !!get(record, 'testCentre', null).centreId);
+    const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null).filter(
+      (record) => !!get(record, 'testCentre', null).centreId
+    );
 
-    return uniqBy(data.map(({ testCentre }): ExaminerRecordData<TestCentre> => {
-      return {
-        item: testCentre,
-        count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
-      };
-    }), 'item.centreId')
-      .sort((item1, item2) =>
-        (item1.item.centreName) > (item2.item.centreName) ? 1 : -1);
+    return uniqBy(
+      data.map(({ testCentre }): ExaminerRecordData<TestCentre> => {
+        return {
+          item: testCentre,
+          count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
+        };
+      }),
+      'item.centreId'
+    ).sort((item1, item2) => (item1.item.centreName > item2.item.centreName ? 1 : -1));
   } else {
     return [];
   }
@@ -123,43 +124,69 @@ export const getLocations = (
  */
 export const getIndependentDrivingStats = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory,
+  category: TestCategory
 ): ExaminerRecordDataWithPercentage<string>[] => {
   //IndependentDriving is not applicable to the following categories, and so we can avoid the entire function
-  if (!startedTests || !category || isAnyOf(category, [
-    TestCategory.ADI3, TestCategory.SC,
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
-    TestCategory.CCPC, TestCategory.DCPC,
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
-    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
-    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-  ])) {
+  if (
+    !startedTests ||
+    !category ||
+    isAnyOf(category, [
+      TestCategory.ADI3,
+      TestCategory.SC,
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K,
+      TestCategory.CCPC,
+      TestCategory.DCPC,
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1,
+      TestCategory.CM,
+      TestCategory.C1M,
+      TestCategory.CEM,
+      TestCategory.C1EM,
+      TestCategory.DM,
+      TestCategory.D1M,
+      TestCategory.DEM,
+      TestCategory.D1EM,
+    ])
+  ) {
     return [];
   }
   let indDrivingOptions: string[];
-  if (isAnyOf(category, [
-    TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E, // C
-    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Mod 2
-  ])) {
+  if (
+    isAnyOf(category, [
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.CE,
+      TestCategory.C1E, // C
+      TestCategory.EUAMM2,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2, // Mod 2
+    ])
+  ) {
     indDrivingOptions = ['Traffic signs', 'Diagram'];
   } else {
     indDrivingOptions = ['Traffic signs', 'Sat nav'];
   }
 
-  const data: ExaminerRecordModel[] = (startedTests)
+  const data: ExaminerRecordModel[] = startedTests
     // extract cost codes
     .filter((record) => !!get(record, 'independentDriving', null));
 
-  return indDrivingOptions.map((item: string, index) => {
-    const count = data.filter((val) => val.independentDriving === item).length;
-    return {
-      item: `I${index + 1} - ${item}`,
-      count,
-      percentage: `${(count / data.length * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+  return indDrivingOptions
+    .map((item: string, index) => {
+      const count = data.filter((val) => val.independentDriving === item).length;
+      return {
+        item: `I${index + 1} - ${item}`,
+        count,
+        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+      };
+    })
+    .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 /**
@@ -167,31 +194,32 @@ export const getIndependentDrivingStats = (
  */
 export const getCircuits = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory,
+  category: TestCategory
 ): ExaminerRecordDataWithPercentage<string>[] => {
   //getCircuits is only applicable to the following categories, and so we can avoid the entire function
-  if (!startedTests || !category || !isAnyOf(category, [
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
-  ])) {
+  if (
+    !startedTests ||
+    !category ||
+    !isAnyOf(category, [TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1])
+  ) {
     return [];
   }
   const circuitOptions = ['Left', 'Right'];
 
-  const data: ExaminerRecordModel[] = (startedTests)
+  const data: ExaminerRecordModel[] = startedTests
     // extract circuits
     .filter((record) => !!get(record, 'circuit', null));
 
-
-  return circuitOptions.map((item: string, index) => {
-    const count = data.filter((val) => val.circuit === item).length;
-    return {
-      item: `C${index + 1} - ${item}`,
-      count,
-      percentage: `${(count / data.length * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+  return circuitOptions
+    .map((item: string, index) => {
+      const count = data.filter((val) => val.circuit === item).length;
+      return {
+        item: `C${index + 1} - ${item}`,
+        count,
+        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+      };
+    })
+    .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
 };
 
 /**
@@ -202,25 +230,27 @@ export const getCategories = (
   startedTests: ExaminerRecordModel[],
   range: DateRange,
   category: TestCategory,
-  centreId: number,
+  centreId: number
 ): {
   item: TestCategory;
-  count: number
+  count: number;
 }[] => {
   if (startedTests) {
-    const data: ExaminerRecordModel[] = startedTests
-      .filter((record: ExaminerRecordModel) =>
-        (get(record, 'testCentre.centreId', null) === centreId)
-        && !isAnyOf(get(record, 'testCategory', null), unwantedCategories));
+    const data: ExaminerRecordModel[] = startedTests.filter(
+      (record: ExaminerRecordModel) =>
+        get(record, 'testCentre.centreId', null) === centreId &&
+        !isAnyOf(get(record, 'testCategory', null), unwantedCategories)
+    );
 
-    return uniqBy(data.map(({ testCategory }) => {
-      return {
-        item: testCategory,
-        count: data.filter((val) => val.testCategory === testCategory).length,
-      };
-    }), 'item')
-      .sort((item1, item2) =>
-        (item1.item as string) > (item2.item as string) ? 1 : -1);
+    return uniqBy(
+      data.map(({ testCategory }) => {
+        return {
+          item: testCategory,
+          count: data.filter((val) => val.testCategory === testCategory).length,
+        };
+      }),
+      'item'
+    ).sort((item1, item2) => ((item1.item as string) > (item2.item as string) ? 1 : -1));
   } else {
     return [];
   }
@@ -230,32 +260,27 @@ export const getCategories = (
  * Returns the total number of conducted tests of the selected category at the selected location within
  * the selected time frame
  */
-export const getStartedTestCount = (
-  startedTests: ExaminerRecordModel[],
-): number =>
+export const getStartedTestCount = (startedTests: ExaminerRecordModel[]): number =>
   !!startedTests ? startedTests.length : 0;
-
 
 /**
  * Returns an array containing the conducted test routes within the given tests and their frequency of appearance
  */
-export const getRouteNumbers = (
-  startedTests: ExaminerRecordModel[],
-): ExaminerRecordDataWithPercentage<string>[] => {
+export const getRouteNumbers = (startedTests: ExaminerRecordModel[]): ExaminerRecordDataWithPercentage<string>[] => {
   if (startedTests) {
-    const data = (startedTests)
-      .filter((record: ExaminerRecordModel) => get(record, 'routeNumber', null) !== null);
+    const data = startedTests.filter((record: ExaminerRecordModel) => get(record, 'routeNumber', null) !== null);
 
-    return uniqBy(data.map(({ routeNumber }) => {
-      const count = data.filter((val) => val.routeNumber === routeNumber).length;
-      return {
-        item: `R${routeNumber} - Route ${routeNumber}`,
-        count,
-        percentage: `${((count) / data.length * 100).toFixed(1)}%`,
-      };
-    }), 'item')
-      .sort((item1, item2) =>
-        getIndex(item1.item as string) - getIndex(item2.item as string));
+    return uniqBy(
+      data.map(({ routeNumber }) => {
+        const count = data.filter((val) => val.routeNumber === routeNumber).length;
+        return {
+          item: `R${routeNumber} - Route ${routeNumber}`,
+          count,
+          percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+        };
+      }),
+      'item'
+    ).sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
   } else {
     return [];
   }
@@ -266,37 +291,35 @@ export const getRouteNumbers = (
  */
 export const getSafetyQuestions = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory = null,
+  category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
     const questions = [
-      ...qp.getSafetyQuestions(category)
-        .map((q) => ({
-          code: q.code,
-          description: q.shortName,
-        })),
+      ...qp.getSafetyQuestions(category).map((q) => ({
+        code: q.code,
+        description: q.shortName,
+      })),
     ];
 
-    const data = (startedTests)
-      .flatMap((record: ExaminerRecordModel) => [
-        ...get(record, 'safetyQuestions', []) as QuestionResult[],
-      ])
+    const data = startedTests
+      .flatMap((record: ExaminerRecordModel) => [...(get(record, 'safetyQuestions', []) as QuestionResult[])])
       // filter for any empty string/null values
       .filter((question: SafetyQuestionResult | QuestionResult) =>
-        ('code' in question) ? !!question?.code : !!question?.description);
+        'code' in question ? !!question?.code : !!question?.description
+      );
 
-    return questions.map((q) => {
-      const count = data.filter((val) => val.code === q.code).length;
-      return {
-        item: `${q.code} - ${q.description}`,
-        count,
-        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-      };
-    })
-      .sort((item1, item2) =>
-        getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions
+      .map((q) => {
+        const count = data.filter((val) => val.code === q.code).length;
+        return {
+          item: `${q.code} - ${q.description}`,
+          count,
+          percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+        };
+      })
+      .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
   } else {
     return [];
   }
@@ -307,35 +330,33 @@ export const getSafetyQuestions = (
  */
 export const getBalanceQuestions = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory = null,
+  category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
     const questions = [
-      ...qp.getBalanceQuestions(category)
-        .map((q) => ({
-          code: q.code,
-          description: q.shortName,
-        })),
+      ...qp.getBalanceQuestions(category).map((q) => ({
+        code: q.code,
+        description: q.shortName,
+      })),
     ];
 
-    const data = (startedTests)
+    const data = startedTests
       .flatMap((record: ExaminerRecordModel) => get(record, 'balanceQuestions', []) as QuestionResult[])
       // filter for any empty string/null values
-      .filter((question: QuestionResult) =>
-        ('code' in question) ? !!question?.code : !!question?.description);
+      .filter((question: QuestionResult) => ('code' in question ? !!question?.code : !!question?.description));
 
-    return questions.map((q) => {
-      const count = data.filter((val) => val.code === q.code).length;
-      return {
-        item: `${q.code} - ${q.description}`,
-        count,
-        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-      };
-    })
-      .sort((item1, item2) =>
-        getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions
+      .map((q) => {
+        const count = data.filter((val) => val.code === q.code).length;
+        return {
+          item: `${q.code} - ${q.description}`,
+          count,
+          percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+        };
+      })
+      .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
   } else {
     return [];
   }
@@ -346,28 +367,28 @@ export const getBalanceQuestions = (
  */
 export const getShowMeQuestions = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory = null,
+  category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
     const questions = qp.getShowMeQuestions(category).filter((q) => q.code !== 'N/A');
 
-    const data = (startedTests)
+    const data = startedTests
       .flatMap((record: ExaminerRecordModel) => get(record, 'showMeQuestions', []) as QuestionResult[])
       // filter for any empty string/null values
       .filter((question: QuestionResult) => !!question?.code);
 
-    return questions.map((q) => {
-      const count = data.filter((val) => val.code === q.code).length;
-      return {
-        item: `${q.code} - ${q.shortName}`,
-        count,
-        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-      };
-    })
-      .sort((item1, item2) =>
-        getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions
+      .map((q) => {
+        const count = data.filter((val) => val.code === q.code).length;
+        return {
+          item: `${q.code} - ${q.shortName}`,
+          count,
+          percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+        };
+      })
+      .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
   } else {
     return [];
   }
@@ -378,27 +399,27 @@ export const getShowMeQuestions = (
  */
 export const getTellMeQuestions = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory = null,
+  category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
   const qp = new QuestionProvider();
 
   if (startedTests) {
     const questions = qp.getTellMeQuestions(category);
-    const data = (startedTests)
+    const data = startedTests
       .flatMap((record: ExaminerRecordModel) => get(record, 'tellMeQuestions', []) as QuestionResult[])
       // filter for any empty string/null values
       .filter((question: QuestionResult) => !!question?.code);
 
-    return questions.map((q) => {
-      const count = data.filter((val) => val.code === q.code).length;
-      return {
-        item: `${q.code} - ${q.shortName}`,
-        count,
-        percentage: `${((count / data.length) * 100).toFixed(1)}%`,
-      };
-    })
-      .sort((item1, item2) =>
-        getIndex(item1.item as string) - getIndex(item2.item as string));
+    return questions
+      .map((q) => {
+        const count = data.filter((val) => val.code === q.code).length;
+        return {
+          item: `${q.code} - ${q.shortName}`,
+          count,
+          percentage: `${((count / data.length) * 100).toFixed(1)}%`,
+        };
+      })
+      .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
   } else {
     return [];
   }
@@ -424,7 +445,7 @@ export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreT
  */
 export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
-  category: TestCategory = null,
+  category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
   let faultsEncountered: string[] = [];
   let manoeuvreTypeLabels: string[] = [];
@@ -435,30 +456,35 @@ export const getManoeuvresUsed = (
     return [];
   }
 
-  (startedTests)
-    .forEach((record: ExaminerRecordModel) => {
-      const manoeuvres = get(record, 'manoeuvres');
-      if (!manoeuvres) return;
-      const mans = Array.isArray(manoeuvres) ? manoeuvres : [manoeuvres];
-      mans.forEach((manoeuvre) => {
-        forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
-          const faults = !man.selected ? [] : transform(man, (result) => {
-            result.push(getManoeuvreTypeLabels(category, type));
-          }, []);
-          faultsEncountered.push(...faults);
-        });
+  startedTests.forEach((record: ExaminerRecordModel) => {
+    const manoeuvres = get(record, 'manoeuvres');
+    if (!manoeuvres) return;
+    const mans = Array.isArray(manoeuvres) ? manoeuvres : [manoeuvres];
+    mans.forEach((manoeuvre) => {
+      forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
+        const faults = !man.selected
+          ? []
+          : transform(
+              man,
+              (result) => {
+                result.push(getManoeuvreTypeLabels(category, type));
+              },
+              []
+            );
+        faultsEncountered.push(...faults);
       });
-      faultsEncountered = faultsEncountered.filter((fault) => !!fault);
     });
+    faultsEncountered = faultsEncountered.filter((fault) => !!fault);
+  });
 
-  return manoeuvreTypeLabels.map((q, index) => {
-    const count = faultsEncountered.filter((val) => val === q).length;
-    return {
-      item: `E${index + 1} - ${q}`,
-      count,
-      percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
-    };
-  })
-    .sort((item1, item2) =>
-      getIndex(item1.item as string) - getIndex(item2.item as string));
+  return manoeuvreTypeLabels
+    .map((q, index) => {
+      const count = faultsEncountered.filter((val) => val === q).length;
+      return {
+        item: `E${index + 1} - ${q}`,
+        count,
+        percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
+      };
+    })
+    .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
 };

@@ -15,11 +15,8 @@ export const seriousFaultsReducer = createReducer(
     // not same as original implementation due to TS error
     ...omit(state, competency),
   })),
-  on(seriousFaultsActions.AddSeriousFaultComment, (state, {
-    competencyName,
-    comment,
-  }) => ({
+  on(seriousFaultsActions.AddSeriousFaultComment, (state, { competencyName, comment }) => ({
     ...state,
     [`${competencyName}Comments`]: comment,
-  })),
+  }))
 );

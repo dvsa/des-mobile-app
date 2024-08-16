@@ -14,19 +14,16 @@ export const questions: VehicleChecksQuestion[] = [
     code: 'Q2',
     description: 'Show me how you would check for air leaks on this vehicle.',
     shortName: 'Air leaks',
-
   },
   {
     code: 'Q6',
     description: 'Show me how you would check the condition of the mudguards on this vehicle.',
     shortName: 'Mudguards condition',
-
   },
   {
     code: 'Q10',
     description: 'Show me how you would check for the correct air pressure on this vehicle.',
     shortName: 'Air pressure',
-
   },
   {
     code: 'Q12',
@@ -35,12 +32,14 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'Q13',
-    description: 'Show me how you would check the operation (specify horn, warning device for reversing) of the audible warning devices on this vehicle.',
+    description:
+      'Show me how you would check the operation (specify horn, warning device for reversing) of the audible warning devices on this vehicle.',
     shortName: 'Check audible warnings',
   },
   {
     code: 'Q15',
-    description: 'Show me how you would check that the brake lights are working on this vehicle (I can assist you, if you need to switch the ignition on, please don’t start the engine).',
+    description:
+      'Show me how you would check that the brake lights are working on this vehicle (I can assist you, if you need to switch the ignition on, please don’t start the engine).',
     shortName: 'Brake lights',
   },
   {
@@ -80,7 +79,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'Q27',
-    description: 'Show me how you would switch on the rear fog light(s) and explain when you would use it/them. (No need to exit vehicle)',
+    description:
+      'Show me how you would switch on the rear fog light(s) and explain when you would use it/them. (No need to exit vehicle)',
     shortName: 'Rear fog lights',
   },
   {

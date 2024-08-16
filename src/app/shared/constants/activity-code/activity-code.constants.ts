@@ -90,25 +90,31 @@ export function populateActivityCodeModelList(isDelegatedExaminer?: boolean, isA
   const codeList = [];
 
   if (isAdi3) {
-    Object.keys(Adi3ActivityCodes).forEach((code) => codeList.push({
-      activityCode: Adi3ActivityCodes[code],
-      description: Adi3ActivityCodeDescription[code],
-    }));
+    Object.keys(Adi3ActivityCodes).forEach((code) =>
+      codeList.push({
+        activityCode: Adi3ActivityCodes[code],
+        description: Adi3ActivityCodeDescription[code],
+      })
+    );
   } else {
-    Object.keys(ActivityCodes).forEach((code) => codeList.push({
-      activityCode: ActivityCodes[code],
-      description: ActivityCodeDescription[code],
-    }));
+    Object.keys(ActivityCodes).forEach((code) =>
+      codeList.push({
+        activityCode: ActivityCodes[code],
+        description: ActivityCodeDescription[code],
+      })
+    );
   }
 
   if (isDelegatedExaminer) {
-    Object.keys(DelegatedExaminerActivityCodes).forEach((code) => codeList.push({
-      activityCode: DelegatedExaminerActivityCodes[code],
-      description: DelegatedActivityCodeDescription[code],
-    }));
+    Object.keys(DelegatedExaminerActivityCodes).forEach((code) =>
+      codeList.push({
+        activityCode: DelegatedExaminerActivityCodes[code],
+        description: DelegatedActivityCodeDescription[code],
+      })
+    );
   }
 
-  codeList.sort((a, b) => ((Number(a.activityCode) > Number(b.activityCode)) ? 1 : -1));
+  codeList.sort((a, b) => (Number(a.activityCode) > Number(b.activityCode) ? 1 : -1));
   return codeList;
 }
 
@@ -116,7 +122,7 @@ export const activityCodeModelListDelegatedExaminer: ActivityCodeModel[] = popul
 export const activityCodeModelList: ActivityCodeModel[] = populateActivityCodeModelList(false);
 export const adi3activityCodeModelList: ActivityCodeModel[] = populateActivityCodeModelList(false, true);
 
-export function getActivityCodeOptions(delegatedExaminer: boolean, adi3: boolean = false): ActivityCodeModel[] {
+export function getActivityCodeOptions(delegatedExaminer: boolean, adi3 = false): ActivityCodeModel[] {
   if (delegatedExaminer) return activityCodeModelListDelegatedExaminer;
   if (adi3) return adi3activityCodeModelList;
   return activityCodeModelList;

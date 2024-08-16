@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
-import { IonicModule } from '@ionic/angular';
 import { DelegatedSearchCardComponent } from '../delegated-rekey-card';
 
 describe('DelegatedSearchCardComponent', () => {
@@ -14,9 +14,7 @@ describe('DelegatedSearchCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DelegatedSearchCardComponent],
       imports: [IonicModule],
-      providers: [
-        { provide: Router, useClass: RouterMock },
-      ],
+      providers: [{ provide: Router, useClass: RouterMock }],
     });
 
     fixture = TestBed.createComponent(DelegatedSearchCardComponent);

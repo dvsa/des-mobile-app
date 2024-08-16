@@ -1,16 +1,16 @@
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { journalReducer } from '@store/journal/journal.reducer';
-import { ExaminerConductedEffects } from '../examiner-conducted.effects';
-import { SetExaminerConducted } from '../examiner-conducted.actions';
-import { testsReducer } from '../../tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import { SetChangeMarker } from '../../change-marker/change-marker.actions';
-import { StartTest } from '../../tests.actions';
 import { SetExaminerBooked } from '../../examiner-booked/examiner-booked.actions';
+import { StartTest } from '../../tests.actions';
+import { testsReducer } from '../../tests.reducer';
+import { SetExaminerConducted } from '../examiner-conducted.actions';
+import { ExaminerConductedEffects } from '../examiner-conducted.effects';
 
 describe('ExaminerConductedEffects', () => {
   let effects: ExaminerConductedEffects;
@@ -25,11 +25,7 @@ describe('ExaminerConductedEffects', () => {
           journal: journalReducer,
         }),
       ],
-      providers: [
-        ExaminerConductedEffects,
-        provideMockActions(() => actions$),
-        Store,
-      ],
+      providers: [ExaminerConductedEffects, provideMockActions(() => actions$), Store],
     });
 
     actions$ = new ReplaySubject(1);
@@ -63,5 +59,4 @@ describe('ExaminerConductedEffects', () => {
       });
     });
   });
-
 });

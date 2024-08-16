@@ -1,7 +1,6 @@
 import { getNewTestStartTime, isValidStartDate } from '../test-start-time';
 
 describe('Test Start Time helper functions', () => {
-
   describe('getNewTestStartTime', () => {
     it('should return the correct date', () => {
       const inputDate = '2021-01-19';

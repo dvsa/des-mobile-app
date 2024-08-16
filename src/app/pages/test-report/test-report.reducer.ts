@@ -28,7 +28,7 @@ export const testReportReducer = createReducer(
     removeFaultMode: false,
     seriousMode: false,
     dangerousMode: false,
-  })),
+  }))
 );
 
 export const getTestReportState = createFeatureSelector<TestReportModel>('testReport');

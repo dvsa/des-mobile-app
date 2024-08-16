@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -9,7 +7,6 @@ import { UntypedFormGroup } from '@angular/forms';
   styleUrls: ['./accompaniment-card.scss'],
 })
 export class AccompanimentCardComponent {
-
   @Input()
   instructorAccompaniment: boolean;
 
@@ -52,5 +49,4 @@ export class AccompanimentCardComponent {
   interpreterAccompanimentChanged(): void {
     this.interpreterAccompanimentChange.emit();
   }
-
 }

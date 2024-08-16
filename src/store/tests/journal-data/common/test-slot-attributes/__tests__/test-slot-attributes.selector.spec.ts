@@ -3,14 +3,14 @@ import { Initiator, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/
 import { DateTime } from '@shared/helpers/date-time';
 import { SlotTypes } from '@shared/models/slot-types';
 import {
-  getTestTime,
-  getSlotId,
-  isWelshTest,
-  isSpecialNeeds,
-  isExtendedTest,
   extractTestSlotAttributes,
+  getSlotId,
   getTestDate,
   getTestStartDateTime,
+  getTestTime,
+  isExtendedTest,
+  isSpecialNeeds,
+  isWelshTest,
 } from '../test-slot-attributes.selector';
 
 const testTime = new DateTime().toString();
@@ -27,29 +27,35 @@ describe('testSlotAttributes selector', () => {
 
   describe('getTestTime', () => {
     it('should return the time of the test', () => {
-      expect(getTestTime({
-        ...testSlotAttributes,
-        start: '2021-01-15T08:10:00.000Z',
-      })).toBe('08:10');
+      expect(
+        getTestTime({
+          ...testSlotAttributes,
+          start: '2021-01-15T08:10:00.000Z',
+        })
+      ).toBe('08:10');
     });
   });
 
   describe('getTestDate', () => {
     it('should return the date of the test', () => {
-      expect(getTestDate({
-        ...testSlotAttributes,
-        start: '2021-01-15',
-      })).toBe('15/01/2021');
+      expect(
+        getTestDate({
+          ...testSlotAttributes,
+          start: '2021-01-15',
+        })
+      ).toBe('15/01/2021');
     });
   });
 
   describe('getTestStartDateTime', () => {
     it('should return the start date and time of the test as string', () => {
       const startDateTime = '2021-01-15T08:10:00.000Z';
-      expect(getTestStartDateTime({
-        ...testSlotAttributes,
-        start: '2021-01-15T08:10:00.000Z',
-      })).toBe(startDateTime);
+      expect(
+        getTestStartDateTime({
+          ...testSlotAttributes,
+          start: '2021-01-15T08:10:00.000Z',
+        })
+      ).toBe(startDateTime);
     });
   });
 
@@ -134,5 +140,4 @@ describe('testSlotAttributes selector', () => {
       expect(mockTestSlotAttributes.specialNeedsArray).toEqual(['None']);
     });
   });
-
 });

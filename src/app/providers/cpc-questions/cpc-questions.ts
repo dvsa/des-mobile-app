@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
+import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  CombinationCodes, Question, Question5, TestData,
-} from '@dvsa/mes-test-schema/categories/CPC';
 
 import { lgvQuestion5, lgvQuestions } from '@shared/constants/cpc-questions/cpc-lgv-questions.constants';
 import { pcvQuestion5, pcvQuestions } from '@shared/constants/cpc-questions/cpc-pcv-questions.constants';
 import {
   Combination,
-  questionCombinations, QuestionNumber,
+  QuestionNumber,
+  questionCombinations,
 } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
 @Injectable()
 export class CPCQuestionProvider {
-
   private getQuestionCombination = (combinationCode: CombinationCodes): Combination => {
     return questionCombinations.find((question: Combination) => question.code === combinationCode);
   };
@@ -23,7 +21,7 @@ export class CPCQuestionProvider {
   };
 
   getQuestionScore = (question: Question | Question5, questionNumber: QuestionNumber): number => {
-    let scorePerAnswer: number = 5;
+    let scorePerAnswer = 5;
 
     if (questionNumber === QuestionNumber.FIVE) {
       scorePerAnswer = 2;

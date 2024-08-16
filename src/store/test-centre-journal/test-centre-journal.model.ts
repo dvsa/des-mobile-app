@@ -1,3 +1,3 @@
 export type TestCentreJournalModel = {
-  lastRefreshed: Date,
+  lastRefreshed: Date;
 };

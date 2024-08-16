@@ -1,5 +1,5 @@
 import { TestReportModel } from '../test-report.model';
-import { isSeriousMode, isDangerousMode } from '../test-report.selector';
+import { isDangerousMode, isSeriousMode } from '../test-report.selector';
 
 describe('TestReportSelectors', () => {
   const state: TestReportModel = {

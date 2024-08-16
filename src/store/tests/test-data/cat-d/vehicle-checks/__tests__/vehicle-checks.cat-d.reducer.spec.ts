@@ -1,18 +1,15 @@
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { cloneDeep } from 'lodash-es';
 import {
-  ShowMeQuestionSelected,
   ShowMeQuestionOutcomeChanged,
-  TellMeQuestionSelected,
+  ShowMeQuestionSelected,
   TellMeQuestionOutcomeChanged,
+  TellMeQuestionSelected,
 } from '../vehicle-checks.cat-d.action';
-import {
-  vehicleChecksCatDReducer, generateInitialState,
-} from '../vehicle-checks.cat-d.reducer';
+import { generateInitialState, vehicleChecksCatDReducer } from '../vehicle-checks.cat-d.reducer';
 
 describe('Vehicle Checks Cat D Reducer', () => {
-
   describe('SHOW_ME_QUESTION_SELECTED', () => {
     it('should add the show me question in the payload to the array at the specified index', () => {
       const newQuestionPayload: QuestionResult = {
@@ -21,10 +18,8 @@ describe('Vehicle Checks Cat D Reducer', () => {
       };
       const state: CatDUniqueTypes.VehicleChecks = cloneDeep(generateInitialState());
       const result = vehicleChecksCatDReducer(state, ShowMeQuestionSelected(newQuestionPayload, 1));
-      expect(result.showMeQuestions[1].code)
-        .toEqual('S1');
-      expect(result.showMeQuestions[1].description)
-        .toEqual('desc');
+      expect(result.showMeQuestions[1].code).toEqual('S1');
+      expect(result.showMeQuestions[1].description).toEqual('desc');
     });
   });
 
@@ -37,8 +32,7 @@ describe('Vehicle Checks Cat D Reducer', () => {
         outcome: 'P',
       };
       const result = vehicleChecksCatDReducer(state, ShowMeQuestionOutcomeChanged('DF', 1));
-      expect(result.showMeQuestions[1].outcome)
-        .toEqual('DF');
+      expect(result.showMeQuestions[1].outcome).toEqual('DF');
     });
   });
 
@@ -50,10 +44,8 @@ describe('Vehicle Checks Cat D Reducer', () => {
       };
       const state: CatDUniqueTypes.VehicleChecks = cloneDeep(generateInitialState());
       const result = vehicleChecksCatDReducer(state, TellMeQuestionSelected(newQuestionPayload, 1));
-      expect(result.tellMeQuestions[1].code)
-        .toEqual('T01');
-      expect(result.tellMeQuestions[1].description)
-        .toEqual('desc');
+      expect(result.tellMeQuestions[1].code).toEqual('T01');
+      expect(result.tellMeQuestions[1].description).toEqual('desc');
     });
   });
 
@@ -66,8 +58,7 @@ describe('Vehicle Checks Cat D Reducer', () => {
         outcome: 'P',
       };
       const result = vehicleChecksCatDReducer(state, TellMeQuestionOutcomeChanged('DF', 1));
-      expect(result.tellMeQuestions[1].outcome)
-        .toEqual('DF');
+      expect(result.tellMeQuestions[1].outcome).toEqual('DF');
     });
   });
 });

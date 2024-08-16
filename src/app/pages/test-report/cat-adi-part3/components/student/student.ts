@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StudentLevel } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
@@ -8,7 +6,6 @@ import { StudentLevel } from '@dvsa/mes-test-schema/categories/ADI3';
   templateUrl: 'student.html',
 })
 export class StudentComponent {
-
   @Input()
   studentLevel: StudentLevel;
 
@@ -18,5 +15,4 @@ export class StudentComponent {
   studentLevelChanged = (student: string): void => {
     this.studentLevelChange.emit(student as StudentLevel);
   };
-
 }

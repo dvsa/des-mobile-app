@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -18,7 +16,7 @@ export class ValidCertificateComponent implements OnChanges {
   validCertificateChange = new EventEmitter<boolean>();
 
   private formControl: UntypedFormControl;
-  private formField: string = 'validCertificate';
+  private formField = 'validCertificate';
 
   ngOnChanges(): void {
     if (!this.formControl) {

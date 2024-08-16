@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum ValidLicenceProvidedValues {
@@ -13,7 +11,6 @@ enum ValidLicenceProvidedValues {
   templateUrl: './license-provided.html',
 })
 export class LicenseProvidedComponent implements OnChanges {
-
   static readonly fieldName: string = 'provisionalLicenseProvidedCtrl';
   @Input()
   license: boolean;

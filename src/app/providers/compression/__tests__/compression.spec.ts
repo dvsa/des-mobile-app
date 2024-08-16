@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
 import { gzipSync } from 'zlib';
+import { TestBed } from '@angular/core/testing';
 import { CompressionProvider } from '../compression';
 
 describe('CompressionProvider', () => {
@@ -13,9 +13,7 @@ describe('CompressionProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        CompressionProvider,
-      ],
+      providers: [CompressionProvider],
     });
 
     compressionProvider = TestBed.inject(CompressionProvider);
@@ -23,11 +21,9 @@ describe('CompressionProvider', () => {
 
   describe('extract', () => {
     it('should correctly decompress unformatted data', () => {
-      const compressedData = gzipSync(JSON.stringify(mockDataToGzip))
-        .toString('base64');
+      const compressedData = gzipSync(JSON.stringify(mockDataToGzip)).toString('base64');
       const result = compressionProvider.extract<Object>(compressedData);
-      expect(result)
-        .toEqual(mockDataToGzip);
+      expect(result).toEqual(mockDataToGzip);
     });
   });
 });

@@ -4,26 +4,26 @@ import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.m
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { Action, Store, StoreModule } from '@ngrx/store';
-import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
-import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
-import {
-  TestReportAssessmentCard,
-} from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
-import { StoreModel } from '@shared/models/store.model';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
+import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
+import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
+import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
+import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
+import { StoreModel } from '@shared/models/store.model';
+import { AppInfoStateModel } from '@store/app-info/app-info.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import {
   LessonThemeAdded,
   LessonThemeChanged,
@@ -31,18 +31,10 @@ import {
   OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
-import {
-  LessonPlanningQuestionScoreChanged,
-} from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
-import {
-  RiskManagementQuestionScoreChanged,
-} from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
-import {
-  TeachingLearningStrategiesQuestionScoreChanged,
-} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
-import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
-import { AppInfoStateModel } from '@store/app-info/app-info.model';
-import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { LessonPlanningQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
+import { RiskManagementQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
+import { TeachingLearningStrategiesQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { testReportReducer } from '../../test-report.reducer';
 
 describe('TestReportCatADI3Page', () => {
@@ -62,22 +54,21 @@ describe('TestReportCatADI3Page', () => {
       imports: [
         IonicModule,
         AppModule,
-        StoreModule.forFeature('tests', () => (
-          {
-            currentTest: {
-              slotId: '123',
-            },
-            testStatus: {},
-            startedTests: {
-              123: {
-                testData: initialState,
-                journalData: {
-                  candidate: candidateMock,
-                },
-                category: TestCategory.ADI3,
-              } as TestResultCatADI3Schema,
-            },
-          })),
+        StoreModule.forFeature('tests', () => ({
+          currentTest: {
+            slotId: '123',
+          },
+          testStatus: {},
+          startedTests: {
+            123: {
+              testData: initialState,
+              journalData: {
+                candidate: candidateMock,
+              },
+              category: TestCategory.ADI3,
+            } as TestResultCatADI3Schema,
+          },
+        })),
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
@@ -127,8 +118,7 @@ describe('TestReportCatADI3Page', () => {
     describe('studentLevelChanged', () => {
       it('should dispatch the StudentLevelChanged action', () => {
         component.studentLevelChanged('beginner');
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(StudentLevelChanged('beginner'));
+        expect(store$.dispatch).toHaveBeenCalledWith(StudentLevelChanged('beginner'));
       });
     });
     describe('lessonThemeChanged', () => {
@@ -137,27 +127,22 @@ describe('TestReportCatADI3Page', () => {
           lessonTheme: 'junctions',
           added: true,
         });
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(LessonThemeChanged('junctions'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(LessonThemeAdded('junctions'));
+        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeChanged('junctions'));
+        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeAdded('junctions'));
       });
       it('should dispatch the LessonThemeChanged & lessonThemeRemoved actions', () => {
         component.lessonThemeChanged({
           lessonTheme: 'junctions',
           added: false,
         });
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(LessonThemeChanged('junctions'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(LessonThemeRemoved('junctions'));
+        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeChanged('junctions'));
+        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeRemoved('junctions'));
       });
     });
     describe('otherReasonChanged', () => {
       it('should dispatch the OtherChanged action', () => {
         component.otherReasonChanged('some reason');
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(OtherChanged('some reason'));
+        expect(store$.dispatch).toHaveBeenCalledWith(OtherChanged('some reason'));
       });
     });
     describe('lessonPlanningChanged', () => {
@@ -166,8 +151,7 @@ describe('TestReportCatADI3Page', () => {
           question: 1,
           answer: 2,
         });
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(LessonPlanningQuestionScoreChanged(1, 2));
+        expect(store$.dispatch).toHaveBeenCalledWith(LessonPlanningQuestionScoreChanged(1, 2));
       });
     });
     describe('riskManagementChanged', () => {
@@ -176,8 +160,7 @@ describe('TestReportCatADI3Page', () => {
           question: 1,
           answer: 2,
         });
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(RiskManagementQuestionScoreChanged(1, 2));
+        expect(store$.dispatch).toHaveBeenCalledWith(RiskManagementQuestionScoreChanged(1, 2));
       });
     });
     describe('ionViewDidLeave', () => {
@@ -186,10 +169,8 @@ describe('TestReportCatADI3Page', () => {
         spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
         component.ionViewDidLeave();
 
-        expect(TestReportBasePageComponent.prototype.ionViewDidLeave)
-          .toHaveBeenCalled();
-        expect(TestReportBasePageComponent.prototype.cancelSubscription)
-          .toHaveBeenCalled();
+        expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+        expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
       });
     });
     describe('teachingLearningStrategyChanged', () => {
@@ -198,25 +179,19 @@ describe('TestReportCatADI3Page', () => {
           question: 1,
           answer: 2,
         });
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
+        expect(store$.dispatch).toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
       });
     });
     describe('onContinueClick', () => {
       it('should dispatch AssessmentOverallScoreChanged action with the total score value', () => {
         component.onContinueClick(12);
 
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(
-            {
-              score: 12,
-              type: '[TestReportPage] Assessment Overall Score Changed',
-            } as Action,
-          );
-        expect(component.navController.back)
-          .toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith({
+          score: 12,
+          type: '[TestReportPage] Assessment Overall Score Changed',
+        } as Action);
+        expect(component.navController.back).toHaveBeenCalled();
       });
     });
   });
-
 });

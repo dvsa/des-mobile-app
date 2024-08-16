@@ -1,27 +1,21 @@
-import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { IonicModule } from '@ionic/angular';
-import {
-  ReactiveFormsModule, UntypedFormGroup, Validators,
-} from '@angular/forms';
-import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { provideMockStore } from '@ngrx/store/testing';
-import { BikeCategoryDetail, BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
-import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
+import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { BikeCategoryDetailProviderMock } from '@providers/bike-category-detail/__tests__/bike-category-detail.mock';
+import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
+import { BikeCategoryDetail, BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
 
 describe('BikeCategoryTypeComponent', () => {
   let fixture: ComponentFixture<BikeCategoryTypeComponent>;
   let component: BikeCategoryTypeComponent;
   let bikeCategoryDetailProvider: BikeCategoryDetailProvider;
 
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
       providers: [
         { provide: BikeCategoryDetailProvider, useClass: BikeCategoryDetailProviderMock },
         provideMockStore({ ...{} }),
@@ -33,8 +27,7 @@ describe('BikeCategoryTypeComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.selectRef = jasmine.createSpyObj('IonSelect', ['open']);
-  }))
-  ;
+  }));
 
   describe('validateCategorySelection', () => {
     it('should return null if categoryConfirmed is true', () => {
@@ -110,8 +103,9 @@ describe('BikeCategoryTypeComponent', () => {
       spyOn(component.store$, 'dispatch');
       component.bikeCategoryModalShown();
 
-      expect(component.store$.dispatch)
-        .toHaveBeenCalledWith(waitingRoomToCarActions.WaitingRoomToCarViewBikeCategoryModal());
+      expect(component.store$.dispatch).toHaveBeenCalledWith(
+        waitingRoomToCarActions.WaitingRoomToCarViewBikeCategoryModal()
+      );
     });
   });
 
@@ -120,16 +114,14 @@ describe('BikeCategoryTypeComponent', () => {
       spyOn(component.categoryCodeChange, 'emit');
       component.categoryCodeChanged('B');
 
-      expect(component.categoryCodeChange.emit)
-        .toHaveBeenCalledWith('B');
+      expect(component.categoryCodeChange.emit).toHaveBeenCalledWith('B');
     });
 
     it('should not emit categoryCodeChange with the category no passed in', () => {
       spyOn(component.categoryCodeChange, 'emit');
       component.categoryCodeChanged(undefined);
 
-      expect(component.categoryCodeChange.emit)
-        .not.toHaveBeenCalled();
+      expect(component.categoryCodeChange.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -153,11 +145,13 @@ describe('BikeCategoryTypeComponent', () => {
     });
 
     it('should populate bikeCategoryDetails based on MOD1 test type', () => {
-      spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').and.returnValue([{
-        categoryCode: 'A1',
-        displayName: 'A1',
-        imageUrl: 'url',
-      } as BikeCategoryDetail]);
+      spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').and.returnValue([
+        {
+          categoryCode: 'A1',
+          displayName: 'A1',
+          imageUrl: 'url',
+        } as BikeCategoryDetail,
+      ]);
       component.testType = BikeTestType.MOD1;
       component.ngOnInit();
       expect(component.bikeCategoryDetails.length).toBeGreaterThan(0);
@@ -165,11 +159,13 @@ describe('BikeCategoryTypeComponent', () => {
     });
 
     it('should populate bikeCategoryDetails based on MOD2 test type', () => {
-      spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').and.returnValue([{
-        categoryCode: 'A2',
-        displayName: 'A2',
-        imageUrl: 'url',
-      } as BikeCategoryDetail]);
+      spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').and.returnValue([
+        {
+          categoryCode: 'A2',
+          displayName: 'A2',
+          imageUrl: 'url',
+        } as BikeCategoryDetail,
+      ]);
       component.testType = BikeTestType.MOD2;
       component.ngOnInit();
       expect(component.bikeCategoryDetails.length).toBeGreaterThan(0);
@@ -178,7 +174,6 @@ describe('BikeCategoryTypeComponent', () => {
   });
 
   describe('openCategorySelector', () => {
-
     it('should call loadImages before opening the category selector', async () => {
       spyOn(component, 'loadImages');
       await component.openCategorySelector();

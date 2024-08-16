@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, OnInit, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 

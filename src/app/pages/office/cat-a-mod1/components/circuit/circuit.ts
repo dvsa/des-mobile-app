@@ -1,13 +1,8 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
 
 @Component({
@@ -31,8 +26,8 @@ export class CircuitComponent implements OnChanges {
   circuitChange = new EventEmitter<Circuit>();
 
   formControl: UntypedFormControl;
-  formField: string = 'circuit';
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  formField = 'circuit';
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -58,5 +53,4 @@ export class CircuitComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

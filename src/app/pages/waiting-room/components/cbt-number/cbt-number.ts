@@ -1,9 +1,7 @@
-import {
-  Component, Input, EventEmitter, Output, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
 
 @Component({
   selector: 'cbt-number',
@@ -11,7 +9,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['cbt-number.scss'],
 })
 export class CBTNumberComponent implements OnChanges {
-
   @Input()
   cbtNumber: string;
 
@@ -25,10 +22,7 @@ export class CBTNumberComponent implements OnChanges {
   static readonly fieldName: string = 'cbtNumber';
   readonly dl196cbtCertNumberValidator = getDL196CBTCertificateNumberValidator();
 
-  constructor(
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {

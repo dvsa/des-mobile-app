@@ -1,19 +1,17 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { pcvDoorExerciseReducer } from '../pcv-door-exercise.reducer';
 import {
+  AddPcvDoorExerciseComment,
+  PcvDoorExerciseAddDangerousFault,
   PcvDoorExerciseAddDrivingFault,
   PcvDoorExerciseAddSeriousFault,
-  PcvDoorExerciseAddDangerousFault,
+  PcvDoorExerciseRemoveDangerousFault,
   PcvDoorExerciseRemoveDrivingFault,
   PcvDoorExerciseRemoveSeriousFault,
-  PcvDoorExerciseRemoveDangerousFault,
-  AddPcvDoorExerciseComment,
 } from '../pcv-door-exercise.actions';
+import { pcvDoorExerciseReducer } from '../pcv-door-exercise.reducer';
 
 describe('pcvDoorExerciseReducer', () => {
-
   describe('Driving Fault', () => {
-
     describe('PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT', () => {
       it('should add the correct fault', () => {
         const state: CatDUniqueTypes.PcvDoorExercise = {};
@@ -34,7 +32,6 @@ describe('pcvDoorExerciseReducer', () => {
   });
 
   describe('seriousFault', () => {
-
     describe('PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT', () => {
       it('should add the correct fault', () => {
         const state: CatDUniqueTypes.PcvDoorExercise = {};
@@ -55,7 +52,6 @@ describe('pcvDoorExerciseReducer', () => {
   });
 
   describe('dangerousFault', () => {
-
     describe('PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT', () => {
       it('should add the correct fault', () => {
         const state: CatDUniqueTypes.PcvDoorExercise = {};
@@ -76,22 +72,12 @@ describe('pcvDoorExerciseReducer', () => {
   });
 
   describe('Comments', () => {
-
     describe('ADD_PCV_DOOR_EXERCISE_COMMENT', () => {
       it('should add a fault comment', () => {
         const state: CatDUniqueTypes.PcvDoorExercise = {};
-        const resultDF = pcvDoorExerciseReducer(
-          state,
-          AddPcvDoorExerciseComment('drivingFaultComments', 'Test DF'),
-        );
-        const resultS = pcvDoorExerciseReducer(
-          state,
-          AddPcvDoorExerciseComment('seriousFaultComments', 'Test S'),
-        );
-        const resultD = pcvDoorExerciseReducer(
-          state,
-          AddPcvDoorExerciseComment('dangerousFaultComments', 'Test D'),
-        );
+        const resultDF = pcvDoorExerciseReducer(state, AddPcvDoorExerciseComment('drivingFaultComments', 'Test DF'));
+        const resultS = pcvDoorExerciseReducer(state, AddPcvDoorExerciseComment('seriousFaultComments', 'Test S'));
+        const resultD = pcvDoorExerciseReducer(state, AddPcvDoorExerciseComment('dangerousFaultComments', 'Test D'));
         expect(resultDF.drivingFaultComments).toEqual('Test DF');
         expect(resultS.seriousFaultComments).toEqual('Test S');
         expect(resultD.dangerousFaultComments).toEqual('Test D');

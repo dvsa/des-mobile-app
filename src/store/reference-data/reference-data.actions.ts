@@ -3,23 +3,17 @@ import { RefDataTestCentreResponse } from '@providers/reference-data/reference-d
 
 export const SetDateRefDataUpdated = createAction(
   '[ReferenceDataEffects] Set date test centres loaded',
-  (date: string) => ({ date }),
+  (date: string) => ({ date })
 );
 
 // Test centres
-export const GetTestCentresRefData = createAction(
-  '[ReferenceDataEffects] Get test centres',
-);
+export const GetTestCentresRefData = createAction('[ReferenceDataEffects] Get test centres');
 
-export const ClearTestCentresRefData = createAction(
-  '[ReferenceDataEffects] Clear test centres',
-);
+export const ClearTestCentresRefData = createAction('[ReferenceDataEffects] Clear test centres');
 
 export const LoadTestCentresRefDataSuccess = createAction(
   '[ReferenceDataEffects] Load test centres success',
-  (testCentres: RefDataTestCentreResponse) => ({ testCentres }),
+  (testCentres: RefDataTestCentreResponse) => ({ testCentres })
 );
 
-export const LoadTestCentresRefDataFail = createAction(
-  '[ReferenceDataEffects] Load test centres failure',
-);
+export const LoadTestCentresRefDataFail = createAction('[ReferenceDataEffects] Load test centres failure');

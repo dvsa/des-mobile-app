@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'candidate-detail-navigation',
@@ -11,7 +6,6 @@ import {
   styleUrls: ['candidate-detail-navigation.scss'],
 })
 export class CandidateDetailNavigationComponent {
-
   @Input()
   name: string;
   @Input()

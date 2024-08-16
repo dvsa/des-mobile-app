@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { SearchablePicklistModalEvent } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { ModalController } from '@ionic/angular';
 import { get } from 'lodash-es';
-import {
-  SearchablePicklistModalEvent,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 
 @Component({
   selector: 'searchable-picklist-modal',
@@ -27,20 +25,19 @@ export class SearchablePicklistModal<T> {
   displayKey: string; // Property of the model to display in UI;
 
   @Input()
-  minCharactersBeforeListDisplay: number = 0;
+  minCharactersBeforeListDisplay = 0;
 
   @Input()
-  placeholder: string = 'Please enter a value';
+  placeholder = 'Please enter a value';
 
   @Input()
   idPrefix: string;
 
   searchedValue: string;
 
-  constructor(private modalController: ModalController) {
-  }
+  constructor(private modalController: ModalController) {}
 
-  isActiveSelection = (data: T): boolean => (get(data, this.primaryKey) === get(this.model, this.primaryKey));
+  isActiveSelection = (data: T): boolean => get(data, this.primaryKey) === get(this.model, this.primaryKey);
 
   trackBy = (_: any, data: T) => get(data, this.primaryKey, null);
 

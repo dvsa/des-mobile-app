@@ -3,7 +3,6 @@ import { SlotItem } from '../../slot-selector/slot-item';
 
 @Injectable()
 export class SlotProviderMock {
-
   detectSlotChanges(): SlotItem[] {
     return [];
   }

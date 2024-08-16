@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -8,7 +6,6 @@ import { UntypedFormGroup } from '@angular/forms';
   templateUrl: 'accompaniment-card.cat-cpc.html',
 })
 export class AccompanimentCardCatCPCComponent {
-
   @Input()
   formGroup: UntypedFormGroup;
 
@@ -31,5 +28,4 @@ export class AccompanimentCardCatCPCComponent {
   interpreterAccompanimentChanged(): void {
     this.interpreterAccompanimentChange.emit();
   }
-
 }

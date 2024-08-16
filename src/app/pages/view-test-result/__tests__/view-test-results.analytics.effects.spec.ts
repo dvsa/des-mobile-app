@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import {
-  AnalyticsScreenNames,
-  GoogleAnalyticsCustomDimension,
-} from '@providers/analytics/analytics.model';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticsScreenNames, GoogleAnalyticsCustomDimension } from '@providers/analytics/analytics.model';
+import { ReplaySubject } from 'rxjs';
 import * as viewTestResultActions from '../view-test-result.actions';
 import { ViewTestResultAnalyticsEffects } from '../view-test-result.analytics.effects';
 
@@ -41,7 +38,7 @@ describe('ViewTestResultAnalyticsEffects', () => {
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '12345',
+          '12345'
         );
         done();
       });

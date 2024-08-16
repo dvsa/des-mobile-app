@@ -1,15 +1,15 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 import { behaviourMap as CatBBehaviourMap } from '@pages/office/office-behaviour-map';
-import { behaviourMap as CatCBehaviourMap } from '@pages/office/office-behaviour-map.cat-c';
-import { behaviourMap as CatCPCBehaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
-import { behaviourMap as CatDBehaviourMap } from '@pages/office/office-behaviour-map.cat-d';
-import { behaviourMap as CatManoeuvreBehaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { behaviourMap as CatMod1BehaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
+import { behaviourMap as CatMod2BehaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod2';
 import { behaviourMap as CatADI2BehaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
 import { behaviourMap as CatADI3BehaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
+import { behaviourMap as CatCBehaviourMap } from '@pages/office/office-behaviour-map.cat-c';
+import { behaviourMap as CatManoeuvreBehaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
+import { behaviourMap as CatCPCBehaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
+import { behaviourMap as CatDBehaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { behaviourMap as CatHomeBehaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
-import { behaviourMap as CatMod2BehaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod2';
+import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 
 export const getBehaviourMapByCategory = (testCategory: TestCategory): OutcomeBehaviourMapping => {
   switch (testCategory) {

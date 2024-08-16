@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-names.constants';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({
@@ -11,7 +11,6 @@ import { ModalEvent } from './journal-force-check-modal.constants';
   styleUrls: ['./journal-force-check-modal.scss'],
 })
 export class JournalForceCheckModal {
-
   @Input()
   slot: TestSlot;
 
@@ -24,9 +23,7 @@ export class JournalForceCheckModal {
   @Input()
   textZoomClass: string;
 
-  constructor(
-    public modalController: ModalController,
-  ) { }
+  constructor(public modalController: ModalController) {}
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.CANCEL);

@@ -1,13 +1,10 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'eco-capture-reason',
   templateUrl: 'eco-capture-reason.html',
 })
-
 export class EcoCaptureReasonComponent implements OnChanges {
   @Input()
   formGroup: FormGroup;
@@ -16,7 +13,7 @@ export class EcoCaptureReasonComponent implements OnChanges {
   ecoCaptureReason: string;
 
   @Input()
-  fuelEfficientDriving: boolean = false;
+  fuelEfficientDriving = false;
 
   @Output()
   ecoCaptureReasonChange = new EventEmitter<string>();
@@ -29,8 +26,9 @@ export class EcoCaptureReasonComponent implements OnChanges {
       this.formGroup.addControl('ecoCaptureReason', this.formControl);
     }
 
-    this.formControl.setValidators(this.fuelEfficientDriving
-      ? Validators.compose([Validators.required, Validators.maxLength(1000)]) : null);
+    this.formControl.setValidators(
+      this.fuelEfficientDriving ? Validators.compose([Validators.required, Validators.maxLength(1000)]) : null
+    );
     this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
     this.formControl.patchValue(this.ecoCaptureReason, { onlySelf: true, emitEvent: false });

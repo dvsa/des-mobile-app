@@ -1,22 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { get } from 'lodash-es';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
-import { FaultSummary } from '@shared/models/fault-marking.model';
-import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { TestDataUnion } from '@shared/unions/test-schema-unions';
-import { QuestionProvider } from '@providers/question/question';
-import { manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
-import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { QuestionProvider } from '@providers/question/question';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
+import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { FaultSummary } from '@shared/models/fault-marking.model';
+import { TestDataUnion } from '@shared/unions/test-schema-unions';
+import { get } from 'lodash-es';
 import {
   DataRowListItem,
   TestRequirementsLabels,
   ViewTestResultLabels,
 } from '../data-row-with-list/data-list-with-row.model';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'debrief-card',
@@ -24,7 +24,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['debrief-card.scss'],
 })
 export class DebriefCardComponent implements OnInit {
-
   @Input()
   data: TestDataUnion;
 
@@ -44,7 +43,7 @@ export class DebriefCardComponent implements OnInit {
   category: TestCategory;
 
   @Input()
-  delegatedTest: boolean = false;
+  delegatedTest = false;
 
   showMeQuestion: VehicleChecksQuestion;
   tellMeQuestion: VehicleChecksQuestion;
@@ -53,18 +52,15 @@ export class DebriefCardComponent implements OnInit {
 
   constructor(
     private questionProvider: QuestionProvider,
-    public accessibilityService: AccessibilityService,
-  ) {
-
-  }
+    public accessibilityService: AccessibilityService
+  ) {}
 
   ngOnInit() {
     this.showMeQuestion = this.getShowMeQuestion();
     this.tellMeQuestion = this.getTellMeQuestion();
     this.manoeuvres = this.getManoeuvres();
     if (this.category === TestCategory.ADI2 && this.data?.eco?.ecoRelatedFault) {
-      this.ecoFault = this.drivingFaults
-        .find((data) => data.competencyIdentifier === this.data.eco.ecoRelatedFault);
+      this.ecoFault = this.drivingFaults.find((data) => data.competencyIdentifier === this.data.eco.ecoRelatedFault);
     }
   }
 
@@ -148,52 +144,97 @@ export class DebriefCardComponent implements OnInit {
 
   public isCatADI2 = (): boolean => isAnyOf(this.category, [TestCategory.ADI2]);
 
-  public isCatManoeuvre = (): boolean => isAnyOf(this.category, [
-    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
-    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-  ]);
+  public isCatManoeuvre = (): boolean =>
+    isAnyOf(this.category, [
+      TestCategory.CM,
+      TestCategory.C1M,
+      TestCategory.CEM,
+      TestCategory.C1EM,
+      TestCategory.DM,
+      TestCategory.D1M,
+      TestCategory.DEM,
+      TestCategory.D1EM,
+    ]);
 
-  public isRider = (): boolean => isAnyOf(this.category, [
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1, // Cat Mod1
-    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
-  ]);
+  public isRider = (): boolean =>
+    isAnyOf(this.category, [
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1, // Cat Mod1
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2, // Cat Mod2
+    ]);
 
-  public isMod1 = (): boolean => isAnyOf(this.category, [
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1, // Cat Mod1
-  ]);
+  public isMod1 = (): boolean =>
+    isAnyOf(this.category, [
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1, // Cat Mod1
+    ]);
 
-  public isMod2 = (): boolean => isAnyOf(this.category, [
-    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
-  ]);
+  public isMod2 = (): boolean =>
+    isAnyOf(this.category, [
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2, // Cat Mod2
+    ]);
 
-  public isCatD = (): boolean => isAnyOf(this.category, [
-    TestCategory.D, TestCategory.D1,
-    TestCategory.D1E, TestCategory.DE,
-  ]);
+  public isCatD = (): boolean =>
+    isAnyOf(this.category, [TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE]);
 
-  public hideManoeuvre = (): boolean => isAnyOf(this.category, [
-    TestCategory.B, // Cat B
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1, // Cat Mod1
-    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
-  ]);
+  public hideManoeuvre = (): boolean =>
+    isAnyOf(this.category, [
+      TestCategory.B, // Cat B
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1, // Cat Mod1
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2, // Cat Mod2
+    ]);
 
-  public showControlledStop: () => boolean = () => isAnyOf(this.category, [
-    TestCategory.ADI2, // Cat ADI2
-    TestCategory.B, // Cat B
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
-  ]);
+  public showControlledStop: () => boolean = () =>
+    isAnyOf(this.category, [
+      TestCategory.ADI2, // Cat ADI2
+      TestCategory.B, // Cat B
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K, // Cat Home
+    ]);
 
-  public showHighwayCode: () => boolean = () => isAnyOf(this.category, [
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
-  ]);
+  public showHighwayCode: () => boolean = () =>
+    isAnyOf(this.category, [
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K, // Cat Home
+    ]);
 
-  public showVehicleChecks: () => boolean = () => isAnyOf(this.category, [
-    TestCategory.ADI2, // Cat ADI2
-    TestCategory.BE, // Cat BE
-    TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E, // Cat C
-    TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E, // Cat D
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
-  ]);
+  public showVehicleChecks: () => boolean = () =>
+    isAnyOf(this.category, [
+      TestCategory.ADI2, // Cat ADI2
+      TestCategory.BE, // Cat BE
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.CE,
+      TestCategory.C1E, // Cat C
+      TestCategory.D,
+      TestCategory.D1,
+      TestCategory.DE,
+      TestCategory.D1E, // Cat D
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K, // Cat Home
+    ]);
 
   public getTestRequirementsCatADI2 = (): DataRowListItem[] => {
     return [
@@ -365,12 +406,11 @@ export class DebriefCardComponent implements OnInit {
 
     manoeuvres.map((manoeuvreObject: CatADI2UniqueTypes.Manoeuvres) => {
       if (manoeuvreObject) {
-        Object.keys(manoeuvreObject)
-          .map((manoeuvre: string) => {
-            if (manoeuvreObject[manoeuvre].selected) {
-              selectedManoeuvres.push(manoeuvreTypeLabels[manoeuvre]);
-            }
-          });
+        Object.keys(manoeuvreObject).map((manoeuvre: string) => {
+          if (manoeuvreObject[manoeuvre].selected) {
+            selectedManoeuvres.push(manoeuvreTypeLabels[manoeuvre]);
+          }
+        });
       }
     });
     return selectedManoeuvres.length > 0 ? selectedManoeuvres.join(', ') : 'None';
@@ -470,8 +510,9 @@ export class DebriefCardComponent implements OnInit {
       const question: QuestionResult = get(this.data, 'vehicleChecks.showMeQuestion', null);
       return question ? [question] : [];
     }
-    return get(this.data, 'vehicleChecks.showMeQuestions', [])
-      .filter((questionRes: QuestionResult) => questionRes.outcome !== undefined);
+    return get(this.data, 'vehicleChecks.showMeQuestions', []).filter(
+      (questionRes: QuestionResult) => questionRes.outcome !== undefined
+    );
   }
 
   public get tellMeQuestions(): QuestionResult[] {
@@ -479,8 +520,9 @@ export class DebriefCardComponent implements OnInit {
       const question: QuestionResult = get(this.data, 'vehicleChecks.tellMeQuestion', null);
       return question ? [question] : [];
     }
-    return get(this.data, 'vehicleChecks.tellMeQuestions', [])
-      .filter((questionRes: QuestionResult) => questionRes.outcome !== undefined);
+    return get(this.data, 'vehicleChecks.tellMeQuestions', []).filter(
+      (questionRes: QuestionResult) => questionRes.outcome !== undefined
+    );
   }
 
   public get safetyQuestionsCatD(): SafetyQuestionResult[] {
@@ -496,15 +538,21 @@ export class DebriefCardComponent implements OnInit {
   }
 
   isValidEmergencyStopOrAvoidance(): boolean {
-    return this.isMod1()
-      && (this.data['emergencyStop']?.firstAttempt || this.data['emergencyStop']?.secondAttempt
-        || this.data['avoidance']?.firstAttempt || this.data['avoidance']?.secondAttempt);
+    return (
+      this.isMod1() &&
+      (this.data['emergencyStop']?.firstAttempt ||
+        this.data['emergencyStop']?.secondAttempt ||
+        this.data['avoidance']?.firstAttempt ||
+        this.data['avoidance']?.secondAttempt)
+    );
   }
 
   ETASeparator(): boolean {
-    return (this.isMod2()
-      || this.isCatD()
-      || this.isValidEmergencyStopOrAvoidance()
-      || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
+    return (
+      this.isMod2() ||
+      this.isCatD() ||
+      this.isValidEmergencyStopOrAvoidance() ||
+      (!this.delegatedTest && !this.isMod1() && !this.isMod2())
+    );
   }
 }

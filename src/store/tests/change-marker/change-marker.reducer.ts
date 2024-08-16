@@ -5,7 +5,7 @@ export const initialState: boolean = false;
 
 export const changeMarkerReducer = createReducer(
   initialState,
-  on(changeMarkerActions.SetChangeMarker, (state, { changeMarker }) => changeMarker),
+  on(changeMarkerActions.SetChangeMarker, (state, { changeMarker }) => changeMarker)
 );
 
 export const getChangeMarker = createFeatureSelector<boolean>('changeMarker');

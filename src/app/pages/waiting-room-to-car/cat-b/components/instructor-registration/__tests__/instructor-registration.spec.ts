@@ -1,7 +1,5 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { InstructorRegistrationComponent } from '../instructor-registration';
 import {
@@ -18,13 +16,8 @@ describe('InstructorRegistrationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorRegistrationComponent,
-      ],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [InstructorRegistrationComponent],
+      imports: [IonicModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(InstructorRegistrationComponent);
@@ -34,13 +27,15 @@ describe('InstructorRegistrationComponent', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it('should have instructorRegistration form control be added to '
-        + 'form if there is no form control already there', () => {
-      component.formControl = null;
-      component.ngOnChanges();
+    it(
+      'should have instructorRegistration form control be added to ' + 'form if there is no form control already there',
+      () => {
+        component.formControl = null;
+        component.ngOnChanges();
 
-      expect(component.formGroup.controls.instructorRegistration).toBeTruthy();
-    });
+        expect(component.formGroup.controls.instructorRegistration).toBeTruthy();
+      }
+    );
   });
 
   describe('invalid', () => {

@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({

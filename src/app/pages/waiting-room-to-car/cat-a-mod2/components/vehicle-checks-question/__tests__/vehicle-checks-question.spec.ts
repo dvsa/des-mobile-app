@@ -1,13 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import {
-  VehicleChecksQuestionCatAMod2Component,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
-import { AppModule } from '@app/app.module';
-import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AppModule } from '@app/app.module';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonicModule } from '@ionic/angular';
+import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 const safetyAndBalanceQuestion: VehicleChecksQuestion = {
   code: 'S04',
@@ -21,13 +19,8 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksQuestionCatAMod2Component,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [VehicleChecksQuestionCatAMod2Component],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);
@@ -37,74 +30,75 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
   describe('Class', () => {
     describe('ngOnChanges', () => {
-      it('should have questionFormControl form control be added to '
-                + 'form if there is no form control already there', () => {
-        component.questionFormControl = null;
-        component.ngOnChanges();
-        expect(component.formGroup.controls[component.questionFieldName])
-          .toBe(component.questionFormControl);
-      });
-      it('should have questionOutcomeFormControl form control be added to '
-                + 'form if there is no form control already there', () => {
-        component.questionOutcomeFormControl = null;
-        component.ngOnChanges();
-        expect(component.formGroup.controls[component.questionOutcomeFieldName])
-          .toBe(component.questionOutcomeFormControl);
-      });
-      it('should have questionFormControl form control be patched with '
-                + 'findQuestion() if questionResult is already valid', () => {
-        spyOn(component, 'findQuestion')
-          .and
-          .returnValue({
+      it(
+        'should have questionFormControl form control be added to ' + 'form if there is no form control already there',
+        () => {
+          component.questionFormControl = null;
+          component.ngOnChanges();
+          expect(component.formGroup.controls[component.questionFieldName]).toBe(component.questionFormControl);
+        }
+      );
+      it(
+        'should have questionOutcomeFormControl form control be added to ' +
+          'form if there is no form control already there',
+        () => {
+          component.questionOutcomeFormControl = null;
+          component.ngOnChanges();
+          expect(component.formGroup.controls[component.questionOutcomeFieldName]).toBe(
+            component.questionOutcomeFormControl
+          );
+        }
+      );
+      it(
+        'should have questionFormControl form control be patched with ' +
+          'findQuestion() if questionResult is already valid',
+        () => {
+          spyOn(component, 'findQuestion').and.returnValue({
             shortName: 'shortName',
             code: 'test',
             description: 'Description',
           });
-        component.questionResult = {
-          outcome: 'P',
-          code: 'test',
-          description: 'Description',
-        };
-        component.questionFormControl = new UntypedFormControl();
-        component.ngOnChanges();
-        expect(component.questionFormControl.value)
-          .toBe(component.findQuestion());
-      });
-      it('should have questionOutcomeFormControl form control be patched with '
-                + 'questionResult.outcome if questionResult is already valid', () => {
-        spyOn(component, 'findQuestion')
-          .and
-          .returnValue({
+          component.questionResult = {
+            outcome: 'P',
+            code: 'test',
+            description: 'Description',
+          };
+          component.questionFormControl = new UntypedFormControl();
+          component.ngOnChanges();
+          expect(component.questionFormControl.value).toBe(component.findQuestion());
+        }
+      );
+      it(
+        'should have questionOutcomeFormControl form control be patched with ' +
+          'questionResult.outcome if questionResult is already valid',
+        () => {
+          spyOn(component, 'findQuestion').and.returnValue({
             shortName: 'shortName',
             code: 'test',
             description: 'Description',
           });
-        component.questionResult = {
-          outcome: 'P',
-          code: 'test',
-          description: 'Description',
-        };
-        component.questionOutcomeFormControl = new UntypedFormControl();
-        component.ngOnChanges();
-        expect(component.questionOutcomeFormControl.value)
-          .toBe(component.questionResult.outcome);
-      });
+          component.questionResult = {
+            outcome: 'P',
+            code: 'test',
+            description: 'Description',
+          };
+          component.questionOutcomeFormControl = new UntypedFormControl();
+          component.ngOnChanges();
+          expect(component.questionOutcomeFormControl.value).toBe(component.questionResult.outcome);
+        }
+      );
     });
     describe('isOptionDisabled', () => {
       it(`should return true if the question is in the list of questions to disable
-          and not equal to the currently selected question`,
-      () => {
+          and not equal to the currently selected question`, () => {
         component.questionResult = { code: 'S03' };
-        component.questionsToDisable = [
-          safetyAndBalanceQuestion,
-        ];
+        component.questionsToDisable = [safetyAndBalanceQuestion];
         const result = component.isOptionDisabled({
           code: 'S04',
           description: '',
           shortName: '',
         });
-        expect(result)
-          .toEqual(true);
+        expect(result).toEqual(true);
       });
       it('should return false if the question is not in the list of questions to disable', () => {
         component.questionResult = { code: 'S04' };
@@ -114,12 +108,10 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
           description: '',
           shortName: '',
         });
-        expect(result)
-          .toEqual(false);
+        expect(result).toEqual(false);
       });
       it(`should return false if the question is not in the list of questions to disable
-          and is equal to the currently selected question`,
-      () => {
+          and is equal to the currently selected question`, () => {
         component.questionResult = { code: 'S05' };
         component.questionsToDisable = [{ code: 'S04' }];
         const result = component.isOptionDisabled({
@@ -127,15 +119,13 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
           description: '',
           shortName: '',
         });
-        expect(result)
-          .toEqual(false);
+        expect(result).toEqual(false);
       });
     });
     describe('safetyAndBalanceQuestionChanged', () => {
       it('should return if there is no safetyAndBalanceQuestion', () => {
         component.safetyAndBalanceQuestionChanged(null);
-        expect(component.safetyAndBalanceQuestionChanged(null))
-          .toEqual(undefined);
+        expect(component.safetyAndBalanceQuestionChanged(null)).toEqual(undefined);
 
         spyOn(component.safetyAndBalanceQuestionChange, 'emit');
 
@@ -149,11 +139,10 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
         component.safetyAndBalanceQuestionChanged(safetyAndBalanceQuestion);
 
-        expect(component.safetyAndBalanceQuestionChange.emit)
-          .toHaveBeenCalledWith({
-            code: 'S04',
-            description: 'Parking brake',
-          });
+        expect(component.safetyAndBalanceQuestionChange.emit).toHaveBeenCalledWith({
+          code: 'S04',
+          description: 'Parking brake',
+        });
       });
     });
     describe('safetyAndBalancePassSelected', () => {
@@ -163,8 +152,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
         component.safetyAndBalancePassSelected();
 
-        expect(component.safetyAndBalanceQuestionOutcomeChange.emit)
-          .toHaveBeenCalledWith('P');
+        expect(component.safetyAndBalanceQuestionOutcomeChange.emit).toHaveBeenCalledWith('P');
       });
     });
     describe('safetyAndBalanceDrivingFaultSelected', () => {
@@ -174,22 +162,19 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
         component.safetyAndBalanceDrivingFaultSelected();
 
-        expect(component.safetyAndBalanceQuestionOutcomeChange.emit)
-          .toHaveBeenCalledWith('DF');
+        expect(component.safetyAndBalanceQuestionOutcomeChange.emit).toHaveBeenCalledWith('DF');
       });
     });
     describe('findQuestion', () => {
       it('should return the question if it is found', () => {
         component.questions = [safetyAndBalanceQuestion];
         component.questionResult = { code: 'S04' };
-        expect(component.findQuestion())
-          .toEqual(safetyAndBalanceQuestion);
+        expect(component.findQuestion()).toEqual(safetyAndBalanceQuestion);
       });
       it('should return undefined if the question is not found', () => {
         component.questions = [safetyAndBalanceQuestion];
         component.questionResult = { code: 'B04' };
-        expect(component.findQuestion())
-          .toEqual(undefined);
+        expect(component.findQuestion()).toEqual(undefined);
       });
     });
     describe('shouldShowOutcomeFields', () => {
@@ -199,28 +184,24 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
           description: 'Test',
         } as QuestionResult;
 
-        expect(component.shouldShowOutcomeFields())
-          .toEqual(true);
+        expect(component.shouldShowOutcomeFields()).toEqual(true);
       });
       it('should return false if question result is not defined', () => {
-        expect(component.shouldShowOutcomeFields())
-          .toEqual(false);
+        expect(component.shouldShowOutcomeFields()).toEqual(false);
       });
       it('should return false if all the question code is missing from the result object', () => {
         component.questionResult = {
           description: 'Test',
         } as QuestionResult;
 
-        expect(component.shouldShowOutcomeFields())
-          .toEqual(false);
+        expect(component.shouldShowOutcomeFields()).toEqual(false);
       });
       it('should return false if all the question description is missing from the result object', () => {
         component.questionResult = {
           code: 'S04',
         } as QuestionResult;
 
-        expect(component.shouldShowOutcomeFields())
-          .toEqual(false);
+        expect(component.shouldShowOutcomeFields()).toEqual(false);
       });
     });
   });

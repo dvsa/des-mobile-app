@@ -1,46 +1,45 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { of, ReplaySubject } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { ReplaySubject, of } from 'rxjs';
 
-import { JournalProvider } from '@providers/journal/journal';
-import { SlotProvider } from '@providers/slot/slot';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { JournalProviderMock } from '@providers/journal/__mocks__/journal.mock';
+import { JournalRefreshModes } from '@providers/analytics/analytics.model';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfig } from '@providers/app-config/app-config.model';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 import { DataStoreProvider } from '@providers/data-store/data-store';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import journalSlotsDataMock from '@providers/journal/__mocks__/journal-slots-data.mock';
+import { JournalProviderMock } from '@providers/journal/__mocks__/journal.mock';
+import { JournalProvider } from '@providers/journal/journal';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { JournalRefreshModes } from '@providers/analytics/analytics.model';
-import journalSlotsDataMock from '@providers/journal/__mocks__/journal-slots-data.mock';
-import { AppConfig } from '@providers/app-config/app-config.model';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 
+import { HttpResponse } from '@angular/common/http';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { provideMockStore } from '@ngrx/store/testing';
+import { CompletedTestPersistenceProviderMock } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
-import { CompletedTestPersistenceProviderMock }
-  from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { journalReducer } from '../journal.reducer';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
+import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { TestResultRehydration } from '@store/tests/tests.reducer';
 import * as journalActions from '../journal.actions';
 import { JournalEffects, JournalRehydrationPage, JournalRehydrationType } from '../journal.effects';
 import { JournalModel } from '../journal.model';
-import { CompressionProvider } from '@providers/compression/compression';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { provideMockStore } from '@ngrx/store/testing';
-import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { TestResultRehydration } from '@store/tests/tests.reducer';
-import { HttpResponse } from '@angular/common/http';
-import { LoadRemoteTests } from '@store/tests/tests.actions';
-import { TestResultsRehydrated } from '@store/tests/tests.model';
+import { journalReducer } from '../journal.reducer';
 
 describe('JournalEffects', () => {
   let effects: JournalEffects;
@@ -53,7 +52,7 @@ describe('JournalEffects', () => {
   let compressionProvider: CompressionProvider;
   let appConfigProvider: AppConfigProvider;
 
-  let initialState = {
+  const initialState = {
     tests: {
       currentTest: { slotId: '1' },
       startedTests: {},
@@ -64,7 +63,7 @@ describe('JournalEffects', () => {
         '2023-01-01': [
           {
             slotData: {
-              slotDetail: { slotId: '1'},
+              slotDetail: { slotId: '1' },
               booking: {
                 application: {
                   applicationId: 1,
@@ -101,7 +100,7 @@ describe('JournalEffects', () => {
         { provide: SearchProvider, useClass: SearchProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
-        { provide: CompressionProvider, useClass: CompressionProvider, },
+        { provide: CompressionProvider, useClass: CompressionProvider },
         Store,
         SlotProvider,
         provideMockStore({ initialState }),
@@ -142,7 +141,6 @@ describe('JournalEffects', () => {
       expect(result.type === '[JournalPage] Load Journal Success').toBe(true);
       done();
     });
-
   });
 
   it('should dispatch the success action when an error is thrown indicating HTTP 304 for the journal', (done) => {
@@ -247,12 +245,14 @@ describe('JournalEffects', () => {
     const selectedDate: string = new DateTime().format('YYYY-MM-DD');
     const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
     store$.dispatch(journalActions.SetSelectedDate(selectedDate));
-    store$.dispatch(journalActions.LoadJournalSuccess(
-      { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
-      ConnectionStatus.ONLINE,
-      false,
-      new Date(), // Load in mock journal state
-    ));
+    store$.dispatch(
+      journalActions.LoadJournalSuccess(
+        { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
+        ConnectionStatus.ONLINE,
+        false,
+        new Date() // Load in mock journal state
+      )
+    );
     // ACT
     actions$.next(journalActions.SelectNextDay());
     // ASSERT
@@ -286,31 +286,31 @@ describe('JournalEffects', () => {
 
   describe('journalRehydration$', () => {
     it('should dispatch LoadRemoteTests with rehydrated tests for eligible slots', (done) => {
-      let mockRehydratedResponse: TestResultsRehydrated[] = [
+      const mockRehydratedResponse: TestResultsRehydrated[] = [
         {
           autosave: 1,
           test_result: {
             category: 'B',
             journalData: {
               testSlotAttributes: {
-                slotId: 1
-              } as TestSlotAttributes
+                slotId: 1,
+              } as TestSlotAttributes,
             },
           } as TestResultSchemasUnion,
         },
       ];
-      let mockRehydratedTestResults: TestResultRehydration[] = [
+      const mockRehydratedTestResults: TestResultRehydration[] = [
         {
           autosave: true,
           testData: {
             category: 'B',
             journalData: {
               testSlotAttributes: {
-                slotId: 1
-              } as TestSlotAttributes
+                slotId: 1,
+              } as TestSlotAttributes,
             },
           } as TestResultSchemasUnion,
-          slotId: '1'
+          slotId: '1',
         },
       ];
 
@@ -343,6 +343,5 @@ describe('JournalEffects', () => {
         done();
       });
     });
-
   });
 });

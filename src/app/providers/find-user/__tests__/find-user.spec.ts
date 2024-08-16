@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
-import { UrlProvider } from '../../url/url';
-import { UrlProviderMock } from '../../url/__mocks__/url.mock';
-import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '../../app-config/app-config';
+import { UrlProviderMock } from '../../url/__mocks__/url.mock';
+import { UrlProvider } from '../../url/url';
 import { FindUserProvider } from '../find-user';
 
 describe('FindUserProvider', () => {
@@ -14,9 +14,7 @@ describe('FindUserProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         FindUserProvider,
         {
@@ -48,16 +46,14 @@ describe('FindUserProvider', () => {
         .userExists(staffNumber)
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual({});
+          expect(response).toEqual({});
         });
 
       const req = httpMock.expectOne(
-        (request) => request.url === 'https://www.example.com/api/v1/users/search/1234567',
+        (request) => request.url === 'https://www.example.com/api/v1/users/search/1234567'
       );
 
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush({});
     });
   });

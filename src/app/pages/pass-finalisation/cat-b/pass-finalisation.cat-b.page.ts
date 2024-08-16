@@ -1,14 +1,9 @@
 import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
-import { merge, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { PersistTests } from '@store/tests/tests.actions';
+import { select } from '@ngrx/store';
+import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
@@ -19,9 +14,14 @@ import {
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
+import { PersistTests } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
@@ -45,8 +45,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   transmission: GearboxCategory;
   candidateDriverNumber: string;
   subscription: Subscription;
-  niMessage: string = 'This candidate holds a Northern Irish licence and must retain it. Do not collect '
-    + 'it from the candidate.';
+  niMessage: string =
+    'This candidate holds a Northern Irish licence and must retain it. Do not collect ' + 'it from the candidate.';
 
   constructor(injector: Injector) {
     super(injector);
@@ -56,10 +56,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
 
   ngOnInit(): void {
     super.onInitialisation();
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
@@ -68,26 +65,22 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         map(isAutomatic),
         tap((val) => {
           if (val) this.form.controls['transmissionCtrl'].setValue('Automatic');
-        }),
+        })
       ),
       transmissionManualRadioChecked$: currentTest$.pipe(
         select(getVehicleDetails),
         map(isManual),
         tap((val) => {
           if (val) this.form.controls['transmissionCtrl'].setValue('Manual');
-        }),
+        })
       ),
     };
-    const {
-      transmission$,
-      candidateDriverNumber$,
-      testOutcome$,
-    } = this.pageState;
+    const { transmission$, candidateDriverNumber$, testOutcome$ } = this.pageState;
 
     this.merged$ = merge(
-      transmission$.pipe(map((value) => this.transmission = value)),
-      candidateDriverNumber$.pipe(map((value) => this.candidateDriverNumber = value)),
-      testOutcome$.pipe(map((value) => this.activityCode = value)),
+      transmission$.pipe(map((value) => (this.transmission = value))),
+      candidateDriverNumber$.pipe(map((value) => (this.candidateDriverNumber = value))),
+      testOutcome$.pipe(map((value) => (this.activityCode = value)))
     );
     this.subscription = this.merged$.subscribe();
   }
@@ -110,8 +103,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   async onSubmit() {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.isNorthernIreland(this.candidateDriverNumber)) {
       this.store$.dispatch(ProvisionalLicenseNotReceived());
     }
@@ -121,16 +113,15 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
-            return;
-          }
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
+          return;
         }
-      });
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
 
   isNorthernIreland(driverNumber: string): boolean {

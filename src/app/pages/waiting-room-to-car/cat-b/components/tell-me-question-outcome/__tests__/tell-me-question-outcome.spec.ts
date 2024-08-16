@@ -1,10 +1,8 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
 
 describe('TellMeQuestionOutcomeComponent', () => {
@@ -13,14 +11,8 @@ describe('TellMeQuestionOutcomeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TellMeQuestionOutcomeComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [TellMeQuestionOutcomeComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(TellMeQuestionOutcomeComponent);

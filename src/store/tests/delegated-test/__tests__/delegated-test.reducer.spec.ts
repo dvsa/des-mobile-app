@@ -1,5 +1,5 @@
-import { delegatedTestReducer } from '../delegated-test.reducer';
 import { StartDelegatedTest } from '../delegated-test.actions';
+import { delegatedTestReducer } from '../delegated-test.reducer';
 
 describe('delegatedTestReducer', () => {
   it('should return true if StartDelegatedTest action passed', () => {

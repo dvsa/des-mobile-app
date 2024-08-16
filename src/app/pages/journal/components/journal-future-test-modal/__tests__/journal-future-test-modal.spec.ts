@@ -1,14 +1,14 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { JournalFutureTestModal } from '../journal-future-test-modal';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { JournalFutureTestModal } from '../journal-future-test-modal';
 
 describe('JournalRekeyModal', () => {
   let fixture: ComponentFixture<JournalFutureTestModal>;
@@ -17,13 +17,8 @@ describe('JournalRekeyModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        JournalFutureTestModal,
-      ],
-      imports: [
-        IonicModule,
-        ComponentsModule,
-      ],
+      declarations: [JournalFutureTestModal],
+      imports: [IonicModule, ComponentsModule],
       providers: [
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },

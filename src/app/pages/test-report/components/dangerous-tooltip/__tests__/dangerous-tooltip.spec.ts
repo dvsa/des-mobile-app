@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DangerousTooltipComponent } from '../dangerous-tooltip';
 
 describe('DangerousTooltipComponent', () => {
@@ -7,9 +7,7 @@ describe('DangerousTooltipComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DangerousTooltipComponent,
-      ],
+      declarations: [DangerousTooltipComponent],
     });
 
     fixture = TestBed.createComponent(DangerousTooltipComponent);

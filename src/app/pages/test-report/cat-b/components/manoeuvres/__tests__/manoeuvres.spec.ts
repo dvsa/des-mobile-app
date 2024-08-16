@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
@@ -8,9 +8,9 @@ import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-i
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
-import { MockComponent } from 'ng-mocks';
-import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { MockComponent } from 'ng-mocks';
 import { ManoeuvresComponent } from '../manoeuvres';
 
 describe('ManoeuvresComponent', () => {
@@ -76,9 +76,7 @@ describe('ManoeuvresComponent', () => {
           testReport: testReportReducer,
         }),
       ],
-      providers: [
-        { provide: DateTimeProvider, useCalss: DateTimeProviderMock },
-      ],
+      providers: [{ provide: DateTimeProvider, useCalss: DateTimeProviderMock }],
     });
 
     fixture = TestBed.createComponent(ManoeuvresComponent);

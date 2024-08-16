@@ -12,12 +12,10 @@ export enum UpdateAvailable {
   styleUrls: ['update-available-modal.scss'],
 })
 export class UpdateAvailableModal {
-
   @Input()
   appVersion: string;
 
-  constructor(private modalCtrl: ModalController) {
-  }
+  constructor(private modalCtrl: ModalController) {}
 
   clickRemindMeLater = async (): Promise<void> => {
     await this.modalCtrl.dismiss(UpdateAvailable.REMIND_ME_LATER);
@@ -26,5 +24,4 @@ export class UpdateAvailableModal {
   clickOK = async (): Promise<void> => {
     await this.modalCtrl.dismiss(UpdateAvailable.OK);
   };
-
 }

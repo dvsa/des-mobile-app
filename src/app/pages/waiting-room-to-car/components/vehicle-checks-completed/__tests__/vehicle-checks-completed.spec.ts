@@ -1,10 +1,10 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AppModule } from '@app/app.module';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleChecksToggleComponent } from '../vehicle-checks-completed';
 
 describe('VehicleChecksToggleComponent', () => {
@@ -13,14 +13,8 @@ describe('VehicleChecksToggleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksToggleComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [VehicleChecksToggleComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksToggleComponent);
@@ -37,8 +31,7 @@ describe('VehicleChecksToggleComponent', () => {
       vehicleChecksCompletedRadio.triggerEventHandler('change', { target: { value: 'Completed' } });
 
       fixture.detectChanges();
-      expect(component.vehicleChecksToggleResultChanged)
-        .toHaveBeenCalledWith('Completed');
+      expect(component.vehicleChecksToggleResultChanged).toHaveBeenCalledWith('Completed');
     });
     it('should call VehicleChecksToggleResultChanged with Not completed when not selected', () => {
       spyOn(component, 'vehicleChecksToggleResultChanged');
@@ -48,8 +41,7 @@ describe('VehicleChecksToggleComponent', () => {
 
       vehicleChecksCompletedRadio.triggerEventHandler('change', { target: { value: 'Not completed' } });
       fixture.detectChanges();
-      expect(component.vehicleChecksToggleResultChanged)
-        .toHaveBeenCalledWith('Not completed');
+      expect(component.vehicleChecksToggleResultChanged).toHaveBeenCalledWith('Not completed');
     });
   });
   describe('vehicleChecksToggleResultChanged', () => {

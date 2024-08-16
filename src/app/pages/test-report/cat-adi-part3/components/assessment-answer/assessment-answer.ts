@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'assessment-answer',
@@ -8,9 +6,8 @@ import {
   styleUrls: ['assessment-answer.scss'],
 })
 export class AssessmentAnswerComponent {
-
   @Input()
-  radio: boolean = false;
+  radio = false;
 
   @Input()
   assessmentLabel: string;
@@ -27,5 +24,4 @@ export class AssessmentAnswerComponent {
   valueChanged = (key: string): void => {
     this.answerToggled.emit(key);
   };
-
 }

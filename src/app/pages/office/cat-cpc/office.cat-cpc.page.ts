@@ -1,23 +1,24 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { CombinationCodes, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import { select } from '@ngrx/store';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { select } from '@ngrx/store';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { merge, Observable, Subscription } from 'rxjs';
-import { CombinationCodes, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { Combination, questionCombinations } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { TestOutcome } from '@shared/models/test-outcome';
-import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestSummary } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.reducer';
+import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
+import { getReceiptDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
+import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
 import {
   getCombination,
   getQuestion1,
@@ -27,14 +28,13 @@ import {
   getQuestion5,
   getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
-import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
+import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
+import { getTestSummary } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.reducer';
 import { getAssessmentReport } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.selector';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { getReceiptDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
-import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UntypedFormGroup } from '@angular/forms';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
 
 interface CatCPCOfficePageState {
@@ -59,7 +59,6 @@ type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
   styleUrls: ['../office.page.scss'],
 })
 export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit {
-
   pageState: OfficePageState;
   pageSubscription: Subscription;
   form: UntypedFormGroup;
@@ -70,7 +69,7 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
@@ -80,55 +79,23 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
-      testResult$: currentTest$.pipe(
-        select(getTestOutcomeDebrief),
-      ),
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
-      assessmentReport$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getAssessmentReport),
-      ),
-      overallScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getTotalPercent),
-      ),
-      question1$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion1),
-      ),
-      question2$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion2),
-      ),
-      question3$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion3),
-      ),
-      question4$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion4),
-      ),
-      question5$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion5),
-      ),
-      combination$: currentTest$.pipe(
-        select(getTestData),
-        select(getCombination),
-      ),
+      testResult$: currentTest$.pipe(select(getTestOutcomeDebrief)),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
+      assessmentReport$: currentTest$.pipe(select(getTestSummary), select(getAssessmentReport)),
+      overallScore$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
+      question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),
+      question2$: currentTest$.pipe(select(getTestData), select(getQuestion2)),
+      question3$: currentTest$.pipe(select(getTestData), select(getQuestion3)),
+      question4$: currentTest$.pipe(select(getTestData), select(getQuestion4)),
+      question5$: currentTest$.pipe(select(getTestData), select(getQuestion5)),
+      combination$: currentTest$.pipe(select(getTestData), select(getCombination)),
       passCertificateNumberReceived$: currentTest$.pipe(
         select(getPostTestDeclarations),
-        select(getReceiptDeclarationStatus),
+        select(getReceiptDeclarationStatus)
       ),
     };
     this.setupSubscription();
@@ -137,18 +104,13 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   setupSubscription() {
     super.setupSubscriptions();
 
-    const {
-      testResult$,
-      delegatedTest$,
-      testOutcome$,
-    } = this.pageState;
+    const { testResult$, delegatedTest$, testOutcome$ } = this.pageState;
 
     this.pageSubscription = merge(
-      testResult$.pipe(map((result) => this.outcome = result as TestOutcome)),
-      testOutcome$.pipe(map((result) => this.testOutcome = result)),
-      delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    )
-      .subscribe();
+      testResult$.pipe(map((result) => (this.outcome = result as TestOutcome))),
+      testOutcome$.pipe(map((result) => (this.testOutcome = result))),
+      delegatedTest$.pipe(map((result) => (this.isDelegated = result)))
+    ).subscribe();
   }
 
   async ionViewWillEnter() {
@@ -196,5 +158,4 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   isPass(): boolean {
     return this.outcome === TestOutcome.PASS;
   }
-
 }

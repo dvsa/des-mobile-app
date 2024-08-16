@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { isNil, has } from 'lodash-es';
+import { SlotComponent } from '@components/test-slot/slot/slot';
 import { NonTestActivity, TestSlot } from '@dvsa/mes-journal-schema';
 import { Activity, activities } from '@providers/slot-selector/activity.constants';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
-import { SlotComponent } from '@components/test-slot/slot/slot';
+import { has, isNil } from 'lodash-es';
 
 @Component({
   selector: 'activity-slot',
@@ -29,7 +29,7 @@ export class ActivitySlotComponent implements SlotComponent {
   }
 
   public getTitle(): string {
-    let returnTitle: string = 'Unknown';
+    let returnTitle = 'Unknown';
 
     const { activityCode } = this.slot as NonTestActivity;
     const matchingActivity: Activity = activities.find((a) => a.activityCode === activityCode);
@@ -45,5 +45,4 @@ export class ActivitySlotComponent implements SlotComponent {
   public isTravelSlot(): boolean {
     return (this.slot as NonTestActivity).activityCode === '091';
   }
-
 }

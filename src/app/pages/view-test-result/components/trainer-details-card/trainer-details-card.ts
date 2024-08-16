@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
   selector: 'trainer-details-card',
@@ -9,7 +9,6 @@ import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
   styleUrls: ['trainer-details-card.scss'],
 })
 export class TrainerDetailsCardComponent {
-
   @Input()
   trainerData: CatADI3Types.TrainerDetails;
 
@@ -20,7 +19,7 @@ export class TrainerDetailsCardComponent {
   category: TestCategory | CategoryCode;
 
   @Input()
-  reasonForNoAdviceGiven ?: string;
+  reasonForNoAdviceGiven?: string;
 
   public isADI3 = (): boolean => this.category === TestCategory.ADI3;
 }

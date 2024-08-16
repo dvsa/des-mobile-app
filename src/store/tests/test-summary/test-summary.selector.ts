@@ -1,8 +1,8 @@
 import {
-  TestSummary,
-  WeatherConditions,
   Identification,
   IndependentDriving,
+  TestSummary,
+  WeatherConditions,
 } from '@dvsa/mes-test-schema/categories/common';
 
 export const getRouteNumber = (ts: TestSummary): number => ts.routeNumber;

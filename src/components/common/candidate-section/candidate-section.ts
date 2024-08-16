@@ -1,19 +1,17 @@
-import {
-  Component, Output, EventEmitter, Input,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AppComponent } from '@app/app.component';
+import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
-import { StoreModel } from '@shared/models/store.model';
-import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FieldValidators, getRegistrationNumberValidator } from '@shared/constants/field-validators/field-validators';
+import { StoreModel } from '@shared/models/store.model';
 import {
   VRNModalCancelled,
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
-import { AppComponent } from '@app/app.component';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 @Component({
   selector: 'candidate-section',
@@ -21,14 +19,12 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['./candidate-section.scss'],
 })
 export class CandidateSectionComponent {
-
   constructor(
     public modalController: ModalController,
     public store$: Store<StoreModel>,
     public appComponent: AppComponent,
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+    public accessibilityService: AccessibilityService
+  ) {}
 
   @Input()
   candidateName: string;

@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MockComponent } from 'ng-mocks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { MockComponent } from 'ng-mocks';
 
-import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 
 describe('Adi3DebriefCard', () => {
   let fixture: ComponentFixture<Adi3DebriefCard>;
@@ -11,10 +11,7 @@ describe('Adi3DebriefCard', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        Adi3DebriefCard,
-        MockComponent(Adi3DebriefCardBox),
-      ],
+      declarations: [Adi3DebriefCard, MockComponent(Adi3DebriefCardBox)],
     });
 
     fixture = TestBed.createComponent(Adi3DebriefCard);
@@ -25,22 +22,23 @@ describe('Adi3DebriefCard', () => {
     beforeEach(() => {
       component.testCategory = TestCategory.ADI3;
     });
-    it('should "Sufficient competence demonstrated to permit '
-      + 'entry to the Register of Approved Driving Instructors" if grade is "B"', () => {
-      component.grade = 'B';
-      expect(component.displayGradeDescription())
-        .toBe('Sufficient competence demonstrated to '
-          + 'permit entry to the Register of Approved Driving Instructors');
-    });
+    it(
+      'should "Sufficient competence demonstrated to permit ' +
+        'entry to the Register of Approved Driving Instructors" if grade is "B"',
+      () => {
+        component.grade = 'B';
+        expect(component.displayGradeDescription()).toBe(
+          'Sufficient competence demonstrated to ' + 'permit entry to the Register of Approved Driving Instructors'
+        );
+      }
+    );
     it('should "A high overall standard of instruction demonstrated" if grade is "A"', () => {
       component.grade = 'A';
-      expect(component.displayGradeDescription())
-        .toBe('A high overall standard of instruction demonstrated');
+      expect(component.displayGradeDescription()).toBe('A high overall standard of instruction demonstrated');
     });
     it('should "Unsatisfactory performance" if grade sets the switch to default', () => {
       component.grade = 'test';
-      expect(component.displayGradeDescription())
-        .toBe('Unsatisfactory performance');
+      expect(component.displayGradeDescription()).toBe('Unsatisfactory performance');
     });
   });
 
@@ -48,8 +46,7 @@ describe('Adi3DebriefCard', () => {
     it('should resolve lessonThemeValueStr', () => {
       component.lessonTheme = { lessonThemes: ['junctions', 'townCityDriving'] };
       component.ngOnInit();
-      expect(component.lessonThemeValueStr)
-        .toEqual('Junctions, Town & city driving');
+      expect(component.lessonThemeValueStr).toEqual('Junctions, Town & city driving');
     });
   });
 });

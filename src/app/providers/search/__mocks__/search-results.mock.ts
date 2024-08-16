@@ -1,6 +1,6 @@
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
-export const searchResultsMock: SearchResultTestSchema [] = [
+export const searchResultsMock: SearchResultTestSchema[] = [
   {
     activityCode: '1',
     applicationReference: 123456,

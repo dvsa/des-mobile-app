@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -9,7 +7,6 @@ import { UntypedFormGroup } from '@angular/forms';
   styleUrls: ['./accompaniment-card.scss'],
 })
 export class AccompanimentCardADI3Component {
-
   @Input()
   trainerAccompaniment: boolean;
 
@@ -42,5 +39,4 @@ export class AccompanimentCardADI3Component {
   otherAccompanimentChanged(): void {
     this.otherAccompanimentChange.emit();
   }
-
 }

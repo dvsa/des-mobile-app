@@ -1,5 +1,5 @@
-import { rekeyDateReducer } from '../rekey-date.reducer';
 import { SetRekeyDate } from '../rekey-date.actions';
+import { rekeyDateReducer } from '../rekey-date.reducer';
 
 describe('rekeyDateReducer', () => {
   it('should return a date', () => {

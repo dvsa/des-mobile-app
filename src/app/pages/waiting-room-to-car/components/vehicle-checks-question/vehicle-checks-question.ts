@@ -1,11 +1,9 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { uniqueId } from 'lodash-es';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { uniqueId } from 'lodash-es';
 
 @Component({
   selector: 'vehicle-checks-question',
@@ -13,7 +11,6 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   styleUrls: ['vehicle-checks-question.scss'],
 })
 export class VehicleChecksQuestionComponent implements OnChanges {
-
   @Input()
   questionResult: QuestionResult;
 
@@ -64,8 +61,8 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   isOptionDisabled(question: VehicleChecksQuestion): boolean {
     const doesQuestionExist: QuestionResult = this.questionsToDisable.find(
-      (questionToDisable) => questionToDisable.code === question.code
-        && questionToDisable.code !== this.questionResult.code,
+      (questionToDisable) =>
+        questionToDisable.code === question.code && questionToDisable.code !== this.questionResult.code
     );
     return doesQuestionExist !== undefined;
   }

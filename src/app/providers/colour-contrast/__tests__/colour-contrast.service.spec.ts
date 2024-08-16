@@ -6,9 +6,7 @@ describe('ColourContrastService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        ColourContrastService,
-      ],
+      providers: [ColourContrastService],
     });
 
     colourContrastService = TestBed.inject(ColourContrastService);
@@ -40,14 +38,11 @@ describe('ColourContrastService', () => {
     });
   });
   describe('relativeLuminance', () => {
-    it('should return Math.pow((input/255 + 0.055) / 1.055, 2.4) ' +
-      'if input/255 is more than 0.04045', () => {
+    it('should return Math.pow((input/255 + 0.055) / 1.055, 2.4) ' + 'if input/255 is more than 0.04045', () => {
       expect(colourContrastService.relativeLuminance(255)).toEqual(1);
     });
-    it('should return Math.pow((input/255)/12.92) ' +
-      'if input/255 is less than or equal to 0.04045', () => {
+    it('should return Math.pow((input/255)/12.92) ' + 'if input/255 is less than or equal to 0.04045', () => {
       expect(colourContrastService.relativeLuminance(1)).toEqual(0.0003035269835488375);
     });
   });
-
 });

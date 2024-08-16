@@ -1,5 +1,5 @@
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/BE/partial';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/BE/partial';
 
 export const catBETestDataStateObject: CatBEUniqueTypes.TestData = {
   drivingFaults: {
@@ -35,16 +35,20 @@ export const catBETestDataStateObject: CatBEUniqueTypes.TestData = {
     },
   },
   vehicleChecks: {
-    tellMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'P',
-    }] as QuestionResult[],
-    showMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'P',
-    }] as QuestionResult[],
+    tellMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'P',
+      },
+    ] as QuestionResult[],
+    showMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'P',
+      },
+    ] as QuestionResult[],
   },
   eyesightTest: {
     complete: true,

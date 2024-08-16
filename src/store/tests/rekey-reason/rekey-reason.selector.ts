@@ -1,9 +1,9 @@
 import {
-  RekeyReason,
   IpadIssue,
-  Transfer,
   Other,
+  RekeyReason,
   TestResultCommonSchema,
+  Transfer,
 } from '@dvsa/mes-test-schema/categories/common';
 import { RekeyReasonModel, RekeyReasonUploadModel } from '@pages/rekey-reason/rekey-reason.model';
 

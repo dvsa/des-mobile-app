@@ -10,4 +10,4 @@ import * as fromAppInfoReducer from './app-info.reducer';
     EffectsModule.forFeature([AppInfoEffects]),
   ],
 })
-export class AppInfoStoreModule { }
+export class AppInfoStoreModule {}

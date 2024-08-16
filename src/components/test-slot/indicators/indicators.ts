@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 @Component({
   selector: 'indicators',
@@ -8,7 +8,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['indicators.scss'],
 })
 export class IndicatorsComponent {
-
   @Input()
   showExclamationIndicator: boolean;
 
@@ -17,8 +16,7 @@ export class IndicatorsComponent {
   @Input()
   applicationId: number;
 
-  constructor(public accessibilityService: AccessibilityService) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   shouldShowExclamationIndicator = (): boolean => {
     return !this.shouldShowGreenTickIndicator() && this.showExclamationIndicator;

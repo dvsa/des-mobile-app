@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'safety-and-balance-data-row',
@@ -7,7 +7,6 @@ import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categorie
   styleUrls: ['safety-and-balance-data-row.scss'],
 })
 export class SafetyAndBalanceDataRowComponent {
-
   @Input()
   label: string;
 
@@ -15,7 +14,7 @@ export class SafetyAndBalanceDataRowComponent {
   data: QuestionResult[];
 
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   public shouldShowFault(outcome: QuestionOutcome): boolean {
     return outcome === 'DF';

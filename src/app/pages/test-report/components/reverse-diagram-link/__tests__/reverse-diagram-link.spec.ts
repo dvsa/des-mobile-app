@@ -1,19 +1,16 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { ModalController } from '@ionic/angular';
-import { StoreModel } from '@shared/models/store.model';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
-import { OverlayEventDetail } from '@ionic/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
-import {
-  ReverseDiagramClosed,
-  ReverseDiagramOpened,
-} from '../../reverse-diagram-modal/reverse-diagram-modal.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { StoreModel } from '@shared/models/store.model';
 import { testReportReducer } from '../../../test-report.reducer';
+import { ReverseDiagramClosed, ReverseDiagramOpened } from '../../reverse-diagram-modal/reverse-diagram-modal.actions';
 import { ReverseDiagramLinkComponent } from '../reverse-diagram-link';
 
 describe('ReverseDiagramLinkComponent', () => {
@@ -51,16 +48,20 @@ describe('ReverseDiagramLinkComponent', () => {
                   ETA: {},
                   eco: {},
                   vehicleChecks: {
-                    showMeQuestions: [{
-                      code: 'S3',
-                      description: '',
-                      outcome: '',
-                    }],
-                    tellMeQuestions: [{
-                      code: '',
-                      description: '',
-                      outcome: '',
-                    }],
+                    showMeQuestions: [
+                      {
+                        code: 'S3',
+                        description: '',
+                        outcome: '',
+                      },
+                    ],
+                    tellMeQuestions: [
+                      {
+                        code: '',
+                        description: '',
+                        outcome: '',
+                      },
+                    ],
                   },
                   eyesightTest: {},
                 },
@@ -81,7 +82,6 @@ describe('ReverseDiagramLinkComponent', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },
-
       ],
     });
 
@@ -92,11 +92,13 @@ describe('ReverseDiagramLinkComponent', () => {
     accessibilityService = TestBed.inject(AccessibilityService);
 
     spyOn(store$, 'dispatch');
-    spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-      present: () => Promise.resolve(),
-      dismiss: () => Promise.resolve(true),
-      onDidDismiss: () => Promise.resolve({} as OverlayEventDetail),
-    } as HTMLIonModalElement));
+    spyOn(modalController, 'create').and.returnValue(
+      Promise.resolve({
+        present: () => Promise.resolve(),
+        dismiss: () => Promise.resolve(true),
+        onDidDismiss: () => Promise.resolve({} as OverlayEventDetail),
+      } as HTMLIonModalElement)
+    );
     spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
   }));
 
@@ -122,5 +124,4 @@ describe('ReverseDiagramLinkComponent', () => {
       });
     });
   });
-
 });

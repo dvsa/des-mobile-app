@@ -1,0 +1,72 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "auto",
+    "ignore": [
+      "**/*.html",
+      "**/*.json"
+    ]
+  },
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+      "style": {
+        "useImportType": "off"
+      },
+      "complexity": {
+        "useLiteralKeys": "off",
+        "noBannedTypes": "off",
+        "noForEach": "off",
+        "noThisInStatic": "off",
+        "noStaticOnlyClass": "off"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "off",
+        "noExplicitAny": "off",
+        "useIsArray": "off"
+      }
+    },
+    "ignore": [
+      "**/.husky/",
+      "**/.idea/",
+      "**/dist/",
+      "**/artifacts/",
+      "**/node_modules/",
+      "**/.angular/",
+      "**/www/",
+      "**/ios/",
+      "**/src/polyfills.ts"
+    ]
+	},
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "semicolons": "always",
+      "trailingCommas": "es5",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  }
+}

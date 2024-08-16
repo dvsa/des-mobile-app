@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { JournalNavigationComponent } from '../journal-navigation';
 
@@ -9,9 +9,7 @@ describe('JournalNavigationComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [JournalNavigationComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(JournalNavigationComponent);

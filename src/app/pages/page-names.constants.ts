@@ -114,27 +114,27 @@ export type BasePageNames = {
 };
 
 export type PageNameKeys =
-  'BackToOfficePage' |
-  'CommunicationPage' |
-  'DEBRIEF_PAGE' |
-  'HealthDeclarationPage' |
-  'OFFICE_PAGE' |
-  'TEST_REPORT_PAGE' |
-  'WaitingRoomPage' |
-  'WAITING_ROOM_TO_CAR_PAGE' |
-  'RekeyReasonPage' |
-  'PASS_FINALISATION_PAGE' |
-  'NonPassFinalisationPage' |
-  'VIEW_TEST_RESULT_PAGE' |
-  'PostDebriefHoldingPage' |
-  'VEHICLE_CHECKS_MODAL' |
-  'REVERSE_DIAGRAM_PAGE' |
-  'ConfirmTestDetailsPage' |
-  'RekeyUploadOutcomePage' |
-  'JournalPage' |
-  'TestCentreJournalPage' |
-  'TestReportDashboardPage' |
-  'RekeySearchPage';
+  | 'BackToOfficePage'
+  | 'CommunicationPage'
+  | 'DEBRIEF_PAGE'
+  | 'HealthDeclarationPage'
+  | 'OFFICE_PAGE'
+  | 'TEST_REPORT_PAGE'
+  | 'WaitingRoomPage'
+  | 'WAITING_ROOM_TO_CAR_PAGE'
+  | 'RekeyReasonPage'
+  | 'PASS_FINALISATION_PAGE'
+  | 'NonPassFinalisationPage'
+  | 'VIEW_TEST_RESULT_PAGE'
+  | 'PostDebriefHoldingPage'
+  | 'VEHICLE_CHECKS_MODAL'
+  | 'REVERSE_DIAGRAM_PAGE'
+  | 'ConfirmTestDetailsPage'
+  | 'RekeyUploadOutcomePage'
+  | 'JournalPage'
+  | 'TestCentreJournalPage'
+  | 'TestReportDashboardPage'
+  | 'RekeySearchPage';
 
 export enum TestFlowPageNames {
   DEBRIEF_PAGE = 'DebriefPage',

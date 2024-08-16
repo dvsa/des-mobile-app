@@ -1,13 +1,11 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { ReplaySubject } from 'rxjs';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as testsActions from '@store/tests/tests.actions';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
@@ -16,12 +14,14 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
 import * as VehicleChecksActions from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
-import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-c.actions';
 import { VehicleChecksModalCatCAnalyticsEffects } from '../vehicle-checks-modal.cat-c.analytics.effects';
-import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 describe('VehicleChecksModalCatCAnalyticsEffects', () => {
   let effects: VehicleChecksModalCatCAnalyticsEffects;
@@ -59,10 +59,8 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksViewDidEnter());
       effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -77,12 +75,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.ShowMeQuestionSelected(showMeQuestion, questionNumber));
       effects.showMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          showMeQuestion.code,
+          showMeQuestion.code
         );
         done();
       });
@@ -92,12 +89,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.ShowMeQuestionSelected(showMeQuestion, questionNumber));
       effects.showMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          showMeQuestion.code,
+          showMeQuestion.code
         );
         done();
       });
@@ -111,12 +107,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.ShowMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT,
+          GoogleAnalyticsEventsValues.CORRECT
         );
         done();
       });
@@ -126,12 +121,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.ShowMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT,
+          GoogleAnalyticsEventsValues.CORRECT
         );
         done();
       });
@@ -147,12 +141,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
       effects.tellMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.TELL_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code,
+          tellMeQuestion.code
         );
         done();
       });
@@ -162,12 +155,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
       effects.tellMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code,
+          tellMeQuestion.code
         );
         done();
       });
@@ -181,12 +173,11 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.C));
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.TELL_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
@@ -196,16 +187,14 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
     });
   });
-
 });

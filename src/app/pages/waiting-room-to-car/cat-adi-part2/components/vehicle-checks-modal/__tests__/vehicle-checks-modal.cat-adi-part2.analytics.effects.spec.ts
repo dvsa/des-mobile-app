@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { ReplaySubject } from 'rxjs';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as testsActions from '@store/tests/tests.actions';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
@@ -16,16 +14,14 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import * as VehicleChecksActions
-  from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
-import {
-  QuestionOutcome,
-  QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
+import * as VehicleChecksActions from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-adi-part2.actions';
 import { VehicleChecksModalAnalyticsEffects } from '../vehicle-checks-modal.cat-adi-part2.analytics.effects';
-import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 describe('VehicleChecksModalAnalyticsEffects', () => {
   let effects: VehicleChecksModalAnalyticsEffects;
@@ -78,9 +74,9 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
+          GoogleAnalyticsEvents.TELL_ME_QUESTION + '1',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code,
+          tellMeQuestion.code
         );
         done();
       });
@@ -92,9 +88,9 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '1')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code,
+          tellMeQuestion.code
         );
         done();
       });
@@ -110,9 +106,9 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'),
+          GoogleAnalyticsEvents.TELL_ME_QUESTION + '1',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
@@ -124,13 +120,12 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '1')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '1'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
     });
   });
-
 });

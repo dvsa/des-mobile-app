@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
-import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { By } from '@angular/platform-browser';
+import { AppModule } from '@app/app.module';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { ActivityCode4Modal } from '../activity-code-4-modal';
+import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
 import { ModalEvent } from '../../../../test-report.constants';
+import { ActivityCode4Modal } from '../activity-code-4-modal';
 
 describe('ActivityCode4Modal', () => {
   let fixture: ComponentFixture<ActivityCode4Modal>;
@@ -16,14 +16,8 @@ describe('ActivityCode4Modal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ActivityCode4Modal,
-      ],
-      imports: [
-        AppModule,
-        IonicModule,
-        ComponentsModule,
-      ],
+      declarations: [ActivityCode4Modal],
+      imports: [AppModule, IonicModule, ComponentsModule],
       providers: [
         { provide: NavParams, useFactory: () => navMock },
         { provide: ModalController, useClass: ModalControllerMock },
@@ -71,5 +65,4 @@ describe('ActivityCode4Modal', () => {
       expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.END_WITH_ACTIVITY_CODE_4);
     });
   });
-
 });

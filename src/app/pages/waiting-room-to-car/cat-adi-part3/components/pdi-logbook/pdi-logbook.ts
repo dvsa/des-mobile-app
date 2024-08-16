@@ -1,14 +1,11 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pdi-logbook',
   templateUrl: 'pdi-logbook.html',
 })
 export class PDILogbookComponent implements OnChanges {
-
   @Input()
   pdiLogbook: boolean;
 
@@ -39,5 +36,4 @@ export class PDILogbookComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

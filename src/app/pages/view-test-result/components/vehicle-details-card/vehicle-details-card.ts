@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { get } from 'lodash-es';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
+import * as CatAMod1Types from '@dvsa/mes-test-schema/categories/AM1';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
-import * as CatAMod1Types from '@dvsa/mes-test-schema/categories/AM1';
-import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'vehicle-details-card',
@@ -19,16 +19,16 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
   styleUrls: ['vehicle-details-card.scss'],
 })
 export class VehicleDetailsCardComponent {
-
   @Input()
-  data: CatBUniqueTypes.VehicleDetails
-  | CatCUniqueTypes.VehicleDetails
-  | CatCEUniqueTypes.VehicleDetails
-  | CatC1UniqueTypes.VehicleDetails
-  | CatC1EUniqueTypes.VehicleDetails
-  | CatADI2UniqueTypes.VehicleDetails
-  | CatADI3Types.VehicleDetails
-  | CatAMod1Types.VehicleDetails;
+  data:
+    | CatBUniqueTypes.VehicleDetails
+    | CatCUniqueTypes.VehicleDetails
+    | CatCEUniqueTypes.VehicleDetails
+    | CatC1UniqueTypes.VehicleDetails
+    | CatC1EUniqueTypes.VehicleDetails
+    | CatADI2UniqueTypes.VehicleDetails
+    | CatADI3Types.VehicleDetails
+    | CatAMod1Types.VehicleDetails;
 
   @Input()
   category: TestCategory | CategoryCode;
@@ -46,7 +46,7 @@ export class VehicleDetailsCardComponent {
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
   public shouldHideCard(): boolean {
-    return (!this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber);
+    return !this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber;
   }
 
   public get shouldShowDimensions(): boolean {
@@ -75,10 +75,7 @@ export class VehicleDetailsCardComponent {
   }
 
   public get shouldShowDimensionsSeparator(): boolean {
-    return !!(this.isADI2() ||
-      this.schoolBike ||
-      this.isADI3() ||
-      (!this.isADI3() && this.trainerPRN))
+    return !!(this.isADI2() || this.schoolBike || this.isADI3() || (!this.isADI3() && this.trainerPRN));
   }
 
   public get shouldShowExtraDimensions(): boolean {
@@ -122,23 +119,32 @@ export class VehicleDetailsCardComponent {
 
   public isADI3 = (): boolean => this.category === TestCategory.ADI3;
 
-  public isBike = (): boolean => isAnyOf(this.category, [
-    // Cat Mod1
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
-    // Cat Mod2
-    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
-  ]);
+  public isBike = (): boolean =>
+    isAnyOf(this.category, [
+      // Cat Mod1
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1,
+      // Cat Mod2
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2,
+    ]);
 
   public get instructorRegistrationNumber(): number {
     return get(this.instructorDetails, 'registrationNumber');
   }
 
   public get showInstructorRegistrationNumberSeparator(): boolean {
-    return !!(this.shouldShowDimensions ||
+    return !!(
+      this.shouldShowDimensions ||
       this.schoolBike ||
       this.isADI2() ||
       this.isADI3() ||
-      (!this.isADI3() && this.trainerPRN))
+      (!this.isADI3() && this.trainerPRN)
+    );
   }
 
   public get transmission(): string {
@@ -150,31 +156,30 @@ export class VehicleDetailsCardComponent {
   }
 
   public get showRegistrationNumberSeparator(): boolean {
-    return !!((this.isADI2() || this.isADI3()) ||
+    return !!(
+      this.isADI2() ||
+      this.isADI3() ||
       (!this.isADI3() && this.trainerPRN) ||
       this.schoolBike ||
       this.displayRegistration() ||
-      this.vehicleDetails)
+      this.vehicleDetails
+    );
   }
 
   public get vehicleLength(): string {
-    return get(this.data, 'vehicleLength', '?')
-      .toString();
+    return get(this.data, 'vehicleLength', '?').toString();
   }
 
   public get vehicleWidth(): string {
-    return get(this.data, 'vehicleWidth', '?')
-      .toString();
+    return get(this.data, 'vehicleWidth', '?').toString();
   }
 
   public get vehicleHeight(): string {
-    return get(this.data, 'vehicleHeight', '?')
-      .toString();
+    return get(this.data, 'vehicleHeight', '?').toString();
   }
 
   public get numberOfSeats(): string {
-    return get(this.data, 'numberOfSeats', '?')
-      .toString();
+    return get(this.data, 'numberOfSeats', '?').toString();
   }
 
   public get schoolBike(): string {
@@ -197,11 +202,14 @@ export class VehicleDetailsCardComponent {
   }
 
   public get displayVehicleDetailsSeparator(): boolean {
-    return !!(this.instructorRegistrationNumber
-      || this.shouldShowDimensions
-      || this.schoolBike
-      || (!this.isADI3() && this.trainerPRN)
-      || (this.isADI2() || this.isADI3()))
+    return !!(
+      this.instructorRegistrationNumber ||
+      this.shouldShowDimensions ||
+      this.schoolBike ||
+      (!this.isADI3() && this.trainerPRN) ||
+      this.isADI2() ||
+      this.isADI3()
+    );
   }
 
   public get schoolCarDualControls(): string {
@@ -215,7 +223,11 @@ export class VehicleDetailsCardComponent {
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {
-    return this.isADI3() || !this.instructorRegistrationNumber === undefined
-      || this.shouldShowDimensions || !this.vehicleDetails === undefined;
+    return (
+      this.isADI3() ||
+      !this.instructorRegistrationNumber === undefined ||
+      this.shouldShowDimensions ||
+      !this.vehicleDetails === undefined
+    );
   }
 }

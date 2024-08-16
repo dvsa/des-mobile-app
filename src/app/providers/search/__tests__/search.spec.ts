@@ -1,12 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
-import { UrlProvider } from '../../url/url';
+import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '../../app-config/app-config';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
+import { UrlProvider } from '../../url/url';
 import { SearchProvider } from '../search';
 import { AdvancedSearchParams } from '../search.models';
-import { AppConfigProvider } from '../../app-config/app-config';
-import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
 describe('SearchProvider', () => {
   let searchProvider: SearchProvider;
@@ -26,9 +26,7 @@ describe('SearchProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         SearchProvider,
         {
@@ -58,13 +56,11 @@ describe('SearchProvider', () => {
         .driverNumberSearch('12345')
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual([]);
+          expect(response).toEqual([]);
         });
 
       const req = httpMock.expectOne('https://www.example.com/api/v1/test-result?driverNumber=12345');
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush([]);
     });
   });
@@ -74,13 +70,11 @@ describe('SearchProvider', () => {
         .applicationReferenceSearch('12345')
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual([]);
+          expect(response).toEqual([]);
         });
 
       const req = httpMock.expectOne('https://www.example.com/api/v1/test-result?applicationReference=12345');
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush([]);
     });
   });
@@ -90,17 +84,15 @@ describe('SearchProvider', () => {
         .advancedSearch(mockParams)
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual([]);
+          expect(response).toEqual([]);
         });
 
       const req = httpMock.expectOne(
         // eslint-disable-next-line max-len
-        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true&category=A&activityCode=1&rekey=true&passCertificateNumber=A1',
+        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true&category=A&activityCode=1&rekey=true&passCertificateNumber=A1'
       );
 
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush([]);
     });
   });
@@ -110,14 +102,12 @@ describe('SearchProvider', () => {
         .getTestResult('12345', '6789')
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response.body)
-            .toEqual([]);
+          expect(response.body).toEqual([]);
         });
 
       const req = httpMock.expectOne('https://www.example.com/api/v1/test-result/12345/6789');
 
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush([]);
     });
   });
@@ -127,14 +117,12 @@ describe('SearchProvider', () => {
         .getRegeneratedEmails('12345')
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual('some-val');
+          expect(response).toEqual('some-val');
         });
 
       const req = httpMock.expectOne('https://www.example.com/api/v1/test-result/regeneratedemails/12345');
 
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush('some-val');
     });
   });

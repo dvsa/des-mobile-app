@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  CandidateDetailNavigationComponent,
-} from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 import { IonicModule } from '@ionic/angular';
+import { CandidateDetailNavigationComponent } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 
 describe('CandidateDetailNavigationComponent', () => {
   let fixture: ComponentFixture<CandidateDetailNavigationComponent>;
@@ -10,12 +8,8 @@ describe('CandidateDetailNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CandidateDetailNavigationComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [CandidateDetailNavigationComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(CandidateDetailNavigationComponent);

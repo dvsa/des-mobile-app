@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AppModule } from '@app/app.module';
-import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { AppModule } from '@app/app.module';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 
 describe('ActivityCodeComponent', () => {
   let fixture: ComponentFixture<ActivityCodeComponent>;
@@ -13,15 +13,9 @@ describe('ActivityCodeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ActivityCodeComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
-      providers: [
-      ],
+      declarations: [ActivityCodeComponent],
+      imports: [IonicModule, AppModule],
+      providers: [],
     });
 
     fixture = TestBed.createComponent(ActivityCodeComponent);
@@ -55,10 +49,12 @@ describe('ActivityCodeComponent', () => {
     describe('openActivityCodeListModal', () => {
       it('should call alertController.create if isSelectDisabled returns false', async () => {
         spyOn(component, 'isSelectDisabled').and.returnValue(false);
-        spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
-          present: () => Promise.resolve(),
-          onWillDismiss: () => Promise.resolve({ data: true }),
-        } as HTMLIonModalElement));
+        spyOn(component.modalController, 'create').and.returnValue(
+          Promise.resolve({
+            present: () => Promise.resolve(),
+            onWillDismiss: () => Promise.resolve({ data: true }),
+          } as HTMLIonModalElement)
+        );
         await component.openActivityCodeListModal();
         expect(component.modalController.create).toHaveBeenCalled();
       });
@@ -111,5 +107,4 @@ describe('ActivityCodeComponent', () => {
       });
     });
   });
-
 });

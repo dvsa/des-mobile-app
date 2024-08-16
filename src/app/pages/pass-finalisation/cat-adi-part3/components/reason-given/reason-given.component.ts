@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
@@ -10,7 +8,6 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
   styleUrls: ['./reason-given.component.scss'],
 })
 export class ReasonGivenComponent implements OnChanges {
-
   @Input()
   furtherDevelopment: boolean;
 
@@ -33,8 +30,7 @@ export class ReasonGivenComponent implements OnChanges {
   formControl: UntypedFormControl = null;
   static readonly fieldName: string = 'reasonGiven';
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
-  }
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -44,18 +40,15 @@ export class ReasonGivenComponent implements OnChanges {
 
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
       this.outcome,
-      ReasonGivenComponent.fieldName,
+      ReasonGivenComponent.fieldName
     );
 
-    if ((visibilityType === VisibilityType.NotVisible) || this.furtherDevelopment) {
-      this.formGroup.get(ReasonGivenComponent.fieldName)
-        .clearValidators();
+    if (visibilityType === VisibilityType.NotVisible || this.furtherDevelopment) {
+      this.formGroup.get(ReasonGivenComponent.fieldName).clearValidators();
     } else if (this.furtherDevelopment === false) {
-      this.formGroup.get(ReasonGivenComponent.fieldName)
-        .setValidators([
-          Validators.required,
-          Validators.maxLength(950),
-        ]);
+      this.formGroup
+        .get(ReasonGivenComponent.fieldName)
+        .setValidators([Validators.required, Validators.maxLength(950)]);
     }
 
     this.formControl.updateValueAndValidity();

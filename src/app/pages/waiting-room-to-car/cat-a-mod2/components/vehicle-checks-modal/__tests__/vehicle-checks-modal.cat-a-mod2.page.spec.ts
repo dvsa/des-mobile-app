@@ -1,26 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams,
-} from '@ionic/angular';
-import { Store, StoreModule } from '@ngrx/store';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
-import { MockComponent } from 'ng-mocks';
-import {
-  QuestionOutcome,
-  QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
-import { StoreModel } from '@shared/models/store.model';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
+import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
+import { StoreModel } from '@shared/models/store.model';
 import {
-  SafetyQuestionOutcomeChanged,
-  BalanceQuestionSelected,
-  SafetyQuestionSelected,
   BalanceQuestionOutcomeChanged,
+  BalanceQuestionSelected,
+  SafetyQuestionOutcomeChanged,
+  SafetyQuestionSelected,
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
-import {
-  VehicleChecksQuestionCatAMod2Component,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
+import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksCatAMod2Modal } from '../vehicle-checks-modal.cat-a-mod2.page';
@@ -37,11 +30,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
         MockComponent(VehicleChecksQuestionCatAMod2Component),
         WarningBannerComponent,
       ],
-      imports: [
-        IonicModule,
-        AppModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [IonicModule, AppModule, StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useClass: NavParamsMock },
@@ -56,8 +45,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
 
   describe('Class', () => {
     it('should compile', () => {
-      expect(component)
-        .toBeDefined();
+      expect(component).toBeDefined();
     });
 
     describe('ionViewDidLeave', () => {
@@ -65,8 +53,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe)
-          .toHaveBeenCalled();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 
@@ -79,8 +66,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
         };
         const index = 1;
         component.safetyQuestionChanged(safetyQuestionPayload, index);
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(SafetyQuestionSelected(safetyQuestionPayload, index));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(SafetyQuestionSelected(safetyQuestionPayload, index));
       });
     });
 
@@ -89,8 +75,9 @@ describe('VehicleChecksCatAMod2Modal', () => {
         const safetyQuestionOutcomePayload: QuestionOutcome = 'P';
         const index = 1;
         component.safetyQuestionOutcomeChanged(safetyQuestionOutcomePayload, index);
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(SafetyQuestionOutcomeChanged(safetyQuestionOutcomePayload, index));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(
+          SafetyQuestionOutcomeChanged(safetyQuestionOutcomePayload, index)
+        );
       });
     });
 
@@ -103,8 +90,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
         };
         const index = 1;
         component.balanceQuestionChanged(balanceQuestionPayload, index);
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(BalanceQuestionSelected(balanceQuestionPayload, index));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(BalanceQuestionSelected(balanceQuestionPayload, index));
       });
     });
 
@@ -113,8 +99,9 @@ describe('VehicleChecksCatAMod2Modal', () => {
         const balanceQuestionOutcomePayload: QuestionOutcome = 'P';
         const index = 1;
         component.balanceQuestionOutcomeChanged(balanceQuestionOutcomePayload, index);
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(BalanceQuestionOutcomeChanged(balanceQuestionOutcomePayload, index));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(
+          BalanceQuestionOutcomeChanged(balanceQuestionOutcomePayload, index)
+        );
       });
     });
 
@@ -122,8 +109,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
       it('should dispatch the store with VehicleChecksViewDidEnter', () => {
         spyOn(component.store$, 'dispatch');
         component.ionViewDidEnter();
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
+        expect(component.store$.dispatch).toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
       });
     });
 
@@ -131,8 +117,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
       it('should dismiss the modal card', async () => {
         spyOn(component.modalCtrl, 'dismiss');
         await component.onClose();
-        expect(component.modalCtrl.dismiss)
-          .toHaveBeenCalled();
+        expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });
     });
 
@@ -140,8 +125,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
       it('should dismiss the modal card', async () => {
         spyOn(component.modalCtrl, 'dismiss');
         await component.onSubmit();
-        expect(component.modalCtrl.dismiss)
-          .toHaveBeenCalled();
+        expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });
     });
 
@@ -151,8 +135,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
           drivingFaults: 0,
         };
 
-        expect(component.shouldDisplayBanner())
-          .toBeFalsy();
+        expect(component.shouldDisplayBanner()).toBeFalsy();
       });
 
       it('should return true if there is 1 riding fault', () => {
@@ -160,8 +143,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
           drivingFaults: 1,
         };
 
-        expect(component.shouldDisplayBanner())
-          .toBeTruthy();
+        expect(component.shouldDisplayBanner()).toBeTruthy();
       });
     });
   });

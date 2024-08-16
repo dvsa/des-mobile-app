@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum OrditTrained {
@@ -13,7 +11,6 @@ enum OrditTrained {
   templateUrl: 'ordit-trainer.cat-adi-part2.html',
 })
 export class OrditTrainerCatAdiPart2Component {
-
   @Input()
   orditTrainedRadioChecked: boolean;
 
@@ -21,7 +18,7 @@ export class OrditTrainerCatAdiPart2Component {
   formGroup: UntypedFormGroup;
 
   @Input()
-  notSC: boolean = true;
+  notSC = true;
 
   formControl: UntypedFormControl;
 
@@ -47,5 +44,4 @@ export class OrditTrainerCatAdiPart2Component {
       this.orditTrainedOutcomeChange.emit(orditTrained === OrditTrained.YES);
     }
   }
-
 }

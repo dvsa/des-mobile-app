@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('VehicleChecksOfficeCardComponent', () => {
   let fixture: ComponentFixture<VehicleChecksOfficeCardComponent>;
@@ -10,9 +10,7 @@ describe('VehicleChecksOfficeCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksOfficeCardComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardComponent);
@@ -21,16 +19,21 @@ describe('VehicleChecksOfficeCardComponent', () => {
 
   describe('ngOnInit', () => {
     it('should return a list of outcomes when using question results', () => {
-      component.checks = [{
-        description: 'test',
-        outcome: CompetencyOutcome.D,
-      }, {
-        description: 'test',
-        outcome: CompetencyOutcome.P,
-      }];
+      component.checks = [
+        {
+          description: 'test',
+          outcome: CompetencyOutcome.D,
+        },
+        {
+          description: 'test',
+          outcome: CompetencyOutcome.P,
+        },
+      ];
       component.ngOnInit();
-      expect(component.checks).toEqual([{ description: 'test', outcome: 'D' },
-        { description: 'test', outcome: 'P' }]);
+      expect(component.checks).toEqual([
+        { description: 'test', outcome: 'D' },
+        { description: 'test', outcome: 'P' },
+      ]);
     });
   });
   describe('questionHasFault', () => {

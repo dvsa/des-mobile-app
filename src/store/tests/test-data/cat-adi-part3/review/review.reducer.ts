@@ -12,26 +12,41 @@ export const initialState: Review = {
 
 export const reviewReducer = createReducer(
   initialState,
-  on(reviewActions.ImmediateDangerChanged, (state, { immediateDanger }): Review => ({
-    ...state,
-    immediateDanger,
-  })),
-  on(reviewActions.SeekFurtherDevelopmentChanged, (state, { seekFurtherDevelopment }): Review => ({
-    ...state,
-    seekFurtherDevelopment,
-  })),
-  on(reviewActions.FeedbackChanged, (state, { feedback }): Review => ({
-    ...state,
-    feedback,
-  })),
-  on(reviewActions.ReasonForNoAdviceGivenChanged, (state, { reasonForNoAdviceGiven }): Review => ({
-    ...state,
-    reasonForNoAdviceGiven,
-  })),
-  on(reviewActions.GradeChanged, (state, { grade }): Review => ({
-    ...state,
-    grade,
-  })),
+  on(
+    reviewActions.ImmediateDangerChanged,
+    (state, { immediateDanger }): Review => ({
+      ...state,
+      immediateDanger,
+    })
+  ),
+  on(
+    reviewActions.SeekFurtherDevelopmentChanged,
+    (state, { seekFurtherDevelopment }): Review => ({
+      ...state,
+      seekFurtherDevelopment,
+    })
+  ),
+  on(
+    reviewActions.FeedbackChanged,
+    (state, { feedback }): Review => ({
+      ...state,
+      feedback,
+    })
+  ),
+  on(
+    reviewActions.ReasonForNoAdviceGivenChanged,
+    (state, { reasonForNoAdviceGiven }): Review => ({
+      ...state,
+      reasonForNoAdviceGiven,
+    })
+  ),
+  on(
+    reviewActions.GradeChanged,
+    (state, { grade }): Review => ({
+      ...state,
+      grade,
+    })
+  )
 );
 
 export const getReview = createFeatureSelector<Review>('review');

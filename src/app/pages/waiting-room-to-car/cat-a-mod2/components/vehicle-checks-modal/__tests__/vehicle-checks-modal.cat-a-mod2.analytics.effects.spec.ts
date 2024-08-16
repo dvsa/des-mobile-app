@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { ReplaySubject } from 'rxjs';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as testsActions from '@store/tests/tests.actions';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
@@ -16,16 +14,14 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import * as SafetyAndBalanceQuestionsActions
-  from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
-import {
-  QuestionOutcome,
-  QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
+import * as SafetyAndBalanceQuestionsActions from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksModalCatAMod2AnalyticsEffects } from '../vehicle-checks-modal.cat-a-mod2.analytics.effects';
-import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
   let effects: VehicleChecksModalCatAMod2AnalyticsEffects;
@@ -78,9 +74,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.safetyQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.SAFETY_QUESTION + '2'),
+          GoogleAnalyticsEvents.SAFETY_QUESTION + '2',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          safetyQuestion.code,
+          safetyQuestion.code
         );
         done();
       });
@@ -92,9 +88,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.safetyQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SAFETY_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SAFETY_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          safetyQuestion.code,
+          safetyQuestion.code
         );
         done();
       });
@@ -110,9 +106,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.safetyQuestionOutcomeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.SAFETY_QUESTION + '2'),
+          GoogleAnalyticsEvents.SAFETY_QUESTION + '2',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT,
+          GoogleAnalyticsEventsValues.CORRECT
         );
         done();
       });
@@ -124,9 +120,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.safetyQuestionOutcomeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SAFETY_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SAFETY_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT,
+          GoogleAnalyticsEventsValues.CORRECT
         );
         done();
       });
@@ -144,9 +140,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.balanceQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.BALANCE_QUESTION + '2'),
+          GoogleAnalyticsEvents.BALANCE_QUESTION + '2',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          balanceQuestion.code,
+          balanceQuestion.code
         );
         done();
       });
@@ -158,9 +154,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.balanceQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.BALANCE_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.BALANCE_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          balanceQuestion.code,
+          balanceQuestion.code
         );
         done();
       });
@@ -176,9 +172,9 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.balanceQuestionOutcomeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.BALANCE_QUESTION + '2'),
+          GoogleAnalyticsEvents.BALANCE_QUESTION + '2',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
@@ -190,13 +186,12 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
       effects.balanceQuestionOutcomeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.BALANCE_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.BALANCE_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
     });
   });
-
 });

@@ -1,14 +1,14 @@
-import { ReplaySubject } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as testStatusActions from '@store/tests/test-status/test-status.actions';
-import * as testsActions from '@store/tests/tests.actions';
-import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
+import { Store, StoreModule } from '@ngrx/store';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
+import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
+import * as testStatusActions from '@store/tests/test-status/test-status.actions';
+import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ReplaySubject } from 'rxjs';
 import * as debriefActions from '../debrief.actions';
 import { DebriefEffects } from '../debrief.effects';
 
@@ -25,11 +25,7 @@ describe('DebriefEffects', () => {
           tests: testsReducer,
         }),
       ],
-      providers: [
-        DebriefEffects,
-        provideMockActions(() => actions$),
-        Store,
-      ],
+      providers: [DebriefEffects, provideMockActions(() => actions$), Store],
     });
 
     actions$ = new ReplaySubject(1);
@@ -71,7 +67,5 @@ describe('DebriefEffects', () => {
         }
       });
     });
-
   });
-
 });

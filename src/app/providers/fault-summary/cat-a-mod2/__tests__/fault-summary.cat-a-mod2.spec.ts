@@ -1,11 +1,10 @@
-import { CommentSource, CompetencyIdentifiers } from '@shared/models/fault-marking.model';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
-import { catAM2TestDataStateObject } from './cat-AM2-test-data.mock';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CommentSource, CompetencyIdentifiers } from '@shared/models/fault-marking.model';
 import { FaultSummaryCatAM2Helper } from '../fault-summary.cat-a-mod2';
+import { catAM2TestDataStateObject } from './cat-AM2-test-data.mock';
 
 describe('FaultSummaryCatAM2Helper', () => {
-
   const expectedEyesightTestFault = [
     {
       competencyDisplayName: CompetencyDisplayName.EYESIGHT_TEST,
@@ -31,39 +30,32 @@ describe('FaultSummaryCatAM2Helper', () => {
       catAM2TestDataStateObject.eyesightTest.complete = true;
       catAM2TestDataStateObject.eyesightTest.seriousFault = true;
 
-      expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(
-        catAM2TestDataStateObject.eyesightTest,
-      ))
-        .toEqual(expectedEyesightTestFault);
+      expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(catAM2TestDataStateObject.eyesightTest)).toEqual(
+        expectedEyesightTestFault
+      );
     });
     it('should return an empty array if eyesight test passed', () => {
       catAM2TestDataStateObject.eyesightTest.complete = true;
       catAM2TestDataStateObject.eyesightTest.seriousFault = false;
 
-      expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(
-        catAM2TestDataStateObject.eyesightTest,
-      ))
-        .toEqual([]);
+      expect(FaultSummaryCatAM2Helper.getEyesightTestSeriousFault(catAM2TestDataStateObject.eyesightTest)).toEqual([]);
     });
   });
 
   describe('getSafetyAndBalanceFaults', () => {
     xit('should return a single driving fault if any safety / balance questions are incorrect', () => {
-
-      expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(
-        catAM2TestDataStateObject.safetyAndBalanceQuestions,
-      ))
-        .toEqual(expectedSafetyAndBalanceQuestionsFault);
+      expect(
+        FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(catAM2TestDataStateObject.safetyAndBalanceQuestions)
+      ).toEqual(expectedSafetyAndBalanceQuestionsFault);
     });
     it('should return an empty array if all safety / balance questions are correct', () => {
       catAM2TestDataStateObject.safetyAndBalanceQuestions.safetyQuestions[0].outcome = CompetencyOutcome.P;
       catAM2TestDataStateObject.safetyAndBalanceQuestions.safetyQuestions[1].outcome = CompetencyOutcome.P;
       catAM2TestDataStateObject.safetyAndBalanceQuestions.balanceQuestions[0].outcome = CompetencyOutcome.P;
 
-      expect(FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(
-        catAM2TestDataStateObject.safetyAndBalanceQuestions,
-      ))
-        .toEqual([]);
+      expect(
+        FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(catAM2TestDataStateObject.safetyAndBalanceQuestions)
+      ).toEqual([]);
     });
   });
 });

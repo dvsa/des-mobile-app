@@ -1,28 +1,28 @@
-import { IonicModule } from '@ionic/angular';
-import { MockComponent } from 'ng-mocks';
-import { Store, StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
-import { StoreModel } from '@shared/models/store.model';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import {
-  AddManoeuvreDangerousFault,
-  AddManoeuvreSeriousFault,
-  RemoveManoeuvreFault,
-} from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import {
   ToggleDangerousFaultMode,
   ToggleRemoveFaultMode,
   ToggleSeriousFaultMode,
 } from '@pages/test-report/test-report.actions';
+import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import {
+  AddManoeuvreDangerousFault,
+  AddManoeuvreSeriousFault,
+  RemoveManoeuvreFault,
+} from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { ReverseManoeuvreComponent } from '../reverse-manoeuvre';
 
 describe('ReverseManoeuvreComponent', () => {
@@ -83,9 +83,7 @@ describe('ReverseManoeuvreComponent', () => {
           testReport: testReportReducer,
         }),
       ],
-      providers: [
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-      ],
+      providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });
 
     fixture = TestBed.createComponent(ReverseManoeuvreComponent);
@@ -151,10 +149,12 @@ describe('ReverseManoeuvreComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(AddManoeuvreDangerousFault({
-          manoeuvre: component.manoeuvre,
-          competency: component.competency,
-        }));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          AddManoeuvreDangerousFault({
+            manoeuvre: component.manoeuvre,
+            competency: component.competency,
+          })
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
 
@@ -166,10 +166,12 @@ describe('ReverseManoeuvreComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(AddManoeuvreSeriousFault({
-          manoeuvre: component.manoeuvre,
-          competency: component.competency,
-        }));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          AddManoeuvreSeriousFault({
+            manoeuvre: component.manoeuvre,
+            competency: component.competency,
+          })
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
     });
@@ -213,10 +215,15 @@ describe('ReverseManoeuvreComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(3);
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
-          competency: component.competency,
-          manoeuvre: component.manoeuvre,
-        }, CompetencyOutcome.D));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveManoeuvreFault(
+            {
+              competency: component.competency,
+              manoeuvre: component.manoeuvre,
+            },
+            CompetencyOutcome.D
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
@@ -231,10 +238,15 @@ describe('ReverseManoeuvreComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(3);
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
-          competency: component.competency,
-          manoeuvre: component.manoeuvre,
-        }, CompetencyOutcome.S));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveManoeuvreFault(
+            {
+              competency: component.competency,
+              manoeuvre: component.manoeuvre,
+            },
+            CompetencyOutcome.S
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });

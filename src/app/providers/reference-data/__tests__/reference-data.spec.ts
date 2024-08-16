@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { take } from 'rxjs/operators';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { UrlProvider } from '@providers/url/url';
-import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
-import { AppConfigProvider } from '@providers/app-config/app-config';
+import { TestBed } from '@angular/core/testing';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { RefDataTestCentreResponse, ReferenceDataProvider } from '@providers/reference-data/reference-data';
+import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
+import { UrlProvider } from '@providers/url/url';
+import { take } from 'rxjs/operators';
 
 describe('ReferenceDataProvider', () => {
   let referenceDataProvider: ReferenceDataProvider;
@@ -14,9 +14,7 @@ describe('ReferenceDataProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         ReferenceDataProvider,
         {
@@ -46,16 +44,12 @@ describe('ReferenceDataProvider', () => {
         .getTestCentres()
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual({} as RefDataTestCentreResponse);
+          expect(response).toEqual({} as RefDataTestCentreResponse);
         });
 
-      const req = httpMock.expectOne(
-        (request) => request.url === 'https://ref-data/testcentre',
-      );
+      const req = httpMock.expectOne((request) => request.url === 'https://ref-data/testcentre');
 
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush({});
     });
   });

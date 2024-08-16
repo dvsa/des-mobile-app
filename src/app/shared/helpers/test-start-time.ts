@@ -8,8 +8,7 @@ export const PRESS_TIME_TO_ENABLE_EDIT = 10000;
 export function getNewTestStartTime(inputDate: string, startDateTime: string): string {
   const date = inputDate.trim();
 
-  const dateArray = date.split('-')
-    .map((d) => parseInt(d, 10));
+  const dateArray = date.split('-').map((d) => Number.parseInt(d, 10));
   const year = dateArray[0];
   const month = dateArray[1];
   const day = dateArray[2];
@@ -30,15 +29,12 @@ export function getNewTestStartTime(inputDate: string, startDateTime: string): s
  * @param currentDate format: YYYY-MM-DD
  */
 export function isValidStartDate(inputDate: string, currentDate: string): boolean {
-
-  if (DateTime.at(inputDate)
-    .isAfter(currentDate)) {
+  if (DateTime.at(inputDate).isAfter(currentDate)) {
     // inputDate is in the future
     return false;
   }
 
   if (new DateTime(currentDate).diff(inputDate, Duration.YEAR, true) > 1) {
-
     // inputDate is more than one year in the past
     return false;
   }

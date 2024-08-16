@@ -1,29 +1,27 @@
-import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
-import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import { select } from '@ngrx/store';
-import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
-import { Log, LogType } from '@shared/models/log.model';
-import { ErrorTypes } from '@shared/models/error-message';
-import { SaveLog } from '@store/logs/logs.actions';
-import { getLastRefreshed, getLastRefreshedTime } from '@store/test-centre-journal/test-centre-journal.selector';
-import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
-import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
+import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { LoadingController } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import { CandidateSearchCardComponent } from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
+import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
-import {
-  CandidateSearchCardComponent,
-} from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
-import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { ErrorTypes } from '@shared/models/error-message';
+import { Log, LogType } from '@shared/models/log.model';
+import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { SaveLog } from '@store/logs/logs.actions';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
+import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
+import { getLastRefreshed, getLastRefreshedTime } from '@store/test-centre-journal/test-centre-journal.selector';
+import { Observable, Subject, Subscription, merge, of } from 'rxjs';
+import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import {
   TestCentreJournalGetData,
   TestCentreJournalSelectTestCentre,
@@ -43,18 +41,17 @@ interface TestCentreJournalPageState {
   styleUrls: ['test-centre-journal.page.scss'],
 })
 export class TestCentreJournalPage extends BasePageComponent implements OnDestroy, OnInit {
-
   pageState: TestCentreJournalPageState;
   testCentreResults: TestCentreDetailResponse = null;
   merged$: Observable<boolean>;
-  manuallyRefreshed: boolean = false;
+  manuallyRefreshed = false;
   isOffline: boolean;
-  hasSearched: boolean = false;
-  showSearchSpinner: boolean = false;
+  hasSearched = false;
+  showSearchSpinner = false;
   subscription: Subscription = Subscription.EMPTY;
-  didError: boolean = false;
+  didError = false;
   errorMessage: string = null;
-  isLDTM: boolean = false;
+  isLDTM = false;
   testCentreSelected: JournalTestCentre = null;
 
   @ViewChild('candidateSearchCard')
@@ -71,7 +68,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
     private appConfig: AppConfigProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
@@ -82,26 +79,17 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
       lastRefreshedTime$: this.store$.pipe(
         select(getTestCentreJournalState),
         map(getLastRefreshed),
-        map(getLastRefreshedTime),
+        map(getLastRefreshedTime)
       ),
-      activeTestCentres$: this.store$.pipe(
-        select(getRefDataState),
-        map(getTestCentres),
-        map(getActiveTestCentres),
-      ),
+      activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
     };
 
     this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
 
-    const {
-      isOffline$,
-    } = this.pageState;
+    const { isOffline$ } = this.pageState;
 
-    this.merged$ = merge(
-      isOffline$.pipe(map((isOffline) => this.isOffline = isOffline)),
-    );
-    this.merged$.pipe(takeUntil(this.destroy$))
-      .subscribe();
+    this.merged$ = merge(isOffline$.pipe(map((isOffline) => (this.isOffline = isOffline))));
+    this.merged$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   async ionViewWillEnter(): Promise<void> {
@@ -127,7 +115,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = async (manualRefresh: boolean = false, tcID: number = null): Promise<void> => {
+  getTestCentreData = async (manualRefresh = false, tcID: number = null): Promise<void> => {
     this.subscription.unsubscribe();
     this.manuallyRefreshed = manualRefresh;
     this.store$.dispatch(TestCentreJournalGetData(manualRefresh));
@@ -150,7 +138,8 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
     this.showSearchSpinner = true;
 
-    this.subscription = this.testCentreJournalProvider.getTestCentreJournal(tcID)
+    this.subscription = this.testCentreJournalProvider
+      .getTestCentreJournal(tcID)
       .pipe(
         takeUntil(this.destroy$),
         tap(() => {
@@ -162,11 +151,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
           this.didError = false;
         }),
         catchError((err: HttpErrorResponse) => {
-          const log: Log = this.logHelper.createLog(
-            LogType.ERROR,
-            'Getting test centre journal',
-            err.message,
-          );
+          const log: Log = this.logHelper.createLog(LogType.ERROR, 'Getting test centre journal', err.message);
           this.didError = true;
           this.store$.dispatch(SaveLog({ payload: log }));
           this.testCentreResults = null;
@@ -182,15 +167,17 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
           this.errorMessage = ErrorTypes.TEST_CENTRE_UNKNOWN_ERROR;
           return of(this.hasSearched);
         }),
-        finalize(async () => loading.dismiss()),
+        finalize(async () => loading.dismiss())
       )
       .subscribe();
   };
 
   private isRecognisedError = (error: string) => {
-    return error === ErrorTypes.TEST_CENTRE_OFFLINE
-      || error === ErrorTypes.TEST_CENTRE_JOURNAL_NO_RESULT
-      || error === ErrorTypes.TEST_CENTRE_JOURNAL_ERROR;
+    return (
+      error === ErrorTypes.TEST_CENTRE_OFFLINE ||
+      error === ErrorTypes.TEST_CENTRE_JOURNAL_NO_RESULT ||
+      error === ErrorTypes.TEST_CENTRE_JOURNAL_ERROR
+    );
   };
 
   private mapError = (error: string): void => {
@@ -206,8 +193,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   };
 
   get testCentreNames(): string {
-    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name)
-      .join(', ');
+    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
   }
 
   testCentreChange = async (testCentre: JournalTestCentre): Promise<void> => {
@@ -225,5 +211,4 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   tabChanged = (tab: string): void => {
     this.store$.dispatch(TestCentreJournalTabChanged(tab));
   };
-
 }

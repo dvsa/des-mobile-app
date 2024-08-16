@@ -1,8 +1,6 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
-import { Address } from '@dvsa/mes-test-schema/categories/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Address } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'postal-address',
@@ -10,7 +8,6 @@ import { UntypedFormGroup } from '@angular/forms';
   styleUrls: ['postal-address.scss'],
 })
 export class PostalAddressComponent {
-
   @Input()
   formGroup: UntypedFormGroup;
 
@@ -32,9 +29,9 @@ export class PostalAddressComponent {
   }
 
   formatAddress(address: Address): Address {
-    const regex = new RegExp('[0-9]', 'g');
+    const regex = /[0-9]/g;
     const formattedAddress: Address = { ...address };
-    Object.keys(formattedAddress).forEach((res) => formattedAddress[res] = formattedAddress[res].replace(regex, 'x'));
+    Object.keys(formattedAddress).forEach((res) => (formattedAddress[res] = formattedAddress[res].replace(regex, 'x')));
     return formattedAddress;
   }
 }

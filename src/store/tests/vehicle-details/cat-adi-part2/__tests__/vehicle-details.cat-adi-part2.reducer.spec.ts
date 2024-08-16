@@ -1,11 +1,13 @@
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
-  ClearGearboxCategory, DualControlsToggled,
+  ClearGearboxCategory,
+  DualControlsToggled,
   GearboxCategoryChanged,
-  MotStatusChanged, SchoolCarToggled,
+  MotStatusChanged,
+  SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { vehicleDetailsCatADIPart2Reducer, initialState } from '../vehicle-details.cat-adi-part2.reducer';
+import { initialState, vehicleDetailsCatADIPart2Reducer } from '../vehicle-details.cat-adi-part2.reducer';
 
 describe('vehicleDetailsCatADIPart2Reducer', () => {
   it('should set the registration number when the VehicleRegistrationChanged action is received', () => {

@@ -1,26 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModel } from '@shared/models/store.model';
-import * as testsActions from '@store/tests/tests.actions';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import {
-  AnalyticsScreenNames,
-  GoogleAnalyticsEventPrefix,
-} from '@providers/analytics/analytics.model';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticsScreenNames, GoogleAnalyticsEventPrefix } from '@providers/analytics/analytics.model';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
-import { PostDebriefHoldingAnalyticsEffects } from '../post-debrief-holding.analytics.effects';
 import * as postDebriefHoldingActions from '../post-debrief-holding.actions';
+import { PostDebriefHoldingAnalyticsEffects } from '../post-debrief-holding.analytics.effects';
 
 describe('PostDebriefHoldingAnalyticsEffects', () => {
   let effects: PostDebriefHoldingAnalyticsEffects;
@@ -66,11 +63,9 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
       // ASSERT
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -82,15 +77,14 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
       // ASSERT
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
         done();
       });
     });
   });
-
 });

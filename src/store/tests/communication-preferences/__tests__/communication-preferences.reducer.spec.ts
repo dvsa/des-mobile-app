@@ -1,15 +1,14 @@
 import { CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
-import { communicationPreferencesReducer } from '../communication-preferences.reducer';
 import {
   CandidateChoseEmailAsCommunicationPreference,
   CandidateChosePostAsCommunicationPreference,
-  CandidateChoseToProceedWithTestInWelsh,
   CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
   PopulateConductedLanguage,
 } from '../communication-preferences.actions';
+import { communicationPreferencesReducer } from '../communication-preferences.reducer';
 
 describe('communicationPreferencesReducer', () => {
-
   describe('CANDIDATE_CONFIRMED_COMMUNICATION_PREFERENCE_AS_EMAIL', () => {
     it('should correctly set the communication preference as email and set the email address', () => {
       const emailAddress: string = 'example@example.com';

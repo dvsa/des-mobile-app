@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./finalisation-header.scss'],
 })
 export class FinalisationHeaderComponent {
-
   @Input()
   candidateName: string;
 

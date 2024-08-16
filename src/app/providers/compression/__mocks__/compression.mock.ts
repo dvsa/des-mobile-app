@@ -6,5 +6,4 @@ export class CompressionProviderMock {
     const unzippedJson = gunzipSync(gzippedBytes).toString();
     return JSON.parse(unzippedJson);
   }
-
 }

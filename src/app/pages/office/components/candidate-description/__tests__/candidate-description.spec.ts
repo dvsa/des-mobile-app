@@ -1,9 +1,9 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from 'src/app/app.module';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { AppModule } from 'src/app/app.module';
 import { CandidateDescriptionComponent } from '../candidate-description';
 
 describe('CandidateDescriptionComponent', () => {
@@ -13,16 +13,9 @@ describe('CandidateDescriptionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CandidateDescriptionComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-      ],
+      declarations: [CandidateDescriptionComponent],
+      imports: [IonicModule, AppModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 
     fixture = TestBed.createComponent(CandidateDescriptionComponent);
@@ -104,21 +97,18 @@ describe('CandidateDescriptionComponent', () => {
   describe('characterCountChanged', () => {
     it('should edit the variable to the value parsed into the function', () => {
       component.characterCountChanged(1);
-      expect(component.candidateDescriptionCharsRemaining)
-        .toEqual(1);
+      expect(component.candidateDescriptionCharsRemaining).toEqual(1);
     });
   });
 
   describe('charactersExceeded', () => {
     it('should return true if noAdviceCharsRemaining is less than 0 ', () => {
       component.candidateDescriptionCharsRemaining = -100;
-      expect(component.charactersExceeded())
-        .toEqual(true);
+      expect(component.charactersExceeded()).toEqual(true);
     });
     it('should return false if noAdviceCharsRemaining is more than 0 ', () => {
       component.candidateDescriptionCharsRemaining = 100;
-      expect(component.charactersExceeded())
-        .toEqual(false);
+      expect(component.charactersExceeded()).toEqual(false);
     });
   });
 

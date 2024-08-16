@@ -1,31 +1,27 @@
-import { createAction, union } from '@ngrx/store';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { createAction, union } from '@ngrx/store';
 
 import { RekeySearchError } from './rekey-search-error-model';
 
-export const RekeySearchViewDidEnter = createAction(
-  '[RekeySearch] Rekey Search Did Enter',
-);
+export const RekeySearchViewDidEnter = createAction('[RekeySearch] Rekey Search Did Enter');
 
 export const SearchBookedTest = createAction(
   '[RekeySearch] Search Booked Test',
-  (appRef: string, staffNumber: string) => ({ appRef, staffNumber }),
+  (appRef: string, staffNumber: string) => ({ appRef, staffNumber })
 );
 
 export const SearchBookedTestSuccess = createAction(
   '[RekeySearchEffects] Search Booked Test Success',
-  (testSlot: TestSlot, staffNumber: string) => ({ testSlot, staffNumber }),
+  (testSlot: TestSlot, staffNumber: string) => ({ testSlot, staffNumber })
 );
 
 export const SearchBookedTestFailure = createAction(
   '[RekeySearchEffects] Search Booked Test Failure',
-  (err: HttpErrorResponse | RekeySearchError) => ({ err }),
+  (err: HttpErrorResponse | RekeySearchError) => ({ err })
 );
 
-export const RekeySearchClearState = createAction(
-  '[RekeySearch] Rekey Search Clear State',
-);
+export const RekeySearchClearState = createAction('[RekeySearch] Rekey Search Clear State');
 
 const actions = union({
   RekeySearchViewDidEnter,

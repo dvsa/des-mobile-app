@@ -14,10 +14,7 @@ describe('Directive: InputRestrictionUppercaseAlphanumDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestAlphaNumComponent,
-        InputRestrictionUppercaseAlphanumDirective,
-      ],
+      declarations: [TestAlphaNumComponent, InputRestrictionUppercaseAlphanumDirective],
     });
     fixture = TestBed.createComponent(TestAlphaNumComponent);
   });

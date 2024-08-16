@@ -1,15 +1,14 @@
 import { HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
-import { highwayCodeSafetyReducer } from '../highway-code-safety.reducer';
 import {
-  ToggleHighwayCodeSafety,
+  HighwayCodeSafetyAddComment,
   HighwayCodeSafetyAddDrivingFault,
   HighwayCodeSafetyAddSeriousFault,
   HighwayCodeSafetyRemoveFault,
-  HighwayCodeSafetyAddComment,
+  ToggleHighwayCodeSafety,
 } from '../highway-code-safety.actions';
+import { highwayCodeSafetyReducer } from '../highway-code-safety.reducer';
 
 describe('Highway Code Safety Reducer', () => {
-
   describe('TOGGLE_HIGHWAY_CODE_SAFETY_STOP', () => {
     it('should toggle the highway code safety (true when dispatched first time)', () => {
       const state: HighwayCodeSafetyUnion = {};
@@ -60,5 +59,4 @@ describe('Highway Code Safety Reducer', () => {
       expect(result.faultComments).toBeUndefined();
     });
   });
-
 });

@@ -1,16 +1,16 @@
-import { merge, Observable, Subscription } from 'rxjs';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { NavParams } from '@ionic/angular';
 import { Component, Input, OnInit } from '@angular/core';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { NavParams } from '@ionic/angular';
+import { Store, select } from '@ngrx/store';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
-import { select, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store//tests/tests.selector';
-import { getTestCategory } from '@store//tests/category/category.reducer';
-import { map } from 'rxjs/operators';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
+import { StoreModel } from '@shared/models/store.model';
+import { getTestCategory } from '@store//tests/category/category.reducer';
+import { getCurrentTest } from '@store//tests/tests.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 
 interface ReverseDiagramPageState {
@@ -48,47 +48,31 @@ export class ReverseDiagramPage implements OnInit {
     private navParams: NavParams,
     public store$: Store<StoreModel>,
     public reversingDistancesProvider: ReversingDistancesProvider,
-    public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
+    public vehicleDetailsProvider: VehicleDetailsByCategoryProvider
   ) {
     this.onClose = this.navParams.get('onClose');
   }
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     let category: TestCategory;
-    this.catSubscription = currentTest$.pipe(select(getTestCategory))
-      .subscribe((value) => {
-        category = value as TestCategory;
-        const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
-        this.componentState = {
-          vehicleLength$: currentTest$.pipe(
-            select(vehicleDetails.vehicleDetails),
-            select(vehicleDetails.vehicleLength),
-          ),
-          vehicleWidth$: currentTest$.pipe(
-            select(vehicleDetails.vehicleDetails),
-            select(vehicleDetails.vehicleWidth),
-          ),
-          category$: currentTest$.pipe(
-            select(getTestCategory),
-          ),
-        };
-      });
+    this.catSubscription = currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
+      category = value as TestCategory;
+      const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
+      this.componentState = {
+        vehicleLength$: currentTest$.pipe(select(vehicleDetails.vehicleDetails), select(vehicleDetails.vehicleLength)),
+        vehicleWidth$: currentTest$.pipe(select(vehicleDetails.vehicleDetails), select(vehicleDetails.vehicleWidth)),
+        category$: currentTest$.pipe(select(getTestCategory)),
+      };
+    });
 
-    const {
-      vehicleLength$,
-      vehicleWidth$,
-      category$,
-    } = this.componentState;
+    const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
 
     this.merged$ = merge(
-      vehicleLength$.pipe(map((val) => this.vehicleLength = val)),
-      vehicleWidth$.pipe(map((val) => this.vehicleWidth = val)),
-      category$.pipe(map((val) => this.category = val as TestCategory)),
+      vehicleLength$.pipe(map((val) => (this.vehicleLength = val))),
+      vehicleWidth$.pipe(map((val) => (this.vehicleWidth = val))),
+      category$.pipe(map((val) => (this.category = val as TestCategory)))
     );
   }
 
@@ -138,9 +122,9 @@ export class ReverseDiagramPage implements OnInit {
       case TestCategory.C1M:
       case TestCategory.DM:
       case TestCategory.D1M:
-        return this.multiplierText = '1 1/2';
+        return (this.multiplierText = '1 1/2');
       default:
-        return this.multiplierText = '2';
+        return (this.multiplierText = '2');
     }
   }
 

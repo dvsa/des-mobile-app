@@ -1,8 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { IonicModule } from '@ionic/angular';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { PracticeEndToEndCardComponent } from '../practice-end-to-end-card';
 
 describe('PracticeEndToEndCard ', () => {
@@ -14,9 +14,7 @@ describe('PracticeEndToEndCard ', () => {
     TestBed.configureTestingModule({
       declarations: [PracticeEndToEndCardComponent],
       imports: [IonicModule],
-      providers: [
-        { provide: Router, useClass: RouterMock },
-      ],
+      providers: [{ provide: Router, useClass: RouterMock }],
     });
 
     fixture = TestBed.createComponent(PracticeEndToEndCardComponent);
@@ -33,5 +31,4 @@ describe('PracticeEndToEndCard ', () => {
       });
     });
   });
-
 });

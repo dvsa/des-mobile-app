@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import {
   UpdateAvailable,
   UpdateAvailableModal,
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 
 describe('UpdateAvailableModal', () => {
   let component: UpdateAvailableModal;
@@ -16,10 +16,7 @@ describe('UpdateAvailableModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        UpdateAvailableModal,
-        MockComponent(ModalAlertTitleComponent),
-      ],
+      declarations: [UpdateAvailableModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule],
       providers: [
         {
@@ -39,15 +36,13 @@ describe('UpdateAvailableModal', () => {
     describe('clickRemindMeLater', () => {
       it('should call modal dismiss with `REMIND_ME_LATER`', async () => {
         await component.clickRemindMeLater();
-        expect(modalController.dismiss)
-          .toHaveBeenCalledWith(UpdateAvailable.REMIND_ME_LATER);
+        expect(modalController.dismiss).toHaveBeenCalledWith(UpdateAvailable.REMIND_ME_LATER);
       });
     });
     describe('clickOK', () => {
       it('should call modal dismiss with `OK`', async () => {
         await component.clickOK();
-        expect(modalController.dismiss)
-          .toHaveBeenCalledWith(UpdateAvailable.OK);
+        expect(modalController.dismiss).toHaveBeenCalledWith(UpdateAvailable.OK);
       });
     });
   });

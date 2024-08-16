@@ -1,37 +1,37 @@
-import { merge, Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
-import { select, Store } from '@ngrx/store';
-import { isEmpty, startsWith } from 'lodash-es';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
+import { Store, select } from '@ngrx/store';
 import { JOURNAL_FORCE_CHECK_MODAL, TestFlowPageNames } from '@pages/page-names.constants';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
+import { isEmpty, startsWith } from 'lodash-es';
+import { Subscription, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivateTest, StartTest } from '@store/tests/tests.actions';
-import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
-import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
-import { EarlyStartModalDidEnter, ResumingWriteUp } from '@store/journal/journal.actions';
+import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
-import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
+import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
+import { JournalFutureTestModal } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal';
 import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
-import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
-import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { JournalFutureTestModal } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal';
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { EarlyStartModalDidEnter, ResumingWriteUp } from '@store/journal/journal.actions';
+import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
+import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 
 @Component({
   selector: 'test-outcome',
@@ -39,7 +39,6 @@ import { JournalFutureTestModal } from '@pages/journal/components/journal-future
   styleUrls: ['test-outcome.scss'],
 })
 export class TestOutcomeComponent implements OnInit {
-
   @Input()
   applicationId: number;
 
@@ -65,7 +64,7 @@ export class TestOutcomeComponent implements OnInit {
   isRekey: boolean;
 
   @Input()
-  isDelegatedTest: boolean = false;
+  isDelegatedTest = false;
 
   @Input()
   examinerId: number;
@@ -74,7 +73,7 @@ export class TestOutcomeComponent implements OnInit {
   category: TestCategory;
 
   @Input()
-  showTestActionButton: boolean = true;
+  showTestActionButton = true;
 
   @Input()
   slot: TestSlot;
@@ -86,13 +85,13 @@ export class TestOutcomeComponent implements OnInit {
   isPracticeMode?: boolean = false;
 
   @Input()
-  hasNavigatedFromUnsubmitted: boolean = false;
+  hasNavigatedFromUnsubmitted = false;
 
   @Output()
   cancelFutureTestModal = new EventEmitter<void>();
 
-  startTestAsRekey: boolean = false;
-  isTestSlotOnRekeySearch: boolean = false;
+  startTestAsRekey = false;
+  isTestSlotOnRekeySearch = false;
   subscription: Subscription;
 
   constructor(
@@ -101,15 +100,11 @@ export class TestOutcomeComponent implements OnInit {
     private routeByCat: RouteByCategoryProvider,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    private categoryWhitelistProvider: CategoryWhitelistProvider,
-  ) {
-  }
+    private categoryWhitelistProvider: CategoryWhitelistProvider
+  ) {}
 
   ngOnInit() {
-    const bookedTestSlot$ = this.store$.pipe(
-      select(getRekeySearchState),
-      map(getBookedTestSlot),
-    );
+    const bookedTestSlot$ = this.store$.pipe(select(getRekeySearchState), map(getBookedTestSlot));
 
     const merged$ = merge(
       bookedTestSlot$.pipe(
@@ -122,8 +117,8 @@ export class TestOutcomeComponent implements OnInit {
           if (testSlot.slotDetail.slotId === this.slotDetail.slotId) {
             this.isTestSlotOnRekeySearch = true;
           }
-        }),
-      ),
+        })
+      )
     );
 
     this.subscription = merged$.subscribe();
@@ -158,11 +153,11 @@ export class TestOutcomeComponent implements OnInit {
     }
 
     // the test is incomplete AND this is not the rekey search AND it was not started as a rekey
-    return this.isDateInPast() && this.testStatus !== TestStatus.Started
+    return this.isDateInPast() && this.testStatus !== TestStatus.Started;
   }
 
   showStartTestButton(): boolean {
-    return !this.isDelegatedTest && (this.testStatus === TestStatus.Booked);
+    return !this.isDelegatedTest && this.testStatus === TestStatus.Booked;
   }
 
   showDelegatedExaminerRekeyButton(): boolean {
@@ -185,9 +180,9 @@ export class TestOutcomeComponent implements OnInit {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
 
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE,
-      this.category,
-      { state: { hasNavigatedFromUnsubmitted: this.hasNavigatedFromUnsubmitted } });
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category, {
+      state: { hasNavigatedFromUnsubmitted: this.hasNavigatedFromUnsubmitted },
+    });
   }
 
   async resumeTest() {
@@ -199,9 +194,7 @@ export class TestOutcomeComponent implements OnInit {
 
     if (this.testStatus === TestStatus.Started) {
       await this.router.navigate([
-        this.category !== TestCategory.SC
-          ? TestFlowPageNames.WAITING_ROOM_PAGE
-          : TestFlowPageNames.COMMUNICATION_PAGE,
+        this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
       ]);
     } else if (this.activityCode === ActivityCodes.PASS) {
       await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
@@ -217,11 +210,9 @@ export class TestOutcomeComponent implements OnInit {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
 
-    await this.router.navigate(
-      [this.category !== TestCategory.SC
-        ? TestFlowPageNames.WAITING_ROOM_PAGE
-        : TestFlowPageNames.COMMUNICATION_PAGE],
-    );
+    await this.router.navigate([
+      this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
+    ]);
   }
 
   async rekeyTest() {
@@ -230,22 +221,21 @@ export class TestOutcomeComponent implements OnInit {
     }
 
     if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
-      this.store$.dispatch(StartTest(
-        this.slotDetail.slotId,
-        this.category,
-        true,
-        false,
-        DateTime.at(this.slotDetail.start)
-          .format('YYYY-MM-DD'),
-      ));
+      this.store$.dispatch(
+        StartTest(
+          this.slotDetail.slotId,
+          this.category,
+          true,
+          false,
+          DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
+        )
+      );
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
     }
-    await this.router.navigate(
-      [this.category !== TestCategory.SC
-        ? TestFlowPageNames.WAITING_ROOM_PAGE
-        : TestFlowPageNames.COMMUNICATION_PAGE],
-    );
+    await this.router.navigate([
+      this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
+    ]);
   }
 
   async rekeyDelegatedTestStart() {
@@ -267,7 +257,7 @@ export class TestOutcomeComponent implements OnInit {
       if (data === ModalEvent.START) {
         await this.rekeyDelegatedTestStart();
       } else {
-        this.cancelFutureTestModal.emit()
+        this.cancelFutureTestModal.emit();
       }
     } else {
       await this.rekeyDelegatedTestStart();
@@ -398,5 +388,4 @@ export class TestOutcomeComponent implements OnInit {
       await this.resumeTest();
     }
   }
-
 }

@@ -1,46 +1,41 @@
 import { Injectable } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
+import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
-import { FaultSummary } from '@shared/models/fault-marking.model';
+import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultSummaryCatManoeuvreHelper } from '@providers/fault-summary/cat-manoeuvres/fault-summary.cat-manoeuvres';
-import { FaultSummaryCatHomeTestHelper } from './cat-home-test/fault-summary.cat-home-test';
-import { FaultSummaryCatDHelper } from './cat-d/fault-summary.cat-d';
-import { FaultSummaryCatCHelper } from './cat-c/fault-summary.cat-c';
-import { FaultSummaryCatBHelper } from './cat-b/fault-summary.cat-b';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { FaultSummary } from '@shared/models/fault-marking.model';
 import { FaultCountProvider } from '../fault-count/fault-count';
 import { FaultSummaryCatAM1Helper } from './cat-a-mod1/fault-summary.cat-a-mod1';
 import { FaultSummaryCatAM2Helper } from './cat-a-mod2/fault-summary.cat-a-mod2';
 import { FaultSummaryCatAdiPart2Helper } from './cat-adi-part2/fault-summary.cat-adi-part2';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { FaultSummaryCatBHelper } from './cat-b/fault-summary.cat-b';
+import { FaultSummaryCatCHelper } from './cat-c/fault-summary.cat-c';
+import { FaultSummaryCatDHelper } from './cat-d/fault-summary.cat-d';
+import { FaultSummaryCatHomeTestHelper } from './cat-home-test/fault-summary.cat-home-test';
 
 @Injectable()
 export class FaultSummaryProvider {
+  constructor(private faultCountProvider: FaultCountProvider) {}
 
-  constructor(private faultCountProvider: FaultCountProvider) { }
-
-  public getDrivingFaultsList(
-    data: object,
-    category: TestCategory,
-    includeVehicleCheckFaults: boolean = true,
-  ): FaultSummary[] {
+  public getDrivingFaultsList(data: object, category: TestCategory, includeVehicleCheckFaults = true): FaultSummary[] {
     switch (category) {
       case TestCategory.ADI2:
         return FaultSummaryCatAdiPart2Helper.getDrivingFaultsCatAdiPart2(
           data,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.ADI2,
-            (<CatADI2UniqueTypes.TestData>data).vehicleChecks,
+            (<CatADI2UniqueTypes.TestData>data).vehicleChecks
           ),
-          includeVehicleCheckFaults,
+          includeVehicleCheckFaults
         );
       case TestCategory.B:
         return FaultSummaryCatBHelper.getDrivingFaultsCatB(data);
@@ -50,8 +45,8 @@ export class FaultSummaryProvider {
           TestCategory.C,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.C,
-            (<CatCUniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatCUniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.C1:
         return FaultSummaryCatCHelper.getDrivingFaultsNonTrailer(
@@ -59,8 +54,8 @@ export class FaultSummaryProvider {
           TestCategory.C1,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.C1,
-            (<CatC1UniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatC1UniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.CE:
         return FaultSummaryCatCHelper.getDrivingFaultsTrailer(
@@ -68,8 +63,8 @@ export class FaultSummaryProvider {
           TestCategory.CE,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.CE,
-            (<CatCEUniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatCEUniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.C1E:
         return FaultSummaryCatCHelper.getDrivingFaultsTrailer(
@@ -77,8 +72,8 @@ export class FaultSummaryProvider {
           TestCategory.C1E,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.C1E,
-            (<CatC1EUniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatC1EUniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.CM:
       case TestCategory.C1M:
@@ -95,8 +90,8 @@ export class FaultSummaryProvider {
           TestCategory.D,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.D,
-            (<CatDUniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatDUniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.D1:
         return FaultSummaryCatDHelper.getDrivingFaultsNonTrailer(
@@ -104,8 +99,8 @@ export class FaultSummaryProvider {
           TestCategory.D1,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.D1,
-            (<CatD1UniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatD1UniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.DE:
         return FaultSummaryCatDHelper.getDrivingFaultsTrailer(
@@ -113,8 +108,8 @@ export class FaultSummaryProvider {
           TestCategory.DE,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.DE,
-            (<CatDEUniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatDEUniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.D1E:
         return FaultSummaryCatDHelper.getDrivingFaultsTrailer(
@@ -122,8 +117,8 @@ export class FaultSummaryProvider {
           TestCategory.D1E,
           this.faultCountProvider.getVehicleChecksFaultCount(
             TestCategory.D1E,
-            (<CatD1EUniqueTypes.TestData>data).vehicleChecks,
-          ),
+            (<CatD1EUniqueTypes.TestData>data).vehicleChecks
+          )
         );
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
@@ -148,13 +143,10 @@ export class FaultSummaryProvider {
   public shouldShowIncorrect(data: object, category: TestCategory): boolean {
     switch (category) {
       case TestCategory.B:
-        const {
-          showMeQuestion,
-          tellMeQuestion,
-        } = (data as CatBUniqueTypes.TestData).vehicleChecks;
+        const { showMeQuestion, tellMeQuestion } = (data as CatBUniqueTypes.TestData).vehicleChecks;
         return (
-          (showMeQuestion.outcome === CompetencyOutcome.D || showMeQuestion.outcome === CompetencyOutcome.S)
-          && tellMeQuestion.outcome === CompetencyOutcome.DF
+          (showMeQuestion.outcome === CompetencyOutcome.D || showMeQuestion.outcome === CompetencyOutcome.S) &&
+          tellMeQuestion.outcome === CompetencyOutcome.DF
         );
       default:
         return false;

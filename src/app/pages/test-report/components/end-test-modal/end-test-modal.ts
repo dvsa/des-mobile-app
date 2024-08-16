@@ -8,10 +8,7 @@ import { ModalEvent } from '../../test-report.constants';
   styleUrls: ['end-test-modal.scss'],
 })
 export class EndTestModal {
-
-  constructor(
-    public modalCtrl: ModalController,
-  ) {}
+  constructor(public modalCtrl: ModalController) {}
 
   async onCancel() {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);
@@ -24,5 +21,4 @@ export class EndTestModal {
   async onTerminate() {
     await this.modalCtrl.dismiss(ModalEvent.TERMINATE);
   }
-
 }

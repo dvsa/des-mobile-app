@@ -1,6 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { createReducer, on } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as vehicleChecksActions from './vehicle-checks.actions';
 
 export const initialState: CatBUniqueTypes.VehicleChecks = {
@@ -10,15 +10,13 @@ export const initialState: CatBUniqueTypes.VehicleChecks = {
 
 export const vehicleChecksReducer = createReducer(
   initialState,
-  on(vehicleChecksActions.TellMeQuestionSelected, (state, { tellMeQuestion }) => (
-    {
-      ...state,
-      tellMeQuestion: {
-        code: tellMeQuestion.code,
-        description: tellMeQuestion.shortName,
-      },
-    }
-  )),
+  on(vehicleChecksActions.TellMeQuestionSelected, (state, { tellMeQuestion }) => ({
+    ...state,
+    tellMeQuestion: {
+      code: tellMeQuestion.code,
+      description: tellMeQuestion.shortName,
+    },
+  })),
   on(vehicleChecksActions.TellMeQuestionCorrect, (state) => ({
     ...state,
     tellMeQuestion: {
@@ -82,5 +80,5 @@ export const vehicleChecksReducer = createReducer(
   on(vehicleChecksActions.AddShowMeTellMeComment, (state, payload) => ({
     ...state,
     showMeTellMeComments: payload.comment,
-  })),
+  }))
 );

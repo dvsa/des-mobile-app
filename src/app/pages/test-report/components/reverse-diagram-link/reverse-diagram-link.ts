@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
 import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import {
-  ReverseDiagramClosed,
-  ReverseDiagramOpened,
-} from '../reverse-diagram-modal/reverse-diagram-modal.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { ReverseDiagramClosed, ReverseDiagramOpened } from '../reverse-diagram-modal/reverse-diagram-modal.actions';
 
 @Component({
   selector: 'reverse-diagram-link',
@@ -15,11 +12,10 @@ import {
   styleUrls: ['reverse-diagram-link.scss'],
 })
 export class ReverseDiagramLinkComponent {
-
   constructor(
     public modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    private store$: Store<StoreModel>,
+    private store$: Store<StoreModel>
   ) {}
 
   async openReverseDiagramModal(): Promise<void> {

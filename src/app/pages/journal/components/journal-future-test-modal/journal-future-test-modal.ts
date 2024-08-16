@@ -8,10 +8,7 @@ import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journa
   styleUrls: ['./journal-future-test-modal.scss'],
 })
 export class JournalFutureTestModal {
-
-  constructor(
-    private modalController: ModalController,
-  ) {}
+  constructor(private modalController: ModalController) {}
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.CANCEL);
@@ -20,5 +17,4 @@ export class JournalFutureTestModal {
   onStartTest = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.START);
   };
-
 }

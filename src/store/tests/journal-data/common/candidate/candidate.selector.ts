@@ -25,9 +25,8 @@ export const formatDriverNumber = (driverNumber: string) => {
   return driverNumber;
 };
 
-export const getCandidateEmailAddress = (candidate: Candidate) => (
-  candidate.emailAddress ? candidate.emailAddress : ''
-);
+export const getCandidateEmailAddress = (candidate: Candidate) =>
+  candidate.emailAddress ? candidate.emailAddress : '';
 
 export const getPostalAddress = (candidate: Candidate) => candidate.candidateAddress;
 
@@ -39,10 +38,7 @@ export const getGender = (candidate: Candidate) => candidate.gender;
 
 export const getDateOfBirth = (candidate: Candidate) => candidate.dateOfBirth;
 
-export const getGenderFullDescription = (
-  gender: string,
-): string => (gender === 'F') ? 'Female' : 'Male';
+export const getGenderFullDescription = (gender: string): string => (gender === 'F' ? 'Female' : 'Male');
 
-export const getGenderSilhouettePath = (
-  gender: string,
-): string => `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`;
+export const getGenderSilhouettePath = (gender: string): string =>
+  `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`;

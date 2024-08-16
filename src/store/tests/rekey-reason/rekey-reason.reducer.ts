@@ -1,5 +1,5 @@
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { RekeyReason } from '@dvsa/mes-test-schema/categories/common';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as rekeyReasonActions from './rekey-reason.actions';
 
 export const initialState: RekeyReason = {
@@ -84,7 +84,7 @@ export const rekeyReasonReducer = createReducer(
       selected: true,
       reason,
     },
-  })),
+  }))
 );
 
 export const getRekeyReason = createFeatureSelector<RekeyReason>('rekeyReason');

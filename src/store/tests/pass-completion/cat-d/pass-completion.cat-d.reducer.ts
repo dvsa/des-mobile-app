@@ -29,7 +29,7 @@ export const passCompletionCatDReducer = createReducer(
   on(passCompletionActions.ProvisionalLicenseNotReceived, (state) => ({
     ...state,
     provisionalLicenceProvided: false,
-  })),
+  }))
 );
 
 export const getPassCompletion = createFeatureSelector<CatDUniqueTypes.PassCompletion>('passCompletion');

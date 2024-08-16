@@ -6,11 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['eta-debrief-card.scss'],
 })
 export class EtaDebriefCardComponent {
+  @Input()
+  public hasPhysicalEta = false;
 
   @Input()
-  public hasPhysicalEta: boolean = false;
-
-  @Input()
-  public hasVerbalEta: boolean = false;
-
+  public hasVerbalEta = false;
 }

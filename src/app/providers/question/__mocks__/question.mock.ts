@@ -1,6 +1,6 @@
+import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksQuestion } from '../vehicle-checks-question.model';
 
 function generateQuestionResult(code: string, description: string, outcome: QuestionOutcome) {

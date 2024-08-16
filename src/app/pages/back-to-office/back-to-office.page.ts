@@ -1,30 +1,28 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { merge, Observable, Subscription } from 'rxjs';
 
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
   ClearVehicleData,
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { AsamFailureNotificationModal } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
 import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import {
-  AsamFailureNotificationModal,
-} from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -41,10 +39,7 @@ export enum NavigationTarget {
   templateUrl: 'back-to-office.page.html',
   styleUrls: ['back-to-office.page.scss'],
 })
-export class BackToOfficePage
-  extends PracticeableBasePageComponent
-  implements OnInit, ViewDidEnter, ViewDidLeave {
-
+export class BackToOfficePage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: BackToOfficePageState;
   testCategory: TestCategory;
   isRekey: boolean;
@@ -57,7 +52,7 @@ export class BackToOfficePage
   constructor(
     public routeByCategoryProvider: RouteByCategoryProvider,
     public modalController: ModalController,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector, false);
   }
@@ -66,27 +61,15 @@ export class BackToOfficePage
     super.ngOnInit();
 
     this.pageState = {
-      isRekey$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
-        select(getRekeyIndicator),
-        select(isRekey),
-      ),
-      testCategory$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
-        select(getTestCategory),
-      ),
+      isRekey$: this.store$.pipe(select(getTests), select(getCurrentTest), select(getRekeyIndicator), select(isRekey)),
+      testCategory$: this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
     };
 
-    const {
-      testCategory$,
-      isRekey$,
-    } = this.pageState;
+    const { testCategory$, isRekey$ } = this.pageState;
 
     this.merged$ = merge(
-      testCategory$.pipe(map((value) => this.testCategory = (value as TestCategory))),
-      isRekey$.pipe(map((value) => this.isRekey = value)),
+      testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory))),
+      isRekey$.pipe(map((value) => (this.isRekey = value)))
     );
 
     this.subscription = this.merged$.subscribe();
@@ -97,9 +80,7 @@ export class BackToOfficePage
     this.store$.dispatch(BackToOfficeViewDidEnter());
     this.store$.dispatch(ClearVehicleData());
 
-    this.singleAppModeEnabled = (super.isIos())
-      ? await this.deviceProvider.isSAMEnabled()
-      : false;
+    this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.isSAMEnabled() : false;
 
     await super.unlockDevice();
   }

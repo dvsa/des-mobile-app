@@ -3,35 +3,32 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { StoreModel } from '@shared/models/store.model';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { getDrivingFaultCount } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
-  ThrottleAddDrivingFault,
+  AddDangerousFault,
+  RemoveDangerousFault,
+} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import {
   RemoveDrivingFault,
+  ThrottleAddDrivingFault,
 } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import {
   AddSeriousFault,
   RemoveSeriousFault,
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import {
-  AddDangerousFault,
-  RemoveDangerousFault,
-} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import {
-  hasSeriousFault,
-  hasDangerousFault,
-} from '@store/tests/test-data/common/test-data.selector';
-import { getDrivingFaultCount } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { hasDangerousFault, hasSeriousFault } from '@store/tests/test-data/common/test-data.selector';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
-import { competencyLabels } from '@shared/constants/competencies/competencies';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 
 interface CompetencyState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -49,7 +46,6 @@ interface CompetencyState {
   styleUrls: ['competency.scss'],
 })
 export class CompetencyComponent {
-
   @Input()
   competency: Competencies;
   @Input()
@@ -58,56 +54,39 @@ export class CompetencyComponent {
   competencyState: CompetencyState;
   subscription: Subscription;
 
-  isRemoveFaultMode: boolean = false;
+  isRemoveFaultMode = false;
   faultCount: number;
-  isSeriousMode: boolean = false;
-  hasSeriousFault: boolean = false;
-  isDangerousMode: boolean = false;
-  hasDangerousFault: boolean = false;
-  isDelegated: boolean = false;
+  isSeriousMode = false;
+  hasSeriousFault = false;
+  isDangerousMode = false;
+  hasDangerousFault = false;
+  isDelegated = false;
 
-  allowRipple: boolean = true;
+  allowRipple = true;
   label: string;
 
-  constructor(
-    private store$: Store<StoreModel>,
-  ) { }
+  constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.competencyState = {
-      isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode),
-      ),
-      isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode),
-      ),
-      isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode),
-      ),
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
       drivingFaultCount$: currentTest$.pipe(
         select(getTestData),
-        select((testData) => getDrivingFaultCount(testData, this.competency)),
+        select((testData) => getDrivingFaultCount(testData, this.competency))
       ),
       hasSeriousFault$: currentTest$.pipe(
         select(getTestData),
-        select((testData) => hasSeriousFault(testData, this.competency)),
+        select((testData) => hasSeriousFault(testData, this.competency))
       ),
       hasDangerousFault$: currentTest$.pipe(
         select(getTestData),
-        select((testData) => hasDangerousFault(testData, this.competency)),
+        select((testData) => hasDangerousFault(testData, this.competency))
       ),
-      isDelegated$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
+      isDelegated$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
     };
 
     const {
@@ -121,18 +100,17 @@ export class CompetencyComponent {
     } = this.competencyState;
 
     const merged$ = merge(
-      drivingFaultCount$.pipe(map((count) => this.faultCount = count)),
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      hasSeriousFault$.pipe(map((toggle) => this.hasSeriousFault = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      hasDangerousFault$.pipe(map((toggle) => this.hasDangerousFault = toggle)),
-      isDelegated$.pipe(map((toggle) => this.isDelegated = toggle)),
+      drivingFaultCount$.pipe(map((count) => (this.faultCount = count))),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      hasSeriousFault$.pipe(map((toggle) => (this.hasSeriousFault = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      hasDangerousFault$.pipe(map((toggle) => (this.hasDangerousFault = toggle))),
+      isDelegated$.pipe(map((toggle) => (this.isDelegated = toggle)))
     ).pipe(tap(this.canButtonRipple));
 
     this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
     this.label = this.getLabel();
-
   }
 
   ngOnDestroy(): void {
@@ -200,7 +178,7 @@ export class CompetencyComponent {
     return competencyLabels[this.competency];
   };
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
+  addOrRemoveFault = (wasPress = false): void => {
     if (this.isRemoveFaultMode) {
       this.removeFault();
     } else {
@@ -231,10 +209,12 @@ export class CompetencyComponent {
 
     if (wasPress) {
       const { competency } = this;
-      return this.store$.dispatch(ThrottleAddDrivingFault({
-        competency,
-        newFaultCount: this.faultCount ? this.faultCount + 1 : 1,
-      }));
+      return this.store$.dispatch(
+        ThrottleAddDrivingFault({
+          competency,
+          newFaultCount: this.faultCount ? this.faultCount + 1 : 1,
+        })
+      );
     }
   };
 
@@ -253,13 +233,14 @@ export class CompetencyComponent {
       return;
     }
     if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.faultCount > 0) {
-      this.store$.dispatch(RemoveDrivingFault({
-        competency: this.competency,
-        newFaultCount: this.faultCount ? this.faultCount - 1 : 0,
-      }));
+      this.store$.dispatch(
+        RemoveDrivingFault({
+          competency: this.competency,
+          newFaultCount: this.faultCount ? this.faultCount - 1 : 0,
+        })
+      );
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
-
   };
 
   competencyHasFault = (): boolean => {

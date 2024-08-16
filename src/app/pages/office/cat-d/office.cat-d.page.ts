@@ -1,49 +1,49 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-d';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { select } from '@ngrx/store';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { merge, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 
-import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { UntypedFormGroup } from '@angular/forms';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
+import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
-import { getVehicleDetails } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
-import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
 import { isProvisionalLicenseProvided } from '@store/tests/pass-completion/pass-completion.selector';
-import { vehicleChecksExist } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
-import { getVehicleChecks } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestOutcome } from '@store/tests/tests.constants';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { startsWith } from 'lodash-es';
-import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { AddShowMeTellMeComment } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { AddPcvDoorExerciseComment } from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
-import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { AddSafetyQuestionComment } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.action';
+import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
+import { getVehicleChecks } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
+import { AddShowMeTellMeComment } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
+import { vehicleChecksExist } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { TestOutcome } from '@store/tests/tests.constants';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
+import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { startsWith } from 'lodash-es';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 interface CatDOfficePageState {
   testCategory$: Observable<CategoryCode>;
@@ -64,7 +64,6 @@ type OfficePageState = CommonOfficePageState & CatDOfficePageState;
   styleUrls: ['../office.page.scss'],
 })
 export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
-
   pageState: OfficePageState;
   pageSubscription: Subscription;
   form: UntypedFormGroup;
@@ -79,7 +78,7 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
@@ -89,51 +88,35 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
-        map((result) => this.testCategory = result),
+        map((result) => (this.testCategory = result))
       ),
-      conductedLanguage$: currentTest$.pipe(
-        select(getCommunicationPreference),
-        select(getConductedLanguage),
-      ),
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
-      transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getGearboxCategory),
-      ),
-      provisionalLicense$: currentTest$.pipe(
-        select(getPassCompletion),
-        map(isProvisionalLicenseProvided),
-      ),
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
+      transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
+      provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
-          data,
-          TestCategory.D,
-          OfficeCatDPage.maxFaultCount,
-        )),
+        map((data) =>
+          this.faultCountProvider.shouldDisplayDrivingFaultComments(data, TestCategory.D, OfficeCatDPage.maxFaultCount)
+        )
       ),
       displayVehicleChecks$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestData))),
         map(([outcome, data]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'vehicleChecks', vehicleChecksExist(data.vehicleChecks))),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'vehicleChecks', vehicleChecksExist(data.vehicleChecks))
+        )
       ),
       vehicleChecks$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecks),
-        map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
+        map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions])
       ),
     };
 
@@ -143,22 +126,15 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
   setupSubscription() {
     super.setupSubscriptions();
 
-    const {
-      testCategory$,
-      delegatedTest$,
-      testOutcome$,
-      testOutcomeText$,
-      conductedLanguage$,
-    } = this.pageState;
+    const { testCategory$, delegatedTest$, testOutcome$, testOutcomeText$, conductedLanguage$ } = this.pageState;
 
     this.pageSubscription = merge(
-      conductedLanguage$.pipe(map((result) => this.conductedLanguage = result)),
-      testOutcomeText$.pipe(map((result) => this.testOutcomeText = result)),
-      testOutcome$.pipe(map((result) => this.testOutcome = result)),
-      delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-      testCategory$.pipe(map((result) => this.testCategory = result)),
-    )
-      .subscribe();
+      conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
+      testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result))),
+      testOutcome$.pipe(map((result) => (this.testOutcome = result))),
+      delegatedTest$.pipe(map((result) => (this.isDelegated = result))),
+      testCategory$.pipe(map((result) => (this.testCategory = result)))
+    ).subscribe();
   }
 
   async ionViewWillEnter() {
@@ -193,7 +169,7 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
     if (dangerousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
+        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment)
       );
       // @TODO Verify if functionality is needed due to maneuvers being moved
     } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
@@ -201,14 +177,8 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.D,
-          controlOrObservation,
-          dangerousFaultComment.comment,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.D, controlOrObservation, dangerousFaultComment.comment)
       );
-
     } else if (dangerousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(dangerousFaultComment.comment));
     } else if (dangerousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
@@ -221,20 +191,16 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
   seriousFaultCommentChanged(seriousFaultComment: FaultSummary) {
     if (seriousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
+        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment)
       );
       // @TODO Verify if functionality is needed due to maneuvers being moved
     } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = seriousFaultComment.source.split('-');
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
-      this.store$.dispatch(AddManoeuvreComment(
-        fieldName,
-        CompetencyOutcome.S,
-        controlOrObservation,
-        seriousFaultComment.comment,
-      ));
-
+      this.store$.dispatch(
+        AddManoeuvreComment(fieldName, CompetencyOutcome.S, controlOrObservation, seriousFaultComment.comment)
+      );
     } else if (seriousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(seriousFaultComment.comment));
     } else if (seriousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
@@ -249,7 +215,7 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
   drivingFaultCommentChanged(drivingFaultComment: FaultSummary) {
     if (drivingFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment),
+        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment)
       );
       // @TODO Verify if functionality is needed due to maneuvers being moved
     } else if (startsWith(drivingFaultComment.source, CommentSource.MANOEUVRES)) {
@@ -257,14 +223,8 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.DF,
-          controlOrObservation,
-          drivingFaultComment.comment,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.DF, controlOrObservation, drivingFaultComment.comment)
       );
-
     } else if (drivingFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(drivingFaultComment.comment));
     } else if (drivingFaultComment.source === CommentSource.VEHICLE_CHECKS) {
@@ -274,7 +234,5 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
     } else if (drivingFaultComment.source === CommentSource.PCV_DOOR_EXERCISE) {
       this.store$.dispatch(AddPcvDoorExerciseComment('drivingFaultComments', drivingFaultComment.comment));
     }
-
   }
-
 }

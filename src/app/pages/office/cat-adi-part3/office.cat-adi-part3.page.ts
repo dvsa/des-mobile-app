@@ -1,24 +1,24 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
-import { Observable } from 'rxjs';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
-import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface CatADI3OfficePageState {
@@ -39,40 +39,26 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.activityCodeOptions = getActivityCodeOptions(
-      this.appConfig.getAppConfig()?.role === ExaminerRole.DLG,
-      true,
-    );
+    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG, true);
   }
 
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
-      testOutcomeGrade$: currentTest$.pipe(
-        select(getTestData),
-        select(getReview),
-        select(getGrade),
-      ),
+      testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
       isStandardsCheck$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => isAnyOf(category, [TestCategory.SC])),
+        map((category) => isAnyOf(category, [TestCategory.SC]))
       ),
-      prn$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidatePrn),
-      ),
+      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
     };
 
     super.setupSubscriptions();
@@ -85,5 +71,4 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
       await this.deviceProvider.disableSingleAppMode();
     }
   }
-
 }

@@ -10,7 +10,7 @@ export const testRequirementsReducer = createReducer(
   on(testRequirementsActions.ToggleLegalRequirement, (state, { legalRequirement }) => ({
     ...state,
     [legalRequirement]: !state[legalRequirement],
-  })),
+  }))
 );
 
 export const getTestRequirementsCatB = createFeatureSelector<TestRequirementsUnion>('testRequirements');

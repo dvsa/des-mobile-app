@@ -1,31 +1,31 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { merge, Observable, Subscription } from 'rxjs';
-import { IpadIssue, Other, Transfer } from '@dvsa/mes-test-schema/categories/common';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { UntypedFormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { isEmpty } from 'lodash-es';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { IpadIssue, Other, Transfer } from '@dvsa/mes-test-schema/categories/common';
+import { ModalController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
+import { Store, select } from '@ngrx/store';
+import { isEmpty } from 'lodash-es';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
+import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
 import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.constants';
-import { StoreModel } from '@shared/models/store.model';
+import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
+import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
+import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+import { LoadingProvider } from '@providers/loader/loader';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import {
-  getReasonForRekey,
-  getRekeyIpadIssue,
-  getRekeyOther,
-  getRekeyTransfer,
-  getUploadStatus,
-} from '@store/tests/rekey-reason/rekey-reason.selector';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { StoreModel } from '@shared/models/store.model';
+import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { getExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.reducer';
 import { getExaminerKeyed } from '@store/tests/examiner-keyed/examiner-keyed.reducer';
+import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
-import { SendCurrentTest } from '@store/tests/tests.actions';
 import {
   IpadIssueBrokenSelected,
   IpadIssueLostSelected,
@@ -37,28 +37,24 @@ import {
   TransferSelected,
 } from '@store/tests/rekey-reason/rekey-reason.actions';
 import {
-  getApplicationReference,
-} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import {
-  getApplicationNumber,
-} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+  getReasonForRekey,
+  getRekeyIpadIssue,
+  getRekeyOther,
+  getRekeyTransfer,
+  getUploadStatus,
+} from '@store/tests/rekey-reason/rekey-reason.selector';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
-import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
-import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
-import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
-import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
-import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-import { LoadingProvider } from '@providers/loader/loader';
+import { SendCurrentTest } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
-import { RekeyReasonUploadModel } from './rekey-reason.model';
 import {
   RekeyReasonViewDidEnter,
   RekeyUploadTest,
   ResetStaffNumberValidationError,
   ValidateTransferRekey,
 } from './rekey-reason.actions';
+import { RekeyReasonUploadModel } from './rekey-reason.model';
 
 interface RekeyReasonPageState {
   uploadStatus$: Observable<RekeyReasonUploadModel>;
@@ -76,7 +72,6 @@ interface RekeyReasonPageState {
   styleUrls: ['./rekey-reason.page.scss'],
 })
 export class RekeyReasonPage extends BasePageComponent implements OnInit {
-
   private static loadingOpts: LoadingOptions = {
     spinner: 'circles',
     message: 'Uploading...',
@@ -84,85 +79,58 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   formGroup: UntypedFormGroup;
   pageState: RekeyReasonPageState;
   subscription: Subscription = Subscription.EMPTY;
-  isStaffNumberInvalid: boolean = false;
-  isTransferSelected: boolean = false;
+  isStaffNumberInvalid = false;
+  isTransferSelected = false;
   examinerConducted: number = null;
   examinerKeyed: number = null;
-  fromRekeySearch: boolean = false;
+  fromRekeySearch = false;
   merged$: Observable<any>;
 
   constructor(
     public store$: Store<StoreModel>,
     private modalController: ModalController,
     private loaderService: LoadingProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.formGroup = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      uploadStatus$: this.store$.pipe(
-        select(getRekeyReasonState),
-        select(getUploadStatus),
-      ),
-      ipadIssue$: currentTest$.pipe(
-        select(getReasonForRekey),
-        select(getRekeyIpadIssue),
-      ),
-      transfer$: currentTest$.pipe(
-        select(getReasonForRekey),
-        select(getRekeyTransfer),
-      ),
-      other$: currentTest$.pipe(
-        select(getReasonForRekey),
-        select(getRekeyOther),
-      ),
-      examinerConducted$: currentTest$.pipe(
-        select(getExaminerConducted),
-      ),
-      examinerKeyed$: currentTest$.pipe(
-        select(getExaminerKeyed),
-      ),
+      uploadStatus$: this.store$.pipe(select(getRekeyReasonState), select(getUploadStatus)),
+      ipadIssue$: currentTest$.pipe(select(getReasonForRekey), select(getRekeyIpadIssue)),
+      transfer$: currentTest$.pipe(select(getReasonForRekey), select(getRekeyTransfer)),
+      other$: currentTest$.pipe(select(getReasonForRekey), select(getRekeyOther)),
+      examinerConducted$: currentTest$.pipe(select(getExaminerConducted)),
+      examinerKeyed$: currentTest$.pipe(select(getExaminerKeyed)),
       // experimental! used to work out if the test you are testing is the one you searched for
       // navCtrl no longer has getViews method so cant use DES3 approach
       fromRekeySearch$: this.store$.pipe(
         select(getRekeySearchState),
         map(getBookedTestSlot),
-        withLatestFrom(currentTest$.pipe(
-          select(getJournalData),
-          select(getApplicationReference),
-          select(getApplicationNumber),
-        )),
+        withLatestFrom(
+          currentTest$.pipe(select(getJournalData), select(getApplicationReference), select(getApplicationNumber))
+        ),
         map(([testSlot, appRef]: [TestSlot, string]) => {
           if (isEmpty(testSlot)) {
             return false;
           }
           return formatApplicationReference(testSlot?.booking?.application) === appRef;
-        }),
+        })
       ),
     };
 
-    const {
-      uploadStatus$,
-      examinerConducted$,
-      examinerKeyed$,
-      transfer$,
-      fromRekeySearch$,
-    } = this.pageState;
+    const { uploadStatus$, examinerConducted$, examinerKeyed$, transfer$, fromRekeySearch$ } = this.pageState;
 
     this.merged$ = merge(
       uploadStatus$.pipe(map(this.handleUploadOutcome)),
-      examinerConducted$.pipe(map((val) => this.examinerConducted = val)),
-      examinerKeyed$.pipe(map((val) => this.examinerKeyed = val)),
-      transfer$.pipe(map((transfer) => this.isTransferSelected = transfer.selected)),
-      fromRekeySearch$.pipe(map((val) => this.fromRekeySearch = val)),
+      examinerConducted$.pipe(map((val) => (this.examinerConducted = val))),
+      examinerKeyed$.pipe(map((val) => (this.examinerKeyed = val))),
+      transfer$.pipe(map((transfer) => (this.isTransferSelected = transfer.selected))),
+      fromRekeySearch$.pipe(map((val) => (this.fromRekeySearch = val)))
     );
   }
 
@@ -189,7 +157,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     }
   };
 
-  onShowUploadRekeyModal = async (retryMode: boolean = false): Promise<void> => {
+  onShowUploadRekeyModal = async (retryMode = false): Promise<void> => {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: UploadRekeyModal,
       componentProps: { retryMode },
@@ -238,24 +206,18 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   markSpecificControlsAsDirty(): void {
     // based upon what is selected, only mark controls dirty in the specific component
     if (this.formGroup.get('ipadIssueSelected').value) {
-      this.formGroup.get('ipadIssueTechnicalFault')
-        .markAsDirty();
-      this.formGroup.get('ipadIssueLost')
-        .markAsDirty();
-      this.formGroup.get('ipadIssueStolen')
-        .markAsDirty();
-      this.formGroup.get('ipadIssueBroken')
-        .markAsDirty();
+      this.formGroup.get('ipadIssueTechnicalFault').markAsDirty();
+      this.formGroup.get('ipadIssueLost').markAsDirty();
+      this.formGroup.get('ipadIssueStolen').markAsDirty();
+      this.formGroup.get('ipadIssueBroken').markAsDirty();
     }
 
     if (this.formGroup.get('transferSelected').value) {
-      this.formGroup.get('staffNumber')
-        .markAsDirty();
+      this.formGroup.get('staffNumber').markAsDirty();
     }
 
     if (this.formGroup.get('otherSelected').value) {
-      this.formGroup.get('reason')
-        .markAsDirty();
+      this.formGroup.get('reason').markAsDirty();
     }
   }
 
@@ -338,10 +300,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(EndRekey());
   };
 
-  canClickUploadRekeyTest = (
-    ipadIssue: IpadIssue,
-    transfer: Transfer,
-    other: Other,
-  ): boolean => !!(ipadIssue?.selected || transfer?.selected || other?.selected);
-
+  canClickUploadRekeyTest = (ipadIssue: IpadIssue, transfer: Transfer, other: Other): boolean =>
+    !!(ipadIssue?.selected || transfer?.selected || other?.selected);
 }

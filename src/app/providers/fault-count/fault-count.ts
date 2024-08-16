@@ -3,28 +3,27 @@ import { Injectable } from '@angular/core';
 import { VehicleChecks } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 
-import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
-import { TestOutcome } from '@store/tests/tests.constants';
-import { FaultCountBEHelper } from '@providers/fault-count/cat-be/fault-count.cat-be';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { FaultCountBEHelper } from '@providers/fault-count/cat-be/fault-count.cat-be';
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { TestOutcome } from '@store/tests/tests.constants';
 import { FaultCountBHelper } from './cat-b/fault-count.cat-b';
 import { FaultCountCHelper } from './cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from './cat-d/fault-count.cat-d';
 
 import { FaultCountAM1Helper } from './cat-a-mod1/fault-count.cat-a-mod1';
 import { FaultCountAM2Helper } from './cat-a-mod2/fault-count.cat-a-mod2';
-import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';
 import { FaultCountADIPart2Helper } from './cat-adi-part2/fault-count.cat-adi-part2';
+import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';
 import { FaultCountManoeuvreTestHelper } from './cat-manoeuvre/fault-count.cat-manoeuvre';
 
 @Injectable()
 export class FaultCountProvider {
-
-  static getFaultSumCountErrMsg: string = 'Error getting fault sum count';
+  static getFaultSumCountErrMsg = 'Error getting fault sum count';
 
   public getDrivingFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
@@ -206,9 +205,8 @@ export class FaultCountProvider {
   public getManoeuvreFaultCount = <T>(
     category: TestCategory | CategoryCode,
     data: T,
-    faultType: CompetencyOutcome,
+    faultType: CompetencyOutcome
   ): number => {
-
     switch (category) {
       case TestCategory.ADI2:
         if (!Array.isArray(data)) {
@@ -310,20 +308,17 @@ export class FaultCountProvider {
     data: TestData,
     category: TestCategory,
     maxFaultCount: number,
-    testOutcomeText?: TestOutcome,
+    testOutcomeText?: TestOutcome
   ): boolean => {
     const drivingFaultCount: number = this.getDrivingFaultSumCount(category, data);
     const seriousFaultCount: number = this.getSeriousFaultSumCount(category, data);
     const dangerousFaultCount: number = this.getDangerousFaultSumCount(category, data);
 
     if (category === TestCategory.ADI2) {
-      return (drivingFaultCount > 0
-        && testOutcomeText === TestOutcome.Failed);
+      return drivingFaultCount > 0 && testOutcomeText === TestOutcome.Failed;
     }
 
-    return dangerousFaultCount === 0
-      && seriousFaultCount === 0
-      && drivingFaultCount > maxFaultCount;
+    return dangerousFaultCount === 0 && seriousFaultCount === 0 && drivingFaultCount > maxFaultCount;
   };
 
   public getShowMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {

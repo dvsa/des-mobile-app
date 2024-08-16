@@ -23,5 +23,4 @@ export class OutcomeBehaviourMapProviderMock {
   showNotApplicable(outcomeId: string, fieldName: string): boolean {
     return true;
   }
-
 }

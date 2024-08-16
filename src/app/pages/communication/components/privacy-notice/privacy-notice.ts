@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TranslateService } from '@ngx-translate/core';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
   selector: 'privacy-notice',
@@ -11,16 +11,15 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   styleUrls: ['./privacy-notice.scss'],
 })
 export class PrivacyNoticeComponent implements OnInit {
-
   @Input()
   language: Language;
 
   @Input()
   category: CategoryCode;
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService) {}
 
-  ngOnInit() : void {
+  ngOnInit(): void {
     configureI18N(this.language, this.translate);
   }
 
@@ -42,5 +41,4 @@ export class PrivacyNoticeComponent implements OnInit {
         return 'common.driving';
     }
   }
-
 }

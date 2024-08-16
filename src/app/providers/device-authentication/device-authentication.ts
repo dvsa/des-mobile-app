@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
-import { NativeBiometric } from 'capacitor-native-biometric';
 import { Platform } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { DeviceProvider } from '@providers/device/device';
 import { LoadingProvider } from '@providers/loader/loader';
-import { SaveLog } from '@store/logs/logs.actions';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { Store } from '@ngrx/store';
-import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+import { SaveLog } from '@store/logs/logs.actions';
+import { NativeBiometric } from 'capacitor-native-biometric';
 import { AppConfigProvider } from '../app-config/app-config';
+import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 
 @Injectable()
 export class DeviceAuthenticationProvider {
-
   constructor(
     private platform: Platform,
     public appConfig: AppConfigProvider,
     private deviceProvider: DeviceProvider,
     private loadingProvider: LoadingProvider,
     private store$: Store<StoreModel>,
-    private logHelper: LogHelper,
-  ) {
-  }
+    private logHelper: LogHelper
+  ) {}
 
-  triggerLockScreen = async (isPracticeMode: boolean = false): Promise<void> => {
+  triggerLockScreen = async (isPracticeMode = false): Promise<void> => {
     try {
       await this.platform.ready();
 
@@ -38,13 +36,10 @@ export class DeviceAuthenticationProvider {
   };
 
   private shouldBypassDeviceAuth = (): boolean => {
-    return (
-      !this.platform.is('cordova')
-      || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG
-    );
+    return !this.platform.is('cordova') || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG;
   };
 
-  private performBiometricVerification = async (isPracticeMode: boolean = false): Promise<void> => {
+  private performBiometricVerification = async (isPracticeMode = false): Promise<void> => {
     try {
       await this.deviceProvider.disableSingleAppMode();
 
@@ -62,8 +57,10 @@ export class DeviceAuthenticationProvider {
   };
 
   public logEvent = (err: any) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, 'Device auth', err),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'Device auth', err),
+      })
+    );
   };
 }

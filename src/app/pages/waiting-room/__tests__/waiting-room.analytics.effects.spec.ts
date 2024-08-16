@@ -1,31 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { StoreModel } from '@shared/models/store.model';
-import * as testsActions from '@store/tests/tests.actions';
-import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import { Router } from '@angular/router';
 import { Application } from '@dvsa/mes-journal-schema';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import * as applicationReferenceActions
-  from '@store/tests/journal-data/common/application-reference/application-reference.actions';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import {
   VRNModalCancelled,
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
-import { Router } from '@angular/router';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import * as waitingRoomActions from '../waiting-room.actions';
 import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
@@ -81,8 +80,7 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomViewDidEnter());
       // ASSERT
       effects.waitingRoomViewDidEnter$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         done();
       });
     });
@@ -96,12 +94,10 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomViewDidEnter());
       // ASSERT
       effects.waitingRoomViewDidEnter$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         done();
       });
     });
-
   });
 
   describe('waitingRoomValidationError', () => {
@@ -114,8 +110,7 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomValidationError$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         done();
       });
     });
@@ -128,12 +123,10 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomValidationError$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
         done();
       });
     });
-
   });
 
   describe('VrnModalOpened$', () => {
@@ -146,8 +139,7 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(VRNModalOpened());
       // ASSERT
       effects.vrnModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
       });
     });
   });
@@ -162,8 +154,7 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(VRNModalCancelled());
       // ASSERT
       effects.vrnModalCancelled$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
       });
     });
   });
@@ -178,10 +169,8 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(VRNModalSaved());
       // ASSERT
       effects.vrnModalSaved$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
       });
     });
   });
-
 });

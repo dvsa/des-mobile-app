@@ -1,8 +1,6 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
+import { ModalController } from '@ionic/angular';
 
 export enum SearchablePicklistModalEvent {
   CANCEL = 'cancel',
@@ -15,7 +13,6 @@ export enum SearchablePicklistModalEvent {
   styleUrls: ['./searchable-picklist-wrapper.scss'],
 })
 export class SearchablePicklistComponentWrapper<T> {
-
   @Input()
   dataList: T[] = [];
 
@@ -23,7 +20,7 @@ export class SearchablePicklistComponentWrapper<T> {
   model: T;
 
   @Input()
-  isAdvancedSearch: boolean = false;
+  isAdvancedSearch = false;
 
   @Input()
   fieldLabel: string;
@@ -38,19 +35,19 @@ export class SearchablePicklistComponentWrapper<T> {
   displayKey: string; // Property of the model to display in UI;
 
   @Input()
-  minCharactersBeforeListDisplay: number = 0;
+  minCharactersBeforeListDisplay = 0;
 
   @Input()
-  placeholder: string = 'Please enter a value';
+  placeholder = 'Please enter a value';
 
   @Input()
   idPrefix: string;
 
   @Input()
-  differentDisplay: boolean = false;
+  differentDisplay = false;
 
   @Input()
-  disabled: boolean = false;
+  disabled = false;
 
   @Input()
   customWidth: number;
@@ -60,13 +57,11 @@ export class SearchablePicklistComponentWrapper<T> {
 
   searchedValue: string;
 
-  constructor(
-    private modalController: ModalController,
-  ) {}
+  constructor(private modalController: ModalController) {}
 
   async openModal(): Promise<void> {
     // Don't create new modal if disabled property is set or a modal already exists;
-    if (this.disabled || await this.modalController.getTop()) {
+    if (this.disabled || (await this.modalController.getTop())) {
       return;
     }
 

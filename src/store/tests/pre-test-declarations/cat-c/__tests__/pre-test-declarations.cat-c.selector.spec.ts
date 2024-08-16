@@ -1,7 +1,5 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import {
-  getManoeuvrePassCertificateNumber,
-} from '../pre-test-declarations.cat-c.selector';
+import { getManoeuvrePassCertificateNumber } from '../pre-test-declarations.cat-c.selector';
 
 describe('PreTestDeclarations selector', () => {
   const state: CatCUniqueTypes.PreTestDeclarations = {

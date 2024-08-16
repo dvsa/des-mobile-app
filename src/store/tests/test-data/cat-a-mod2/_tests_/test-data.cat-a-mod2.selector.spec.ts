@@ -1,24 +1,21 @@
-import { TestData, SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { SafetyAndBalanceQuestions, TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import {
-  hasSeriousFault,
-  hasDangerousFault,
-  getETAFaultText,
-  getEcoFaultText,
-  getShowMeQuestionOptions,
-} from '../../common/test-data.selector';
-import {
-  getDrivingFaultCount,
-  haveSafetyAndBalanceQuestionsBeenCompleted,
-} from '../test-data.cat-a-mod2.selector';
-import { Competencies } from '../../test-data.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   hasEyesightTestBeenCompleted,
   hasEyesightTestGotSeriousFault,
 } from '../../common/eyesight-test/eyesight-test.selector';
+import {
+  getETAFaultText,
+  getEcoFaultText,
+  getShowMeQuestionOptions,
+  hasDangerousFault,
+  hasSeriousFault,
+} from '../../common/test-data.selector';
+import { Competencies } from '../../test-data.constants';
+import { getDrivingFaultCount, haveSafetyAndBalanceQuestionsBeenCompleted } from '../test-data.cat-a-mod2.selector';
 
 describe('TestDataSelectors CAT A Mod 2', () => {
   const state: TestData = {
@@ -228,8 +225,7 @@ describe('TestDataSelectors CAT A Mod 2', () => {
 
     it('should return false if safety question outcome is not defined', () => {
       const mockState = {
-        safetyQuestions: [
-        ],
+        safetyQuestions: [],
         balanceQuestions: [
           {
             outcome: CompetencyOutcome.DF,
@@ -249,8 +245,7 @@ describe('TestDataSelectors CAT A Mod 2', () => {
             outcome: CompetencyOutcome.DF,
           },
         ],
-        balanceQuestions: [
-        ],
+        balanceQuestions: [],
       } as SafetyAndBalanceQuestions;
       expect(haveSafetyAndBalanceQuestionsBeenCompleted(mockState)).toEqual(false);
     });

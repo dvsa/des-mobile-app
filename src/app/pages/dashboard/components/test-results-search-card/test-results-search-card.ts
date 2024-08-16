@@ -8,11 +8,9 @@ import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
   styleUrls: ['test-results-search-card.scss'],
 })
 export class TestResultsSearchCardComponent {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   navigateToTestResultsSearch = async () => {
     await this.router.navigate([TEST_RESULTS_SEARCH_PAGE]);
   };
-
 }

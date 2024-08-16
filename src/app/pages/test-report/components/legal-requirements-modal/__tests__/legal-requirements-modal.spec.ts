@@ -1,11 +1,11 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock, ModalControllerMock } from '@mocks/index.mock';
-import { AppModule } from 'src/app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { LegalRequirementsModal } from '../legal-requirements-modal';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { AppModule } from 'src/app/app.module';
 import { ModalEvent } from '../../../test-report.constants';
+import { LegalRequirementsModal } from '../legal-requirements-modal';
 
 describe('LegalRequirementsModal', () => {
   let fixture: ComponentFixture<LegalRequirementsModal>;
@@ -14,14 +14,8 @@ describe('LegalRequirementsModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LegalRequirementsModal,
-      ],
-      imports: [
-        AppModule,
-        IonicModule,
-        ComponentsModule,
-      ],
+      declarations: [LegalRequirementsModal],
+      imports: [AppModule, IonicModule, ComponentsModule],
       providers: [
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },

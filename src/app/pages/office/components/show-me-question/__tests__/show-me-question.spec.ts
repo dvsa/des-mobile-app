@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
-import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
 import { ShowMeQuestionComponent } from '@pages/office/components/show-me-question/show-me-question';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 describe('ShowMeQuestionComponent', () => {
   let fixture: ComponentFixture<ShowMeQuestionComponent>;
@@ -14,10 +12,7 @@ describe('ShowMeQuestionComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ShowMeQuestionComponent],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
@@ -38,8 +33,7 @@ describe('ShowMeQuestionComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(ShowMeQuestionComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(false);
+      expect(component.formGroup.get(ShowMeQuestionComponent.fieldName).hasValidator(Validators.required)).toBe(false);
     });
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
@@ -47,8 +41,7 @@ describe('ShowMeQuestionComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(ShowMeQuestionComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(true);
+      expect(component.formGroup.get(ShowMeQuestionComponent.fieldName).hasValidator(Validators.required)).toBe(true);
     });
   });
 

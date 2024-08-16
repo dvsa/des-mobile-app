@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
-import { provideMockActions } from '@ngrx/effects/testing';
 
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
-import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
-import { testsReducer } from '../../tests.reducer';
-import * as testStatusActions from '../test-status.actions';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { testsReducer } from '../../tests.reducer';
+import * as testStatusActions from '../test-status.actions';
+import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
 
 describe('TestStatusAnalyticsEffects', () => {
   let effects: TestStatusAnalyticsEffects;
@@ -49,8 +49,7 @@ describe('TestStatusAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_DECIDED);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_DECIDED);
         done();
       });
     });
@@ -65,8 +64,7 @@ describe('TestStatusAnalyticsEffects', () => {
       effects.setTestStatusWriteUpEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_IN_WRITE_UP);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_IN_WRITE_UP);
         done();
       });
     });
@@ -82,8 +80,7 @@ describe('TestStatusAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_AUTOSAVED);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_AUTOSAVED);
         done();
       });
     });
@@ -99,11 +96,9 @@ describe('TestStatusAnalyticsEffects', () => {
         expect(result.type === AnalyticRecorded.type).toBeTruthy();
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_SUBMITTED);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_SUBMITTED);
         done();
       });
     });
   });
-
 });

@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 
 @Component({
   selector: 'end-test-link',
@@ -15,28 +15,26 @@ import { TerminateTestModal } from '@components/common/terminate-test-modal/term
   styleUrls: ['./end-test-link.scss'],
 })
 export class EndTestLinkComponent {
-
   terminateTestModal: HTMLIonModalElement;
 
   @Input()
   category: string;
 
   @Input()
-  shouldAuthenticate: boolean = true;
+  shouldAuthenticate = true;
 
   @Input()
-  isDelegated: boolean = false;
+  isDelegated = false;
 
   @Input()
-  isPracticeMode: boolean = false;
+  isPracticeMode = false;
 
   constructor(
     public modalController: ModalController,
     public router: Router,
     public routerByCategory: RouteByCategoryProvider,
-    private store$: Store<StoreModel>,
-  ) {
-  }
+    private store$: Store<StoreModel>
+  ) {}
 
   openEndTestModal = async (): Promise<void> => {
     this.terminateTestModal = await this.modalController.create({
@@ -73,5 +71,4 @@ export class EndTestLinkComponent {
     this.store$.dispatch(SetActivityCode(null));
     await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   };
-
 }

@@ -165,8 +165,7 @@ describe('TestDataSelectors', () => {
     it('should return false if show me question outcome is not defined', () => {
       const localState = {
         vehicleChecks: {
-          showMeQuestions: [
-          ],
+          showMeQuestions: [],
           tellMeQuestions: [
             {
               outcome: CompetencyOutcome.DF,

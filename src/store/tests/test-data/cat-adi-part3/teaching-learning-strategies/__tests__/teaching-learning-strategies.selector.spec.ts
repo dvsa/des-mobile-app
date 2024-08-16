@@ -1,6 +1,4 @@
-import {
-  getTeachingLearningScore,
-} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.selector';
+import { getTeachingLearningScore } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.selector';
 
 describe('teaching learning strategies selector', () => {
   describe('getTeachingLearningScore', () => {

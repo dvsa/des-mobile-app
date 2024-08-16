@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormGroup } from '@angular/forms';
+import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from '@app/app.module';
-import { UntypedFormGroup } from '@angular/forms';
-import { QuestionDelExRadioCardComponent } from '../question-del-ex-radio-card';
 import { QuestionTitleComponent } from '../../question-title/question-title';
+import { QuestionDelExRadioCardComponent } from '../question-del-ex-radio-card';
 
 describe('QuestionDelExRadioCardComponent', () => {
   let fixture: ComponentFixture<QuestionDelExRadioCardComponent>;
@@ -12,14 +12,8 @@ describe('QuestionDelExRadioCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        QuestionDelExRadioCardComponent,
-        MockComponent(QuestionTitleComponent),
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [QuestionDelExRadioCardComponent, MockComponent(QuestionTitleComponent)],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(QuestionDelExRadioCardComponent);

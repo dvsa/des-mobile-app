@@ -9,5 +9,5 @@ export const etaReducer = createReducer(
   on(etaActions.ToggleETA, (state, { examinerAction }) => ({
     ...state,
     [examinerAction]: !state[examinerAction],
-  })),
+  }))
 );

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TestOutcome } from '@store/tests/tests.constants';
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
+import { TestOutcome } from '@store/tests/tests.constants';
 import { ViewTestHeaderComponent } from '../view-test-header';
 
 describe('ViewTestHeaderComponent', () => {
@@ -10,12 +10,8 @@ describe('ViewTestHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ViewTestHeaderComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [ViewTestHeaderComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ViewTestHeaderComponent);

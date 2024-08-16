@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard } from '@dvsa/mes-driver-schema';
-import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap, timeout } from 'rxjs/operators';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { UrlProvider } from '@providers/url/url';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
+import { catchError, map, tap, timeout } from 'rxjs/operators';
 
-export type DriverLicenceDetails = (DriverLicenceSchema & { drivingLicenceNumber: string; });
+export type DriverLicenceDetails = DriverLicenceSchema & { drivingLicenceNumber: string };
 
 export enum CandidateLicenceErr {
   OFFLINE = 'Offline and no data in cache',
   NOT_FOUND = 'Driver not found with info supplied',
-  UNAVAILABLE = 'Candidate licence can\'t be returned',
+  UNAVAILABLE = "Candidate licence can't be returned",
   NI_LICENCE = 'Northern Irish licence detected',
 }
 
@@ -20,7 +20,6 @@ export enum CandidateLicenceErr {
   providedIn: 'root',
 })
 export class CandidateLicenceProvider {
-
   driverLicenceResponse: DriverLicenceDetails = null;
   requestError: string = null;
   private static readonly NI_LICENCE_PATTERN: RegExp = /^\d+$/;
@@ -29,9 +28,8 @@ export class CandidateLicenceProvider {
     private http: HttpClient,
     private urlProvider: UrlProvider,
     private appConfig: AppConfigProvider,
-    private networkStateProvider: NetworkStateProvider,
-  ) {
-  }
+    private networkStateProvider: NetworkStateProvider
+  ) {}
 
   public getCandidateData = (drivingLicenceNumber: string, appRef: string): Observable<DriverLicenceSchema> => {
     // used as temporary cache, this is checked before anything else as we should either have data or an error on
@@ -64,68 +62,63 @@ export class CandidateLicenceProvider {
       this.getDriverPhoto(drivingLicenceNumber),
       this.getDriverSignature(drivingLicenceNumber),
       this.getDriverStandardData(drivingLicenceNumber, appRef),
-    ])
-      .pipe(
-        map(([driverPhotograph, driverSignature, driverStandard]) => {
-          // response is returned as a 200 when data exists for licence, but it can't be retrieved.
-          if (('error' in driverPhotograph) || ('error' in driverSignature) || ('error' in driverStandard)) {
-            this.requestError = CandidateLicenceErr.UNAVAILABLE;
-            this.driverLicenceResponse = {
-              ...this.driverLicenceResponse,
-              drivingLicenceNumber,
-            } as DriverLicenceDetails;
-            throw new Error(CandidateLicenceErr.UNAVAILABLE);
-          }
-          // re-shape data to be one object containing all successful endpoint data responses.
-          return {
-            driverPhotograph,
-            driverSignature,
-            driverStandard,
-          } as DriverLicenceSchema;
-        }),
-        tap((driverDetails) => {
-          this.requestError = null;
+    ]).pipe(
+      map(([driverPhotograph, driverSignature, driverStandard]) => {
+        // response is returned as a 200 when data exists for licence, but it can't be retrieved.
+        if ('error' in driverPhotograph || 'error' in driverSignature || 'error' in driverStandard) {
+          this.requestError = CandidateLicenceErr.UNAVAILABLE;
           this.driverLicenceResponse = {
-            ...driverDetails,
+            ...this.driverLicenceResponse,
             drivingLicenceNumber,
           } as DriverLicenceDetails;
-        }),
-        catchError((errorResponse: HttpErrorResponse) => {
-          // if not found using licence number, store this so the endpoint is not re-queried for same search params;
-          if (errorResponse?.status === HttpStatusCode.NotFound) {
-            this.requestError = CandidateLicenceErr.NOT_FOUND;
-            this.driverLicenceResponse = {
-              ...this.driverLicenceResponse,
-              drivingLicenceNumber,
-            } as DriverLicenceDetails;
-          }
-          return throwError(() => new HttpErrorResponse(errorResponse));
-        }),
-      );
+          throw new Error(CandidateLicenceErr.UNAVAILABLE);
+        }
+        // re-shape data to be one object containing all successful endpoint data responses.
+        return {
+          driverPhotograph,
+          driverSignature,
+          driverStandard,
+        } as DriverLicenceSchema;
+      }),
+      tap((driverDetails) => {
+        this.requestError = null;
+        this.driverLicenceResponse = {
+          ...driverDetails,
+          drivingLicenceNumber,
+        } as DriverLicenceDetails;
+      }),
+      catchError((errorResponse: HttpErrorResponse) => {
+        // if not found using licence number, store this so the endpoint is not re-queried for same search params;
+        if (errorResponse?.status === HttpStatusCode.NotFound) {
+          this.requestError = CandidateLicenceErr.NOT_FOUND;
+          this.driverLicenceResponse = {
+            ...this.driverLicenceResponse,
+            drivingLicenceNumber,
+          } as DriverLicenceDetails;
+        }
+        return throwError(() => new HttpErrorResponse(errorResponse));
+      })
+    );
   };
 
   public getDriverPhoto = (drivingLicenceNumber: string): Observable<DriverPhotograph> => {
-    return this.http.get<DriverPhotograph>(
-      this.urlProvider.getCandidatePhotoUrl(drivingLicenceNumber),
-    )
+    return this.http
+      .get<DriverPhotograph>(this.urlProvider.getCandidatePhotoUrl(drivingLicenceNumber))
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 
   public getDriverSignature = (drivingLicenceNumber: string): Observable<DriverSignature> => {
-    return this.http.get<DriverSignature>(
-      this.urlProvider.getCandidateSignatureUrl(drivingLicenceNumber),
-    )
+    return this.http
+      .get<DriverSignature>(this.urlProvider.getCandidateSignatureUrl(drivingLicenceNumber))
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 
   public getDriverStandardData = (drivingLicenceNumber: string, appRef: string): Observable<DriverStandard> => {
-    return this.http.post<DriverStandard>(
-      this.urlProvider.getCandidateStandardDataUrl(),
-      {
+    return this.http
+      .post<DriverStandard>(this.urlProvider.getCandidateStandardDataUrl(), {
         drivingLicenceNumber,
         enquiryRefNumber: appRef,
-      },
-    )
+      })
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 
@@ -133,5 +126,4 @@ export class CandidateLicenceProvider {
     this.driverLicenceResponse = null;
     this.requestError = null;
   };
-
 }

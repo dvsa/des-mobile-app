@@ -10,15 +10,10 @@ import * as fromTestCentreJournalReducer from './test-centre-journal.reducer';
   imports: [
     StoreModule.forFeature(
       fromTestCentreJournalReducer.testCentreJournalFeatureKey,
-      fromTestCentreJournalReducer.testCentreJournalReducer,
+      fromTestCentreJournalReducer.testCentreJournalReducer
     ),
-    EffectsModule.forFeature([
-      TestCentreJournalEffects,
-    ]),
+    EffectsModule.forFeature([TestCentreJournalEffects]),
   ],
-  providers: [
-    SlotSelectorProvider,
-    SlotProvider,
-  ],
+  providers: [SlotSelectorProvider, SlotProvider],
 })
-export class TestCentreJournalStoreModule { }
+export class TestCentreJournalStoreModule {}

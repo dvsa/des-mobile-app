@@ -69,5 +69,6 @@ export const safetyAndBalanceMock3FaultsSafetyAndBalance: SafetyAndBalanceQuesti
   balanceQuestions: [
     {
       outcome: CompetencyOutcome.DF,
-    }],
+    },
+  ],
 };

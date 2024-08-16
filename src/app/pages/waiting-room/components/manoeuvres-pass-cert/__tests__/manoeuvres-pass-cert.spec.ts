@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
-import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AppComponent } from '@app/app.component';
+import { IonicModule } from '@ionic/angular';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { ManoeuvresPassCertificateComponent } from '../manoeuvres-pass-cert';
 
 describe('ManoeuvresPassCertificateComponent', () => {
@@ -14,12 +14,8 @@ describe('ManoeuvresPassCertificateComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ManoeuvresPassCertificateComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [ManoeuvresPassCertificateComponent],
+      imports: [IonicModule],
       providers: [
         PassCertificateValidationProvider,
         { provide: AppComponent, useClass: MockAppComponent },

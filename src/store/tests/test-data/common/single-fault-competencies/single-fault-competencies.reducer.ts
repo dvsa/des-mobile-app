@@ -8,27 +8,26 @@ export const initialState: SingleFaultCompetencies = {};
 
 export const singleFaultCompetenciesReducer = createReducer(
   initialState,
-  on(singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome, (state, {
-    competencyName,
-    outcome,
-  }): SingleFaultCompetencies => ({
-    ...state,
-    [competencyName]: outcome,
-  })),
+  on(
+    singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome,
+    (state, { competencyName, outcome }): SingleFaultCompetencies => ({
+      ...state,
+      [competencyName]: outcome,
+    })
+  ),
   on(
     singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome,
     singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome,
-    singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome, (state, {
-      competencyName,
-    }): SingleFaultCompetencies => ({
+    singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome,
+    (state, { competencyName }): SingleFaultCompetencies => ({
       ...omit(state, competencyName),
-    }),
+    })
   ),
-  on(singleFaultCompetencyActions.AddSingleFaultCompetencyComment, (state, {
-    competencyName,
-    comment,
-  }): SingleFaultCompetencies => ({
-    ...state,
-    [`${competencyName}Comments`]: comment,
-  })),
+  on(
+    singleFaultCompetencyActions.AddSingleFaultCompetencyComment,
+    (state, { competencyName, comment }): SingleFaultCompetencies => ({
+      ...state,
+      [`${competencyName}Comments`]: comment,
+    })
+  )
 );

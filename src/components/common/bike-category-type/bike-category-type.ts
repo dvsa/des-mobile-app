@@ -1,17 +1,12 @@
-import {
-  Component, OnChanges, Input, ViewChild, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { IonSelect } from '@ionic/angular';
-import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
-import {
-  BikeCategoryDetail,
-  BikeTestType,
-} from '@providers/bike-category-detail/bike-category-detail.model';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { StoreModel } from '@shared/models/store.model';
+import { IonSelect } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
+import { BikeCategoryDetail, BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
+import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'bike-category-type',
@@ -19,7 +14,6 @@ import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-roo
   styleUrls: ['./bike-category-type.scss'],
 })
 export class BikeCategoryTypeComponent implements OnChanges {
-
   @ViewChild('categorySelect') selectRef: IonSelect;
 
   @Input()
@@ -42,23 +36,25 @@ export class BikeCategoryTypeComponent implements OnChanges {
 
   constructor(
     public bikeCategoryDetailProvider: BikeCategoryDetailProvider,
-    public store$: Store<StoreModel>,
-  ) { }
+    public store$: Store<StoreModel>
+  ) {}
 
   ngOnInit(): void {
     // default to MOD1 if any input other than MOD1 or MOD2 provided
-    this.testType = (this.testType === BikeTestType.MOD1 || this.testType === BikeTestType.MOD2)
-      ? this.testType : BikeTestType.MOD1;
+    this.testType =
+      this.testType === BikeTestType.MOD1 || this.testType === BikeTestType.MOD2 ? this.testType : BikeTestType.MOD1;
     this.bikeCategoryDetails = this.bikeCategoryDetailProvider.getAllDetailsByTestType(this.testType);
   }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl({
-        value: 'Select cat type..',
-        disabled: false,
-      },
-      [this.validateCategorySelection.bind(this)]);
+      this.formControl = new UntypedFormControl(
+        {
+          value: 'Select cat type..',
+          disabled: false,
+        },
+        [this.validateCategorySelection.bind(this)]
+      );
       this.formGroup.addControl('categoryTypeSelectCategory', this.formControl);
     }
     this.formControl.patchValue('Select cat type..');
@@ -76,8 +72,8 @@ export class BikeCategoryTypeComponent implements OnChanges {
         const element = options[index];
         const category = this.bikeCategoryDetails[index].categoryCode;
         const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
-        element.innerHTML = `<span style="width: 50px; display: inline-block;">${element.innerHTML}</span>`
-          .concat(`${bike.displayName}<img style="width: 40px; height: 25px; text-align: right; vertical-align: middle;
+        element.innerHTML =
+          `<span style="width: 50px; display: inline-block;">${element.innerHTML}</span>`.concat(`${bike.displayName}<img style="width: 40px; height: 25px; text-align: right; vertical-align: middle;
                 float: right; margin-right: 15px;" src="${bike.imageUrl}" alt="Bike icon"/>`);
       });
     }, 50);
@@ -109,5 +105,4 @@ export class BikeCategoryTypeComponent implements OnChanges {
   validateCategorySelection(): null | { categoryTypeSelectCategory: boolean } {
     return this.categoryConfirmed ? null : { categoryTypeSelectCategory: false };
   }
-
 }

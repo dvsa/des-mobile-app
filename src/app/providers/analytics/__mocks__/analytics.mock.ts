@@ -1,6 +1,4 @@
-
 export class AnalyticsProviderMock {
-
   setGACurrentPage = jasmine.createSpy('setGACurrentPage');
 
   initialiseGoogleAnalytics = jasmine.createSpy('initialiseGoogleAnalytics').and.returnValue(Promise.resolve());

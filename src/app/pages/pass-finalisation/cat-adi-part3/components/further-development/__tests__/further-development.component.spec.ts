@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
-import { CircuitType } from '@shared/models/circuit-type';
+import { IonicModule } from '@ionic/angular';
 import { VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { CircuitType } from '@shared/models/circuit-type';
 import { FurtherDevelopmentComponent } from '../further-development.component';
 
 describe('FurtherDevelopmentComponent', () => {
@@ -14,14 +12,8 @@ describe('FurtherDevelopmentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FurtherDevelopmentComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [FurtherDevelopmentComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(FurtherDevelopmentComponent);
@@ -42,8 +34,9 @@ describe('FurtherDevelopmentComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(FurtherDevelopmentComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(false);
+      expect(component.formGroup.get(FurtherDevelopmentComponent.fieldName).hasValidator(Validators.required)).toBe(
+        false
+      );
     });
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
@@ -51,8 +44,9 @@ describe('FurtherDevelopmentComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(FurtherDevelopmentComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(true);
+      expect(component.formGroup.get(FurtherDevelopmentComponent.fieldName).hasValidator(Validators.required)).toBe(
+        true
+      );
     });
 
     it('should patch furtherDevelopment as a string into formControl if it is false', () => {
@@ -167,5 +161,4 @@ describe('FurtherDevelopmentComponent', () => {
       expect(component.invalid).toBeFalsy();
     });
   });
-
 });

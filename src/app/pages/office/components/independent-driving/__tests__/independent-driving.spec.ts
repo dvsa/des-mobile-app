@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IndependentDrivingComponent } from '@pages/office/components/independent-driving/independent-driving';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { IndependentDrivingComponent } from '@pages/office/components/independent-driving/independent-driving';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
 
 describe('IndependentDrivingComponent', () => {
@@ -15,13 +13,8 @@ describe('IndependentDrivingComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [IndependentDrivingComponent],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 
     fixture = TestBed.createComponent(IndependentDrivingComponent);

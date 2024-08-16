@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
-import { By } from '@angular/platform-browser';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { DrivingFaultsComponent } from '../driving-faults.component';
 

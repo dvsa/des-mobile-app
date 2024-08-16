@@ -1,32 +1,32 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
-import { StoreModel } from '@shared/models/store.model';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
 import {
   AddManoeuvreDangerousFault,
   AddManoeuvreDrivingFault,
   AddManoeuvreSeriousFault,
   RemoveManoeuvreFault,
 } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
-import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { Store, StoreModule } from '@ngrx/store';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import {
   ToggleDangerousFaultMode,
   ToggleRemoveFaultMode,
   ToggleSeriousFaultMode,
 } from '../../../../test-report.actions';
-import { ManoeuvreCompetencyComponentAdiPart2 } from '../manoeuvre-competency';
 import { testReportReducer } from '../../../../test-report.reducer';
+import { ManoeuvreCompetencyComponentAdiPart2 } from '../manoeuvre-competency';
 
 describe('ManoeuvreCompetencyComponentAdiPart2', () => {
   let fixture: ComponentFixture<ManoeuvreCompetencyComponentAdiPart2>;
@@ -118,8 +118,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       component.manoeuvreCompetencyOutcome = 'DF';
       const result = component.hasDrivingFault();
       fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-        .componentInstance;
+      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults')).componentInstance;
       expect(drivingFaultsBadge).toBeDefined();
       expect(result).toEqual(1);
     });
@@ -205,10 +204,15 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(AddManoeuvreDangerousFault({
-          manoeuvre: component.manoeuvre,
-          competency: component.competency,
-        }, 0));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          AddManoeuvreDangerousFault(
+            {
+              manoeuvre: component.manoeuvre,
+              competency: component.competency,
+            },
+            0
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
 
@@ -220,10 +224,15 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(AddManoeuvreSeriousFault({
-          manoeuvre: component.manoeuvre,
-          competency: component.competency,
-        }, 0));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          AddManoeuvreSeriousFault(
+            {
+              manoeuvre: component.manoeuvre,
+              competency: component.competency,
+            },
+            0
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
 
@@ -234,10 +243,15 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(AddManoeuvreDrivingFault({
-          manoeuvre: component.manoeuvre,
-          competency: component.competency,
-        }, 0));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          AddManoeuvreDrivingFault(
+            {
+              manoeuvre: component.manoeuvre,
+              competency: component.competency,
+            },
+            0
+          )
+        );
       });
     });
 
@@ -249,10 +263,15 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(AddManoeuvreDrivingFault({
-          manoeuvre: component.manoeuvre,
-          competency: component.competency,
-        }, 0));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          AddManoeuvreDrivingFault(
+            {
+              manoeuvre: component.manoeuvre,
+              competency: component.competency,
+            },
+            0
+          )
+        );
       });
     });
 
@@ -302,10 +321,16 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(3);
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
-          competency: component.competency,
-          manoeuvre: component.manoeuvre,
-        }, 0, CompetencyOutcome.D));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveManoeuvreFault(
+            {
+              competency: component.competency,
+              manoeuvre: component.manoeuvre,
+            },
+            0,
+            CompetencyOutcome.D
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
@@ -320,10 +345,16 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(3);
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
-          competency: component.competency,
-          manoeuvre: component.manoeuvre,
-        }, 0, CompetencyOutcome.S));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveManoeuvreFault(
+            {
+              competency: component.competency,
+              manoeuvre: component.manoeuvre,
+            },
+            0,
+            CompetencyOutcome.S
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
@@ -337,10 +368,16 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
-          competency: component.competency,
-          manoeuvre: component.manoeuvre,
-        }, 0, CompetencyOutcome.DF));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveManoeuvreFault(
+            {
+              competency: component.competency,
+              manoeuvre: component.manoeuvre,
+            },
+            0,
+            CompetencyOutcome.DF
+          )
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
       });
     });

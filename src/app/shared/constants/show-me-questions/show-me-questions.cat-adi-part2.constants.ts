@@ -12,19 +12,16 @@ export const questions: VehicleChecksQuestion[] = [
     code: 'A16',
     description: 'When it is safe to do so can you show me how you wash and clean the front windscreen.',
     shortName: 'Front windscreen',
-
   },
   {
     code: 'A17',
     description: 'When it is safe to do so can you show me how you would switch on your dipped headlights',
     shortName: 'Dipped headlights',
-
   },
   {
     code: 'A18',
     description: 'When it is safe to do so can you show me how you would set the rear demister.',
     shortName: 'Rear demister',
-
   },
   {
     code: 'A19',

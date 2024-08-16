@@ -1,7 +1,5 @@
-import {
-  Component, Input, OnChanges, Output, EventEmitter,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum ValidCode78Values {
   YES = 'yes',
@@ -13,7 +11,6 @@ enum ValidCode78Values {
   templateUrl: 'code-78.html',
   styleUrls: ['./code-78.scss'],
 })
-
 export class Code78Component implements OnChanges {
   @Input()
   form: UntypedFormGroup;

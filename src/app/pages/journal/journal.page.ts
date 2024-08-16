@@ -1,20 +1,28 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ModalController, RefresherEventDetail } from '@ionic/angular';
-import { select } from '@ngrx/store';
-import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
-import { merge, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { ModalController, RefresherEventDetail } from '@ionic/angular';
+import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
+import { select } from '@ngrx/store';
+import { Observable, Subscription, merge, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
-import { SlotItem } from '@providers/slot-selector/slot-item';
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
+import { LoadingProvider } from '@providers/loader/loader';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { ErrorTypes } from '@shared/models/error-message';
 import { DateTime } from '@shared/helpers/date-time';
+import { ErrorTypes } from '@shared/models/error-message';
 import { MesError } from '@shared/models/mes-error.model';
+import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import * as journalActions from '@store/journal/journal.actions';
+import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
+import { getJournalState } from '@store/journal/journal.reducer';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
@@ -25,15 +33,7 @@ import {
   getSelectedDate,
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { selectVersionNumber } from '@store/app-info/app-info.selectors';
-import { LoadingProvider } from '@providers/loader/loader';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
-import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -50,10 +50,10 @@ interface JournalPageState {
 }
 
 export interface CompletedJournalSlot {
-  applicationReference: number,
-  activityCode: ActivityCode,
-  autosave: boolean,
-  passCertificateNumber: string
+  applicationReference: number;
+  activityCode: ActivityCode;
+  autosave: boolean;
+  passCertificateNumber: string;
 }
 
 @Component({
@@ -82,67 +82,39 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
 
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
-      .format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
   ngOnInit(): void {
     this.pageState = {
-      selectedDate$: this.store$.pipe(
-        select(getJournalState),
-        map(getSelectedDate),
-      ),
-      slots$: this.store$.pipe(
-        select(getJournalState),
-        map(getSlotsOnSelectedDate),
-      ),
-      error$: this.store$.pipe(
-        select(getJournalState),
-        map(getError),
-        take(1),
-      ),
-      isLoading$: this.store$.pipe(
-        select(getJournalState),
-        map(getIsLoading),
-      ),
-      lastRefreshedTime$: this.store$.pipe(
-        select(getJournalState),
-        map(getLastRefreshed),
-        map(getLastRefreshedTime),
-      ),
+      selectedDate$: this.store$.pipe(select(getJournalState), map(getSelectedDate)),
+      slots$: this.store$.pipe(select(getJournalState), map(getSlotsOnSelectedDate)),
+      error$: this.store$.pipe(select(getJournalState), map(getError), take(1)),
+      isLoading$: this.store$.pipe(select(getJournalState), map(getIsLoading)),
+      lastRefreshedTime$: this.store$.pipe(select(getJournalState), map(getLastRefreshed), map(getLastRefreshedTime)),
       appVersion$: this.store$.select(selectVersionNumber),
       isOffline$: this.networkStateProvider.isOffline$,
       canNavigateToPreviousDay$: this.store$.pipe(
         select(getJournalState),
-        map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now())),
+        map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now()))
       ),
-      canNavigateToNextDay$: this.store$.pipe(
-        select(getJournalState),
-        map(canNavigateToNextDay),
-      ),
+      canNavigateToNextDay$: this.store$.pipe(select(getJournalState), map(canNavigateToNextDay)),
       isSelectedDateToday$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now()
-          .format('YYYY-MM-DD')),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD'))
       ),
       completedTests$: of([]),
     };
 
-    const {
-      error$,
-      isLoading$,
-    } = this.pageState;
+    const { error$, isLoading$ } = this.pageState;
 
-    this.merged$ = merge(
-      error$.pipe(switchMap(this.showError)),
-      isLoading$.pipe(map(this.handleLoadingUI)),
-    );
+    this.merged$ = merge(error$.pipe(switchMap(this.showError)), isLoading$.pipe(map(this.handleLoadingUI)));
   }
 
   ionViewDidLeave(): void {
@@ -198,9 +170,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   configurePlatformSubscriptions(): void {
     if (super.isIos()) {
       const merged$ = merge(
-        this.platform.resume.pipe(switchMap(async () =>
-          this.refreshJournal(JournalRehydrationType.AUTO),
-        )),
+        this.platform.resume.pipe(switchMap(async () => this.refreshJournal(JournalRehydrationType.AUTO)))
       );
       this.platformSubscription = merged$.subscribe();
     }

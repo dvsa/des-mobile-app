@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { ModalResultItemComponent } from '../modal-result-item';
 
 describe('ModalResultItemComponent', () => {
@@ -9,13 +9,8 @@ describe('ModalResultItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ModalResultItemComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [ModalResultItemComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(ModalResultItemComponent);

@@ -6,10 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./fit-marker-banner.scss'],
 })
 export class FitMarkerBannerComponent {
-
   @Input()
   fitCaseNumber: string;
   @Input()
   isTestResult?: boolean = false;
-
 }

@@ -1,26 +1,21 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule,
-  ModalController,
-} from '@ionic/angular';
-import { Store, StoreModule } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import {
-  PracticeTestReportCardComponent,
-} from '@pages/dashboard/components/practice-test-report-card/practice-test-report-card';
-import { StoreModel } from '@shared/models/store.model';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { Store, StoreModule } from '@ngrx/store';
+import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
-import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
+import { PracticeTestReportCardComponent } from '@pages/dashboard/components/practice-test-report-card/practice-test-report-card';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { StoreModel } from '@shared/models/store.model';
 import {
   TellMeQuestionCorrect,
   TellMeQuestionDrivingFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { OverlayEventDetail } from '@ionic/core';
-import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
+import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
 
 describe('PracticeTestReportCardComponent', () => {
   let component: PracticeTestReportCardComponent;
@@ -57,10 +52,12 @@ describe('PracticeTestReportCardComponent', () => {
     describe('showDrivingFaultModal', () => {
       it('should create practice test modal and call through to onModalDismiss', async () => {
         spyOn(component, 'onModalDismiss');
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-          onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
-        } as HTMLIonModalElement));
+        spyOn(modalController, 'create').and.returnValue(
+          Promise.resolve({
+            present: async () => {},
+            onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
+          } as HTMLIonModalElement)
+        );
 
         await component.showDrivingFaultModal();
         expect(modalController.create).toHaveBeenCalledWith({

@@ -1,23 +1,20 @@
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Booking } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash-es';
-import { PopulateCandidateDetails } from './candidate.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
 import { PopulateCandidateDetailsCatManoeuvre } from '../../cat-manoeuvre/candidate/candidate.cat-manoeuvre.actions';
+import { PopulateCandidateDetails } from './candidate.actions';
 
 type CandidateDetailsUnion =
-  ReturnType<typeof PopulateCandidateDetails> |
-  ReturnType<typeof PopulateCandidateDetailsCatC> |
-  ReturnType<typeof PopulateCandidateDetailsCatD> |
-  ReturnType<typeof PopulateCandidateDetailsCatManoeuvre> |
-  ReturnType<typeof PopulateCandidateDetailsCatHome>;
+  | ReturnType<typeof PopulateCandidateDetails>
+  | ReturnType<typeof PopulateCandidateDetailsCatC>
+  | ReturnType<typeof PopulateCandidateDetailsCatD>
+  | ReturnType<typeof PopulateCandidateDetailsCatManoeuvre>
+  | ReturnType<typeof PopulateCandidateDetailsCatHome>;
 
-export const createPopulateCandidateDetailsAction = (
-  testCategory: string,
-  booking: Booking,
-): CandidateDetailsUnion => {
+export const createPopulateCandidateDetailsAction = (testCategory: string, booking: Booking): CandidateDetailsUnion => {
   switch (testCategory) {
     case TestCategory.SC:
     case TestCategory.ADI2:

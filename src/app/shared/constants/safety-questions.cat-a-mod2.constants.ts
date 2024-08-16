@@ -6,7 +6,8 @@ export const NUMBER_OF_SAFETY_QUESTIONS = 2;
 export const questions: VehicleChecksQuestion[] = [
   {
     code: 'M1',
-    description: 'Identify where you would check the engine oil level and tell me how you would check that the engine has sufficient oil.',
+    description:
+      'Identify where you would check the engine oil level and tell me how you would check that the engine has sufficient oil.',
     shortName: 'Oil level',
   },
   {
@@ -16,7 +17,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'M3',
-    description: 'Identify where the brake fluid reservoir is and tell me how you would check that you have a safe level of hydraulic fluid.',
+    description:
+      'Identify where the brake fluid reservoir is and tell me how you would check that you have a safe level of hydraulic fluid.',
     shortName: 'Brake fluid',
   },
   {
@@ -42,7 +44,8 @@ export const questions: VehicleChecksQuestion[] = [
   {
     code: 'M8',
     // tslint:disable-next-line:max-line-length
-    description: 'Tell me how you would check your tyres to ensure that they are correctly inflated, have sufficient tread depth and that their general condition is safe to use on the road.',
+    description:
+      'Tell me how you would check your tyres to ensure that they are correctly inflated, have sufficient tread depth and that their general condition is safe to use on the road.',
     shortName: 'Tyres',
   },
   {

@@ -1,29 +1,23 @@
-import {
-  endsWith, forOwn, get, transform,
-} from 'lodash-es';
-import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
-import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { manoeuvreCompetencyLabelsCatC, manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
+import { getCompetencyComment, getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
-import {
-  manoeuvreCompetencyLabelsCatC,
-  manoeuvreTypeLabelsCatC,
-} from '@shared/constants/competencies/catc-manoeuvres';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { endsWith, forOwn, get, transform } from 'lodash-es';
 
 export class FaultSummaryCatCHelper {
-
   public static getDrivingFaultsNonTrailer(
     data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
     category: TestCategory,
-    vehicleChecksScore: VehicleChecksScore,
+    vehicleChecksScore: VehicleChecksScore
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
@@ -32,9 +26,7 @@ export class FaultSummaryCatCHelper {
     ];
   }
 
-  public static getSeriousFaultsNonTrailer(
-    data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
-  ): FaultSummary[] {
+  public static getSeriousFaultsNonTrailer(data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
       ...this.getManoeuvreFaultsCatC(data.manoeuvres, CompetencyOutcome.S),
@@ -43,7 +35,7 @@ export class FaultSummaryCatCHelper {
   }
 
   public static getDangerousFaultsNonTrailer(
-    data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
+    data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
@@ -54,7 +46,7 @@ export class FaultSummaryCatCHelper {
   public static getDrivingFaultsTrailer(
     data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData,
     category: TestCategory,
-    vehicleChecksScore: VehicleChecksScore,
+    vehicleChecksScore: VehicleChecksScore
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
@@ -64,23 +56,19 @@ export class FaultSummaryCatCHelper {
     ];
   }
 
-  public static getSeriousFaultsTrailer(
-    data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData,
-  ): FaultSummary[] {
+  public static getSeriousFaultsTrailer(data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
       ...this.getManoeuvreFaultsCatC(data.manoeuvres, CompetencyOutcome.S),
       ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.S),
-      ...(
-        get(data, 'vehicleChecks.fullLicenceHeld')
-          ? this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks)
-          : this.getVehicleCheckSeriousFaultsNonTrailer(data.vehicleChecks)
-      ),
+      ...(get(data, 'vehicleChecks.fullLicenceHeld')
+        ? this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks)
+        : this.getVehicleCheckSeriousFaultsNonTrailer(data.vehicleChecks)),
     ];
   }
 
   public static getDangerousFaultsTrailer(
-    data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData,
+    data: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
@@ -100,24 +88,30 @@ export class FaultSummaryCatCHelper {
     return manoeuvreFaultSummary;
   }
 
-  private static getManoeuvreFaultsCatC(manoeuvres: CatCUniqueTypes.Manoeuvres, faultType: CompetencyOutcome)
-    : FaultSummary[] {
+  private static getManoeuvreFaultsCatC(
+    manoeuvres: CatCUniqueTypes.Manoeuvres,
+    faultType: CompetencyOutcome
+  ): FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
     forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
-      const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
+      const faults = !manoeuvre.selected
+        ? []
+        : transform(
+            manoeuvre,
+            (result, value, key: string) => {
+              if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
+                const competencyComment = getCompetencyComment(
+                  key,
+                  manoeuvre.controlFaultComments,
+                  manoeuvre.observationFaultComments
+                );
 
-        if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
-
-          const competencyComment = getCompetencyComment(
-            key,
-            manoeuvre.controlFaultComments,
-            manoeuvre.observationFaultComments,
+                result.push(this.createManoeuvreFaultCatC(key, type, competencyComment));
+              }
+            },
+            []
           );
-
-          result.push(this.createManoeuvreFaultCatC(key, type, competencyComment));
-        }
-      }, []);
       faultsEncountered.push(...faults);
     });
     return faultsEncountered;
@@ -126,9 +120,8 @@ export class FaultSummaryCatCHelper {
   private static getVehicleCheckDrivingFaultsCatC(
     vehicleChecks: CatCUniqueTypes.VehicleChecks,
     category: TestCategory,
-    vehicleCheckFaults: VehicleChecksScore,
-  )
-    : FaultSummary[] {
+    vehicleCheckFaults: VehicleChecksScore
+  ): FaultSummary[] {
     const result: FaultSummary[] = [];
     if (!vehicleChecks || !vehicleChecks.showMeQuestions || !vehicleChecks.tellMeQuestions) {
       return result;
@@ -154,9 +147,7 @@ export class FaultSummaryCatCHelper {
     return result;
   }
 
-  private static getVehicleCheckSeriousFaultsNonTrailer(
-    vehicleChecks: CatCUniqueTypes.VehicleChecks,
-  ): FaultSummary[] {
+  private static getVehicleCheckSeriousFaultsNonTrailer(vehicleChecks: CatCUniqueTypes.VehicleChecks): FaultSummary[] {
     const result: FaultSummary[] = [];
 
     if (!vehicleChecks) {
@@ -185,9 +176,7 @@ export class FaultSummaryCatCHelper {
     return result;
   }
 
-  private static getVehicleCheckSeriousFaultsTrailer(
-    vehicleChecks: CatCUniqueTypes.VehicleChecks,
-  ): FaultSummary[] {
+  private static getVehicleCheckSeriousFaultsTrailer(vehicleChecks: CatCUniqueTypes.VehicleChecks): FaultSummary[] {
     const result: FaultSummary[] = [];
 
     if (!vehicleChecks) {
@@ -218,7 +207,7 @@ export class FaultSummaryCatCHelper {
 
   private static getUncoupleRecoupleFault(
     uncoupleRecouple: CatCEUniqueTypes.UncoupleRecouple | CatC1EUniqueTypes.UncoupleRecouple,
-    faultType: CompetencyOutcome,
+    faultType: CompetencyOutcome
   ): FaultSummary[] {
     const returnCompetencies = [];
     if (!uncoupleRecouple || uncoupleRecouple.fault !== faultType) {
@@ -234,5 +223,4 @@ export class FaultSummaryCatCHelper {
     returnCompetencies.push(result);
     return returnCompetencies;
   }
-
 }

@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  TestReportAssessmentAnswer,
-} from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
+import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
 
 describe('TestReportAssessmentAnswer', () => {
   let fixture: ComponentFixture<TestReportAssessmentAnswer>;
@@ -9,9 +7,7 @@ describe('TestReportAssessmentAnswer', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportAssessmentAnswer,
-      ],
+      declarations: [TestReportAssessmentAnswer],
     });
 
     fixture = TestBed.createComponent(TestReportAssessmentAnswer);

@@ -1,5 +1,5 @@
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/DE/partial';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/DE/partial';
 
 export const catDETestDataStateObject: CatDEUniqueTypes.TestData = {
   drivingFaults: {
@@ -35,16 +35,20 @@ export const catDETestDataStateObject: CatDEUniqueTypes.TestData = {
     },
   },
   vehicleChecks: {
-    tellMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'P',
-    }] as QuestionResult[],
-    showMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'P',
-    }] as QuestionResult[],
+    tellMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'P',
+      },
+    ] as QuestionResult[],
+    showMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'P',
+      },
+    ] as QuestionResult[],
   },
   pcvDoorExercise: {
     drivingFault: true,

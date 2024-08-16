@@ -46,25 +46,21 @@ describe('FaultCountHomeTestHelper', () => {
     manouevreTests.forEach((test) => {
       it(`should return ${test.expectedDF} driving fault count for category ${test.category} manoeuvres`, () => {
         const result = FaultCountHomeTestHelper.getManoeuvreCountIfAny(test.data, CompetencyOutcome.DF);
-        expect(result)
-          .toEqual(test.expectedDF);
+        expect(result).toEqual(test.expectedDF);
       });
     });
     manouevreTests.forEach((test) => {
       it(`should return ${test.expectedS} serious fault count for category ${test.category} manoeuvres`, () => {
         const result = FaultCountHomeTestHelper.getManoeuvreCountIfAny(test.data, CompetencyOutcome.S);
-        expect(result)
-          .toEqual(test.expectedS);
+        expect(result).toEqual(test.expectedS);
       });
     });
     manouevreTests.forEach((test) => {
       it(`should return ${test.expectedD} dangerous fault count for category ${test.category} manoeuvres`, () => {
         const result = FaultCountHomeTestHelper.getManoeuvreCountIfAny(test.data, CompetencyOutcome.D);
-        expect(result)
-          .toEqual(test.expectedD);
+        expect(result).toEqual(test.expectedD);
       });
     });
-
   });
   describe('getDrivingFaultSumCountCatHomeTest (No VehicleChecks)', () => {
     const drivingFaultTests = [
@@ -92,8 +88,7 @@ describe('FaultCountHomeTestHelper', () => {
     drivingFaultTests.forEach((test) => {
       it(`should return ${test.expected} driving fault count for category ${test.category}`, () => {
         const result = FaultCountHomeTestHelper.getDrivingFaultSumCountCatHomeTest(test.data);
-        expect(result)
-          .toEqual(test.expected);
+        expect(result).toEqual(test.expected);
       });
     });
   });
@@ -124,11 +119,9 @@ describe('FaultCountHomeTestHelper', () => {
     drivingFaultTests.forEach((test) => {
       it(`should return ${test.expected} driving fault count for category ${test.category}`, () => {
         const result = FaultCountHomeTestHelper.getDrivingFaultSumCountCatHomeTest(test.data);
-        expect(result)
-          .toEqual(test.expected);
+        expect(result).toEqual(test.expected);
       });
     });
-
   });
 
   describe('getSeriousFaultSumCountCatHomeTest', () => {
@@ -157,11 +150,9 @@ describe('FaultCountHomeTestHelper', () => {
     seriousFaultTests.forEach((test) => {
       it(`should return ${test.expected} Serious fault count for category ${test.category}`, () => {
         const result = FaultCountHomeTestHelper.getSeriousFaultSumCountHomeTest(test.data);
-        expect(result)
-          .toEqual(test.expected);
+        expect(result).toEqual(test.expected);
       });
     });
-
   });
   describe('getDangerousFaultSumCountCatHomeTest', () => {
     const dangerousFaultTests = [
@@ -189,20 +180,19 @@ describe('FaultCountHomeTestHelper', () => {
     dangerousFaultTests.forEach((test) => {
       it(`should return ${test.expected} Dangerous fault count for category ${test.category}`, () => {
         const result = FaultCountHomeTestHelper.getDangerousFaultSumCountHomeTest(test.data);
-        expect(result)
-          .toEqual(test.expected);
+        expect(result).toEqual(test.expected);
       });
     });
   });
 
   describe('getVehicleChecksFaultCountCatHomeTest', () => {
     it('2 driving faults result in 1 driving fault', () => {
-      expect((FaultCountHomeTestHelper as any)
-        .getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).drivingFaults)
-        .toEqual(1);
-      expect((FaultCountHomeTestHelper as any)
-        .getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).seriousFaults)
-        .toEqual(0);
+      expect(
+        (FaultCountHomeTestHelper as any).getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).drivingFaults
+      ).toEqual(1);
+      expect(
+        (FaultCountHomeTestHelper as any).getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).seriousFaults
+      ).toEqual(0);
     });
   });
 });

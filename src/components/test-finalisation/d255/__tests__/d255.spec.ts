@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { IonicModule } from '@ionic/angular';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { D255Component } from '../d255';
 
 describe('D255Component', () => {
@@ -23,7 +23,6 @@ describe('D255Component', () => {
   }));
 
   describe('Class', () => {
-
     describe('ngOnChanges', () => {
       it('should add a form control for D255 with a validator if the field should be visible', () => {
         spyOn(outcomeBehaviourMapProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);

@@ -1,43 +1,43 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { UntypedFormGroup } from '@angular/forms';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import {
-  getFurtherDevelopment,
-  getGrade,
-  getReasonForNoAdviceGiven,
-} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { merge, Observable, Subscription } from 'rxjs';
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { DateTime } from '@shared/helpers/date-time';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
+import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
-import { PersistTests } from '@store/tests/tests.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  getFurtherDevelopment,
+  getGrade,
+  getReasonForNoAdviceGiven,
+} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
-import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
-import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
-import { DateTime } from '@shared/helpers/date-time';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { PersistTests } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { Observable, Subscription, merge } from 'rxjs';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
@@ -57,7 +57,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFi
   styleUrls: ['./../pass-finalisation.page.scss', './pass-finalisation.cat-adi-part3.page.scss'],
 })
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
-
   form: UntypedFormGroup;
   merged$: Observable<boolean | string>;
   pageState: PassFinalisationPageState;
@@ -75,38 +74,19 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.pageState = {
       ...this.commonPageState,
-      furtherDevelopment$: currentTest$.pipe(
-        select(getTestData),
-        select(getReview),
-        select(getFurtherDevelopment),
-      ),
-      adviceReason$: currentTest$.pipe(
-        select(getTestData),
-        select(getReview),
-        select(getReasonForNoAdviceGiven),
-      ),
-      testOutcomeGrade$: currentTest$.pipe(
-        select(getTestData),
-        select(getReview),
-        select(getGrade),
-      ),
-      prn$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidatePrn),
-      ),
+      furtherDevelopment$: currentTest$.pipe(select(getTestData), select(getReview), select(getFurtherDevelopment)),
+      adviceReason$: currentTest$.pipe(select(getTestData), select(getReview), select(getReasonForNoAdviceGiven)),
+      testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
+      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
       isStandardsCheck$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => isAnyOf(category, [TestCategory.SC])),
+        map((category) => isAnyOf(category, [TestCategory.SC]))
       ),
       testStartTime$: currentTest$.pipe(
         withLatestFrom(category$),
@@ -114,8 +94,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestStartTime),
-        map((time: string) => time || new DateTime()
-          .toISOString()),
+        map((time: string) => time || new DateTime().toISOString())
       ),
       testEndTime$: currentTest$.pipe(
         withLatestFrom(category$),
@@ -123,22 +102,16 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestEndTime),
-        map((time: string) => time || new DateTime()
-          .add(1, 'hour')
-          .toISOString()),
+        map((time: string) => time || new DateTime().add(1, 'hour').toISOString())
       ),
     };
 
-    const {
-      furtherDevelopment$,
-      testStartTime$,
-      testEndTime$,
-    } = this.pageState;
+    const { furtherDevelopment$, testStartTime$, testEndTime$ } = this.pageState;
 
     this.merged$ = merge(
-      furtherDevelopment$.pipe(map((value) => this.furtherDevelopment = value)),
-      testStartTime$.pipe(map((value) => this.scStartTime = value)),
-      testEndTime$.pipe(map((value) => this.scEndTime = value)),
+      furtherDevelopment$.pipe(map((value) => (this.furtherDevelopment = value))),
+      testStartTime$.pipe(map((value) => (this.scStartTime = value))),
+      testEndTime$.pipe(map((value) => (this.scEndTime = value)))
     );
     this.subscription = this.merged$.subscribe();
   }
@@ -174,8 +147,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     this.form.updateValueAndValidity();
 
@@ -194,12 +166,10 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
       return;
     }
 
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-        }
-      });
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
-
 }

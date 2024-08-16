@@ -1,5 +1,5 @@
-import { examinerConductedReducer } from '../examiner-conducted.reducer';
 import { SetExaminerConducted } from '../examiner-conducted.actions';
+import { examinerConductedReducer } from '../examiner-conducted.reducer';
 
 describe('examinerConductedReducer', () => {
   it('should return the correct value ', () => {

@@ -1,9 +1,9 @@
-import { By } from '@angular/platform-browser';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { FullLicenceHeldComponent } from '../full-licence-held-toggle';
 
 describe('FullLicenceHeldComponent', () => {
@@ -12,14 +12,8 @@ describe('FullLicenceHeldComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FullLicenceHeldComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [FullLicenceHeldComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(FullLicenceHeldComponent);

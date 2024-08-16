@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { isEqual } from 'lodash-es';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { isEqual } from 'lodash-es';
 
 export type PassedData = [string, number, string];
 
@@ -10,19 +10,17 @@ export type PassedData = [string, number, string];
   styleUrls: ['data-grid.scss'],
 })
 export class DataGridComponent implements OnInit {
-
   @Input() headers: string[] = null;
   @Input() passedData: any[][] = null;
   @Input() colourScheme: string[] = null;
-  @Input() displayColour: boolean = false;
-  @Input() showSeparator: boolean = true;
-  @Input() showHeaders: boolean = true;
-  @Input() padDataTable: boolean = false;
+  @Input() displayColour = false;
+  @Input() showSeparator = true;
+  @Input() showHeaders = true;
+  @Input() padDataTable = false;
 
   public finalColourArray: string[] = null;
 
-  constructor(public accessibilityService: AccessibilityService) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   /**
    * Lifecycle hook that is called after Angular has initialized all data-bound properties of a directive.
@@ -48,8 +46,9 @@ export class DataGridComponent implements OnInit {
    * @param {SimpleChanges} changes - An object of key/value pairs for the set of changed properties.
    */
   ngOnChanges(changes: SimpleChanges) {
-    const dataChanged = Object.keys(changes)
-      .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
+    const dataChanged = Object.keys(changes).some(
+      (key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue)
+    );
 
     if (Object.keys(changes).includes('colourScheme') || dataChanged) {
       this.finalColourArray = this.loopColours();
@@ -68,12 +67,11 @@ export class DataGridComponent implements OnInit {
    * @returns {string[]} An array of colours repeated to match the length of `passedData`.
    */
   loopColours(): string[] {
-    const loopCount = Math.ceil((this.passedData.length) / this.colourScheme.length);
+    const loopCount = Math.ceil(this.passedData.length / this.colourScheme.length);
 
     return Array(loopCount)
       .fill(() => null)
-      .map(() => this.colourScheme)
-      .flat();
+      .flatMap(() => this.colourScheme);
   }
 
   /**

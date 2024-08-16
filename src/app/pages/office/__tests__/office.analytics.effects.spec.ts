@@ -1,25 +1,11 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as catAMod1TestSummaryActions from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import * as catAMod2TestSummaryActions from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import { Application } from '@dvsa/mes-journal-schema';
-import { testsReducer } from '@store/tests/tests.reducer';
-import * as testsActions from '@store/tests/tests.actions';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import * as applicationReferenceActions
-  from '@store/tests/journal-data/common/application-reference/application-reference.actions';
-import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { CircuitType } from '@shared/models/circuit-type';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { StoreModel } from '@shared/models/store.model';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
@@ -28,14 +14,27 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { CircuitType } from '@shared/models/circuit-type';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
+import * as catAMod1TestSummaryActions from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
+import * as catAMod2TestSummaryActions from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
+import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
+import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as officeActions from '../office.actions';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
-import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('OfficeAnalyticsEffects', () => {
   let effects: OfficeAnalyticsEffects;
@@ -89,16 +88,18 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenNamePass);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePass);
         done();
       });
     });
@@ -112,16 +113,18 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenNameFail);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNameFail);
         done();
       });
     });
@@ -135,16 +138,20 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`
+        );
         done();
       });
     });
@@ -158,16 +165,20 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`
+        );
         done();
       });
     });
@@ -188,23 +199,25 @@ describe('OfficeAnalyticsEffects', () => {
 
       // ASSERT
       effects.testStartDateChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
 
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.DATE_OF_TEST,
-            GoogleAnalyticsEventsTitles.CHANGED_FROM,
-            '2020-12-25T08:10:00',
-            GoogleAnalyticsEventsTitles.CHANGED_TO,
-            '2021-01-19T08:10:00',
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DATE_OF_TEST,
+          GoogleAnalyticsEventsTitles.CHANGED_FROM,
+          '2020-12-25T08:10:00',
+          GoogleAnalyticsEventsTitles.CHANGED_TO,
+          '2021-01-19T08:10:00'
+        );
         done();
       });
     });
@@ -221,20 +234,22 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.SAVE_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.SAVE_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
         done();
       });
     });
@@ -248,20 +263,22 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.SAVE_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.SAVE_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
         done();
       });
     });
@@ -275,20 +292,22 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.SAVE_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.SAVE_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
         done();
       });
     });
@@ -302,20 +321,22 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.SAVE_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.SAVE_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
         done();
       });
     });
@@ -331,17 +352,16 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'useOfMirrorsSignalling',
-            GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'useOfMirrorsSignalling',
+          GoogleAnalyticsEventsTitles.SEVERITY,
+          GoogleAnalyticsEventsValues.DANGEROUS
+        );
         done();
       });
     });
@@ -354,17 +374,16 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'useOfMirrorsSignalling',
-            GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'useOfMirrorsSignalling',
+          GoogleAnalyticsEventsTitles.SEVERITY,
+          GoogleAnalyticsEventsValues.DANGEROUS
+        );
         done();
       });
     });
@@ -377,15 +396,14 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'useOfMirrorsSignalling');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'useOfMirrorsSignalling'
+        );
         done();
       });
     });
@@ -398,64 +416,67 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'useOfMirrorsSignalling');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'useOfMirrorsSignalling'
+        );
         done();
       });
     });
-    it('should call logError with pass with a an unknown severity ' +
-      'if the errorMessage does not follow the required formatting', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-      // ACT
-      actions$.next(officeActions.OfficeValidationError('faultComment-simple-useOfMirrorsSignalling'));
-      // ASSERT
-      effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+    it(
+      'should call logError with pass with a an unknown severity ' +
+        'if the errorMessage does not follow the required formatting',
+      (done) => {
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+        store$.dispatch(PopulateCandidateDetails(candidateMock));
+        store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+        // ACT
+        actions$.next(officeActions.OfficeValidationError('faultComment-simple-useOfMirrorsSignalling'));
+        // ASSERT
+        effects.validationErrorEffect$.subscribe((result) => {
+          expect(result.type === AnalyticRecorded.type).toBe(true);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
+          // GA4 Analytics
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.VALIDATION_ERROR,
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
             'useOfMirrorsSignalling',
             GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.UNKNOWN);
-        done();
-      });
-    });
-    it('should call logError with pass with a an unknown severity and control name' +
-      'if the errorMessage is an empty string', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-      // ACT
-      actions$.next(officeActions.OfficeValidationError(''));
-      // ASSERT
-      effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+            GoogleAnalyticsEventsValues.UNKNOWN
+          );
+          done();
+        });
+      }
+    );
+    it(
+      'should call logError with pass with a an unknown severity and control name' +
+        'if the errorMessage is an empty string',
+      (done) => {
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+        store$.dispatch(PopulateCandidateDetails(candidateMock));
+        store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
+        // ACT
+        actions$.next(officeActions.OfficeValidationError(''));
+        // ASSERT
+        effects.validationErrorEffect$.subscribe((result) => {
+          expect(result.type === AnalyticRecorded.type).toBe(true);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
+          // GA4 Analytics
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.VALIDATION_ERROR,
             GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            GoogleAnalyticsEventsValues.UNKNOWN);
-        done();
-      });
-    });
+            GoogleAnalyticsEventsValues.UNKNOWN
+          );
+          done();
+        });
+      }
+    );
     it('should call logError with pass, prefixed with practice mode', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
@@ -465,17 +486,16 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'useOfMirrorsSignalling',
-            GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'useOfMirrorsSignalling',
+          GoogleAnalyticsEventsTitles.SEVERITY,
+          GoogleAnalyticsEventsValues.DANGEROUS
+        );
         done();
       });
     });
@@ -488,17 +508,16 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('faultComment-simple-dangerous-useOfMirrorsSignalling'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'useOfMirrorsSignalling',
-            GoogleAnalyticsEventsTitles.SEVERITY,
-            GoogleAnalyticsEventsValues.DANGEROUS);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'useOfMirrorsSignalling',
+          GoogleAnalyticsEventsTitles.SEVERITY,
+          GoogleAnalyticsEventsValues.DANGEROUS
+        );
         done();
       });
     });
@@ -515,20 +534,22 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.CompleteTest());
       // ASSERT
       effects.completeTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.UPLOAD_CONFIRMED,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.UPLOAD_CONFIRMED,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -543,20 +564,22 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.CompleteTest());
       // ASSERT
       effects.completeTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.UPLOAD_CONFIRMED}`,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.UPLOAD_CONFIRMED}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -574,16 +597,14 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(catAMod1TestSummaryActions.CircuitTypeChanged(CircuitType.Left));
       // ASSERT
       effects.setCircuit$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.CIRCUIT_CHANGED,
-            GoogleAnalyticsEventsTitles.DIRECTION,
-            GoogleAnalyticsEventsValues.LEFT,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.CIRCUIT_CHANGED,
+          GoogleAnalyticsEventsTitles.DIRECTION,
+          GoogleAnalyticsEventsValues.LEFT
+        );
         done();
       });
     });
@@ -602,16 +623,14 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(testSummaryActions.IndependentDrivingTypeChanged('Sat nav'));
       // ASSERT
       effects.setIndependentDrivingType$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.INDEPENDENT_DRIVING,
-            GoogleAnalyticsEventsTitles.DRIVING_TYPE,
-            GoogleAnalyticsEventsValues.SAT_NAV,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.INDEPENDENT_DRIVING,
+          GoogleAnalyticsEventsTitles.DRIVING_TYPE,
+          GoogleAnalyticsEventsValues.SAT_NAV
+        );
         done();
       });
     });
@@ -629,16 +648,14 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(catAMod2TestSummaryActions.ModeOfTransportChanged('Car to bike'));
       // ASSERT
       effects.setModeOfTransport$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.TRANSPORT_MODE,
-            GoogleAnalyticsEventsTitles.CHANGED_TO,
-            GoogleAnalyticsEventsValues.CAR_TO_BIKE,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TRANSPORT_MODE,
+          GoogleAnalyticsEventsTitles.CHANGED_TO,
+          GoogleAnalyticsEventsValues.CAR_TO_BIKE
+        );
         done();
       });
     });

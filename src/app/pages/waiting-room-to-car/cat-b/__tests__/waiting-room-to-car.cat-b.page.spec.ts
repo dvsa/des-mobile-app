@@ -1,70 +1,50 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
-import { provideMockStore } from '@ngrx/store/testing';
-import { Store } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Router } from '@angular/router';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Platform } from '@ionic/angular';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
+import { of } from 'rxjs';
 
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { InstructorRegistrationComponent } from '@pages/waiting-room-to-car/cat-b/components/instructor-registration/instructor-registration';
+import { TellMeQuestionCardComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
+import { TellMeQuestionOutcomeComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-outcome/tell-me-question-outcome';
+import { TellMeQuestionComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question/tell-me-question';
+import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { EyesightFailureConfirmationComponent } from '@pages/waiting-room-to-car/components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EyesightTestComponent } from '@pages/waiting-room-to-car/components/eyesight-test/eyesight-test';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
+import { VehicleRegistrationComponent } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import {
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import {
   QuestionOutcomes,
   TellMeQuestionCorrect,
   TellMeQuestionDrivingFault,
   TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { StoreModel } from '@shared/models/store.model';
-import { EyesightTestComponent } from '@pages/waiting-room-to-car/components/eyesight-test/eyesight-test';
-import {
-  EyesightFailureConfirmationComponent,
-} from '@pages/waiting-room-to-car/components/eyesight-failure-confirmation/eyesight-failure-confirmation';
-import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import {
-  TellMeQuestionCardComponent,
-} from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
-import { TellMeQuestionComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question/tell-me-question';
-import {
-  TellMeQuestionOutcomeComponent,
-} from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-outcome/tell-me-question-outcome';
-import {
-  VehicleRegistrationComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import {
-  InstructorRegistrationComponent,
-} from '@pages/waiting-room-to-car/cat-b/components/instructor-registration/instructor-registration';
-import { TransmissionComponent } from '@components/common/transmission/transmission';
-import {
-  VehicleDetailsCardComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import {
-  AccompanimentCardComponent,
-} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { TestsModel } from '@store/tests/tests.model';
-import { AppInfoStateModel } from '@store/app-info/app-info.model';
 
 import { AppModule } from '@app/app.module';
 import { WaitingRoomToCarCatBPage } from '../waiting-room-to-car.cat-b.page';
@@ -119,10 +99,7 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(AccompanimentComponent),
         MockComponent(PracticeModeBanner),
       ],
-      imports: [
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      imports: [AppModule, ReactiveFormsModule],
       providers: [
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
@@ -183,7 +160,9 @@ describe('WaitingRoomToCarCatBPage', () => {
         await component.onSubmit();
         tick();
         expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B, { replaceUrl: true },
+          TestFlowPageNames.TEST_REPORT_PAGE,
+          TestCategory.B,
+          { replaceUrl: true }
         );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
@@ -195,13 +174,11 @@ describe('WaitingRoomToCarCatBPage', () => {
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch)
-          .not
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          WaitingRoomToCarValidationError('notRequiredControl is blank')
+        );
       }));
     });
     describe('eyesightFailCancelled', () => {

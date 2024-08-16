@@ -1,6 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { TestStatus } from './test-status.model';
 import * as testStatusActions from './test-status.actions';
+import { TestStatus } from './test-status.model';
 
 export const initialState = {};
 
@@ -33,7 +33,7 @@ export const testStatusReducer = createReducer(
   on(testStatusActions.SetTestStatusSubmitted, (state, { slotId }) => ({
     ...state,
     [slotId]: TestStatus.Submitted,
-  })),
+  }))
 );
 
 export const getTestStatus = createFeatureSelector<TestStatus>('testStatus');

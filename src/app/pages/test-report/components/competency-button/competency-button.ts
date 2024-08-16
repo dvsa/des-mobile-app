@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./competency-button.scss'],
 })
 export class CompetencyButtonComponent {
-
   @Input()
   onPress?: Function;
 
@@ -22,12 +21,12 @@ export class CompetencyButtonComponent {
   @Input()
   redBorder?: boolean = false;
 
-  touchState: boolean = false;
-  touchStateDelay: number = 100;
+  touchState = false;
+  touchStateDelay = 100;
   touchTimeout: NodeJS.Timeout;
   rippleTimeout: NodeJS.Timeout;
-  rippleState: boolean = false;
-  rippleEffectAnimationDuration: number = 300;
+  rippleState = false;
+  rippleEffectAnimationDuration = 300;
 
   onTapEvent(): void {
     if (this.disabled) {
@@ -73,6 +72,6 @@ export class CompetencyButtonComponent {
       return;
     }
     // defer the removal of the touch state to allow the page to render
-    this.touchTimeout = setTimeout(() => this.touchState = false, this.touchStateDelay);
+    this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
   }
 }

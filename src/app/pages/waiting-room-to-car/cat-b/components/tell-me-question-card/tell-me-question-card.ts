@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
@@ -10,7 +8,6 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
   styleUrls: ['./tell-me-question-card.scss'],
 })
 export class TellMeQuestionCardComponent {
-
   @Input()
   formGroup: UntypedFormGroup;
 

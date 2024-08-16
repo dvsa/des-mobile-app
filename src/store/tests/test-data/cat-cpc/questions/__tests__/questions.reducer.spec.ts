@@ -1,6 +1,7 @@
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
-import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
+import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
+import { AnswerToggled, PopulateQuestionScore, PopulateQuestions } from '../questions.action';
 import {
   question1Reducer,
   question2Reducer,
@@ -8,7 +9,6 @@ import {
   question4Reducer,
   question5Reducer,
 } from '../questions.reducer';
-import { AnswerToggled, PopulateQuestions, PopulateQuestionScore } from '../questions.action';
 
 const mockQuestions: (Question | Question5)[] = [
   question('1'),
@@ -51,24 +51,13 @@ describe('questionReducer', () => {
         expect(result).toEqual(mockQuestions[index]);
       });
       it('should update an answers selected value', () => {
-        let result = reducer(mockQuestions[index], AnswerToggled(
-          false,
-          questionNum,
-          '2',
-        ));
+        let result = reducer(mockQuestions[index], AnswerToggled(false, questionNum, '2'));
         expect(result.answer2.selected).toEqual(true);
-        result = reducer(result, AnswerToggled(
-          true,
-          questionNum,
-          '2',
-        ));
+        result = reducer(result, AnswerToggled(true, questionNum, '2'));
         expect(result.answer2.selected).toEqual(false);
       });
       it('should set the question score', () => {
-        const result = reducer({} as Question, PopulateQuestionScore(
-          questionNum,
-          20,
-        ));
+        const result = reducer({} as Question, PopulateQuestionScore(questionNum, 20));
         expect(result.score).toEqual(20);
       });
     });

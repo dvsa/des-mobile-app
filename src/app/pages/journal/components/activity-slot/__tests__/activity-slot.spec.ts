@@ -1,13 +1,13 @@
-import { By } from '@angular/platform-browser';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { MockComponent } from 'ng-mocks';
-import { NonTestActivity } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { TimeComponent } from '@components/test-slot/time/time';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { LocationComponent } from '@components/test-slot/location/location';
+import { TimeComponent } from '@components/test-slot/time/time';
+import { NonTestActivity } from '@dvsa/mes-journal-schema';
+import { IonicModule } from '@ionic/angular';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { MockComponent } from 'ng-mocks';
 import { ActivitySlotComponent } from '../activity-slot';
 
 describe('ActivitySlotComponent', () => {
@@ -16,14 +16,8 @@ describe('ActivitySlotComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ActivitySlotComponent,
-        MockComponent(TimeComponent),
-        MockComponent(LocationComponent),
-      ],
-      providers: [
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-      ],
+      declarations: [ActivitySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
+      providers: [{ provide: AppConfigProvider, useClass: AppConfigProviderMock }],
       imports: [IonicModule, CommonModule],
     });
 
@@ -78,8 +72,8 @@ describe('ActivitySlotComponent', () => {
         },
       };
       fixture.detectChanges();
-      const timeSubComponent = fixture.debugElement
-        .query(By.directive(MockComponent(TimeComponent))).componentInstance as TimeComponent;
+      const timeSubComponent = fixture.debugElement.query(By.directive(MockComponent(TimeComponent)))
+        .componentInstance as TimeComponent;
       expect(timeSubComponent.time).toBe('12345');
     });
     it('should pass something to sub-component location input', () => {
@@ -94,7 +88,7 @@ describe('ActivitySlotComponent', () => {
       };
       fixture.detectChanges();
       const subByDirective = fixture.debugElement.query(
-        By.directive(MockComponent(LocationComponent)),
+        By.directive(MockComponent(LocationComponent))
       ).componentInstance;
       expect(subByDirective.location).toBe('Example Test Centre');
     });

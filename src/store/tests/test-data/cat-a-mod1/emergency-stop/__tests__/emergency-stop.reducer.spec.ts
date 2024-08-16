@@ -1,7 +1,7 @@
 import { EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { initialState, emergencyStopReducer } from '../emergency-stop.reducer';
 import * as emergencyStopActions from '../emergency-stop.actions';
+import { emergencyStopReducer, initialState } from '../emergency-stop.reducer';
 
 describe('emergency stop reducer', () => {
   describe('handle serious fault', () => {

@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { AppModule } from '@app/app.module';
-import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AppModule } from '@app/app.module';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonicModule } from '@ionic/angular';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { VehicleChecksQuestionComponent } from '../vehicle-checks-question';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
@@ -19,13 +19,8 @@ describe('VehicleChecksQuestionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksQuestionComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [VehicleChecksQuestionComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksQuestionComponent);
@@ -36,12 +31,9 @@ describe('VehicleChecksQuestionComponent', () => {
   describe('Class', () => {
     describe('isOptionDisabled', () => {
       it(`should return true if the question is in the list of questions to disable
-          and not equal to the currently selected question`,
-      () => {
+          and not equal to the currently selected question`, () => {
         component.questionResult = { code: 'S03' };
-        component.questionsToDisable = [
-          vehicleChecksQuestion,
-        ];
+        component.questionsToDisable = [vehicleChecksQuestion];
         const result = component.isOptionDisabled({ code: 'S04', description: '', shortName: '' });
         expect(result).toEqual(true);
       });
@@ -52,8 +44,7 @@ describe('VehicleChecksQuestionComponent', () => {
         expect(result).toEqual(false);
       });
       it(`should return false if the question is not in the list of questions to disable
-          and is equal to the currently selected question`,
-      () => {
+          and is equal to the currently selected question`, () => {
         component.questionResult = { code: 'S05' };
         component.questionsToDisable = [{ code: 'S04' }];
         const result = component.isOptionDisabled({ code: 'S05', description: '', shortName: '' });
@@ -61,44 +52,52 @@ describe('VehicleChecksQuestionComponent', () => {
       });
     });
     describe('ngOnChanges', () => {
-      it('should have questionFormControl form control be added to '
-          + 'form if there is no form control already there', () => {
-        component.questionFormControl = null;
-        component.ngOnChanges();
-        expect(component.formGroup.controls[component.questionFieldName]).toBe(component.questionFormControl);
-      });
-      it('should have questionFormControl form control be patched with '
-          + 'findQuestion() if questionResult is already valid', () => {
-        spyOn(component, 'findQuestion').and.returnValue({
-          shortName: 'shortName',
-          code: 'test',
-          description: 'Description',
-        });
-        component.questionResult = {
-          outcome: 'P',
-          code: 'test',
-          description: 'Description',
-        };
-        component.questionFormControl = new UntypedFormControl();
-        component.ngOnChanges();
-        expect(component.questionFormControl.value).toBe(component.findQuestion());
-      });
-      it('should have questionOutcomeFormControl form control be patched with '
-          + 'questionResult.outcome if questionResult is already valid', () => {
-        spyOn(component, 'findQuestion').and.returnValue({
-          shortName: 'shortName',
-          code: 'test',
-          description: 'Description',
-        });
-        component.questionResult = {
-          outcome: 'P',
-          code: 'test',
-          description: 'Description',
-        };
-        component.questionOutcomeFormControl = new UntypedFormControl();
-        component.ngOnChanges();
-        expect(component.questionOutcomeFormControl.value).toBe(component.questionResult.outcome);
-      });
+      it(
+        'should have questionFormControl form control be added to ' + 'form if there is no form control already there',
+        () => {
+          component.questionFormControl = null;
+          component.ngOnChanges();
+          expect(component.formGroup.controls[component.questionFieldName]).toBe(component.questionFormControl);
+        }
+      );
+      it(
+        'should have questionFormControl form control be patched with ' +
+          'findQuestion() if questionResult is already valid',
+        () => {
+          spyOn(component, 'findQuestion').and.returnValue({
+            shortName: 'shortName',
+            code: 'test',
+            description: 'Description',
+          });
+          component.questionResult = {
+            outcome: 'P',
+            code: 'test',
+            description: 'Description',
+          };
+          component.questionFormControl = new UntypedFormControl();
+          component.ngOnChanges();
+          expect(component.questionFormControl.value).toBe(component.findQuestion());
+        }
+      );
+      it(
+        'should have questionOutcomeFormControl form control be patched with ' +
+          'questionResult.outcome if questionResult is already valid',
+        () => {
+          spyOn(component, 'findQuestion').and.returnValue({
+            shortName: 'shortName',
+            code: 'test',
+            description: 'Description',
+          });
+          component.questionResult = {
+            outcome: 'P',
+            code: 'test',
+            description: 'Description',
+          };
+          component.questionOutcomeFormControl = new UntypedFormControl();
+          component.ngOnChanges();
+          expect(component.questionOutcomeFormControl.value).toBe(component.questionResult.outcome);
+        }
+      );
     });
     describe('vehicleChecksQuestionChanged', () => {
       it('should emit the correct event', () => {

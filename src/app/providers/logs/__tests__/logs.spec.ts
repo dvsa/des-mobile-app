@@ -1,13 +1,13 @@
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Log, LogType } from '@shared/models/log.model';
 import { take } from 'rxjs/operators';
-import { UrlProvider } from '../../url/url';
-import { LOGS_SERVICE_URL, UrlProviderMock } from '../../url/__mocks__/url.mock';
-import { LogsProvider } from '../logs';
-import { AuthenticationProvider } from '../../authentication/authentication';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '../../authentication/authentication';
+import { LOGS_SERVICE_URL, UrlProviderMock } from '../../url/__mocks__/url.mock';
+import { UrlProvider } from '../../url/url';
+import { LogsProvider } from '../logs';
 
 describe('LogsProvider', () => {
   let logsProvider: LogsProvider;
@@ -57,18 +57,13 @@ describe('LogsProvider', () => {
         .sendLogs([log])
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual({});
+          expect(response).toEqual({});
         });
 
-      const req = httpMock.expectOne(
-        (request) => request.url === LOGS_SERVICE_URL,
-      );
+      const req = httpMock.expectOne((request) => request.url === LOGS_SERVICE_URL);
 
-      expect(req.request.body)
-        .toEqual([log]);
-      expect(req.request.method)
-        .toBe('POST');
+      expect(req.request.body).toEqual([log]);
+      expect(req.request.method).toBe('POST');
       req.flush({});
     });
   });

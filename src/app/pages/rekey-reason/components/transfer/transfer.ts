@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
@@ -9,7 +7,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   templateUrl: 'transfer.html',
 })
 export class TransferComponent implements OnChanges {
-
   static readonly checkBoxCtrl: string = 'transferSelected';
   static readonly fieldName: string = 'staffNumber';
   private checkBoxFormControl: UntypedFormControl;
@@ -33,10 +30,7 @@ export class TransferComponent implements OnChanges {
   @Output()
   staffNumberChange = new EventEmitter<number>();
 
-  constructor(
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   ngOnChanges(): void {
     if (!this.checkBoxFormControl) {
@@ -70,7 +64,7 @@ export class TransferComponent implements OnChanges {
     if (!staffNumber || Number.isNaN(staffNumber)) {
       this.formGroup.get(TransferComponent.fieldName).reset();
     }
-    this.staffNumberChange.emit(parseInt(staffNumber, 10) ? parseInt(staffNumber, 10) : null);
+    this.staffNumberChange.emit(Number.parseInt(staffNumber, 10) ? Number.parseInt(staffNumber, 10) : null);
   }
 
   get invalid(): boolean {
@@ -80,5 +74,4 @@ export class TransferComponent implements OnChanges {
   get empty(): boolean {
     return !this.formControl.value && this.formControl.dirty;
   }
-
 }

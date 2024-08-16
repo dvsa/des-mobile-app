@@ -1,13 +1,8 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Identification } from '@dvsa/mes-test-schema/categories/common';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'identification',
@@ -30,8 +25,8 @@ export class IdentificationComponent implements OnChanges {
   identificationChange = new EventEmitter<Identification>();
 
   public formControl: UntypedFormControl;
-  private formField: string = 'identification';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  private formField = 'identification';
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -53,5 +48,4 @@ export class IdentificationComponent implements OnChanges {
       this.identificationChange.emit(identification);
     }
   }
-
 }

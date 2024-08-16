@@ -1,15 +1,12 @@
-import { waitForAsync, TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import {
-  AnalyticsScreenNames,
-  GoogleAnalyticsEvents,
-} from '@providers/analytics/analytics.model';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { RekeySearchAnalyticsEffects } from '../rekey-search.analytics.effects';
+import { AnalyticsScreenNames, GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
+import { ReplaySubject } from 'rxjs';
 import * as rekeySearchActions from '../rekey-search.actions';
+import { RekeySearchAnalyticsEffects } from '../rekey-search.analytics.effects';
 
 describe('RekeySearchAnalyticsEffects', () => {
   let effects: RekeySearchAnalyticsEffects;
@@ -54,9 +51,7 @@ describe('RekeySearchAnalyticsEffects', () => {
         expect(result?.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_BOOKING_SEARCH,
-        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_BOOKING_SEARCH);
         done();
       });
     });

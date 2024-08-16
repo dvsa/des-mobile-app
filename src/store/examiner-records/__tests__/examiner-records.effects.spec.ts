@@ -1,21 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { of, ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { DataStoreProvider } from '@providers/data-store/data-store';
-import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
-import { ExaminerRecordsEffects } from '@store/examiner-records/examiner-records.effects';
-import { StoreModel } from '@shared/models/store.model';
 import {
   CacheExaminerRecords,
   ColourFilterChanged,
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
+import { StoreModel } from '@shared/models/store.model';
 import {
   LoadExaminerRecordsFailure,
   LoadExaminerRecordsPreferences,
 } from '@store/examiner-records/examiner-records.actions';
+import { ExaminerRecordsEffects } from '@store/examiner-records/examiner-records.effects';
+import { ReplaySubject, of } from 'rxjs';
 
 describe('ExaminerRecordsStoreEffects', () => {
   let actions$: ReplaySubject<any>;
@@ -25,9 +25,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-      ],
+      imports: [StoreModule.forRoot({})],
       providers: [
         ExaminerRecordsEffects,
         provideMockActions(() => actions$),
@@ -48,7 +46,7 @@ describe('ExaminerRecordsStoreEffects', () => {
       const action = ColourFilterChanged(ColourEnum.GREYSCALE);
       const examinerRecordsPreferences = { colourScheme: ColourEnum.GREYSCALE };
       spyOn(store$, 'select').and.returnValue(of(examinerRecordsPreferences));
-      actions$.next(action)
+      actions$.next(action);
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
@@ -63,7 +61,7 @@ describe('ExaminerRecordsStoreEffects', () => {
       const action = CacheExaminerRecords([]);
       const examinerRecordsPreferences = { cachedRecords: [] };
       spyOn(store$, 'select').and.returnValue(of(examinerRecordsPreferences));
-      actions$.next(action)
+      actions$.next(action);
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
@@ -78,7 +76,7 @@ describe('ExaminerRecordsStoreEffects', () => {
       const action = UpdateLastCached('2023-10-01T00:00:00Z');
       const examinerRecordsPreferences = { lastUpdatedTime: '2023-10-01T00:00:00Z' };
       spyOn(store$, 'select').and.returnValue(of(examinerRecordsPreferences));
-      actions$.next(action)
+      actions$.next(action);
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(

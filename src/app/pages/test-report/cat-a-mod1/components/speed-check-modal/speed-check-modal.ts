@@ -9,14 +9,10 @@ import { ModalEvent } from '../../../test-report.constants';
   styleUrls: ['speed-check-modal.scss'],
 })
 export class SpeedCheckModal {
-
   @Input()
   speedChecksNeedCompleting: competencyLabels[];
 
-  constructor(
-    private modalController: ModalController,
-  ) {
-  }
+  constructor(private modalController: ModalController) {}
 
   async onCancel(): Promise<void> {
     await this.modalController.dismiss(ModalEvent.CANCEL);
@@ -25,5 +21,4 @@ export class SpeedCheckModal {
   async onTerminate(): Promise<void> {
     await this.modalController.dismiss(ModalEvent.TERMINATE);
   }
-
 }

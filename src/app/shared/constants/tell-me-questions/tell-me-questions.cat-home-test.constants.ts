@@ -11,17 +11,20 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'H14',
-    description: 'Identify where the windscreen washer reservoir is and tell me how you would check the windscreen washer level.',
+    description:
+      'Identify where the windscreen washer reservoir is and tell me how you would check the windscreen washer level.',
     shortName: 'Windscreen washer reservoir',
   },
   {
     code: 'H15',
-    description: 'Tell me where you would find the information for the recommended tyre pressures for this vehicle and how tyre pressures should be checked.',
+    description:
+      'Tell me where you would find the information for the recommended tyre pressures for this vehicle and how tyre pressures should be checked.',
     shortName: 'Tyre pressures',
   },
   {
     code: 'H16',
-    description: 'Tell me how you would check your mirrors are secure and correctly adjusted to give you a clear view of he road behind.',
+    description:
+      'Tell me how you would check your mirrors are secure and correctly adjusted to give you a clear view of he road behind.',
     shortName: 'Mirrors secure',
   },
   {

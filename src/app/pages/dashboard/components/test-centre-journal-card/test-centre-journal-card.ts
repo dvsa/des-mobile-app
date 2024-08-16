@@ -8,11 +8,9 @@ import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
   styleUrls: ['test-centre-journal-card.scss'],
 })
 export class TestCentreJournalCardComponent {
-
   constructor(private router: Router) {}
 
   navigateToTestCentreJournal = async () => {
     await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
   };
-
 }

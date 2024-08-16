@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UrlProvider } from '@providers/url/url';
-import { AppConfigProvider } from '@providers/app-config/app-config';
+import { Injectable } from '@angular/core';
 import { TestCentre } from '@dvsa/mes-journal-schema';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { UrlProvider } from '@providers/url/url';
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
@@ -18,13 +18,12 @@ export class ReferenceDataProvider {
   constructor(
     private http: HttpClient,
     private urlProvider: UrlProvider,
-    private appConfig: AppConfigProvider,
-  ) { }
+    private appConfig: AppConfigProvider
+  ) {}
 
   public getTestCentres = (): Observable<RefDataTestCentreResponse> => {
-    return this.http.get<RefDataTestCentreResponse>(
-      this.urlProvider.getRefDataTestCentreUrl(),
-    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+    return this.http
+      .get<RefDataTestCentreResponse>(this.urlProvider.getRefDataTestCentreUrl())
+      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
-
 }

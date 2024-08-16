@@ -1,13 +1,12 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Injector, OnInit } from '@angular/core';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { select } from '@ngrx/store';
 import { isEmpty } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
-import { BasePageComponent } from '@shared/classes/base-page';
 import {
   RekeySearchClearState,
   RekeySearchViewDidEnter,
@@ -20,10 +19,11 @@ import {
   getIsLoading,
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { BasePageComponent } from '@shared/classes/base-page';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -39,41 +39,30 @@ interface RekeySearchPageState {
   styleUrls: ['./rekey-search.scss'],
 })
 export class RekeySearchPage extends BasePageComponent implements OnInit {
-
   pageState: RekeySearchPageState;
-  staffNumber: string = '';
-  applicationReference: string = '';
+  staffNumber = '';
+  applicationReference = '';
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
-  isLDTM: boolean = false;
+  isLDTM = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
     private networkStateProvider: NetworkStateProvider,
     private appConfig: AppConfigProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.store$.dispatch(RekeySearchClearState());
-    const rekeySearch$ = this.store$.pipe(
-      select(getRekeySearchState),
-    );
+    const rekeySearch$ = this.store$.pipe(select(getRekeySearchState));
     this.pageState = {
-      isLoading$: rekeySearch$.pipe(
-        map(getIsLoading),
-      ),
-      hasSearched$: rekeySearch$.pipe(
-        map(getHasSearched),
-      ),
-      bookedTestSlot$: rekeySearch$.pipe(
-        map(getBookedTestSlot),
-      ),
-      rekeySearchErr$: rekeySearch$.pipe(
-        map(getRekeySearchError),
-      ),
+      isLoading$: rekeySearch$.pipe(map(getIsLoading)),
+      hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
+      bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
+      rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
 

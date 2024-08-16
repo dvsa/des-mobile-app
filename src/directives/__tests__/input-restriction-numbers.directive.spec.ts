@@ -1,10 +1,8 @@
 // eslint-disable-next-line max-classes-per-file
-import {
-  Component, DebugElement, ElementRef,
-} from '@angular/core';
+import { Component, DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
 import { By } from '@angular/platform-browser';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
 
 @Component({
   template: `
@@ -13,8 +11,7 @@ import { By } from '@angular/platform-browser';
     </form>
   `,
 })
-class TestInputRestrictionNumbersComponent {
-}
+class TestInputRestrictionNumbersComponent {}
 
 class ElementRefMock extends ElementRef {
   nativeElement = {};
@@ -27,18 +24,12 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InputRestrictionNumbersDirective,
-        TestInputRestrictionNumbersComponent,
-      ],
-      providers: [
-        { provide: ElementRef, useValue: ElementRefMock },
-      ],
+      declarations: [InputRestrictionNumbersDirective, TestInputRestrictionNumbersComponent],
+      providers: [{ provide: ElementRef, useValue: ElementRefMock }],
     });
     fixture = TestBed.createComponent(TestInputRestrictionNumbersComponent);
     directiveEl = fixture.debugElement.query(By.directive(InputRestrictionNumbersDirective));
     directiveInstance = directiveEl.injector.get(InputRestrictionNumbersDirective);
-
   });
 
   it('should be created', () => {
@@ -48,8 +39,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
   describe('onKeyDown', () => {
     it('should call preventDefault if key is not listed in control keys and is not between 0 and 9', () => {
       const e = {
-        preventDefault() {
-        },
+        preventDefault() {},
         key: 10,
       } as unknown as KeyboardEvent;
       spyOn(e, 'preventDefault');
@@ -58,8 +48,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
     });
     it('should not call preventDefault if key is not listed in control keys and is between 0 and 9', () => {
       const e = {
-        preventDefault() {
-        },
+        preventDefault() {},
         key: 8,
       } as unknown as KeyboardEvent;
       spyOn(e, 'preventDefault');
@@ -68,8 +57,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
     });
     it('should return undefined if key is listed in control keys', () => {
       const e = {
-        preventDefault() {
-        },
+        preventDefault() {},
         key: 'ArrowRight',
       } as unknown as KeyboardEvent;
       expect(directiveInstance.onKeyDown(e)).toEqual(undefined);

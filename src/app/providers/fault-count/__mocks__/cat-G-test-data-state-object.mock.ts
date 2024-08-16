@@ -1,30 +1,38 @@
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/G/partial';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/G/partial';
 
 export const vehicleChecksNoFaults: CatGUniqueTypes.VehicleChecks = {
-  tellMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'P',
-  }] as QuestionResult[],
-  showMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'P',
-  }] as QuestionResult[],
+  tellMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'P',
+    },
+  ] as QuestionResult[],
+  showMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'P',
+    },
+  ] as QuestionResult[],
 };
 
 export const vehicleChecksTwoFaults: CatGUniqueTypes.VehicleChecks = {
-  tellMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'DF',
-  }] as QuestionResult[],
-  showMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'DF',
-  }] as QuestionResult[],
+  tellMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'DF',
+    },
+  ] as QuestionResult[],
+  showMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'DF',
+    },
+  ] as QuestionResult[],
 };
 
 export const catGTestDataStateObject: CatGUniqueTypes.TestData = {
@@ -114,15 +122,19 @@ export const catGTestDataVCStateObject: CatGUniqueTypes.TestData = {
     },
   },
   vehicleChecks: {
-    tellMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'DF',
-    }] as QuestionResult[],
-    showMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'DF',
-    }] as QuestionResult[],
+    tellMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'DF',
+      },
+    ] as QuestionResult[],
+    showMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'DF',
+      },
+    ] as QuestionResult[],
   },
 };

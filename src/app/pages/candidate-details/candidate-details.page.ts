@@ -1,10 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
-import { ModalController, NavParams, ViewDidEnter } from '@ionic/angular';
-import { select, Store } from '@ngrx/store';
+import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController, NavParams, ViewDidEnter } from '@ionic/angular';
+import { Store, select } from '@ngrx/store';
+import { SlotProvider } from '@providers/slot/slot';
+import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
-import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
   getBusiness,
@@ -16,17 +20,13 @@ import {
   isCandidateCheckNeeded,
   isCategoryEntitlementChecked,
 } from '@store/candidate-details/candidate-details.selector';
+import * as journalActions from '@store/journal/journal.actions';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatus } from '@store/tests/tests.selector';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { SlotProvider } from '@providers/slot/slot';
+import { Observable, Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 
 interface CandidateDetailsPageState {
   name: string;
@@ -51,13 +51,13 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   selectedDate: string;
   slot: TestSlot;
   slots: TestSlot[];
-  slotChanged: boolean = false;
-  isTeamJournal: boolean = false;
+  slotChanged = false;
+  isTeamJournal = false;
   testCategory: TestCategory = null;
-  idPrefix: string = 'candidate-details';
+  idPrefix = 'candidate-details';
   prevSlot: TestSlot;
   nextSlot: TestSlot;
-  restrictDetails: boolean = true;
+  restrictDetails = true;
   private destroy$ = new Subject<{}>();
 
   constructor(
@@ -65,9 +65,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     public navParams: NavParams,
     public store$: Store<StoreModel>,
     public router: Router,
-    public slotProvider: SlotProvider,
-  ) {
-  }
+    public slotProvider: SlotProvider
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(null);
@@ -114,25 +113,24 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
       fitCaseNumber: getFitCaseNumber(this.slot),
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId)),
+        select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId))
       ),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
 
     if (this.slotChanged) {
-      this.store$.dispatch(candidateDetailActions.CandidateDetailsSlotChangeViewed(
-        { slotId: this.slot.slotDetail.slotId },
-      ));
+      this.store$.dispatch(
+        candidateDetailActions.CandidateDetailsSlotChangeViewed({ slotId: this.slot.slotDetail.slotId })
+      );
     }
     setTimeout(() => {
       this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
 
-    this.restrictDetails = (
-      this.slotProvider.canViewCandidateDetails(this.slot)
-      && this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal)
-    );
+    this.restrictDetails =
+      this.slotProvider.canViewCandidateDetails(this.slot) &&
+      this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
   }
 
   ionViewDidEnter(): void {
@@ -151,14 +149,16 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
    * @param testStatus
    */
   isRecovered(completedTests: SearchResultTestSchema[], slot: TestSlot, testStatus: TestStatus): boolean {
-    const tempAppRef = parseInt(formatApplicationReference({
-      applicationId: slot.booking.application.applicationId,
-      bookingSequence: slot.booking.application.bookingSequence,
-      checkDigit: slot.booking.application.checkDigit,
-    } as ApplicationReference), 10);
+    const tempAppRef = Number.parseInt(
+      formatApplicationReference({
+        applicationId: slot.booking.application.applicationId,
+        bookingSequence: slot.booking.application.bookingSequence,
+        checkDigit: slot.booking.application.checkDigit,
+      } as ApplicationReference),
+      10
+    );
 
-    const currentCompletedTest =
-      completedTests.find(value => value.applicationReference === tempAppRef);
+    const currentCompletedTest = completedTests.find((value) => value.applicationReference === tempAppRef);
     return Boolean(currentCompletedTest?.autosave) && testStatus !== TestStatus.Autosaved;
   }
 
@@ -167,12 +167,11 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   async dismiss(): Promise<void> {
-    await this.modalController.dismiss()
-      .then(() => {
-        this.store$.dispatch(candidateDetailActions.CandidateDetailsModalDismiss(
-          { sourcePage: this.formatUrl(this.router.url) },
-        ));
-      });
+    await this.modalController.dismiss().then(() => {
+      this.store$.dispatch(
+        candidateDetailActions.CandidateDetailsModalDismiss({ sourcePage: this.formatUrl(this.router.url) })
+      );
+    });
   }
 
   formatUrl(url: string): string {
@@ -202,5 +201,4 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     }
     return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
   }
-
 }

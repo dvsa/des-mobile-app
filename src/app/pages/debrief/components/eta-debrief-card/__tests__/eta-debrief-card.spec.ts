@@ -1,11 +1,11 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
+import { By } from '@angular/platform-browser';
+import { AppModule } from '@app/app.module';
+import { ComponentsModule } from '@components/common/common-components.module';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AppModule } from '@app/app.module';
-import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { EtaDebriefCardComponent } from '../eta-debrief-card';
 
 describe('EtaDebriefCardComponent', () => {
@@ -16,13 +16,7 @@ describe('EtaDebriefCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EtaDebriefCardComponent],
-      imports: [
-        IonicModule,
-        AppModule,
-        ComponentsModule,
-        StoreModule.forRoot({}),
-        TranslateModule,
-      ],
+      imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
     });
 
     fixture = TestBed.createComponent(EtaDebriefCardComponent);
@@ -59,5 +53,4 @@ describe('EtaDebriefCardComponent', () => {
       expect(fixture.debugElement.query(By.css('.hasVerbalAndPhysicalEta'))).toBeDefined();
     });
   });
-
 });

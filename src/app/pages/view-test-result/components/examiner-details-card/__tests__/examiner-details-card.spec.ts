@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { DataRowComponent } from '@components/common/data-row/data-row';
 import { ExaminerDetailsCardComponent } from '../examiner-details';
 
 describe('ExaminerDetailsCardComponent', () => {
@@ -10,13 +10,8 @@ describe('ExaminerDetailsCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ExaminerDetailsCardComponent,
-        MockComponent(DataRowComponent),
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ExaminerDetailsCardComponent);
@@ -28,5 +23,4 @@ describe('ExaminerDetailsCardComponent', () => {
       expect(component).toBeDefined();
     });
   });
-
 });

@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
-import { ModalControllerMock } from '@mocks/index.mock';
-import { AppModule } from 'src/app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
+import { AppModule } from 'src/app/app.module';
 import { EtaInvalidModal } from '../eta-invalid-modal';
 
 describe('EtaInvalidModal', () => {
@@ -13,17 +13,9 @@ describe('EtaInvalidModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EtaInvalidModal,
-      ],
-      imports: [
-        AppModule,
-        ComponentsModule,
-        IonicModule,
-      ],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      declarations: [EtaInvalidModal],
+      imports: [AppModule, ComponentsModule, IonicModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(EtaInvalidModal);
@@ -48,5 +40,4 @@ describe('EtaInvalidModal', () => {
       expect(component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
-
 });

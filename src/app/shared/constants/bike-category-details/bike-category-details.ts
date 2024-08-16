@@ -28,7 +28,8 @@ export default [
     displayId: 'A',
     displayName: 'Motorcycle',
     imageUrl: 'assets/imgs/bike-category-icons/A.png',
-  }, {
+  },
+  {
     testType: BikeTestType.MOD2,
     categoryCode: 'EUAMM2',
     displayId: 'AM',

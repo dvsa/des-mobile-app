@@ -8,11 +8,9 @@ import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
   styleUrls: ['delegated-rekey-card.scss'],
 })
 export class DelegatedSearchCardComponent {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   navigateToDelegatedRekeySearch = async () => {
     await this.router.navigate([DELEGATED_REKEY_SEARCH_PAGE]);
   };
-
 }

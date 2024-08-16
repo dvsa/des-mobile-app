@@ -1,5 +1,5 @@
 export type MesError = {
-  message: string,
-  status: number,
-  statusText: string,
+  message: string;
+  status: number;
+  statusText: string;
 };

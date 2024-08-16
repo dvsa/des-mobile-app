@@ -9,12 +9,11 @@ import { StartTimer } from '../../test-report.actions';
   styleUrls: ['timer.scss'],
 })
 export class TimerComponent {
-
   showStartTimerButton: boolean;
   interval: NodeJS.Timeout;
   seconds: number;
   timerString: string;
-  isPaused: boolean = true;
+  isPaused = true;
 
   constructor(private store$: Store<StoreModel>) {
     this.showStartTimerButton = true;
@@ -50,10 +49,8 @@ export class TimerComponent {
     const showExtraZeroMinutes = date.getMinutes() < 10;
     const showExtraZeroSeconds = date.getSeconds() < 10;
 
-    this.timerString = `${
-      showExtraZeroHours ? '0' : ''}${date.getHours()}:${
-      showExtraZeroMinutes ? '0' : ''}${date.getMinutes()}:${
-      showExtraZeroSeconds ? '0' : ''}${date.getSeconds()
-    }`;
+    this.timerString = `${showExtraZeroHours ? '0' : ''}${date.getHours()}:${
+      showExtraZeroMinutes ? '0' : ''
+    }${date.getMinutes()}:${showExtraZeroSeconds ? '0' : ''}${date.getSeconds()}`;
   };
 }

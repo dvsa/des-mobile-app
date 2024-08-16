@@ -1,17 +1,17 @@
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
 
 import { dangerousFaultsReducer } from '../common/dangerous-faults/dangerous-faults.reducer';
 import { drivingFaultsReducer } from '../common/driving-faults/driving-faults.reducer';
 import { ecoReducer } from '../common/eco/eco.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
+import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
+import { uncoupleRecoupleReducer } from '../common/uncouple-recouple/uncouple-recouple.reducer';
+import { pcvDoorExerciseReducer } from './pcv-door-exercise/pcv-door-exercise.reducer';
+import { safetyQuestionsCatDReducer } from './safety-questions/safety-questions.cat-d.reducer';
 import { testRequirementsCatDReducer } from './test-requirements/test-requirements.cat-d.reducer';
 import { vehicleChecksCatDReducer } from './vehicle-checks/vehicle-checks.cat-d.reducer';
-import { safetyQuestionsCatDReducer } from './safety-questions/safety-questions.cat-d.reducer';
-import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
-import { pcvDoorExerciseReducer } from './pcv-door-exercise/pcv-door-exercise.reducer';
-import { uncoupleRecoupleReducer } from '../common/uncouple-recouple/uncouple-recouple.reducer';
 
 export const initialState: CatD1EUniqueTypes.TestData = {
   dangerousFaults: {},
@@ -33,7 +33,7 @@ export const initialState: CatD1EUniqueTypes.TestData = {
 
 export function testDataCatD1EReducer(
   state: CatD1EUniqueTypes.TestData,
-  action: Action,
+  action: Action
 ): Required<CatD1EUniqueTypes.TestData> {
   return combineReducers({
     drivingFaults: drivingFaultsReducer,

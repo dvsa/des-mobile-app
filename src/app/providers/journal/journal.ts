@@ -1,19 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { from, Observable } from 'rxjs';
-import { timeout } from 'rxjs/operators';
 import { DateTime } from '@shared/helpers/date-time';
-import { AuthenticationProvider } from '../authentication/authentication';
-import { UrlProvider } from '../url/url';
-import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { Observable, from } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
+import { AuthenticationProvider } from '../authentication/authentication';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { DateTimeProvider } from '../date-time/date-time';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { UrlProvider } from '../url/url';
 
 type JournalCache = {
-  dateStored: string,
-  data: ExaminerWorkSchedule,
+  dateStored: string;
+  data: ExaminerWorkSchedule;
 };
 
 @Injectable()
@@ -25,19 +25,16 @@ export class JournalProvider {
     public dataStore: DataStoreProvider,
     public networkStateProvider: NetworkStateProvider,
     private appConfigProvider: AppConfigProvider,
-    private dateTimeProvider: DateTimeProvider,
-  ) {
-  }
+    private dateTimeProvider: DateTimeProvider
+  ) {}
 
   getJournal(lastRefreshed: Date): Observable<ExaminerWorkSchedule> {
     const staffNumber = this.authProvider.getEmployeeId();
     const journalUrl = this.urlProvider.getPersonalJournalUrl(staffNumber);
     const networkStatus = this.networkStateProvider.getNetworkState();
     if (lastRefreshed === null) {
-      if (!this.authProvider.isInUnAuthenticatedMode()
-        && networkStatus === ConnectionStatus.ONLINE) {
-        return this.http.get(journalUrl)
-          .pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
+      if (!this.authProvider.isInUnAuthenticatedMode() && networkStatus === ConnectionStatus.ONLINE) {
+        return this.http.get(journalUrl).pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
       }
       return this.getOfflineJournal();
     }
@@ -47,8 +44,7 @@ export class JournalProvider {
       headers: new HttpHeaders().set('If-Modified-Since', modifiedSinceValue),
     };
     if (!this.authProvider.isInUnAuthenticatedMode() && networkStatus === ConnectionStatus.ONLINE) {
-      return this.http.get(journalUrl, options)
-        .pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
+      return this.http.get(journalUrl, options).pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
     }
     return this.getOfflineJournal();
   }
@@ -68,16 +64,18 @@ export class JournalProvider {
    * and returns empty collection if cached data is too old
    * @returns Promise<ExaminerWorkSchedule>
    */
-  getAndConvertOfflineJournal = (): Promise<ExaminerWorkSchedule> => this.dataStore.getItem(LocalStorageKey.JOURNAL)
-    .then((data) => {
-      const journalCache: JournalCache = JSON.parse(data);
-      const cachedDate = DateTime.at(journalCache.dateStored);
-      if (this.isCacheTooOld(cachedDate, new DateTime())) {
-        return this.emptyCachedData();
-      }
-      return journalCache.data;
-    })
-    .catch((error) => error);
+  getAndConvertOfflineJournal = (): Promise<ExaminerWorkSchedule> =>
+    this.dataStore
+      .getItem(LocalStorageKey.JOURNAL)
+      .then((data) => {
+        const journalCache: JournalCache = JSON.parse(data);
+        const cachedDate = DateTime.at(journalCache.dateStored);
+        if (this.isCacheTooOld(cachedDate, new DateTime())) {
+          return this.emptyCachedData();
+        }
+        return journalCache.data;
+      })
+      .catch((error) => error);
 
   /**
    * saveJournalForOffline
@@ -88,13 +86,10 @@ export class JournalProvider {
   saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
-        dateStored: this.dateTimeProvider.now()
-          .format('YYYY/MM/DD'),
+        dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
         data: journalData,
       };
-      this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore))
-        .then(() => {
-        });
+      this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore)).then(() => {});
     }
   };
 
@@ -117,14 +112,10 @@ export class JournalProvider {
   emptyCachedData = () => {
     const emptyJournalData: ExaminerWorkSchedule = {};
     const journalDataToStore: JournalCache = {
-      dateStored: this.dateTimeProvider.now()
-        .format('YYYY/MM/DD'),
+      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
       data: emptyJournalData,
     };
-    this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore))
-      .then(() => {
-      });
+    this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore)).then(() => {});
     return emptyJournalData;
   };
-
 }

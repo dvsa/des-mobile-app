@@ -1,8 +1,8 @@
 import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
 import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { TranslateService } from '@ngx-translate/core';
-import { LangChangeEvent } from '@ngx-translate/core/lib/translate.service';
 import { TranslateStore } from '@ngx-translate/core/dist/lib/translate.store';
+import { LangChangeEvent } from '@ngx-translate/core/lib/translate.service';
 import SpyObj = jasmine.SpyObj;
 import { Observable, of } from 'rxjs';
 
@@ -47,34 +47,32 @@ describe('AddOrRemoveLangCyDirective', () => {
     directive.ngOnInit();
     translateMock.use('cy');
 
-    expect(renderMock.setAttribute)
-      .toHaveBeenCalledWith(elementRefMock.nativeElement,'lang', 'cy');
+    expect(renderMock.setAttribute).toHaveBeenCalledWith(elementRefMock.nativeElement, 'lang', 'cy');
   });
   it('should delete lang attribute if the value of onLangChange is not cy and the element has a lang value', () => {
-    elementRefMock.nativeElement.attributes = {lang: 'ref'}
+    elementRefMock.nativeElement.attributes = { lang: 'ref' };
     directive.ngOnInit();
     translateMock.use('test');
 
-    expect(renderMock.removeAttribute)
-      .toHaveBeenCalledWith(elementRefMock.nativeElement,'lang');
+    expect(renderMock.removeAttribute).toHaveBeenCalledWith(elementRefMock.nativeElement, 'lang');
   });
-  it('should not interact with attribute if the value of onLangChange is not cy ' +
-    'and the element does not have a lang value', () => {
-    elementRefMock.nativeElement.attributes = {lang: 'ref'};
-    elementHasMock = false;
-    directive.ngOnInit();
-    translateMock.use('test');
+  it(
+    'should not interact with attribute if the value of onLangChange is not cy ' +
+      'and the element does not have a lang value',
+    () => {
+      elementRefMock.nativeElement.attributes = { lang: 'ref' };
+      elementHasMock = false;
+      directive.ngOnInit();
+      translateMock.use('test');
 
-    expect(renderMock.removeAttribute)
-      .toHaveBeenCalledWith(elementRefMock.nativeElement,'lang');
-  });
+      expect(renderMock.removeAttribute).toHaveBeenCalledWith(elementRefMock.nativeElement, 'lang');
+    }
+  );
   it('should not interact with attribute if the value of onLangChange does not have a lang variable', () => {
     directive.ngOnInit();
-    translateMock.store.onLangChange.emit({translations: null} as LangChangeEvent)
+    translateMock.store.onLangChange.emit({ translations: null } as LangChangeEvent);
 
-    expect(renderMock.setAttribute).not
-      .toHaveBeenCalled();
-    expect(renderMock.removeAttribute).not
-      .toHaveBeenCalled();
+    expect(renderMock.setAttribute).not.toHaveBeenCalled();
+    expect(renderMock.removeAttribute).not.toHaveBeenCalled();
   });
 });

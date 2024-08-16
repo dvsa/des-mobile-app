@@ -1,17 +1,13 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from 'src/app/app.module';
-import {
-  IonicModule, NavController, NavParams, Platform,
-} from '@ionic/angular';
-import {
-  NavControllerMock, NavParamsMock, PlatformMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule, NavController, NavParams, Platform } from '@ionic/angular';
+import { NavControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
+import { StoreModel } from '@shared/models/store.model';
 import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { AppComponent } from 'src/app/app.component';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { AppModule } from 'src/app/app.module';
 import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
@@ -112,9 +108,7 @@ describe('reverseDiagramModal', () => {
             spyOn(component, 'calculateReversingLengths').and.callThrough();
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
-            expect(store$.dispatch).toHaveBeenCalledWith(
-              ReverseDiagramLengthChanged(undefined, value.vLength),
-            );
+            expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramLengthChanged(undefined, value.vLength));
             expect(component.calculateReversingLengths).toHaveBeenCalledWith(value.vLength);
             const result = component.reversingLengthStart;
             expect(result).toEqual(value.expStartDist);
@@ -131,9 +125,7 @@ describe('reverseDiagramModal', () => {
             spyOn(component, 'calculateReversingLengths').and.callThrough();
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
-            expect(store$.dispatch).toHaveBeenCalledWith(
-              ReverseDiagramLengthChanged(undefined, value.vLength),
-            );
+            expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramLengthChanged(undefined, value.vLength));
             expect(component.calculateReversingLengths).toHaveBeenCalledWith(value.vLength);
             const result = component.reversingLengthMiddle;
             expect(result).toEqual(value.expMidDist);
@@ -145,9 +137,7 @@ describe('reverseDiagramModal', () => {
             spyOn(component, 'calculateReversingWidth').and.callThrough();
             component.category = testCategory;
             component.onWidthKeyup(value.vWidth);
-            expect(store$.dispatch).toHaveBeenCalledWith(
-              ReverseDiagramWidthChanged(undefined, value.vWidth),
-            );
+            expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramWidthChanged(undefined, value.vWidth));
             expect(component.calculateReversingWidth).toHaveBeenCalledWith(value.vWidth);
             const result = component.reversingWidth;
             expect(result).toEqual(value.expWidthDist);

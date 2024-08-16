@@ -1,8 +1,8 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
-import { ExitRekeyModalEvent } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.constants';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
+import { ExitRekeyModalEvent } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.constants';
 
 describe('ExitRekeyModal', () => {
   let fixture: ComponentFixture<ExitRekeyModal>;
@@ -10,12 +10,8 @@ describe('ExitRekeyModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ExitRekeyModal,
-      ],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      declarations: [ExitRekeyModal],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(ExitRekeyModal);

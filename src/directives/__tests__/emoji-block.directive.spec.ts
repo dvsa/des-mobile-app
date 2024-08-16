@@ -20,7 +20,6 @@ describe('EmojiBlockDirective', () => {
   it('should sanitize emojis from input data', () => {
     directive.onInput();
 
-    expect(elementRefMock.nativeElement.value)
-      .toBe('Hello World');
+    expect(elementRefMock.nativeElement.value).toBe('Hello World');
   });
 });

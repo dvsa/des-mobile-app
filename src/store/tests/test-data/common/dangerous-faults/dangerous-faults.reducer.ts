@@ -15,11 +15,8 @@ export const dangerousFaultsReducer = createReducer(
     // not same as original implementation due to TS error
     ...omit(state, competency),
   })),
-  on(dangerousFaultsActions.AddDangerousFaultComment, (state, {
-    competencyName,
-    comment,
-  }) => ({
+  on(dangerousFaultsActions.AddDangerousFaultComment, (state, { competencyName, comment }) => ({
     ...state,
     [`${competencyName}Comments`]: comment,
-  })),
+  }))
 );

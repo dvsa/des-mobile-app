@@ -7,9 +7,8 @@ import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
   styleUrls: ['speed-card.scss'],
 })
 export class SpeedCardComponent {
-
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   @Input()
   public emergencyStop: EmergencyStop;

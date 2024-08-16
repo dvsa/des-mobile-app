@@ -8,22 +8,34 @@ const initialState: VehicleDetails = {
 
 export const vehicleDetailsReducer = createReducer(
   initialState,
-  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, { registrationNumber }): VehicleDetails => ({
-    ...state,
-    registrationNumber,
-  })),
-  on(vehicleDetailsActions.MotStatusChanged, (state, { motStatus }): VehicleDetails => ({
-    ...state,
-    motStatus,
-  })),
-  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): VehicleDetails => ({
-    ...state,
-    gearboxCategory,
-  })),
-  on(vehicleDetailsActions.ClearGearboxCategory, (state): VehicleDetails => ({
-    ...state,
-    gearboxCategory: null,
-  })),
+  on(
+    vehicleDetailsActions.VehicleRegistrationChanged,
+    (state, { registrationNumber }): VehicleDetails => ({
+      ...state,
+      registrationNumber,
+    })
+  ),
+  on(
+    vehicleDetailsActions.MotStatusChanged,
+    (state, { motStatus }): VehicleDetails => ({
+      ...state,
+      motStatus,
+    })
+  ),
+  on(
+    vehicleDetailsActions.GearboxCategoryChanged,
+    (state, { gearboxCategory }): VehicleDetails => ({
+      ...state,
+      gearboxCategory,
+    })
+  ),
+  on(
+    vehicleDetailsActions.ClearGearboxCategory,
+    (state): VehicleDetails => ({
+      ...state,
+      gearboxCategory: null,
+    })
+  )
 );
 
 export const getVehicleDetails = createFeatureSelector<VehicleDetails>('vehicleDetails');

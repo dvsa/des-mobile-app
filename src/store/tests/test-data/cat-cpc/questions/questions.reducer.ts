@@ -1,6 +1,6 @@
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
-import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { Action, createReducer, on } from '@ngrx/store';
+import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import * as questionActionTypes from './questions.action';
 
 const initialState: Question = {
@@ -32,33 +32,29 @@ const getAnswerNumberKey = (questionNumber: string): string => `answer${question
 export const questionReducer = (
   initState: Question | Question5 = initialState,
   action: questionActionTypes.QuestionActionTypes,
-  questionNum: QuestionNumber,
-) => createReducer(
-  initState,
-  on(questionActionTypes.PopulateQuestions, (_, {
-    payload,
-  }): Question | Question5 => ({
-    ...payload[questionNum],
-  })),
-  on(questionActionTypes.AnswerToggled, (state, {
-    toggled,
-    questionNumber,
-    answerNumber,
-  }): Question | Question5 => {
-    const key: string = getAnswerNumberKey(answerNumber);
-    return (questionNumber === questionNum) ? {
-      ...state,
-      [key]: {
-        selected: !toggled,
-        label: state[key].label,
-      },
-    } : state;
-  }),
-  on(questionActionTypes.PopulateQuestionScore, (state, {
-    questionNumber,
-    score,
-  }): Question | Question5 => ((questionNumber === questionNum) ? { ...state, score } : state)),
-);
+  questionNum: QuestionNumber
+) =>
+  createReducer(
+    initState,
+    on(questionActionTypes.PopulateQuestions, (_, { payload }): Question | Question5 => ({
+      ...payload[questionNum],
+    })),
+    on(questionActionTypes.AnswerToggled, (state, { toggled, questionNumber, answerNumber }): Question | Question5 => {
+      const key: string = getAnswerNumberKey(answerNumber);
+      return questionNumber === questionNum
+        ? {
+            ...state,
+            [key]: {
+              selected: !toggled,
+              label: state[key].label,
+            },
+          }
+        : state;
+    }),
+    on(questionActionTypes.PopulateQuestionScore, (state, { questionNumber, score }): Question | Question5 =>
+      questionNumber === questionNum ? { ...state, score } : state
+    )
+  );
 
 /**
  * Wrapper function for passing questionNum param into questionReducer
@@ -67,57 +63,26 @@ export const questionReducer = (
  * @param {Action} action
  * @return {Question | Question5}
  */
-export function question1Reducer(
-  state: Question = initialState,
-  action: Action,
-) {
-  return questionReducer(
-    state,
-    action as questionActionTypes.QuestionActionTypes,
-    QuestionNumber.ONE,
-  )(state, action);
+export function question1Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.ONE)(state, action);
 }
 
-export function question2Reducer(
-  state: Question = initialState,
-  action: Action,
-) {
-  return questionReducer(
-    state,
-    action as questionActionTypes.QuestionActionTypes,
-    QuestionNumber.TWO,
-  )(state, action);
+export function question2Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.TWO)(state, action);
 }
 
-export function question3Reducer(
-  state: Question = initialState,
-  action: Action,
-) {
-  return questionReducer(
-    state,
-    action as questionActionTypes.QuestionActionTypes,
-    QuestionNumber.THREE,
-  )(state, action);
+export function question3Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.THREE)(state, action);
 }
 
-export function question4Reducer(
-  state: Question = initialState,
-  action: Action,
-) {
-  return questionReducer(
-    state,
-    action as questionActionTypes.QuestionActionTypes,
-    QuestionNumber.FOUR,
-  )(state, action);
+export function question4Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.FOUR)(state, action);
 }
 
-export function question5Reducer(
-  state: Question5 = initialStateQ5,
-  action: Action,
-) {
+export function question5Reducer(state: Question5 = initialStateQ5, action: Action) {
   return questionReducer(
     state,
     action as questionActionTypes.QuestionActionTypes,
-    QuestionNumber.FIVE,
+    QuestionNumber.FIVE
   )(state, action) as Question5;
 }

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
-import { UntypedFormGroup } from '@angular/forms';
 
 describe('ReviewFeedback', () => {
   let fixture: ComponentFixture<ReviewFeedback>;
@@ -10,9 +10,7 @@ describe('ReviewFeedback', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ReviewFeedback],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ReviewFeedback);

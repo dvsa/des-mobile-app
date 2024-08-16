@@ -1,5 +1,8 @@
 import {
-  getLessonPlanningQ1, getLessonPlanningQ2, getLessonPlanningQ3, getLessonPlanningQ4,
+  getLessonPlanningQ1,
+  getLessonPlanningQ2,
+  getLessonPlanningQ3,
+  getLessonPlanningQ4,
   getLessonPlanningScore,
 } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.selector';
 

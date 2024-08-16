@@ -1,18 +1,18 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { PersistTests } from '@store/tests/tests.actions';
+import {
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { D255No } from '@store/tests/test-summary/test-summary.actions';
+import { PersistTests } from '@store/tests/tests.actions';
+import { Observable, Subscription } from 'rxjs';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-adi-part2';
 
 type PassFinalisationPageState = CommonPassFinalisationPageState;
@@ -52,8 +52,7 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -62,12 +61,10 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
       return;
     }
 
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-        }
-      });
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
-
 }

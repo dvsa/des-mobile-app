@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { MockComponent } from 'ng-mocks';
-import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
 
 describe('VehicleDetailsCardComponent', () => {
@@ -21,9 +21,7 @@ describe('VehicleDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(TransmissionDisplayComponent),
       ],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);
@@ -54,10 +52,7 @@ describe('VehicleDetailsCardComponent', () => {
           outcome: true,
         },
       ];
-      localCategories.forEach(({
-        category,
-        outcome,
-      }) => {
+      localCategories.forEach(({ category, outcome }) => {
         it(`should ${outcome ? 'hide' : 'not hide'} for cat ${category}`, () => {
           component.category = category as TestCategory;
           expect(component.shouldShowDimensions).toEqual(outcome);

@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { timeout, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { UrlProvider } from '@providers/url/url';
+import { Injectable } from '@angular/core';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { UrlProvider } from '@providers/url/url';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { of } from 'rxjs';
+import { tap, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleDetailsApiService {
-
   constructor(
     private http: HttpClient,
     private urlProvider: UrlProvider,
-    public appConfig: AppConfigProvider,
-  ) {
-  }
+    public appConfig: AppConfigProvider
+  ) {}
 
   vehicleIdentifier: string;
   vehicleDetailsResponse: VehicleDetails;
@@ -29,14 +27,12 @@ export class VehicleDetailsApiService {
     const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
     const params = new HttpParams().set('identifier', vehicleRegistration);
 
-    return this.http.get(
-      this.urlProvider.getTaxMotUrl(), { headers, params },
-    ).pipe(
+    return this.http.get(this.urlProvider.getTaxMotUrl(), { headers, params }).pipe(
       tap((response: VehicleDetails) => {
         this.vehicleIdentifier = vehicleRegistration;
         this.vehicleDetailsResponse = response;
       }),
-      timeout(this.appConfig.getAppConfig().requestTimeout),
+      timeout(this.appConfig.getAppConfig().requestTimeout)
     );
   }
 

@@ -1,12 +1,20 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { select } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { TrueLikenessToPhotoChanged } from '@store/tests/test-summary/test-summary.actions';
 import { FormGroup } from '@angular/forms';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DriverLicenceSchema, DriverPhotograph } from '@dvsa/mes-driver-schema';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { select } from '@ngrx/store';
+import {
+  CandidateLicenceDataValidationError,
+  CandidateLicenceViewDidEnter,
+} from '@pages/candidate-licence/candidate-licence.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   getCandidateDriverNumber,
@@ -16,27 +24,15 @@ import {
   getGenderSilhouettePath,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
-import { getTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
-import {
-  getApplicationReference,
-} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import {
-  getApplicationNumber,
-} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { DriverLicenceSchema, DriverPhotograph } from '@dvsa/mes-driver-schema';
-import {
-  CandidateLicenceDataValidationError,
-  CandidateLicenceViewDidEnter,
-} from '@pages/candidate-licence/candidate-licence.actions';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
-import { DateTime, Duration } from '@shared/helpers/date-time';
+import { TrueLikenessToPhotoChanged } from '@store/tests/test-summary/test-summary.actions';
+import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
+import { getTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
 interface CandidateLicencePageState {
   candidateUntitledName$: Observable<string>;
@@ -55,19 +51,18 @@ interface CandidateLicencePageState {
   styleUrls: ['./candidate-licence.page.scss'],
 })
 export class CandidateLicencePage extends PracticeableBasePageComponent implements OnInit {
-
   formGroup: FormGroup;
   pageState: CandidateLicencePageState;
-  driverDataReturned: boolean = false;
-  candidateDataError: boolean = false;
-  candidateDataUnavailable: boolean = false;
-  niLicenceDetected: boolean = false;
-  offlineError: boolean = false;
+  driverDataReturned = false;
+  candidateDataError = false;
+  candidateDataUnavailable = false;
+  niLicenceDetected = false;
+  offlineError = false;
 
   constructor(
     private candidateLicenceProvider: CandidateLicenceProvider,
     private domSanitizer: DomSanitizer,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector, false);
     this.formGroup = new FormGroup({});
@@ -76,68 +71,50 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   ngOnInit() {
     super.ngOnInit();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
-        select(getUntitledCandidateName),
+        select(getUntitledCandidateName)
       ),
       candidateDriverNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
-        select(getCandidateDriverNumber),
+        select(getCandidateDriverNumber)
       ),
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-      ),
-      trueLikenessToPhoto$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getTrueLikenessToPhoto),
-      ),
+      testCategory$: currentTest$.pipe(select(getTestCategory)),
+      trueLikenessToPhoto$: currentTest$.pipe(select(getTestSummary), select(getTrueLikenessToPhoto)),
       driverPhotograph$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getGender),
         map(getGenderSilhouettePath),
-        take(1),
+        take(1)
       ),
       genderDescription$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getGender),
-        map(getGenderFullDescription),
+        map(getGenderFullDescription)
       ),
       age$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getDateOfBirth),
-        map((dateOfBirth: string) => new DateTime()
-          .diff(dateOfBirth, Duration.YEAR)),
+        map((dateOfBirth: string) => new DateTime().diff(dateOfBirth, Duration.YEAR))
       ),
       candidateData$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getCandidateDriverNumber),
         withLatestFrom(
-          currentTest$.pipe(
-            select(getJournalData),
-            select(getApplicationReference),
-            select(getApplicationNumber),
-          ),
-          currentTest$.pipe(
-            select(getRekeyIndicator),
-            select(isRekey),
-          ),
+          currentTest$.pipe(select(getJournalData), select(getApplicationReference), select(getApplicationNumber)),
+          currentTest$.pipe(select(getRekeyIndicator), select(isRekey))
         ),
         filter(([, , isRekeyTest]) => !this.isPracticeMode && !isRekeyTest),
-        switchMap((
-          [driverNumber, appRef],
-        ) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
+        switchMap(([driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
         catchError((err) => {
           if (err instanceof Error) {
             this.setError(err);
@@ -147,7 +124,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
           this.driverDataReturned = false;
           return of(null);
         }),
-        tap(() => this.driverDataReturned = true),
+        tap(() => (this.driverDataReturned = true))
       ),
     };
   }
@@ -169,37 +146,27 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     if (!img || !this.driverDataReturned || !driverPhotograph) {
       return null;
     }
-    const {
-      image,
-      imageFormat,
-    } = driverPhotograph?.photograph;
+    const { image, imageFormat } = driverPhotograph?.photograph;
     return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`);
   };
 
   onContinue = async (): Promise<void> => {
-    Object.keys(this.formGroup.controls)
-      .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
     if (this.formGroup.valid) {
       await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
       return;
     }
 
-    Object.keys(this.formGroup.controls)
-      .forEach((controlName) => {
-        if (this.formGroup.controls[controlName].invalid) {
-          this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
-        }
-      });
+    Object.keys(this.formGroup.controls).forEach((controlName) => {
+      if (this.formGroup.controls[controlName].invalid) {
+        this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
+      }
+    });
   };
 
   get hasErrored(): boolean {
-    return (
-      this.offlineError
-      || this.candidateDataError
-      || this.candidateDataUnavailable
-      || this.niLicenceDetected
-    );
+    return this.offlineError || this.candidateDataError || this.candidateDataUnavailable || this.niLicenceDetected;
   }
 
   private setError(err: Error): void {
@@ -217,5 +184,4 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         this.candidateDataError = true;
     }
   }
-
 }

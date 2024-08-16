@@ -1,30 +1,30 @@
-import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
-import { OutcomeBehaviourMapProvider } from 'src/app/providers/outcome-behaviour-map/outcome-behaviour-map';
-import { behaviourMap } from 'src/app/pages/office/office-behaviour-map';
-import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
+import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { cloneDeep } from 'lodash-es';
+import { behaviourMap } from 'src/app/pages/office/office-behaviour-map';
+import { OutcomeBehaviourMapProvider } from 'src/app/providers/outcome-behaviour-map/outcome-behaviour-map';
+import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
+import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import {
-  hasSeriousFault,
-  getTestRequirements,
-  hasDangerousFault,
   getETAFaultText,
   getEcoFaultText,
   getShowMeQuestionOptions,
+  getTestRequirements,
+  hasDangerousFault,
+  hasSeriousFault,
 } from '../../common/test-data.selector';
+import { Competencies } from '../../test-data.constants';
 import {
   getDrivingFaultCount,
   getManoeuvres,
+  hasEyesightTestBeenCompleted,
+  hasEyesightTestGotSeriousFault,
   hasManoeuvreBeenCompletedCatB,
-  isTellMeQuestionSelected,
+  hasVehicleChecksBeenCompletedCatB,
   isTellMeQuestionCorrect,
   isTellMeQuestionDrivingFault,
-  hasVehicleChecksBeenCompletedCatB,
-  hasEyesightTestGotSeriousFault,
-  hasEyesightTestBeenCompleted,
+  isTellMeQuestionSelected,
 } from '../test-data.cat-b.selector';
-import { Competencies } from '../../test-data.constants';
 
 describe('TestDataSelectors', () => {
   const state: CatBUniqueTypes.TestData = {
@@ -76,8 +76,7 @@ describe('TestDataSelectors', () => {
 
   describe('hasEyesightTestBeenCompleted', () => {
     it('should return true if the eyesight test is complete', () => {
-      expect(hasEyesightTestBeenCompleted(state))
-        .toBe(true);
+      expect(hasEyesightTestBeenCompleted(state)).toBe(true);
     });
 
     it('should return false if the eyesight test is not complete', () => {
@@ -85,8 +84,7 @@ describe('TestDataSelectors', () => {
         ...state,
         eyesightTest: { complete: false },
       };
-      expect(hasEyesightTestBeenCompleted(newState))
-        .toBe(false);
+      expect(hasEyesightTestBeenCompleted(newState)).toBe(false);
     });
   });
 
@@ -96,13 +94,11 @@ describe('TestDataSelectors', () => {
         ...state,
         eyesightTest: { seriousFault: true },
       };
-      expect(hasEyesightTestGotSeriousFault(newState))
-        .toBe(true);
+      expect(hasEyesightTestGotSeriousFault(newState)).toBe(true);
     });
 
     it('should return false if the eyesight test does not have a serious fault', () => {
-      expect(hasEyesightTestGotSeriousFault(state))
-        .toBe(false);
+      expect(hasEyesightTestGotSeriousFault(state)).toBe(false);
     });
   });
 
@@ -129,53 +125,41 @@ describe('TestDataSelectors', () => {
     ];
     it('should return the list of questions without N/A if outcome field does not have showNotApplicable set', () => {
       const result = getShowMeQuestionOptions(showMeQuestions, '1', outcomeBehaviourMapProvider);
-      expect(result.length)
-        .toBe(2);
-      expect(result[0].code)
-        .toBe('S1');
-      expect(result[1].code)
-        .toBe('S2');
+      expect(result.length).toBe(2);
+      expect(result[0].code).toBe('S1');
+      expect(result[1].code).toBe('S2');
     });
     it('should return extra question if outcome showNotApplicable set', () => {
       const result = getShowMeQuestionOptions(showMeQuestions, '4', outcomeBehaviourMapProvider);
-      expect(result.length)
-        .toBe(3);
-      expect(result[2].code)
-        .toBe('N/A');
+      expect(result.length).toBe(3);
+      expect(result[2].code).toBe('N/A');
     });
-
   });
 
   describe('getDrivingFaultCount', () => {
     it('should return the driving fault count', () => {
-      expect(getDrivingFaultCount(state, Competencies.controlsGears))
-        .toBe(1);
+      expect(getDrivingFaultCount(state, Competencies.controlsGears)).toBe(1);
     });
     it('should return undefined when there hasnt been any driving faults', () => {
-      expect(getDrivingFaultCount(state, Competencies.controlsParkingBrake))
-        .toBeUndefined();
+      expect(getDrivingFaultCount(state, Competencies.controlsParkingBrake)).toBeUndefined();
     });
   });
 
   describe('hasSeriousFault', () => {
     it('should return true if a competency has a serious fault', () => {
-      expect(hasSeriousFault(state, Competencies.awarenessPlanning))
-        .toEqual(true);
+      expect(hasSeriousFault(state, Competencies.awarenessPlanning)).toEqual(true);
     });
     it('should return false if a competency does not have a serious fault', () => {
-      expect(hasSeriousFault(state, Competencies.controlsClutch))
-        .toBeFalsy();
+      expect(hasSeriousFault(state, Competencies.controlsClutch)).toBeFalsy();
     });
   });
 
   describe('hasDangerousFault', () => {
     it('should return true if a competency has a dangerous fault', () => {
-      expect(hasDangerousFault(state, Competencies.useOfSpeed))
-        .toEqual(true);
+      expect(hasDangerousFault(state, Competencies.useOfSpeed)).toEqual(true);
     });
     it('should return false if a competency does not have a dangerous fault', () => {
-      expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling))
-        .toBeFalsy();
+      expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling)).toBeFalsy();
     });
   });
 
@@ -183,86 +167,73 @@ describe('TestDataSelectors', () => {
     it('should return all the properties of testRequirements', () => {
       const result = getTestRequirements(state) as CatBUniqueTypes.TestRequirements;
 
-      expect(result.normalStart1)
-        .toEqual(true);
-      expect(result.normalStart2)
-        .toEqual(true);
-      expect(result.angledStart)
-        .toEqual(true);
-      expect(result.hillStart)
-        .toEqual(true);
+      expect(result.normalStart1).toEqual(true);
+      expect(result.normalStart2).toEqual(true);
+      expect(result.angledStart).toEqual(true);
+      expect(result.hillStart).toEqual(true);
     });
   });
 
   describe('getETAFaultText', () => {
     it('should return null if no ETA faults', () => {
       const result = getETAFaultText(state.ETA);
-      expect(result)
-        .toBeUndefined();
+      expect(result).toBeUndefined();
     });
     it('should return `Physical and verbal` if both ETA faults', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = true;
       updatedState.ETA.verbal = true;
       const result = getETAFaultText(updatedState.ETA);
-      expect(result)
-        .toEqual('Physical and verbal');
+      expect(result).toEqual('Physical and verbal');
     });
     it('should return `Physical` if just physical ETA fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = true;
       updatedState.ETA.verbal = false;
       const result = getETAFaultText(updatedState.ETA);
-      expect(result)
-        .toEqual('Physical');
+      expect(result).toEqual('Physical');
     });
     it('should return `Verbal` if just verbal ETA fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.ETA.physical = false;
       updatedState.ETA.verbal = true;
       const result = getETAFaultText(updatedState.ETA);
-      expect(result)
-        .toEqual('Verbal');
+      expect(result).toEqual('Verbal');
     });
   });
 
   describe('getEcoFaultText', () => {
     it('should return null if no eco faults', () => {
       const result = getEcoFaultText(state.eco);
-      expect(result)
-        .toBeUndefined();
+      expect(result).toBeUndefined();
     });
     it('should return `Control and planning` if both eco faults', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = true;
       updatedState.eco.adviceGivenPlanning = true;
       const result = getEcoFaultText(updatedState.eco);
-      expect(result)
-        .toEqual('Control and planning');
+      expect(result).toEqual('Control and planning');
     });
     it('should return `Control` if just control eco fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = true;
       updatedState.eco.adviceGivenPlanning = false;
       const result = getEcoFaultText(updatedState.eco);
-      expect(result)
-        .toEqual('Control');
+      expect(result).toEqual('Control');
     });
     it('should return `Planning` if just planning eco fault', () => {
       const updatedState = cloneDeep(state);
       updatedState.eco.adviceGivenControl = false;
       updatedState.eco.adviceGivenPlanning = true;
       const result = getEcoFaultText(updatedState.eco);
-      expect(result)
-        .toEqual('Planning');
+      expect(result).toEqual('Planning');
     });
   });
 
   describe('getManoeuvres', () => {
     it('should retrive the manoeuvres data when requested', () => {
       const result = getManoeuvres(state);
-      expect(result)
-        .toEqual(state.manoeuvres);
+      expect(result).toEqual(state.manoeuvres);
     });
   });
 
@@ -271,8 +242,7 @@ describe('TestDataSelectors', () => {
       const mockState: CatBUniqueTypes.TestData = {
         manoeuvres: {},
       };
-      expect(hasManoeuvreBeenCompletedCatB(mockState))
-        .toBeFalsy();
+      expect(hasManoeuvreBeenCompletedCatB(mockState)).toBeFalsy();
     });
     it('should return true when a manoeuvre has been completed', () => {
       const mockState: CatBUniqueTypes.TestData = {
@@ -280,8 +250,7 @@ describe('TestDataSelectors', () => {
           forwardPark: { selected: true },
         },
       };
-      expect(hasManoeuvreBeenCompletedCatB(mockState))
-        .toEqual(true);
+      expect(hasManoeuvreBeenCompletedCatB(mockState)).toEqual(true);
     });
   });
 
@@ -295,12 +264,10 @@ describe('TestDataSelectors', () => {
             outcome: CompetencyOutcome.P,
           },
         };
-        expect(isTellMeQuestionSelected(mockState))
-          .toBe(true);
+        expect(isTellMeQuestionSelected(mockState)).toBe(true);
       });
       it('should return false if there is no tell me question selected', () => {
-        expect(isTellMeQuestionSelected({}))
-          .toBe(false);
+        expect(isTellMeQuestionSelected({})).toBe(false);
       });
     });
     describe('isTellMeQuestionCorrect', () => {
@@ -313,8 +280,7 @@ describe('TestDataSelectors', () => {
       };
 
       it('should return true if the tell me question is marked as a pass', () => {
-        expect(isTellMeQuestionCorrect(passedState))
-          .toBe(true);
+        expect(isTellMeQuestionCorrect(passedState)).toBe(true);
       });
       it('should return false if the tell me question is marked as a driving fault', () => {
         const failedState = {
@@ -323,8 +289,7 @@ describe('TestDataSelectors', () => {
             outcome: 'DF' as QuestionOutcome,
           },
         };
-        expect(isTellMeQuestionCorrect(failedState))
-          .toBe(false);
+        expect(isTellMeQuestionCorrect(failedState)).toBe(false);
       });
     });
     describe('isTellMeQuestionDrivingFault', () => {
@@ -337,8 +302,7 @@ describe('TestDataSelectors', () => {
       };
 
       it('should return true if the tell me question is marked as a pass', () => {
-        expect(isTellMeQuestionDrivingFault(faultState))
-          .toBe(true);
+        expect(isTellMeQuestionDrivingFault(faultState)).toBe(true);
       });
       it('should return false if the tell me question is marked as a driving fault', () => {
         const passedState = {
@@ -347,8 +311,7 @@ describe('TestDataSelectors', () => {
             outcome: CompetencyOutcome.P,
           },
         };
-        expect(isTellMeQuestionDrivingFault(passedState))
-          .toBe(false);
+        expect(isTellMeQuestionDrivingFault(passedState)).toBe(false);
       });
     });
 
@@ -365,8 +328,7 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(mockState))
-          .toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a driving fault', () => {
         const mockState = {
@@ -380,8 +342,7 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(mockState))
-          .toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a serious fault', () => {
         const mockState = {
@@ -395,8 +356,7 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(mockState))
-          .toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a dangerous fault', () => {
         const mockState = {
@@ -410,8 +370,7 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(mockState))
-          .toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return false if show me question outcome is not defined', () => {
         const mockState = {
@@ -423,8 +382,7 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(mockState))
-          .toEqual(false);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(false);
       });
     });
   });

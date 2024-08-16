@@ -1,46 +1,30 @@
+import { AlertController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { AlertController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { JournalDataUnion } from '@shared/unions/journal-union';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { PersistTests } from '@store/tests/tests.actions';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { Inject, Injector } from '@angular/core';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import {
-  DualControlsToggled,
-  GearboxCategoryChanged,
-  SchoolBikeToggled,
-  SchoolCarToggled,
-  VehicleRegistrationChanged,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { JournalDataUnion } from '@shared/unions/journal-union';
 import {
   InstructorAccompanimentToggled,
   InterpreterAccompanimentToggled,
   OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
-import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-details/instructor-details.actions';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import {
-  hasEyesightTestBeenCompleted,
-  hasEyesightTestGotSeriousFault,
-} from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
 import {
   getInstructorAccompaniment,
@@ -48,30 +32,46 @@ import {
   getOtherAccompaniment,
   getSupervisorAccompaniment,
 } from '@store/tests/accompaniment/accompaniment.selector';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
-  EyesightTestFailed,
-  EyesightTestPassed,
-} from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+  InterpreterAccompanimentToggledCPC,
+  SupervisorAccompanimentToggledCPC,
+} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-details/instructor-details.actions';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
   CandidateDeclarationSigned,
   SetDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import {
+  hasEyesightTestBeenCompleted,
+  hasEyesightTestGotSeriousFault,
+} from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import {
+  EyesightTestFailed,
+  EyesightTestPassed,
+} from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { PersistTests } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
+import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
-  InterpreterAccompanimentToggledCPC,
-  SupervisorAccompanimentToggledCPC,
-} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
-import { Inject, Injector } from '@angular/core';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
+  DualControlsToggled,
+  GearboxCategoryChanged,
+  SchoolBikeToggled,
+  SchoolCarToggled,
+  VehicleRegistrationChanged,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -100,84 +100,53 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
-  trainerNumberProvided: boolean = false;
+  trainerNumberProvided = false;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
     TestCategory.BE,
     TestCategory.ADI2,
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
-    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2,
+    TestCategory.F,
+    TestCategory.G,
+    TestCategory.H,
+    TestCategory.K,
+    TestCategory.EUAMM2,
+    TestCategory.EUA1M2,
+    TestCategory.EUA2M2,
+    TestCategory.EUAM2,
   ];
 
   protected constructor(
     injector: Injector,
-    @Inject(false) public loginRequired: boolean = false,
+    @Inject(false) public loginRequired = false
   ) {
     super(injector, loginRequired);
   }
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.commonPageState = {
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
-      ),
-      registrationNumber$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getRegistrationNumber),
-      ),
-      transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getGearboxCategory),
-      ),
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
+      registrationNumber$: currentTest$.pipe(select(getVehicleDetails), select(getRegistrationNumber)),
+      transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
       category$: currentTest$.pipe(
         select(getTestCategory),
-        map((result) => this.testCategory = result as TestCategory),
+        map((result) => (this.testCategory = result as TestCategory))
       ),
       showEyesight$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => isAnyOf(category as TestCategory, this.categoriesRequiringEyesightTest)),
+        map((category) => isAnyOf(category as TestCategory, this.categoriesRequiringEyesightTest))
       ),
-      eyesightTestComplete$: currentTest$.pipe(
-        select(getTestData),
-        select(hasEyesightTestBeenCompleted),
-      ),
-      eyesightTestFailed$: currentTest$.pipe(
-        select(getTestData),
-        select(hasEyesightTestGotSeriousFault),
-      ),
-      schoolCar$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getSchoolCar),
-      ),
-      dualControls$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getDualControls),
-      ),
-      instructorAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getInstructorAccompaniment),
-      ),
-      supervisorAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getSupervisorAccompaniment),
-      ),
-      otherAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getOtherAccompaniment),
-      ),
-      interpreterAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getInterpreterAccompaniment),
-      ),
+      eyesightTestComplete$: currentTest$.pipe(select(getTestData), select(hasEyesightTestBeenCompleted)),
+      eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
+      schoolCar$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolCar)),
+      dualControls$: currentTest$.pipe(select(getVehicleDetails), select(getDualControls)),
+      instructorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInstructorAccompaniment)),
+      supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
+      otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
+      interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
     };
   }
 
@@ -301,8 +270,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   trainerRegistrationNumberChanged(instructorRegistration: number): void {
-    if(instructorRegistration) {
-      if(!this.trainerNumberProvided) {
+    if (instructorRegistration) {
+      if (!this.trainerNumberProvided) {
         this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
         this.trainerNumberProvided = true;
       }

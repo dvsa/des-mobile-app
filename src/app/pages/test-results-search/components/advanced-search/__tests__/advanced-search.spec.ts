@@ -1,13 +1,11 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from '@app/app.module';
-import { AppComponent } from '@app/app.component';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { MockComponent } from 'ng-mocks';
+import { AppComponent } from '@app/app.component';
+import { AppModule } from '@app/app.module';
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
-import {
-  SearchablePicklistComponentWrapper,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
 import { AdvancedSearchComponent } from '../advanced-search';
 
 describe('AdvancedSearchComponent', () => {
@@ -21,13 +19,8 @@ describe('AdvancedSearchComponent', () => {
         MockComponent(DateTimeInputComponent),
         MockComponent(SearchablePicklistComponentWrapper),
       ],
-      imports: [
-        AppModule,
-        IonicModule,
-      ],
-      providers: [
-        { provide: AppComponent, useClass: MockAppComponent },
-      ],
+      imports: [AppModule, IonicModule],
+      providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 
     fixture = TestBed.createComponent(AdvancedSearchComponent);

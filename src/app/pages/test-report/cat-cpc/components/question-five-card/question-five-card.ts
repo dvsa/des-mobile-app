@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { AnswerChanged } from '../question-card/question-card';
 
@@ -10,7 +8,6 @@ import { AnswerChanged } from '../question-card/question-card';
   styleUrls: ['question-five-card.scss'],
 })
 export class QuestionFiveCardComponent {
-
   @Input()
   question: Question5;
 
@@ -20,5 +17,4 @@ export class QuestionFiveCardComponent {
   answerChanged = (details: AnswerChanged): void => {
     this.answerPayload.emit({ questionNumber: 5, ...details });
   };
-
 }

@@ -1,10 +1,8 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { VehicleDetailsComponent } from '../vehicle-details';
 
@@ -14,15 +12,8 @@ describe('VehicleDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleDetailsComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-        PipesModule,
-      ],
+      declarations: [VehicleDetailsComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule, PipesModule],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsComponent);
@@ -36,8 +27,7 @@ describe('VehicleDetailsComponent', () => {
       component.formControl.setValue(1);
       spyOn(component.vehicleDetailsChange, 'emit');
       component.vehicleDetailsChanged();
-      expect(component.vehicleDetailsChange.emit)
-        .toHaveBeenCalled();
+      expect(component.vehicleDetailsChange.emit).toHaveBeenCalled();
     });
   });
 
@@ -51,8 +41,7 @@ describe('VehicleDetailsComponent', () => {
         const schoolCarCb = fixture.debugElement.query(By.css(`#${component.formControlName}`));
         schoolCarCb.triggerEventHandler('change', { target: {} });
         fixture.detectChanges();
-        expect(component.vehicleDetailsChanged)
-          .toHaveBeenCalled();
+        expect(component.vehicleDetailsChanged).toHaveBeenCalled();
       });
       it('should call vehicleDetailsChanged when dual controls is selected', () => {
         spyOn(component, 'vehicleDetailsChanged');
@@ -62,8 +51,7 @@ describe('VehicleDetailsComponent', () => {
         const dualControlCb = fixture.debugElement.query(By.css(`#${component.formControlName}`));
         dualControlCb.triggerEventHandler('change', { target: {} });
         fixture.detectChanges();
-        expect(component.vehicleDetailsChanged)
-          .toHaveBeenCalled();
+        expect(component.vehicleDetailsChanged).toHaveBeenCalled();
       });
     });
   });

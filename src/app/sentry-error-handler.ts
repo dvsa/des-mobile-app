@@ -1,16 +1,16 @@
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
-import * as Sentry from '@sentry/capacitor';
+import { Device } from '@capacitor/device';
+import { Store } from '@ngrx/store';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
-import { Device } from '@capacitor/device';
+import * as Sentry from '@sentry/capacitor';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { SaveLog } from '@store/logs/logs.actions';
 
 type SentryError = RegExp | string;
 
@@ -20,14 +20,9 @@ const SENTRY_ERRORS_LIVERELOAD: SentryError[] = [
 ];
 
 // Errors being thrown within packages are filtering into the Sentry reports, these are inflating the stats.
-const SENTRY_ERRORS_NODE_MODULES: SentryError[] = [
-  'this._data[this._data.length-1].push',
-];
+const SENTRY_ERRORS_NODE_MODULES: SentryError[] = ['this._data[this._data.length-1].push'];
 
-export const SENTRY_ERRORS: SentryError[] = [
-  ...SENTRY_ERRORS_LIVERELOAD,
-  ...SENTRY_ERRORS_NODE_MODULES,
-];
+export const SENTRY_ERRORS: SentryError[] = [...SENTRY_ERRORS_LIVERELOAD, ...SENTRY_ERRORS_NODE_MODULES];
 
 @Injectable()
 export class SentryIonicErrorHandler extends ErrorHandler {
@@ -43,9 +38,9 @@ export class SentryIonicErrorHandler extends ErrorHandler {
 
       // don't report missing apiKey errors that can be seen via Logs service;
       if (
-        error instanceof HttpErrorResponse
-        && error?.status === HttpStatusCode.Forbidden
-        && error?.url?.includes('logs')
+        error instanceof HttpErrorResponse &&
+        error?.status === HttpStatusCode.Forbidden &&
+        error?.url?.includes('logs')
       ) {
         return;
       }
@@ -69,13 +64,11 @@ export class SentryIonicErrorHandler extends ErrorHandler {
   }
 
   private reportError(error: unknown) {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        LogType.ERROR,
-        'Error handler',
-        serialiseLogMessage(error),
-      ),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'Error handler', serialiseLogMessage(error)),
+      })
+    );
   }
 
   get authenticationProvider(): AuthenticationProvider {

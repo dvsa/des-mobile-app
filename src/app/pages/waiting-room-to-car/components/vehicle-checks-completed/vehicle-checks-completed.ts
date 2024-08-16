@@ -1,23 +1,21 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { merge, Observable, Subscription } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-checks-questions-by-category';
+import { StoreModel } from '@shared/models/store.model';
+import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import {
   getFullLicenceHeld,
   getVehicleChecksCatC,
   hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
-import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { StoreModel } from '@shared/models/store.model';
-import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-checks-questions-by-category';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
 
 enum VehicleChecksCompletedResult {
   COMPLETED = 'Completed',
@@ -36,7 +34,6 @@ interface ComponentState {
   styleUrls: ['vehicle-checks-completed.scss'],
 })
 export class VehicleChecksToggleComponent implements OnChanges {
-
   formControl: UntypedFormControl;
   componentState: ComponentState;
   drivingFaultNumberFormControl: UntypedFormControl;
@@ -62,28 +59,29 @@ export class VehicleChecksToggleComponent implements OnChanges {
   constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit() {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.componentState = {
       fullLicenceHeld$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
-        select(getFullLicenceHeld),
+        select(getFullLicenceHeld)
       ),
       fullLicenceHeldSelection$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
         select(getFullLicenceHeld),
-        map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld)),
+        map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld))
       ),
       drivingFaultsNumberOptions$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
         select(getFullLicenceHeld),
-        map((licenceHeld) => Array(vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1).fill(null).map((v, i) => i)),
+        map((licenceHeld) =>
+          Array(vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1)
+            .fill(null)
+            .map((v, i) => i)
+        )
       ),
     };
 
@@ -95,8 +93,8 @@ export class VehicleChecksToggleComponent implements OnChanges {
           // when fullLicenceHeld changes, then set the fault count dropdown back to a null in it's default state
           this.drivingFaultNumberFormControl.markAsPristine({ onlySelf: true });
           this.drivingFaultNumberFormControl.patchValue(null);
-        }),
-      ),
+        })
+      )
     );
 
     this.subscription = merged$.pipe(takeUntil(wrtcDestroy$)).subscribe();

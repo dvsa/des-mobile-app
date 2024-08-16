@@ -9,9 +9,8 @@ export const testRequirementsCatADI2Reducer = createReducer(
   on(testRequirementsActions.ToggleLegalRequirement, (state, { legalRequirement }) => ({
     ...state,
     [legalRequirement]: !state[legalRequirement],
-  })),
+  }))
 );
 
-export const getTestRequirementsCatADI2 = createFeatureSelector<CatADI2UniqueTypes.TestRequirements>(
-  'testRequirements',
-);
+export const getTestRequirementsCatADI2 =
+  createFeatureSelector<CatADI2UniqueTypes.TestRequirements>('testRequirements');

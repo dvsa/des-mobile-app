@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { StoreModule, Store } from '@ngrx/store';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StoreModel } from '@shared/models/store.model';
-import { StartTest } from '@store/tests/tests.actions';
-import {
-  TellMeQuestionCorrect,
-  ShowMeQuestionPassed,
-  ShowMeQuestionDrivingFault,
-  TellMeQuestionDrivingFault,
-  ShowMeQuestionSeriousFault,
-  ShowMeQuestionDangerousFault,
-} from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { By } from '@angular/platform-browser';
-import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { createTranslateLoader } from '@app/app.module';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { createTranslateLoader } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { StoreModel } from '@shared/models/store.model';
+import {
+  ShowMeQuestionDangerousFault,
+  ShowMeQuestionDrivingFault,
+  ShowMeQuestionPassed,
+  ShowMeQuestionSeriousFault,
+  TellMeQuestionCorrect,
+  TellMeQuestionDrivingFault,
+} from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
 
 describe('VehicleChecksCardCatBComponent', () => {
@@ -27,9 +27,7 @@ describe('VehicleChecksCardCatBComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksCardCatBComponent,
-      ],
+      declarations: [VehicleChecksCardCatBComponent],
       imports: [
         IonicModule,
         HttpClientModule,
@@ -108,8 +106,7 @@ describe('VehicleChecksCardCatBComponent', () => {
             fixture.detectChanges();
             const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
             const { tellMeQuestion, incorrect } = (<any>welshTranslations).debrief;
-            expect(tellMeQuestionText.innerHTML.trim())
-              .toBe(`${tellMeQuestion} - ${incorrect}`);
+            expect(tellMeQuestionText.innerHTML.trim()).toBe(`${tellMeQuestion} - ${incorrect}`);
             done();
           });
         });
@@ -184,5 +181,4 @@ describe('VehicleChecksCardCatBComponent', () => {
       });
     });
   });
-
 });

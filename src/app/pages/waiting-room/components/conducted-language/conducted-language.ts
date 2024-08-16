@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'conducted-language',
@@ -8,7 +6,6 @@ import {
   styleUrls: ['conducted-language.scss'],
 })
 export class ConductedLanguageComponent {
-
   @Input()
   welshIsSelected: boolean;
 

@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { ChartComponent } from '@components/common/chart/chart';
 import { SimpleChange } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ChartComponent } from '@components/common/chart/chart';
+import { IonicModule } from '@ionic/angular';
 import { ApexOptions } from 'ng-apexcharts';
 
 describe('ChartComponent', () => {
@@ -12,8 +12,7 @@ describe('ChartComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ChartComponent],
       imports: [IonicModule],
-      providers: [
-      ],
+      providers: [],
     });
     fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;
@@ -90,66 +89,82 @@ describe('ChartComponent', () => {
       component.horizontal = false;
       expect(component.options.xaxis.labels.offsetY).toEqual(0);
     });
-    it('should return split value with calculated percentage if the type is not bar ' +
-      'and both splitLabel and calculatePercentages are true', () => {
-      component.chartType = 'pie';
-      component.splitLabel = true;
-      component.calculatePercentages = true;
-      expect(component.options.dataLabels.formatter(2,
-        {
-          seriesIndex: 1,
-          w: {
-            globals: {
-              labels: [ 'Index - Label', 'Index2 - Label2'],
+    it(
+      'should return split value with calculated percentage if the type is not bar ' +
+        'and both splitLabel and calculatePercentages are true',
+      () => {
+        component.chartType = 'pie';
+        component.splitLabel = true;
+        component.calculatePercentages = true;
+        expect(
+          component.options.dataLabels.formatter(2, {
+            seriesIndex: 1,
+            w: {
+              globals: {
+                labels: ['Index - Label', 'Index2 - Label2'],
+              },
             },
-          },
-        })).toEqual('Index2:  2.0%');
-    });
-    it('should return split value without calculated percentage if the type is not bar ' +
-      'and both splitLabel is true and calculatePercentages is false', () => {
-      component.chartType = 'pie';
-      component.splitLabel = true;
-      component.calculatePercentages = false;
-      expect(component.options.dataLabels.formatter(2,
-        {
-          seriesIndex: 1,
-          w: {
-            globals: {
-              labels: [ 'Index - Label', 'Index2 - Label2'],
+          })
+        ).toEqual('Index2:  2.0%');
+      }
+    );
+    it(
+      'should return split value without calculated percentage if the type is not bar ' +
+        'and both splitLabel is true and calculatePercentages is false',
+      () => {
+        component.chartType = 'pie';
+        component.splitLabel = true;
+        component.calculatePercentages = false;
+        expect(
+          component.options.dataLabels.formatter(2, {
+            seriesIndex: 1,
+            w: {
+              globals: {
+                labels: ['Index - Label', 'Index2 - Label2'],
+              },
             },
-          },
-        })).toEqual('Index2:  50');
-    });
-    it('should return split value with calculated percentage if the type is not bar ' +
-      'and calculatePercentages is true and splitLabel is false', () => {
-      component.chartType = 'pie';
-      component.splitLabel = false;
-      component.calculatePercentages = true;
-      expect(component.options.dataLabels.formatter(2,
-        {
-          seriesIndex: 1,
-          w: {
-            globals: {
-              labels: [ 'Index - Label', 'Index2 - Label2'],
+          })
+        ).toEqual('Index2:  50');
+      }
+    );
+    it(
+      'should return split value with calculated percentage if the type is not bar ' +
+        'and calculatePercentages is true and splitLabel is false',
+      () => {
+        component.chartType = 'pie';
+        component.splitLabel = false;
+        component.calculatePercentages = true;
+        expect(
+          component.options.dataLabels.formatter(2, {
+            seriesIndex: 1,
+            w: {
+              globals: {
+                labels: ['Index - Label', 'Index2 - Label2'],
+              },
             },
-          },
-        })).toEqual('Index2 - Label2:  2.0%');
-    });
-    it('should return split value without calculated percentage if the type is not bar ' +
-      'and splitLabel and calculatePercentages are false', () => {
-      component.chartType = 'pie';
-      component.splitLabel = false;
-      component.calculatePercentages = false;
-      expect(component.options.dataLabels.formatter(2,
-        {
-          seriesIndex: 1,
-          w: {
-            globals: {
-              labels: [ 'Index - Label', 'Index2 - Label2'],
+          })
+        ).toEqual('Index2 - Label2:  2.0%');
+      }
+    );
+    it(
+      'should return split value without calculated percentage if the type is not bar ' +
+        'and splitLabel and calculatePercentages are false',
+      () => {
+        component.chartType = 'pie';
+        component.splitLabel = false;
+        component.calculatePercentages = false;
+        expect(
+          component.options.dataLabels.formatter(2, {
+            seriesIndex: 1,
+            w: {
+              globals: {
+                labels: ['Index - Label', 'Index2 - Label2'],
+              },
             },
-          },
-        })).toEqual('Index2 - Label2:  50');
-    });
+          })
+        ).toEqual('Index2 - Label2:  50');
+      }
+    );
 
     it('should return xaxis split value if horizontal is false and splitlabel is true', () => {
       component.horizontal = false;
@@ -199,7 +214,7 @@ describe('ChartComponent', () => {
   describe('ngOnChanges', () => {
     it('should run filterData and updateOptions with options if dataChanged is true and chart is present', () => {
       component.chart = {
-        updateOptions(options:any): void {
+        updateOptions(options: any): void {
           return options;
         },
       } as ApexCharts;
@@ -215,7 +230,7 @@ describe('ChartComponent', () => {
     });
     it('should reassign chart if dataChanged is true, chart is present and the changes include chartType', () => {
       component.chart = {
-        updateOptions(options:any): void {
+        updateOptions(options: any): void {
           return options;
         },
         render(): void {
@@ -223,11 +238,10 @@ describe('ChartComponent', () => {
         },
       } as ApexCharts;
 
-
       component.ngOnChanges({ chartType: { previousValue: '1', currentValue: '2' } as SimpleChange });
 
       expect(component.chart).not.toEqual({
-        updateOptions(options:any): void {
+        updateOptions(options: any): void {
           return options;
         },
         render(): void {
@@ -239,12 +253,12 @@ describe('ChartComponent', () => {
 
   describe('getTickCount', () => {
     it('should return the largest number in the passed array if it is equal to or less than 5', () => {
-      expect(component.getTickCount([1,2,3,4])).toBe(4);
+      expect(component.getTickCount([1, 2, 3, 4])).toBe(4);
     });
     it('should return null if the largest number in the passed array if it is more than 5', () => {
-      expect(component.getTickCount([1,2,3,6])).toBe(null);
+      expect(component.getTickCount([1, 2, 3, 6])).toBe(null);
     });
-  })
+  });
 
   describe('createGraphLabels', () => {
     it('should create graph labels with details', () => {
@@ -278,24 +292,23 @@ describe('ChartComponent', () => {
         fontSize: component.getFontSize(),
         fontWeight: 'bold',
         background: '#000000',
-        color: '#FFFFFF'
+        color: '#FFFFFF',
       });
     });
   });
 
   describe('getFontSize', () => {
     it('should return 16px if the font size is set to text-zoom-regular', () => {
-      component.zoomSize = 'text-zoom-regular'
+      component.zoomSize = 'text-zoom-regular';
       expect(component.getFontSize()).toBe('16px');
     });
     it('should return 18px if the font size is set to text-zoom-large', () => {
-      component.zoomSize = 'text-zoom-large'
+      component.zoomSize = 'text-zoom-large';
       expect(component.getFontSize()).toBe('18px');
     });
     it('should return 20px if the font size is set to text-zoom-x-large', () => {
-      component.zoomSize = 'text-zoom-x-large'
+      component.zoomSize = 'text-zoom-x-large';
       expect(component.getFontSize()).toBe('20px');
     });
-  })
-
+  });
 });

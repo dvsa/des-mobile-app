@@ -1,34 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { ReplaySubject } from 'rxjs';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as testsActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
-  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import * as VehicleChecksActions
-  from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
+import { StoreModel } from '@shared/models/store.model';
+import * as VehicleChecksActions from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 
-import {
-  QuestionOutcome,
-  QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
-import {
-  VehicleChecksModalCatHomeTestAnalyticsEffects
-} from '../vehicle-checks-modal.cat-home-test.analytics.effects';
-import {
-  VehicleChecksViewDidEnter
-} from '../vehicle-checks-modal.cat-home.actions';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { VehicleChecksModalCatHomeTestAnalyticsEffects } from '../vehicle-checks-modal.cat-home-test.analytics.effects';
+import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-home.actions';
 describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
   let effects: VehicleChecksModalCatHomeTestAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
@@ -80,9 +74,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.showMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          showMeQuestion.code,
+          showMeQuestion.code
         );
         done();
       });
@@ -94,9 +88,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.showMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          showMeQuestion.code,
+          showMeQuestion.code
         );
         done();
       });
@@ -112,9 +106,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT,
+          GoogleAnalyticsEventsValues.CORRECT
         );
         done();
       });
@@ -126,9 +120,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT,
+          GoogleAnalyticsEventsValues.CORRECT
         );
         done();
       });
@@ -146,9 +140,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.TELL_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code,
+          tellMeQuestion.code
         );
         done();
       });
@@ -160,9 +154,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code,
+          tellMeQuestion.code
         );
         done();
       });
@@ -178,9 +172,9 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          (GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'),
+          GoogleAnalyticsEvents.TELL_ME_QUESTION + '2',
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
@@ -192,13 +186,12 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${(GoogleAnalyticsEvents.TELL_ME_QUESTION + '2')}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'}`,
           GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT,
+          GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
         done();
       });
     });
   });
-
 });

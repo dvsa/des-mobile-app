@@ -8,12 +8,8 @@ describe('VehicleChecksDataRowComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksDataRowComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [VehicleChecksDataRowComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksDataRowComponent);

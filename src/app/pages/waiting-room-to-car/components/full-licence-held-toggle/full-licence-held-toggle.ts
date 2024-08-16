@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
@@ -9,7 +7,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: 'full-licence-held-toggle.html',
 })
 export class FullLicenceHeldComponent implements OnChanges {
-
   @Input()
   testCategory: TestCategory;
 
@@ -20,12 +17,12 @@ export class FullLicenceHeldComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Input()
-  required: boolean = false;
+  required = false;
 
   @Output()
   fullLicenceHeldChange = new EventEmitter<boolean>();
 
-  static formControlName: string = 'fullLicenceHeldCtrl';
+  static formControlName = 'fullLicenceHeldCtrl';
 
   private formControl: UntypedFormControl;
 

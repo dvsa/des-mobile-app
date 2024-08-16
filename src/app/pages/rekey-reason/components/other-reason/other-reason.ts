@@ -1,14 +1,11 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'other-reason',
   templateUrl: 'other-reason.html',
 })
 export class OtherReasonComponent implements OnChanges {
-
   static readonly checkBoxCtrl: string = 'otherSelected';
   static readonly fieldName: string = 'reason';
   private checkBoxFormControl: UntypedFormControl;
@@ -42,10 +39,9 @@ export class OtherReasonComponent implements OnChanges {
     }
 
     if (this.selected) {
-      this.formGroup.get(OtherReasonComponent.fieldName).setValidators([
-        Validators.required,
-        Validators.maxLength(200),
-      ]);
+      this.formGroup
+        .get(OtherReasonComponent.fieldName)
+        .setValidators([Validators.required, Validators.maxLength(200)]);
     } else {
       this.formGroup.get(OtherReasonComponent.fieldName).clearValidators();
     }
@@ -82,5 +78,4 @@ export class OtherReasonComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

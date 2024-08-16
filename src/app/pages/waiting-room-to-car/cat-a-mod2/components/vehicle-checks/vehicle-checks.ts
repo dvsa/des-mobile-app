@@ -1,16 +1,12 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
-import { get } from 'lodash-es';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
-import {
-  VehicleChecksCatAMod2Modal,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
+import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'vehicle-checks-cat-a-mod2',
@@ -18,7 +14,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['./vehicle-checks.scss'],
 })
 export class VehicleChecksCatAMod2Component implements OnChanges {
-
   @Output()
   onCloseVehicleChecksModal = new EventEmitter();
 
@@ -39,9 +34,8 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
 
   constructor(
     private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-  ) {
-  }
+    private accessibilityService: AccessibilityService
+  ) {}
 
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
@@ -62,8 +56,10 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
       const outcome = get(question, 'outcome', undefined);
       return outcome !== undefined;
     };
-    return this.safetyAndBalanceQuestions?.safetyQuestions.reduce((res, question) => res && hasOutcome(question), true)
-      && this.safetyAndBalanceQuestions?.balanceQuestions.reduce((res, question) => res && hasOutcome(question), true);
+    return (
+      this.safetyAndBalanceQuestions?.safetyQuestions.reduce((res, question) => res && hasOutcome(question), true) &&
+      this.safetyAndBalanceQuestions?.balanceQuestions.reduce((res, question) => res && hasOutcome(question), true)
+    );
   }
 
   hasDrivingFault(): boolean {
@@ -80,11 +76,13 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl({
-        value: 'Select questions',
-        disabled: false,
-      },
-      [this.validateVehicleChecks.bind(this)]);
+      this.formControl = new UntypedFormControl(
+        {
+          value: 'Select questions',
+          disabled: false,
+        },
+        [this.validateVehicleChecks.bind(this)]
+      );
       this.formGroup.addControl('safetyAndBalanceSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');

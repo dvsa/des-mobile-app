@@ -6,8 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['location.scss'],
 })
 export class LocationComponent {
-
   @Input()
   location: string;
-
 }

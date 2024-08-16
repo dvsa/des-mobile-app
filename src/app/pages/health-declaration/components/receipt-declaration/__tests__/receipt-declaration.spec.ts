@@ -1,10 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
-import {
-  TranslateModule,
-} from '@ngx-translate/core';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
 describe('ReceiptDeclarationComponent', () => {
@@ -13,14 +11,8 @@ describe('ReceiptDeclarationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ReceiptDeclarationComponent,
-      ],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-      ],
+      declarations: [ReceiptDeclarationComponent],
+      imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(ReceiptDeclarationComponent);

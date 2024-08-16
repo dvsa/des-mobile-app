@@ -1,41 +1,37 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { AppModule } from '@app/app.module';
+import { default as welshTranslations } from '@assets/i18n/cy.json';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { AlertController, NavController, NavParams, Platform } from '@ionic/angular';
 import { AlertControllerMock, NavControllerMock, NavParamsMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { AppModule } from '@app/app.module';
-import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HealthDeclarationComponent } from '@pages/health-declaration/components/health-declaration/health-declaration';
+import { ReceiptDeclarationComponent } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
 import {
   HealthDeclarationValidationError,
   HealthDeclarationViewDidEnter,
 } from '@pages/health-declaration/health-declaration.actions';
+import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import {
-  DeviceAuthenticationProviderMock,
-} from '@providers/device-authentication/__mocks__/device-authentication.mock';
-import * as PostTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import * as PassCompletionActions from '@store/tests/pass-completion/pass-completion.actions';
-import { of, Subscription } from 'rxjs';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { By } from '@angular/platform-browser';
-import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { MockComponent } from 'ng-mocks';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import { HealthDeclarationComponent } from '@pages/health-declaration/components/health-declaration/health-declaration';
-import {
-  ReceiptDeclarationComponent,
-} from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
-import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { default as welshTranslations } from '@assets/i18n/cy.json';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
+import * as PassCompletionActions from '@store/tests/pass-completion/pass-completion.actions';
+import * as PostTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { MockComponent } from 'ng-mocks';
+import { Subscription, of } from 'rxjs';
 
 describe('HealthDeclarationPage', () => {
   let fixture: ComponentFixture<HealthDeclarationPage>;
@@ -127,9 +123,7 @@ describe('HealthDeclarationPage', () => {
     fixture = TestBed.createComponent(HealthDeclarationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch')
-      .and
-      .callThrough();
+    spyOn(store$, 'dispatch').and.callThrough();
     translate = TestBed.inject(TranslateService);
     router = TestBed.inject(Router);
     translate.setDefaultLang('en');
@@ -140,34 +134,28 @@ describe('HealthDeclarationPage', () => {
     describe('ionViewDidEnter', () => {
       it('should dispatch HealthDeclarationViewDidEnter', () => {
         component.ionViewDidEnter();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
+        expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
       });
 
       describe('healthDeclarationChanged', () => {
         it('should dispatch a ToggleHealthDeclaration action', () => {
           component.healthDeclarationChanged();
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleHealthDeclaration());
+          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleHealthDeclaration());
         });
       });
       describe('receiptDeclarationChanged', () => {
         it('should dispatch a ToggleReceiptDeclaration action', () => {
           component.receiptDeclarationChanged();
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleReceiptDeclaration());
+          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleReceiptDeclaration());
         });
       });
 
       describe('persistAndNavigate', () => {
         it('should dispatch a ProvisionalLicenseNotReceived if passed true and licenseProvided is true', async () => {
-          spyOn(router, 'navigate')
-            .and
-            .returnValue(Promise.resolve(true));
+          spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
           component.licenseProvided = true;
           await component.persistAndNavigate(true);
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
+          expect(store$.dispatch).toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
         });
       });
     });
@@ -183,10 +171,8 @@ describe('HealthDeclarationPage', () => {
         component.healthDeclarationAccepted = true;
         component.onSubmit();
         fixture.detectChanges();
-        expect(formGroup.valid)
-          .toEqual(true);
-        expect(component.persistAndNavigate)
-          .toHaveBeenCalled();
+        expect(formGroup.valid).toEqual(true);
+        expect(component.persistAndNavigate).toHaveBeenCalled();
         flush();
       }));
 
@@ -200,10 +186,8 @@ describe('HealthDeclarationPage', () => {
         component.formGroup.controls['signature'].patchValue('heuhrheru');
         component.onSubmit();
         fixture.detectChanges();
-        expect(formGroup.valid)
-          .toEqual(true);
-        expect(component.showConfirmHealthDeclarationModal)
-          .toHaveBeenCalled();
+        expect(formGroup.valid).toEqual(true);
+        expect(component.showConfirmHealthDeclarationModal).toHaveBeenCalled();
         flush();
       }));
 
@@ -216,13 +200,11 @@ describe('HealthDeclarationPage', () => {
 
         component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(HealthDeclarationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(HealthDeclarationValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch)
-          .not
-          .toHaveBeenCalledWith(HealthDeclarationValidationError('notRequiredControl is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          HealthDeclarationValidationError('notRequiredControl is blank')
+        );
       }));
     });
   });
@@ -232,8 +214,7 @@ describe('HealthDeclarationPage', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe)
-        .toHaveBeenCalled();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -242,16 +223,14 @@ describe('HealthDeclarationPage', () => {
       it('should render the page in English by default', () => {
         fixture.detectChanges();
         const declarationIntent = fixture.debugElement.query(By.css('ion-text.des-header-style-4')).nativeElement;
-        expect(declarationIntent.innerHTML)
-          .toBe('I declare that:');
+        expect(declarationIntent.innerHTML).toBe('I declare that:');
       });
       it('should render the page in Welsh for a Welsh test', (done) => {
         configureI18N(Language.CYMRAEG, translate);
         translate.onLangChange.subscribe(() => {
           fixture.detectChanges();
           const declarationIntent = fixture.debugElement.query(By.css('ion-text.des-header-style-4')).nativeElement;
-          expect(declarationIntent.innerHTML)
-            .toBe(`${(<any>welshTranslations).healthDeclaration.declarationIntent}:`);
+          expect(declarationIntent.innerHTML).toBe(`${(<any>welshTranslations).healthDeclaration.declarationIntent}:`);
           done();
         });
       });

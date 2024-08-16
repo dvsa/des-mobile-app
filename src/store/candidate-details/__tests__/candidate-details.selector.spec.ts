@@ -1,7 +1,7 @@
-import { getSlotType, SpecialNeedsCode } from '@shared/helpers/get-slot-type';
-import { SlotTypes } from '@shared/models/slot-types';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { SpecialNeedsCode, getSlotType } from '@shared/helpers/get-slot-type';
+import { SlotTypes } from '@shared/models/slot-types';
 import {
   getBusiness,
   getCandidateId,
@@ -28,10 +28,8 @@ describe('Candidate Details Selector', () => {
 
       const result = processSpecialNeeds(slot);
 
-      expect(result)
-        .toEqual(['there are some special needs']);
-      expect(result.length)
-        .toBe(1);
+      expect(result).toEqual(['there are some special needs']);
+      expect(result.length).toBe(1);
     });
     it('returns multiple element array for semicolon seperated string', () => {
       const slot = {
@@ -44,10 +42,8 @@ describe('Candidate Details Selector', () => {
 
       const result = processSpecialNeeds(slot);
 
-      expect(result)
-        .toEqual(['one', 'two', 'three']);
-      expect(result.length)
-        .toBe(3);
+      expect(result).toEqual(['one', 'two', 'three']);
+      expect(result.length).toBe(3);
     });
     it('returns string of `Null` when no value set for `specialNeeds`', () => {
       const slot = {
@@ -57,8 +53,7 @@ describe('Candidate Details Selector', () => {
       } as TestSlot;
 
       const result = processSpecialNeeds(slot);
-      expect(result)
-        .toEqual(['None']);
+      expect(result).toEqual(['None']);
     });
     it('return `None` when special needs is a false-y value', () => {
       const slot = {
@@ -70,8 +65,7 @@ describe('Candidate Details Selector', () => {
       } as TestSlot;
 
       const result = processSpecialNeeds(slot);
-      expect(result)
-        .toEqual(['None']);
+      expect(result).toEqual(['None']);
     });
   });
 
@@ -86,8 +80,7 @@ describe('Candidate Details Selector', () => {
 
       const result = getTime(slot);
 
-      expect(result)
-        .toEqual(slotStartTime);
+      expect(result).toEqual(slotStartTime);
     });
   });
 
@@ -101,8 +94,7 @@ describe('Candidate Details Selector', () => {
 
       const result = isCandidateCommentsEmpty(slot);
 
-      expect(result)
-        .toBe(true);
+      expect(result).toBe(true);
     });
 
     it('returns false if the previousCancellation is not empty', () => {
@@ -114,8 +106,7 @@ describe('Candidate Details Selector', () => {
 
       const result = isCandidateCommentsEmpty(slot);
 
-      expect(result)
-        .toBe(false);
+      expect(result).toBe(false);
     });
   });
 
@@ -130,8 +121,7 @@ describe('Candidate Details Selector', () => {
         },
       } as TestSlot;
       const result = getCandidateId(slot);
-      expect(result)
-        .toEqual(12354567);
+      expect(result).toEqual(12354567);
     });
   });
 
@@ -146,8 +136,7 @@ describe('Candidate Details Selector', () => {
         },
       } as TestSlot;
       const result = isCandidateSpecialNeeds(slot);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
   });
 
@@ -166,8 +155,7 @@ describe('Candidate Details Selector', () => {
           },
         };
         const result = getSlotType(slot);
-        expect(result)
-          .toBe(SlotTypes.SINGLE_SLOT_SPECIAL_NEEDS);
+        expect(result).toBe(SlotTypes.SINGLE_SLOT_SPECIAL_NEEDS);
       });
     });
 
@@ -185,8 +173,7 @@ describe('Candidate Details Selector', () => {
           },
         };
         const result = getSlotType(slot);
-        expect(result)
-          .toBe(SlotTypes.SINGLE_SLOT_SPECIAL_NEEDS);
+        expect(result).toBe(SlotTypes.SINGLE_SLOT_SPECIAL_NEEDS);
       });
     });
 
@@ -209,8 +196,7 @@ describe('Candidate Details Selector', () => {
             },
           };
           const result = getSlotType(slot);
-          expect(result)
-            .toBe(SlotTypes.EXTENDED_TEST);
+          expect(result).toBe(SlotTypes.EXTENDED_TEST);
         });
       });
 
@@ -230,8 +216,7 @@ describe('Candidate Details Selector', () => {
             },
           };
           const result = getSlotType(slot);
-          expect(result)
-            .toBe(SlotTypes.EXTENDED_TEST_SPECIAL_NEEDS);
+          expect(result).toBe(SlotTypes.EXTENDED_TEST_SPECIAL_NEEDS);
         });
       });
 
@@ -251,8 +236,7 @@ describe('Candidate Details Selector', () => {
             },
           };
           const result = getSlotType(slot);
-          expect(result)
-            .toBe(SlotTypes.EXTENDED_TEST_SPECIAL_NEEDS);
+          expect(result).toBe(SlotTypes.EXTENDED_TEST_SPECIAL_NEEDS);
         });
       });
     });
@@ -276,8 +260,7 @@ describe('Candidate Details Selector', () => {
             },
           };
           const result = getSlotType(slot);
-          expect(result)
-            .toBe(SlotTypes.STANDARD_TEST);
+          expect(result).toBe(SlotTypes.STANDARD_TEST);
         });
       });
 
@@ -297,8 +280,7 @@ describe('Candidate Details Selector', () => {
             },
           };
           const result = getSlotType(slot);
-          expect(result)
-            .toBe(SlotTypes.STANDARD_TEST);
+          expect(result).toBe(SlotTypes.STANDARD_TEST);
         });
       });
 
@@ -318,8 +300,7 @@ describe('Candidate Details Selector', () => {
             },
           };
           const result = getSlotType(slot);
-          expect(result)
-            .toBe(SlotTypes.SPECIAL_NEEDS_EXTRA_TIME);
+          expect(result).toBe(SlotTypes.SPECIAL_NEEDS_EXTRA_TIME);
         });
       });
     });
@@ -336,8 +317,7 @@ describe('Candidate Details Selector', () => {
         },
       } as TestSlot;
       const result = isCandidateCheckNeeded(slot);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
   });
 
@@ -347,8 +327,7 @@ describe('Candidate Details Selector', () => {
         hasSlotChanged: true,
       } as SlotItem;
       const result = getSlotChanged(slot);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
   });
 
@@ -363,8 +342,7 @@ describe('Candidate Details Selector', () => {
         },
       } as TestSlot;
       const result = getFitMarker(slot);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
   });
 
@@ -381,8 +359,7 @@ describe('Candidate Details Selector', () => {
 
       const result = getPhoneNumber(candidate);
 
-      expect(result)
-        .toEqual(mobileTelephone);
+      expect(result).toEqual(mobileTelephone);
     });
 
     it('returns primaryTelephone if it is provided and mobileTelephone is not provided', () => {
@@ -393,8 +370,7 @@ describe('Candidate Details Selector', () => {
 
       const result = getPhoneNumber(candidate);
 
-      expect(result)
-        .toEqual(primaryTelephone);
+      expect(result).toEqual(primaryTelephone);
     });
 
     it('returns secondaryTelephone if it is probided and mobileTelephone is not provided nor primaryTelephone', () => {
@@ -404,8 +380,7 @@ describe('Candidate Details Selector', () => {
 
       const result = getPhoneNumber(candidate);
 
-      expect(result)
-        .toEqual(secondaryTelephone);
+      expect(result).toEqual(secondaryTelephone);
     });
 
     it('returns No phone number provided if none of the phone numbers are provided', () => {
@@ -413,8 +388,7 @@ describe('Candidate Details Selector', () => {
 
       const result = getPhoneNumber(candidate);
 
-      expect(result)
-        .toEqual('No phone number provided');
+      expect(result).toEqual('No phone number provided');
     });
   });
 
@@ -435,8 +409,7 @@ describe('Candidate Details Selector', () => {
         },
       } as TestSlot;
 
-      expect(getBusiness(slot))
-        .toEqual(mockBusiness);
+      expect(getBusiness(slot)).toEqual(mockBusiness);
     });
   });
 });

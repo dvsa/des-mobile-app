@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
-import {
-  ModeOfTransportCatAMod2Component,
-} from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
+import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 describe('ModeOfTransportCatAMod2Component', () => {
@@ -15,13 +11,8 @@ describe('ModeOfTransportCatAMod2Component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ModeOfTransportCatAMod2Component],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 
     fixture = TestBed.createComponent(ModeOfTransportCatAMod2Component);
@@ -111,8 +102,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get('modeOfTransport')
-        .hasValidator(Validators.required)).toBe(false);
+      expect(component.formGroup.get('modeOfTransport').hasValidator(Validators.required)).toBe(false);
     });
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
@@ -120,8 +110,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get('modeOfTransport')
-        .hasValidator(Validators.required)).toBe(true);
+      expect(component.formGroup.get('modeOfTransport').hasValidator(Validators.required)).toBe(true);
     });
   });
 

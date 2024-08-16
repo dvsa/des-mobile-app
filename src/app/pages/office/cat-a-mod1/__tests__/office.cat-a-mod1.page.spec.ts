@@ -1,76 +1,68 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavController, Platform, ToastController,
-} from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
-import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { AppModule } from 'src/app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
+import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
+import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
+import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
+import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { StoreModel } from '@shared/models/store.model';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { QuestionProvider } from '@providers/question/question';
-import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { ReactiveFormsModule } from '@angular/forms';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
+import { QuestionProvider } from '@providers/question/question';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
+import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { By } from '@angular/platform-browser';
-import { Competencies, ExaminerActions, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
-import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
-import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
+import { CommentSource } from '@shared/models/fault-marking.model';
+import { StoreModel } from '@shared/models/store.model';
+import { PipesModule } from '@shared/pipes/pipes.module';
+import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
+import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import {
   AddDangerousFault,
   AddDangerousFaultComment,
 } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
+import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import {
   AddSeriousFault,
   AddSeriousFaultComment,
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import { AddSingleFaultCompetencyComment } from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
+import { Competencies, ExaminerActions, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
+import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
-import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
-import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
-import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
-import {
-  AccompanimentCardComponent,
-} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { PipesModule } from '@shared/pipes/pipes.module';
-import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
-import {
-  VehicleDetailsCardComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
-import { CommentSource } from '@shared/models/fault-marking.model';
-import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import {
-  AddSingleFaultCompetencyComment,
-} from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
-import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
-import { DateOfTest } from '../../components/date-of-test/date-of-test';
-import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
-import { OfficeCatAMod1Page } from '../office.cat-a-mod1.page';
-import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
-import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
-import { IdentificationComponent } from '../../components/identification/identification';
+import { AppModule } from 'src/app/app.module';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
-import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
-import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
+import { DateOfTest } from '../../components/date-of-test/date-of-test';
+import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../../components/identification/identification';
+import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
+import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
+import { OfficeCatAMod1Page } from '../office.cat-a-mod1.page';
 
 describe('OfficeCatAMod1Page', () => {
   let fixture: ComponentFixture<OfficeCatAMod1Page>;
@@ -229,8 +221,9 @@ describe('OfficeCatAMod1Page', () => {
 
     describe('driving fault commentary', () => {
       it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement
-          .query(By.css('#driving-fault-comment-card')).componentInstance;
+        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
+          By.css('#driving-fault-comment-card')
+        ).componentInstance;
         fixture.detectChanges();
 
         component.pageState.displayDrivingFaultComments$ = of(true);
@@ -273,9 +266,9 @@ describe('OfficeCatAMod1Page', () => {
           faultCount: 1,
           comment: 'Comment',
         });
-        expect(store$.dispatch).toHaveBeenCalledWith(AddSingleFaultCompetencyComment(
-          SingleFaultCompetencyNames.avoidance, 'Comment',
-        ));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          AddSingleFaultCompetencyComment(SingleFaultCompetencyNames.avoidance, 'Comment')
+        );
       });
     });
 
@@ -298,44 +291,52 @@ describe('OfficeCatAMod1Page', () => {
           faultCount: 1,
           comment: 'Comment',
         });
-        expect(store$.dispatch).toHaveBeenCalledWith(AddSingleFaultCompetencyComment(
-          SingleFaultCompetencyNames.avoidance, 'Comment',
-        ));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          AddSingleFaultCompetencyComment(SingleFaultCompetencyNames.avoidance, 'Comment')
+        );
       });
-      it('should dispatch with AddAvoidanceComment if source is '
-          + 'SPEED_REQUIREMENTS and case is speedCheckAvoidance', () => {
-        component.seriousFaultCommentChanged({
-          competencyIdentifier: 'avoidance',
-          competencyDisplayName: 'DisplayName',
-          source: 'speedRequirements-speedCheckAvoidance',
-          faultCount: 1,
-          comment: 'Comment',
-        });
-        expect(store$.dispatch).toHaveBeenCalledWith(AddAvoidanceComment('Comment'));
-      });
-      it('should dispatch with AddAnEmergencyStopComment if source is '
-          + 'SPEED_REQUIREMENTS and case is speedCheckEmergency', () => {
-        component.seriousFaultCommentChanged({
-          competencyIdentifier: 'avoidance',
-          competencyDisplayName: 'DisplayName',
-          source: 'speedRequirements-speedCheckEmergency',
-          faultCount: 1,
-          comment: 'Comment',
-        });
-        expect(store$.dispatch).toHaveBeenCalledWith(AddAnEmergencyStopComment('Comment'));
-      });
-      it('should dispatch nothing if source is '
-          + 'SPEED_REQUIREMENTS and case is neither speedCheckAvoidance or speedCheckEmergency', () => {
-        component.seriousFaultCommentChanged({
-          competencyIdentifier: 'avoidance',
-          competencyDisplayName: 'DisplayName',
-          source: 'speedRequirements-test',
-          faultCount: 1,
-          comment: 'Comment',
-        });
-        expect(store$.dispatch).not.toHaveBeenCalledWith(AddAvoidanceComment('Comment'));
-        expect(store$.dispatch).not.toHaveBeenCalledWith(AddAnEmergencyStopComment('Comment'));
-      });
+      it(
+        'should dispatch with AddAvoidanceComment if source is ' + 'SPEED_REQUIREMENTS and case is speedCheckAvoidance',
+        () => {
+          component.seriousFaultCommentChanged({
+            competencyIdentifier: 'avoidance',
+            competencyDisplayName: 'DisplayName',
+            source: 'speedRequirements-speedCheckAvoidance',
+            faultCount: 1,
+            comment: 'Comment',
+          });
+          expect(store$.dispatch).toHaveBeenCalledWith(AddAvoidanceComment('Comment'));
+        }
+      );
+      it(
+        'should dispatch with AddAnEmergencyStopComment if source is ' +
+          'SPEED_REQUIREMENTS and case is speedCheckEmergency',
+        () => {
+          component.seriousFaultCommentChanged({
+            competencyIdentifier: 'avoidance',
+            competencyDisplayName: 'DisplayName',
+            source: 'speedRequirements-speedCheckEmergency',
+            faultCount: 1,
+            comment: 'Comment',
+          });
+          expect(store$.dispatch).toHaveBeenCalledWith(AddAnEmergencyStopComment('Comment'));
+        }
+      );
+      it(
+        'should dispatch nothing if source is ' +
+          'SPEED_REQUIREMENTS and case is neither speedCheckAvoidance or speedCheckEmergency',
+        () => {
+          component.seriousFaultCommentChanged({
+            competencyIdentifier: 'avoidance',
+            competencyDisplayName: 'DisplayName',
+            source: 'speedRequirements-test',
+            faultCount: 1,
+            comment: 'Comment',
+          });
+          expect(store$.dispatch).not.toHaveBeenCalledWith(AddAvoidanceComment('Comment'));
+          expect(store$.dispatch).not.toHaveBeenCalledWith(AddAnEmergencyStopComment('Comment'));
+        }
+      );
     });
 
     describe('dangerousFaultCommentChanged', () => {
@@ -357,9 +358,9 @@ describe('OfficeCatAMod1Page', () => {
           faultCount: 1,
           comment: 'Comment',
         });
-        expect(store$.dispatch).toHaveBeenCalledWith(AddSingleFaultCompetencyComment(
-          SingleFaultCompetencyNames.avoidance, 'Comment',
-        ));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          AddSingleFaultCompetencyComment(SingleFaultCompetencyNames.avoidance, 'Comment')
+        );
       });
     });
   });

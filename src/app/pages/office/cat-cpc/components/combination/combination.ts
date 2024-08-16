@@ -6,7 +6,6 @@ import { CombinationCodes } from '@dvsa/mes-test-schema/categories/CPC';
   templateUrl: 'combination.html',
 })
 export class CombinationComponent {
-
   @Input()
   combination: CombinationCodes;
 
@@ -16,5 +15,4 @@ export class CombinationComponent {
   getCombinationText(combinationText: CombinationCodes | null): string {
     return combinationText || 'N/A';
   }
-
 }

@@ -29,17 +29,23 @@ export const initialState: RiskManagement = {
 
 export const riskManagementReducer = createReducer(
   initialState,
-  on(riskManagementActions.RiskManagementQuestionScoreChanged, (state, { question, score }): RiskManagement => ({
-    ...state,
-    [`q${question}`]: {
-      ...state[`q${question}`],
+  on(
+    riskManagementActions.RiskManagementQuestionScoreChanged,
+    (state, { question, score }): RiskManagement => ({
+      ...state,
+      [`q${question}`]: {
+        ...state[`q${question}`],
+        score,
+      },
+    })
+  ),
+  on(
+    riskManagementActions.RiskManagementOverallScoreChanged,
+    (state, { score }): RiskManagement => ({
+      ...state,
       score,
-    },
-  })),
-  on(riskManagementActions.RiskManagementOverallScoreChanged, (state, { score }): RiskManagement => ({
-    ...state,
-    score,
-  })),
+    })
+  )
 );
 
 export const getRiskManagement = createFeatureSelector<RiskManagement>('riskManagement');

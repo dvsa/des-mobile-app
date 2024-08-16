@@ -1,16 +1,13 @@
 // eslint-disable-next-line max-classes-per-file
-import {
-  Component, DebugElement, ElementRef,
-} from '@angular/core';
+import { Component, DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CharacterCountDirective } from '@directives/character-count.directive';
 import { By } from '@angular/platform-browser';
+import { CharacterCountDirective } from '@directives/character-count.directive';
 
 @Component({
   template: '<input type="text" charCount>',
 })
-class TestCharCountComponent {
-}
+class TestCharCountComponent {}
 
 class ElementRefMock extends ElementRef {
   nativeElement = {
@@ -28,27 +25,20 @@ describe('Directive: CharacterCountDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestCharCountComponent,
-        CharacterCountDirective,
-      ],
-      providers: [
-        { provide: ElementRef, useValue: ElementRefMock },
-      ],
+      declarations: [TestCharCountComponent, CharacterCountDirective],
+      providers: [{ provide: ElementRef, useValue: ElementRefMock }],
     });
     fixture = TestBed.createComponent(TestCharCountComponent);
     directiveEl = fixture.debugElement.query(By.directive(CharacterCountDirective));
     directiveInstance = directiveEl.injector.get(CharacterCountDirective);
     spyOn(directiveInstance.onCharacterCountChanged, 'emit');
-
   });
   it('should be created', () => {
     expect(directiveEl).not.toBeNull();
   });
 
   describe('onIonChange', () => {
-    it('should emit onCharacterCountChanged if '
-            + 'charLimit is true and e.value is not undefined', () => {
+    it('should emit onCharacterCountChanged if ' + 'charLimit is true and e.value is not undefined', () => {
       directiveInstance['charLimit'] = 3;
       directiveInstance.onIonChange({ value: '11' });
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(1);
@@ -66,8 +56,7 @@ describe('Directive: CharacterCountDirective', () => {
   });
 
   describe('onInput', () => {
-    it('should emit onCharacterCountChanged if '
-            + 'charLimit is true and e.target.value is not undefined', () => {
+    it('should emit onCharacterCountChanged if ' + 'charLimit is true and e.target.value is not undefined', () => {
       directiveInstance['charLimit'] = 3;
       directiveInstance.onInput({ target: { value: '11' } });
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(1);

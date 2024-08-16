@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
@@ -17,15 +15,14 @@ export class D255Component implements OnChanges {
   @Input()
   d255: boolean;
   @Input()
-  eyesightTestFailed: boolean = false;
+  eyesightTestFailed = false;
   @Input()
   formGroup: UntypedFormGroup;
   @Output()
   d255Change = new EventEmitter<boolean>();
   formControl: UntypedFormControl;
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
-  }
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   get invalid(): boolean {
     return this.formControl.invalid && this.formControl.dirty;
@@ -63,5 +60,4 @@ export class D255Component implements OnChanges {
     this.d255Change.emit(this.d255);
     return this.d255;
   }
-
 }

@@ -1,9 +1,5 @@
-import {
-  Component, Input,
-  ViewChild, OnChanges,
-  Output, EventEmitter,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
 @Component({
@@ -12,7 +8,6 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
   styleUrls: ['./signature.scss'],
 })
 export class SignatureComponent implements OnChanges {
-
   @ViewChild(SignatureAreaComponent)
   signatureArea: SignatureAreaComponent;
 
@@ -50,5 +45,4 @@ export class SignatureComponent implements OnChanges {
   onChange = (event: string): void => {
     this.signatureDataChange.emit(event);
   };
-
 }

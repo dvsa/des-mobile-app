@@ -1,11 +1,11 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { StoreModel } from '@shared/models/store.model';
 import { Store, StoreModule } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { TimerComponent } from '../timer';
-import { testReportReducer } from '../../../test-report.reducer';
 import { StartTimer } from '../../../test-report.actions';
+import { testReportReducer } from '../../../test-report.reducer';
+import { TimerComponent } from '../timer';
 
 describe('TimerComponent', () => {
   let fixture: ComponentFixture<TimerComponent>;
@@ -14,13 +14,8 @@ describe('TimerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TimerComponent,
-      ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
-      ],
+      declarations: [TimerComponent],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(TimerComponent);

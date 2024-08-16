@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
@@ -8,7 +6,6 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
   selector: 'eco-related-fault',
   templateUrl: 'eco-related-fault.html',
 })
-
 export class EcoRelatedFaultComponent implements OnChanges {
   @Input()
   fuelEfficientDriving: boolean;
@@ -33,9 +30,9 @@ export class EcoRelatedFaultComponent implements OnChanges {
       this.formGroup.addControl('ecoRelatedFault', this.formControl);
     }
 
-    this.formControl.setValidators((
-      this.fuelEfficientDriving && this.drivingFaults.length > 0)
-      ? Validators.required : null);
+    this.formControl.setValidators(
+      this.fuelEfficientDriving && this.drivingFaults.length > 0 ? Validators.required : null
+    );
     this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
     this.formControl.patchValue(this.ecoRelatedFault, { onlySelf: true, emitEvent: false });

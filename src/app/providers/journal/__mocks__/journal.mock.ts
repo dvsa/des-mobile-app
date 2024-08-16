@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { default as localJournalJson } from '@assets/mock/local-journal.json';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Observable, of, throwError } from 'rxjs';
-import { default as localJournalJson } from '@assets/mock/local-journal.json';
 
 export class JournalProviderMock {
-
   static mockJournal = localJournalJson as ExaminerWorkSchedule;
 
   private do304ErrorNextCall = false;
@@ -23,17 +22,19 @@ export class JournalProviderMock {
       return throwError(() => ({}));
     }
     if (this.doHttpResponseError) {
-      return throwError(() => new HttpErrorResponse({
-        error: 'Error message',
-        status: 403,
-        statusText: 'Forbidden',
-      }));
+      return throwError(
+        () =>
+          new HttpErrorResponse({
+            error: 'Error message',
+            status: 403,
+            statusText: 'Forbidden',
+          })
+      );
     }
     return of(JournalProviderMock.mockJournal);
   }
 
-  public saveJournalForOffline = () => {
-  };
+  public saveJournalForOffline = () => {};
 
   public setupHttp304Error() {
     this.do304ErrorNextCall = true;

@@ -1,6 +1,6 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HealthDeclarationSignedComponent } from '../health-declaration-signed';
 
 describe('HealthDeclarationSignedComponent', () => {
@@ -9,13 +9,8 @@ describe('HealthDeclarationSignedComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HealthDeclarationSignedComponent,
-      ],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [HealthDeclarationSignedComponent],
+      imports: [IonicModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(HealthDeclarationSignedComponent);

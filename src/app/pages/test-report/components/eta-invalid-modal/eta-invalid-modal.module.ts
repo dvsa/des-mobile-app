@@ -4,15 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { EtaInvalidModal } from './eta-invalid-modal';
 
 @NgModule({
-  declarations: [
-    EtaInvalidModal,
-  ],
-  imports: [
-    ComponentsModule,
-    IonicModule,
-  ],
-  exports: [
-    EtaInvalidModal,
-  ],
+  declarations: [EtaInvalidModal],
+  imports: [ComponentsModule, IonicModule],
+  exports: [EtaInvalidModal],
 })
-export class EtaInvalidModalModule { }
+export class EtaInvalidModalModule {}

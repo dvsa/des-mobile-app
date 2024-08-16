@@ -1,32 +1,31 @@
 import { Injectable } from '@angular/core';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { Observable, of } from 'rxjs';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
-import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
-import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
+import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestData as TestDataAM1 } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestData as TestDataAM2 } from '@dvsa/mes-test-schema/categories/AM2';
-import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
+import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
+import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
+import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
-import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
-import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
+import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.page';
-import { getSpeedRequirementNotMet } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
+import { getSpeedRequirementNotMet } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
 @Injectable()
 export class TestResultProvider {
-
-  constructor(private faultCountProvider: FaultCountProvider) { }
+  constructor(private faultCountProvider: FaultCountProvider) {}
 
   public calculateTestResult(category: string, testData: object): Observable<ActivityCode> {
     switch (category) {
@@ -34,9 +33,7 @@ export class TestResultProvider {
         return this.calculateCatAdiPart2TestResult(testData as CatADI2UniqueTypes.TestData);
       case TestCategory.ADI3:
       case TestCategory.SC:
-        return this.calculateTestResultADI3(testData as TestDataADI3).pipe(
-          map((result) => result.activityCode),
-        );
+        return this.calculateTestResultADI3(testData as TestDataADI3).pipe(map((result) => result.activityCode));
       case TestCategory.B:
         return this.calculateCatBTestResult(testData as CatBUniqueTypes.TestData);
       case TestCategory.CCPC:
@@ -82,8 +79,8 @@ export class TestResultProvider {
   }
 
   public calculateTestResultADI3 = (
-    testData: TestDataADI3,
-  ): Observable<{ activityCode: ActivityCode; grade?: string; }> => {
+    testData: TestDataADI3
+  ): Observable<{ activityCode: ActivityCode; grade?: string }> => {
     const { score: scoreLP = 0 } = testData.lessonPlanning;
     const { score: scoreRM = 0 } = testData.riskManagement;
     const { score: scoreTLS = 0 } = testData.teachingLearningStrategies;
@@ -103,7 +100,6 @@ export class TestResultProvider {
   };
 
   private calculateCatAdiPart2TestResult = (testData: CatADI2UniqueTypes.TestData): Observable<ActivityCode> => {
-
     if (this.faultCountProvider.getDangerousFaultSumCount(TestCategory.ADI2, testData) > 0) {
       return of(ActivityCodes.FAIL);
     }
@@ -120,7 +116,6 @@ export class TestResultProvider {
   };
 
   private calculateCatBTestResult = (testData: CatBUniqueTypes.TestData): Observable<ActivityCode> => {
-
     if (this.faultCountProvider.getDangerousFaultSumCount(TestCategory.B, testData) > 0) {
       return of(ActivityCodes.FAIL);
     }
@@ -138,10 +133,11 @@ export class TestResultProvider {
 
   private calculateCatCAndSubCategoryTestResult = (
     category: TestCategory,
-    testData: CatCUniqueTypes.TestData |
-    CatCEUniqueTypes.TestData |
-    CatC1EUniqueTypes.TestData |
-    CatC1UniqueTypes.TestData,
+    testData:
+      | CatCUniqueTypes.TestData
+      | CatCEUniqueTypes.TestData
+      | CatC1EUniqueTypes.TestData
+      | CatC1UniqueTypes.TestData
   ): Observable<ActivityCode> => {
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);
@@ -160,7 +156,7 @@ export class TestResultProvider {
 
   private calculateCatEUAM1AndSubCategoryTestResult = (
     category: TestCategory,
-    testData: TestDataAM1,
+    testData: TestDataAM1
   ): Observable<ActivityCode> => {
     if (getSpeedRequirementNotMet(testData)) {
       return of(ActivityCodes.FAIL_PUBLIC_SAFETY);
@@ -180,7 +176,7 @@ export class TestResultProvider {
 
   private calculateCatEUAM2AndSubCategoryTestResult = (
     category: TestCategory,
-    testData: TestDataAM2,
+    testData: TestDataAM2
   ): Observable<ActivityCode> => {
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);
@@ -197,10 +193,11 @@ export class TestResultProvider {
 
   private calculateCatDandSubCategoryTestResult = (
     category: TestCategory,
-    testData: CatDUniqueTypes.TestData |
-    CatDEUniqueTypes.TestData |
-    CatD1EUniqueTypes.TestData |
-    CatD1UniqueTypes.TestData,
+    testData:
+      | CatDUniqueTypes.TestData
+      | CatDEUniqueTypes.TestData
+      | CatD1EUniqueTypes.TestData
+      | CatD1UniqueTypes.TestData
   ): Observable<ActivityCode> => {
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);
@@ -234,9 +231,7 @@ export class TestResultProvider {
   };
 
   private calculateCatCPCTestResult = (testData: TestData): Observable<ActivityCode> => {
-    const {
-      question1, question2, question3, question4, question5,
-    } = testData;
+    const { question1, question2, question3, question4, question5 } = testData;
 
     const scores: number[] = [question1.score, question2.score, question3.score, question4.score, question5.score];
 
@@ -253,7 +248,7 @@ export class TestResultProvider {
 
   private calculateCatManoeuvreTestResult = (
     category: TestCategory,
-    testData: CatManoeuvreTestData,
+    testData: CatManoeuvreTestData
   ): Observable<ActivityCode> => {
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);

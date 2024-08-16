@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Code78Component } from '../code-78';
 
@@ -9,13 +9,8 @@ describe('Code78Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        Code78Component,
-      ],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [Code78Component],
+      imports: [IonicModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(Code78Component);
@@ -58,6 +53,5 @@ describe('Code78Component', () => {
         expect(result).toEqual(true);
       });
     });
-
   });
 });

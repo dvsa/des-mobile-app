@@ -1,26 +1,23 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import {
-  AnalyticsScreenNames,
-  GoogleAnalyticsEventPrefix,
-} from '@providers/analytics/analytics.model';
-import { StoreModel } from '@shared/models/store.model';
-import { testsReducer } from '@store/tests/tests.reducer';
-import * as testsActions from '@store/tests/tests.actions';
-import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticsScreenNames, GoogleAnalyticsEventPrefix } from '@providers/analytics/analytics.model';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
-import * as debriefActions from '../debrief.actions';
+import { StoreModel } from '@shared/models/store.model';
+import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
+import * as debriefActions from '../debrief.actions';
+import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
 
 describe('DebriefAnalyticsEffects', () => {
   let effects: DebriefAnalyticsEffects;
@@ -67,11 +64,9 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenNamePass);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePass);
         done();
       });
     });
@@ -83,11 +78,9 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenNameFail);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNameFail);
         done();
       });
     });
@@ -99,11 +92,11 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`
+        );
         done();
       });
     });
@@ -115,15 +108,13 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`
+        );
         done();
       });
     });
-
   });
-
 });

@@ -1,22 +1,17 @@
-import {
-  endsWith, forOwn, get, transform,
-} from 'lodash-es';
-import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
-import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { manoeuvreCompetencyLabelsCatD, manoeuvreTypeLabelsCatD } from '@shared/constants/competencies/catd-manoeuvres';
+import { getCompetencyComment, getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
-import {
-  manoeuvreCompetencyLabelsCatD,
-  manoeuvreTypeLabelsCatD,
-} from '@shared/constants/competencies/catd-manoeuvres';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { endsWith, forOwn, get, transform } from 'lodash-es';
 
 export type PcvDoorExerciseTypes =
   | CatDUniqueTypes.PcvDoorExercise
@@ -31,11 +26,10 @@ export type SafetyQuestionsTypes =
   | CatD1EUniqueTypes.SafetyQuestions;
 
 export class FaultSummaryCatDHelper {
-
   public static getDrivingFaultsNonTrailer(
     data: CatDUniqueTypes.TestData | CatD1UniqueTypes.TestData,
     category: TestCategory,
-    vehicleChecksScore: VehicleChecksScore,
+    vehicleChecksScore: VehicleChecksScore
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
@@ -46,9 +40,7 @@ export class FaultSummaryCatDHelper {
     ];
   }
 
-  public static getSeriousFaultsNonTrailer(
-    data: CatDUniqueTypes.TestData | CatD1UniqueTypes.TestData,
-  ): FaultSummary[] {
+  public static getSeriousFaultsNonTrailer(data: CatDUniqueTypes.TestData | CatD1UniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
       ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.S),
@@ -58,7 +50,7 @@ export class FaultSummaryCatDHelper {
   }
 
   public static getDangerousFaultsNonTrailer(
-    data: CatDUniqueTypes.TestData | CatD1UniqueTypes.TestData,
+    data: CatDUniqueTypes.TestData | CatD1UniqueTypes.TestData
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
@@ -70,7 +62,7 @@ export class FaultSummaryCatDHelper {
   public static getDrivingFaultsTrailer(
     data: CatDEUniqueTypes.TestData | CatD1EUniqueTypes.TestData,
     category: TestCategory,
-    vehicleChecksScore: VehicleChecksScore,
+    vehicleChecksScore: VehicleChecksScore
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
@@ -82,24 +74,20 @@ export class FaultSummaryCatDHelper {
     ];
   }
 
-  public static getSeriousFaultsTrailer(
-    data: CatDEUniqueTypes.TestData | CatD1EUniqueTypes.TestData,
-  ): FaultSummary[] {
+  public static getSeriousFaultsTrailer(data: CatDEUniqueTypes.TestData | CatD1EUniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
       ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.S),
       ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.S),
-      ...(
-        get(data, 'vehicleChecks.fullLicenceHeld')
-          ? this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks)
-          : this.getVehicleCheckSeriousFaultsNonTrailer(data.vehicleChecks)
-      ),
+      ...(get(data, 'vehicleChecks.fullLicenceHeld')
+        ? this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks)
+        : this.getVehicleCheckSeriousFaultsNonTrailer(data.vehicleChecks)),
       ...this.getPCVDoorExerciseSeriousFault(data.pcvDoorExercise),
     ];
   }
 
   public static getDangerousFaultsTrailer(
-    data: CatDEUniqueTypes.TestData | CatD1EUniqueTypes.TestData,
+    data: CatDEUniqueTypes.TestData | CatD1EUniqueTypes.TestData
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
@@ -120,24 +108,30 @@ export class FaultSummaryCatDHelper {
     return manoeuvreFaultSummary;
   }
 
-  private static getManoeuvreFaultsCatD(manoeuvres: CatDUniqueTypes.Manoeuvres, faultType: CompetencyOutcome)
-    : FaultSummary[] {
+  private static getManoeuvreFaultsCatD(
+    manoeuvres: CatDUniqueTypes.Manoeuvres,
+    faultType: CompetencyOutcome
+  ): FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
     forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
-      const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
+      const faults = !manoeuvre.selected
+        ? []
+        : transform(
+            manoeuvre,
+            (result, value, key: string) => {
+              if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
+                const competencyComment = getCompetencyComment(
+                  key,
+                  manoeuvre.controlFaultComments,
+                  manoeuvre.observationFaultComments
+                );
 
-        if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
-
-          const competencyComment = getCompetencyComment(
-            key,
-            manoeuvre.controlFaultComments,
-            manoeuvre.observationFaultComments,
+                result.push(this.createManoeuvreFaultCatD(key, type, competencyComment));
+              }
+            },
+            []
           );
-
-          result.push(this.createManoeuvreFaultCatD(key, type, competencyComment));
-        }
-      }, []);
       faultsEncountered.push(...faults);
     });
     return faultsEncountered;
@@ -146,9 +140,8 @@ export class FaultSummaryCatDHelper {
   private static getVehicleCheckDrivingFaultsCatD(
     vehicleChecks: CatDUniqueTypes.VehicleChecks,
     category: TestCategory,
-    vehicleCheckFaults: VehicleChecksScore,
-  )
-    : FaultSummary[] {
+    vehicleCheckFaults: VehicleChecksScore
+  ): FaultSummary[] {
     const result: FaultSummary[] = [];
     if (!vehicleChecks || !vehicleChecks.showMeQuestions || !vehicleChecks.tellMeQuestions) {
       return result;
@@ -174,9 +167,7 @@ export class FaultSummaryCatDHelper {
     return result;
   }
 
-  private static getVehicleCheckSeriousFaultsNonTrailer(
-    vehicleChecks: CatDUniqueTypes.VehicleChecks,
-  ): FaultSummary[] {
+  private static getVehicleCheckSeriousFaultsNonTrailer(vehicleChecks: CatDUniqueTypes.VehicleChecks): FaultSummary[] {
     const result: FaultSummary[] = [];
 
     if (!vehicleChecks) {
@@ -205,9 +196,7 @@ export class FaultSummaryCatDHelper {
     return result;
   }
 
-  private static getVehicleCheckSeriousFaultsTrailer(
-    vehicleChecks: CatDUniqueTypes.VehicleChecks,
-  ): FaultSummary[] {
+  private static getVehicleCheckSeriousFaultsTrailer(vehicleChecks: CatDUniqueTypes.VehicleChecks): FaultSummary[] {
     const result: FaultSummary[] = [];
 
     if (!vehicleChecks) {
@@ -238,7 +227,7 @@ export class FaultSummaryCatDHelper {
 
   private static getUncoupleRecoupleFault(
     uncoupleRecouple: CatDEUniqueTypes.UncoupleRecouple | CatD1EUniqueTypes.UncoupleRecouple,
-    faultType: CompetencyOutcome,
+    faultType: CompetencyOutcome
   ): FaultSummary[] {
     const returnCompetencies = [];
     if (!uncoupleRecouple || uncoupleRecouple.fault !== faultType) {
@@ -259,39 +248,45 @@ export class FaultSummaryCatDHelper {
     if (!pcvDoorExercise || !pcvDoorExercise.drivingFault) {
       return [];
     }
-    return [{
-      competencyDisplayName: CompetencyDisplayName.PCV_DOOR_EXERCISE,
-      competencyIdentifier: 'pcvDoorExercise',
-      comment: pcvDoorExercise.drivingFaultComments || '',
-      source: CommentSource.PCV_DOOR_EXERCISE,
-      faultCount: 1,
-    }];
+    return [
+      {
+        competencyDisplayName: CompetencyDisplayName.PCV_DOOR_EXERCISE,
+        competencyIdentifier: 'pcvDoorExercise',
+        comment: pcvDoorExercise.drivingFaultComments || '',
+        source: CommentSource.PCV_DOOR_EXERCISE,
+        faultCount: 1,
+      },
+    ];
   }
 
   private static getPCVDoorExerciseSeriousFault(pcvDoorExercise: PcvDoorExerciseTypes): FaultSummary[] {
     if (!pcvDoorExercise || !pcvDoorExercise.seriousFault) {
       return [];
     }
-    return [{
-      competencyDisplayName: CompetencyDisplayName.PCV_DOOR_EXERCISE,
-      competencyIdentifier: 'pcvDoorExercise',
-      comment: pcvDoorExercise.seriousFaultComments || '',
-      source: CommentSource.PCV_DOOR_EXERCISE,
-      faultCount: 1,
-    }];
+    return [
+      {
+        competencyDisplayName: CompetencyDisplayName.PCV_DOOR_EXERCISE,
+        competencyIdentifier: 'pcvDoorExercise',
+        comment: pcvDoorExercise.seriousFaultComments || '',
+        source: CommentSource.PCV_DOOR_EXERCISE,
+        faultCount: 1,
+      },
+    ];
   }
 
   private static getPCVDoorExerciseDangerousFault(pcvDoorExercise: PcvDoorExerciseTypes): FaultSummary[] {
     if (!pcvDoorExercise || !pcvDoorExercise.dangerousFault) {
       return [];
     }
-    return [{
-      competencyDisplayName: CompetencyDisplayName.PCV_DOOR_EXERCISE,
-      competencyIdentifier: 'pcvDoorExercise',
-      comment: pcvDoorExercise.dangerousFaultComments || '',
-      source: CommentSource.PCV_DOOR_EXERCISE,
-      faultCount: 1,
-    }];
+    return [
+      {
+        competencyDisplayName: CompetencyDisplayName.PCV_DOOR_EXERCISE,
+        competencyIdentifier: 'pcvDoorExercise',
+        comment: pcvDoorExercise.dangerousFaultComments || '',
+        source: CommentSource.PCV_DOOR_EXERCISE,
+        faultCount: 1,
+      },
+    ];
   }
 
   private static getSafetyQuestionsDrivingFault(safetyQuestions: SafetyQuestionsTypes): FaultSummary[] {
@@ -299,19 +294,21 @@ export class FaultSummaryCatDHelper {
       return [];
     }
 
-    const hasFault: boolean = safetyQuestions.questions
-      .filter((question) => question.outcome === CompetencyOutcome.DF).length > 0;
+    const hasFault: boolean =
+      safetyQuestions.questions.filter((question) => question.outcome === CompetencyOutcome.DF).length > 0;
 
     if (!hasFault) {
       return [];
     }
 
-    return [{
-      competencyDisplayName: CompetencyDisplayName.SAFETY_QUESTIONS,
-      competencyIdentifier: 'safetyQuestions',
-      comment: safetyQuestions.faultComments || '',
-      source: CommentSource.SAFETY_QUESTIONS,
-      faultCount: 1,
-    }];
+    return [
+      {
+        competencyDisplayName: CompetencyDisplayName.SAFETY_QUESTIONS,
+        competencyIdentifier: 'safetyQuestions',
+        comment: safetyQuestions.faultComments || '',
+        source: CommentSource.SAFETY_QUESTIONS,
+        faultCount: 1,
+      },
+    ];
   }
 }

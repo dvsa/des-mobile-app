@@ -1,14 +1,14 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCentre } from '@dvsa/mes-journal-schema';
-import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
-import * as mockData from '../__mocks__/candidate-search-card.mock';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
+import * as mockData from '../__mocks__/candidate-search-card.mock';
+import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
 
 describe('CandidateSearchCardComponent', () => {
   let component: CandidateSearchCardComponent;
@@ -17,15 +17,8 @@ describe('CandidateSearchCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSearchCardComponent],
-      imports: [
-        IonicModule,
-        CommonModule,
-        ComponentsModule,
-        TestCentreJournalComponentsModule,
-      ],
-      providers: [
-        provideMockStore({ initialState: {} }),
-      ],
+      imports: [IonicModule, CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
+      providers: [provideMockStore({ initialState: {} })],
     });
 
     fixture = TestBed.createComponent(CandidateSearchCardComponent);
@@ -119,5 +112,4 @@ describe('CandidateSearchCardComponent', () => {
       expect(component.enableShowBookingButton).toEqual(false);
     });
   });
-
 });

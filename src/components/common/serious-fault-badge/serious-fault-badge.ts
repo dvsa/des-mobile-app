@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['serious-fault-badge.scss'],
 })
 export class SeriousFaultBadgeComponent {
-
   @Input()
   showBadge: boolean;
 

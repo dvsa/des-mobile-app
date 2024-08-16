@@ -1,9 +1,7 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
   selector: 'fault-comment-card',
@@ -47,13 +45,14 @@ export class FaultCommentCardComponent {
   @Output()
   faultCommentsChange = new EventEmitter<FaultSummary>();
 
-  idPrefix: string = 'fault-card-header';
+  idPrefix = 'fault-card-header';
 
   ngOnChanges() {
     this.faultComments?.forEach((value) => {
       const control = new UntypedFormControl(null);
       this.formGroup.addControl(
-        `faultComment-${value.source}-${this.faultType}-${value.competencyIdentifier}`, control,
+        `faultComment-${value.source}-${this.faultType}-${value.competencyIdentifier}`,
+        control
       );
     });
   }

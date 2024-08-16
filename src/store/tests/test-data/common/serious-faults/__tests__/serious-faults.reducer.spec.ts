@@ -1,10 +1,9 @@
 import { SeriousFaults } from '@dvsa/mes-test-schema/categories/common';
-import { seriousFaultsReducer } from '../serious-faults.reducer';
-import { AddSeriousFault, RemoveSeriousFault, AddSeriousFaultComment } from '../serious-faults.actions';
 import { Competencies } from '../../../test-data.constants';
+import { AddSeriousFault, AddSeriousFaultComment, RemoveSeriousFault } from '../serious-faults.actions';
+import { seriousFaultsReducer } from '../serious-faults.reducer';
 
 describe('Serious Faults Reducer', () => {
-
   describe('ADD SERIOUS FAULT', () => {
     it('should add a serious fault when none exist', () => {
       const state: SeriousFaults = {};
@@ -38,5 +37,4 @@ describe('Serious Faults Reducer', () => {
       expect(result.controlsGearsComments).toEqual('Test');
     });
   });
-
 });

@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +6,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   templateUrl: 'pass-certificate-declaration.html',
 })
 export class PassCertificateDeclarationComponent implements OnChanges {
-
   @Output()
   passCertificateDeclarationChange = new EventEmitter<boolean>();
 
@@ -43,5 +40,4 @@ export class PassCertificateDeclarationComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

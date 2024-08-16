@@ -1,11 +1,11 @@
-import { MockComponent } from 'ng-mocks';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { cloneDeep } from 'lodash-es';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
+import { TimeComponent } from '@components/test-slot/time/time';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { IonicModule } from '@ionic/angular';
+import { cloneDeep } from 'lodash-es';
+import { MockComponent } from 'ng-mocks';
 import { EmptySlotComponent } from '../empty-slot';
 
 describe('EmptySlotComponent', () => {
@@ -63,19 +63,13 @@ describe('EmptySlotComponent', () => {
         testCategory: 'B',
         vehicleGearbox: 'Manual',
       },
-      previousCancellation: [
-        'Act of nature',
-      ],
+      previousCancellation: ['Act of nature'],
     },
   } as TestSlot;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EmptySlotComponent,
-        MockComponent(TimeComponent),
-        MockComponent(LocationComponent),
-      ],
+      declarations: [EmptySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
       imports: [IonicModule],
     });
 
@@ -89,16 +83,15 @@ describe('EmptySlotComponent', () => {
       it('should pass something to sub-component time input', () => {
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(By.directive(MockComponent(TimeComponent))).componentInstance;
-        expect(subByDirective.time)
-          .toBe('2018-12-10T09:07:00+00:00');
+        expect(subByDirective.time).toBe('2018-12-10T09:07:00+00:00');
       });
       it('should pass something to sub-component location input', () => {
         component.showLocation = true;
         fixture.detectChanges();
-        const subByDirective = fixture.debugElement
-          .query(By.directive(MockComponent(LocationComponent))).componentInstance;
-        expect(subByDirective.location)
-          .toBe('Example Test Centre');
+        const subByDirective = fixture.debugElement.query(
+          By.directive(MockComponent(LocationComponent))
+        ).componentInstance;
+        expect(subByDirective.location).toBe('Example Test Centre');
       });
     });
   });

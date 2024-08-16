@@ -5,7 +5,7 @@ import FuzzySearch from 'fuzzy-search';
   name: 'doesContain',
 })
 export class ContainsPipe implements PipeTransform {
-  private static readonly opts: { caseSensitive: boolean; sort: boolean; } = {
+  private static readonly opts: { caseSensitive: boolean; sort: boolean } = {
     caseSensitive: false,
     sort: true, // sorts in order of best match;
   };

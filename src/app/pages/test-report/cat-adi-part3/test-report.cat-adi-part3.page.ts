@@ -1,12 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
 import {
   LessonPlanning,
   LessonTheme,
@@ -15,15 +8,14 @@ import {
   TeachingLearningStrategies,
   TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
+import { NavController } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import {
-  getLessonThemes,
-  getOther,
-  getStudentLevel,
-} from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
+  CommonTestReportPageState,
+  TestReportBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import {
   LessonThemeAdded,
   LessonThemeChanged,
@@ -31,23 +23,23 @@ import {
   OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
+import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
+import {
+  getLessonThemes,
+  getOther,
+  getStudentLevel,
+} from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
+import { LessonPlanningQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
+import { RiskManagementQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
 import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
-import {
-  getTeachingLearningStrategies,
-} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
-import {
-  LessonPlanningQuestionScoreChanged,
-} from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
-import {
-  RiskManagementQuestionScoreChanged,
-} from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
-import {
-  TeachingLearningStrategiesQuestionScoreChanged,
-} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
-import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { TeachingLearningStrategiesQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import { getTeachingLearningStrategies } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -68,16 +60,15 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
   styleUrls: ['./test-report.cat-adi-part3.page.scss'],
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
-
   form: UntypedFormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
-  showMissing: boolean = false;
+  showMissing = false;
 
   constructor(
     public navController: NavController,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.form = new UntypedFormGroup({});
@@ -89,47 +80,18 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
 
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
-      studentLevel$: currentTest$.pipe(
-        select(getTestData),
-        select(getLessonAndTheme),
-        select(getStudentLevel),
-      ),
-      lessonThemes$: currentTest$.pipe(
-        select(getTestData),
-        select(getLessonAndTheme),
-        select(getLessonThemes),
-      ),
-      otherReason$: currentTest$.pipe(
-        select(getTestData),
-        select(getLessonAndTheme),
-        select(getOther),
-      ),
-      lessonPlanning$: currentTest$.pipe(
-        select(getTestData),
-        select(getLessonPlanning),
-      ),
-      riskManagement$: currentTest$.pipe(
-        select(getTestData),
-        select(getRiskManagement),
-      ),
-      teachingLearningStrategies$: currentTest$.pipe(
-        select(getTestData),
-        select(getTeachingLearningStrategies),
-      ),
-      adi3TestData$: currentTest$.pipe(
-        select(getTestData),
-      ),
-      totalScore$: currentTest$.pipe(
-        select(getTestData),
-        map(this.adi3AssessmentProvider.getTotalAssessmentScore),
-      ),
+      studentLevel$: currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getStudentLevel)),
+      lessonThemes$: currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getLessonThemes)),
+      otherReason$: currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getOther)),
+      lessonPlanning$: currentTest$.pipe(select(getTestData), select(getLessonPlanning)),
+      riskManagement$: currentTest$.pipe(select(getTestData), select(getRiskManagement)),
+      teachingLearningStrategies$: currentTest$.pipe(select(getTestData), select(getTeachingLearningStrategies)),
+      adi3TestData$: currentTest$.pipe(select(getTestData)),
+      totalScore$: currentTest$.pipe(select(getTestData), map(this.adi3AssessmentProvider.getTotalAssessmentScore)),
     };
     this.setupSubscription();
   }
@@ -143,10 +105,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(StudentLevelChanged(studentLeveL));
   };
 
-  lessonThemeChanged = ({
-    lessonTheme,
-    added,
-  }: { lessonTheme: LessonTheme, added: boolean }): void => {
+  lessonThemeChanged = ({ lessonTheme, added }: { lessonTheme: LessonTheme; added: boolean }): void => {
     this.store$.dispatch(LessonThemeChanged(lessonTheme as LessonTheme));
     if (added) {
       this.store$.dispatch(LessonThemeAdded(lessonTheme));
@@ -159,30 +118,20 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(OtherChanged(otherReason));
   };
 
-  lessonPlanningChanged = ({
-    question,
-    answer,
-  }: { question: number; answer: number; }): void => {
+  lessonPlanningChanged = ({ question, answer }: { question: number; answer: number }): void => {
     this.store$.dispatch(LessonPlanningQuestionScoreChanged(question, answer));
   };
 
-  riskManagementChanged = ({
-    question,
-    answer,
-  }: { question: number; answer: number; }): void => {
+  riskManagementChanged = ({ question, answer }: { question: number; answer: number }): void => {
     this.store$.dispatch(RiskManagementQuestionScoreChanged(question, answer));
   };
 
-  teachingLearningStrategyChanged = ({
-    question,
-    answer,
-  }: { question: number; answer: number; }): void => {
+  teachingLearningStrategyChanged = ({ question, answer }: { question: number; answer: number }): void => {
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
 
   onContinueClick = (totalScore: number): void => {
-    Object.keys(this.form.controls)
-      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;

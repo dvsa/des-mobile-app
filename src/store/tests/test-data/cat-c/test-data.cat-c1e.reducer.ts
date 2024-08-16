@@ -1,15 +1,15 @@
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
 
 import { dangerousFaultsReducer } from '../common/dangerous-faults/dangerous-faults.reducer';
 import { drivingFaultsReducer } from '../common/driving-faults/driving-faults.reducer';
 import { ecoReducer } from '../common/eco/eco.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
+import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
+import { uncoupleRecoupleReducer } from '../common/uncouple-recouple/uncouple-recouple.reducer';
 import { testRequirementsCatCReducer } from './test-requirements/test-requirements.cat-c.reducer';
 import { vehicleChecksCatCReducer } from './vehicle-checks/vehicle-checks.cat-c.reducer';
-import { manoeuvresReducer } from '../common/manoeuvres/manoeuvres.reducer';
-import { uncoupleRecoupleReducer } from '../common/uncouple-recouple/uncouple-recouple.reducer';
 
 export const initialState: CatC1EUniqueTypes.TestData = {
   dangerousFaults: {},
@@ -28,7 +28,7 @@ export const initialState: CatC1EUniqueTypes.TestData = {
 
 export function testDataCatC1EReducer(
   state: CatC1EUniqueTypes.TestData,
-  action: Action,
+  action: Action
 ): Required<CatC1EUniqueTypes.TestData> {
   return combineReducers({
     drivingFaults: drivingFaultsReducer,

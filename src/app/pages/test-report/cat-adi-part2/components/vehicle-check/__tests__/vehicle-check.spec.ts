@@ -1,37 +1,32 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { StoreModule, Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { MockComponent } from 'ng-mocks';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
-import {
-  SeriousFaultBadgeComponent,
-} from '@components/common/serious-fault-badge/serious-fault-badge';
-import {
-  DangerousFaultBadgeComponent,
-} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 import { StartTest } from '@store/tests/tests.actions';
+import { MockComponent } from 'ng-mocks';
 
-import {
-  ShowMeQuestionAddDrivingFault,
-  ShowMeQuestionRemoveDrivingFault,
-  VehicleChecksAddSeriousFault,
-  VehicleChecksAddDangerousFault,
-  VehicleChecksRemoveSeriousFault,
-  VehicleChecksRemoveDangerousFault, VehicleChecksCompletedToggle,
-} from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { ShowMeQuestionRemoveFault } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import {
   ToggleDangerousFaultMode,
   ToggleRemoveFaultMode,
   ToggleSeriousFaultMode,
 } from '@pages/test-report/test-report.actions';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import {
+  ShowMeQuestionAddDrivingFault,
+  ShowMeQuestionRemoveDrivingFault,
+  VehicleChecksAddDangerousFault,
+  VehicleChecksAddSeriousFault,
+  VehicleChecksCompletedToggle,
+  VehicleChecksRemoveDangerousFault,
+  VehicleChecksRemoveSeriousFault,
+} from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
+import { ShowMeQuestionRemoveFault } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
 import { testReportReducer } from '../../../../test-report.reducer';
 import { VehicleCheckComponent } from '../vehicle-check';
@@ -107,9 +102,7 @@ describe('VehicleCheckComponent', () => {
           testReport: testReportReducer,
         }),
       ],
-      providers: [
-        FaultCountProvider,
-      ],
+      providers: [FaultCountProvider],
     });
 
     fixture = TestBed.createComponent(VehicleCheckComponent);
@@ -120,35 +113,37 @@ describe('VehicleCheckComponent', () => {
   }));
 
   describe('Class', () => {
-
     describe('canButtonRipple', () => {
-      it('should return true if hasDangerousFault and isDangerousMode are true '
-        + 'and isRemoveFaultMode is true', () => {
-        component.isRemoveFaultMode = true;
-        spyOn(component, 'hasDangerousFault').and.returnValue(true);
-        component.isDangerousMode = true;
-        expect(component.canButtonRipple()).toEqual(true);
-      });
-      it('should return true if hasSeriousFault and isSeriousMode are true '
-        + 'and isRemoveFaultMode is true', () => {
+      it(
+        'should return true if hasDangerousFault and isDangerousMode are true ' + 'and isRemoveFaultMode is true',
+        () => {
+          component.isRemoveFaultMode = true;
+          spyOn(component, 'hasDangerousFault').and.returnValue(true);
+          component.isDangerousMode = true;
+          expect(component.canButtonRipple()).toEqual(true);
+        }
+      );
+      it('should return true if hasSeriousFault and isSeriousMode are true ' + 'and isRemoveFaultMode is true', () => {
         component.isRemoveFaultMode = true;
         spyOn(component, 'hasDangerousFault').and.returnValue(false);
         spyOn(component, 'hasSeriousFault').and.returnValue(true);
         component.isSeriousMode = true;
         expect(component.canButtonRipple()).toEqual(true);
       });
-      it('should return true if hasShowMeDrivingFault is true, '
-        + 'isSeriousMode and isDangerousMode are false and isRemoveFaultMode is true', () => {
-        component.isRemoveFaultMode = true;
-        spyOn(component, 'hasDangerousFault').and.returnValue(false);
-        spyOn(component, 'hasSeriousFault').and.returnValue(false);
-        spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
-        component.isDangerousMode = false;
-        component.isSeriousMode = false;
-        expect(component.canButtonRipple()).toEqual(true);
-      });
-      it('should return false if no other condition is met '
-        + 'and isRemoveFaultMode is true', () => {
+      it(
+        'should return true if hasShowMeDrivingFault is true, ' +
+          'isSeriousMode and isDangerousMode are false and isRemoveFaultMode is true',
+        () => {
+          component.isRemoveFaultMode = true;
+          spyOn(component, 'hasDangerousFault').and.returnValue(false);
+          spyOn(component, 'hasSeriousFault').and.returnValue(false);
+          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
+          component.isDangerousMode = false;
+          component.isSeriousMode = false;
+          expect(component.canButtonRipple()).toEqual(true);
+        }
+      );
+      it('should return false if no other condition is met ' + 'and isRemoveFaultMode is true', () => {
         component.isRemoveFaultMode = true;
         spyOn(component, 'hasDangerousFault').and.returnValue(false);
         spyOn(component, 'hasSeriousFault').and.returnValue(false);
@@ -157,22 +152,28 @@ describe('VehicleCheckComponent', () => {
         component.isSeriousMode = false;
         expect(component.canButtonRipple()).toEqual(false);
       });
-      it('should return false if isRemoveFaultMode is false '
-        + 'and hasDangerousFault, hasSeriousFault and hasShowMeDrivingFault are true', () => {
-        component.isRemoveFaultMode = false;
-        spyOn(component, 'hasDangerousFault').and.returnValue(true);
-        spyOn(component, 'hasSeriousFault').and.returnValue(true);
-        spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
-        expect(component.canButtonRipple()).toEqual(false);
-      });
-      it('should return true if isRemoveFaultMode is false '
-        + 'and hasDangerousFault, hasSeriousFault and hasShowMeDrivingFault are false', () => {
-        component.isRemoveFaultMode = false;
-        spyOn(component, 'hasDangerousFault').and.returnValue(false);
-        spyOn(component, 'hasSeriousFault').and.returnValue(false);
-        spyOn(component, 'hasShowMeDrivingFault').and.returnValue(false);
-        expect(component.canButtonRipple()).toEqual(true);
-      });
+      it(
+        'should return false if isRemoveFaultMode is false ' +
+          'and hasDangerousFault, hasSeriousFault and hasShowMeDrivingFault are true',
+        () => {
+          component.isRemoveFaultMode = false;
+          spyOn(component, 'hasDangerousFault').and.returnValue(true);
+          spyOn(component, 'hasSeriousFault').and.returnValue(true);
+          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
+          expect(component.canButtonRipple()).toEqual(false);
+        }
+      );
+      it(
+        'should return true if isRemoveFaultMode is false ' +
+          'and hasDangerousFault, hasSeriousFault and hasShowMeDrivingFault are false',
+        () => {
+          component.isRemoveFaultMode = false;
+          spyOn(component, 'hasDangerousFault').and.returnValue(false);
+          spyOn(component, 'hasSeriousFault').and.returnValue(false);
+          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(false);
+          expect(component.canButtonRipple()).toEqual(true);
+        }
+      );
     });
     describe('onTap', () => {
       it('should run addOrRemoveFault', () => {
@@ -223,47 +224,56 @@ describe('VehicleCheckComponent', () => {
     });
 
     describe('removeFault', () => {
-      it('should dispatch ShowMeQuestionRemoveFault with CompetencyOutcome D, '
-        + 'VehicleChecksRemoveDangerousFault, ToggleDangerousFaultMode and ToggleRemoveFaultMode '
-        + 'if hasDangerousFault, isDangerousMode and isRemoveFaultMode are all true', () => {
-        spyOn(component, 'hasDangerousFault').and.returnValue(true);
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = true;
-        component.removeFault();
-        expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.D));
-        expect(store$.dispatch).toHaveBeenCalledWith(VehicleChecksRemoveDangerousFault());
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleDangerousFaultMode());
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleRemoveFaultMode());
-      });
-      it('should dispatch ShowMeQuestionRemoveFault with CompetencyOutcome S, '
-        + 'VehicleChecksRemoveSeriousFault, ToggleSeriousFaultMode and ToggleRemoveFaultMode '
-        + 'if hasSeriousFault, isSeriousMode and isRemoveFaultMode are all true', () => {
-        spyOn(component, 'hasDangerousFault').and.returnValue(false);
-        spyOn(component, 'hasSeriousFault').and.returnValue(true);
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = true;
-        component.removeFault();
-        expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.S));
-        expect(store$.dispatch).toHaveBeenCalledWith(VehicleChecksRemoveSeriousFault());
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleSeriousFaultMode());
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleRemoveFaultMode());
-      });
-      it('should dispatch ShowMeQuestionRemoveFault with CompetencyOutcome DF, '
-        + 'ShowMeQuestionRemoveDrivingFault with showMeQuestionFaultCount - 1 and ToggleRemoveFaultMode '
-        + 'if isDangerousMode and isSeriousMode are false '
-        + 'and isRemoveFaultMode and hasShowMeDrivingFault are true', () => {
-        spyOn(component, 'hasDangerousFault').and.returnValue(false);
-        spyOn(component, 'hasSeriousFault').and.returnValue(false);
-        spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
-        component.isSeriousMode = false;
-        component.isDangerousMode = false;
-        component.isRemoveFaultMode = true;
-        component.showMeQuestionFaultCount = 2;
-        component.removeFault();
-        expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
-        expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveDrivingFault(1));
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleRemoveFaultMode());
-      });
+      it(
+        'should dispatch ShowMeQuestionRemoveFault with CompetencyOutcome D, ' +
+          'VehicleChecksRemoveDangerousFault, ToggleDangerousFaultMode and ToggleRemoveFaultMode ' +
+          'if hasDangerousFault, isDangerousMode and isRemoveFaultMode are all true',
+        () => {
+          spyOn(component, 'hasDangerousFault').and.returnValue(true);
+          component.isDangerousMode = true;
+          component.isRemoveFaultMode = true;
+          component.removeFault();
+          expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.D));
+          expect(store$.dispatch).toHaveBeenCalledWith(VehicleChecksRemoveDangerousFault());
+          expect(store$.dispatch).toHaveBeenCalledWith(ToggleDangerousFaultMode());
+          expect(store$.dispatch).toHaveBeenCalledWith(ToggleRemoveFaultMode());
+        }
+      );
+      it(
+        'should dispatch ShowMeQuestionRemoveFault with CompetencyOutcome S, ' +
+          'VehicleChecksRemoveSeriousFault, ToggleSeriousFaultMode and ToggleRemoveFaultMode ' +
+          'if hasSeriousFault, isSeriousMode and isRemoveFaultMode are all true',
+        () => {
+          spyOn(component, 'hasDangerousFault').and.returnValue(false);
+          spyOn(component, 'hasSeriousFault').and.returnValue(true);
+          component.isSeriousMode = true;
+          component.isRemoveFaultMode = true;
+          component.removeFault();
+          expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.S));
+          expect(store$.dispatch).toHaveBeenCalledWith(VehicleChecksRemoveSeriousFault());
+          expect(store$.dispatch).toHaveBeenCalledWith(ToggleSeriousFaultMode());
+          expect(store$.dispatch).toHaveBeenCalledWith(ToggleRemoveFaultMode());
+        }
+      );
+      it(
+        'should dispatch ShowMeQuestionRemoveFault with CompetencyOutcome DF, ' +
+          'ShowMeQuestionRemoveDrivingFault with showMeQuestionFaultCount - 1 and ToggleRemoveFaultMode ' +
+          'if isDangerousMode and isSeriousMode are false ' +
+          'and isRemoveFaultMode and hasShowMeDrivingFault are true',
+        () => {
+          spyOn(component, 'hasDangerousFault').and.returnValue(false);
+          spyOn(component, 'hasSeriousFault').and.returnValue(false);
+          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
+          component.isSeriousMode = false;
+          component.isDangerousMode = false;
+          component.isRemoveFaultMode = true;
+          component.showMeQuestionFaultCount = 2;
+          component.removeFault();
+          expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
+          expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionRemoveDrivingFault(1));
+          expect(store$.dispatch).toHaveBeenCalledWith(ToggleRemoveFaultMode());
+        }
+      );
     });
 
     describe('hasShowMeDrivingFault', () => {

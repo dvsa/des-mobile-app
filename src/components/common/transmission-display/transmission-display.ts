@@ -14,7 +14,6 @@ enum GearBox {
   templateUrl: 'transmission-display.html',
 })
 export class TransmissionDisplayComponent {
-
   @Input()
   transmission: GearboxCategory;
 
@@ -25,7 +24,7 @@ export class TransmissionDisplayComponent {
   category: TestCategory | CategoryCode;
 
   @Input()
-  isTestSubmitted: boolean = false;
+  isTestSubmitted = false;
 
   getTransmissionText(): GearBox {
     const code78Categories: TestCategory[] = [
@@ -43,9 +42,9 @@ export class TransmissionDisplayComponent {
       return GearBox.MANUAL;
     }
     if (
-      code78Categories.includes(this.category as TestCategory)
-      && this.transmission as GearBox !== GearBox.MANUAL
-      && this.code78 === false
+      code78Categories.includes(this.category as TestCategory) &&
+      (this.transmission as GearBox) !== GearBox.MANUAL &&
+      this.code78 === false
     ) {
       return GearBox.CODE78;
     }

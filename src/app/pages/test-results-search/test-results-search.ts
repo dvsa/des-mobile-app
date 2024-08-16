@@ -1,27 +1,27 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Injector } from '@angular/core';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ModalController } from '@ionic/angular';
 import { select } from '@ngrx/store';
-import { Component, Injector } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { merge, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, merge, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { ErrorTypes } from '@shared/models/error-message';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { LogType } from '@shared/models/log.model';
-import { MesError } from '@shared/models/mes-error.model';
+import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { ErrorPage } from '@pages/error-page/error';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { ErrorTypes } from '@shared/models/error-message';
+import { LogType } from '@shared/models/log.model';
+import { MesError } from '@shared/models/mes-error.model';
 import { SaveLog } from '@store/logs/logs.actions';
-import { ErrorPage } from '@pages/error-page/error';
-import { orderBy } from 'lodash-es';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
-import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { orderBy } from 'lodash-es';
 import {
   PerformApplicationReferenceSearch,
   PerformDriverNumberSearch,
@@ -45,16 +45,15 @@ interface TestResultPageState {
   styleUrls: ['test-results-search.scss'],
 })
 export class TestResultsSearchPage extends BasePageComponent {
-
   searchBy: SearchBy = SearchBy.ApplicationReference;
-  candidateInfo: string = '';
+  candidateInfo = '';
   focusedElement: string = null;
   searchResults: SearchResultTestSchema[] = [];
-  hasSearched: boolean = false;
-  showSearchSpinner: boolean = false;
-  showAdvancedSearchSpinner: boolean = false;
+  hasSearched = false;
+  showSearchSpinner = false;
+  showAdvancedSearchSpinner = false;
   subscription: Subscription = Subscription.EMPTY;
-  rekeySearch: boolean = false;
+  rekeySearch = false;
   pageState: TestResultPageState;
   merged$: Observable<JournalTestCentre[]>;
 
@@ -64,23 +63,17 @@ export class TestResultsSearchPage extends BasePageComponent {
     private appConfig: AppConfigProvider,
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.pageState = {
-      activeTestCentres$: this.store$.pipe(
-        select(getRefDataState),
-        map(getTestCentres),
-        map(getActiveTestCentres),
-      ),
+      activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
-    this.merged$ = merge(
-      this.pageState.activeTestCentres$,
-    );
+    this.merged$ = merge(this.pageState.activeTestCentres$);
   }
 
   ionViewWillEnter(): boolean {
@@ -121,19 +114,20 @@ export class TestResultsSearchPage extends BasePageComponent {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformDriverNumberSearch());
       this.showSearchSpinner = true;
-      this.subscription = this.searchProvider.driverNumberSearch(this.candidateInfo)
+      this.subscription = this.searchProvider
+        .driverNumberSearch(this.candidateInfo)
         .pipe(
-          tap(() => this.hasSearched = true),
+          tap(() => (this.hasSearched = true)),
           map((results) => {
             this.searchResults = results;
             this.showSearchSpinner = false;
           }),
           catchError(async (err: HttpErrorResponse) => {
-            this.store$.dispatch(SaveLog({
-              payload: this.logHelper.createLog(
-                LogType.ERROR, 'Searching tests by driver number', err.message,
-              ),
-            }));
+            this.store$.dispatch(
+              SaveLog({
+                payload: this.logHelper.createLog(LogType.ERROR, 'Searching tests by driver number', err.message),
+              })
+            );
             this.searchResults = [];
             this.showSearchSpinner = false;
 
@@ -143,8 +137,8 @@ export class TestResultsSearchPage extends BasePageComponent {
               return of();
             }
 
-            return of(this.hasSearched = true);
-          }),
+            return of((this.hasSearched = true));
+          })
         )
         .subscribe();
     }
@@ -153,19 +147,24 @@ export class TestResultsSearchPage extends BasePageComponent {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformApplicationReferenceSearch());
       this.showSearchSpinner = true;
-      this.subscription = this.searchProvider.applicationReferenceSearch(this.candidateInfo)
+      this.subscription = this.searchProvider
+        .applicationReferenceSearch(this.candidateInfo)
         .pipe(
-          tap(() => this.hasSearched = true),
+          tap(() => (this.hasSearched = true)),
           map((results) => {
             this.searchResults = results;
             this.showSearchSpinner = false;
           }),
           catchError(async (err: HttpErrorResponse) => {
-            this.store$.dispatch(SaveLog({
-              payload: this.logHelper.createLog(
-                LogType.ERROR, `Searching tests by app ref (${this.candidateInfo})`, err.message,
-              ),
-            }));
+            this.store$.dispatch(
+              SaveLog({
+                payload: this.logHelper.createLog(
+                  LogType.ERROR,
+                  `Searching tests by app ref (${this.candidateInfo})`,
+                  err.message
+                ),
+              })
+            );
             this.searchResults = [];
             this.showSearchSpinner = false;
 
@@ -175,8 +174,8 @@ export class TestResultsSearchPage extends BasePageComponent {
               return of();
             }
 
-            return of(this.hasSearched = true);
-          }),
+            return of((this.hasSearched = true));
+          })
         )
         .subscribe();
     }
@@ -186,19 +185,24 @@ export class TestResultsSearchPage extends BasePageComponent {
     this.subscription.unsubscribe();
     this.store$.dispatch(PerformLDTMSearch(advancedSearchParams));
     this.showAdvancedSearchSpinner = true;
-    this.subscription = this.searchProvider.advancedSearch(advancedSearchParams)
+    this.subscription = this.searchProvider
+      .advancedSearch(advancedSearchParams)
       .pipe(
-        tap(() => this.hasSearched = true),
+        tap(() => (this.hasSearched = true)),
         map((results) => {
           this.searchResults = orderBy(results, ['testDate', 'category'], ['desc', 'asc']);
           this.showAdvancedSearchSpinner = false;
         }),
         catchError(async (err: HttpErrorResponse) => {
-          this.store$.dispatch(SaveLog({
-            payload: this.logHelper.createLog(
-              LogType.ERROR, `Advanced search with params (${advancedSearchParams})`, err.message,
-            ),
-          }));
+          this.store$.dispatch(
+            SaveLog({
+              payload: this.logHelper.createLog(
+                LogType.ERROR,
+                `Advanced search with params (${advancedSearchParams})`,
+                err.message
+              ),
+            })
+          );
           this.searchResults = [];
           this.showAdvancedSearchSpinner = false;
           if (err) {
@@ -207,7 +211,7 @@ export class TestResultsSearchPage extends BasePageComponent {
           }
           console.log('ERROR', JSON.stringify(err));
           return of();
-        }),
+        })
       )
       .subscribe();
   }

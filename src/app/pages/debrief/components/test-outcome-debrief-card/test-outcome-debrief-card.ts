@@ -6,11 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['test-outcome-debrief-card.scss'],
 })
 export class TestOutcomeDebriefCardComponent {
-
   @Input()
   public outcome: string;
 
   @Input()
   public grade?: string;
-
 }

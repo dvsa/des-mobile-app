@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum TrainingRecorded {
@@ -13,7 +11,6 @@ enum TrainingRecorded {
   templateUrl: 'training-records.cat-adi-part2.html',
 })
 export class TrainingRecordsCatAdiPart2Component {
-
   @Input()
   trainingRecordRadioChecked: boolean;
 
@@ -42,5 +39,4 @@ export class TrainingRecordsCatAdiPart2Component {
       this.trainingRecordOutcomeChange.emit(trainingRecorded === TrainingRecorded.YES);
     }
   }
-
 }

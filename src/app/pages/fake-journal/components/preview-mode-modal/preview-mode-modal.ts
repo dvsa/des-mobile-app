@@ -1,5 +1,5 @@
-import { ModalController } from '@ionic/angular';
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal.constants';
 
 @Component({
@@ -8,11 +8,7 @@ import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/pr
   styleUrls: ['./preview-mode-modal.scss'],
 })
 export class PreviewModeModal {
-
-  constructor(
-    public modalController: ModalController,
-  ) {
-  }
+  constructor(public modalController: ModalController) {}
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.CANCEL);

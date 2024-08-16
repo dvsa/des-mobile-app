@@ -10,7 +10,6 @@ import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
   styleUrls: ['multi-legal-requirement.scss'],
 })
 export class MultiLegalRequirementComponent {
-
   @Input()
   legalRequirement1: LegalRequirements;
   @Input()
@@ -22,11 +21,9 @@ export class MultiLegalRequirementComponent {
   @Input()
   label: string;
   @Input()
-  disabled: boolean = false;
+  disabled = false;
 
-  constructor(
-    private store$: Store<StoreModel>,
-  ) {}
+  constructor(private store$: Store<StoreModel>) {}
 
   getLabel = (): string => this.label;
 

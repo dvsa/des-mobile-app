@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { DateTime } from '@shared/helpers/date-time';
 import { Name } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'search-result',
@@ -12,24 +12,20 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['search-result.scss'],
 })
 export class SearchResultComponent {
-
   @Input()
   searchResult: SearchResultTestSchema;
 
   constructor(
     public modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-  ) {
-  }
+    private accessibilityService: AccessibilityService
+  ) {}
 
   getDate(): string {
-    return DateTime.at(this.searchResult.testDate)
-      .format('DD/MM/YYYY');
+    return DateTime.at(this.searchResult.testDate).format('DD/MM/YYYY');
   }
 
   getTime(): string {
-    return DateTime.at(this.searchResult.testDate)
-      .format('HH:mm');
+    return DateTime.at(this.searchResult.testDate).format('HH:mm');
   }
 
   getName(): string {

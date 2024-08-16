@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { QuestionFiveCardComponent } from '@pages/test-report/cat-cpc/components/question-five-card/question-five-card';
-import { MockComponent } from 'ng-mocks';
 import { QuestionAnswerComponent } from '@pages/test-report/cat-cpc/components/question-answer/question-answer';
+import { QuestionFiveCardComponent } from '@pages/test-report/cat-cpc/components/question-five-card/question-five-card';
 import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/question-score/question-score';
-import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
 import { QuestionSubtitleComponent } from '@pages/test-report/cat-cpc/components/question-subtitle/question-subtitle';
+import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
+import { MockComponent } from 'ng-mocks';
 
 describe('QuestionFiveCardComponent', () => {
   let fixture: ComponentFixture<QuestionFiveCardComponent>;

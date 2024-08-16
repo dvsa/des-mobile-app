@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 @Component({
@@ -8,7 +6,6 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
   templateUrl: 'tr-assessment-answer.html',
 })
 export class TestReportAssessmentAnswer {
-
   @Input()
   question: string;
 
@@ -19,7 +16,7 @@ export class TestReportAssessmentAnswer {
   card: string;
 
   @Input()
-  showMissing: boolean = false;
+  showMissing = false;
 
   @Input()
   answer: number;
@@ -28,7 +25,7 @@ export class TestReportAssessmentAnswer {
   answerChanged = new EventEmitter<string>();
 
   valueChanged = (key: string): void => {
-    this.answerChanged.emit((Number(key) === this.answer) ? null : key);
+    this.answerChanged.emit(Number(key) === this.answer ? null : key);
   };
 
   hasBeenMissed = (): boolean => this.showMissing && !this.hasValue();
@@ -39,5 +36,4 @@ export class TestReportAssessmentAnswer {
     'ng-dirty': this.hasBeenMissed(),
     'ng-invalid': this.hasBeenMissed(),
   });
-
 }

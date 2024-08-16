@@ -1,13 +1,11 @@
 import {
-  AssessmentReportChanged,
-} from '../test-summary.cat-cpc.actions';
-import {
-  IdentificationUsedChanged,
-  CandidateDescriptionChanged,
   AdditionalInformationChanged,
-  DebriefWitnessed,
+  CandidateDescriptionChanged,
   DebriefUnWitnessed,
+  DebriefWitnessed,
+  IdentificationUsedChanged,
 } from '../../test-summary.actions';
+import { AssessmentReportChanged } from '../test-summary.cat-cpc.actions';
 import { testSummaryCPCReducer } from '../test-summary.cat-cpc.reducer';
 
 describe('testSummaryCPCReducer', () => {
@@ -28,15 +26,21 @@ describe('testSummaryCPCReducer', () => {
     expect(result.candidateDescription).toEqual('desc');
   });
   it('should change set the debrief witnessed to true', () => {
-    const result = testSummaryCPCReducer({
-      debriefWitnessed: null,
-    }, DebriefWitnessed());
+    const result = testSummaryCPCReducer(
+      {
+        debriefWitnessed: null,
+      },
+      DebriefWitnessed()
+    );
     expect(result.debriefWitnessed).toEqual(true);
   });
   it('should change set the debrief witnessed to false', () => {
-    const result = testSummaryCPCReducer({
-      debriefWitnessed: null,
-    }, DebriefUnWitnessed());
+    const result = testSummaryCPCReducer(
+      {
+        debriefWitnessed: null,
+      },
+      DebriefUnWitnessed()
+    );
     expect(result.debriefWitnessed).toEqual(false);
   });
 });

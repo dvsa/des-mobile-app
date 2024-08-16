@@ -1,28 +1,28 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Injector, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { select } from '@ngrx/store';
-import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { ModalController } from '@ionic/angular';
+import { select } from '@ngrx/store';
 import {
   DelegatedRekeySearchError,
   DelegatedRekeySearchErrorMessages,
 } from '@pages/delegated-rekey-search/delegated-rekey-search-error-model';
-import { HttpErrorResponse } from '@angular/common/http';
+import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import {
   getBookedTestSlot,
   getDelegatedRekeySearchError,
   getHasSearched,
   getIsLoading,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ERROR_PAGE } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash-es';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,
@@ -44,12 +44,12 @@ interface DelegatedRekeySearchPageState {
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
   pageState: DelegatedRekeySearchPageState;
   delegatedRekeyForm: UntypedFormGroup;
-  hasClickedSearch: boolean = false;
+  hasClickedSearch = false;
   maxCallStackHandler = {
     onlySelf: true,
     emitEvent: false,
   };
-  applicationReference: string = '';
+  applicationReference = '';
   subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
 
@@ -57,39 +57,26 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     public orientationMonitorProvider: OrientationMonitorProvider,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.store$.dispatch(DelegatedRekeySearchClearState());
-    const rekeySearch$ = this.store$.pipe(
-      select(getDelegatedRekeySearchState),
-    );
+    const rekeySearch$ = this.store$.pipe(select(getDelegatedRekeySearchState));
     this.pageState = {
-      isLoading$: rekeySearch$.pipe(
-        map(getIsLoading),
-      ),
-      hasSearched$: rekeySearch$.pipe(
-        map(getHasSearched),
-      ),
-      bookedTestSlot$: rekeySearch$.pipe(
-        map(getBookedTestSlot),
-      ),
-      rekeySearchErr$: rekeySearch$.pipe(
-        map(getDelegatedRekeySearchError),
-        distinctUntilChanged(),
-      ),
+      isLoading$: rekeySearch$.pipe(map(getIsLoading)),
+      hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
+      bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
+      rekeySearchErr$: rekeySearch$.pipe(map(getDelegatedRekeySearchError), distinctUntilChanged()),
     };
 
     this.delegatedRekeyForm = new UntypedFormGroup({});
-    this.delegatedRekeyForm
-      .addControl('applicationReferenceInput', new UntypedFormControl(null, [
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(11),
-      ]));
+    this.delegatedRekeyForm.addControl(
+      'applicationReferenceInput',
+      new UntypedFormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)])
+    );
     this.delegatedRekeyForm.updateValueAndValidity(this.maxCallStackHandler);
   }
 
@@ -177,6 +164,6 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   }
 
   clearAppRef() {
-    this.applicationReferenceChanged('')
+    this.applicationReferenceChanged('');
   }
 }

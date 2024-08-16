@@ -1,6 +1,6 @@
 import { EnvironmentFile } from '@environments/models/environment.model';
-import { localEnvironmentMock } from './environment.mock';
 import { AppConfig } from '../app-config.model';
+import { localEnvironmentMock } from './environment.mock';
 
 export class AppConfigProviderMock {
   private appConfig = {
@@ -69,15 +69,11 @@ export class AppConfigProviderMock {
 
   public initialiseAppConfig = jasmine.createSpy('initialiseAppConfig');
 
-  public loadRemoteConfig = jasmine.createSpy('loadRemoteConfig')
-    .and
-    .returnValue(Promise.resolve());
+  public loadRemoteConfig = jasmine.createSpy('loadRemoteConfig').and.returnValue(Promise.resolve());
 
   public shutDownStoreSubscription = jasmine.createSpy('shutDownStoreSubscription');
 
-  public getDebugMode = jasmine.createSpy('getDebugMode')
-    .and
-    .returnValue(Promise.resolve());
+  public getDebugMode = jasmine.createSpy('getDebugMode').and.returnValue(Promise.resolve());
 
   public getAppConfigAsync(): Promise<AppConfig> {
     return Promise.resolve(this.appConfig);
@@ -86,5 +82,4 @@ export class AppConfigProviderMock {
   public getAppConfig(): AppConfig {
     return this.appConfig;
   }
-
 }

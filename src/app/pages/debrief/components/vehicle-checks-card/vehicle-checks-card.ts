@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
@@ -9,7 +9,6 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   styleUrls: ['vehicle-checks-card.scss'],
 })
 export class VehicleChecksCardComponent implements OnInit {
-
   @Input()
   category: CategoryCode;
 

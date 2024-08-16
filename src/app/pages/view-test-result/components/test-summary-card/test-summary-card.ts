@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { get } from 'lodash-es';
+import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   Accompaniment,
   CategoryCode,
@@ -7,8 +7,8 @@ import {
   PassCompletion,
   TestSummary,
 } from '@dvsa/mes-test-schema/categories/common';
-import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { get } from 'lodash-es';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
 @Component({
@@ -16,7 +16,6 @@ import { convertBooleanToString, flattenArray } from '../../view-test-result-hel
   templateUrl: 'test-summary-card.html',
 })
 export class TestSummaryCardComponent {
-
   @Input()
   accompaniment: Accompaniment;
 
@@ -95,7 +94,7 @@ export class TestSummaryCardComponent {
 
   public get weatherConditions(): string {
     const weatherConditions: string[] = get(this.testSummary, 'weatherConditions', []);
-    return flattenArray((weatherConditions?.length > 0) ? weatherConditions : ['None']);
+    return flattenArray(weatherConditions?.length > 0 ? weatherConditions : ['None']);
   }
 
   public get d255(): string {

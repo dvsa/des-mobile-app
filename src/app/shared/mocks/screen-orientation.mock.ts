@@ -1,7 +1,6 @@
 import { EMPTY } from 'rxjs';
 
 export class ScreenOrientationMock {
-
   ORIENTATIONS: {
     PORTRAIT_PRIMARY: string;
     PORTRAIT_SECONDARY: string;

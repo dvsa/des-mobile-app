@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum EyesightTestResult {
   Pass = 'P',
@@ -13,7 +11,6 @@ enum EyesightTestResult {
   templateUrl: 'eyesight-test.html',
 })
 export class EyesightTestComponent implements OnChanges {
-
   formControl: UntypedFormControl;
 
   @Input()

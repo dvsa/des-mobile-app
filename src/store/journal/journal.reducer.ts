@@ -18,15 +18,18 @@ export const journalFeatureKey = 'journal';
 
 export const journalReducer = createReducer(
   initialState,
-  on(journalActions.LoadJournal, (state: JournalModel): JournalModel => ({
-    ...state,
-    isLoading: true,
-    error: {
-      message: '',
-      status: 0,
-      statusText: '',
-    },
-  })),
+  on(
+    journalActions.LoadJournal,
+    (state: JournalModel): JournalModel => ({
+      ...state,
+      isLoading: true,
+      error: {
+        message: '',
+        status: 0,
+        statusText: '',
+      },
+    })
+  ),
   on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
       return { ...state };
@@ -47,30 +50,27 @@ export const journalReducer = createReducer(
       },
     };
   }),
-  on(journalActions.LoadJournalSuccess, (state: JournalModel, {
-    onlineOffline,
-    lastRefreshed,
-    unAuthenticatedMode,
-    payload,
-  }): JournalModel => ({
-    ...state,
-    lastRefreshed: (onlineOffline
-      === ConnectionStatus.ONLINE && !unAuthenticatedMode) ? new Date() : lastRefreshed,
-    isLoading: false,
-    slots: payload.slotItemsByDate,
-    examiner: payload.examiner,
-  })),
-  on(journalActions.LoadJournalFailure, (state: JournalModel, { error }): JournalModel => ({
-    ...state,
-    error,
-    isLoading: false,
-  })),
+  on(
+    journalActions.LoadJournalSuccess,
+    (state: JournalModel, { onlineOffline, lastRefreshed, unAuthenticatedMode, payload }): JournalModel => ({
+      ...state,
+      lastRefreshed: onlineOffline === ConnectionStatus.ONLINE && !unAuthenticatedMode ? new Date() : lastRefreshed,
+      isLoading: false,
+      slots: payload.slotItemsByDate,
+      examiner: payload.examiner,
+    })
+  ),
+  on(
+    journalActions.LoadJournalFailure,
+    (state: JournalModel, { error }): JournalModel => ({
+      ...state,
+      error,
+      isLoading: false,
+    })
+  ),
   on(journalActions.UnloadJournal, (): JournalModel => initialState),
   on(journalActions.UnsetError, (state: JournalModel): JournalModel => {
-    const {
-      error,
-      ...stateWithoutError
-    } = state;
+    const { error, ...stateWithoutError } = state;
     return {
       ...stateWithoutError,
     };
@@ -97,25 +97,35 @@ export const journalReducer = createReducer(
       },
     };
   }),
-  on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }): JournalModel => ({
-    ...state,
-    selectedDate,
-  })),
-  on(journalActions.LoadCompletedTests, (state: JournalModel): JournalModel => ({
-    ...state,
-    isLoading: true,
-  })),
-  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, {
-    completedTests,
-  }): JournalModel => ({
-    ...state,
-    isLoading: false,
-    completedTests,
-  })),
-  on(journalActions.LoadCompletedTestsFailure, (state: JournalModel): JournalModel => ({
-    ...state,
-    isLoading: false,
-  })),
+  on(
+    journalActions.SetSelectedDate,
+    (state: JournalModel, { selectedDate }): JournalModel => ({
+      ...state,
+      selectedDate,
+    })
+  ),
+  on(
+    journalActions.LoadCompletedTests,
+    (state: JournalModel): JournalModel => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on(
+    journalActions.LoadCompletedTestsSuccess,
+    (state: JournalModel, { completedTests }): JournalModel => ({
+      ...state,
+      isLoading: false,
+      completedTests,
+    })
+  ),
+  on(
+    journalActions.LoadCompletedTestsFailure,
+    (state: JournalModel): JournalModel => ({
+      ...state,
+      isLoading: false,
+    })
+  )
 );
 
 export const getJournalState = createFeatureSelector<JournalModel>('journal');

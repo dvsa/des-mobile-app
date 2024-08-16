@@ -1,10 +1,8 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { CandidateDeclarationSignedComponent } from '../candidate-declaration';
 
 describe('CandidateDeclarationSignedComponent', () => {
@@ -13,14 +11,8 @@ describe('CandidateDeclarationSignedComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CandidateDeclarationSignedComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [CandidateDeclarationSignedComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(CandidateDeclarationSignedComponent);
@@ -35,8 +27,7 @@ describe('CandidateDeclarationSignedComponent', () => {
       const declarationSignedRadio = fixture.debugElement.query(By.css('#declaration-signed'));
       declarationSignedRadio.triggerEventHandler('change', { target: { value: 'Y' } });
       fixture.detectChanges();
-      expect(component.candidateDeclarationChanged)
-        .toHaveBeenCalledWith('Y');
+      expect(component.candidateDeclarationChanged).toHaveBeenCalledWith('Y');
     });
     it('should call CandidateDeclarationChanged with N when not signed is pressed', () => {
       spyOn(component, 'candidateDeclarationChanged');
@@ -44,8 +35,7 @@ describe('CandidateDeclarationSignedComponent', () => {
       const declarationSignedRadio = fixture.debugElement.query(By.css('#declaration-not-signed'));
       declarationSignedRadio.triggerEventHandler('change', { target: { value: 'N' } });
       fixture.detectChanges();
-      expect(component.candidateDeclarationChanged)
-        .toHaveBeenCalledWith('N');
+      expect(component.candidateDeclarationChanged).toHaveBeenCalledWith('N');
     });
   });
   describe('ngOnChanges', () => {
@@ -54,16 +44,14 @@ describe('CandidateDeclarationSignedComponent', () => {
       component.candidateSigned = true;
 
       component.ngOnChanges();
-      expect(component.formControl.value)
-        .toBe('Y');
+      expect(component.formControl.value).toBe('Y');
     });
     it('should patch formControl with N if declarationSelected is false and candidateSigned is true', () => {
       component.declarationSelected = false;
       component.candidateSigned = true;
 
       component.ngOnChanges();
-      expect(component.formControl.value)
-        .toBe('N');
+      expect(component.formControl.value).toBe('N');
     });
   });
   describe('candidateDeclarationChanged', () => {
@@ -74,8 +62,7 @@ describe('CandidateDeclarationSignedComponent', () => {
 
       component.candidateDeclarationChanged('Y');
 
-      expect(component.candidateDeclarationChange.emit)
-        .toHaveBeenCalledWith(true);
+      expect(component.candidateDeclarationChange.emit).toHaveBeenCalledWith(true);
     });
   });
 });

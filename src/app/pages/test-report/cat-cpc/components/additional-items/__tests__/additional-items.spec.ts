@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
-import { AdditionalItemsComponent } from '../additional-items';
 import { mockEmptyAdditionalItems, mockPopulatedAdditionalItems } from '../__mocks__/additional-items.mock';
+import { AdditionalItemsComponent } from '../additional-items';
 
 describe('AdditionalItemsComponent', () => {
   let fixture: ComponentFixture<AdditionalItemsComponent>;
@@ -11,13 +11,8 @@ describe('AdditionalItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AdditionalItemsComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [AdditionalItemsComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(AdditionalItemsComponent);

@@ -1,6 +1,14 @@
 import { select } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import {
+  formatDriverNumber,
+  getCandidateDriverNumber,
+  getCandidateName,
+  getUntitledCandidateName,
+} from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { getTests } from '@store/tests/tests.reducer';
 import {
   getAllPassCerts,
   getCurrentTest,
@@ -9,37 +17,23 @@ import {
   getTestOutcome,
   getTestOutcomeText,
 } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import {
-  formatDriverNumber,
-  getCandidateDriverNumber,
-  getCandidateName,
-  getUntitledCandidateName,
-} from '@store/tests/journal-data/common/candidate/candidate.selector';
 
+import { Inject, Injector } from '@angular/core';
+import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { map, take } from 'rxjs/operators';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
-  getApplicationReference,
-} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import {
-  getApplicationNumber,
-} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
-import {
-  getPassCertificateNumber,
-  isProvisionalLicenseProvided,
-} from '@store/tests/pass-completion/pass-completion.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
-import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
+  CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
+} from '@store/tests/communication-preferences/communication-preferences.actions';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import {
   Code78NotPresent,
   Code78Present,
@@ -47,20 +41,20 @@ import {
   ProvisionalLicenseNotReceived,
   ProvisionalLicenseReceived,
 } from '@store/tests/pass-completion/pass-completion.actions';
+import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
+import {
+  getPassCertificateNumber,
+  isProvisionalLicenseProvided,
+} from '@store/tests/pass-completion/pass-completion.selector';
+import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
+import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
+import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
 import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
-import {
-  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
-} from '@store/tests/test-summary/test-summary.actions';
-import {
-  CandidateChoseToProceedWithTestInEnglish,
-  CandidateChoseToProceedWithTestInWelsh,
-} from '@store/tests/communication-preferences/communication-preferences.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { Inject, Injector } from '@angular/core';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { map, take } from 'rxjs/operators';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -89,91 +83,51 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   protected constructor(
     injector: Injector,
-    @Inject(false) public loginRequired: boolean = false,
+    @Inject(false) public loginRequired = false
   ) {
     super(injector, loginRequired);
   }
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.commonPageState = {
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateName),
-      ),
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
-        select(getUntitledCandidateName),
+        select(getUntitledCandidateName)
       ),
       candidateDriverNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getCandidateDriverNumber),
-        map(formatDriverNumber),
+        map(formatDriverNumber)
       ),
-      testOutcomeText$: currentTest$.pipe(
-        select(getTestOutcomeText),
-      ),
-      testOutcome$: currentTest$.pipe(
-        select(getTestOutcome),
-      ),
+      testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
+      testOutcome$: currentTest$.pipe(select(getTestOutcome)),
       applicationNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getApplicationReference),
-        select(getApplicationNumber),
+        select(getApplicationNumber)
       ),
-      provisionalLicense$: currentTest$.pipe(
-        select(getPassCompletion),
-        map(isProvisionalLicenseProvided),
-      ),
-      passCertificateNumber$: currentTest$.pipe(
-        select(getPassCompletion),
-        select(getPassCertificateNumber),
-      ),
-      transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getGearboxCategory),
-      ),
-      debriefWitnessed$: currentTest$.pipe(
-        select(getTestSummary),
-        select(isDebriefWitnessed),
-      ),
-      d255$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getD255),
-      ),
-      conductedLanguage$: currentTest$.pipe(
-        select(getCommunicationPreference),
-        select(getConductedLanguage),
-      ),
-      eyesightTestFailed$: currentTest$.pipe(
-        select(getTestData),
-        select(hasEyesightTestGotSeriousFault),
-      ),
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-      ),
+      provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
+      passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
+      transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
+      debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
+      d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
+      eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
+      testCategory$: currentTest$.pipe(select(getTestCategory)),
       pastPassCerts$: combineLatest([
-        this.store$.pipe(
-          select(getTests),
-          select(getStartedTestsWithPassOutcome),
-          select(getAllPassCerts),
-          take(1),
-        ),
-      ])
-        .pipe(
-          map(([testPassCerts]) => ([
-            // pass certs from started tests
-            ...(testPassCerts || []),
-          ])),
-        ),
+        this.store$.pipe(select(getTests), select(getStartedTestsWithPassOutcome), select(getAllPassCerts), take(1)),
+      ]).pipe(
+        map(([testPassCerts]) => [
+          // pass certs from started tests
+          ...(testPassCerts || []),
+        ])
+      ),
     };
   }
 
@@ -215,10 +169,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   isWelshChanged(isWelsh: boolean) {
     this.store$.dispatch(
-      isWelsh
-        ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
-        : CandidateChoseToProceedWithTestInEnglish('English'),
+      isWelsh ? CandidateChoseToProceedWithTestInWelsh('Cymraeg') : CandidateChoseToProceedWithTestInEnglish('English')
     );
   }
-
 }

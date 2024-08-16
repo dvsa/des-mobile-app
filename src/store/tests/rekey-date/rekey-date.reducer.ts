@@ -6,8 +6,7 @@ export const initialState: string = null;
 
 export const rekeyDateReducer = createReducer(
   initialState,
-  on(rekeyDateActions.SetRekeyDate, (state) =>
-    (state || new DateTime().format('YYYY-MM-DDTHH:mm:ss'))),
+  on(rekeyDateActions.SetRekeyDate, (state) => state || new DateTime().format('YYYY-MM-DDTHH:mm:ss'))
 );
 
 export const getRekeyDate = createFeatureSelector<boolean>('rekeyDate');

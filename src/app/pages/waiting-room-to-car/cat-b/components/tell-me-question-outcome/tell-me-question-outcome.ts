@@ -1,14 +1,11 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'tell-me-question-outcome',
   templateUrl: 'tell-me-question-outcome.html',
 })
 export class TellMeQuestionOutcomeComponent implements OnChanges {
-
   @Input()
   tellMeQuestionOutcome: string;
 
@@ -40,5 +37,4 @@ export class TellMeQuestionOutcomeComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

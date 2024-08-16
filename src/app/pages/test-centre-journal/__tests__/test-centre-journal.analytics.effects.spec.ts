@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ReplaySubject } from 'rxjs';
 
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsEvents,
@@ -11,7 +12,6 @@ import {
   GoogleAnalyticsEventsValues,
   JournalRefreshModes,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 
 import { TestCentreJournalAnalyticsEffects } from '@pages/test-centre-journal/test-centre-journal.analytics.effects';
 import * as testCentreJournalActions from '../test-centre-journal.actions';
@@ -57,7 +57,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.REFRESH,
-          JournalRefreshModes.AUTOMATIC,
+          JournalRefreshModes.AUTOMATIC
         );
         done();
       });
@@ -73,7 +73,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.LOCATION,
+          GoogleAnalyticsEventsValues.LOCATION
         );
         done();
       });
@@ -89,7 +89,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.TAB_SELECTION,
-          GoogleAnalyticsEventsValues.UNKNOWN,
+          GoogleAnalyticsEventsValues.UNKNOWN
         );
         done();
       });
@@ -102,7 +102,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.TAB_SELECTION,
-          GoogleAnalyticsEventsValues.JOURNALS,
+          GoogleAnalyticsEventsValues.JOURNALS
         );
         done();
       });
@@ -118,7 +118,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.CANDIDATE,
+          GoogleAnalyticsEventsValues.CANDIDATE
         );
         done();
       });
@@ -134,7 +134,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
-          GoogleAnalyticsEventsValues.BOOKINGS,
+          GoogleAnalyticsEventsValues.BOOKINGS
         );
         done();
       });
@@ -150,7 +150,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.EXAMINER,
+          GoogleAnalyticsEventsValues.EXAMINER
         );
         done();
       });
@@ -166,7 +166,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
-          GoogleAnalyticsEventsValues.JOURNALS,
+          GoogleAnalyticsEventsValues.JOURNALS
         );
         done();
       });
@@ -182,7 +182,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.NAVIGATION,
-          GoogleAnalyticsEventsValues.UNKNOWN,
+          GoogleAnalyticsEventsValues.UNKNOWN
         );
         done();
       });
@@ -195,7 +195,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.NAVIGATION,
-          GoogleAnalyticsEventsValues.TODAY,
+          GoogleAnalyticsEventsValues.TODAY
         );
         done();
       });

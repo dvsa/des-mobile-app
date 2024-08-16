@@ -1,16 +1,16 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ComponentsModule } from '@components/common/common-components.module';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
-import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { JournalEarlyStartModal } from '../journal-early-start-modal';
 import { JournalEarlyStartModalMock } from '../__mocks__/journal-early-start-modal.mock';
 import { NavParamsMock } from '../__mocks__/nav-params.mock';
+import { JournalEarlyStartModal } from '../journal-early-start-modal';
 import { ModalEvent } from '../journal-early-start-modal.constants';
 
 describe('JournalEarlyStartModal', () => {
@@ -21,15 +21,8 @@ describe('JournalEarlyStartModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        JournalEarlyStartModal,
-      ],
-      imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        ComponentsModule,
-      ],
+      declarations: [JournalEarlyStartModal],
+      imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useFactory: () => navMock },

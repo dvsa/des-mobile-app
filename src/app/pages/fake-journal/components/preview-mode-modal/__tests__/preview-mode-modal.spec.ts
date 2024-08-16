@@ -1,6 +1,6 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -14,16 +14,9 @@ describe('PreviewModeModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PreviewModeModal,
-      ],
-      imports: [
-        IonicModule,
-        ComponentsModule,
-      ],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      declarations: [PreviewModeModal],
+      imports: [IonicModule, ComponentsModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(PreviewModeModal);

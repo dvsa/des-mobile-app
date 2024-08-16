@@ -1,11 +1,9 @@
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
-import {
-  manoeuvresCatManoeuvreReducer,
-} from '@store/tests/test-data/cat-manoeuvres/manoeuvres/manoeuvres.cat-cm.reducer';
-import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
-import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
-import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
+import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
+import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
+import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { manoeuvresCatManoeuvreReducer } from '@store/tests/test-data/cat-manoeuvres/manoeuvres/manoeuvres.cat-cm.reducer';
+import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import {
   AddManoeuvreComment,
   AddManoeuvreDangerousFault,
@@ -18,28 +16,27 @@ import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.consta
 describe('manoeuvresCatManoeuvreReducer', () => {
   describe('RECORD_MANOEUVRES_SELECTION', () => {
     it('should add selected manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
+      const state:
+        | CatCMUniqueTypes.Manoeuvres
+        | CatCEMUniqueTypes.Manoeuvres
+        | CatC1MUniqueTypes.Manoeuvres
+        | CatC1EMUniqueTypes.Manoeuvres = {
         reverseManoeuvre: {
           selected: false,
         },
       };
-      const result = manoeuvresCatManoeuvreReducer(
-        state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre),
-      );
+      const result = manoeuvresCatManoeuvreReducer(state, RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre));
       expect(result[ManoeuvreTypes.reverseManoeuvre]).toEqual({ selected: true });
     });
   });
 
   describe('ADD_MANOEUVRE_SERIOUS_FAULT', () => {
     it('should add a "S" outcome to the selected manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
+      const state:
+        | CatCMUniqueTypes.Manoeuvres
+        | CatCEMUniqueTypes.Manoeuvres
+        | CatC1MUniqueTypes.Manoeuvres
+        | CatC1EMUniqueTypes.Manoeuvres = {
         reverseManoeuvre: {
           selected: true,
         },
@@ -49,7 +46,7 @@ describe('manoeuvresCatManoeuvreReducer', () => {
         AddManoeuvreSeriousFault({
           manoeuvre: ManoeuvreTypes.reverseManoeuvre,
           competency: ManoeuvreCompetencies.controlFault,
-        }),
+        })
       );
       expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toEqual(CompetencyOutcome.S);
     });
@@ -57,10 +54,11 @@ describe('manoeuvresCatManoeuvreReducer', () => {
 
   describe('ADD_MANOEUVRE_DANGEROUS_FAULT', () => {
     it('should add a "D" outcome to the selected manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
+      const state:
+        | CatCMUniqueTypes.Manoeuvres
+        | CatCEMUniqueTypes.Manoeuvres
+        | CatC1MUniqueTypes.Manoeuvres
+        | CatC1EMUniqueTypes.Manoeuvres = {
         reverseManoeuvre: {
           selected: true,
         },
@@ -70,7 +68,7 @@ describe('manoeuvresCatManoeuvreReducer', () => {
         AddManoeuvreDangerousFault({
           manoeuvre: ManoeuvreTypes.reverseManoeuvre,
           competency: ManoeuvreCompetencies.controlFault,
-        }),
+        })
       );
       expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toEqual(CompetencyOutcome.D);
     });
@@ -78,22 +76,18 @@ describe('manoeuvresCatManoeuvreReducer', () => {
 
   describe('ADD_MANOEUVRE_COMMENT', () => {
     it('should add a comment to the selected Manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
+      const state:
+        | CatCMUniqueTypes.Manoeuvres
+        | CatCEMUniqueTypes.Manoeuvres
+        | CatC1MUniqueTypes.Manoeuvres
+        | CatC1EMUniqueTypes.Manoeuvres = {
         reverseManoeuvre: {
           selected: true,
         },
       };
       const result = manoeuvresCatManoeuvreReducer(
         state,
-        AddManoeuvreComment(
-          ManoeuvreTypes.reverseManoeuvre,
-          CompetencyOutcome.S,
-          'control',
-          'comments',
-        ),
+        AddManoeuvreComment(ManoeuvreTypes.reverseManoeuvre, CompetencyOutcome.S, 'control', 'comments')
       );
       expect(result[ManoeuvreTypes.reverseManoeuvre].controlFaultComments).toEqual('comments');
     });
@@ -101,19 +95,26 @@ describe('manoeuvresCatManoeuvreReducer', () => {
 
   describe('REMOVE_MANOEUVRE_FAULT', () => {
     it('should remove the fault from a manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
+      const state:
+        | CatCMUniqueTypes.Manoeuvres
+        | CatCEMUniqueTypes.Manoeuvres
+        | CatC1MUniqueTypes.Manoeuvres
+        | CatC1EMUniqueTypes.Manoeuvres = {
         reverseManoeuvre: {
           selected: true,
           controlFault: CompetencyOutcome.DF,
         },
       };
-      const result = manoeuvresCatManoeuvreReducer(state, RemoveManoeuvreFault({
-        competency: ManoeuvreCompetencies.controlFault,
-        manoeuvre: ManoeuvreTypes.reverseManoeuvre,
-      }, CompetencyOutcome.DF));
+      const result = manoeuvresCatManoeuvreReducer(
+        state,
+        RemoveManoeuvreFault(
+          {
+            competency: ManoeuvreCompetencies.controlFault,
+            manoeuvre: ManoeuvreTypes.reverseManoeuvre,
+          },
+          CompetencyOutcome.DF
+        )
+      );
       expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toBeUndefined();
     });
   });

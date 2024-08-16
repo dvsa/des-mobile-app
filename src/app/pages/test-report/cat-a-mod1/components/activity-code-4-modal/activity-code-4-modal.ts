@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ModalReason } from './activity-code-4-modal.constants';
 import { ModalEvent } from '../../../test-report.constants';
+import { ModalReason } from './activity-code-4-modal.constants';
 
 @Component({
   selector: 'activity-code-4-modal',
@@ -9,14 +9,10 @@ import { ModalEvent } from '../../../test-report.constants';
   styleUrls: ['activity-code-4-modal.scss'],
 })
 export class ActivityCode4Modal {
-
   @Input()
   modalReason: ModalReason;
 
-  constructor(
-    private modalController: ModalController,
-  ) {
-  }
+  constructor(private modalController: ModalController) {}
 
   async onCancel(): Promise<void> {
     await this.modalController.dismiss(ModalEvent.CANCEL);
@@ -25,5 +21,4 @@ export class ActivityCode4Modal {
   async onEndTest(): Promise<void> {
     await this.modalController.dismiss(ModalEvent.END_WITH_ACTIVITY_CODE_4);
   }
-
 }

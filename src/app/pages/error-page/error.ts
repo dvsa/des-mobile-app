@@ -9,16 +9,15 @@ import { ErrorTypes } from '@shared/models/error-message';
   styleUrls: ['error.scss'],
 })
 export class ErrorPage extends LogoutBasePageComponent {
-
   @Input()
   public errorType: ErrorTypes;
 
   @Input()
-  displayAsModal: boolean = false;
+  displayAsModal = false;
 
   constructor(
     public modalController: ModalController,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
@@ -26,5 +25,4 @@ export class ErrorPage extends LogoutBasePageComponent {
   async dismiss(): Promise<void> {
     await this.modalController.dismiss();
   }
-
 }

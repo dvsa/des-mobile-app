@@ -47,25 +47,23 @@ export class DateTimeInputComponent {
   emitButtonEvents?: boolean = false;
 
   @Input()
-  ariaLabel: string = 'Date time';
+  ariaLabel = 'Date time';
 
   displayValue: string;
   outputValue: string;
 
   @Output()
-  onDataPicked = new EventEmitter<{ control?: string, data: string }>();
+  onDataPicked = new EventEmitter<{ control?: string; data: string }>();
 
   @Output()
-  customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime }>();
+  customButtonEvent = new EventEmitter<{ buttonType: string; data: IonDatetime }>();
 
   formatDisplayDate(date: string) {
-    return DateTime.at(date)
-      .format('DD/MM/YYYY');
+    return DateTime.at(date).format('DD/MM/YYYY');
   }
 
   formatDisplayTime(time: string) {
-    return DateTime.at(time)
-      .format('HH:mm');
+    return DateTime.at(time).format('HH:mm');
   }
 
   onSelected(event: IonDatetime, control: DisplayType) {
@@ -75,23 +73,16 @@ export class DateTimeInputComponent {
 
     switch (control) {
       case DisplayType.Date:
-
         this.displayValue = this.formatDisplayDate(val);
 
-        output = DateTime
-          .at(val)
-          .format('YYYY-MM-DD');
+        output = DateTime.at(val).format('YYYY-MM-DD');
         break;
       case DisplayType.Time:
         this.displayValue = this.formatDisplayTime(val);
 
-        this.outputValue = DateTime
-          .at(val)
-          .format('YYYY-MM-DDTHH:mm');
+        this.outputValue = DateTime.at(val).format('YYYY-MM-DDTHH:mm');
 
-        output = DateTime
-          .at(val)
-          .format('YYYY-MM-DDTHH:mm');
+        output = DateTime.at(val).format('YYYY-MM-DDTHH:mm');
         break;
       default:
         this.displayValue = '';

@@ -1,22 +1,22 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Observable } from 'rxjs';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  CommonTestReportPageState,
+  TestReportBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { Observable } from 'rxjs';
 
 type TestReportPageState = CommonTestReportPageState;
 
 type HomeCatTestDataUnion =
-  CatFUniqueTypes.TestData |
-  CatGUniqueTypes.TestData |
-  CatHUniqueTypes.TestData |
-  CatKUniqueTypes.TestData;
+  | CatFUniqueTypes.TestData
+  | CatGUniqueTypes.TestData
+  | CatHUniqueTypes.TestData
+  | CatKUniqueTypes.TestData;
 
 @Component({
   selector: '.test-report-cat-home-test-page',
@@ -24,7 +24,6 @@ type HomeCatTestDataUnion =
   styleUrls: ['./test-report.cat-home-test.page.scss'],
 })
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
-
   pageState: TestReportPageState;
 
   constructor(injector: Injector) {
@@ -50,5 +49,4 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
   showManoeuvreButton = (): boolean => {
     return this.testCategory !== TestCategory.K;
   };
-
 }

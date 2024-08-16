@@ -12,6 +12,6 @@ export interface TestsModel {
 }
 
 export interface TestResultsRehydrated {
-  test_result: TestResultSchemasUnion,
-  autosave: number
+  test_result: TestResultSchemasUnion;
+  autosave: number;
 }

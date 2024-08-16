@@ -1,8 +1,8 @@
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 
-import { delegatedSearchReducer, initialState } from '../delegated-rekey-search.reducer';
 import * as delegatedRekeySearchActions from '../delegated-rekey-search.actions';
+import { delegatedSearchReducer, initialState } from '../delegated-rekey-search.reducer';
 
 describe('delegatedSearchReducer', () => {
   it('should turn on loading state when searching for tests', () => {
@@ -12,11 +12,10 @@ describe('delegatedSearchReducer', () => {
     const appRef = '123456';
     const action = delegatedRekeySearchActions.SearchBookedDelegatedTest(appRef);
     const result = delegatedSearchReducer(state, action);
-    expect(result)
-      .toEqual({
-        ...initialState,
-        isLoading: true,
-      });
+    expect(result).toEqual({
+      ...initialState,
+      isLoading: true,
+    });
   });
 
   it('should store payload, turn loading state off and searched state on when search is successful', () => {
@@ -38,15 +37,14 @@ describe('delegatedSearchReducer', () => {
     };
     const action = delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot);
     const result = delegatedSearchReducer(state, action);
-    expect(result)
-      .toEqual({
-        ...initialState,
-        isLoading: false,
-        hasSearched: true,
-        bookedTestSlot: {
-          ...testSlot,
-        },
-      });
+    expect(result).toEqual({
+      ...initialState,
+      isLoading: false,
+      hasSearched: true,
+      bookedTestSlot: {
+        ...testSlot,
+      },
+    });
   });
 
   it('should store error, turn off loading state and searched state on when search was unsuccessful', () => {
@@ -62,12 +60,11 @@ describe('delegatedSearchReducer', () => {
     });
     const action = delegatedRekeySearchActions.SearchBookedDelegatedTestFailure(err);
     const result = delegatedSearchReducer(state, action);
-    expect(result)
-      .toEqual({
-        ...initialState,
-        err,
-        isLoading: false,
-        hasSearched: true,
-      });
+    expect(result).toEqual({
+      ...initialState,
+      err,
+      isLoading: false,
+      hasSearched: true,
+    });
   });
 });

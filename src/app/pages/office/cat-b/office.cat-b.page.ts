@@ -1,18 +1,15 @@
 import { Component, Injector } from '@angular/core';
-import { select } from '@ngrx/store';
-import { getTests } from '@store/tests/tests.reducer';
-import { Observable } from 'rxjs';
-import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { select } from '@ngrx/store';
 import { QuestionProvider } from '@providers/question/question';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
-  getEco,
-  getEcoFaultText,
-  getETA,
-  getETAFaultText,
-  getShowMeQuestionOptions,
-} from '@store/tests/test-data/common/test-data.selector';
+  CommonOfficePageState,
+  OfficeBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import {
   getSelectedTellMeQuestionText,
   getShowMeQuestion,
@@ -20,25 +17,28 @@ import {
   getVehicleChecks,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import {
-  CommonOfficePageState,
-  OfficeBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { startsWith } from 'lodash-es';
-import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import {
   AddShowMeTellMeComment,
   ShowMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import {
+  getETA,
+  getETAFaultText,
+  getEco,
+  getEcoFaultText,
+  getShowMeQuestionOptions,
+} from '@store/tests/test-data/common/test-data.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
+import { startsWith } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { behaviourMap } from '../office-behaviour-map';
 
 interface CatBOfficePageState {
@@ -60,11 +60,10 @@ type OfficePageState = CommonOfficePageState & CatBOfficePageState;
   styleUrls: ['../office.page.scss'],
 })
 export class OfficeCatBPage extends OfficeBasePageComponent {
-
   pageState: OfficePageState;
-  drivingFaultCtrl: string = 'drivingFaultCtrl';
-  seriousFaultCtrl: string = 'seriousFaultCtrl';
-  dangerousFaultCtrl: string = 'dangerousFaultCtrl';
+  drivingFaultCtrl = 'drivingFaultCtrl';
+  seriousFaultCtrl = 'seriousFaultCtrl';
+  dangerousFaultCtrl = 'dangerousFaultCtrl';
   static readonly maxFaultCount = 15;
 
   showMeQuestions: VehicleChecksQuestion[];
@@ -72,7 +71,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
 
   constructor(
     public questionProvider: QuestionProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
@@ -81,64 +80,36 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
 
   ngOnInit(): void {
     super.onInitialisation();
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
     this.pageState = {
       ...this.commonPageState,
       displayShowMeQuestion$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-          select(getVehicleChecks),
-          select(getShowMeQuestion),
-        )),
-        map(([outcome, question]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'showMeQuestion', question)),
+        withLatestFrom(currentTest$.pipe(select(getTestData), select(getVehicleChecks), select(getShowMeQuestion))),
+        map(([outcome, question]) => this.outcomeBehaviourProvider.isVisible(outcome, 'showMeQuestion', question))
       ),
       displayTellMeQuestion$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-          select(getVehicleChecks),
-          select(getTellMeQuestion),
-        )),
-        map(([outcome, question]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', question)),
+        withLatestFrom(currentTest$.pipe(select(getTestData), select(getVehicleChecks), select(getTellMeQuestion))),
+        map(([outcome, question]) => this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', question))
       ),
-      showMeQuestion$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecks),
-        select(getShowMeQuestion),
-      ),
+      showMeQuestion$: currentTest$.pipe(select(getTestData), select(getVehicleChecks), select(getShowMeQuestion)),
       showMeQuestionOptions$: currentTest$.pipe(
         select(getTestOutcome),
-        map((outcome) =>
-          getShowMeQuestionOptions(this.showMeQuestions, outcome, this.outcomeBehaviourProvider)),
+        map((outcome) => getShowMeQuestionOptions(this.showMeQuestions, outcome, this.outcomeBehaviourProvider))
       ),
       tellMeQuestionText$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecks),
-        select(getSelectedTellMeQuestionText),
+        select(getSelectedTellMeQuestionText)
       ),
-      etaFaults$: currentTest$.pipe(
-        select(getTestData),
-        select(getETA),
-        select(getETAFaultText),
-      ),
-      ecoFaults$: currentTest$.pipe(
-        select(getTestData),
-        select(getEco),
-        select(getEcoFaultText),
-      ),
+      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), select(getETAFaultText)),
+      ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoFaultText)),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
-          data,
-          TestCategory.B,
-          OfficeCatBPage.maxFaultCount,
-        )),
+        map((data) =>
+          this.faultCountProvider.shouldDisplayDrivingFaultComments(data, TestCategory.B, OfficeCatBPage.maxFaultCount)
+        )
       ),
     };
 
@@ -160,24 +131,17 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
     if (dangerousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
+        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment)
       );
     } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = dangerousFaultComment.source.split('-');
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.D,
-          controlOrObservation,
-          dangerousFaultComment.comment,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.D, controlOrObservation, dangerousFaultComment.comment)
       );
-
     } else if (dangerousFaultComment.source === CommentSource.CONTROLLED_STOP) {
       this.store$.dispatch(AddControlledStopComment(dangerousFaultComment.comment));
-
     } else if (dangerousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
       this.store$.dispatch(AddShowMeTellMeComment(dangerousFaultComment.comment));
     }
@@ -186,21 +150,15 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   seriousFaultCommentChanged(seriousFaultComment: FaultSummary) {
     if (seriousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
+        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment)
       );
     } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = seriousFaultComment.source.split('-');
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.S,
-          controlOrObservation,
-          seriousFaultComment.comment,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.S, controlOrObservation, seriousFaultComment.comment)
       );
-
     } else if (seriousFaultComment.source === CommentSource.CONTROLLED_STOP) {
       this.store$.dispatch(AddControlledStopComment(seriousFaultComment.comment));
     } else if (seriousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
@@ -213,27 +171,19 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   drivingFaultCommentChanged(drivingFaultComment: FaultSummary) {
     if (drivingFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment),
+        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment)
       );
     } else if (startsWith(drivingFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = drivingFaultComment.source.split('-');
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.DF,
-          controlOrObservation,
-          drivingFaultComment.comment,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.DF, controlOrObservation, drivingFaultComment.comment)
       );
-
     } else if (drivingFaultComment.source === CommentSource.CONTROLLED_STOP) {
       this.store$.dispatch(AddControlledStopComment(drivingFaultComment.comment));
-
     } else if (drivingFaultComment.source === CommentSource.VEHICLE_CHECKS) {
       this.store$.dispatch(AddShowMeTellMeComment(drivingFaultComment.comment));
     }
-
   }
 }

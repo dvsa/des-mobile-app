@@ -13,10 +13,10 @@ export class DrivingFaultsBadgeComponent {
   competencyDisplayName?: string = null;
 
   @Input()
-  showOnZero: boolean = false;
+  showOnZero = false;
 
   @Input()
-  badgeLabel: string = 'Driving';
+  badgeLabel = 'Driving';
 
   shouldDisplay = () => {
     return this.showOnZero || this.count > 0;

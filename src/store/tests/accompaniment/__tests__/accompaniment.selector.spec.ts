@@ -1,9 +1,9 @@
 import { Accompaniment } from '@dvsa/mes-test-schema/categories/common';
 import {
   getInstructorAccompaniment,
-  getSupervisorAccompaniment,
-  getOtherAccompaniment,
   getInterpreterAccompaniment,
+  getOtherAccompaniment,
+  getSupervisorAccompaniment,
 } from '../accompaniment.selector';
 
 describe('accompaniment selector', () => {
@@ -37,5 +37,4 @@ describe('accompaniment selector', () => {
       expect(getInterpreterAccompaniment(state)).toBe(false);
     });
   });
-
 });

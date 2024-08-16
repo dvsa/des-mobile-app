@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { TestCentreJournalCardComponent } from '../test-centre-journal-card';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
 describe('TestCentreJournalCard', () => {
   let component: TestCentreJournalCardComponent;
@@ -14,10 +14,7 @@ describe('TestCentreJournalCard', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalCardComponent],
-      imports: [
-        IonicModule,
-        CommonModule,
-      ],
+      imports: [IonicModule, CommonModule],
       providers: [
         {
           provide: Router,
@@ -33,15 +30,13 @@ describe('TestCentreJournalCard', () => {
   }));
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('navigateToTestCentreJournal', () => {
     it('should call router.navigate with correct info', async () => {
       await component.navigateToTestCentreJournal();
-      expect(router.navigate)
-        .toHaveBeenCalledWith([TEST_CENTRE_JOURNAL_PAGE]);
+      expect(router.navigate).toHaveBeenCalledWith([TEST_CENTRE_JOURNAL_PAGE]);
     });
   });
 });

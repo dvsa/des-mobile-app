@@ -1,49 +1,49 @@
-import { Action } from '@ngrx/store';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
-import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
-import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
-import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
-import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
-import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
-import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
-import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
-import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
+import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
+import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
+import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
+import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
+import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
+import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
+import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
+import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Action } from '@ngrx/store';
 
 import { TestResultManoeuvresUnion, testsCatManoeuvreReducer } from '@store/tests/tests.cat-manoeuvre.reducer';
-import { testsCatBReducer } from './tests.cat-b.reducer';
+import { testsCatAMod1Reducer } from './tests.cat-a-mod1.reducer';
+import { testsCatAMod2Reducer } from './tests.cat-a-mod2.reducer';
 import { testsCatADIPart2Reducer } from './tests.cat-adi-part2.reducer';
+import { testsCatADIPart3Reducer } from './tests.cat-adi-part3.reducer';
+import { testsCatBReducer } from './tests.cat-b.reducer';
 import { testsCatCReducer } from './tests.cat-c.reducer';
-import { testsCatCEReducer } from './tests.cat-ce.reducer';
 import { testsCatC1Reducer } from './tests.cat-c1.reducer';
 import { testsCatC1EReducer } from './tests.cat-c1e.reducer';
+import { testsCatCEReducer } from './tests.cat-ce.reducer';
 import { testsCatCPCReducer } from './tests.cat-cpc.reducer';
 import { testsCatDReducer } from './tests.cat-d.reducer';
-import { testsCatDEReducer } from './tests.cat-de.reducer';
 import { testsCatD1Reducer } from './tests.cat-d1.reducer';
 import { testsCatD1EReducer } from './tests.cat-d1e.reducer';
-import { testsCatAMod2Reducer } from './tests.cat-a-mod2.reducer';
-import { testsCatKReducer } from './tests.cat-k.reducer';
+import { testsCatDEReducer } from './tests.cat-de.reducer';
 import { testsCatFReducer } from './tests.cat-f.reducer';
 import { testsCatGReducer } from './tests.cat-g.reducer';
 import { testsCatHReducer } from './tests.cat-h.reducer';
-import { testsCatAMod1Reducer } from './tests.cat-a-mod1.reducer';
-import { testsCatADIPart3Reducer } from './tests.cat-adi-part3.reducer';
+import { testsCatKReducer } from './tests.cat-k.reducer';
 
 export function testsReducerFactory(
   category: TestCategory | null,
   action: Action,
-  state: TestResultSchemasUnion,
+  state: TestResultSchemasUnion
 ): TestResultSchemasUnion {
   switch (category) {
     case TestCategory.ADI2:

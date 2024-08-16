@@ -1,32 +1,32 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { StoreModel } from '@shared/models/store.model';
-import { select, Store } from '@ngrx/store';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
-import { getManoeuvres } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.selector';
-import { merge, Observable, Subscription } from 'rxjs';
+import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
-import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
-import { getTestReportState } from '@pages/test-report/test-report.reducer';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { map, takeUntil } from 'rxjs/operators';
-import {
-  AddManoeuvreDangerousFault,
-  AddManoeuvreSeriousFault,
-  RemoveManoeuvreFault,
-} from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { Store, select } from '@ngrx/store';
 import {
   ToggleDangerousFaultMode,
   ToggleRemoveFaultMode,
   ToggleSeriousFaultMode,
 } from '@pages/test-report/test-report.actions';
+import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
-import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { getTestData } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
+import { getManoeuvres } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.selector';
+import {
+  AddManoeuvreDangerousFault,
+  AddManoeuvreSeriousFault,
+  RemoveManoeuvreFault,
+} from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 interface ReverseManoeuvreCompetencyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -51,47 +51,32 @@ export class ReverseManoeuvreComponent {
   @Output()
   competencyClicked = new EventEmitter<void>();
 
-  touchStateDelay: number = 100;
-  touchState: boolean = false;
-  rippleState: boolean = false;
+  touchStateDelay = 100;
+  touchState = false;
+  rippleState = false;
   rippleTimeout: NodeJS.Timeout;
   touchTimeout: NodeJS.Timeout;
-  rippleEffectAnimationDuration: number = 300;
+  rippleEffectAnimationDuration = 300;
   componentState: ReverseManoeuvreCompetencyComponentState;
   subscription: Subscription;
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
-  isDelegated: boolean = false;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
+  isDelegated = false;
   manoeuvreCompetencyOutcome: ManoeuvreOutcome | null;
   label: string;
 
-  constructor(
-    private store$: Store<StoreModel>,
-  ) {
-  }
+  constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit(): void {
     this.label = manoeuvreCompetencyLabels[this.competency];
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode),
-      ),
-      isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode),
-      ),
-      isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode),
-      ),
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
       manoeuvreCompetencyOutcome$: currentTest$.pipe(
         select(getTestData),
         select(getManoeuvres),
@@ -103,32 +88,23 @@ export class ReverseManoeuvreComponent {
             }
           }
           return null;
-        }),
+        })
       ),
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
     };
 
-    const {
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      manoeuvreCompetencyOutcome$,
-      delegatedTest$,
-    } = this.componentState;
+    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, manoeuvreCompetencyOutcome$, delegatedTest$ } =
+      this.componentState;
 
     const merged$ = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      delegatedTest$.pipe(map((toggle) => this.isDelegated = toggle)),
-      manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      delegatedTest$.pipe(map((toggle) => (this.isDelegated = toggle))),
+      manoeuvreCompetencyOutcome$.pipe(map((outcome) => (this.manoeuvreCompetencyOutcome = outcome)))
     );
 
-    this.subscription = merged$.pipe(takeUntil(trDestroy$))
-      .subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {
@@ -137,7 +113,7 @@ export class ReverseManoeuvreComponent {
     }
   }
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
+  addOrRemoveFault = (wasPress = false): void => {
     if (!this.isDangerousMode && !this.isSeriousMode) {
       this.competencyClicked.emit();
       return;
@@ -234,7 +210,6 @@ export class ReverseManoeuvreComponent {
 
   onTouchEnd(): void {
     // defer the removal of the touch state to allow the page to render
-    this.touchTimeout = setTimeout(() => this.touchState = false, this.touchStateDelay);
+    this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
   }
-
 }

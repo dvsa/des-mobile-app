@@ -1,9 +1,7 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
   mockBlankRegistrationNumber,
@@ -17,14 +15,8 @@ describe('VehicleRegistrationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleRegistrationComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [VehicleRegistrationComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(VehicleRegistrationComponent);
@@ -34,13 +26,15 @@ describe('VehicleRegistrationComponent', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it('should have vehicleRegistration form control be added to '
-        + 'form if there is no form control already there', () => {
-      component.formControl = null;
-      component.ngOnChanges();
+    it(
+      'should have vehicleRegistration form control be added to ' + 'form if there is no form control already there',
+      () => {
+        component.formControl = null;
+        component.ngOnChanges();
 
-      expect(component.formGroup.controls.vehicleRegistration).toBeTruthy();
-    });
+        expect(component.formGroup.controls.vehicleRegistration).toBeTruthy();
+      }
+    );
   });
 
   describe('invalid', () => {
