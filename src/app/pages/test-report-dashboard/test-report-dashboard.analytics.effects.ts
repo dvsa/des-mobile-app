@@ -8,12 +8,12 @@ import { of } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { TestsModel } from '@store/tests/tests.model';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
-  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
@@ -60,9 +60,6 @@ export class TestReportDashboardAnalyticsEffects {
       [, tests]: [ReturnType<typeof TestReportDashboardViewDidEnter>, TestsModel, boolean],
     ) => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.TEST_REPORT_DASHBOARD, tests));
-
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.TEST_REPORT_DASHBOARD, tests));
       return of(AnalyticRecorded());
@@ -89,12 +86,6 @@ export class TestReportDashboardAnalyticsEffects {
     switchMap((
       [, tests]: [ReturnType<typeof TestReportDashboardModalOpened>, TestsModel, boolean],
     ) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT_DASHBOARD, tests),
-        formatAnalyticsText(AnalyticsEvents.ASSESSMENT_MODAL_OPENED, tests),
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -127,12 +118,6 @@ export class TestReportDashboardAnalyticsEffects {
       [{ page }, tests]:
       [ReturnType<typeof TestReportDashboardNavigateToPage>, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT_DASHBOARD, tests),
-        formatAnalyticsText(AnalyticsEvents.NAVIGATION, tests),
-        `clicked option to enter ${page}`,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -177,13 +162,6 @@ export class TestReportDashboardAnalyticsEffects {
       [, tests, , category]:
       [ReturnType<typeof FeedbackChanged>, TestsModel, string, CategoryCode, boolean],
     ) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT_DASHBOARD, tests),
-        formatAnalyticsText(AnalyticsEvents.FEEDBACK_CHANGED, tests),
-        'Free text entered',
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(

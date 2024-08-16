@@ -5,7 +5,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
 } from '@providers/analytics/analytics.model';
@@ -25,13 +24,11 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('DebriefAnalyticsEffects', () => {
   let effects: DebriefAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_DEBRIEF;
   const screenNameFail = AnalyticsScreenNames.FAIL_DEBRIEF;
-  const screenNamePracticeModePass = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_DEBRIEF}`;
-  const screenNamePracticeModeFail = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.FAIL_DEBRIEF}`;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -72,9 +69,6 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePass);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenNamePass);
@@ -91,9 +85,6 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNameFail);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenNameFail);
@@ -110,9 +101,6 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModePass);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`);
@@ -129,9 +117,6 @@ describe('DebriefAnalyticsEffects', () => {
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModeFail);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`);

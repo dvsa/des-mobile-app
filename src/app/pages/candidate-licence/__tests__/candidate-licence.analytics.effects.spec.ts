@@ -29,7 +29,7 @@ import { CandidateLicenceAnalyticsEffects } from '@pages/candidate-licence/candi
 
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CandidateLicenceAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.CANDIDATE_LICENCE_INFO;

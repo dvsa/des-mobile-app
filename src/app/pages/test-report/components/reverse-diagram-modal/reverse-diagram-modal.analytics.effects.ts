@@ -5,9 +5,6 @@ import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
   AnalyticsScreenNames,
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -21,7 +18,7 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import {
   getApplicationReference,
 } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -74,13 +71,7 @@ export class ReverseDiagramModalAnalyticsEffects {
       [, tests, applicationReference, candidateId, category]:
       [ReturnType <typeof reverseDiagramActions.ReverseDiagramViewDidEnter>, TestsModel, string, number, CategoryCode],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.setCurrentPage(
-        formatAnalyticsText(AnalyticsScreenNames.REVERSE_DIAGRAM, tests),
-      );
+
       // GA4 Analytics
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
@@ -101,12 +92,8 @@ export class ReverseDiagramModalAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(([, tests]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramOpened>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REVERSE_DIAGRAM_OPENED, tests),
-      );
+    concatMap(([, ]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramOpened>, TestsModel]) => {
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.NAVIGATION,
@@ -126,12 +113,8 @@ export class ReverseDiagramModalAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(([, tests]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramClosed>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REVERSE_DIAGRAM_CLOSED, tests),
-      );
+    concatMap(([, ]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramClosed>, TestsModel]) => {
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.NAVIGATION,
@@ -151,14 +134,9 @@ export class ReverseDiagramModalAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(([action, tests]:
+    concatMap(([action, ]:
     [ReturnType<typeof reverseDiagramActions.ReverseDiagramLengthChanged>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REVERSE_DIAGRAM_LENGTH_CHANGED, tests),
-        `from ${action.previousLength} to ${action.newLength}`,
-      );
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.VEHICLE_LENGTH,
@@ -180,13 +158,8 @@ export class ReverseDiagramModalAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(([action, tests]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramWidthChanged>, TestsModel]) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REVERSE_DIAGRAM_WIDTH_CHANGED, tests),
-        `from ${action.previousWidth} to ${action.newWidth}`,
-      );
+    concatMap(([action, ]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramWidthChanged>, TestsModel]) => {
+
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.VEHICLE_WIDTH,

@@ -6,7 +6,6 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
-  AnalyticsDimensionIndices,
   GoogleAnalyticsCustomDimension,
 } from '@providers/analytics/analytics.model';
 import { ViewTestResultViewDidEnter } from './view-test-result.actions';
@@ -23,9 +22,6 @@ export class ViewTestResultAnalyticsEffects {
   viewTestResultViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(ViewTestResultViewDidEnter),
     switchMap((action: ReturnType<typeof ViewTestResultViewDidEnter>) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, action.applicationReference);
-      this.analytics.setCurrentPage(AnalyticsScreenNames.VIEW_TEST_RESULT);
 
       // GA4 Analytics
       this.analytics.addGACustomDimension(

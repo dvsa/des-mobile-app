@@ -6,7 +6,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
-import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
@@ -184,7 +183,6 @@ if (enableRehydrationPlugin) {
     DateTimeProvider,
     SecureStorage,
     IsDebug,
-    GoogleAnalytics,
     DataStoreProvider,
     Network,
     NetworkStateProvider,

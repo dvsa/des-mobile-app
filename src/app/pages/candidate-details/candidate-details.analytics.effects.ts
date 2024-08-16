@@ -6,10 +6,8 @@ import {
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
@@ -60,13 +58,6 @@ export class CandidateDetailsAnalyticsEffects {
       const candidateCheck = isCandidateCheckNeeded(slot);
       const candidateId = getCandidateId(slot);
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, candidateId?.toString());
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS,
-        specNeeds ? '1' : '0');
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, candidateCheck ? '1' : '0');
-      this.analytics.setCurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);
-
       // GA4 Analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, candidateId?.toString());
@@ -97,12 +88,6 @@ export class CandidateDetailsAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([{ sourcePage }]: [ReturnType<typeof CandidateDetailsModalDismiss>, boolean]) => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, null);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, null);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
-      this.analytics.setCurrentPage(mapAnalyticsScreenName(sourcePage));
-
       // GA4 Analytics
       this.analytics.setGACurrentPage(mapAnalyticsScreenName(sourcePage));
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, null);
@@ -128,13 +113,6 @@ export class CandidateDetailsAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([action]: [ReturnType<typeof CandidateDetailsSlotChangeViewed>, boolean]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.JOURNAL,
-        AnalyticsEvents.SLOT_CHANGE_VIEWED,
-        action.slotId.toString(),
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(

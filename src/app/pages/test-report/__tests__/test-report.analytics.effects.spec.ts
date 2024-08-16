@@ -30,9 +30,6 @@ import {
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsLabels,
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
@@ -42,14 +39,12 @@ import {
 import {
   competencyLabels,
   fullAnalyticCompetencyLabels,
-  fullCompetencyLabels,
 } from '@shared/constants/competencies/competencies';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { candidateMock, testReportPracticeModeSlot } from '@store/tests/__mocks__/tests.mock';
 import {
   manoeuvreCompetencyAnalyticLabels,
-  manoeuvreCompetencyLabels, manoeuvreTypeAnalyticLabels,
-  manoeuvreTypeLabels,
+  manoeuvreTypeAnalyticLabels,
 } from '@shared/constants/competencies/catb-manoeuvres';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
@@ -59,7 +54,6 @@ import {
 import * as uncoupleRecoupleActions from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
 import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
@@ -116,7 +110,6 @@ describe('TestReportAnalyticsEffects', () => {
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     appConfigProvider = TestBed.inject(AppConfigProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
     spyOn(appConfigProvider, 'getAppConfig')
       .and
       .returnValue({
@@ -134,12 +127,8 @@ describe('TestReportAnalyticsEffects', () => {
       effects.testReportViewDidEnter$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
         done();
@@ -158,15 +147,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleRemoveFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.SELECT_REMOVE_MODE,
-            AnalyticsEvents.REMOVE_MODE_SELECTED,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -188,15 +169,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleRemoveFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.EXIT_REMOVE_MODE,
-            AnalyticsEvents.REMOVE_MODE_EXITED,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -219,15 +192,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleRemoveFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_REMOVE_MODE}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_MODE_SELECTED}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -249,9 +214,8 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleRemoveFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticNotRecorded.type);
-        expect(analyticsProviderMock.logEvent)
-          .not
-          .toHaveBeenCalled();
+
+        // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .not
           .toHaveBeenCalled();
@@ -270,14 +234,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleSeriousFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.SELECT_SERIOUS_MODE,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -299,14 +256,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleSeriousFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_SERIOUS_MODE}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -328,9 +278,8 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleSeriousFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticNotRecorded.type);
-        expect(analyticsProviderMock.logEvent)
-          .not
-          .toHaveBeenCalled();
+
+        // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .not
           .toHaveBeenCalled();
@@ -349,14 +298,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleDangerousFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.SELECT_DANGEROUS_MODE,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -378,14 +320,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleDangerousFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_DANGEROUS_MODE}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -407,9 +342,8 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleDangerousFaultMode$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticNotRecorded.type);
-        expect(analyticsProviderMock.logEvent)
-          .not
-          .toHaveBeenCalled();
+
+        // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .not
           .toHaveBeenCalled();
@@ -432,16 +366,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DRIVING_FAULT,
-            fullCompetencyLabels[Competencies.controlsGears],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -466,16 +391,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-            fullCompetencyLabels[Competencies.controlsGears],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -502,16 +418,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_FAULT,
-            fullCompetencyLabels[Competencies.controlsGears],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -533,16 +440,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-            fullCompetencyLabels[Competencies.controlsGears],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -569,16 +467,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_FAULT,
-            fullCompetencyLabels[Competencies.controlsGears],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -600,16 +489,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-            fullCompetencyLabels[Competencies.controlsGears],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -639,17 +519,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DRIVING_FAULT,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -678,17 +548,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -722,17 +582,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreDrivingFaultCatADIPart2$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DRIVING_FAULT,
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -765,17 +615,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_FAULT,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -804,17 +644,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -848,17 +678,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreSeriousFaultCatADIPart2$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_FAULT,
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -890,18 +710,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_FAULT,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -930,17 +739,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -974,17 +773,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.addManoeuvreDangerousFaultCatADIPart2$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_FAULT,
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1013,16 +802,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DRIVING_FAULT,
-            fullCompetencyLabels['outcomeControlledStop'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1044,16 +824,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-            fullCompetencyLabels['outcomeControlledStop'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1079,16 +850,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_FAULT,
-            fullCompetencyLabels['outcomeControlledStop'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1110,16 +872,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-            fullCompetencyLabels['outcomeControlledStop'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1145,16 +898,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_FAULT,
-            fullCompetencyLabels['outcomeControlledStop'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1176,16 +920,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-            fullCompetencyLabels['outcomeControlledStop'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1211,16 +946,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DRIVING_FAULT,
-            fullCompetencyLabels['showMeQuestion'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1242,16 +968,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-            fullCompetencyLabels['showMeQuestion'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1277,16 +994,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_FAULT,
-            fullCompetencyLabels['showMeQuestion'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1308,16 +1016,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-            fullCompetencyLabels['showMeQuestion'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1343,16 +1042,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_FAULT,
-            fullCompetencyLabels['showMeQuestion'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1374,16 +1064,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-            fullCompetencyLabels['showMeQuestion'],
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1412,16 +1093,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DRIVING_FAULT,
-            fullCompetencyLabels[Competencies.controlsGears],
-            0,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1446,16 +1118,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
-            fullCompetencyLabels[Competencies.controlsGears],
-            0,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1482,16 +1145,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_SERIOUS_FAULT,
-            fullCompetencyLabels[Competencies.controlsGears],
-            0,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1513,16 +1167,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_SERIOUS_FAULT}`,
-            fullCompetencyLabels[Competencies.controlsGears],
-            0,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1549,16 +1194,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DANGEROUS_FAULT,
-            fullCompetencyLabels[Competencies.controlsGears],
-            0,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1580,16 +1216,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DANGEROUS_FAULT}`,
-            fullCompetencyLabels[Competencies.controlsGears],
-            0,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1620,16 +1247,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeManoeuvreFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DRIVING_FAULT,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1659,16 +1277,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeManoeuvreFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
-            // eslint-disable-next-line max-len
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1703,16 +1312,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeManoeuvreFaultCatADIPart2$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DRIVING_FAULT,
-            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1741,15 +1341,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopRemoveFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DRIVING_FAULT,
-            fullCompetencyLabels['outcomeControlledStop'],
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1771,15 +1363,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.controlledStopRemoveFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
-            fullCompetencyLabels['outcomeControlledStop'],
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1806,15 +1390,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionRemoveFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DRIVING_FAULT,
-            fullCompetencyLabels['showMeQuestion'],
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1836,15 +1412,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionRemoveFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
-            fullCompetencyLabels['showMeQuestion'],
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1870,15 +1438,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.testTermination$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_END,
-            AnalyticsEvents.END_TEST,
-            AnalyticsLabels.TERMINATE_TEST,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1898,15 +1458,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.testTermination$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_END}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.END_TEST}`,
-            AnalyticsLabels.TERMINATE_TEST,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1930,15 +1482,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleLegalRequirement$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1960,15 +1504,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleLegalRequirement$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.uncompleted}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -1991,15 +1527,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEco$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2021,15 +1549,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEco$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.uncompleted}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2052,15 +1572,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.manoeuvreCompletedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2083,15 +1595,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.manoeuvreCompletedEffectCatADIPart2$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2115,15 +1619,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.deselectReverseLeftManoeuvreEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.uncompleted}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2147,15 +1643,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleLegalRequirement$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT}`,
-            `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2178,15 +1666,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEco$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT}`,
-            `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2211,15 +1691,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionCompletedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2245,15 +1717,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.showMeQuestionUncompletedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.uncompleted}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2278,16 +1742,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.uncoupleRecoupleAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DRIVING_FAULT,
-            'Uncouple recouple',
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2310,16 +1765,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.uncoupleRecoupleAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-            'Uncouple recouple',
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2345,16 +1791,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.uncoupleRecoupleAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_FAULT,
-            'Uncouple recouple',
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2376,16 +1813,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.uncoupleRecoupleAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-            'Uncouple recouple',
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2411,16 +1839,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.uncoupleRecoupleAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_FAULT,
-            'Uncouple recouple',
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2442,16 +1861,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.uncoupleRecoupleAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-            'Uncouple recouple',
-            1,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2477,14 +1887,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.reverseLeftPopoverOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2509,14 +1912,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.reverseLeftPopoverClosed$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2543,15 +1939,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
-            `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedNotMet}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2578,15 +1966,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
-            `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedMet}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2617,15 +1997,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordAvoidanceFirstAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT,
-            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2656,15 +2028,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordAvoidanceSecondAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT,
-            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2693,15 +2057,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.speedRequirementNotMetModalOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED,
-            ModalReason.SPEED_REQUIREMENTS,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2729,16 +2085,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.emergencyStopDangerousFaultModelOpened$.subscribe((result) => {
         expect(result.type)
-          .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
-            ModalReason.EMERGENCY_STOP_DANGEROUS,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2767,15 +2114,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.emergencyStopSeriousFaultModelOpened$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
-            ModalReason.EMERGENCY_STOP_SERIOUS,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2803,15 +2142,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
-            `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedNotMet}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2838,15 +2169,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
-            `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedMet}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2877,15 +2200,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordEmergencyStopFirstAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT,
-            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2916,15 +2231,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.recordEmergencyStopSecondAttempt$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT,
-            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2955,15 +2262,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SINGLE_FAULT,
-            fullCompetencyLabels.slalom,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -2992,15 +2291,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT,
-            fullCompetencyLabels.slalom,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3029,15 +2320,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT,
-            fullCompetencyLabels.slalom,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3068,15 +2351,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSingleFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_SINGLE_FAULT,
-            fullCompetencyLabels.slalom,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3107,15 +2382,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSingleDangerousFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT,
-            fullCompetencyLabels.slalom,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3146,15 +2413,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.removeSingleSeriousFaultCompetencyOutcome$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT,
-            fullCompetencyLabels.slalom,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3179,15 +2438,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3209,15 +2460,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT}`,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3243,15 +2486,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3273,15 +2508,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT}`,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3307,15 +2534,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3337,15 +2556,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT}`,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3371,15 +2582,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3401,15 +2604,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT}`,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3435,15 +2630,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3465,15 +2652,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT}`,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3499,15 +2678,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3529,15 +2700,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT}`,
-            fullCompetencyLabels.pcvDoorExercise,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3565,15 +2728,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleHighwayCodeSafety$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3598,15 +2753,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleHighwayCodeSafety$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-            `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.uncompleted}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3633,15 +2780,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoControl$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ECO_CONTROL,
-            'selected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3663,15 +2802,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoControl$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ECO_CONTROL,
-            'unselected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3696,15 +2827,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoPlanning$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ECO_PLANNING,
-            'selected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3726,15 +2849,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleEcoPlanning$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ECO_PLANNING,
-            'unselected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3759,15 +2874,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
-            'selected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3791,15 +2898,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
-            'unselected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3824,15 +2923,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ETA_VERBAL,
-            'selected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3856,15 +2947,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleETA$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_ETA_VERBAL,
-            'unselected',
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3890,14 +2973,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.startTimer$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.START_TIMER,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3920,15 +2996,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleControlledStop$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
-            `${legalRequirementToggleValues.completed}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3950,15 +3018,7 @@ describe('TestReportAnalyticsEffects', () => {
       effects.toggleControlledStop$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
-            `${legalRequirementToggleValues.uncompleted}`,
-          );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledTimes(1);
@@ -3982,13 +3042,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.studentLevelChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.STUDENT_LEVEL_CHANGED,
-          `student level changed to ${studentLevel}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4008,13 +3062,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.studentLevelChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.STUDENT_LEVEL_CHANGED}`,
-          `student level changed to ${studentLevel}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4036,13 +3084,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.studentLevelChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.LESSON_THEME_ADDED,
-          lessonThemeValues[lessonTheme],
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4062,13 +3104,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.addLessonTheme$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.LESSON_THEME_ADDED}`,
-          lessonThemeValues[lessonTheme],
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4090,13 +3126,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.removeLessonTheme$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.LESSON_THEME_REMOVED,
-          lessonThemeValues[lessonTheme],
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4116,13 +3146,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.removeLessonTheme$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.LESSON_THEME_REMOVED}`,
-          lessonThemeValues[lessonTheme],
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4144,13 +3168,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.otherReasonChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.OTHER_REASON_CHANGED,
-          `other reason changed to - ${otherReason}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4172,13 +3190,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.otherReasonChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.OTHER_REASON_CHANGED}`,
-          `other reason changed to - ${otherReason}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4203,13 +3215,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.LESSON_PLANNING_CHANGED,
-          `lesson planning changed: question ${question}, score ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4232,13 +3238,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.LESSON_PLANNING_CHANGED}`,
-          `lesson planning changed: question ${question}, score ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4263,13 +3263,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.RISK_MANAGEMENT_CHANGED,
-          `risk management changed: question ${question}, score ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4292,13 +3286,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.RISK_MANAGEMENT_CHANGED}`,
-          `risk management changed: question ${question}, score ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4324,13 +3312,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TEACHING_LEARNING_STRATEGY_CHANGED,
-          `teaching learning strategy changed: question ${question}, score ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4353,13 +3335,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TEACHING_LEARNING_STRATEGY_CHANGED}`,
-          `teaching learning strategy changed: question ${question}, score ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4384,13 +3360,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.testReportAssessmentOverallScore$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED,
-          `overall assessment score changed: ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
@@ -4410,13 +3380,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ASSERT
       effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        // TODO MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED}`,
-          `overall assessment score changed: ${score}`,
-        );
+
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(

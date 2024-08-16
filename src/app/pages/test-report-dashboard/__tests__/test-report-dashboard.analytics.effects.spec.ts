@@ -38,7 +38,6 @@ describe('TestReportDashboardAnalyticsEffects', () => {
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
-  const screenName = AnalyticsScreenNames.TEST_REPORT_DASHBOARD;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,7 +65,6 @@ describe('TestReportDashboardAnalyticsEffects', () => {
     effects = TestBed.inject(TestReportDashboardAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('testReportDashboardViewDidEnter$', () => {
@@ -80,10 +78,6 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       effects.testReportDashboardViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
@@ -103,10 +97,6 @@ describe('TestReportDashboardAnalyticsEffects', () => {
       effects.testReportDashboardViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(`practice mode - ${screenName}`);
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)

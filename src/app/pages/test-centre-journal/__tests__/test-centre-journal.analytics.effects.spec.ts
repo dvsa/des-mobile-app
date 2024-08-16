@@ -5,8 +5,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -36,7 +34,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestCentreJournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('testCentreJournalView$', () => {
@@ -44,7 +41,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalViewDidEnter());
       effects.testCentreJournalView$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
@@ -57,12 +53,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalGetData(false));
       effects.testCentreJournalRefresh$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.REFRESH_TC_JOURNAL,
-          JournalRefreshModes.AUTOMATIC,
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -79,11 +69,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalSelectTestCentre());
       effects.testCentreJournalSelectTestCentre$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.CHANGE_LOCATION,
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -100,12 +85,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('tab1'));
       effects.testCentreJournalTabChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.TAB_SELECTION,
-          'tab1',
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -119,12 +98,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('View Journals'));
       effects.testCentreJournalTabChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.TAB_SELECTION,
-          'View Journals',
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -141,11 +114,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalSelectCandidate());
       effects.testCentreJournalSelectCandidate$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.CANDIDATE_SELECTION,
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -162,12 +130,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalShowBookings());
       effects.testCentreJournalShowBookings$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.BUTTON_SELECTION,
-          'Show booking',
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -184,11 +146,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalSelectExaminer());
       effects.testCentreJournalSelectExaminer$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.EXAMINER_SELECTION,
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -205,12 +162,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalShowJournals());
       effects.testCentreJournalShowJournals$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.BUTTON_SELECTION,
-          'Show journals',
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -227,12 +178,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('some day'));
       effects.testCentreJournalDateNavigation$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.NAVIGATION,
-          'some day',
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -246,12 +191,6 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('today'));
       effects.testCentreJournalDateNavigation$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-          AnalyticsEvents.NAVIGATION,
-          'today',
-        );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,

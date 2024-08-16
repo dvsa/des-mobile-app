@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { concatMap, filter, withLatestFrom } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsEventCategories, AnalyticsEvents, GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
+import { GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as testStatusActions from './test-status.actions';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
@@ -47,12 +47,6 @@ export class TestStatusAnalyticsEffects {
       [ReturnType<typeof testStatusActions.SetTestStatusDecided>, TestsModel, boolean],
     ) => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_LIFECYCLE,
-        AnalyticsEvents.TEST_DECIDED,
-      );
-
       //GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_DECIDED, tests),
@@ -83,12 +77,6 @@ export class TestStatusAnalyticsEffects {
       [ReturnType<typeof testStatusActions.SetTestStatusWriteUp>, TestsModel, boolean],
     ) => {
 
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_LIFECYCLE,
-        AnalyticsEvents.TEST_IN_WRITE_UP,
-      );
-
       //GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_IN_WRITE_UP, tests),
@@ -100,12 +88,6 @@ export class TestStatusAnalyticsEffects {
   setTestStatusAutosavedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testStatusActions.SetTestStatusAutosaved),
     concatMap(() => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_LIFECYCLE,
-        AnalyticsEvents.TEST_AUTOSAVED,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(
@@ -136,12 +118,6 @@ export class TestStatusAnalyticsEffects {
       [, tests]:
       [ReturnType<typeof testStatusActions.SetTestStatusSubmitted>, TestsModel, boolean],
     ) => {
-
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_LIFECYCLE,
-        AnalyticsEvents.TEST_SUBMITTED,
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(

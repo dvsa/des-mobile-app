@@ -6,9 +6,6 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
   AnalyticsScreenNames,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsDimensionIndices,
   JournalRefreshModes,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -75,7 +72,6 @@ describe('JournalAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(JournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('journalView', () => {
@@ -83,12 +79,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalViewDidEnter());
       effects.journalView$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
 
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
@@ -107,14 +97,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalNavigateDay('1'));
       effects.journalNavigation$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.JOURNAL,
-            AnalyticsEvents.NAVIGATION,
-            'Tomorrow',
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.JOURNAL_DAYS_FROM_TODAY, '4');
 
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -134,12 +116,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefresh(JournalRefreshModes.AUTOMATIC));
       effects.journalRefresh$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.JOURNAL,
-            AnalyticsEvents.REFRESH_JOURNAL,
-            JournalRefreshModes.AUTOMATIC,
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
@@ -155,10 +131,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.EarlyStartModalDidEnter());
       effects.earlyStartModalDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.JOURNAL,
-          AnalyticsEvents.DISPLAY_EARLY_START_MODAL,
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.EARLY_START_MODAL,
@@ -173,10 +145,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.EarlyStartDidContinue());
       effects.earlyStartModalContinue$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.JOURNAL,
-          AnalyticsEvents.EXIT_EARLY_START_MODAL_CONTINUE,
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.EARLY_START_MODAL,
@@ -191,10 +159,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.EarlyStartDidReturn());
       effects.earlyStartModalReturn$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.JOURNAL,
-          AnalyticsEvents.EXIT_EARLY_START_MODAL_RETURN,
-        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.EARLY_START_MODAL,
@@ -209,11 +173,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefreshError('error-description', 'error-message'));
       effects.journalRefreshError$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(
-            'error-description',
-            'error-message',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
@@ -229,11 +188,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefreshError('AutomaticJournalRefresh', 'error-message'));
       effects.journalRefreshError$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(
-            'AutomaticJournalRefresh',
-            'error-message',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
@@ -249,11 +203,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefreshError('ManualJournalRefresh', 'error-message'));
       effects.journalRefreshError$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(
-            'ManualJournalRefresh',
-            'error-message',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
@@ -271,12 +220,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(slotActions.SlotHasChanged(12345));
       effects.slotChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.JOURNAL,
-            AnalyticsEvents.SLOT_CHANGED,
-            '12345',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
@@ -293,18 +236,6 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.ResumingWriteUp('123'));
       effects.resumingWriteUpEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.RESUME_WRITE_UP,
-            'pass',
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(
-            AnalyticsDimensionIndices.APPLICATION_REFERENCE,
-            '1011',);
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
 
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(

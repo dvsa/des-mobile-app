@@ -5,9 +5,6 @@ import {
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsDimensionIndices,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames, GoogleAnalyticsCustomDimension, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { select, Store } from '@ngrx/store';
@@ -17,7 +14,7 @@ import {
   getCurrentTest, getJournalData, isPracticeMode,
 } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -79,12 +76,6 @@ export class RekeyReasonAnalyticsEffects {
       [ReturnType<typeof RekeyReasonViewDidEnter>, TestsModel, number, string, boolean],
     ) => {
 
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.REKEY_REASON, tests);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
-      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.setCurrentPage(screenName);
-
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.REKEY_REASON, tests));
       this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
@@ -122,13 +113,6 @@ export class RekeyReasonAnalyticsEffects {
       [, testOutcome, tests]:
       [ReturnType<typeof RekeyUploadTest>, string, TestsModel, boolean],
     ) => {
-
-
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.CONFIRM_UPLOAD, tests),
-        formatAnalyticsText(`Upload confirmed - ${testOutcome}`, tests),
-      );
 
       // GA4 Analytics
       this.analytics.logGAEvent(

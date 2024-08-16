@@ -24,7 +24,6 @@ describe('RekeyUploadOutcomeAnalyticsEffects', () => {
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
-  const screenName = AnalyticsScreenNames.REKEY_UPLOADED;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -65,10 +64,6 @@ describe('RekeyUploadOutcomeAnalyticsEffects', () => {
       effects.rekeyUploadedViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
 
         // GA4 analytics
         expect(analyticsProviderMock.setGACurrentPage)

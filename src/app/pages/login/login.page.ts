@@ -133,9 +133,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
 
-      // TODO - MES-9495 - remove old analytics
-      await this.analytics.initialiseAnalytics();
-
       await this.analytics.initialiseGoogleAnalytics();
 
       this.store$.dispatch(StartSendingCompletedTests());
@@ -151,7 +148,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       await this.handleLoadingUI(false);
 
       if (error === AuthenticationError.USER_CANCELLED) {
-        this.analytics.logException(error, true);
         this.dispatchLog('user cancelled login');
       }
 
@@ -260,8 +256,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     if (!validDevice) {
       this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
       this.hasDeviceTypeError = true;
-      const deviceType = await this.deviceProvider.getDeviceType();
-      this.analytics.logException(`${this.deviceTypeError}-${deviceType}`, true);
     } else {
       await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }

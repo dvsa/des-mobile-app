@@ -3,8 +3,6 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
@@ -32,7 +30,6 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(UnuploadedTestsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('UnuploadedTestsViewDidEnter', () => {
@@ -40,9 +37,6 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
       actions$.next(UnuploadedTestsViewDidEnter());
       effects.unUploadedTestViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
 
         //GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
@@ -56,13 +50,6 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
       actions$.next(ContinueUnuploadedTest(TestStatus.WriteUp));
       effects.continueUnUploadedTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.UN_UPLOADED_TESTS,
-          AnalyticsEvents.TEST_SELECTED,
-          TestStatus.WriteUp,
-        );
 
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(

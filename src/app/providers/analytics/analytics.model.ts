@@ -1,21 +1,3 @@
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-
-export interface IAnalyticsProvider {
-  setCurrentPage(name: string): void;
-
-  addCustomDimension(key: number, value: string): void;
-
-  logEvent(category: TestCategory, event: string, label?: string, params?: any): void;
-
-  logError(type: string, message: string): void;
-
-  logException(message: string, fatal: boolean): void;
-
-  setUserId(userId: string): void;
-
-  initialiseAnalytics(): Promise<any>;
-}
-
 export enum AnalyticsScreenNames {
   COMMUNICATION = 'communication screen',
   HEALTH_DECLARATION = 'health declaration screen',

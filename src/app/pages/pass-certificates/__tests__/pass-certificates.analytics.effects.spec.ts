@@ -36,9 +36,6 @@ describe('PassCertificatesAnalyticsEffects', () => {
     effects.passCertificatesView$.subscribe((result) => {
       expect(result.type)
         .toEqual(AnalyticRecorded.type);
-      // TODO - MES-9495 - remove old analytics
-      expect(analyticsProvider.setCurrentPage)
-        .toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
 
       // GA4 Analytics
       expect(analyticsProvider.setGACurrentPage)

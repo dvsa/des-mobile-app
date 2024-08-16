@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
 import { TestsModel } from '@store/tests/tests.model';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { CandidateLicenceViewDidEnter } from '@pages/candidate-licence/candidate-licence.actions';
@@ -44,10 +44,6 @@ export class CandidateLicenceAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([, tests]: [ReturnType<typeof CandidateLicenceViewDidEnter>, TestsModel, boolean]) => {
-
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.CANDIDATE_LICENCE_INFO, tests);
-      this.analytics.setCurrentPage(screenName);
 
       // GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.CANDIDATE_LICENCE_INFO, tests));

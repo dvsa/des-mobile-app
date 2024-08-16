@@ -8,13 +8,13 @@ import {
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  AnalyticsErrorTypes,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
-  AnalyticsScreenNames, GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  AnalyticsScreenNames,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { analyticsEventTypePrefix, formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { getTests } from '@store/tests/tests.reducer';
 import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
 import { TestsModel } from '@store/tests/tests.model';
@@ -64,10 +64,6 @@ export class NonPassFinalisationAnalyticsEffects {
       [, tests]: [ReturnType<typeof NonPassFinalisationViewDidEnter>, TestsModel, boolean],
     ) => {
 
-      // TODO - MES-9495 - remove old analytics
-      const screenName = formatAnalyticsText(AnalyticsScreenNames.NON_PASS_FINALISATION, tests);
-      this.analytics.setCurrentPage(screenName);
-
       //GA4 Analytics
       this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.NON_PASS_FINALISATION, tests));
       return of(AnalyticRecorded());
@@ -94,12 +90,6 @@ export class NonPassFinalisationAnalyticsEffects {
     switchMap((
       [action, tests]: [ReturnType<typeof NonPassFinalisationValidationError>, TestsModel, boolean],
     ) => {
-      // TODO - MES-9495 - remove old analytics
-      const formattedScreenName = formatAnalyticsText(AnalyticsScreenNames.NON_PASS_FINALISATION, tests);
-      this.analytics.logError(
-        `${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`,
-        action.errorMessage,
-      );
       //GA4 Analytics
       const valueName = action.errorMessage.split(' ')[0];
 
@@ -139,13 +129,6 @@ export class NonPassFinalisationAnalyticsEffects {
     ) => {
       // D255Yes used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode !== ActivityCodes.PASS) {
-
-        // TODO - MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.D255, tests),
-          'Yes',
-        );
 
         //GA4 Analytics
         this.analytics.logGAEvent(
@@ -187,13 +170,6 @@ export class NonPassFinalisationAnalyticsEffects {
       // D255No used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode !== ActivityCodes.PASS) {
 
-        // TODO - MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.D255, tests),
-          'No',
-        );
-
         //GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_D255, tests),
@@ -233,13 +209,6 @@ export class NonPassFinalisationAnalyticsEffects {
       [ReturnType<typeof CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode, boolean],
     ) => {
       if (activityCode) {
-
-        // TODO - MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.LANGUAGE_CHANGED, tests),
-          Language.ENGLISH,
-        );
         //GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
@@ -279,12 +248,6 @@ export class NonPassFinalisationAnalyticsEffects {
       [ReturnType<typeof CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode, boolean],
     ) => {
       if (activityCode) {
-        // TODO - MES-9495 - remove old analytics
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.LANGUAGE_CHANGED, tests),
-          Language.CYMRAEG,
-        );
         //GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.LANGUAGE_CHANGED, tests),
@@ -319,12 +282,6 @@ export class NonPassFinalisationAnalyticsEffects {
       [ReturnType<typeof nonPassFinalisationActions.NonPassFinalisationReportActivityCode>, TestsModel, boolean],
     ) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
-        `${code} - ${description}`,
-      );
       //GA4 Analytics
       this.analytics.logGAEvent(
         analyticsEventTypePrefix(GoogleAnalyticsEvents.SET_ACTIVITY_CODE, tests),

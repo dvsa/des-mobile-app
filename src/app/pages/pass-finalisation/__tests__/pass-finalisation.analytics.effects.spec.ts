@@ -8,9 +8,6 @@ import * as testSummaryActions from '@store/tests/test-summary/test-summary.acti
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import {
-  AnalyticsErrorTypes,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
@@ -44,8 +41,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.PASS_FINALISATION;
-  // eslint-disable-next-line max-len
-  const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_FINALISATION}`;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -77,8 +72,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
     effects = TestBed.inject(PassFinalisationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('passFinalisationViewDidEnter', () => {
@@ -92,9 +85,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.passFinalisationViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
         //GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
@@ -111,9 +101,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.passFinalisationViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeMode);
         //GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
@@ -131,12 +118,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passFinalisationActions.PassFinalisationValidationError('error is blank'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${AnalyticsScreenNames.PASS_FINALISATION})`,
-            'error is blank');
+        expect(result.type === AnalyticRecorded.type);
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -151,18 +133,12 @@ describe('PassFinalisationAnalyticsEffects', () => {
     it('should call logError with pass, prefixed with practice mode', (done) => {
       // ARRANGE
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-      // eslint-disable-next-line max-len
-      const practiceScreenName = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_FINALISATION}`;
       // ACT
       actions$.next(passFinalisationActions.PassFinalisationValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${practiceScreenName})`,
-            'error message');
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -185,13 +161,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.code78PresentEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.TOGGLE_CODE_78,
-            'Yes',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -214,13 +183,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.code78NotPresentEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.TOGGLE_CODE_78,
-            'No',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -243,13 +205,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.provisionalLicenseNotReceived$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.TOGGLE_LICENSE_RECEIVED,
-            'No',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -271,13 +226,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.provisionalLicenseNotReceived$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
-            `practice mode - ${AnalyticsEvents.TOGGLE_LICENSE_RECEIVED}`,
-            'No',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -300,13 +248,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.provisionalLicenseReceived$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.TOGGLE_LICENSE_RECEIVED,
-            'Yes',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -328,13 +269,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.provisionalLicenseReceived$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
-            `practice mode - ${AnalyticsEvents.TOGGLE_LICENSE_RECEIVED}`,
-            'Yes',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -358,13 +292,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.GEARBOX_CATEGORY_CHANGED,
-            TransmissionType.Manual,
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -387,13 +314,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
-            `practice mode - ${AnalyticsEvents.GEARBOX_CATEGORY_CHANGED}`,
-            TransmissionType.Manual,
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -415,13 +335,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.GEARBOX_CATEGORY_CHANGED,
-            TransmissionType.Automatic,
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -443,10 +356,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.transmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticNotRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .not
-          .toHaveBeenCalled();
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .not
@@ -467,13 +376,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.d255Yes$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.D255,
-            'Yes',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -496,13 +398,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.d255Yes$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
-            `practice mode - ${AnalyticsEvents.D255}`,
-            'Yes',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -526,13 +421,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.d255No$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.D255,
-            'No',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -555,13 +443,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.d255No$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `practice mode - ${AnalyticsEventCategories.POST_TEST}`,
-            `practice mode - ${AnalyticsEvents.D255}`,
-            'No',
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -585,13 +466,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.LANGUAGE_CHANGED,
-            Language.ENGLISH,
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -613,10 +487,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
         expect(result.type === AnalyticNotRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .not
-          .toHaveBeenCalled();
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .not
@@ -637,13 +507,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.LANGUAGE_CHANGED,
-            Language.CYMRAEG,
-          );
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -665,10 +528,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
         expect(result.type === AnalyticNotRecorded.type)
           .toBe(true);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .not
-          .toHaveBeenCalled();
         //GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .not

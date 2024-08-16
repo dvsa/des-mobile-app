@@ -44,7 +44,6 @@ describe('LoginPage', () => {
   let loadingProvider: LoadingProvider;
   let menuController: MenuController;
   let logHelper: LogHelper;
-  let analytics: AnalyticsProvider;
   let router: Router;
 
   beforeEach(waitForAsync(() => {
@@ -127,7 +126,6 @@ describe('LoginPage', () => {
     loadingProvider = TestBed.inject(LoadingProvider);
     menuController = TestBed.inject(MenuController);
     logHelper = TestBed.inject(LogHelper);
-    analytics = TestBed.inject(AnalyticsProvider);
     router = TestBed.inject(Router);
   }));
 
@@ -228,10 +226,6 @@ describe('LoginPage', () => {
       spyOn(store$, 'dispatch');
       spyOn(component, 'appInitializedLog');
       spyOn(component, 'dispatchLog');
-      spyOn(analytics, 'initialiseAnalytics')
-        .and
-        .returnValue(Promise.resolve());
-      spyOn(analytics, 'logException');
     });
     describe('Successful login flow', () => {
       it('should run the login flow code', fakeAsync(() => {
@@ -253,8 +247,6 @@ describe('LoginPage', () => {
         expect(appConfigProvider.loadRemoteConfig)
           .toHaveBeenCalled();
         expect(component.handleLoadingUI)
-          .toHaveBeenCalled();
-        expect(analytics.initialiseAnalytics)
           .toHaveBeenCalled();
         expect(component.validateDeviceType)
           .toHaveBeenCalled();
@@ -284,8 +276,6 @@ describe('LoginPage', () => {
         expect(component.validateDeviceType)
           .not
           .toHaveBeenCalled();
-        expect(analytics.logException)
-          .toHaveBeenCalledWith(AuthenticationError.USER_CANCELLED, true);
         expect(component.dispatchLog)
           .toHaveBeenCalledWith('user cancelled login');
         expect(component.hasUserLoggedOut)

@@ -5,10 +5,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
-  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AdvancedSearchParams } from '@providers/search/search.models';
@@ -36,7 +36,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestResultsSearchAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('TestResultSearchViewDidEnter', () => {
@@ -47,8 +46,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
       effects.testResultSearchViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
@@ -64,11 +61,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
       effects.performApplicationReferenceSearch$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_RESULTS_SEARCH,
-            AnalyticsEvents.APPLICATION_REFERENCE_SEARCH,
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
@@ -88,11 +80,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
       effects.performDriverNumberSearch$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_RESULTS_SEARCH,
-            AnalyticsEvents.DRIVER_NUMBER_SEARCH,
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
@@ -112,12 +99,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
       effects.performLDTMSearch$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_RESULTS_SEARCH,
-            AnalyticsEvents.LDTM_SEARCH,
-            '',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.LDTM_SEARCH,
@@ -135,12 +116,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
       effects.performLDTMSearch$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_RESULTS_SEARCH,
-            AnalyticsEvents.LDTM_SEARCH,
-            'test centre',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.LDTM_SEARCH,
@@ -166,12 +141,6 @@ describe('TestResultsSearchAnalyticsEffects', () => {
       effects.performLDTMSearch$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_RESULTS_SEARCH,
-            AnalyticsEvents.LDTM_SEARCH,
-            'date, staff id, test centre, activity code, test category, pass certificate, rekey',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.LDTM_SEARCH,

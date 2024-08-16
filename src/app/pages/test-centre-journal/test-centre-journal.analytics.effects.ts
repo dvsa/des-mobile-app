@@ -5,8 +5,6 @@ import { switchMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
   AnalyticsScreenNames,
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   JournalRefreshModes,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEvents,
@@ -37,8 +35,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalView$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalViewDidEnter),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.setCurrentPage(AnalyticsScreenNames.TEST_CENTRE_JOURNAL);
       // GA4 Analytics
       this.analytics.setGACurrentPage(AnalyticsScreenNames.TEST_CENTRE_JOURNAL);
       return of(AnalyticRecorded());
@@ -48,12 +44,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalRefresh$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalGetData),
     switchMap((action: ReturnType<typeof TestCentreJournalGetData>) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.REFRESH_TC_JOURNAL,
-        action.manualRefresh ? JournalRefreshModes.MANUAL : JournalRefreshModes.AUTOMATIC,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -67,11 +57,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalSelectTestCentre$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalSelectTestCentre),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.CHANGE_LOCATION,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -85,12 +70,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalTabChanged$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalTabChanged),
     switchMap(({ tab }: ReturnType<typeof TestCentreJournalTabChanged>) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.TAB_SELECTION,
-        tab,
-      );
       // GA4 Analytics
       let eventValue = null;
       switch (tab) {
@@ -115,11 +94,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalSelectCandidate$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalSelectCandidate),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.CANDIDATE_SELECTION,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -133,12 +107,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalShowBookings$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalShowBookings),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.BUTTON_SELECTION,
-        'Show booking',
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -152,11 +120,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalSelectExaminer$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalSelectExaminer),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.EXAMINER_SELECTION,
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -170,12 +133,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalShowJournals$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalShowJournals),
     switchMap(() => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.BUTTON_SELECTION,
-        'Show journals',
-      );
       // GA4 Analytics
       this.analytics.logGAEvent(
         GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
@@ -189,12 +146,6 @@ export class TestCentreJournalAnalyticsEffects {
   testCentreJournalDateNavigation$ = createEffect(() => this.actions$.pipe(
     ofType(TestCentreJournalDateNavigation),
     switchMap(({ day }) => {
-      // TODO - MES-9495 - remove old analytics
-      this.analytics.logEvent(
-        AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
-        AnalyticsEvents.NAVIGATION,
-        day,
-      );
       // GA4 Analytics
       let eventValue = null;
       switch (day) {

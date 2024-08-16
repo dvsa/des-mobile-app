@@ -5,9 +5,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsDimensionIndices,
   AnalyticsEventCategories,
-  AnalyticsEvents, GoogleAnalyticsCustomDimension,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
@@ -88,7 +87,6 @@ describe('TestsAnalyticsEffects', () => {
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
     store$ = TestBed.inject(Store);
-    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('setTestStatusSubmittedEffect', () => {
@@ -104,18 +102,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.SUBMIT_TEST,
-            'Pass',
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
@@ -146,18 +132,6 @@ describe('TestsAnalyticsEffects', () => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
 
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.SUBMIT_REKEY_TEST,
-            'Fail',
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -182,12 +156,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.sendCompletedTestsFailureEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(
-            'Error connecting to microservice (test submission)',
-            'No message',
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -208,12 +176,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.sendPartialTestsFailureEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logError)
-          .toHaveBeenCalledWith(
-            'Error connecting to microservice (partial test submission)',
-            'No message',
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
@@ -240,17 +202,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.testOutcomeChangedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TEST_OUTCOME_CHANGED,
-            eventLabel,
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
@@ -281,17 +232,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.testOutcomeChangedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TEST_OUTCOME_CHANGED,
-            eventLabel,
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
@@ -322,17 +262,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.testOutcomeChangedEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.TEST_OUTCOME_CHANGED,
-            eventLabel,
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent)
@@ -380,17 +309,6 @@ describe('TestsAnalyticsEffects', () => {
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(
-            AnalyticsDimensionIndices.TEST_CATEGORY,
-            TestCategory.B,
-          );
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.JOURNAL,
-            AnalyticsEvents.START_TEST,
-          );
         // GA4 Analytics
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(
@@ -416,44 +334,8 @@ describe('TestsAnalyticsEffects', () => {
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type)
           .toEqual(AnalyticRecorded.type);
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(
-            AnalyticsDimensionIndices.TEST_CATEGORY,
-            TestCategory.B,
-          );
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.REKEY_SEARCH,
-            AnalyticsEvents.START_TEST,
-          );
-
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.METADATA,
-            AnalyticsEvents.REPORT_DEVICE_STATE,
-            'batteryLevel',
-            0.9,
-          );
-
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.METADATA,
-            AnalyticsEvents.REPORT_DEVICE_STATE,
-            'realDiskFree',
-            456
-          );
-
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.METADATA,
-            AnalyticsEvents.REPORT_DEVICE_STATE,
-            'realDiskTotal',
-            1000
-          );
 
         // GA4 Analytics
-
         expect(analyticsProviderMock.addGACustomDimension)
           .toHaveBeenCalledWith(
             GoogleAnalyticsCustomDimension.TEST_CATEGORY,

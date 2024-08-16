@@ -7,8 +7,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles, GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
@@ -55,7 +53,6 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
     effects = TestBed.inject(ConfirmTestDetailsAnalyticsEffects);
     store$ = TestBed.inject(Store);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('confirmTestDetailsView$', () => {
@@ -64,8 +61,6 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
       effects.confirmTestDetailsView$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type)
           .toBe(true);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenName);
         expect(analyticsProviderMock.setGACurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
@@ -78,12 +73,6 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
       actions$.next(confirmTestDetailsActions.BackToDebrief());
       effects.backToDebriefClicked$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.NAVIGATION}`,
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.BACK}`,
-            'Back to debrief',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.NAVIGATION,
@@ -100,12 +89,6 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
       actions$.next(confirmTestDetailsActions.BackButtonClick());
       effects.backButtonClicked$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.NAVIGATION}`,
-            `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.BACK}`,
-            'Back to finalise outcome',
-          );
         expect(analyticsProviderMock.logGAEvent)
           .toHaveBeenCalledWith(
             GoogleAnalyticsEvents.NAVIGATION,

@@ -6,8 +6,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsEventCategories,
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
@@ -34,7 +32,6 @@ describe('FakeJournalAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(FakeJournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('fakeJournalViewDidEnter', () => {
@@ -42,9 +39,6 @@ describe('FakeJournalAnalyticsEffects', () => {
       actions$.next(fakeJournalActions.FakeJournalDidEnter());
       effects.fakeJournalViewDidEnter$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
 
         // GA4 Analytics
         expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
@@ -58,13 +52,6 @@ describe('FakeJournalAnalyticsEffects', () => {
       actions$.next(fakeJournalActions.StartE2EPracticeTest('123', TestCategory.B));
       effects.practiceStartFullTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // TODO - MES-9495 - remove old analytics
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.FAKE_JOURNAL,
-          AnalyticsEvents.PRACTICE_FULL_TEST_SELECTED,
-          'B',
-        );
 
         // GA4 Analytics
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
