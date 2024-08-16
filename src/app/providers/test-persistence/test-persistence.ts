@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Injectable } from '@angular/core';
 import { DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -63,7 +62,7 @@ export class TestPersistenceProvider {
   }
 
   getTestsToDelete(tests: TestsModel): string[] {
-    const { daysToCacheJournalData } = this.appConfigProvider.getAppConfig()?.journal;
+    const { daysToCacheJournalData } = this.appConfigProvider.getAppConfig().journal;
 
     const notAllCompleted = Object.keys(tests.testStatus).some(
       (key) => !isAnyOf(tests.testStatus[key], [TestStatus.Submitted, TestStatus.Completed])

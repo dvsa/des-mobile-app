@@ -26,19 +26,26 @@
 		"rules": {
 			"recommended": true,
       "style": {
-        "useImportType": "off"
+        "useImportType": "off",
+        "useTemplate": "off",
+        "useNodejsImportProtocol": "off",
+        "useDefaultParameterLast": "off"
       },
       "complexity": {
         "useLiteralKeys": "off",
         "noBannedTypes": "off",
         "noForEach": "off",
         "noThisInStatic": "off",
-        "noStaticOnlyClass": "off"
+        "noStaticOnlyClass": "off",
+        "noUselessConstructor": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",
         "noExplicitAny": "off",
         "useIsArray": "off"
+      },
+      "performance": {
+        "noDelete": "off"
       }
     },
     "ignore": [
