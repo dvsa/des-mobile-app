@@ -73,9 +73,17 @@
       "**/dist/",
       "**/artifacts/",
       "**/node_modules/",
+      "**/ngrx-devtool-proxy/",
+      "**/plugins/",
+      "**/buildscripts/",
+      "**/fastlane/",
+      "**/resources/",
+      "**/remotedev-server/",
+      "**/buildscripts/",
       "**/.angular/",
       "**/www/",
       "**/ios/",
+      "**/src/assets/",
       "**/src/polyfills.ts"
     ]
 	},
