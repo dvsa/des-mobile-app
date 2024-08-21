@@ -59,7 +59,6 @@ import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { JournalModule } from '@store/journal/journal.module';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { LogsStoreModule } from '@store/logs/logs.module';
-import { PipesModule } from '@shared/pipes/pipes.module';
 import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.module';
 import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-centre-journal.module';
 import { TestsModule } from '@store/tests/tests.module';
