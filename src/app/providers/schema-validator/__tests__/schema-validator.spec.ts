@@ -37,13 +37,13 @@ describe('SchemaValidatorProvider', () => {
           tests: {
             testSubmissionUrl: 'test',
             examinerRecordsUrl: 'test',
-          autoSendInterval: 1,
-        },
-        user: { findUserUrl: 'test' },
-        requestTimeout: 1,
-        employeeNameKey: 'test',
-        googleAnalyticsId: 'test',
-      } as RemoteConfig).valid
+            autoSendInterval: 1,
+          },
+          user: { findUserUrl: 'test' },
+          requestTimeout: 1,
+          employeeNameKey: 'test',
+          googleAnalyticsId: 'test',
+        } as RemoteConfig).valid
       ).toEqual(true);
     });
   });

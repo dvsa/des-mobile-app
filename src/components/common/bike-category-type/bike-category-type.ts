@@ -37,8 +37,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
   constructor(
     public bikeCategoryDetailProvider: BikeCategoryDetailProvider,
     public store$: Store<StoreModel>
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     // default to MOD1 if any input other than MOD1 or MOD2 provided
@@ -77,10 +76,9 @@ export class BikeCategoryTypeComponent implements OnChanges {
         //   '(prefers-color-scheme: dark)',
         // ).matches ? 'filter: invert(100%);' : null;
         // Variable to force light mode, replace with above line if dark mode is fully integrated
-        const invertFilter : string = null;
+        const invertFilter: string = null;
 
-        element.innerHTML =
-          `
+        element.innerHTML = `
             <span style=" width: 50px; display: inline-block;">${element.innerHTML}</span>`.concat(`${bike.displayName}<img style="${invertFilter} width: 40px; height: 25px;
                 text-align: right; vertical-align: middle;
                 float: right; margin-right: 15px;" src="${bike.imageUrl}" alt="Bike icon"/>`);
