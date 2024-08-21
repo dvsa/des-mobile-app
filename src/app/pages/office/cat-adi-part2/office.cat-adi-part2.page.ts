@@ -109,8 +109,17 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
       displayTellMeQuestions$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestData))),
-        map(([outcome, data]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', vehicleChecksExist(data.vehicleChecks))
+        map(
+          ([outcome, data]) =>
+            this.outcomeBehaviourProvider.isVisible(
+              outcome,
+              'tellMeQuestion',
+              vehicleChecksExist(data.vehicleChecks)
+            ) &&
+            (data.vehicleChecks?.tellMeQuestions
+              ? data.vehicleChecks?.tellMeQuestions.filter((value: QuestionResult) => Object.keys(value).length > 0)
+                  .length > 0
+              : false)
         )
       ),
       vehicleChecks$: currentTest$.pipe(
