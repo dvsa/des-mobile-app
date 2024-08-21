@@ -25,7 +25,6 @@ export interface ColourScheme {
   bar: string[];
   pie: string[];
   emergencyStop?: string[];
-  average: string;
 }
 
 export enum ColourEnum {
