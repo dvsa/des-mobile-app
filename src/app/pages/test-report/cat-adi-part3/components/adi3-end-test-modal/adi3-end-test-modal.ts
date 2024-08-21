@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams, ModalController } from '@ionic/angular';
 import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import { ActivityCodes } from '@shared/models/activity-codes';
+import { ModalController, NavParams } from '@ionic/angular';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
@@ -14,7 +14,7 @@ import { ModalEvent } from '../../../test-report.constants';
 export class Adi3EndTestModal implements OnInit {
   testState: number;
   testData: TestData;
-  testResult: { activityCode?: ActivityCode; grade?: string; } = {};
+  testResult: { activityCode?: ActivityCode; grade?: string } = {};
   totalScore: number;
   feedback: string;
   isValidDashboard: boolean;
@@ -24,9 +24,8 @@ export class Adi3EndTestModal implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private navParams: NavParams,
-    public adi3AssessmentProvider: ADI3AssessmentProvider,
-  ) {
-  }
+    public adi3AssessmentProvider: ADI3AssessmentProvider
+  ) {}
 
   ngOnInit(): void {
     this.testData = this.navParams.get('testData');
@@ -64,16 +63,16 @@ export class Adi3EndTestModal implements OnInit {
   }
 
   getTestResultClass(): string {
-    return (!this.isTestReportPopulated || this.riskToPublicSafety === true
+    return !this.isTestReportPopulated || this.riskToPublicSafety === true
       ? 'test-result-terminated-label'
       : this.testResult.activityCode === ActivityCodes.FAIL
         ? 'test-result-fail-label'
-        : 'test-result-pass-label');
+        : 'test-result-pass-label';
   }
 
   getOutcomeIcon(): string {
     const passImage = 'assets/imgs/greenCorrectAnswer.png';
     const failImage = 'assets/imgs/redWrongAnswer.png';
-    return (this.testResult.activityCode === ActivityCodes.FAIL ? failImage : passImage);
+    return this.testResult.activityCode === ActivityCodes.FAIL ? failImage : passImage;
   }
 }

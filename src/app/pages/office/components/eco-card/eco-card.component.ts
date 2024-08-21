@@ -6,13 +6,12 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./eco-card.component.scss'],
 })
 export class ECOCardComponent {
-
   @Input()
   ecoFaults: string;
 
   @Input()
-  isADI2: boolean = false;
+  isADI2 = false;
 
   @Input()
-  displaySeperator: boolean = false;
+  displaySeperator = false;
 }

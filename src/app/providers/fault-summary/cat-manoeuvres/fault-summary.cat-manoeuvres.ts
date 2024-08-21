@@ -1,32 +1,27 @@
-import { endsWith, forOwn, transform } from 'lodash-es';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '@shared/models/competency-display-name';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { getCompetencyComment } from '@shared/helpers/get-competency-faults';
-import { manoeuvreCompetencyLabelsCatC, manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
-import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { Manoeuvres } from '@dvsa/mes-test-schema/categories/CM/partial';
 import { Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
+import { manoeuvreCompetencyLabelsCatC, manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
+import { getCompetencyComment } from '@shared/helpers/get-competency-faults';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { endsWith, forOwn, transform } from 'lodash-es';
 
 export class FaultSummaryCatManoeuvreHelper {
-
   public static getSeriousFaultsNonTrailer(data: CatManoeuvreTestData): FaultSummary[] {
     if (!data) {
       return [];
     }
-    return [
-      ...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.S),
-    ];
+    return [...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.S)];
   }
 
   public static getDangerousFaultsNonTrailer(data: CatManoeuvreTestData): FaultSummary[] {
     if (!data) {
       return [];
     }
-    return [
-      ...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.D),
-    ];
+    return [...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.D)];
   }
 
   public static getSeriousFaultsTrailer(data: CatManoeuvreTestData): FaultSummary[] {
@@ -52,7 +47,7 @@ export class FaultSummaryCatManoeuvreHelper {
   private static createManoeuvreFaultCatManoeuvre(
     key: string,
     type: ManoeuvreTypes,
-    competencyComment: string,
+    competencyComment: string
   ): FaultSummary {
     const manoeuvreFaultSummary: FaultSummary = {
       comment: competencyComment || '',
@@ -72,19 +67,23 @@ export class FaultSummaryCatManoeuvreHelper {
     const faultsEncountered: FaultSummary[] = [];
 
     forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
-      const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
+      const faults = !manoeuvre.selected
+        ? []
+        : transform(
+            manoeuvre,
+            (result, value, key: string) => {
+              if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
+                const competencyComment = getCompetencyComment(
+                  key,
+                  manoeuvre.controlFaultComments,
+                  manoeuvre.observationFaultComments
+                );
 
-        if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
-
-          const competencyComment = getCompetencyComment(
-            key,
-            manoeuvre.controlFaultComments,
-            manoeuvre.observationFaultComments,
+                result.push(this.createManoeuvreFaultCatManoeuvre(key, type, competencyComment));
+              }
+            },
+            []
           );
-
-          result.push(this.createManoeuvreFaultCatManoeuvre(key, type, competencyComment));
-        }
-      }, []);
       faultsEncountered.push(...faults);
     });
     return faultsEncountered;
@@ -105,5 +104,4 @@ export class FaultSummaryCatManoeuvreHelper {
     returnCompetencies.push(result);
     return returnCompetencies;
   }
-
 }

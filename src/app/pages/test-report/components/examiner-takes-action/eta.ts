@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { getETA, hasExaminerTakenAction } from '@store/tests/test-data/common/test-data.selector';
 import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { Observable } from 'rxjs';
 import { etaLabels } from './eta.constants';
 
 interface ETAComponentState {
@@ -20,19 +20,17 @@ interface ETAComponentState {
   styleUrls: ['eta.scss'],
 })
 export class EtaComponent implements OnInit {
-
   @Input()
   eta: ExaminerActions;
 
-  touchStateDelay: number = 100;
+  touchStateDelay = 100;
 
-  touchState: boolean = false;
+  touchState = false;
   label: string;
 
   componentState: ETAComponentState;
 
-  constructor(private store$: Store<StoreModel>) {
-  }
+  constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit(): void {
     this.componentState = {
@@ -41,7 +39,7 @@ export class EtaComponent implements OnInit {
         select(getCurrentTest),
         select(getTestData),
         select(getETA),
-        select((eta) => hasExaminerTakenAction(eta, this.eta)),
+        select((eta) => hasExaminerTakenAction(eta, this.eta))
       ),
     };
 
@@ -51,5 +49,4 @@ export class EtaComponent implements OnInit {
   toggleETA = (): void => {
     this.store$.dispatch(ToggleETA(this.eta));
   };
-
 }

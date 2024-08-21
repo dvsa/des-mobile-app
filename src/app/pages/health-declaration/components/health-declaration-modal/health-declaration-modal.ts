@@ -1,7 +1,5 @@
-import {
-  ModalController,
-} from '@ionic/angular';
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'health-declaration-modal',
@@ -9,15 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./health-declaration-modal.scss'],
 })
 export class HealthDeclarationModal {
-
   onTestDetailsConfirm: Function;
 
   licenseProvided: boolean;
 
-  constructor(
-    public modalController: ModalController,
-  ) {
-  }
+  constructor(public modalController: ModalController) {}
 
   onCompleteTest = async () => {
     await this.modalController.dismiss();

@@ -1,6 +1,6 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
+import { IonicModule } from '@ionic/angular';
 
 describe('AutosaveStatusComponent', () => {
   let component: AutosaveStatusComponent;

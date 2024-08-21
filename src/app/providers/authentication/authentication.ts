@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
-import { Store } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
-import { StoreModel } from '@shared/models/store.model';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { Subscription } from 'rxjs';
-import { UnloadTests } from '@store/tests/tests.actions';
-import { UnloadJournal } from '@store/journal/journal.actions';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
-import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
-import { AppConfigProvider } from '../app-config/app-config';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
-import { TestPersistenceProvider } from '../test-persistence/test-persistence';
-import { DataStoreProvider } from '../data-store/data-store';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { Store } from '@ngrx/store';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { UnloadJournal } from '@store/journal/journal.actions';
+import { SaveLog } from '@store/logs/logs.actions';
+import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { UnloadTests } from '@store/tests/tests.actions';
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AppConfigProvider } from '../app-config/app-config';
+import { DataStoreProvider } from '../data-store/data-store';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 
 export enum Token {
   ID = 'idToken',
@@ -28,7 +28,6 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-
   private subscription: Subscription;
   private employeeIdKey: string;
   private employeeId: string;
@@ -42,7 +41,7 @@ export class AuthenticationProvider {
     private testPersistenceProvider: TestPersistenceProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider
   ) {
     this.setStoreSubscription();
   }
@@ -216,11 +215,12 @@ export class AuthenticationProvider {
   };
 
   private setStoreSubscription = (): void => {
-    this.subscription = this.store$.select(selectEmployeeId)
+    this.subscription = this.store$
+      .select(selectEmployeeId)
       .pipe(
         tap((employeeId: string) => {
           if (employeeId) this.employeeId = employeeId;
-        }),
+        })
       )
       .subscribe();
   };
@@ -288,9 +288,11 @@ export class AuthenticationProvider {
   }
 
   private logEvent = (logType: LogType, desc: string, msg: unknown) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
+      })
+    );
   };
 
   public onLogoutError = (err: unknown, prefix?: string): void => {
@@ -298,5 +300,4 @@ export class AuthenticationProvider {
     const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
     this.logEvent(LogType.ERROR, desc, err);
   };
-
 }

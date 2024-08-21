@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
-import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 
 describe('TrueLikenessComponent', () => {
   let fixture: ComponentFixture<TrueLikenessComponent>;
@@ -10,10 +10,7 @@ describe('TrueLikenessComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TrueLikenessComponent],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(TrueLikenessComponent);

@@ -1,12 +1,12 @@
-import { testStatusReducer } from '../test-status.reducer';
-import { TestStatus } from '../test-status.model';
 import {
   SetTestStatusBooked,
-  SetTestStatusStarted,
-  SetTestStatusDecided,
   SetTestStatusCompleted,
+  SetTestStatusDecided,
+  SetTestStatusStarted,
   SetTestStatusSubmitted,
 } from '../test-status.actions';
+import { TestStatus } from '../test-status.model';
+import { testStatusReducer } from '../test-status.reducer';
 
 describe('test status reducer', () => {
   const slotId = '1003';

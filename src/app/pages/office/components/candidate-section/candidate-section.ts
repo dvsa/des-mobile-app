@@ -7,7 +7,6 @@ import { TestOutcome } from '@store/tests/tests.constants';
   styleUrls: ['candidate-section.scss'],
 })
 export class CandidateSectionComponent {
-
   @Input()
   candidateName: string;
 
@@ -40,5 +39,4 @@ export class CandidateSectionComponent {
         return 'terminated';
     }
   };
-
 }

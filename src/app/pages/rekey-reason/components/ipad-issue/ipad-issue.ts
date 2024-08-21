@@ -1,14 +1,11 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ipad-issue',
   templateUrl: 'ipad-issue.html',
 })
 export class IpadIssueComponent implements OnChanges {
-
   static readonly ipadIssueCtrl: string = 'ipadIssueCtrl';
   static readonly checkBoxCtrl: string = 'ipadIssueSelected';
   static readonly technicalFaultCtrl: string = 'ipadIssueTechnicalFault';
@@ -100,7 +97,7 @@ export class IpadIssueComponent implements OnChanges {
       this.ipadIssueControl.updateValueAndValidity();
     }
 
-    if (this.selected && (!this.technicalFault && !this.lost && !this.stolen && !this.broken)) {
+    if (this.selected && !this.technicalFault && !this.lost && !this.stolen && !this.broken) {
       this.ipadIssueControl.patchValue(null);
     } else if (this.selected) {
       this.ipadIssueControl.patchValue(true);
@@ -134,12 +131,12 @@ export class IpadIssueComponent implements OnChanges {
   }
 
   get invalid(): boolean {
-    return !this.ipadIssueControl.valid && (
-      this.technicalFaultFormControl.dirty
-        || this.lostFormControl.dirty
-        || this.stolenFormControl.dirty
-        || this.brokenFormControl.dirty
+    return (
+      !this.ipadIssueControl.valid &&
+      (this.technicalFaultFormControl.dirty ||
+        this.lostFormControl.dirty ||
+        this.stolenFormControl.dirty ||
+        this.brokenFormControl.dirty)
     );
   }
-
 }

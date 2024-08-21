@@ -1,12 +1,12 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
-import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
 import { dangerousFaultsReducer } from '../common/dangerous-faults/dangerous-faults.reducer';
 import { drivingFaultsReducer } from '../common/driving-faults/driving-faults.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
-import { emergencyStopReducer } from './emergency-stop/emergency-stop.reducer';
-import { avoidanceReducer } from './avoidance/avoidance.reducer';
+import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
 import { singleFaultCompetenciesReducer } from '../common/single-fault-competencies/single-fault-competencies.reducer';
+import { avoidanceReducer } from './avoidance/avoidance.reducer';
+import { emergencyStopReducer } from './emergency-stop/emergency-stop.reducer';
 
 export const initialState: TestData = {
   singleFaultCompetencies: {},
@@ -18,10 +18,7 @@ export const initialState: TestData = {
   ETA: {},
 };
 
-export function testDataCatAMod1Reducer(
-  state: TestData,
-  action: Action,
-): TestData {
+export function testDataCatAMod1Reducer(state: TestData, action: Action): TestData {
   return combineReducers({
     singleFaultCompetencies: singleFaultCompetenciesReducer,
     drivingFaults: drivingFaultsReducer,
@@ -30,7 +27,6 @@ export function testDataCatAMod1Reducer(
     emergencyStop: emergencyStopReducer,
     avoidance: avoidanceReducer,
     ETA: etaReducer,
-
   })(state as Required<TestData>, action);
 }
 

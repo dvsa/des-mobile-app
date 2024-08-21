@@ -1,21 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { get, has, isEmpty } from 'lodash-es';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
-import { CompletedJournalSlot } from '@pages/journal/journal.page';
-
-
+import { get, has, isEmpty } from 'lodash-es';
 
 @Component({
   selector: 'journal-slots',
   templateUrl: 'journal-slot.html',
 })
 export class JournalSlotComponent {
-
   @Input()
   completedTests: CompletedJournalSlot[] = [];
 
@@ -23,15 +20,12 @@ export class JournalSlotComponent {
   slots: SlotItem[] = [];
 
   @Input()
-  isTeamJournal: boolean = false;
+  isTeamJournal = false;
 
   @Input()
-  isPortrait: boolean = false;
+  isPortrait = false;
 
-  constructor(
-    private slotSelector: SlotSelectorProvider,
-  ) {
-  }
+  constructor(private slotSelector: SlotSelectorProvider) {}
 
   /**
    * Find the completed test for the given slot if exists
@@ -39,26 +33,24 @@ export class JournalSlotComponent {
    */
   findCompletedTest(slotData: TestSlot): CompletedJournalSlot {
     if (!!get(slotData, 'booking')) {
-      const tempAppRef = parseInt(formatApplicationReference({
-        applicationId: slotData.booking.application.applicationId,
-        bookingSequence: slotData.booking.application.bookingSequence,
-        checkDigit: slotData.booking.application.checkDigit,
-      } as ApplicationReference), 10);
-      return this.completedTests.find(value => value.applicationReference === tempAppRef)
+      const tempAppRef = Number.parseInt(
+        formatApplicationReference({
+          applicationId: slotData.booking.application.applicationId,
+          bookingSequence: slotData.booking.application.bookingSequence,
+          checkDigit: slotData.booking.application.checkDigit,
+        } as ApplicationReference),
+        10
+      );
+      return this.completedTests.find((value) => value.applicationReference === tempAppRef);
     }
     return null;
   }
 
-  didSlotPass = (
-    slotData: TestSlot,
-    completedTests: SearchResultTestSchema[],
-  ): string | null => this.slotSelector.didSlotPass(slotData, completedTests);
+  didSlotPass = (slotData: TestSlot, completedTests: SearchResultTestSchema[]): string | null =>
+    this.slotSelector.didSlotPass(slotData, completedTests);
 
   slotType = (slot: SlotItem): string => {
-    const {
-      slotData,
-      personalCommitment,
-    } = slot;
+    const { slotData, personalCommitment } = slot;
 
     if (!isEmpty(personalCommitment)) {
       return 'personal';
@@ -79,10 +71,8 @@ export class JournalSlotComponent {
     return (this.slots || []).map((data) => data.slotData);
   }
 
-  showLocation = (
-    slot: SlotItem,
-    prevSlot: SlotItem,
-  ): boolean => get(slot, 'slotData.testCentre.centreName') !== get(prevSlot, 'slotData.testCentre.centreName', null);
+  showLocation = (slot: SlotItem, prevSlot: SlotItem): boolean =>
+    get(slot, 'slotData.testCentre.centreName') !== get(prevSlot, 'slotData.testCentre.centreName', null);
 
   trackBySlotID = (_: number, slot: SlotItem) => get(slot, 'slotData.slotDetail.slotId', null);
 }

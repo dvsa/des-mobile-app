@@ -5,20 +5,18 @@ import { TranslateService } from '@ngx-translate/core';
   selector: '[addOrRemoveLangCy]',
 })
 export class AddOrRemoveLangCyDirective {
-
   constructor(
     private ref: ElementRef,
     private translateService: TranslateService,
-    private renderer: Renderer2,
-  ) {
-  }
+    private renderer: Renderer2
+  ) {}
 
   assignLanguage(language: string) {
     if (
       !!language &&
-      ('hasAttribute' in this.ref.nativeElement) &&
-      ('setAttribute' in this.renderer) &&
-      ('removeAttribute' in this.renderer)
+      'hasAttribute' in this.ref.nativeElement &&
+      'setAttribute' in this.renderer &&
+      'removeAttribute' in this.renderer
     ) {
       if (language === 'cy') {
         this.renderer.setAttribute(this.ref.nativeElement, 'lang', 'cy');

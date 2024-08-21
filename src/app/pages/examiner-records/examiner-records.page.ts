@@ -1,18 +1,24 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import { StoreModel } from '@shared/models/store.model';
+import { Router } from '@angular/router';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ScrollDetail } from '@ionic/core';
+import { Store, select } from '@ngrx/store';
+import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import {
   ClickDataCard,
   ColourFilterChanged,
-  DateRangeChanged, DisplayPartialBanner,
+  DateRangeChanged,
+  DisplayPartialBanner,
   ExaminerRecordsViewDidEnter,
   GetExaminerRecords,
   HideChartsChanged,
   LoadingExaminerRecords,
-  LocationChanged, ReturnToDashboardPressed,
+  LocationChanged,
+  ReturnToDashboardPressed,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import {
@@ -32,51 +38,45 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
-import { DateRange, DateTime } from '@shared/helpers/date-time';
-import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
-import { Router } from '@angular/router';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { CompressionProvider } from '@providers/compression/compression';
+import {
+  ColourEnum,
+  ColourScheme,
+  ExaminerRecordsProvider,
+  SelectableDateRange,
+} from '@providers/examiner-records/examiner-records';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { SearchProvider } from '@providers/search/search';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { StoreModel } from '@shared/models/store.model';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
   getIsLoadingRecords,
   selectCachedExaminerRecords,
   selectColourScheme,
   selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { CompressionProvider } from '@providers/compression/compression';
-import { SearchProvider } from '@providers/search/search';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests } from '@store/tests/tests.selector';
-import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
-import {
-  ColourEnum,
-  ExaminerRecordsProvider,
-  SelectableDateRange,
-  ColourScheme,
-} from '@providers/examiner-records/examiner-records';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { ScrollDetail } from '@ionic/core';
-import {
-  ExaminerReportsCardClick
-} from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
 export interface ExaminerRecordsPageStateData {
-  routeGrid: ExaminerRecordDataWithPercentage<string>[],
-  manoeuvresGrid: ExaminerRecordDataWithPercentage<string>[],
-  showMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[],
-  independentDrivingGrid: ExaminerRecordDataWithPercentage<string>[],
-  tellMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[],
-  safetyGrid: ExaminerRecordDataWithPercentage<string>[],
-  balanceGrid: ExaminerRecordDataWithPercentage<string>[],
-  testCount: number,
-  emergencyStops: ExaminerRecordDataWithPercentage<string>[],
-  circuits: ExaminerRecordDataWithPercentage<string>[],
-  locationList: ExaminerRecordData<TestCentre>[],
-  categoryList: ExaminerRecordData<TestCategory>[]
+  routeGrid: ExaminerRecordDataWithPercentage<string>[];
+  manoeuvresGrid: ExaminerRecordDataWithPercentage<string>[];
+  showMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[];
+  independentDrivingGrid: ExaminerRecordDataWithPercentage<string>[];
+  tellMeQuestionsGrid: ExaminerRecordDataWithPercentage<string>[];
+  safetyGrid: ExaminerRecordDataWithPercentage<string>[];
+  balanceGrid: ExaminerRecordDataWithPercentage<string>[];
+  testCount: number;
+  emergencyStops: ExaminerRecordDataWithPercentage<string>[];
+  circuits: ExaminerRecordDataWithPercentage<string>[];
+  locationList: ExaminerRecordData<TestCentre>[];
+  categoryList: ExaminerRecordData<TestCategory>[];
 }
 
 interface ExaminerRecordsState {
@@ -102,7 +102,6 @@ interface ExaminerRecordsState {
   styleUrls: ['./examiner-records.page.scss'],
 })
 export class ExaminerRecordsPage implements OnInit {
-
   merged$: Observable<any>;
   form: UntypedFormGroup = new UntypedFormGroup({});
   testSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
@@ -112,7 +111,7 @@ export class ExaminerRecordsPage implements OnInit {
   locationSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   categorySubject$: BehaviorSubject<TestCategory> = new BehaviorSubject<TestCategory>(null);
   pageState: ExaminerRecordsState;
-  hideMainContent: boolean = false;
+  hideMainContent = false;
   colourOption: ColourScheme = this.getColour(this.store$.selectSignal(selectColourScheme)());
   categoryPlaceholder: string;
   locationPlaceholder: string;
@@ -121,20 +120,20 @@ export class ExaminerRecordsPage implements OnInit {
   cachedExaminerRecords: ExaminerRecordModel[] = null;
   startDateFilter: string;
   endDateFilter: string = new DateTime().format('DD/MM/YYYY');
-  scrollValue: number = 0;
-  isLoading: boolean = false;
+  scrollValue = 0;
+  isLoading = false;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
   public locationFilter: TestCentre = { centreName: null, centreId: null, costCode: null };
   public categoryDisplay: string;
   public currentCategory: string;
-  accordionOpen: boolean = false;
-  displayScrollBanner: boolean = false;
-  categorySelectPristine: boolean = true;
+  accordionOpen = false;
+  displayScrollBanner = false;
+  categorySelectPristine = true;
   currentTestCentre: TestCentre;
-  locationSelectPristine: boolean = true;
-  showExpandedData: boolean = false;
+  locationSelectPristine = true;
+  showExpandedData = false;
   public testResults: ExaminerRecordModel[];
   subscription: Subscription;
 
@@ -146,9 +145,8 @@ export class ExaminerRecordsPage implements OnInit {
     public accessibilityService: AccessibilityService,
     public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
-    private cdr: ChangeDetectorRef,
-  ) {
-  }
+    private cdr: ChangeDetectorRef
+  ) {}
 
   /**
    * Handles the scroll event and updates the displayScrollBanner property.
@@ -160,7 +158,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {CustomEvent<ScrollDetail>} ev - The scroll event containing the scroll details.
    */
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    this.displayScrollBanner = (ev.detail.scrollTop > 203)
+    this.displayScrollBanner = ev.detail.scrollTop > 203;
   }
 
   /**
@@ -176,7 +174,7 @@ export class ExaminerRecordsPage implements OnInit {
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
     ) {
-      let staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
+      const staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
       this.store$.dispatch(LoadingExaminerRecords());
       this.store$.dispatch(GetExaminerRecords(staffNumber));
     }
@@ -195,8 +193,9 @@ export class ExaminerRecordsPage implements OnInit {
         this.testSubject$.value,
         this.categorySubject$.value,
         this.rangeSubject$.value,
-        this.locationSubject$.value,
-      ));
+        this.locationSubject$.value
+      )
+    );
   }
 
   /**
@@ -207,13 +206,7 @@ export class ExaminerRecordsPage implements OnInit {
    * with the filtered results.
    */
   filterDates() {
-    this.testsInRangeSubject$.next(
-      getEligibleTests(
-        this.testSubject$.value,
-        null,
-        this.rangeSubject$.value,
-        null,
-      ));
+    this.testsInRangeSubject$.next(getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, null));
   }
 
   /**
@@ -228,20 +221,10 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the
    * eligible tests and current category.
    */
-  getTestsByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    category: string,
-  ) => T,
-  ): Observable<T> => combineLatest(
-    [
-      this.eligTestSubject$.asObservable(),
-    ])
-    .pipe(
+  getTestsByParameters = <T>(fn: (tests: ExaminerRecordModel[], category: string) => T): Observable<T> =>
+    combineLatest([this.eligTestSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
-      switchMap(() => of(fn(
-        this.eligTestSubject$.value,
-        this.categorySubject$.value,
-      ))),
+      switchMap(() => of(fn(this.eligTestSubject$.value, this.categorySubject$.value)))
     );
 
   /**
@@ -258,28 +241,21 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
    * date range, category, and location.
    */
-  private getCategoriesByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    range: DateRange,
-    category: string,
-    location: number,
-  ) => T,
-  ): Observable<T> => combineLatest(
-    [
-      this.locationSubject$.asObservable(),
-      this.testsInRangeSubject$.asObservable(),
-
-    ])
-    .pipe(
+  private getCategoriesByParameters = <T>(
+    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: number) => T
+  ): Observable<T> =>
+    combineLatest([this.locationSubject$.asObservable(), this.testsInRangeSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
       switchMap(() => {
-        return of(fn(
-          this.testsInRangeSubject$.value,
-          this.rangeSubject$.value,
-          this.categorySubject$.value,
-          this.locationSubject$.value,
-        ));
-      }),
+        return of(
+          fn(
+            this.testsInRangeSubject$.value,
+            this.rangeSubject$.value,
+            this.categorySubject$.value,
+            this.locationSubject$.value
+          )
+        );
+      })
     );
 
   /**
@@ -296,26 +272,21 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
    * date range, category, and location.
    */
-  getLocationsByParameters = <T>(fn: (
-    tests: ExaminerRecordModel[],
-    range: DateRange,
-    category: string,
-    location: number,
-  ) => T,
-  ): Observable<T> => combineLatest(
-    [
-      this.testsInRangeSubject$.asObservable(),
-    ])
-    .pipe(
+  getLocationsByParameters = <T>(
+    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: number) => T
+  ): Observable<T> =>
+    combineLatest([this.testsInRangeSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
       switchMap(() => {
-        return of(fn(
-          this.testsInRangeSubject$.value,
-          this.rangeSubject$.value,
-          this.categorySubject$.value,
-          this.locationSubject$.value,
-        ));
-      }),
+        return of(
+          fn(
+            this.testsInRangeSubject$.value,
+            this.rangeSubject$.value,
+            this.categorySubject$.value,
+            this.locationSubject$.value
+          )
+        );
+      })
     );
 
   /**
@@ -334,13 +305,10 @@ export class ExaminerRecordsPage implements OnInit {
   ): ExaminerRecordModel[] {
     this.cachedExaminerRecords = cachedExaminerRecords;
     if (!this.cachedExaminerRecords) {
-      this.store$.dispatch(DisplayPartialBanner())
+      this.store$.dispatch(DisplayPartialBanner());
     }
 
-    return [
-      ...localRecords,
-      ...cachedExaminerRecords === null ? [] : cachedExaminerRecords,
-    ];
+    return [...localRecords, ...(cachedExaminerRecords === null ? [] : cachedExaminerRecords)];
   }
 
   /**
@@ -354,13 +322,16 @@ export class ExaminerRecordsPage implements OnInit {
    */
   removeDuplicatesAndSort(result: ExaminerRecordModel[]): ExaminerRecordModel[] {
     //remove duplicates from array
-    return result.filter((item, index, self) => {
-      return self.findIndex(item2 => item2.appRef === item.appRef) === index;
-    })
-      //put final array in date order by most recent
-      .sort((a, b) => {
-        return Date.parse(b.startDate) - Date.parse(a.startDate);
-      });
+    return (
+      result
+        .filter((item, index, self) => {
+          return self.findIndex((item2) => item2.appRef === item.appRef) === index;
+        })
+        //put final array in date order by most recent
+        .sort((a, b) => {
+          return Date.parse(b.startDate) - Date.parse(a.startDate);
+        })
+    );
   }
 
   /**
@@ -372,31 +343,33 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {ExaminerRecordModel[]} The array of formatted examiner records.
    */
   getLocalResults(): ExaminerRecordModel[] {
-
     let result: ExaminerRecordModel[] = [];
-    this.store$.pipe(
-      select(getTests),
-      map(getStartedTests),
-      take(1),
-      map((value) => Object.values(value)),
-      map((value) => {
-        let employeeId = this.store$.selectSignal(selectEmployeeId)();
-        //Filter out tests the user rekeyd for other users
-        return value.filter((test) => {
-          return test.examinerConducted.toString() === employeeId;
-        });
-      }),
-      map(value => {
-        const recordArray: ExaminerRecordModel[] = [];
-        //format tests into ExaminerRecordModel
-        value.forEach((test) => {
-          recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
-        });
-        return recordArray;
-      }),
-    ).subscribe((value) => {
-      result = value;
-    }).unsubscribe();
+    this.store$
+      .pipe(
+        select(getTests),
+        map(getStartedTests),
+        take(1),
+        map((value) => Object.values(value)),
+        map((value) => {
+          const employeeId = this.store$.selectSignal(selectEmployeeId)();
+          //Filter out tests the user rekeyd for other users
+          return value.filter((test) => {
+            return test.examinerConducted.toString() === employeeId;
+          });
+        }),
+        map((value) => {
+          const recordArray: ExaminerRecordModel[] = [];
+          //format tests into ExaminerRecordModel
+          value.forEach((test) => {
+            recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
+          });
+          return recordArray;
+        })
+      )
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
     return result;
   }
 
@@ -455,16 +428,13 @@ export class ExaminerRecordsPage implements OnInit {
         // depending on whether cost code is available
         val.item = {
           ...val.item,
-          centreName: `Limited details - ${
-            !!val.item.costCode ? val.item.costCode : val.item.centreId.toString()
-          }`
-        }
+          centreName: `Limited details - ${!!val.item.costCode ? val.item.costCode : val.item.centreId.toString()}`,
+        };
       }
       this.locationFilterOptions.push(val.item);
     });
 
-    if (!this.locationFilterOptions.map(({ centreId }) => centreId)
-      .includes(this.locationSubject$.value)) {
+    if (!this.locationFilterOptions.map(({ centreId }) => centreId).includes(this.locationSubject$.value)) {
       //find most common location and set it as the default
       const mostUsed: ExaminerRecordData<TestCentre> = this.setDefault(locations);
       if (!!mostUsed) {
@@ -517,54 +487,52 @@ export class ExaminerRecordsPage implements OnInit {
       tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
       testCount$: this.getTestsByParameters(getStartedTestCount),
       circuits$: this.getTestsByParameters(getCircuits),
-      locationList$: this.getLocationsByParameters(getLocations)
-        .pipe(
-          tap((value: ExaminerRecordData<TestCentre>[]) => {
-            this.setupLocationSelectList(value);
-          }),
-        ),
-      categoryList$: this.getCategoriesByParameters(getCategories)
-        .pipe(
-          tap((value: ExaminerRecordData<TestCategory>[]) => {
-            this.setupCategorySelectList(value)
-          }),
-        ),
-      emergencyStops$: this.getTestsByParameters(getStartedTestCount)
-        .pipe(
-          withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
-          //Turn emergency stop count into two objects containing tests with stops and tests without
-          map(([testCount, emergencyStopCount]) => ([
-            {
-              item: 'Stop',
-              count: emergencyStopCount,
-              percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
-            },
-            {
-              item: 'No stop',
-              count: testCount - emergencyStopCount,
-              percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
-            },
-          ])),
-        ),
+      locationList$: this.getLocationsByParameters(getLocations).pipe(
+        tap((value: ExaminerRecordData<TestCentre>[]) => {
+          this.setupLocationSelectList(value);
+        })
+      ),
+      categoryList$: this.getCategoriesByParameters(getCategories).pipe(
+        tap((value: ExaminerRecordData<TestCategory>[]) => {
+          this.setupCategorySelectList(value);
+        })
+      ),
+      emergencyStops$: this.getTestsByParameters(getStartedTestCount).pipe(
+        withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
+        //Turn emergency stop count into two objects containing tests with stops and tests without
+        map(([testCount, emergencyStopCount]) => [
+          {
+            item: 'Stop',
+            count: emergencyStopCount,
+            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
+          },
+          {
+            item: 'No stop',
+            count: testCount - emergencyStopCount,
+            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
+          },
+        ])
+      ),
     };
 
-    const {
-      cachedRecords$,
-      isLoadingRecords$,
-    } = this.pageState;
+    const { cachedRecords$, isLoadingRecords$ } = this.pageState;
 
     this.merged$ = merge(
       //listen for changes to test result and send the result to the behaviour subject
-      cachedRecords$.pipe(tap((value) => {
-        this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
-        if (this.testResults.length > 0) {
-          this.testSubject$.next(this.testResults);
-        }
-      })),
+      cachedRecords$.pipe(
+        tap((value) => {
+          this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
+          if (this.testResults.length > 0) {
+            this.testSubject$.next(this.testResults);
+          }
+        })
+      ),
       //deactivate loading ui when no longer loading
-      isLoadingRecords$.pipe(map((value) => {
-        this.examinerRecordsProvider.handleLoadingUI(value);
-      })),
+      isLoadingRecords$.pipe(
+        map((value) => {
+          this.examinerRecordsProvider.handleLoadingUI(value);
+        })
+      )
     );
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -618,12 +586,14 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationFilterOptions = [];
       let mostUsed = null;
 
-      this.pageState.locationList$.subscribe(value => {
-        //populate location filter options
-        this.locationFilterOptions = value.map((val) => val.item);
-        //find most common location and set it as the default
-        mostUsed = this.setDefault(value);
-      }).unsubscribe();
+      this.pageState.locationList$
+        .subscribe((value) => {
+          //populate location filter options
+          this.locationFilterOptions = value.map((val) => val.item);
+          //find most common location and set it as the default
+          mostUsed = this.setDefault(value);
+        })
+        .unsubscribe();
 
       if (!!mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
@@ -648,7 +618,7 @@ export class ExaminerRecordsPage implements OnInit {
     if (!data || data?.length === 0) {
       return null;
     }
-    return data.reduce((max, obj) => (obj.count > max.count) ? obj : max);
+    return data.reduce((max, obj) => (obj.count > max.count ? obj : max));
   }
 
   /**
@@ -686,12 +656,12 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {TestCentre} event - The selected location.
    * @param {boolean} [ionSelectTriggered=false] - Indicates if the selection was triggered by the user.
    */
-  handleLocationFilter(event: TestCentre, ionSelectTriggered: boolean = false) {
+  handleLocationFilter(event: TestCentre, ionSelectTriggered = false) {
     if (ionSelectTriggered) {
       this.locationSelectPristine = false;
     }
 
-    if (event && (event.centreId !== this.locationFilter.centreId)) {
+    if (event && event.centreId !== this.locationFilter.centreId) {
       this.locationFilter = event;
       this.locationSubject$.next(event.centreId ?? null);
       this.currentTestCentre = event;
@@ -715,7 +685,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {TestCategory} event - The selected category.
    * @param {boolean} [ionSelectTriggered=false] - Indicates if the selection was triggered by the user.
    */
-  handleCategoryFilter(event: TestCategory, ionSelectTriggered: boolean = false): void {
+  handleCategoryFilter(event: TestCategory, ionSelectTriggered = false): void {
     if (ionSelectTriggered) {
       this.categorySelectPristine = false;
     }
@@ -724,7 +694,6 @@ export class ExaminerRecordsPage implements OnInit {
       this.currentCategory = event;
       this.categorySubject$.next(event ?? null);
       this.changeEligibleTests();
-
 
       this.store$.dispatch(TestCategoryChanged(event));
     }
@@ -827,10 +796,14 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * @returns {boolean} `true` if the current category is a mod1 test, otherwise `false`.
    */
-  public isMod1 = (): boolean => isAnyOf(this.currentCategory, [
-    // Cat Mod1
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
-  ]);
+  public isMod1 = (): boolean =>
+    isAnyOf(this.currentCategory, [
+      // Cat Mod1
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1,
+    ]);
 
   /**
    * Returns whether the current category is a bike test (mod1/mod2).
@@ -839,12 +812,19 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * @returns {boolean} `true` if the current category is a bike test, otherwise `false`.
    */
-  public isBike = (): boolean => isAnyOf(this.currentCategory, [
-    // Cat Mod1
-    TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
-    // Cat Mod2
-    TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
-  ]);
+  public isBike = (): boolean =>
+    isAnyOf(this.currentCategory, [
+      // Cat Mod1
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1,
+      // Cat Mod2
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2,
+    ]);
 
   /**
    * Get the total number of individual instances of data.
@@ -856,9 +836,8 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {ExaminerRecordDataWithPercentage<T>[]} value - The array of `ExaminerRecordData` objects.
    * @returns {number} The total count of individual instances of data.
    */
-  getTotal = <T>(
-    value: ExaminerRecordDataWithPercentage<T>[],
-  ): number => value.reduce((total, val) => total + Number(val.count), 0);
+  getTotal = <T>(value: ExaminerRecordDataWithPercentage<T>[]): number =>
+    value.reduce((total, val) => total + Number(val.count), 0);
 
   /**
    * Determines if the "No Data" card should be displayed.
@@ -881,7 +860,7 @@ export class ExaminerRecordsPage implements OnInit {
         }
       }
     });
-    return noData || (data.categoryList?.length === 0 || data.locationList?.length === 0)
+    return noData || data.categoryList?.length === 0 || data.locationList?.length === 0;
   }
 
   /**
@@ -893,14 +872,16 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {string} The formatted label text.
    */
   getLabelText(): string {
-    let testCount: number = 0;
-    this.pageState.testCount$.subscribe(value => testCount = value).unsubscribe();
+    let testCount = 0;
+    this.pageState.testCount$.subscribe((value) => (testCount = value)).unsubscribe();
 
-    return `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test` +
+    return (
+      `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test` +
       (testCount > 1 ? '<ion-text>s</ion-text>' : '') +
       `, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>` +
       (this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : '') +
-      ` at <strong>${this.locationFilter.centreName}</strong>`;
+      ` at <strong>${this.locationFilter.centreName}</strong>`
+    );
   }
 
   /**

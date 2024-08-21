@@ -1,35 +1,35 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Router } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
-import { LogHelper } from '@providers/logs/logs-helper';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AppComponent } from '@app/app.component';
+import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import { CAT_A_MOD1, CAT_A_MOD2, CAT_B, CAT_C, CAT_D, TestFlowPageNames } from '@pages/page-names.constants';
-import { StoreModel } from '@shared/models/store.model';
+import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { ActivateTest, StartTest } from '@store/tests/tests.actions';
-import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { StoreModel } from '@shared/models/store.model';
 import { JournalModel } from '@store/journal/journal.model';
-import { AppComponent } from '@app/app.component';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
-import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
-import { TestOutcomeComponent } from '../test-outcome';
-import { TestSlotComponentsModule } from '../../test-slot-components.module';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
-import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
+import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { TestSlotComponentsModule } from '../../test-slot-components.module';
+import { TestOutcomeComponent } from '../test-outcome';
 
 describe('TestOutcomeComponent', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
@@ -152,7 +152,7 @@ describe('TestOutcomeComponent', () => {
               },
             },
           }),
-          journal: () => (journal),
+          journal: () => journal,
           rekeySearch: () => ({ bookedTestSlot: {} }),
         }),
         TestSlotComponentsModule,
@@ -199,43 +199,36 @@ describe('TestOutcomeComponent', () => {
         component.category = TestCategory.B;
         component.startTest();
 
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
+        expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
       it('should dispatch a start test action with the slot', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.C;
         component.startTest();
 
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
+        expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
     });
     describe('earlyStart', () => {
       it('should create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().add(8, Duration.MINUTE)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton.triggerEventHandler('click', null);
-        expect(component.displayCheckStartModal)
-          .toHaveBeenCalled();
+        expect(component.displayCheckStartModal).toHaveBeenCalled();
       });
       it('should not create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().add(2, Duration.MINUTE)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton.triggerEventHandler('click', null);
-        expect(component.displayCheckStartModal)
-          .not
-          .toHaveBeenCalled();
+        expect(component.displayCheckStartModal).not.toHaveBeenCalled();
       });
     });
 
@@ -247,19 +240,18 @@ describe('TestOutcomeComponent', () => {
       it('should dispatch the ContinueUnuploadedTest when hasNavigatedFromUnsubmitted is set to true', async () => {
         component.hasNavigatedFromUnsubmitted = true;
         await component.writeUpTest();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ContinueUnuploadedTest(TestStatus.WriteUp));
+        expect(store$.dispatch).toHaveBeenCalledWith(ContinueUnuploadedTest(TestStatus.WriteUp));
       });
       categoryPages.forEach((cat) => {
         it(`should dispatch an ActivateTest action and navigate to the Office Cat ${cat.category} page`, async () => {
           component.category = cat.category;
           await component.writeUpTest();
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          expect(routeByCategory.navigateToPage)
-            .toHaveBeenCalledWith(
-              TestFlowPageNames.OFFICE_PAGE, component.category, { state: { hasNavigatedFromUnsubmitted: false } },
-            );
+          expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.OFFICE_PAGE,
+            component.category,
+            { state: { hasNavigatedFromUnsubmitted: false } }
+          );
         });
       });
     });
@@ -290,27 +282,33 @@ describe('TestOutcomeComponent', () => {
         await component.rekeyDelegatedTestStart();
         expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
           TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE,
-          component.category);
+          component.category
+        );
       });
     });
 
     describe('onModalDismiss', () => {
-      it('should set startTestAsRekey and isRekey to false and call' +
-        ' startOrResumeTestDependingOnStatus when event is START', async () => {
-        spyOn(component, 'startOrResumeTestDependingOnStatus');
-        await component.onModalDismiss(ModalEvent.START);
-        expect(component.startTestAsRekey).toBe(false);
-        expect(component.isRekey).toBe(false);
-        expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
-      });
+      it(
+        'should set startTestAsRekey and isRekey to false and call' +
+          ' startOrResumeTestDependingOnStatus when event is START',
+        async () => {
+          spyOn(component, 'startOrResumeTestDependingOnStatus');
+          await component.onModalDismiss(ModalEvent.START);
+          expect(component.startTestAsRekey).toBe(false);
+          expect(component.isRekey).toBe(false);
+          expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
+        }
+      );
 
-      it('should set startTestAsRekey to true and call ' +
-        'startOrResumeTestDependingOnStatus when event is REKEY', async () => {
-        spyOn(component, 'startOrResumeTestDependingOnStatus');
-        await component.onModalDismiss(ModalEvent.REKEY);
-        expect(component.startTestAsRekey).toBe(true);
-        expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
-      });
+      it(
+        'should set startTestAsRekey to true and call ' + 'startOrResumeTestDependingOnStatus when event is REKEY',
+        async () => {
+          spyOn(component, 'startOrResumeTestDependingOnStatus');
+          await component.onModalDismiss(ModalEvent.REKEY);
+          expect(component.startTestAsRekey).toBe(true);
+          expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
+        }
+      );
 
       it('should do nothing when event is not START or REKEY', async () => {
         spyOn(component, 'startOrResumeTestDependingOnStatus');
@@ -324,13 +322,14 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.hasNavigatedFromUnsubmitted = false;
       });
-      it('should dispatch the ContinueUnuploadedTest when ' +
-        'hasNavigatedFromUnsubmitted is set to true', async () => {
-        component.hasNavigatedFromUnsubmitted = true;
-        await component.resumeTest();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ContinueUnuploadedTest('Resume'));
-      });
+      it(
+        'should dispatch the ContinueUnuploadedTest when ' + 'hasNavigatedFromUnsubmitted is set to true',
+        async () => {
+          component.hasNavigatedFromUnsubmitted = true;
+          await component.resumeTest();
+          expect(store$.dispatch).toHaveBeenCalledWith(ContinueUnuploadedTest('Resume'));
+        }
+      );
       categoryPages.forEach((cat) => {
         if (cat.category !== TestCategory.SC) {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
@@ -338,10 +337,8 @@ describe('TestOutcomeComponent', () => {
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
             component.resumeTest();
-            expect(store$.dispatch)
-              .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-            expect(router.navigate)
-              .toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
+            expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+            expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
           });
         } else {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
@@ -349,10 +346,8 @@ describe('TestOutcomeComponent', () => {
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
             component.resumeTest();
-            expect(store$.dispatch)
-              .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-            expect(router.navigate)
-              .toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
+            expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+            expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
           });
         }
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
@@ -361,12 +356,11 @@ describe('TestOutcomeComponent', () => {
           component.activityCode = ActivityCodes.PASS;
           component.category = cat.category;
           component.resumeTest();
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          expect(routeByCategory.navigateToPage)
-            .toHaveBeenCalledWith(
-              TestFlowPageNames.PASS_FINALISATION_PAGE, component.category,
-            );
+          expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.PASS_FINALISATION_PAGE,
+            component.category
+          );
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Non Pass Finalisation page`, () => {
@@ -374,12 +368,8 @@ describe('TestOutcomeComponent', () => {
           component.activityCode = ActivityCodes.FAIL;
           component.category = cat.category;
           component.resumeTest();
-          expect(store$.dispatch)
-            .toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          expect(routeByCategory.navigateToPage)
-            .toHaveBeenCalledWith(
-              TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
-            );
+          expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
         });
       });
     });
@@ -391,8 +381,7 @@ describe('TestOutcomeComponent', () => {
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(false);
+        expect(component.showRekeyButton()).toEqual(false);
       });
       it('should return true for a booked test on the rekey search page', () => {
         component.slotDetail = testSlotDetail;
@@ -401,8 +390,7 @@ describe('TestOutcomeComponent', () => {
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(true);
+        expect(component.showRekeyButton()).toEqual(true);
       });
       it('should return false for a completed test on the rekey search page', () => {
         component.slotDetail = testSlotDetail;
@@ -411,20 +399,17 @@ describe('TestOutcomeComponent', () => {
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(false);
+        expect(component.showRekeyButton()).toEqual(false);
       });
       it('should return true for a test that was started as a rekey and the date is in the past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
         component.isRekey = true;
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(true);
+        expect(component.showRekeyButton()).toEqual(true);
       });
       it('should return false for test that was started as a rekey and the date is today', () => {
         component.slotDetail = testSlotDetail;
@@ -434,52 +419,43 @@ describe('TestOutcomeComponent', () => {
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(false);
+        expect(component.showRekeyButton()).toEqual(false);
       });
       it('should return true for a new test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = null;
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(true);
+        expect(component.showRekeyButton()).toEqual(true);
       });
       it('should return true for a booked test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(true);
+        expect(component.showRekeyButton()).toEqual(true);
       });
       it('should return false for a resumed test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(false);
+        expect(component.showRekeyButton()).toEqual(false);
       });
       it('should return true for a booked test if date is in the past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(true);
+        expect(component.showRekeyButton()).toEqual(true);
       });
       it('should return false for a booked test if date is today', () => {
         component.slotDetail = testSlotDetail;
@@ -488,8 +464,7 @@ describe('TestOutcomeComponent', () => {
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(false);
+        expect(component.showRekeyButton()).toEqual(false);
       });
       it('should return false for a resumed test if date is today', () => {
         component.slotDetail = testSlotDetail;
@@ -498,8 +473,7 @@ describe('TestOutcomeComponent', () => {
 
         component.showRekeyButton();
 
-        expect(component.showRekeyButton())
-          .toEqual(false);
+        expect(component.showRekeyButton()).toEqual(false);
       });
     });
   });
@@ -507,17 +481,14 @@ describe('TestOutcomeComponent', () => {
   describe('DOM', () => {
     describe('show start test button', () => {
       it('should show the start test button when the test status is Booked', () => {
-        spyOn(component, 'showRekeyButton')
-          .and
-          .returnValue(false);
+        spyOn(component, 'showRekeyButton').and.returnValue(false);
 
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
         component.isDelegatedTest = false;
         fixture.detectChanges();
         const startButton = fixture.debugElement.queryAll(By.css('.mes-primary-button'));
-        expect(startButton.length)
-          .toBe(1);
+        expect(startButton.length).toBe(1);
       });
 
       it('should not show the start test button when the test has a status other than booked', () => {
@@ -525,16 +496,13 @@ describe('TestOutcomeComponent', () => {
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
         const startButton = fixture.debugElement.queryAll(By.css('.mes-primary-button'));
-        expect(startButton.length)
-          .toBe(0);
+        expect(startButton.length).toBe(0);
       });
     });
 
     describe('start a test', () => {
       it('should call the startTest method when `Start test` is clicked', () => {
-        spyOn(component, 'showRekeyButton')
-          .and
-          .returnValue(false);
+        spyOn(component, 'showRekeyButton').and.returnValue(false);
 
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
@@ -545,8 +513,7 @@ describe('TestOutcomeComponent', () => {
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton?.triggerEventHandler('click', null);
 
-        expect(component.startTest)
-          .toHaveBeenCalled();
+        expect(component.startTest).toHaveBeenCalled();
       });
     });
 
@@ -558,29 +525,25 @@ describe('TestOutcomeComponent', () => {
       it('should dispatch the ContinueUnuploadedTest when hasNavigatedFromUnsubmitted is set to true', async () => {
         component.hasNavigatedFromUnsubmitted = true;
         await component.rekeyTest();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ContinueUnuploadedTest('Rekey'));
+        expect(store$.dispatch).toHaveBeenCalledWith(ContinueUnuploadedTest('Rekey'));
       });
       it('should call the rekeyTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
         component.testStatus = TestStatus.Booked;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         fixture.detectChanges();
         spyOn(component, 'rekeyTest');
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
         rekeyButton.triggerEventHandler('click', null);
-        expect(component.rekeyTest)
-          .toHaveBeenCalled();
+        expect(component.rekeyTest).toHaveBeenCalled();
       });
       categoryPages.forEach((cat) => {
         it(`should navigate to cat ${cat.category} waiting room page when "Rekey" is clicked`, () => {
           component.slotDetail = testSlotDetail;
           component.category = cat.category;
           component.rekeyTest();
-          expect(router.navigate)
-            .toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
+          expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
         });
       });
     });
@@ -588,27 +551,21 @@ describe('TestOutcomeComponent', () => {
     describe('rekeyDelegatedTest', () => {
       it('should call the rekeyDelegatedTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY)
-          .format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.category = TestCategory.BE;
         component.isDelegatedTest = true;
-        spyOn(component, 'showDelegatedExaminerRekeyButton')
-          .and
-          .returnValue(true);
+        spyOn(component, 'showDelegatedExaminerRekeyButton').and.returnValue(true);
         spyOn(component, 'rekeyDelegatedTest');
         fixture.detectChanges();
         const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
         rekeyDelegatedButton.triggerEventHandler('click', null);
-        expect(component.rekeyDelegatedTest)
-          .toHaveBeenCalled();
+        expect(component.rekeyDelegatedTest).toHaveBeenCalled();
       });
     });
 
     describe('debrief a test', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
-        spyOn(component, 'showResumeButton')
-          .and
-          .returnValue(true);
+        spyOn(component, 'showResumeButton').and.returnValue(true);
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
@@ -616,8 +573,7 @@ describe('TestOutcomeComponent', () => {
         const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
         debriefButton.triggerEventHandler('click', null);
 
-        expect(component.resumeTest)
-          .toHaveBeenCalled();
+        expect(component.resumeTest).toHaveBeenCalled();
       });
     });
 
@@ -631,16 +587,13 @@ describe('TestOutcomeComponent', () => {
         const writeUpButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
         writeUpButton.triggerEventHandler('click', null);
 
-        expect(component.writeUpTest)
-          .toHaveBeenCalled();
+        expect(component.writeUpTest).toHaveBeenCalled();
       });
     });
 
     describe('resume a test', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
-        spyOn(component, 'showResumeButton')
-          .and
-          .returnValue(true);
+        spyOn(component, 'showResumeButton').and.returnValue(true);
         component.slotDetail = testSlotDetail;
         component.applicationId = 1;
         component.testStatus = TestStatus.Started;
@@ -650,34 +603,26 @@ describe('TestOutcomeComponent', () => {
         const resumeButton = fixture.debugElement.query(By.css('#resume-button-1'));
         resumeButton.triggerEventHandler('click', null);
 
-        expect(component.resumeTest)
-          .toHaveBeenCalled();
+        expect(component.resumeTest).toHaveBeenCalled();
       });
     });
 
     describe('rekey button', () => {
       it('should show rekey button', () => {
-        spyOn(component, 'showRekeyButton')
-          .and
-          .returnValue(true);
+        spyOn(component, 'showRekeyButton').and.returnValue(true);
         fixture.detectChanges();
 
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
 
-        expect(rekeyButton)
-          .not
-          .toBeNull();
+        expect(rekeyButton).not.toBeNull();
       });
       it('should hide rekey button', () => {
-        spyOn(component, 'showRekeyButton')
-          .and
-          .returnValue(false);
+        spyOn(component, 'showRekeyButton').and.returnValue(false);
         fixture.detectChanges();
 
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
 
-        expect(rekeyButton)
-          .toBeNull();
+        expect(rekeyButton).toBeNull();
       });
     });
 
@@ -688,25 +633,20 @@ describe('TestOutcomeComponent', () => {
           component.testStatus = TestStatus.Submitted;
           fixture.detectChanges();
           const outcomeCode = fixture.debugElement.query(By.css('.outcome'));
-          expect(outcomeCode)
-            .not
-            .toBeNull();
+          expect(outcomeCode).not.toBeNull();
         });
         it('should hide the activity code if none available', () => {
           component.slotDetail = testSlotDetail;
           component.slotDetail.slotId = null;
           fixture.detectChanges();
           const outcomeCode = fixture.debugElement.query(By.css('.outcome'));
-          expect(outcomeCode)
-            .toBeNull();
+          expect(outcomeCode).toBeNull();
         });
       });
 
       describe('show force detail check modal', () => {
         it('should display the force detail check modal', () => {
-          spyOn(component, 'showRekeyButton')
-            .and
-            .returnValue(false);
+          spyOn(component, 'showRekeyButton').and.returnValue(false);
 
           component.specialRequirements = true;
           component.slotDetail = testSlotDetail;
@@ -718,16 +658,13 @@ describe('TestOutcomeComponent', () => {
           const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
           startButton?.triggerEventHandler('click', null);
 
-          expect(component.displayForceCheckModal)
-            .toHaveBeenCalled();
+          expect(component.displayForceCheckModal).toHaveBeenCalled();
         });
       });
 
       describe('candidate details seen, force detail check modal should not be seen', () => {
         it('should not display the force detail check modal', () => {
-          spyOn(component, 'showRekeyButton')
-            .and
-            .returnValue(false);
+          spyOn(component, 'showRekeyButton').and.returnValue(false);
 
           component.specialRequirements = true;
           component.slotDetail = testSlotDetail;
@@ -740,8 +677,7 @@ describe('TestOutcomeComponent', () => {
           const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
           startButton?.triggerEventHandler('click', null);
 
-          expect(component.displayForceCheckModal)
-            .toHaveBeenCalledTimes(0);
+          expect(component.displayForceCheckModal).toHaveBeenCalledTimes(0);
         });
       });
     });
@@ -752,8 +688,7 @@ describe('TestOutcomeComponent', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe)
-        .toHaveBeenCalled();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 });

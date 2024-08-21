@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { get } from 'lodash-es';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
+import { ModalController } from '@ionic/angular';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'modal-activity-code-list',
@@ -11,21 +11,17 @@ import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivi
   styleUrls: ['./modal-activity-code-list.scss'],
 })
 export class ModalActivityCodeListComponent {
-
   activityCodeModel: ActivityCodeModel;
   activityCodeOptions: ActivityCodeModel[];
-  idPrefix: string = 'activity-code-modal';
+  idPrefix = 'activity-code-modal';
 
-  constructor(
-    public modalController: ModalController,
-  ) {
-  }
+  constructor(public modalController: ModalController) {}
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(null, ActivityCodeModalEvent.CANCEL);
   };
 
-  isOptionDisabled = (activityCode: ActivityCode): boolean => parseInt(activityCode, 10) < 4;
+  isOptionDisabled = (activityCode: ActivityCode): boolean => Number.parseInt(activityCode, 10) < 4;
 
   selectActivityCode = async (activityCodeModel: ActivityCodeModel): Promise<void> => {
     if (this.isOptionDisabled(activityCodeModel.activityCode)) {

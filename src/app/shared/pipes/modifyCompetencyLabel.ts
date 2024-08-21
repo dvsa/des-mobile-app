@@ -5,7 +5,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   name: 'modifyCompetencyLabel',
 })
 export class ModifyCompetencyLabel implements PipeTransform {
-
   /**
    * Pipe to convert competency label dynamically
    * @param value
@@ -14,7 +13,7 @@ export class ModifyCompetencyLabel implements PipeTransform {
    */
   transform(value: string, testCategory: TestCategory, fault: string): string {
     // For CatA tests change move off to move away
-    if (testCategory && (testCategory.includes('EUA') && fault.toUpperCase().replace(/\s/g, '').includes('MOVEOFF'))) {
+    if (testCategory && testCategory.includes('EUA') && fault.toUpperCase().replace(/\s/g, '').includes('MOVEOFF')) {
       return value.replace('off', 'away');
     }
     return value;

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
+import { MockComponent } from 'ng-mocks';
 import { ActivityCodeCard } from '../activity-code-card';
 
 describe('ActivityCodeCard', () => {
@@ -11,13 +11,8 @@ describe('ActivityCodeCard', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ActivityCodeCard,
-        MockComponent(DataRowComponent),
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [ActivityCodeCard, MockComponent(DataRowComponent)],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ActivityCodeCard);
@@ -29,12 +24,13 @@ describe('ActivityCodeCard', () => {
   });
 
   describe('getActivityCodeDescription', () => {
-    it('should set description to UNAUTHORISED_FILMING and return the'
-        + 'description for that entry upon passing a code of 41 ', () => {
-      component.activityCode = '41';
-      expect(component.getActivityCodeDescription())
-        .toEqual('41 - Unauthorised filming / recording on test');
-    });
+    it(
+      'should set description to UNAUTHORISED_FILMING and return the' +
+        'description for that entry upon passing a code of 41 ',
+      () => {
+        component.activityCode = '41';
+        expect(component.getActivityCodeDescription()).toEqual('41 - Unauthorised filming / recording on test');
+      }
+    );
   });
-
 });

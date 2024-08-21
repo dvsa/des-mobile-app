@@ -1,11 +1,15 @@
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 import {
-  getCandidateName,
-  getCandidateDriverNumber,
   formatDriverNumber,
-  getUntitledCandidateName,
+  getCandidateDriverNumber,
+  getCandidateId,
+  getCandidateName,
+  getDateOfBirth,
+  getGender,
+  getGenderFullDescription,
+  getGenderSilhouettePath,
   getPostalAddress,
-  getCandidateId, getGenderFullDescription, getGender, getDateOfBirth, getGenderSilhouettePath,
+  getUntitledCandidateName,
 } from '../candidate.selector';
 
 describe('candidate selector', () => {

@@ -24,7 +24,6 @@ export const questionCombinations: Combination[] = [
     code: 'LGV2',
     questions: ['Q14', 'Q13', 'Q03', 'Q09'],
     additionalText: 'LSDT',
-
   },
   {
     code: 'LGV3',

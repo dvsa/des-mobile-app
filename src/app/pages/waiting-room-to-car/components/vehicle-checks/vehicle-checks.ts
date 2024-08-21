@@ -1,32 +1,19 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
-import { get } from 'lodash-es';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import {
-  CatCVehicleChecks,
-  CatDVehicleChecks,
-  CatHomeTestVehicleChecks,
-} from '@shared/unions/test-schema-unions';
-import {
-  VehicleChecksCatCModal,
-} from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
-import {
-  VehicleChecksCatDModal,
-} from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { VehicleChecksCatADIPart2Modal } from
-  '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
-import {
-  VehicleChecksCatHomeTestModal,
-} from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { ModalController } from '@ionic/angular';
+import { VehicleChecksCatADIPart2Modal } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
+import { VehicleChecksCatCModal } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
+import { VehicleChecksCatDModal } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
+import { VehicleChecksCatHomeTestModal } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { CatCVehicleChecks, CatDVehicleChecks, CatHomeTestVehicleChecks } from '@shared/unions/test-schema-unions';
+import { get } from 'lodash-es';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
@@ -75,17 +62,18 @@ export class VehicleChecksComponent implements OnChanges {
 
   constructor(
     private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-  ) {
-  }
+    private accessibilityService: AccessibilityService
+  ) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl({
-        value: 'Select questions',
-        disabled: false,
-      },
-      [this.validateVehicleChecks.bind(this)]);
+      this.formControl = new UntypedFormControl(
+        {
+          value: 'Select questions',
+          disabled: false,
+        },
+        [this.validateVehicleChecks.bind(this)]
+      );
       this.formGroup.addControl('vehicleChecksSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');
@@ -132,12 +120,8 @@ export class VehicleChecksComponent implements OnChanges {
     }
   };
 
-  private isCatD = (): boolean => isAnyOf(this.category, [
-    TestCategory.D,
-    TestCategory.D1,
-    TestCategory.DE,
-    TestCategory.D1E,
-  ]);
+  private isCatD = (): boolean =>
+    isAnyOf(this.category, [TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E]);
 
   everyQuestionHasOutcome(): boolean {
     const hasOutcome = (question: QuestionResult): boolean => {
@@ -145,19 +129,21 @@ export class VehicleChecksComponent implements OnChanges {
       return outcome !== undefined;
     };
 
-    const showMeQuestions = (
-      this.fullLicenceHeld ? [this.vehicleChecks.showMeQuestions[0]] : this.vehicleChecks.showMeQuestions
-    );
-    const tellMeQuestions = (
-      this.fullLicenceHeld ? [this.vehicleChecks.tellMeQuestions[0]] : this.vehicleChecks.tellMeQuestions
-    );
+    const showMeQuestions = this.fullLicenceHeld
+      ? [this.vehicleChecks.showMeQuestions[0]]
+      : this.vehicleChecks.showMeQuestions;
+    const tellMeQuestions = this.fullLicenceHeld
+      ? [this.vehicleChecks.tellMeQuestions[0]]
+      : this.vehicleChecks.tellMeQuestions;
     const safetyQuestion: boolean = this.safetyQuestions
       ? this.safetyQuestions.questions.reduce((res, question) => res && hasOutcome(question), true)
       : true;
 
-    return showMeQuestions.reduce((res, question) => res && hasOutcome(question), true)
-      && tellMeQuestions.reduce((res, question) => res && hasOutcome(question), true)
-      && safetyQuestion;
+    return (
+      showMeQuestions.reduce((res, question) => res && hasOutcome(question), true) &&
+      tellMeQuestions.reduce((res, question) => res && hasOutcome(question), true) &&
+      safetyQuestion
+    );
   }
 
   hasSeriousFault(): boolean {
@@ -180,10 +166,11 @@ export class VehicleChecksComponent implements OnChanges {
   }
 
   drivingFaultsLabel(count: number): string {
-    let label: string = 'driving fault';
-    if(count > 1) {
-      label = 'driving faults'
-    } return label;
+    let label = 'driving fault';
+    if (count > 1) {
+      label = 'driving faults';
+    }
+    return label;
   }
 
   get invalid(): boolean {

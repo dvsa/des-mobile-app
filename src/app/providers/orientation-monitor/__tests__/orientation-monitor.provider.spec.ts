@@ -1,10 +1,10 @@
+import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { GetCurrentOrientationResult } from '@capawesome/capacitor-screen-orientation/dist/esm/definitions';
-import { ApplicationRef } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { ApplicationRefMock } from '@mocks/angular-mocks/application-ref.mock';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { take } from 'rxjs/operators';
 
 describe('OrientationMonitorProvider', () => {
   let provider: OrientationMonitorProvider;
@@ -26,9 +26,7 @@ describe('OrientationMonitorProvider', () => {
     provider = TestBed.inject(OrientationMonitorProvider);
     spyOn(ScreenOrientation, 'removeAllListeners');
     spyOn(ScreenOrientation, 'addListener');
-    spyOn(ScreenOrientation, 'getCurrentOrientation')
-      .and
-      .returnValue(Promise.resolve(mockCurrentOrientation));
+    spyOn(ScreenOrientation, 'getCurrentOrientation').and.returnValue(Promise.resolve(mockCurrentOrientation));
   });
 
   afterAll(() => {
@@ -38,8 +36,7 @@ describe('OrientationMonitorProvider', () => {
   describe('tearDownListener', () => {
     it('should call removeAllListeners', () => {
       provider.tearDownListener();
-      expect(ScreenOrientation.removeAllListeners)
-        .toHaveBeenCalled();
+      expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
     });
   });
 
@@ -47,16 +44,11 @@ describe('OrientationMonitorProvider', () => {
     it('should set iisPortraitMode$ to true if the device is in portrait mode', async () => {
       await provider.monitorOrientation();
 
-      expect(ScreenOrientation.getCurrentOrientation)
-        .toHaveBeenCalled();
-      provider.isPortraitMode$
-        .pipe(take(1))
-        .subscribe((value) => {
-          expect(value)
-            .toEqual(true);
-        });
-      expect(ScreenOrientation.addListener)
-        .toHaveBeenCalled();
+      expect(ScreenOrientation.getCurrentOrientation).toHaveBeenCalled();
+      provider.isPortraitMode$.pipe(take(1)).subscribe((value) => {
+        expect(value).toEqual(true);
+      });
+      expect(ScreenOrientation.addListener).toHaveBeenCalled();
     });
   });
 });

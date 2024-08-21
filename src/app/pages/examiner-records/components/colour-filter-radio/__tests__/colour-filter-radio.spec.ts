@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
-import { UntypedFormGroup } from '@angular/forms';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 describe('ColourFilterRadioComponent', () => {
   let fixture: ComponentFixture<ColourFilterRadioComponent>;
@@ -13,9 +13,7 @@ describe('ColourFilterRadioComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ColourFilterRadioComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

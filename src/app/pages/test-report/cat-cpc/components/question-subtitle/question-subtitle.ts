@@ -6,8 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['question-subtitle.scss'],
 })
 export class QuestionSubtitleComponent {
-
   @Input()
   subtitle: string;
-
 }

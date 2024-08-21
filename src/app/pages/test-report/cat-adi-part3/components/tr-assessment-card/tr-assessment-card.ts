@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
@@ -8,7 +6,6 @@ import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvs
   templateUrl: 'tr-assessment-card.html',
 })
 export class TestReportAssessmentCard {
-
   @Input()
   sectionHeader: string;
 
@@ -16,15 +13,15 @@ export class TestReportAssessmentCard {
   assessmentCard: string;
 
   @Input()
-  showMissing: boolean = false;
+  showMissing = false;
 
   @Input()
   sectionData: LessonPlanning | RiskManagement | TeachingLearningStrategies;
 
   @Output()
-  answerChange = new EventEmitter<{ question: number; answer: number; }>();
+  answerChange = new EventEmitter<{ question: number; answer: number }>();
 
   trAssessmentAnswerChange = (question: number, answer: string) => {
-    this.answerChange.emit({ question, answer: (answer === null) ? null : Number(answer) });
+    this.answerChange.emit({ question, answer: answer === null ? null : Number(answer) });
   };
 }

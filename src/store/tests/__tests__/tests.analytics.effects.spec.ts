@@ -1,9 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { Application } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsEventCategories,
   GoogleAnalyticsCustomDimension,
@@ -12,32 +16,27 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { StoreModel } from '@shared/models/store.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { Application } from '@dvsa/mes-journal-schema';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
-import { Router } from '@angular/router';
-import { testsReducer } from '../tests.reducer';
-import { TestsAnalyticsEffects } from '../tests.analytics.effects';
-import * as testsActions from '../tests.actions';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { StoreModel } from '@shared/models/store.model';
+import { ReplaySubject } from 'rxjs';
 import * as activityCodeActions from '../activity-code/activity-code.actions';
-import * as testStatusActions from '../test-status/test-status.actions';
+import * as applicationReferenceActions from '../journal-data/common/application-reference/application-reference.actions';
 import * as candidateActions from '../journal-data/common/candidate/candidate.actions';
 import * as rekeyActions from '../rekey/rekey.actions';
-import * as applicationReferenceActions
-  from '../journal-data/common/application-reference/application-reference.actions';
+import * as testStatusActions from '../test-status/test-status.actions';
+import * as testsActions from '../tests.actions';
+import { TestsAnalyticsEffects } from '../tests.analytics.effects';
+import { testsReducer } from '../tests.reducer';
 
-import { candidateMock } from '../__mocks__/tests.mock';
-import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { journalReducer } from '@store/journal/journal.reducer';
-import * as journalActions from '@store/journal/journal.actions';
-import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
+import { DeviceProvider } from '@providers/device/device';
 import { ConnectionStatus } from '@providers/network-state/network-state';
+import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
+import * as journalActions from '@store/journal/journal.actions';
+import { journalReducer } from '@store/journal/journal.reducer';
+import { candidateMock } from '../__mocks__/tests.mock';
 
 describe('TestsAnalyticsEffects', () => {
   let effects: TestsAnalyticsEffects;
@@ -100,20 +99,22 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
       // ASSERT
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.SUBMIT_TEST,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.SUBMIT_TEST,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -129,20 +130,22 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testStatusActions.SetTestStatusSubmitted('12345'));
       // ASSERT
       effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.SUBMIT_TEST}`,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.SUBMIT_TEST}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -154,15 +157,13 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.SendCompletedTestsFailure());
       // ASSERT
       effects.sendCompletedTestsFailureEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.MICROSERVICE_ERROR,
-            GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
-            GoogleAnalyticsEventsValues.FULL,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.MICROSERVICE_ERROR,
+          GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
+          GoogleAnalyticsEventsValues.FULL
+        );
         done();
       });
     });
@@ -174,15 +175,13 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.SendPartialTestsFailure());
       // ASSERT
       effects.sendPartialTestsFailureEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.MICROSERVICE_ERROR,
-            GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
-            GoogleAnalyticsEventsValues.PARTIAL,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.MICROSERVICE_ERROR,
+          GoogleAnalyticsEventsTitles.TEST_SUBMISSION,
+          GoogleAnalyticsEventsValues.PARTIAL
+        );
         done();
       });
     });
@@ -200,22 +199,24 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.TestOutcomeChanged(eventLabel));
       // ASSERT
       effects.testOutcomeChangedEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
-            GoogleAnalyticsEventsTitles.OLD_RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-            GoogleAnalyticsEventsTitles.NEW_RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+          GoogleAnalyticsEventsTitles.OLD_RESULT,
+          GoogleAnalyticsEventsValues.FAIL,
+          GoogleAnalyticsEventsTitles.NEW_RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -230,22 +231,24 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.TestOutcomeChanged(eventLabel));
       // ASSERT
       effects.testOutcomeChangedEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
-            GoogleAnalyticsEventsTitles.OLD_RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-            GoogleAnalyticsEventsTitles.NEW_RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+          GoogleAnalyticsEventsTitles.OLD_RESULT,
+          GoogleAnalyticsEventsValues.PASS,
+          GoogleAnalyticsEventsTitles.NEW_RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -260,22 +263,24 @@ describe('TestsAnalyticsEffects', () => {
       actions$.next(testsActions.TestOutcomeChanged(eventLabel));
       // ASSERT
       effects.testOutcomeChangedEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
-            GoogleAnalyticsEventsTitles.OLD_RESULT,
-            GoogleAnalyticsEventsValues.UNKNOWN,
-            GoogleAnalyticsEventsTitles.NEW_RESULT,
-            GoogleAnalyticsEventsValues.UNKNOWN,
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.TEST_OUTCOME_CHANGED,
+          GoogleAnalyticsEventsTitles.OLD_RESULT,
+          GoogleAnalyticsEventsValues.UNKNOWN,
+          GoogleAnalyticsEventsTitles.NEW_RESULT,
+          GoogleAnalyticsEventsValues.UNKNOWN
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -293,76 +298,61 @@ describe('TestsAnalyticsEffects', () => {
           },
           ConnectionStatus.ONLINE,
           false,
-          new Date(),
-        ),
+          new Date()
+        )
       ); // Load in mock journal state
     });
     it('should log the correct event if it triggered from the journal page', (done) => {
       // ARRANGE
-      spyOn(navigationStateProviderMock, 'isRekeySearch')
-        .and
-        .returnValue(false);
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
       actions$.next(testsActions.StartTest(12345, TestCategory.B));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-            TestCategory.B,
-          );
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.START_TEST,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          TestCategory.B
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.START_TEST);
         done();
       });
     });
     it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
       // ARRANGE
-      spyOn(navigationStateProviderMock, 'isRekeySearch')
-        .and
-        .returnValue(true);
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
       actions$.next(testsActions.StartTest(12345, TestCategory.B));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-            TestCategory.B,
-          );
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`,
-          );
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.METADATA,
-            GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
-            '0.9',
-          );
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.METADATA,
-            GoogleAnalyticsEventsTitles.HDD_FREE_MB,
-            '456',
-          );
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.METADATA,
-            GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
-            '1000',
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          TestCategory.B
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.METADATA,
+          GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
+          '0.9'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          GoogleAnalyticsEventsTitles.HDD_FREE_MB,
+          '456'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.METADATA,
+          GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
+          '1000'
+        );
         done();
       });
     });

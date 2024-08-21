@@ -7,8 +7,6 @@ import { CombinationCodes } from '@dvsa/mes-test-schema/categories/CPC';
   styleUrls: ['module-assessment.scss'],
 })
 export class ModuleAssessmentComponent {
-
   @Input()
   combinationCode: CombinationCodes;
-
 }

@@ -1,18 +1,18 @@
-import { StoreModel } from '@shared/models/store.model';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StartTest } from '@store/tests/tests.actions';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { StoreModel } from '@shared/models/store.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { By } from '@angular/platform-browser';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
-import { IonicModule } from '@ionic/angular';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
 describe('VehicleChecksComponent', () => {
@@ -33,10 +33,7 @@ describe('VehicleChecksComponent', () => {
           tests: testsReducer,
         }),
       ],
-      providers: [
-        FaultCountProvider,
-        TestDataByCategoryProvider,
-      ],
+      providers: [FaultCountProvider, TestDataByCategoryProvider],
     });
 
     fixture = TestBed.createComponent(VehicleChecksComponent);
@@ -96,5 +93,4 @@ describe('VehicleChecksComponent', () => {
       expect(seriousFaultsBadge.showBadge).toEqual(true);
     });
   });
-
 });

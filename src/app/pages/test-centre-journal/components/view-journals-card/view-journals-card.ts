@@ -1,32 +1,25 @@
-import {
-  Component, EventEmitter,
-  Input, OnChanges, Output,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { Examiner, ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
-import { first, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { IonSelect } from '@ionic/angular';
+import { Observable, of } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
-import { SlotItem } from '@providers/slot-selector/slot-item';
-import { SlotProvider } from '@providers/slot/slot';
-import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
-import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
-import { DateTime, Duration } from '@shared/helpers/date-time';
-import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
-import {
-  SearchablePicklistComponentWrapper,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { Store } from '@ngrx/store';
 import {
   TestCentreJournalDateNavigation,
   TestCentreJournalSelectExaminer,
   TestCentreJournalShowJournals,
 } from '@pages/test-centre-journal/test-centre-journal.actions';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { SlotProvider } from '@providers/slot/slot';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
 
 export enum Day {
   TODAY = 'today',
@@ -39,7 +32,6 @@ export enum Day {
   styleUrls: ['./view-journals-card.scss'],
 })
 export class ViewJournalsCardComponent implements OnChanges {
-
   @ViewChild('slotContainer', { read: ViewContainerRef })
   slotContainer: ViewContainerRef;
 
@@ -59,7 +51,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   manuallyRefreshed: boolean;
 
   @Input()
-  isLDTM: boolean = false;
+  isLDTM = false;
 
   @Input()
   testCentres: TestCentre[] = [];
@@ -70,8 +62,8 @@ export class ViewJournalsCardComponent implements OnChanges {
   @Output()
   testCentreChanged = new EventEmitter<TestCentre>();
 
-  hasSelectedExaminer: boolean = false;
-  hasClickedShowJournal: boolean = false;
+  hasSelectedExaminer = false;
+  hasClickedShowJournal = false;
   journal: ExaminerWorkSchedule | null = null;
   examinerName: string = null;
   examinerSlotItemsByDate: ExaminerSlotItemsByDate;
@@ -85,9 +77,8 @@ export class ViewJournalsCardComponent implements OnChanges {
     public orientationMonitorProvider: OrientationMonitorProvider,
     private slotProvider: SlotProvider,
     private slotSelectorProvider: SlotSelectorProvider,
-    private store$: Store<StoreModel>,
-  ) {
-  }
+    private store$: Store<StoreModel>
+  ) {}
 
   ngOnChanges(): void {
     if (this.manuallyRefreshed) {
@@ -121,10 +112,9 @@ export class ViewJournalsCardComponent implements OnChanges {
 
     this.store$.dispatch(TestCentreJournalSelectExaminer());
 
-    const {
-      journal,
-      name,
-    } = this.testCentreResults?.examiners.find((examiner) => examiner.staffNumber === staffNumber);
+    const { journal, name } = this.testCentreResults?.examiners.find(
+      (examiner) => examiner.staffNumber === staffNumber
+    );
     this.currentSelectedDate = this.today;
     this.journal = journal;
     this.examinerName = name;
@@ -134,7 +124,6 @@ export class ViewJournalsCardComponent implements OnChanges {
   };
 
   onShowJournalClick = (): void => {
-
     this.hasClickedShowJournal = true;
 
     if (!this.journal) {
@@ -145,35 +134,39 @@ export class ViewJournalsCardComponent implements OnChanges {
     this.store$.dispatch(TestCentreJournalShowJournals());
 
     // createSlots with the selected journal
-    this.slotItems$ = of(this.journal)
-      .pipe(
-        first(), // auto unsubscribe after first emission
-        map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
+    this.slotItems$ = of(this.journal).pipe(
+      first(), // auto unsubscribe after first emission
+      map(
+        (journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
           examiner: journalData.examiner as Required<Examiner>,
           slotItems: this.slotProvider.detectSlotChanges({}, journalData),
-        })),
-        map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
+        })
+      ),
+      map(
+        (examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
           examiner: examinerSlotItems.examiner,
           slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
-        })),
-        map((examinerSlotItemsByDate: ExaminerSlotItemsByDate) => {
-          this.examinerSlotItemsByDate = examinerSlotItemsByDate;
-          return examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
-        }),
-      );
+        })
+      ),
+      map((examinerSlotItemsByDate: ExaminerSlotItemsByDate) => {
+        this.examinerSlotItemsByDate = examinerSlotItemsByDate;
+        return examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
+      })
+    );
   };
 
   canNavigateToNextDay = (): boolean => {
     const nextDay = DateTime.at(this.currentSelectedDate).add(1, Duration.DAY).format(this.dateFormat);
     const today = DateTime.at(this.today);
     const isInRange = DateTime.at(this.currentSelectedDate).daysDiff(today) === 0;
-    return (this.examinerSlotItemsByDate?.slotItemsByDate[nextDay]?.length > 0 || isInRange);
+    return this.examinerSlotItemsByDate?.slotItemsByDate[nextDay]?.length > 0 || isInRange;
   };
 
   canNavigateToPreviousDay = (): boolean => {
     const dayBefore = DateTime.at(this.currentSelectedDate).subtract(1, Duration.DAY).format(this.dateFormat);
-    return this.examinerSlotItemsByDate?.slotItemsByDate[dayBefore]?.length > 0
-      || this.currentSelectedDate > this.today;
+    return (
+      this.examinerSlotItemsByDate?.slotItemsByDate[dayBefore]?.length > 0 || this.currentSelectedDate > this.today
+    );
   };
 
   isSelectedDateToday = (): boolean => this.currentSelectedDate === this.today;

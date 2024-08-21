@@ -1,9 +1,17 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { AppModule } from 'src/app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Competencies } from '@store/tests/test-data/test-data.constants';
-import { StoreModule, Store } from '@ngrx/store';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
 import { StoreModel } from '@shared/models/store.model';
+import {
+  AddDangerousFault,
+  RemoveDangerousFault,
+} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import {
   AddDrivingFault,
   RemoveDrivingFault,
@@ -13,23 +21,11 @@ import {
   AddSeriousFault,
   RemoveSeriousFault,
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import {
-  AddDangerousFault,
-  RemoveDangerousFault,
-} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { IonicModule } from '@ionic/angular';
-import {
-  DangerousFaultBadgeComponent,
-} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { AppModule } from 'src/app/app.module';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { CompetencyComponent } from '../competency';
 
@@ -105,9 +101,7 @@ describe('CompetencyComponent', () => {
           testReport: testReportReducer,
         }),
       ],
-      providers: [
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-      ],
+      providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });
 
     fixture = TestBed.createComponent(CompetencyComponent);
@@ -135,10 +129,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(ThrottleAddDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          ThrottleAddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
       it('should not dispatch an ADD_DRIVING_FAULT action for tap', () => {
         component.competency = Competencies.controlsSteering;
@@ -146,10 +142,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          AddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if there is a serious fault', () => {
         component.competency = Competencies.awarenessPlanning;
@@ -158,10 +156,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          AddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
@@ -170,10 +170,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          AddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.awarenessPlanning;
@@ -182,10 +184,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          AddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
@@ -194,10 +198,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          AddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
     });
 
@@ -289,10 +295,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveDrivingFault({
-          competency: component.competency,
-          newFaultCount: 0,
-        }));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveDrivingFault({
+            competency: component.competency,
+            newFaultCount: 0,
+          })
+        );
       });
       it('should not dispatch a REMOVE_DRIVING_FAULT when limit is zero', () => {
         component.competency = Competencies.controlsSteering;
@@ -302,10 +310,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveDrivingFault({
-          competency: component.competency,
-          newFaultCount: 0,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          RemoveDrivingFault({
+            competency: component.competency,
+            newFaultCount: 0,
+          })
+        );
       });
       it('should NOT remove driving fault when serious mode is active', () => {
         component.competency = Competencies.controlsSteering;
@@ -316,10 +326,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          RemoveDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
       it('should NOT remove driving fault when dangerous mode is active', () => {
         component.competency = Competencies.controlsSteering;
@@ -330,10 +342,12 @@ describe('CompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveDrivingFault({
-          competency: component.competency,
-          newFaultCount: 1,
-        }));
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          RemoveDrivingFault({
+            competency: component.competency,
+            newFaultCount: 1,
+          })
+        );
       });
     });
 
@@ -395,7 +409,6 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleRemoveFaultMode());
         fixture.detectChanges();
       });
-
     });
 
     describe('removeDangerousFault', () => {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotComponent } from '@components/test-slot/slot/slot';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 
 @Component({
   selector: 'empty-slot',
@@ -18,5 +18,5 @@ export class EmptySlotComponent implements SlotComponent {
   showLocation: boolean;
 
   @Input()
-  isPortrait: boolean = false;
+  isPortrait = false;
 }

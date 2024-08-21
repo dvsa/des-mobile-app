@@ -9,7 +9,6 @@ import { ColourEnum } from '@providers/examiner-records/examiner-records';
   styleUrls: ['colour-filter-radio.scss'],
 })
 export class ColourFilterRadioComponent implements OnChanges {
-
   @Input()
   formGroup: UntypedFormGroup;
 
@@ -20,8 +19,7 @@ export class ColourFilterRadioComponent implements OnChanges {
   filterChange = new EventEmitter<ColourEnum>();
 
   public formControl: UntypedFormControl;
-  constructor(public accessibilityService: AccessibilityService) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {

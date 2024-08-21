@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -8,7 +6,6 @@ import { UntypedFormGroup } from '@angular/forms';
   templateUrl: 'vehicle-details-card.html',
 })
 export class VehicleDetailsCardComponent {
-
   @Input()
   schoolVehicleDetails: boolean;
 
@@ -22,10 +19,10 @@ export class VehicleDetailsCardComponent {
   formGroup: UntypedFormGroup;
 
   @Input()
-  hideSchoolVehicleAndDualControlRow: boolean = false;
+  hideSchoolVehicleAndDualControlRow = false;
 
   @Input()
-  hideSchoolBikeRow: boolean = true;
+  hideSchoolBikeRow = true;
 
   @Output()
   schoolVehicleDetailsChange = new EventEmitter();
@@ -47,5 +44,4 @@ export class VehicleDetailsCardComponent {
   schoolBikeVehicleDetailsChanged(): void {
     this.schoolBikeVehicleDetailsChange.emit();
   }
-
 }

@@ -1,15 +1,15 @@
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as testActions from '@store/tests/tests.actions';
-import * as delegatedRekeySearchActions from './delegated-rekey-search.actions';
 import { DelegatedRekeySearchError, DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
+import * as delegatedRekeySearchActions from './delegated-rekey-search.actions';
 
 export type DelegatedRekeySearchModel = {
-  isLoading: boolean,
-  hasSearched: boolean,
-  bookedTestSlot: TestSlot,
-  err: DelegatedRekeySearchError | HttpErrorResponse,
+  isLoading: boolean;
+  hasSearched: boolean;
+  bookedTestSlot: TestSlot;
+  err: DelegatedRekeySearchError | HttpErrorResponse;
 };
 
 export const initialState: DelegatedRekeySearchModel = {
@@ -55,7 +55,7 @@ export const delegatedSearchReducer = createReducer(
   on(testActions.SendCurrentTestFailure, (state) => ({
     ...state,
     isLoading: false,
-  })),
+  }))
 );
 
 export const getDelegatedRekeySearchState = createFeatureSelector<DelegatedRekeySearchModel>('delegatedRekeySearch');

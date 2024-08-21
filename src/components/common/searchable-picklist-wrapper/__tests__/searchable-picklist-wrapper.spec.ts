@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { IonicModule, ModalController } from '@ionic/angular';
-import {
-  SearchablePicklistComponentWrapper,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { PipesModule } from '@shared/pipes/pipes.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('SearchablePicklistComponentWrapper', () => {
   let fixture: ComponentFixture<SearchablePicklistComponentWrapper<any>>;
@@ -13,16 +11,9 @@ describe('SearchablePicklistComponentWrapper', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchablePicklistComponentWrapper,
-      ],
-      imports: [
-        IonicModule,
-        PipesModule,
-      ],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      declarations: [SearchablePicklistComponentWrapper],
+      imports: [IonicModule, PipesModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(SearchablePicklistComponentWrapper<any>);
@@ -32,11 +23,13 @@ describe('SearchablePicklistComponentWrapper', () => {
     component.disabled = false;
 
     spyOn(component.outputChanged, 'emit');
-    spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-      present: () => Promise.resolve(),
-      dismiss: () => Promise.resolve(true),
-      onWillDismiss: () => Promise.resolve({ data: 'will dismiss data' }),
-    } as HTMLIonModalElement));
+    spyOn(modalController, 'create').and.returnValue(
+      Promise.resolve({
+        present: () => Promise.resolve(),
+        dismiss: () => Promise.resolve(true),
+        onWillDismiss: () => Promise.resolve({ data: 'will dismiss data' }),
+      } as HTMLIonModalElement)
+    );
   }));
 
   it('should create', () => {

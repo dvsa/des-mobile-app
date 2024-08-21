@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestCategoryComponent } from '../test-category';
 

@@ -8,7 +8,6 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
   styleUrls: ['./post-debrief-holding.page.scss'],
 })
 export class PostDebriefHoldingPage extends PracticeableBasePageComponent implements OnInit {
-
   constructor(injector: Injector) {
     super(injector, false);
   }
@@ -16,5 +15,4 @@ export class PostDebriefHoldingPage extends PracticeableBasePageComponent implem
   async continueButton(): Promise<void> {
     await this.router.navigate([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
   }
-
 }

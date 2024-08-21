@@ -1,6 +1,6 @@
-import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 import { Log } from '@shared/models/log.model';
 import { UrlProvider } from '../url/url';
@@ -9,9 +9,8 @@ import { UrlProvider } from '../url/url';
 export class LogsProvider {
   constructor(
     public http: HttpClient,
-    public urlProvider: UrlProvider,
-  ) {
-  }
+    public urlProvider: UrlProvider
+  ) {}
 
   public sendLogs = (logs: Log[]): Observable<Object> => {
     if (logs.length > 0) {

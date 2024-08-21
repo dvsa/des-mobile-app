@@ -1,24 +1,24 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { MockComponent } from 'ng-mocks';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { AppModule } from 'src/app/app.module';
-import { IonicModule } from '@ionic/angular';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { ManoeuvresByCategoryProvider } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
+import { StoreModel } from '@shared/models/store.model';
 import {
   RecordManoeuvresDeselection,
   RecordManoeuvresSelection,
 } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { ManoeuvresByCategoryProvider } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
-import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from '../reverse-left.actions';
+import { MockComponent } from 'ng-mocks';
+import { AppModule } from 'src/app/app.module';
 import { testReportReducer } from '../../../test-report.reducer';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { ReverseLeftComponent } from '../reverse-left';
+import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from '../reverse-left.actions';
 
 describe('ReverseLeftComponent', () => {
   let fixture: ComponentFixture<ReverseLeftComponent>;
@@ -61,16 +61,20 @@ describe('ReverseLeftComponent', () => {
                   ETA: {},
                   eco: {},
                   vehicleChecks: {
-                    showMeQuestions: [{
-                      code: 'S3',
-                      description: '',
-                      outcome: '',
-                    }],
-                    tellMeQuestions: [{
-                      code: '',
-                      description: '',
-                      outcome: '',
-                    }],
+                    showMeQuestions: [
+                      {
+                        code: 'S3',
+                        description: '',
+                        outcome: '',
+                      },
+                    ],
+                    tellMeQuestions: [
+                      {
+                        code: '',
+                        description: '',
+                        outcome: '',
+                      },
+                    ],
                   },
                   activityCode: '28',
                   journalData: {
@@ -87,9 +91,7 @@ describe('ReverseLeftComponent', () => {
           testReport: testReportReducer,
         }),
       ],
-      providers: [
-        ManoeuvresByCategoryProvider,
-      ],
+      providers: [ManoeuvresByCategoryProvider],
     });
 
     fixture = TestBed.createComponent(ReverseLeftComponent);
@@ -171,8 +173,7 @@ describe('ReverseLeftComponent', () => {
     describe('toggleOverlay', () => {
       it('should call clickCallback when clickCallback exists', () => {
         component.clickCallback = {
-          callbackMethod: () => {
-          },
+          callbackMethod: () => {},
         };
         const callbackMethodSpy = spyOn(component.clickCallback, 'callbackMethod');
         component.toggleOverlay();

@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { CircuitType } from '@shared/models/circuit-type';
 
 describe('DebriefWitnessedComponent', () => {
@@ -13,9 +13,7 @@ describe('DebriefWitnessedComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DebriefWitnessedComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
@@ -36,8 +34,9 @@ describe('DebriefWitnessedComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(DebriefWitnessedComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(false);
+      expect(component.formGroup.get(DebriefWitnessedComponent.fieldName).hasValidator(Validators.required)).toBe(
+        false
+      );
     });
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});

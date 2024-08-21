@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { By } from '@angular/platform-browser';
-import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { createTranslateLoader } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NewEmailComponent } from '../new-email';
 
 describe('NewEmailComponent', () => {
@@ -14,9 +14,7 @@ describe('NewEmailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        NewEmailComponent,
-      ],
+      declarations: [NewEmailComponent],
       imports: [
         IonicModule,
         HttpClientModule,
@@ -27,7 +25,8 @@ describe('NewEmailComponent', () => {
             useFactory: createTranslateLoader,
             deps: [HttpClient],
           },
-        })],
+        }),
+      ],
     });
 
     fixture = TestBed.createComponent(NewEmailComponent);
@@ -53,12 +52,12 @@ describe('NewEmailComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should set up the form control if there isn\'t already one', () => {
+    it("should set up the form control if there isn't already one", () => {
       component.radioButtonControl = null;
       component.ngOnChanges();
       expect(component.formGroup.get('radioCtrl')).not.toBeNull();
     });
-    it('should set up the second form control if there isn\'t already one', () => {
+    it("should set up the second form control if there isn't already one", () => {
       component.formControl = null;
       component.ngOnChanges();
       expect(component.formGroup.get('newEmailCtrl')).not.toBeNull();
@@ -95,10 +94,12 @@ describe('NewEmailComponent', () => {
       it('should render in English by default', (done) => {
         translate.use('en').subscribe(() => {
           fixture.detectChanges();
-          expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim())
-            .toBe('Please enter a valid email');
-          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim())
-            .toBe('Enter the email address you want us to send your results to.');
+          expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
+            'Please enter a valid email'
+          );
+          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
+            'Enter the email address you want us to send your results to.'
+          );
           done();
         });
       });
@@ -106,10 +107,12 @@ describe('NewEmailComponent', () => {
       it('should render in Welsh when its a Welsh test', (done) => {
         translate.use('cy').subscribe(() => {
           fixture.detectChanges();
-          expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim())
-            .toBe('Nodwch e-bost dilys');
-          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim())
-            .toBe('Nodwch y cyfeiriad e-bost rydych chi am i ni anfon eich canlyniadau ato');
+          expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
+            'Nodwch e-bost dilys'
+          );
+          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
+            'Nodwch y cyfeiriad e-bost rydych chi am i ni anfon eich canlyniadau ato'
+          );
           done();
         });
       });

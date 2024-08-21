@@ -1,20 +1,18 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { UntypedFormGroup } from '@angular/forms';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
-import { PersistTests } from '@store/tests/tests.actions';
-import {
-  PASS_CERTIFICATE_NUMBER_CTRL,
-} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { PersistTests } from '@store/tests/tests.actions';
 
 type PassFinalisationPageState = CommonPassFinalisationPageState;
 
@@ -24,7 +22,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   styleUrls: ['./../pass-finalisation.page.scss'],
 })
 export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageComponent implements OnInit {
-
   form: UntypedFormGroup;
   pageState: PassFinalisationPageState;
 
@@ -47,8 +44,7 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -57,15 +53,13 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
       return;
     }
 
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
-          }
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
         }
-      });
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
-
 }

@@ -1,7 +1,9 @@
-import { passCompletionCatAMod2Reducer, initialState } from '../pass-completion.cat-a-mod2.reducer';
 import {
-  PassCertificateNumberChanged, ProvisionalLicenseNotReceived, ProvisionalLicenseReceived,
+  PassCertificateNumberChanged,
+  ProvisionalLicenseNotReceived,
+  ProvisionalLicenseReceived,
 } from '../../pass-completion.actions';
+import { initialState, passCompletionCatAMod2Reducer } from '../pass-completion.cat-a-mod2.reducer';
 
 describe('passCompletionCatAMod2Reducer', () => {
   it('should put the pass certificate number into the state on pass certificate number changed action', () => {

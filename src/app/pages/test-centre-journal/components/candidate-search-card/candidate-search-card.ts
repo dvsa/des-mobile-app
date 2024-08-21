@@ -1,24 +1,20 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output, ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { Candidate, TestCentre, TestSlot } from '@dvsa/mes-journal-schema';
-import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
-import { DateTime, Duration } from '@shared/helpers/date-time';
-import {
-  SearchablePicklistComponentWrapper,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import {
   TestCentreJournalSelectCandidate,
   TestCentreJournalShowBookings,
 } from '@pages/test-centre-journal/test-centre-journal.actions';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
+import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
 export type CandidateData = {
-  name: string,
-  slot: TestSlot,
+  name: string;
+  slot: TestSlot;
 };
 
 @Component({
@@ -27,7 +23,6 @@ export type CandidateData = {
   styleUrls: ['candidate-search-card.scss'],
 })
 export class CandidateSearchCardComponent implements OnChanges {
-
   @ViewChild('candidatePicklist')
   candidateTypeAheadDropDown: SearchablePicklistComponentWrapper<CandidateData>;
 
@@ -47,7 +42,7 @@ export class CandidateSearchCardComponent implements OnChanges {
   testCentres: TestCentre[] = [];
 
   @Input()
-  isLDTM: boolean = false;
+  isLDTM = false;
 
   @Input()
   selectedTestCentre: TestCentre;
@@ -66,11 +61,11 @@ export class CandidateSearchCardComponent implements OnChanges {
   shouldShowCandidateResults: boolean;
   selectedCandidateName: string;
   selectedCandidate: CandidateData;
-  enableShowBookingButton: boolean = false;
+  enableShowBookingButton = false;
 
   constructor(
     private store$: Store<StoreModel>,
-    public orientationMonitorProvider: OrientationMonitorProvider,
+    public orientationMonitorProvider: OrientationMonitorProvider
   ) {}
 
   ngOnChanges(): void {
@@ -172,5 +167,4 @@ export class CandidateSearchCardComponent implements OnChanges {
   get slashSeperatedTestCentres(): string {
     return this.testCentreName?.replace(/,/gi, ' /') ?? 'test centre';
   }
-
 }

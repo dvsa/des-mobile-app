@@ -1,16 +1,14 @@
-import { ReplaySubject } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
+import { Store, StoreModule } from '@ngrx/store';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import {
-  AddDangerousFaultComment,
-} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import * as testActions from '@store/tests/tests.actions';
-import * as testStatusActions from '@store/tests/test-status/test-status.actions';
-import { StoreModule, Store } from '@ngrx/store';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
+import * as testStatusActions from '@store/tests/test-status/test-status.actions';
+import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
+import * as testActions from '@store/tests/tests.actions';
+import { ReplaySubject } from 'rxjs';
 import * as officeActions from '../office.actions';
 import { OfficeEffects } from '../office.effects';
 
@@ -32,11 +30,7 @@ describe('OfficeEffects', () => {
           }),
         }),
       ],
-      providers: [
-        OfficeEffects,
-        provideMockActions(() => actions$),
-        Store,
-      ],
+      providers: [OfficeEffects, provideMockActions(() => actions$), Store],
     });
 
     actions$ = new ReplaySubject(1);
@@ -212,5 +206,4 @@ describe('OfficeEffects', () => {
       });
     });
   });
-
 });

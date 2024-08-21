@@ -8,17 +8,16 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
   styleUrls: ['./terminate-test-modal.scss'],
 })
 export class TerminateTestModal {
-
   onCancel: Function;
 
   onTerminate: Function;
 
-  shouldAuthenticate: boolean = true;
-  isPracticeMode: boolean = false;
+  shouldAuthenticate = true;
+  isPracticeMode = false;
 
   constructor(
     private navParams: NavParams,
-    private deviceAuthenticationProvider: DeviceAuthenticationProvider,
+    private deviceAuthenticationProvider: DeviceAuthenticationProvider
   ) {
     this.onCancel = this.navParams.get('onCancel');
     this.onTerminate = this.navParams.get('onTerminate');
@@ -32,7 +31,8 @@ export class TerminateTestModal {
    */
   terminationWrapper(): Promise<void> {
     if (this.shouldAuthenticate) {
-      return this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode)
+      return this.deviceAuthenticationProvider
+        .triggerLockScreen(this.isPracticeMode)
         .then(() => {
           this.onTerminate();
         })
@@ -41,5 +41,4 @@ export class TerminateTestModal {
     this.onTerminate();
     return Promise.resolve();
   }
-
 }

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { WaitingRoomPage } from './waiting-room.page';
 
@@ -24,5 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class WaitingRoomPageRoutingModule {
-}
+export class WaitingRoomPageRoutingModule {}

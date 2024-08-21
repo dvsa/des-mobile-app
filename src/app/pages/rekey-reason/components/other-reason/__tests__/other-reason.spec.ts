@@ -1,8 +1,8 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from '@app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { OtherReasonComponent } from '../other-reason';
 
 describe('OtherReasonComponent', () => {
@@ -11,14 +11,8 @@ describe('OtherReasonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OtherReasonComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [OtherReasonComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(OtherReasonComponent);
@@ -46,7 +40,6 @@ describe('OtherReasonComponent', () => {
         spyOn(field, 'reset');
         component.selectedValueChanged(false);
         expect(field.reset).toHaveBeenCalled();
-
       });
     });
 

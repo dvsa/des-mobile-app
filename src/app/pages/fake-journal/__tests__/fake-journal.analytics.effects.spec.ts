@@ -1,18 +1,19 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { ReplaySubject } from 'rxjs';
 
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
-  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 
-import { FakeJournalAnalyticsEffects } from '../fake-journal.analytics.effects';
 import * as fakeJournalActions from '../fake-journal.actions';
+import { FakeJournalAnalyticsEffects } from '../fake-journal.analytics.effects';
 
 describe('FakeJournalAnalyticsEffects', () => {
   let effects: FakeJournalAnalyticsEffects;
@@ -57,7 +58,7 @@ describe('FakeJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.PRACTICE_MODE_NAVIGATION,
           GoogleAnalyticsEventsTitles.FULL_MODE_SELECTED,
-          TestCategory.B,
+          TestCategory.B
         );
         done();
       });

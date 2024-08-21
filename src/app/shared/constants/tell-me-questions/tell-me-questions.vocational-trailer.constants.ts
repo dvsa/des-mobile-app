@@ -13,7 +13,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'E3',
-    description: 'Tell me how you would operate the loading mechanism on this vehicle (Vehicle specific. eg Tail Lift).',
+    description:
+      'Tell me how you would operate the loading mechanism on this vehicle (Vehicle specific. eg Tail Lift).',
     shortName: 'Loading mechanism',
   },
   {

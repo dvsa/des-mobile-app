@@ -1,63 +1,54 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule,
-  NavController,
-  Platform,
-  ToastController, ModalController,
-} from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
-import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { AppModule } from 'src/app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
+import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
+import { CombinationComponent } from '@pages/office/cat-cpc/components/combination/combination';
+import { PassCertificateDeclarationComponent } from '@pages/office/cat-cpc/components/pass-certificate-declaration/pass-certificate-declaration';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { AccompanimentCardCatCPCComponent } from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { StoreModel } from '@shared/models/store.model';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { QuestionProvider } from '@providers/question/question';
-import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ActivityCodeModel, ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { By } from '@angular/platform-browser';
-import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
-import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
-import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
-import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
-import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { TestOutcome } from '@shared/models/test-outcome';
-import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
-import { CombinationComponent } from '@pages/office/cat-cpc/components/combination/combination';
-import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
-import {
-  PassCertificateDeclarationComponent,
-} from '@pages/office/cat-cpc/components/pass-certificate-declaration/pass-certificate-declaration';
-import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import {
-  AccompanimentCardCatCPCComponent,
-} from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
+import { QuestionProvider } from '@providers/question/question';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
+import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { StoreModel } from '@shared/models/store.model';
+import { TestOutcome } from '@shared/models/test-outcome';
+import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
+import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
+import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
+import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
+import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
-import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
-import { DateOfTest } from '../../components/date-of-test/date-of-test';
-import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
-import { OfficeCatCPCPage } from '../office.cat-cpc.page';
-import { IdentificationComponent } from '../../components/identification/identification';
+import { AppModule } from 'src/app/app.module';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
+import { DateOfTest } from '../../components/date-of-test/date-of-test';
+import { IdentificationComponent } from '../../components/identification/identification';
+import { OfficeCatCPCPage } from '../office.cat-cpc.page';
 
 describe('OfficeCatCPCPage', () => {
   let fixture: ComponentFixture<OfficeCatCPCPage>;
@@ -375,16 +366,18 @@ describe('OfficeCatCPCPage', () => {
         component.passCertificateNumberChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberChanged('test'));
       });
-      it('should dispatch PassCertificateNumberReceived with passCertificateNumberCtrl'
-          + ' if isDelegated is false', () => {
-        component.isDelegated = false;
+      it(
+        'should dispatch PassCertificateNumberReceived with passCertificateNumberCtrl' + ' if isDelegated is false',
+        () => {
+          component.isDelegated = false;
 
-        component.form.setControl('passCertificateNumberCtrl', new FormControl());
-        component.form.controls['passCertificateNumberCtrl'].setValue(true);
+          component.form.setControl('passCertificateNumberCtrl', new FormControl());
+          component.form.controls['passCertificateNumberCtrl'].setValue(true);
 
-        component.passCertificateNumberChanged('test');
-        expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));
-      });
+          component.passCertificateNumberChanged('test');
+          expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));
+        }
+      );
     });
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from subscription if there is one', () => {
@@ -432,5 +425,4 @@ describe('OfficeCatCPCPage', () => {
       });
     });
   });
-
 });

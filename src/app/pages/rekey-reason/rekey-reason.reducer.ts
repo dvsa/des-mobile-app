@@ -1,6 +1,6 @@
-import * as testActions from '@store/tests/tests.actions';
-import * as rekeyActions from '@store/tests/rekey/rekey.actions';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import * as rekeyActions from '@store/tests/rekey/rekey.actions';
+import * as testActions from '@store/tests/tests.actions';
 import * as rekeyReasonActions from './rekey-reason.actions';
 import { RekeyReasonModel } from './rekey-reason.model';
 
@@ -66,7 +66,7 @@ export const rekeyReasonReducer = createReducer(
       ...state.uploadStatus,
       hasStaffNumberFailedValidation: false,
     },
-  })),
+  }))
 );
 
 export const getRekeyReasonState = createFeatureSelector<RekeyReasonModel>('rekeyReason');

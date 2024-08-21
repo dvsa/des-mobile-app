@@ -1,24 +1,18 @@
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-} from '@angular/common/http';
+import { Platform } from '@ionic/angular';
 import { Observable, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Platform } from '@ionic/angular';
-import { AuthenticationProvider } from './authentication';
 import { UrlProvider } from '../url/url';
+import { AuthenticationProvider } from './authentication';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(
     private platform: Platform,
     private authProvider: AuthenticationProvider,
-    private urlProvider: UrlProvider,
-  ) { }
+    private urlProvider: UrlProvider
+  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.platform.is('cordova') || !request.url.startsWith('http')) {
@@ -46,8 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
           return next.handle(newRequest);
         }
         return next.handle(request);
-      }),
+      })
     );
   }
-
 }

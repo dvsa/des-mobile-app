@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { ScrollDetail } from '@ionic/core';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IonicModule } from '@ionic/angular';
-import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -14,29 +17,23 @@ import {
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { of, Subscription } from 'rxjs';
-import { ColourEnum, ExaminerRecordsProvider, SelectableDateRange } from '@providers/examiner-records/examiner-records';
-import { CompressionProvider } from '@providers/compression/compression';
-import { SearchProvider } from '@providers/search/search';
-import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
-import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { ScrollDetail } from '@ionic/core';
-import moment from 'moment';
-import {
-  selectCachedExaminerRecords,
-  selectLastCachedDate,
-} from '@store/examiner-records/examiner-records.selectors';
-import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { CompressionProvider } from '@providers/compression/compression';
+import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
+import { ColourEnum, ExaminerRecordsProvider, SelectableDateRange } from '@providers/examiner-records/examiner-records';
+import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
+import { SearchProvider } from '@providers/search/search';
 import { DateRange } from '@shared/helpers/date-time';
+import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
+import moment from 'moment';
+import { Subscription, of } from 'rxjs';
+import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 
 describe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
   let fixture: ComponentFixture<ExaminerRecordsPage>;
   let store$: MockStore;
-  let initialState = {
+  const initialState = {
     cachedRecords$: of([]),
     isLoadingRecords$: of(false),
     routeNumbers$: of([]),
@@ -106,120 +103,122 @@ describe('ExaminerRecordsPage', () => {
             tests: {
               startedTests: {
                 1: {
-                  'appVersion': '4.10.0.0',
-                  'version': '3.42.5',
-                  'category': 'B',
-                  'activityCode': '11',
-                  'journalData': {
-                    'examiner': { 'staffNumber': '1234567', 'individualId': 9000001 },
-                    'testCentre': { 'centreId': 54322, 'costCode': 'EXTC1', 'centreName': 'Example Test Centre' },
-                    'testSlotAttributes': {
-                      'welshTest': false,
-                      'slotId': 5137,
-                      'start': new Date(Date.now()).toString(),
-                      'specialNeeds': false,
-                      'specialNeedsCode': 'EXTRA',
-                      'specialNeedsArray': ['None'],
-                      'vehicleTypeCode': 'C',
-                      'extendedTest': false,
-                      'examinerVisiting': false,
-                      'previousCancellation': ['Act of nature'],
-                      'entitlementCheck': false,
-                      'categoryEntitlementCheck': false,
-                      'fitMarker': false,
-                      'slotType': 'Extra Time Needed',
+                  appVersion: '4.10.0.0',
+                  version: '3.42.5',
+                  category: 'B',
+                  activityCode: '11',
+                  journalData: {
+                    examiner: { staffNumber: '1234567', individualId: 9000001 },
+                    testCentre: { centreId: 54322, costCode: 'EXTC1', centreName: 'Example Test Centre' },
+                    testSlotAttributes: {
+                      welshTest: false,
+                      slotId: 5137,
+                      start: new Date(Date.now()).toString(),
+                      specialNeeds: false,
+                      specialNeedsCode: 'EXTRA',
+                      specialNeedsArray: ['None'],
+                      vehicleTypeCode: 'C',
+                      extendedTest: false,
+                      examinerVisiting: false,
+                      previousCancellation: ['Act of nature'],
+                      entitlementCheck: false,
+                      categoryEntitlementCheck: false,
+                      fitMarker: false,
+                      slotType: 'Extra Time Needed',
                     },
-                    'candidate': {
-                      'candidateAddress': {
-                        'addressLine1': '2345 Station Street',
-                        'addressLine2': 'Someplace',
-                        'addressLine3': 'Sometown',
-                        'postcode': 'AB12 3CD',
+                    candidate: {
+                      candidateAddress: {
+                        addressLine1: '2345 Station Street',
+                        addressLine2: 'Someplace',
+                        addressLine3: 'Sometown',
+                        postcode: 'AB12 3CD',
                       },
-                      'candidateId': 126,
-                      'candidateName': { 'firstName': 'test', 'lastName': 'data', 'title': 'Mr' },
-                      'driverNumber': 'COOPE015220A99HC',
-                      'mobileTelephone': '07654 123456',
-                      'primaryTelephone': '01234 567890',
-                      'secondaryTelephone': '04321 098765',
-                      'dateOfBirth': '1974-09-14',
-                      'ethnicityCode': 'E',
-                      'gender': 'F',
+                      candidateId: 126,
+                      candidateName: { firstName: 'test', lastName: 'data', title: 'Mr' },
+                      driverNumber: 'COOPE015220A99HC',
+                      mobileTelephone: '07654 123456',
+                      primaryTelephone: '01234 567890',
+                      secondaryTelephone: '04321 098765',
+                      dateOfBirth: '1974-09-14',
+                      ethnicityCode: 'E',
+                      gender: 'F',
                     },
-                    'applicationReference': { 'applicationId': 20654332, 'bookingSequence': 3, 'checkDigit': 1 },
+                    applicationReference: { applicationId: 20654332, bookingSequence: 3, checkDigit: 1 },
                   },
-                  'preTestDeclarations': {
-                    'insuranceDeclarationAccepted': true,
-                    'residencyDeclarationAccepted': true,
-                    'preTestSignature': '',
-                    'candidateDeclarationSigned': false,
+                  preTestDeclarations: {
+                    insuranceDeclarationAccepted: true,
+                    residencyDeclarationAccepted: true,
+                    preTestSignature: '',
+                    candidateDeclarationSigned: false,
                   },
-                  'accompaniment': {},
-                  'vehicleDetails': {
-                    'registrationNumber': '1',
-                    'gearboxCategory': 'Manual',
-                    'motStatus': 'No details found',
+                  accompaniment: {},
+                  vehicleDetails: {
+                    registrationNumber: '1',
+                    gearboxCategory: 'Manual',
+                    motStatus: 'No details found',
                   },
-                  'instructorDetails': {},
-                  'testData': {
-                    'drivingFaults': { 'moveOffSafety': 1, 'moveOffControl': 1 },
-                    'dangerousFaults': {},
-                    'seriousFaults': {},
-                    'vehicleChecks': {
-                      'tellMeQuestion': { 'code': 'T6', 'description': 'Antilock braking system', 'outcome': 'P' },
-                      'showMeQuestion': { 'outcome': 'P', 'code': 'S1', 'description': 'Rear windscreen' },
+                  instructorDetails: {},
+                  testData: {
+                    drivingFaults: { moveOffSafety: 1, moveOffControl: 1 },
+                    dangerousFaults: {},
+                    seriousFaults: {},
+                    vehicleChecks: {
+                      tellMeQuestion: { code: 'T6', description: 'Antilock braking system', outcome: 'P' },
+                      showMeQuestion: { outcome: 'P', code: 'S1', description: 'Rear windscreen' },
                     },
-                    'controlledStop': { 'selected': false },
-                    'eco': { 'completed': true, 'adviceGivenControl': true, 'adviceGivenPlanning': true },
-                    'ETA': {},
-                    'eyesightTest': { 'complete': true, 'seriousFault': false },
-                    'manoeuvres': { 'reverseRight': { 'selected': true } },
-                    'testRequirements': {
-                      'normalStart1': true,
-                      'normalStart2': true,
-                      'hillStart': true,
-                      'angledStart': true,
+                    controlledStop: { selected: false },
+                    eco: { completed: true, adviceGivenControl: true, adviceGivenPlanning: true },
+                    ETA: {},
+                    eyesightTest: { complete: true, seriousFault: false },
+                    manoeuvres: { reverseRight: { selected: true } },
+                    testRequirements: {
+                      normalStart1: true,
+                      normalStart2: true,
+                      hillStart: true,
+                      angledStart: true,
                     },
                   },
-                  'passCompletion': { 'passCertificateNumber': 'A123456X', 'provisionalLicenceProvided': true },
-                  'postTestDeclarations': {
-                    'healthDeclarationAccepted': true,
-                    'passCertificateNumberReceived': true,
+                  passCompletion: { passCertificateNumber: 'A123456X', provisionalLicenceProvided: true },
+                  postTestDeclarations: {
+                    healthDeclarationAccepted: true,
+                    passCertificateNumberReceived: true,
 
-                    'postTestSignature': '',
+                    postTestSignature: '',
                   },
-                  'testSummary': {
-                    'routeNumber': 1,
-                    'independentDriving': 'Traffic signs',
-                    'candidateDescription': '1',
-                    'additionalInformation': null,
-                    'weatherConditions': ['Snowing'],
-                    'debriefWitnessed': true,
-                    'D255': false,
-                    'identification': 'Licence',
-                    'trueLikenessToPhoto': true,
+                  testSummary: {
+                    routeNumber: 1,
+                    independentDriving: 'Traffic signs',
+                    candidateDescription: '1',
+                    additionalInformation: null,
+                    weatherConditions: ['Snowing'],
+                    debriefWitnessed: true,
+                    D255: false,
+                    identification: 'Licence',
+                    trueLikenessToPhoto: true,
                   },
-                  'communicationPreferences': {
-                    'updatedEmail': '',
-                    'communicationMethod': 'Post',
-                    'conductedLanguage': 'English',
+                  communicationPreferences: {
+                    updatedEmail: '',
+                    communicationMethod: 'Post',
+                    conductedLanguage: 'English',
                   },
-                  'rekey': false,
-                  'rekeyDate': null,
-                  'rekeyReason': {
-                    'ipadIssue': {
-                      'selected': false,
-                      'broken': false,
-                      'lost': false,
-                      'technicalFault': false,
-                      'stolen': false,
-                    }, 'other': { 'selected': false, 'reason': '' }, 'transfer': { 'selected': false },
+                  rekey: false,
+                  rekeyDate: null,
+                  rekeyReason: {
+                    ipadIssue: {
+                      selected: false,
+                      broken: false,
+                      lost: false,
+                      technicalFault: false,
+                      stolen: false,
+                    },
+                    other: { selected: false, reason: '' },
+                    transfer: { selected: false },
                   },
-                  'delegatedTest': false,
-                  'examinerBooked': 1234567,
-                  'examinerConducted': 1234567,
-                  'examinerKeyed': 1234567,
-                  'changeMarker': false,
+                  delegatedTest: false,
+                  examinerBooked: 1234567,
+                  examinerConducted: 1234567,
+                  examinerKeyed: 1234567,
+                  changeMarker: false,
                 },
               },
             },
@@ -235,7 +234,6 @@ describe('ExaminerRecordsPage', () => {
     spyOn(component.store$, 'dispatch');
 
     component.pageState = initialState;
-
   }));
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -258,10 +256,9 @@ describe('ExaminerRecordsPage', () => {
 
       await component.ngOnInit();
 
-      expect(component.handleDateFilter).toHaveBeenCalledWith(
-        {
-          detail: { value: component.defaultDate },
-        } as CustomEvent);
+      expect(component.handleDateFilter).toHaveBeenCalledWith({
+        detail: { value: component.defaultDate },
+      } as CustomEvent);
     });
 
     it('should set categorySelectPristine to false if categorySubject$ has value', async () => {
@@ -409,9 +406,7 @@ describe('ExaminerRecordsPage', () => {
 
       component.setupLocationSelectList(locations);
       expect(component.locationPlaceholder).toEqual('');
-      expect(component.handleLocationFilter).toHaveBeenCalledWith(
-        { centreId: null, centreName: '', costCode: '' }
-      );
+      expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreId: null, centreName: '', costCode: '' });
     });
   });
 
@@ -430,88 +425,85 @@ describe('ExaminerRecordsPage', () => {
         { centreName: '2', centreId: 2, costCode: 'X2' },
       ]);
     });
-    it('should set locationPlaceholder to the centreName property ' +
-      'of the object in the location array with the highest count', () => {
-      spyOn(component, 'ngOnInit');
-      component.locationFilterOptions = null;
-      component.pageState.locationList$ = of([
-        { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
-        { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
-      ]);
-      component.setLocationFilter();
-      expect(component.locationPlaceholder).toEqual('2');
-    });
-    it('should call handleLocationFilter with the item of ' +
-      'the object in the location array with the highest count', () => {
-      spyOn(component, 'ngOnInit');
+    it(
+      'should set locationPlaceholder to the centreName property ' +
+        'of the object in the location array with the highest count',
+      () => {
+        spyOn(component, 'ngOnInit');
+        component.locationFilterOptions = null;
+        component.pageState.locationList$ = of([
+          { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
+          { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
+        ]);
+        component.setLocationFilter();
+        expect(component.locationPlaceholder).toEqual('2');
+      }
+    );
+    it(
+      'should call handleLocationFilter with the item of ' + 'the object in the location array with the highest count',
+      () => {
+        spyOn(component, 'ngOnInit');
 
-      spyOn(component, 'handleLocationFilter');
+        spyOn(component, 'handleLocationFilter');
 
-      component.locationFilterOptions = null;
-      component.pageState.locationList$ = of([
-        { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
-        { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
-      ]);
-      component.setLocationFilter();
-      expect(component.handleLocationFilter).toHaveBeenCalledWith(
-        { centreName: '2', centreId: 2, costCode: 'X2' }
-      );
-    });
+        component.locationFilterOptions = null;
+        component.pageState.locationList$ = of([
+          { item: { centreName: '1', centreId: 1, costCode: 'X1' }, count: 1 },
+          { item: { centreName: '2', centreId: 2, costCode: 'X2' }, count: 2 },
+        ]);
+        component.setLocationFilter();
+        expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreName: '2', centreId: 2, costCode: 'X2' });
+      }
+    );
   });
 
   describe('setDefault', () => {
     it('should return the value with the highest count within the array', () => {
-      expect(component.setDefault(
-        [
+      expect(
+        component.setDefault([
           { item: 1, count: 1 },
           { item: 2, count: 2 },
-        ])).toEqual({ item: 2, count: 2 });
+        ])
+      ).toEqual({ item: 2, count: 2 });
     });
   });
 
   describe('handleDateFilter', () => {
     it('should set dateFilter to the display of the value passed', () => {
-      component.handleDateFilter(
-        {
-          detail: {
-            value:
-              {
-                display: '1',
-              },
+      component.handleDateFilter({
+        detail: {
+          value: {
+            display: '1',
           },
-        } as CustomEvent,
-      );
+        },
+      } as CustomEvent);
       expect(component.dateFilter).toEqual('1');
     });
     it('should dispatch DateRangeChanged with dateFilter', () => {
-      component.handleDateFilter(
-        {
-          detail: {
-            value:
-              {
-                display: '1',
-                val: 'today',
-              },
+      component.handleDateFilter({
+        detail: {
+          value: {
+            display: '1',
+            val: 'today',
           },
-        } as CustomEvent,
+        },
+      } as CustomEvent);
+      expect(component.store$.dispatch).toHaveBeenCalledWith(
+        DateRangeChanged({
+          display: '1',
+          val: 'today',
+        } as SelectableDateRange)
       );
-      expect(component.store$.dispatch).toHaveBeenCalledWith(DateRangeChanged({
-        display: '1',
-        val: 'today',
-      } as SelectableDateRange));
     });
     it('should set rangeSubject to the val property of the value passed', () => {
-      component.handleDateFilter(
-        {
-          detail: {
-            value:
-              {
-                val: '1',
-              },
+      component.handleDateFilter({
+        detail: {
+          value: {
+            val: '1',
           },
-        } as CustomEvent,
-      );
-      component.rangeSubject$.subscribe(i => {
+        },
+      } as CustomEvent);
+      component.rangeSubject$.subscribe((i) => {
         expect(i).toEqual('1');
       });
     });
@@ -532,24 +524,27 @@ describe('ExaminerRecordsPage', () => {
       });
     });
     it('should dispatch LocationChanged with locationFilter', () => {
-
       component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
-      expect(component.store$.dispatch)
-        .toHaveBeenCalledWith(LocationChanged({ centreName: '1', centreId: 1, costCode: '2' }));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(
+        LocationChanged({ centreName: '1', centreId: 1, costCode: '2' })
+      );
     });
   });
 
   describe('getOnlineRecords', () => {
-    it('should dispatch LoadingExaminerRecords and GetExaminerRecords actions when ' +
-      'cached records are not available or last cached date is different', () => {
-      store$.overrideSelector(selectCachedExaminerRecords, null);
-      store$.overrideSelector(selectLastCachedDate, 'some other date');
+    it(
+      'should dispatch LoadingExaminerRecords and GetExaminerRecords actions when ' +
+        'cached records are not available or last cached date is different',
+      () => {
+        store$.overrideSelector(selectCachedExaminerRecords, null);
+        store$.overrideSelector(selectLastCachedDate, 'some other date');
 
-      component.getOnlineRecords();
+        component.getOnlineRecords();
 
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadingExaminerRecords());
-      expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords('1'));
-    });
+        expect(store$.dispatch).toHaveBeenCalledWith(LoadingExaminerRecords());
+        expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords('1'));
+      }
+    );
 
     it('should not dispatch any actions when cached records are available and last cached date is today', () => {
       store$.overrideSelector(selectCachedExaminerRecords, [{} as ExaminerRecordModel]);
@@ -588,13 +583,13 @@ describe('ExaminerRecordsPage', () => {
   describe('getTestsByParameters', () => {
     it('should apply provided function to eligible tests and category', () => {
       const mockFn = (tests: ExaminerRecordModel[], category: string) => {
-        return tests.filter(test => test.testCategory === category);
+        return tests.filter((test) => test.testCategory === category);
       };
 
       component.eligTestSubject$.next(mockTests);
       component.categorySubject$.next(TestCategory.B);
 
-      component.getTestsByParameters(mockFn).subscribe(result => {
+      component.getTestsByParameters(mockFn).subscribe((result) => {
         expect(result).toEqual([mockTests[0]]);
       });
     });
@@ -715,8 +710,7 @@ describe('ExaminerRecordsPage', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewWillLeave();
-      expect(component.subscription.unsubscribe)
-        .toHaveBeenCalled();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -808,7 +802,8 @@ describe('ExaminerRecordsPage', () => {
       component.endDateFilter = '31/01/2021';
       component.locationFilter = { centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1' };
 
-      const expectedText = 'Displaying <strong>1</strong> Category <strong>B</strong>' +
+      const expectedText =
+        'Displaying <strong>1</strong> Category <strong>B</strong>' +
         ' test, from <strong>01/01/2021</strong> to <strong>31/01/2021</strong><ion-text> <br />' +
         '</ion-text> at <strong>Test Centre 1</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
@@ -823,7 +818,8 @@ describe('ExaminerRecordsPage', () => {
       component.endDateFilter = '28/02/2021';
       component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
 
-      const expectedText = 'Displaying <strong>2</strong> Category <strong>C</strong>' +
+      const expectedText =
+        'Displaying <strong>2</strong> Category <strong>C</strong>' +
         ' test<ion-text>s</ion-text>, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong>' +
         '<ion-text> <br /></ion-text> at <strong>Test Centre 2</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
@@ -838,10 +834,10 @@ describe('ExaminerRecordsPage', () => {
       component.endDateFilter = '28/02/2021';
       component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
 
-      const expectedText = 'Displaying <strong>1</strong> Category <strong>C</strong>' +
+      const expectedText =
+        'Displaying <strong>1</strong> Category <strong>C</strong>' +
         ' test, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
     });
   });
-
 });

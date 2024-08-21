@@ -1,9 +1,9 @@
-import { Router, RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { JOURNAL_PAGE } from '@pages/page-names.constants';
-import { JournalPage } from '@pages/journal/journal.page';
+import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { JournalPage } from '@pages/journal/journal.page';
+import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
 
 describe('GoToJournalCard', () => {
@@ -16,14 +16,12 @@ describe('GoToJournalCard', () => {
       declarations: [GoToJournalCardComponent],
       imports: [
         IonicModule,
-        RouterModule.forRoot(
-          [
-            {
-              path: 'journal',
-              component: JournalPage,
-            },
-          ],
-        ),
+        RouterModule.forRoot([
+          {
+            path: 'journal',
+            component: JournalPage,
+          },
+        ]),
       ],
       providers: [
         {
@@ -42,8 +40,7 @@ describe('GoToJournalCard', () => {
     describe('navigateToJournal', () => {
       it('should trigger navigation to JOURNAL_PAGE', async () => {
         await component.navigateToJournal();
-        expect(router.navigate)
-          .toHaveBeenCalledWith([JOURNAL_PAGE]);
+        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
       });
     });
   });

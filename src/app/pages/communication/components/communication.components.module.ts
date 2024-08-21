@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentsModule } from '@components/common/common-components.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ValidCertificateComponent } from '@pages/communication/components/valid-certificate/valid-certificate';
-import { ProvidedEmailComponent } from './provided-email/provided-email';
 import { NewEmailComponent } from './new-email/new-email';
 import { PostalAddressComponent } from './postal-address/postal-address';
 import { PrivacyNoticeComponent } from './privacy-notice/privacy-notice';
-import { DirectivesModule } from '@directives/directives.module';
+import { ProvidedEmailComponent } from './provided-email/provided-email';
 
 @NgModule({
   declarations: [
@@ -19,14 +19,7 @@ import { DirectivesModule } from '@directives/directives.module';
     PrivacyNoticeComponent,
     ValidCertificateComponent,
   ],
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    IonicModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    DirectivesModule,
-  ],
+  imports: [CommonModule, ComponentsModule, IonicModule, TranslateModule, ReactiveFormsModule, DirectivesModule],
   exports: [
     ProvidedEmailComponent,
     NewEmailComponent,
@@ -35,4 +28,4 @@ import { DirectivesModule } from '@directives/directives.module';
     ValidCertificateComponent,
   ],
 })
-export class CommunicationComponentsModule { }
+export class CommunicationComponentsModule {}

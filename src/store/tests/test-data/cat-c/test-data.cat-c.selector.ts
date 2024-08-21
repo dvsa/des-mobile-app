@@ -1,4 +1,5 @@
-import { get } from 'lodash-es';
+import { NUMBER_OF_SHOW_ME_QUESTIONS } from '@shared/constants/show-me-questions/show-me-questions.cat-c.constants';
+import { NUMBER_OF_TELL_ME_QUESTIONS } from '@shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   CatCManoeuvres,
@@ -6,38 +7,23 @@ import {
   CatCTestRequirements,
   CatCVehicleChecks,
 } from '@shared/unions/test-schema-unions';
-import {
-  NUMBER_OF_SHOW_ME_QUESTIONS,
-} from '@shared/constants/show-me-questions/show-me-questions.cat-c.constants';
-import {
-  NUMBER_OF_TELL_ME_QUESTIONS,
-} from '@shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
+import { get } from 'lodash-es';
 import { Competencies, LegalRequirements } from '../test-data.constants';
 
-export const getDrivingFaultCount = (
-  data: CatCTestData,
-  competency: Competencies,
-) => data.drivingFaults[competency];
+export const getDrivingFaultCount = (data: CatCTestData, competency: Competencies) => data.drivingFaults[competency];
 
 export const getManoeuvres = (data: CatCTestData): CatCManoeuvres => data.manoeuvres;
 
 // @TODO MES-7135: We should pass a Manoeuvre object here instead of TestData
-export const hasManoeuvreBeenCompletedCatC = (
-  data: CatCTestData,
-) => get(data.manoeuvres, 'reverseLeft.selected');
+export const hasManoeuvreBeenCompletedCatC = (data: CatCTestData) => get(data.manoeuvres, 'reverseLeft.selected');
 
-export const hasLegalRequirementBeenCompleted = (
-  data: CatCTestRequirements,
-  legalRequirement: LegalRequirements,
-) => data[legalRequirement];
+export const hasLegalRequirementBeenCompleted = (data: CatCTestRequirements, legalRequirement: LegalRequirements) =>
+  data[legalRequirement];
 
-export const getVehicleChecks = (
-  state: CatCTestData,
-): CatCVehicleChecks => state.vehicleChecks;
+export const getVehicleChecks = (state: CatCTestData): CatCVehicleChecks => state.vehicleChecks;
 
-export const areTellMeQuestionsSelected = (
-  state: CatCVehicleChecks,
-): boolean => typeof get(state, 'tellMeQuestions') !== 'undefined';
+export const areTellMeQuestionsSelected = (state: CatCVehicleChecks): boolean =>
+  typeof get(state, 'tellMeQuestions') !== 'undefined';
 
 export const areTellMeQuestionsCorrect = (state: CatCVehicleChecks) => {
   const tellMeQuestions = get(state, 'tellMeQuestions');
@@ -62,8 +48,8 @@ export const hasVehicleChecksBeenCompletedCatC = (data: CatCTestData): boolean =
   let tellMeQuestionComplete = true;
 
   if (
-    !(data.vehicleChecks && data.vehicleChecks.showMeQuestions instanceof Array)
-    || data.vehicleChecks.showMeQuestions.length !== NUMBER_OF_SHOW_ME_QUESTIONS
+    !(data.vehicleChecks && data.vehicleChecks.showMeQuestions instanceof Array) ||
+    data.vehicleChecks.showMeQuestions.length !== NUMBER_OF_SHOW_ME_QUESTIONS
   ) {
     showMeQuestionComplete = false;
   } else {
@@ -75,8 +61,8 @@ export const hasVehicleChecksBeenCompletedCatC = (data: CatCTestData): boolean =
   }
 
   if (
-    !(data.vehicleChecks && data.vehicleChecks.tellMeQuestions instanceof Array)
-    || data.vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
+    !(data.vehicleChecks && data.vehicleChecks.tellMeQuestions instanceof Array) ||
+    data.vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
   ) {
     tellMeQuestionComplete = false;
   } else {
@@ -87,5 +73,5 @@ export const hasVehicleChecksBeenCompletedCatC = (data: CatCTestData): boolean =
     });
   }
 
-  return (showMeQuestionComplete && tellMeQuestionComplete);
+  return showMeQuestionComplete && tellMeQuestionComplete;
 };

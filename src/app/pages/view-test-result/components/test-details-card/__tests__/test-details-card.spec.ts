@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { MockComponent } from 'ng-mocks';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
-import { TestDetailsModel } from '../test-details-card.model';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
 import { CandidateDetails, TestDetailsCardComponent } from '../test-details-card';
+import { TestDetailsModel } from '../test-details-card.model';
 
 describe('TestDetailsCardComponent', () => {
   let fixture: ComponentFixture<TestDetailsCardComponent>;
@@ -20,9 +20,7 @@ describe('TestDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(InappropriateUseBannerComponent),
       ],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TestDetailsCardComponent);

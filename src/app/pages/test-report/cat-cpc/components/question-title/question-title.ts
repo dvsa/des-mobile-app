@@ -7,8 +7,6 @@ import { Question } from '@dvsa/mes-test-schema/categories/CPC';
   styleUrls: ['question-title.scss'],
 })
 export class QuestionTitleComponent {
-
   @Input()
   question: Question;
-
 }

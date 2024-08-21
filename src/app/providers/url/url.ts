@@ -4,11 +4,7 @@ import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()
 export class UrlProvider {
-
-  constructor(
-    public appConfigProvider: AppConfigProvider,
-  ) {
-  }
+  constructor(public appConfigProvider: AppConfigProvider) {}
 
   getPersonalJournalUrl(staffNumber: string): string {
     const urlTemplate = this.appConfigProvider.getAppConfig()?.journal.journalUrl;
@@ -45,7 +41,8 @@ export class UrlProvider {
   getDelegatedExaminerSearchBookingUrl(applicationReference: string): string {
     const urlTemplate = this.appConfigProvider.getAppConfig()?.journal.delegatedExaminerSearchBookingUrl;
     return urlTemplate.replace(
-      '{applicationReference}', isNil(applicationReference) ? '00000000' : applicationReference,
+      '{applicationReference}',
+      isNil(applicationReference) ? '00000000' : applicationReference
     );
   }
 

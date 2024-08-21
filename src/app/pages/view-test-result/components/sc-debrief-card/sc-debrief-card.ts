@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['sc-debrief-card.scss'],
 })
 export class ScDebriefCard {
-
   @Input()
   startTime: string;
 

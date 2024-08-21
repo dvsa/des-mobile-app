@@ -1,9 +1,9 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '@app/app.module';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { IonicModule } from '@ionic/angular';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
 
 describe('SafetyQuestionsCardComponent', () => {
@@ -13,9 +13,7 @@ describe('SafetyQuestionsCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SafetyQuestionsCardComponent,
-      ],
+      declarations: [SafetyQuestionsCardComponent],
       imports: [
         IonicModule,
         HttpClientModule,
@@ -58,5 +56,4 @@ describe('SafetyQuestionsCardComponent', () => {
       expect(result).toEqual(false);
     });
   });
-
 });

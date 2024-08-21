@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: 'inappropriate-use-banner.html',
   styleUrls: ['inappropriate-use-banner.scss'],
 })
-export class InappropriateUseBannerComponent {
-}
+export class InappropriateUseBannerComponent {}

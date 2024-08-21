@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  ToggleLegalRequirement,
-} from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
+import { ToggleLegalRequirement } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
 import { legalRequirementLabels } from './legal-requirement.constants';
 
@@ -13,7 +11,6 @@ import { legalRequirementLabels } from './legal-requirement.constants';
   styleUrls: ['legal-requirement.scss'],
 })
 export class LegalRequirementComponent implements OnInit {
-
   label: string;
 
   @Input()
@@ -21,18 +18,17 @@ export class LegalRequirementComponent implements OnInit {
   @Input()
   ticked: boolean;
   @Input()
-  disabled: boolean = false;
+  disabled = false;
   @Input()
-  isFullWidthButton: boolean = false;
+  isFullWidthButton = false;
 
-  constructor(
-    private store$: Store<StoreModel>,
-  ) {
-  }
+  constructor(private store$: Store<StoreModel>) {}
 
-  ngOnInit():void {
-    this.label = this.legalRequirement === LegalRequirements.normalStart1
-    && this.isFullWidthButton ? 'Normal Stop' : legalRequirementLabels[this.legalRequirement];
+  ngOnInit(): void {
+    this.label =
+      this.legalRequirement === LegalRequirements.normalStart1 && this.isFullWidthButton
+        ? 'Normal Stop'
+        : legalRequirementLabels[this.legalRequirement];
   }
 
   toggleLegalRequirement = (): void => {
@@ -43,7 +39,7 @@ export class LegalRequirementComponent implements OnInit {
    * Function to check if a legal requirement should use the normal-start-label class
    */
   getLegalRequirementClass(): string {
-    let cssClass: string = 'label';
+    let cssClass = 'label';
     if (this.legalRequirement.indexOf('normalStart') >= 0) {
       cssClass = 'normal-start-label';
     }

@@ -2,7 +2,6 @@ import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { safetyQuestionsExist } from '../safety-questions.cat-d.selector';
 
 describe('Safety Questions Selector Cat D', () => {
-
   describe('safetyQuestionsExist', () => {
     it('should return false if there are no safety questions entered', () => {
       const emptySafetyQuestions: CatDUniqueTypes.SafetyQuestions = { questions: [{}], faultComments: '' };

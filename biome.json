@@ -1,0 +1,106 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "auto",
+    "ignore": [
+      "**/*.html",
+      "**/*.json"
+    ]
+  },
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+      "style": {
+        "useImportType": "off",
+        "useTemplate": "off",
+        "useNodejsImportProtocol": "off",
+        "useDefaultParameterLast": "off",
+        "noUselessElse": "off",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off",
+        "useExponentiationOperator": "off"
+      },
+      "complexity": {
+        "useLiteralKeys": "off",
+        "noBannedTypes": "off",
+        "noForEach": "off",
+        "noThisInStatic": "off",
+        "noStaticOnlyClass": "off",
+        "noUselessConstructor": "off",
+        "noExtraBooleanCast": "off",
+        "useOptionalChain": "off",
+        "noUselessCatch": "off"
+
+      },
+      "correctness": {
+        "noVoidTypeReturn": "off",
+        "noUnsafeOptionalChaining": "off",
+        "noEmptyPattern": "off",
+        "noSwitchDeclarations": "off"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "off",
+        "noExplicitAny": "off",
+        "noImplicitAnyLet": "off",
+        "useIsArray": "off",
+        "noDoubleEquals": "off",
+        "noDuplicateTestHooks": "off",
+        "noConfusingVoidType": "off"
+      },
+      "performance": {
+        "noDelete": "off",
+        "noAccumulatingSpread": "off"
+      }
+    },
+    "ignore": [
+      "**/.husky/",
+      "**/.idea/",
+      "**/dist/",
+      "**/artifacts/",
+      "**/node_modules/",
+      "**/ngrx-devtool-proxy/",
+      "**/plugins/",
+      "**/buildscripts/",
+      "**/fastlane/",
+      "**/resources/",
+      "**/remotedev-server/",
+      "**/buildscripts/",
+      "**/.angular/",
+      "**/www/",
+      "**/ios/",
+      "**/src/assets/",
+      "**/src/polyfills.ts"
+    ]
+	},
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "semicolons": "always",
+      "trailingCommas": "es5",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  }
+}

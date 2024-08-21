@@ -1,10 +1,10 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { take } from 'rxjs/operators';
 import { RekeySearchParams } from '@providers/rekey-search/rekey-search.model';
-import { RekeySearchProvider } from '../rekey-search';
-import { UrlProvider } from '../../url/url';
+import { take } from 'rxjs/operators';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
+import { UrlProvider } from '../../url/url';
+import { RekeySearchProvider } from '../rekey-search';
 
 describe('RekeySearchProvider', () => {
   let rekeySearchProvider: RekeySearchProvider;
@@ -13,9 +13,7 @@ describe('RekeySearchProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         RekeySearchProvider,
         {
@@ -41,16 +39,13 @@ describe('RekeySearchProvider', () => {
         .getBooking({ applicationReference: '123456' } as RekeySearchParams)
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response)
-            .toEqual({});
+          expect(response).toEqual({});
         });
 
       const req = httpMock.expectOne('https://www.example.com/api/v1/journals/654321/search?appRef=123456');
 
-      expect(req.request.method)
-        .toBe('GET');
+      expect(req.request.method).toBe('GET');
       req.flush({});
     });
   });
-
 });

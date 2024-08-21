@@ -2,16 +2,16 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { get } from 'lodash-es';
 
 import { Action, createFeatureSelector } from '@ngrx/store';
-import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
+import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import * as testsActions from './tests.actions';
 import { LoadPersistedTestsSuccess, LoadRemoteTests } from './tests.actions';
 import { TestsModel } from './tests.model';
 
-import { testStatusReducer } from './test-status/test-status.reducer';
-import { testsReducerFactory } from './tests-reducer-factory';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { testStatusReducer } from './test-status/test-status.reducer';
+import { testsReducerFactory } from './tests-reducer-factory';
 
 export const initialState: TestsModel = {
   currentTest: { slotId: null },
@@ -33,22 +33,22 @@ const deriveSlotId = (state: TestsModel, action: Action): string | null => {
   }
 
   if (
-    (action.type === testsActions.StartTest.type)
-    || (action.type === testsActions.ActivateTest.type)
-    || (action.type === fakeJournalActions.StartE2EPracticeTest.type)
+    action.type === testsActions.StartTest.type ||
+    action.type === testsActions.ActivateTest.type ||
+    action.type === fakeJournalActions.StartE2EPracticeTest.type
   ) {
     return `${(<ReturnType<typeof testsActions.StartTest>>action).slotId}`;
   }
 
-  return (state.currentTest && state.currentTest.slotId) ? state.currentTest.slotId : null;
+  return state.currentTest && state.currentTest.slotId ? state.currentTest.slotId : null;
 };
 
 const deriveCategory = (state: TestsModel, action: Action, slotId: string | null): TestCategory => {
   if (
-    (action.type === testsActions.StartTest.type)
-    || (action.type === testsActions.ActivateTest.type)
-    || (action.type === testsActions.StartTestReportPracticeTest.type)
-    || (action.type === fakeJournalActions.StartE2EPracticeTest.type)
+    action.type === testsActions.StartTest.type ||
+    action.type === testsActions.ActivateTest.type ||
+    action.type === testsActions.StartTestReportPracticeTest.type ||
+    action.type === fakeJournalActions.StartE2EPracticeTest.type
   ) {
     return (<ReturnType<typeof testsActions.StartTest>>action).category;
   }
@@ -56,12 +56,7 @@ const deriveCategory = (state: TestsModel, action: Action, slotId: string | null
   return get(state.startedTests[slotId], 'category', null);
 };
 
-const createStateObject = (
-  state: TestsModel,
-  action: Action,
-  slotId: string,
-  category: TestCategory,
-): TestsModel => {
+const createStateObject = (state: TestsModel, action: Action, slotId: string, category: TestCategory): TestsModel => {
   return {
     ...state,
     startedTests: {
@@ -78,14 +73,8 @@ const createStateObject = (
 };
 
 const removeTest = (state: TestsModel, slotId: string): TestsModel => {
-  const {
-    [slotId]: removedStartedTest,
-    ...updatedStartedTests
-  } = state.startedTests;
-  const {
-    [slotId]: removedTestStatus,
-    ...updatedTestStatus
-  } = state.testStatus;
+  const { [slotId]: removedStartedTest, ...updatedStartedTests } = state.startedTests;
+  const { [slotId]: removedTestStatus, ...updatedTestStatus } = state.testStatus;
   return {
     ...state,
     currentTest: {
@@ -96,25 +85,21 @@ const removeTest = (state: TestsModel, slotId: string): TestsModel => {
   };
 };
 
-const hydrateRemoteTests = (
-  state: TestsModel,
-  testResults: TestResultRehydration[]
-): TestsModel => {
-
-  let started = {}
-  let ts = {}
+const hydrateRemoteTests = (state: TestsModel, testResults: TestResultRehydration[]): TestsModel => {
+  let started = {};
+  let ts = {};
 
   //Create a list of new startedTests and testStatuses
   testResults.forEach((testResult) => {
     started = {
       ...started,
       [testResult.slotId]: testResult.testData,
-    }
+    };
 
     ts = {
       ...ts,
-      [testResult.slotId]: testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted
-    }
+      [testResult.slotId]: testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted,
+    };
   });
 
   //Append the new tests to the initial startedTests and testStatus objects
@@ -140,7 +125,7 @@ const hydrateRemoteTests = (
  */
 export function testsReducer(
   state = initialState,
-  action: testsActions.TestActionsTypes | fakeJournalActions.Types,
+  action: testsActions.TestActionsTypes | fakeJournalActions.Types
 ): TestsModel {
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);

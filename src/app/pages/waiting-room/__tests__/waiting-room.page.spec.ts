@@ -1,62 +1,57 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router, RouterModule } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { MockComponent } from 'ng-mocks';
-import { UntypedFormControl, Validators } from '@angular/forms';
-import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
+import { Observable, Subscription } from 'rxjs';
 
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
+import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
+import { SignatureComponent } from '@components/common/signature/signature';
+import { provideMockStore } from '@ngrx/store/testing';
+import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
+import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import * as communicationPreferenceActions from '@store/tests/communication-preferences/communication-preferences.actions';
+import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
+import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import {
   ToggleInsuranceDeclaration,
   ToggleResidencyDeclaration,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import {
-  initialState as preTestDeclarationInitialState,
-} from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
-import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import {
-  DeviceAuthenticationProviderMock,
-} from '@providers/device-authentication/__mocks__/device-authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import * as communicationPreferenceActions
-  from '@store/tests/communication-preferences/communication-preferences.actions';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
-import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { AppComponent } from '@app/app.component';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { SignatureComponent } from '@components/common/signature/signature';
-import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
+import { initialState as preTestDeclarationInitialState } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { TestsModel } from '@store/tests/tests.model';
-import { provideMockStore } from '@ngrx/store/testing';
-import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
-import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
+import { CBTNumberComponent } from '../components/cbt-number/cbt-number';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
+import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
+import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
+import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { WaitingRoomValidationError } from '../waiting-room.actions';
 import { WaitingRoomPage } from '../waiting-room.page';
-import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
-import { CBTNumberComponent } from '../components/cbt-number/cbt-number';
 
 describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
@@ -232,8 +227,7 @@ describe('WaitingRoomPage', () => {
       it('should emit a residency declaration toggle action when changed', () => {
         component.residencyDeclarationChanged();
 
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ToggleResidencyDeclaration());
+        expect(store$.dispatch).toHaveBeenCalledWith(ToggleResidencyDeclaration());
       });
     });
 
@@ -241,99 +235,77 @@ describe('WaitingRoomPage', () => {
       it('should emit an insurance declaration toggle action when changed', () => {
         component.insuranceDeclarationChanged();
 
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ToggleInsuranceDeclaration());
+        expect(store$.dispatch).toHaveBeenCalledWith(ToggleInsuranceDeclaration());
       });
     });
 
     describe('manoeuvresPassCertNumberChanged', () => {
       it('should emit a manoeuvre pass cert number action with payload', () => {
         component.manoeuvresPassCertNumberChanged('123');
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
+        expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
       });
     });
 
     describe('dispatchCandidateChoseToProceedInWelsh', () => {
       it('it should dispatch CandidateChoseToProceedWithTestInWelsh action', () => {
         component.dispatchCandidateChoseToProceedInWelsh();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(communicationPreferenceActions.CandidateChoseToProceedWithTestInWelsh(
-            Language.CYMRAEG,
-          ));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          communicationPreferenceActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG)
+        );
       });
     });
 
     describe('dispatchCandidateChoseToProceedInEnglish', () => {
       it('it should dispatch CandidateChoseToProceedWithTestInEnglish action', () => {
         component.dispatchCandidateChoseToProceedInEnglish();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(communicationPreferenceActions.CandidateChoseToProceedWithTestInEnglish(
-            Language.ENGLISH,
-          ));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          communicationPreferenceActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH)
+        );
       });
     });
 
     describe('showCandidateDataMissingError', () => {
       it('should create an error modal', async () => {
-        spyOn(modalController, 'create')
-          .and
-          .returnValue(Promise.resolve({
-            present: async () => {
-            },
-            onWillDismiss: async () => {
-            },
-          } as any as HTMLIonModalElement));
+        spyOn(modalController, 'create').and.returnValue(
+          Promise.resolve({
+            present: async () => {},
+            onWillDismiss: async () => {},
+          } as any as HTMLIonModalElement)
+        );
         await component.showCandidateDataMissingError();
-        expect(modalController.create)
-          .toHaveBeenCalled();
+        expect(modalController.create).toHaveBeenCalled();
       });
     });
 
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
-        spyOn(Insomnia, 'keepAwake')
-          .and
-          .returnValue(Promise.resolve());
-        spyOn(ScreenOrientation, 'lock')
-          .and
-          .returnValue(Promise.resolve());
+        spyOn(Insomnia, 'keepAwake').and.returnValue(Promise.resolve());
+        spyOn(ScreenOrientation, 'lock').and.returnValue(Promise.resolve());
       });
       it('should not enable single app mode if on ios and in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos')
-          .and
-          .returnValue(true);
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         component.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
-        expect(deviceProvider.enableSingleAppMode)
-          .not
-          .toHaveBeenCalled();
+        expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       });
 
       it('should enable single app mode if on ios and not in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos')
-          .and
-          .returnValue(true);
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
-        expect(deviceProvider.enableSingleAppMode)
-          .toHaveBeenCalled();
+        expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
       });
 
       it('should keep the device awake', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos')
-          .and
-          .returnValue(true);
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
-        expect(Insomnia.keepAwake)
-          .toHaveBeenCalled();
+        expect(Insomnia.keepAwake).toHaveBeenCalled();
       });
 
       it('should dispatch the action which calls out for candidate licence data', async () => {
         await component.ionViewDidEnter();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(GetCandidateLicenceData());
+        expect(store$.dispatch).toHaveBeenCalledWith(GetCandidateLicenceData());
       });
     });
 
@@ -342,16 +314,14 @@ describe('WaitingRoomPage', () => {
         component.merged$ = new Observable<string | boolean>();
         component.ionViewWillEnter();
 
-        expect(component.subscription)
-          .toBeDefined();
+        expect(component.subscription).toBeDefined();
       });
     });
 
     describe('canDeActivate', () => {
       it('should call through to triggerLockScreen', async () => {
         await component.canDeActivate();
-        expect(deviceAuthenticationProvider.triggerLockScreen)
-          .toHaveBeenCalled();
+        expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
       });
     });
 
@@ -359,24 +329,20 @@ describe('WaitingRoomPage', () => {
       it('should return true if rekey is false and test category is not ADI3 or SC', () => {
         component.isRekey = false;
         component.testCategory = TestCategory.B;
-        expect(component['shouldNavigateToCandidateLicenceDetails']())
-          .toEqual(true);
+        expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(true);
       });
       it('should return false if rekey is true and test category is not ADI3 or SC', () => {
         component.isRekey = true;
         component.testCategory = TestCategory.B;
-        expect(component['shouldNavigateToCandidateLicenceDetails']())
-          .toEqual(false);
+        expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(false);
       });
       [TestCategory.ADI3, TestCategory.SC].forEach((val) => {
         it(`should return false if rekey is false and test category is ${val}`, () => {
           component.isRekey = false;
           component.testCategory = val;
-          expect(component['shouldNavigateToCandidateLicenceDetails']())
-            .toEqual(false);
+          expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(false);
         });
       });
-
     });
 
     describe('ionViewDidLeave', () => {
@@ -384,8 +350,7 @@ describe('WaitingRoomPage', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe)
-          .toHaveBeenCalled();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 
@@ -393,39 +358,30 @@ describe('WaitingRoomPage', () => {
       it('should resolve state variables', () => {
         component.ngOnInit();
 
-        component.pageState.showManoeuvresPassCertNumber$
-          .subscribe((res) => expect(res)
-            .toEqual(true));
-        component.pageState.showCbtNumber$
-          .subscribe((res) => expect(res)
-            .toEqual(false));
-        component.pageState.showResidencyDec$
-          .subscribe((res) => expect(res)
-            .toEqual(true));
+        component.pageState.showManoeuvresPassCertNumber$.subscribe((res) => expect(res).toEqual(true));
+        component.pageState.showCbtNumber$.subscribe((res) => expect(res).toEqual(false));
+        component.pageState.showResidencyDec$.subscribe((res) => expect(res).toEqual(true));
       });
     });
 
     describe('cbtNumberChanged', () => {
       it('should dispatch SignatureDataChanged with parameter passed', () => {
         component.cbtNumberChanged('test');
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(CbtNumberChanged('test'));
+        expect(store$.dispatch).toHaveBeenCalledWith(CbtNumberChanged('test'));
       });
     });
 
     describe('signatureChanged', () => {
       it('should dispatch SignatureDataChanged with parameter passed', () => {
         component.signatureChanged('test');
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataChanged('test'));
+        expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataChanged('test'));
       });
     });
 
     describe('signatureCleared', () => {
       it('should dispatch SignatureDataCleared', () => {
         component.signatureCleared();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataCleared());
+        expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataCleared());
       });
     });
 
@@ -433,21 +389,17 @@ describe('WaitingRoomPage', () => {
       it('should navigate to the CandidateLicencePage if the form is valid', async () => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
-        formGroup.get('insuranceCheckbox')
-          .setValue(true);
+        formGroup.get('insuranceCheckbox').setValue(true);
         await component.onSubmit();
-        expect(router.navigate)
-          .toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
+        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
-        formGroup.get('insuranceCheckbox')
-          .setValue(false);
+        formGroup.get('insuranceCheckbox').setValue(false);
         component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomValidationError('insuranceCheckbox is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomValidationError('insuranceCheckbox is blank'));
       }));
     });
 
@@ -490,8 +442,7 @@ describe('WaitingRoomPage', () => {
             staffNumber: '',
           },
         });
-        expect(result)
-          .toEqual(true);
+        expect(result).toEqual(true);
       });
 
       it('should return true if no candidate name & driver number', () => {
@@ -502,8 +453,7 @@ describe('WaitingRoomPage', () => {
             driverNumber: '',
           },
         });
-        expect(result)
-          .toEqual(true);
+        expect(result).toEqual(true);
       });
 
       it('should return false if it has staff number and candidate name but no driver number', () => {
@@ -514,8 +464,7 @@ describe('WaitingRoomPage', () => {
             driverNumber: '',
           },
         });
-        expect(result)
-          .toEqual(false);
+        expect(result).toEqual(false);
       });
 
       it('should return false if it has staff number and driver number but no candidate name', () => {
@@ -526,8 +475,7 @@ describe('WaitingRoomPage', () => {
             driverNumber: '',
           },
         });
-        expect(result)
-          .toEqual(false);
+        expect(result).toEqual(false);
       });
     });
   });

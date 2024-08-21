@@ -10,13 +10,11 @@ describe('CategoryWhitelistProvider', () => {
 
   describe('isWhiteListed', () => {
     it('shout return true if category whitelisted', () => {
-      expect(provider.isWhiteListed(TestCategory.B))
-        .toEqual(true);
+      expect(provider.isWhiteListed(TestCategory.B)).toEqual(true);
     });
 
     it('shout return false if category blacklisted', () => {
-      expect(provider.isWhiteListed(TestCategory.A))
-        .toEqual(false);
+      expect(provider.isWhiteListed(TestCategory.A)).toEqual(false);
     });
   });
 });

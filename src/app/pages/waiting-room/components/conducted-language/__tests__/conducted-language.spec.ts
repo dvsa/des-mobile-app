@@ -1,6 +1,6 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 import { ConductedLanguageComponent } from '../conducted-language';
 
 describe('ConductedLanguageComponent', () => {
@@ -9,12 +9,8 @@ describe('ConductedLanguageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ConductedLanguageComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [ConductedLanguageComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ConductedLanguageComponent);

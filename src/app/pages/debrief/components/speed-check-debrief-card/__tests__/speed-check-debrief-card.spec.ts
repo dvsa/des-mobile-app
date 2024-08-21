@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { AppModule } from '@app/app.module';
+import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { SpeedCheckDebriefCardComponent } from '../speed-check-debrief-card';
 
 describe('SeriousFaultsDebriefCardComponent', () => {
@@ -14,13 +14,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SpeedCheckDebriefCardComponent],
-      imports: [
-        IonicModule,
-        AppModule,
-        ComponentsModule,
-        StoreModule.forRoot({}),
-        TranslateModule,
-      ],
+      imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
     });
 
     fixture = TestBed.createComponent(SpeedCheckDebriefCardComponent);

@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './modal-alert-title.html',
   styleUrls: ['./modal-alert-title.scss'],
 })
-export class ModalAlertTitleComponent {
-}
+export class ModalAlertTitleComponent {}

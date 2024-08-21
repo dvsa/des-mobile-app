@@ -1,11 +1,11 @@
-import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AppComponent } from '@app/app.component';
+import { IonicModule } from '@ionic/angular';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PassCertificateNumberComponent } from '../pass-certificate-number';
 
 describe('PassCertificateNumberComponent', () => {
@@ -15,12 +15,8 @@ describe('PassCertificateNumberComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PassCertificateNumberComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [PassCertificateNumberComponent],
+      imports: [IonicModule],
       providers: [
         PassCertificateValidationProvider,
         {
@@ -46,36 +42,26 @@ describe('PassCertificateNumberComponent', () => {
         spyOn(component.passCertificateNumberChange, 'emit');
         const passCertificateNumber = 'C267548E';
         component.passCertificateNumberChanged(passCertificateNumber);
-        expect(component.passCertificateNumberChange.emit)
-          .toHaveBeenCalledWith(passCertificateNumber);
+        expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
       });
     });
     describe('validatePassCertificate', () => {
       it('should return { valid: false }  when isPassCertificateValid returns false', () => {
-        spyOn(passCertValidationProvider, 'isPassCertificateValid')
-          .and
-          .returnValue(false);
-        expect(component.validatePassCertificate(new UntypedFormControl('')))
-          .toEqual({ valid: false });
+        spyOn(passCertValidationProvider, 'isPassCertificateValid').and.returnValue(false);
+        expect(component.validatePassCertificate(new UntypedFormControl(''))).toEqual({ valid: false });
       });
       it('should return { valid: true, duplicate: true  } when already used before', () => {
-        spyOn(passCertValidationProvider, 'isPassCertificateValid')
-          .and
-          .returnValue(true);
+        spyOn(passCertValidationProvider, 'isPassCertificateValid').and.returnValue(true);
         component.pastPassCerts = ['A123456X'];
-        expect(component.validatePassCertificate(new UntypedFormControl('A123456X')))
-          .toEqual({
-            valid: true,
-            duplicate: true,
-          });
+        expect(component.validatePassCertificate(new UntypedFormControl('A123456X'))).toEqual({
+          valid: true,
+          duplicate: true,
+        });
       });
       it('should return null when already used valid and un-used', () => {
-        spyOn(passCertValidationProvider, 'isPassCertificateValid')
-          .and
-          .returnValue(true);
+        spyOn(passCertValidationProvider, 'isPassCertificateValid').and.returnValue(true);
         component.pastPassCerts = ['A123456X'];
-        expect(component.validatePassCertificate(new UntypedFormControl('C123456X')))
-          .toEqual(null);
+        expect(component.validatePassCertificate(new UntypedFormControl('C123456X'))).toEqual(null);
       });
     });
     describe('isInvalid', () => {
@@ -86,12 +72,9 @@ describe('PassCertificateNumberComponent', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSET
-        expect(component.formControl.dirty)
-          .toEqual(false);
-        expect(!component.formControl.valid)
-          .toEqual(false);
-        expect(result)
-          .toEqual(false);
+        expect(component.formControl.dirty).toEqual(false);
+        expect(!component.formControl.valid).toEqual(false);
+        expect(result).toEqual(false);
       });
       it('should return false when the field is not valid and is not dirty', () => {
         // SETUP
@@ -100,12 +83,9 @@ describe('PassCertificateNumberComponent', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSET
-        expect(component.formControl.dirty)
-          .toEqual(false);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(false);
+        expect(component.formControl.dirty).toEqual(false);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(false);
       });
       it('should return false when the field is valid and is dirty', () => {
         // SETUP
@@ -115,12 +95,9 @@ describe('PassCertificateNumberComponent', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSET
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(false);
-        expect(result)
-          .toEqual(false);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(false);
+        expect(result).toEqual(false);
       });
       it('should return true if the field is empty and is marked as dirty', () => {
         // SETUP
@@ -129,12 +106,9 @@ describe('PassCertificateNumberComponent', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSERT
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(true);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(true);
       });
       it('should return true if the field has less then 8 characters and is marked as dirty', () => {
         // SETUP
@@ -144,12 +118,9 @@ describe('PassCertificateNumberComponent', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSERT
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(true);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(true);
       });
       it('should return true if the field has more then 8 characters and is marked as dirty', () => {
         // SETUP
@@ -159,12 +130,9 @@ describe('PassCertificateNumberComponent', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSERT
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(true);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(true);
       });
     });
   });

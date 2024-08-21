@@ -1,13 +1,13 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { IonicModule } from '@ionic/angular';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { getMalformedVehicleChecks } from '../__mocks__/vehicle-checks-card.mock';
 import { VehicleChecksCardComponent } from '../vehicle-checks-card';
 
@@ -18,9 +18,7 @@ describe('VehicleChecksCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksCardComponent,
-      ],
+      declarations: [VehicleChecksCardComponent],
       imports: [
         IonicModule,
         HttpClientModule,
@@ -98,11 +96,11 @@ describe('VehicleChecksCardComponent', () => {
         ];
         fixture.detectChanges();
 
-        const tellMeQuestionText = fixture.debugElement
-          .query(By.css('#vehicle-checks .counter-label')).nativeElement;
+        const tellMeQuestionText = fixture.debugElement.query(By.css('#vehicle-checks .counter-label')).nativeElement;
 
-        expect(tellMeQuestionText.innerHTML.trim())
-          .toContain((<any>englishTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01);
+        expect(tellMeQuestionText.innerHTML.trim()).toContain(
+          (<any>englishTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01
+        );
       });
 
       it('should show results in Welsh for a Welsh test', (done) => {
@@ -120,15 +118,14 @@ describe('VehicleChecksCardComponent', () => {
         // Language change handled by parent page component, force the switch
         translate.use('cy').subscribe(() => {
           fixture.detectChanges();
-          const tellMeQuestionText = fixture.debugElement
-            .query(By.css('#vehicle-checks .counter-label')).nativeElement;
+          const tellMeQuestionText = fixture.debugElement.query(By.css('#vehicle-checks .counter-label')).nativeElement;
 
-          expect(tellMeQuestionText.innerHTML.trim())
-            .toContain((<any>welshTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01);
+          expect(tellMeQuestionText.innerHTML.trim()).toContain(
+            (<any>welshTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01
+          );
           done();
         });
       });
     });
   });
-
 });

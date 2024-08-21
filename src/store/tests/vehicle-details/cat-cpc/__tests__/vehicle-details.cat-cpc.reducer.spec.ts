@@ -1,8 +1,8 @@
 import {
-  VehicleRegistrationChanged,
-  GearboxCategoryChanged,
   ClearGearboxCategory,
+  GearboxCategoryChanged,
   PopulateVehicleConfiguration,
+  VehicleRegistrationChanged,
 } from '../../vehicle-details.actions';
 import { vehicleDetailsCatCPCReducer } from '../vehicle-details.cat-cpc.reducer';
 

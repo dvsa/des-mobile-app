@@ -1,9 +1,12 @@
 import { SingleFaultCompetencies, TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import {
-  getSingleFaultCompetencies, hasCompetencyDrivingFault, hasCompetencySeriousFault, hasCompetencyDangerousFault,
-} from '../single-fault-competencies.selector';
 import { SingleFaultCompetencyNames } from '../../../test-data.constants';
+import {
+  getSingleFaultCompetencies,
+  hasCompetencyDangerousFault,
+  hasCompetencyDrivingFault,
+  hasCompetencySeriousFault,
+} from '../single-fault-competencies.selector';
 
 describe('single fault competencies selector', () => {
   describe('getSingleFaultCompetencies', () => {

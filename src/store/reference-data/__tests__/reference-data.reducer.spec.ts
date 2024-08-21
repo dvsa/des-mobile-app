@@ -1,5 +1,5 @@
-import { initialState, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
 import { LoadTestCentresRefDataSuccess, SetDateRefDataUpdated } from '@store/reference-data/reference-data.actions';
+import { initialState, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
 
 describe('referenceDataReducer', () => {
   it('should update the value of dateLoaded', () => {
@@ -7,10 +7,13 @@ describe('referenceDataReducer', () => {
     expect(red.dateLoaded).toEqual('some date');
   });
   it('should updated the value of testCentres', () => {
-    const red = referenceDataReducer(initialState, LoadTestCentresRefDataSuccess({
-      active: [],
-      inactive: [],
-    }));
+    const red = referenceDataReducer(
+      initialState,
+      LoadTestCentresRefDataSuccess({
+        active: [],
+        inactive: [],
+      })
+    );
     expect(red.testCentres).toEqual({ active: [], inactive: [] });
   });
 });

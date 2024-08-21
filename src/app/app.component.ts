@@ -3,34 +3,34 @@ import { map } from 'rxjs/operators';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
-import { merge, Observable, Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import * as Sentry from '@sentry/capacitor';
-import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
 import { Storage } from '@ionic/storage-angular';
+import { TranslateService } from '@ngx-translate/core';
+import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
+import * as Sentry from '@sentry/capacitor';
+import { Observable, Subscription, merge } from 'rxjs';
 
-import { DataStoreProvider } from '@providers/data-store/data-store';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
-import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
-import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
-import { Capacitor } from '@capacitor/core';
-import { AppInfoProvider } from '@providers/app-info/app-info';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { DASHBOARD_PAGE, EXAMINER_RECORDS, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
+import { Capacitor } from '@capacitor/core';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
-import { SlotProvider } from '@providers/slot/slot';
-import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DASHBOARD_PAGE, EXAMINER_RECORDS, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
-import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { SlotProvider } from '@providers/slot/slot';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
+import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { getJournalState } from '@store/journal/journal.reducer';
+import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
+import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
@@ -87,7 +87,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
     private storage: Storage,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
@@ -97,9 +97,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if (!role) {
       return pages;
     }
-    return pages.filter(
-      (page) => !isAnyOf(role, (page.hideWhenRole || [])),
-    );
+    return pages.filter((page) => !isAnyOf(role, page.hideWhenRole || []));
   }
 
   async ngOnInit() {
@@ -131,10 +129,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
           this.store$.select(getTests),
           this.dateTimeProvider,
           this.slotProvider,
-          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView,
+          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
         ),
       };
-
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }
@@ -173,12 +170,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   configurePlatformSubscriptions(): void {
     const merged$ = merge(
-      this.platform.resume.pipe(
-        map(this.onAppResumed),
-      ),
-      this.platform.pause.pipe(
-        map(this.onAppSuspended),
-      ),
+      this.platform.resume.pipe(map(this.onAppResumed)),
+      this.platform.pause.pipe(map(this.onAppSuspended))
     );
     this.platformSubscription = merged$.subscribe();
   }
@@ -224,16 +217,19 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
     const { sentry } = this.appConfigProvider.getAppConfig();
 
-    Sentry.init({
-      dsn: sentry?.dsn,
-      enabled: !!sentry?.dsn,
-      environment: sentry?.environment,
-      release: `des@${appVersion}`,
-      dist: appVersion,
-      tracesSampleRate: 0.01, // 1% of transactions are captured;
-      integrations: [new BrowserTracing()],
-      ignoreErrors: SENTRY_ERRORS,
-    }, sentryAngularInit);
+    Sentry.init(
+      {
+        dsn: sentry?.dsn,
+        enabled: !!sentry?.dsn,
+        environment: sentry?.environment,
+        release: `des@${appVersion}`,
+        dist: appVersion,
+        tracesSampleRate: 0.01, // 1% of transactions are captured;
+        integrations: [new BrowserTracing()],
+        ignoreErrors: SENTRY_ERRORS,
+      },
+      sentryAngularInit
+    );
 
     return Promise.resolve();
   };

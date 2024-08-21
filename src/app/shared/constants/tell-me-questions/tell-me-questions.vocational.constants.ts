@@ -22,7 +22,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'Q7',
-    description: 'Tell me how you would check your tyres to ensure that they are correctly inflated, have sufficient tread depth and that their general condition is safe to use on the road.',
+    description:
+      'Tell me how you would check your tyres to ensure that they are correctly inflated, have sufficient tread depth and that their general condition is safe to use on the road.',
     shortName: 'Sufficient tread',
   },
   {
@@ -37,7 +38,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'Q11',
-    description: 'Identify where you would check the engine oil level and tell me how you would check that the engine has sufficient oil.',
+    description:
+      'Identify where you would check the engine oil level and tell me how you would check that the engine has sufficient oil.',
     shortName: 'Engine has sufficient oil',
   },
   {
@@ -47,7 +49,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'Q16',
-    description: 'Identify where you would check the engine coolant level and tell me how you would check that the engine has the correct level.',
+    description:
+      'Identify where you would check the engine coolant level and tell me how you would check that the engine has the correct level.',
     shortName: 'Engine coolant',
   },
   {
@@ -62,7 +65,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'Q22',
-    description: 'Identify where the windscreen washer reservoir is and tell me how you would check the windscreen washer level.',
+    description:
+      'Identify where the windscreen washer reservoir is and tell me how you would check the windscreen washer level.',
     shortName: 'Windscreen washer reservoir',
   },
 ];

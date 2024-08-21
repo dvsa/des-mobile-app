@@ -1,13 +1,7 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import {
-  hasSeriousFault,
-  hasDangerousFault,
-  getETAFaultText,
-} from '../../common/test-data.selector';
-import {
-  getDrivingFaultCount,
-} from '../test-data.cat-a-mod1.selector';
+import { getETAFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
 import { Competencies } from '../../test-data.constants';
+import { getDrivingFaultCount } from '../test-data.cat-a-mod1.selector';
 
 describe('TestDataSelectors', () => {
   const state: TestData = {

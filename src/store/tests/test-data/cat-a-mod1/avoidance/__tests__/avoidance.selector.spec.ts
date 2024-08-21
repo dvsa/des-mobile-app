@@ -1,4 +1,4 @@
-import { TestData, Avoidance } from '@dvsa/mes-test-schema/categories/AM1';
+import { Avoidance, TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { getAvoidance, getAvoidanceAttempted } from '../avoidance.selector';
 
 describe('emergency stop selector', () => {
@@ -20,8 +20,7 @@ describe('emergency stop selector', () => {
   describe('getAvoidanceAttempted', () => {
     it('should return false when first and second attempted are not set', () => {
       const testData: TestData = {
-        avoidance: {
-        } as Avoidance,
+        avoidance: {} as Avoidance,
       };
 
       const result = getAvoidanceAttempted(testData.avoidance);

@@ -1,9 +1,9 @@
 import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
-import { IonicModule } from '@ionic/angular';
 import { SignatureAreaComponent } from '../signature-area';
 
 class TestStore {}
@@ -14,13 +14,8 @@ describe('SignatureAreaComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SignatureAreaComponent,
-        MockComponent(SignaturePadComponent),
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [SignatureAreaComponent, MockComponent(SignaturePadComponent)],
+      imports: [IonicModule],
       providers: [
         {
           provide: Store,
@@ -87,7 +82,7 @@ describe('SignatureAreaComponent', () => {
         component.retryButtonText = 'try again';
         fixture.detectChanges();
         const retryButtonElement: HTMLElement = fixture.debugElement.query(
-          By.css('#signature-area-retry-button-label'),
+          By.css('#signature-area-retry-button-label')
         ).nativeElement;
         expect(retryButtonElement.textContent.trim()).toEqual('try again');
       });
@@ -95,7 +90,7 @@ describe('SignatureAreaComponent', () => {
         component.retryButtonText = undefined;
         fixture.detectChanges();
         const retryButtonElement: HTMLElement = fixture.debugElement.query(
-          By.css('#signature-area-retry-button-label'),
+          By.css('#signature-area-retry-button-label')
         ).nativeElement;
         expect(retryButtonElement.textContent.trim()).toEqual('Retry');
       });
@@ -106,18 +101,18 @@ describe('SignatureAreaComponent', () => {
         component.retryImage = '/some/path';
         fixture.detectChanges();
         const retryImageElement: HTMLElement = fixture.debugElement.query(
-          By.css('#signature-area-retry-icon'),
+          By.css('#signature-area-retry-icon')
         ).nativeElement;
-        expect(retryImageElement.getAttribute('style'))
-          .toEqual('background-image: url("/some/path");');
+        expect(retryImageElement.getAttribute('style')).toEqual('background-image: url("/some/path");');
       });
       it('retryImage, when not set, should default the retry image source attrubute', () => {
         fixture.detectChanges();
         const retryImageElement: HTMLElement = fixture.debugElement.query(
-          By.css('#signature-area-retry-icon'),
+          By.css('#signature-area-retry-icon')
         ).nativeElement;
-        expect(retryImageElement.getAttribute('style'))
-          .toEqual('background-image: url("/assets/imgs/waiting-room/retry.png");');
+        expect(retryImageElement.getAttribute('style')).toEqual(
+          'background-image: url("/assets/imgs/waiting-room/retry.png");'
+        );
       });
     });
   });

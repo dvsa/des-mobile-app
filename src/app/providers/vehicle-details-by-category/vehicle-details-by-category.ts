@@ -2,53 +2,35 @@ import { Injectable } from '@angular/core';
 import { CategoryCode, VehicleDetails as CommonVehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import {
-  getVehicleDetails as getVehicleDetailsC,
-} from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsManoeuvre,
-} from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsD,
-} from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsB,
-} from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsADI2,
-} from '@store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsADI3,
-} from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsAM1,
-} from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsAM2,
-} from '@store/tests/vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
-import {
-  getVehicleDetails as getVehicleDetailsCPC,
-} from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { VehicleDetails as CatADI3VehicleDetails } from '@dvsa/mes-test-schema/categories/ADI3';
+import { VehicleDetails as CatMod1VehicleDetails } from '@dvsa/mes-test-schema/categories/AM1';
+import { VehicleDetails as CatMod2VehicleDetails } from '@dvsa/mes-test-schema/categories/AM2';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { VehicleDetails as CatCPCVehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
+import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
+import { getVehicleDetails as getVehicleDetailsAM1 } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.reducer';
+import { getVehicleDetails as getVehicleDetailsAM2 } from '@store/tests/vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
+import { getVehicleDetails as getVehicleDetailsADI2 } from '@store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
+import { getVehicleDetails as getVehicleDetailsADI3 } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
+import { getVehicleDetails as getVehicleDetailsB } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
+import { getVehicleDetails as getVehicleDetailsC } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import {
   getVehicleLength as getVehicleLengthC,
   getVehicleWidth as getVehicleWidthC,
 } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.selector';
+import { getVehicleDetails as getVehicleDetailsCPC } from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
+import { getVehicleDetails as getVehicleDetailsD } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
 import {
   getVehicleLength as getVehicleLengthD,
   getVehicleWidth as getVehicleWidthD,
 } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.selector';
+import { getVehicleDetails as getVehicleDetailsManoeuvre } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import {
   getVehicleLength as getVehicleLengthManoeuvre,
   getVehicleWidth as getVehicleWidthManoeuvre,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { VehicleDetails as CatADI3VehicleDetails } from '@dvsa/mes-test-schema/categories/ADI3';
-import { VehicleDetails as CatMod1VehicleDetails } from '@dvsa/mes-test-schema/categories/AM1';
-import { VehicleDetails as CatMod2VehicleDetails } from '@dvsa/mes-test-schema/categories/AM2';
-import { VehicleDetails as CatCPCVehicleDetails } from '@dvsa/mes-test-schema/categories/CPC';
 
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
@@ -62,8 +44,7 @@ export interface CategorySpecificVehicleDetails<T> {
 
 @Injectable()
 export class VehicleDetailsByCategoryProvider {
-
-  static getVehicleDetailsByCategoryCodeErrMsg: string = 'Error getting test category vehicle details';
+  static getVehicleDetailsByCategoryCodeErrMsg = 'Error getting test category vehicle details';
 
   public getVehicleDetailsByCategoryCode(category: CategoryCode) {
     switch (category) {

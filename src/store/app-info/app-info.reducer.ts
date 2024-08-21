@@ -44,7 +44,7 @@ export const appInfoReducer = createReducer(
   on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
     ...state,
     updateAvailablePresented: hasSeen,
-  })),
+  }))
 );
 
 export const getAppInfoState = createFeatureSelector<AppInfoStateModel>('appInfo');

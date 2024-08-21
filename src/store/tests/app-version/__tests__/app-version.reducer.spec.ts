@@ -1,5 +1,5 @@
-import { appVersionReducer } from '../app-version.reducer';
 import { PopulateAppVersion } from '../app-version.actions';
+import { appVersionReducer } from '../app-version.reducer';
 
 describe('App version reducer', () => {
   it('should return the app version for a test', () => {

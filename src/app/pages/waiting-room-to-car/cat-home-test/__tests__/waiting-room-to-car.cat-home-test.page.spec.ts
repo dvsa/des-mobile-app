@@ -1,62 +1,42 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import {
-  VehicleRegistrationComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import { MockComponent } from 'ng-mocks';
-import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import {
-  VehicleDetailsCardComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import {
-  AccompanimentCardComponent,
-} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import {
-  VehicleChecksComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
-import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import {
-  VehicleChecksToggleComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-checks-completed/vehicle-checks-completed';
-import {
-  CandidateDeclarationSignedComponent,
-} from '@pages/waiting-room-to-car/components/candidate-declaration/candidate-declaration';
-import {
-  FullLicenceHeldComponent,
-} from '@pages/waiting-room-to-car/components/full-licence-held-toggle/full-licence-held-toggle';
 import { AppModule } from '@app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { provideMockStore } from '@ngrx/store/testing';
-import { QuestionProvider } from '@providers/question/question';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
-import { AppInfoStateModel } from '@store/app-info/app-info.model';
-import { TestsModel } from '@store/tests/tests.model';
+import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Platform } from '@ionic/angular';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { CandidateDeclarationSignedComponent } from '@pages/waiting-room-to-car/components/candidate-declaration/candidate-declaration';
+import { FullLicenceHeldComponent } from '@pages/waiting-room-to-car/components/full-licence-held-toggle/full-licence-held-toggle';
+import { VehicleChecksToggleComponent } from '@pages/waiting-room-to-car/components/vehicle-checks-completed/vehicle-checks-completed';
+import { VehicleChecksComponent } from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
+import { VehicleRegistrationComponent } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
+import { QuestionProvider } from '@providers/question/question';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { StoreModel } from '@shared/models/store.model';
+import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { TestsModel } from '@store/tests/tests.model';
+import { MockComponent } from 'ng-mocks';
 import { WaitingRoomToCarCatHomeTestPage } from '../waiting-room-to-car.cat-home-test.page';
 
 describe('WaitingRoomToCarCatHomeTestPage', () => {
@@ -112,10 +92,7 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         MockComponent(CandidateDeclarationSignedComponent),
         MockComponent(FullLicenceHeldComponent),
       ],
-      imports: [
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      imports: [AppModule, ReactiveFormsModule],
       providers: [
         {
           provide: RouteByCategoryProvider,
@@ -170,23 +147,20 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
-          .toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
       });
     });
     describe('eyesightFailCancelled', () => {
       it('should call the dismiss method', () => {
         spyOn(store$, 'dispatch');
         component.eyesightFailCancelled();
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(EyesightTestReset());
+        expect(component.store$.dispatch).toHaveBeenCalledWith(EyesightTestReset());
       });
       it('should reset the eyesightCtrl form property', () => {
         component.form.addControl('eyesightCtrl', new UntypedFormControl());
         component.form.controls.eyesightCtrl.setValue(1);
         component.eyesightFailCancelled();
-        expect(component.form.controls.eyesightCtrl.value)
-          .toBe(null);
+        expect(component.form.controls.eyesightCtrl.value).toBe(null);
       });
     });
 
@@ -201,10 +175,11 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         component.testCategory = TestCategory.F;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage)
-          .toHaveBeenCalledWith(
-            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.F, { replaceUrl: true },
-          );
+        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+          TestFlowPageNames.TEST_REPORT_PAGE,
+          TestCategory.F,
+          { replaceUrl: true }
+        );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new UntypedFormGroup({
@@ -214,13 +189,11 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         });
         await component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch)
-          .not
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          WaitingRoomToCarValidationError('notRequiredControl is blank')
+        );
       }));
     });
   });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams, ModalController } from '@ionic/angular';
 import { ActivityCode, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import { ModalController, NavParams } from '@ionic/angular';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ModalEvent } from '../../../test-report.constants';
@@ -17,7 +17,7 @@ export class CPCEndTestModal implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private navParams: NavParams,
+    private navParams: NavParams
   ) {}
 
   ngOnInit(): void {
@@ -39,11 +39,10 @@ export class CPCEndTestModal implements OnInit {
   }
 
   getTestResultLabel(): TestOutcome {
-    return (this.testResult === ActivityCodes.PASS ? TestOutcome.Passed : TestOutcome.Failed);
+    return this.testResult === ActivityCodes.PASS ? TestOutcome.Passed : TestOutcome.Failed;
   }
 
   getTestResultClass(): string {
-    return (this.testResult === ActivityCodes.PASS ? 'test-result-pass-label' : 'test-result-fail-label');
+    return this.testResult === ActivityCodes.PASS ? 'test-result-pass-label' : 'test-result-fail-label';
   }
-
 }

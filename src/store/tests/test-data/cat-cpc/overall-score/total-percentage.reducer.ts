@@ -5,5 +5,5 @@ const initialState: number = 0;
 
 export const totalPercentageReducer = createReducer(
   initialState,
-  on(totalPercentageActionTypes.PopulateTestScore, (_, { score }) => score),
+  on(totalPercentageActionTypes.PopulateTestScore, (_, { score }) => score)
 );

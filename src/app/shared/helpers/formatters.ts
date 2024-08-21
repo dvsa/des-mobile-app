@@ -22,8 +22,5 @@ export const removeNonAlphaNumeric = (value: string): string => {
 export const stripNullishValues = <T>(obj: T): Partial<T> => {
   const isNilOrNaN = <V>(val: V): boolean => val === null || val === '' || val === undefined || Number.isNaN(val);
 
-  return Object.fromEntries(
-    Object.entries(obj)
-      .filter(([, value]) => !isNilOrNaN(value)),
-  ) as Partial<T>;
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => !isNilOrNaN(value))) as Partial<T>;
 };

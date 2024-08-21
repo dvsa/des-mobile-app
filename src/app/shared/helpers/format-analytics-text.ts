@@ -1,6 +1,4 @@
-import {
-  GoogleAnalyticsEventPrefix,
-} from '@providers/analytics/analytics.model';
+import { GoogleAnalyticsEventPrefix } from '@providers/analytics/analytics.model';
 import { TestsModel } from '@store/tests/tests.model';
 import {
   getCurrentTest,

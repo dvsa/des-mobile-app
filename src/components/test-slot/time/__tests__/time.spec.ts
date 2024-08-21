@@ -1,9 +1,9 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { LogHelper } from '@providers/logs/logs-helper';
+import { IonicModule } from '@ionic/angular';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { TimeComponent } from '../time';
 
 describe('TimeComponent', () => {
@@ -14,9 +14,7 @@ describe('TimeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TimeComponent],
       imports: [IonicModule],
-      providers: [
-        { provide: LogHelper, useClass: LogHelperMock },
-      ],
+      providers: [{ provide: LogHelper, useClass: LogHelperMock }],
     });
 
     fixture = TestBed.createComponent(TimeComponent);

@@ -1,18 +1,12 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'route-number',
   templateUrl: 'route-number.html',
 })
 export class RouteNumberComponent implements OnChanges {
-
   @Input()
   display: boolean;
 
@@ -31,7 +25,7 @@ export class RouteNumberComponent implements OnChanges {
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'routeNumber';
 
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -39,14 +33,17 @@ export class RouteNumberComponent implements OnChanges {
       this.formGroup.addControl(RouteNumberComponent.fieldName, this.formControl);
     }
 
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
-      RouteNumberComponent.fieldName);
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      RouteNumberComponent.fieldName
+    );
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(RouteNumberComponent.fieldName).clearValidators();
     } else {
-      this.formGroup.get(RouteNumberComponent.fieldName).setValidators([
-        Validators.required, Validators.min(1), Validators.max(99), Validators.pattern(/^[0-9]*$/)]);
+      this.formGroup
+        .get(RouteNumberComponent.fieldName)
+        .setValidators([Validators.required, Validators.min(1), Validators.max(99), Validators.pattern(/^[0-9]*$/)]);
     }
     this.formControl.patchValue(this.routeNumber);
   }
@@ -58,5 +55,4 @@ export class RouteNumberComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

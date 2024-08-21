@@ -16,12 +16,14 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'V04',
-    description: 'Show me how you would check that the brake lights are working on this vehicle (I can assist you, if you need to switch the ignition on, please don’t start the engine).',
+    description:
+      'Show me how you would check that the brake lights are working on this vehicle (I can assist you, if you need to switch the ignition on, please don’t start the engine).',
     shortName: 'Brake lights',
   },
   {
     code: 'V05',
-    description: 'Show me how you would check the operation (specify horn, warning device for reversing) of the audible warning devices on this vehicle.',
+    description:
+      'Show me how you would check the operation (specify horn, warning device for reversing) of the audible warning devices on this vehicle.',
     shortName: 'Check audible warnings',
   },
   {
@@ -46,17 +48,20 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'V10',
-    description: 'Show me how you would check that all service doors including emergency exit doors are in working order.',
+    description:
+      'Show me how you would check that all service doors including emergency exit doors are in working order.',
     shortName: 'Door security (Emergency door)',
   },
   {
     code: 'V11',
-    description: 'Identify where you would check the engine coolant level and tell me how you would check that the engine has the correct level.',
+    description:
+      'Identify where you would check the engine coolant level and tell me how you would check that the engine has the correct level.',
     shortName: 'Engine coolant',
   },
   {
     code: 'V12',
-    description: 'Identify where you would check the engine oil level and tell me how you would check that the engine has sufficient oil',
+    description:
+      'Identify where you would check the engine oil level and tell me how you would check that the engine has sufficient oil',
     shortName: 'Engine has sufficient oil',
   },
   {
@@ -86,7 +91,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'V19',
-    description: 'Show me how you would switch on the rear fog light(s) and explain when you would use it/them. (No need to exit vehicle)',
+    description:
+      'Show me how you would switch on the rear fog light(s) and explain when you would use it/them. (No need to exit vehicle)',
     shortName: 'Rear fog lights',
   },
   {
@@ -96,7 +102,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'V21',
-    description: 'Identify where the windscreen washer reservoir is and tell me how you would check the windscreen washer level.',
+    description:
+      'Identify where the windscreen washer reservoir is and tell me how you would check the windscreen washer level.',
     shortName: 'Windscreen washer',
   },
 ];

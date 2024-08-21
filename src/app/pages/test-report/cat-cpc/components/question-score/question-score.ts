@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['question-score.scss'],
 })
 export class QuestionScoreComponent {
-
   @Input()
   score: number | string;
 
@@ -15,5 +14,4 @@ export class QuestionScoreComponent {
 
   @Input()
   label?: string = 'Total:';
-
 }

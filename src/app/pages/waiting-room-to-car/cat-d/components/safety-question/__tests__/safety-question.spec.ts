@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from '@app/app.module';
-import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { EventEmitter } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
+import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { SafetyQuestionComponent } from '../safety-question';
 
 const safetyQuestion: SafetyQuestion = {
@@ -16,13 +16,8 @@ describe('SafetyQuestionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SafetyQuestionComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [SafetyQuestionComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionComponent);
@@ -64,41 +59,51 @@ describe('SafetyQuestionComponent', () => {
       });
     });
     describe('ngOnChanges', () => {
-      it('should have safetyQuestionFormControl form control be added to '
-          + 'form if there is no form control already there', () => {
-        component.safetyQuestionFormControl = null;
-        component.ngOnChanges();
-        expect(component.formGroup.controls[component.safetyQuestionFieldName])
-          .toBe(component.safetyQuestionFormControl);
-      });
-      it('should have safetyQuestionFormControl form control be patched with '
-          + 'findQuestion() if questionResult is already valid', () => {
-        spyOn(component, 'findQuestion').and.returnValue({
-          outcome: 'P',
-          description: 'Description',
-        });
-        component.questionResult = {
-          outcome: 'P',
-          description: 'Description',
-        };
-        component.safetyQuestionFormControl = new UntypedFormControl();
-        component.ngOnChanges();
-        expect(component.safetyQuestionFormControl.value).toBe(component.findQuestion());
-      });
-      it('should have safetyQuestionOutcomeFormControl form control be patched with '
-          + 'questionResult.outcome if questionResult is already valid', () => {
-        spyOn(component, 'findQuestion').and.returnValue({
-          outcome: 'P',
-          description: 'Description',
-        });
-        component.questionResult = {
-          outcome: 'P',
-          description: 'Description',
-        };
-        component.safetyQuestionOutcomeFormControl = new UntypedFormControl();
-        component.ngOnChanges();
-        expect(component.safetyQuestionOutcomeFormControl.value).toBe(component.questionResult.outcome);
-      });
+      it(
+        'should have safetyQuestionFormControl form control be added to ' +
+          'form if there is no form control already there',
+        () => {
+          component.safetyQuestionFormControl = null;
+          component.ngOnChanges();
+          expect(component.formGroup.controls[component.safetyQuestionFieldName]).toBe(
+            component.safetyQuestionFormControl
+          );
+        }
+      );
+      it(
+        'should have safetyQuestionFormControl form control be patched with ' +
+          'findQuestion() if questionResult is already valid',
+        () => {
+          spyOn(component, 'findQuestion').and.returnValue({
+            outcome: 'P',
+            description: 'Description',
+          });
+          component.questionResult = {
+            outcome: 'P',
+            description: 'Description',
+          };
+          component.safetyQuestionFormControl = new UntypedFormControl();
+          component.ngOnChanges();
+          expect(component.safetyQuestionFormControl.value).toBe(component.findQuestion());
+        }
+      );
+      it(
+        'should have safetyQuestionOutcomeFormControl form control be patched with ' +
+          'questionResult.outcome if questionResult is already valid',
+        () => {
+          spyOn(component, 'findQuestion').and.returnValue({
+            outcome: 'P',
+            description: 'Description',
+          });
+          component.questionResult = {
+            outcome: 'P',
+            description: 'Description',
+          };
+          component.safetyQuestionOutcomeFormControl = new UntypedFormControl();
+          component.ngOnChanges();
+          expect(component.safetyQuestionOutcomeFormControl.value).toBe(component.questionResult.outcome);
+        }
+      );
     });
   });
 });

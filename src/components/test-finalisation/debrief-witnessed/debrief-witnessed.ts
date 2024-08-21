@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
@@ -19,15 +17,14 @@ export class DebriefWitnessedComponent implements OnChanges {
   @Input()
   formGroup: UntypedFormGroup;
   @Input()
-  shouldShowSeparator: boolean = true;
+  shouldShowSeparator = true;
   @Output()
   debriefWitnessedChange = new EventEmitter<boolean>();
   @Input()
-  isDelegated: boolean = false;
+  isDelegated = false;
   formControl: UntypedFormControl;
 
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
-  }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   get invalid(): boolean {
     return this.formControl.invalid && this.formControl.dirty;
@@ -43,8 +40,10 @@ export class DebriefWitnessedComponent implements OnChanges {
       });
     }
 
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
-      DebriefWitnessedComponent.fieldName);
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      DebriefWitnessedComponent.fieldName
+    );
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(DebriefWitnessedComponent.fieldName).clearValidators();
@@ -63,5 +62,4 @@ export class DebriefWitnessedComponent implements OnChanges {
       this.debriefWitnessedChange.emit(debriefWitnessedFormValue === 'debrief-witnessed-yes');
     }
   }
-
 }

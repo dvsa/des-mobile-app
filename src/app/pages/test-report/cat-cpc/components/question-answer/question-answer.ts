@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Answer } from '@dvsa/mes-test-schema/categories/CPC';
 
 @Component({
@@ -9,7 +7,6 @@ import { Answer } from '@dvsa/mes-test-schema/categories/CPC';
   styleUrls: ['question-answer.scss'],
 })
 export class QuestionAnswerComponent {
-
   @Input()
   answer: Answer;
 
@@ -29,5 +26,4 @@ export class QuestionAnswerComponent {
       answerNumber: this.answerNumber,
     });
   };
-
 }

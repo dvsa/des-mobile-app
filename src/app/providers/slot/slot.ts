@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
+import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Store } from '@ngrx/store';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 import DeepDiff from 'deep-diff';
 import { flatten, get, groupBy, isEmpty, times } from 'lodash-es';
-import { Store } from '@ngrx/store';
-import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
-import { StoreModel } from '@shared/models/store.model';
-import { DateTime, Duration } from '@shared/helpers/date-time';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { SlotItem } from '../slot-selector/slot-item';
 import { AppConfigProvider } from '../app-config/app-config';
-import { SlotHasChanged } from './slot.actions';
-import { DateTimeProvider } from '../date-time/date-time';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+import { DateTimeProvider } from '../date-time/date-time';
+import { SlotItem } from '../slot-selector/slot-item';
+import { SlotHasChanged } from './slot.actions';
 
 const MS_PER_DAY: number = 1000 * 60 * 60 * 24;
 
 @Injectable()
 export class SlotProvider {
-
   constructor(
     private store$: Store<StoreModel>,
     public appConfigProvider: AppConfigProvider,
-    private dateTimeProvider: DateTimeProvider,
-  ) {
-  }
+    private dateTimeProvider: DateTimeProvider
+  ) {}
 
   detectSlotChanges(slots: { [k: string]: SlotItem[] }, newJournal: ExaminerWorkSchedule): SlotItem[] {
-    const newSlots = flatten([
-      newJournal.testSlots || [],
-      newJournal.nonTestActivities || [],
-    ]);
+    const newSlots = flatten([newJournal.testSlots || [], newJournal.nonTestActivities || []]);
 
     const oldJournalSlots: SlotItem[] = flatten(Object.values(slots));
 
@@ -43,7 +38,6 @@ export class SlotProvider {
         let hasSeenCandidateDetails = false;
 
         if (replacedJournalSlot) {
-
           differenceFound = replacedJournalSlot.hasSlotChanged;
           hasSeenCandidateDetails = replacedJournalSlot.hasSeenCandidateDetails;
 
@@ -59,7 +53,7 @@ export class SlotProvider {
         let personalCommitment: PersonalCommitment[] = null;
         if (!isEmpty(newJournal.personalCommitments)) {
           personalCommitment = newJournal.personalCommitments.filter(
-            (commitment) => Number(commitment.slotId) === Number(newSlotId),
+            (commitment) => Number(commitment.slotId) === Number(newSlotId)
           );
         }
 
@@ -77,17 +71,17 @@ export class SlotProvider {
   extendWithEmptyDays = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
     const { numberOfDaysToView } = this.appConfigProvider.getAppConfig().journal;
 
-    const days = times(
-      numberOfDaysToView,
-      (d: number): string => this.dateTimeProvider.now()
-        .add(d, Duration.DAY)
-        .format('YYYY-MM-DD'),
+    const days = times(numberOfDaysToView, (d: number): string =>
+      this.dateTimeProvider.now().add(d, Duration.DAY).format('YYYY-MM-DD')
     );
 
-    const emptyDays = days.reduce((d: { [k: string]: SlotItem[] }, day: string) => ({
-      ...d,
-      [day]: [],
-    }), {});
+    const emptyDays = days.reduce(
+      (d: { [k: string]: SlotItem[] }, day: string) => ({
+        ...d,
+        [day]: [],
+      }),
+      {}
+    );
 
     return {
       ...emptyDays,
@@ -100,19 +94,16 @@ export class SlotProvider {
    * @returns Only the relevant slots
    */
   getRelevantSlots = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
-    return Object.keys(slots)
-      .reduce(
-        (acc: { [k: string]: SlotItem[] }, date) => ({
-          ...acc,
-          [date]: slots[date],
-        }),
-        {},
-      );
+    return Object.keys(slots).reduce(
+      (acc: { [k: string]: SlotItem[] }, date) => ({
+        ...acc,
+        [date]: slots[date],
+      }),
+      {}
+    );
   };
 
-  getSlotDate = (slot: SlotItem): string => DateTime
-    .at(slot.slotData.slotDetail.start)
-    .format('YYYY-MM-DD');
+  getSlotDate = (slot: SlotItem): string => DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
 
   canStartTest(testSlot: TestSlot): boolean {
     const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
@@ -158,7 +149,7 @@ export class SlotProvider {
     return slotItemsByDate;
   };
 
-  public isTestCentreJournalADIBooking(slot: TestSlot | NonTestActivity, isTeamJournal: boolean = false): boolean {
+  public isTestCentreJournalADIBooking(slot: TestSlot | NonTestActivity, isTeamJournal = false): boolean {
     const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
     const testCategory: TestCategory = get(slot, 'booking.application.testCategory', null) as TestCategory;
     return aDICats.includes(testCategory) && isTeamJournal;
@@ -169,18 +160,16 @@ export class SlotProvider {
     const currentDateTime = new Date();
 
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
-      return (period.testCategory === TestCategory.ADI2)
-        && new Date(period.from) <= currentDateTime
-        && (new Date(period.to) >= currentDateTime || period.to === null);
+      return (
+        period.testCategory === TestCategory.ADI2 &&
+        new Date(period.from) <= currentDateTime &&
+        (new Date(period.to) >= currentDateTime || period.to === null)
+      );
     });
 
-    const slotStart = new DateTime(slot.slotDetail.start)
-      .moment
-      .startOf('day');
+    const slotStart = new DateTime(slot.slotDetail.start).moment.startOf('day');
 
-    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime())
-      .moment
-      .startOf('day');
+    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime()).moment.startOf('day');
 
     return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
   }
@@ -195,10 +184,6 @@ export class SlotProvider {
     } else {
       daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
     }
-    return new DateTime()
-      .moment
-      .add(daysToAdd, 'days')
-      .startOf('day')
-      .toDate();
+    return new DateTime().moment.add(daysToAdd, 'days').startOf('day').toDate();
   }
 }

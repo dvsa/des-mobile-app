@@ -10,22 +10,29 @@ export const initialState: LessonAndTheme = {
 
 export const lessonAndThemeReducer = createReducer(
   initialState,
-  on(lessonAndThemeActions.StudentLevelChanged, (state, { studentLevel }): LessonAndTheme => ({
-    ...state,
-    studentLevel: state.studentLevel === studentLevel ? null : studentLevel,
-  })),
-  on(lessonAndThemeActions.LessonThemeChanged, (state, { lessonTheme }): LessonAndTheme => ({
-    ...state,
-    lessonThemes: (
-      state.lessonThemes?.includes(lessonTheme)
+  on(
+    lessonAndThemeActions.StudentLevelChanged,
+    (state, { studentLevel }): LessonAndTheme => ({
+      ...state,
+      studentLevel: state.studentLevel === studentLevel ? null : studentLevel,
+    })
+  ),
+  on(
+    lessonAndThemeActions.LessonThemeChanged,
+    (state, { lessonTheme }): LessonAndTheme => ({
+      ...state,
+      lessonThemes: state.lessonThemes?.includes(lessonTheme)
         ? state.lessonThemes.filter((theme) => theme !== lessonTheme)
-        : [...state.lessonThemes, lessonTheme]
-    ),
-  })),
-  on(lessonAndThemeActions.OtherChanged, (state, { other }): LessonAndTheme => ({
-    ...state,
-    other,
-  })),
+        : [...state.lessonThemes, lessonTheme],
+    })
+  ),
+  on(
+    lessonAndThemeActions.OtherChanged,
+    (state, { other }): LessonAndTheme => ({
+      ...state,
+      other,
+    })
+  )
 );
 
 export const getLessonAndTheme = createFeatureSelector<LessonAndTheme>('lessonAndTheme');

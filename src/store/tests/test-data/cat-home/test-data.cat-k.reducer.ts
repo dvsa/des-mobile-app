@@ -1,17 +1,16 @@
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
 
-import { vehicleChecksCatHomeReducer }
-  from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.reducer';
+import { vehicleChecksCatHomeReducer } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.reducer';
+import { controlledStopReducer } from '../common/controlled-stop/controlled-stop.reducer';
 import { dangerousFaultsReducer } from '../common/dangerous-faults/dangerous-faults.reducer';
 import { drivingFaultsReducer } from '../common/driving-faults/driving-faults.reducer';
 import { ecoReducer } from '../common/eco/eco.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
-import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
-import { controlledStopReducer } from '../common/controlled-stop/controlled-stop.reducer';
-import { testRequirementsCatHomeReducer } from './test-requirements/test-requirements.cat-home.reducer';
 import { eyesightTestReducer } from '../common/eyesight-test/eyesight-test.reducer';
 import { highwayCodeSafetyReducer } from '../common/highway-code-safety/highway-code-safety.reducer';
+import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
+import { testRequirementsCatHomeReducer } from './test-requirements/test-requirements.cat-home.reducer';
 
 export const initialState: CatKUniqueTypes.TestData = {
   dangerousFaults: {},
@@ -31,7 +30,7 @@ export const initialState: CatKUniqueTypes.TestData = {
 
 export function testDataCatKReducer(
   state: CatKUniqueTypes.TestData,
-  action: Action,
+  action: Action
 ): Required<CatKUniqueTypes.TestData> {
   return combineReducers({
     drivingFaults: drivingFaultsReducer,

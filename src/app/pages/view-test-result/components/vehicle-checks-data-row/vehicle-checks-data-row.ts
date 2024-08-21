@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'vehicle-checks-data-row',
@@ -7,7 +7,6 @@ import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categorie
   styleUrls: ['vehicle-checks-data-row.scss'],
 })
 export class VehicleChecksDataRowComponent {
-
   @Input()
   label: string;
 
@@ -15,10 +14,10 @@ export class VehicleChecksDataRowComponent {
   data: QuestionResult[];
 
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   @Input()
-  shouldDisplayIncorrect: boolean = false;
+  shouldDisplayIncorrect = false;
 
   isEmptyVehicleChecks = (data: QuestionResult[] = []) => data.every((question) => question.outcome === undefined);
 

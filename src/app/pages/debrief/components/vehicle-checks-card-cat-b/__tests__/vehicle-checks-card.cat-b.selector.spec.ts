@@ -1,5 +1,5 @@
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
 
 describe('vehicleChecksCardSelector', () => {
@@ -28,7 +28,6 @@ describe('vehicleChecksCardSelector', () => {
   });
 
   describe('tellMeQuestionHasFault', () => {
-
     it('should return true when theres a driving fault for tell me', () => {
       const vehicleChecks = {
         showMeQuestion: {},
@@ -54,11 +53,9 @@ describe('vehicleChecksCardSelector', () => {
 
       expect(result).toBe(false);
     });
-
   });
 
   describe('hasVehicleChecksFault', () => {
-
     it('should return true if show me has a fault', () => {
       const vehicleChecks = {
         showMeQuestion: {
@@ -99,6 +96,5 @@ describe('vehicleChecksCardSelector', () => {
 
       expect(result).toBe(false);
     });
-
   });
 });

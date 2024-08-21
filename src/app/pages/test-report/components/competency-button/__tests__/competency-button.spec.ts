@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import 'hammerjs';
 import { AppModule } from '@app/app.module';
-import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
 import { CompetencyButtonComponent } from '../competency-button';
 
 describe('CompetencyButtonComponent', () => {
@@ -13,16 +13,9 @@ describe('CompetencyButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CompetencyButtonComponent,
-      ],
-      imports: [
-        AppModule,
-        IonicModule,
-      ],
-      providers: [
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-      ],
+      declarations: [CompetencyButtonComponent],
+      imports: [AppModule, IonicModule],
+      providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });
 
     fixture = TestBed.createComponent(CompetencyButtonComponent);
@@ -73,7 +66,6 @@ describe('CompetencyButtonComponent', () => {
   });
 
   describe('DOM', () => {
-
     describe('Ripple effect', () => {
       it('should have added no classes to the competency button', () => {
         const competencyButton = fixture.debugElement.query(By.css('.competency-button'));
@@ -103,17 +95,14 @@ describe('CompetencyButtonComponent', () => {
         component.onTouchEnd();
         fixture.detectChanges();
         const button = fixture.debugElement.query(By.css('.competency-button'));
-        setTimeout(
-          () => {
-            fixture.detectChanges();
+        setTimeout(() => {
+          fixture.detectChanges();
 
-            expect(button).toBeDefined();
-            expect(button.nativeElement.className).not.toContain('activated');
-            expect(component.touchState).toEqual(false);
-            done();
-          },
-          component.touchStateDelay,
-        );
+          expect(button).toBeDefined();
+          expect(button.nativeElement.className).not.toContain('activated');
+          expect(component.touchState).toEqual(false);
+          done();
+        }, component.touchStateDelay);
       });
 
       it('should add the ripple effect animation css class', () => {
@@ -136,16 +125,13 @@ describe('CompetencyButtonComponent', () => {
         component.onPressEvent();
         fixture.detectChanges();
         const button = fixture.debugElement.query(By.css('.competency-button'));
-        setTimeout(
-          () => {
-            fixture.detectChanges();
+        setTimeout(() => {
+          fixture.detectChanges();
 
-            expect(button).toBeDefined();
-            expect(button.nativeElement.className).not.toContain('ripple-effect');
-            done();
-          },
-          component.rippleEffectAnimationDuration,
-        );
+          expect(button).toBeDefined();
+          expect(button.nativeElement.className).not.toContain('ripple-effect');
+          done();
+        }, component.rippleEffectAnimationDuration);
       });
 
       it('should not add the ripple effect animation css class when ripple is disabled', () => {

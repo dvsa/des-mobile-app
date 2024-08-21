@@ -8,9 +8,7 @@ import { JOURNAL_PAGE } from '@pages/page-names.constants';
   styleUrls: ['go-to-journal-card.scss'],
 })
 export class GoToJournalCardComponent {
-
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   navigateToJournal = async () => {
     await this.router.navigate([JOURNAL_PAGE]);

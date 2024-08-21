@@ -15,25 +15,21 @@ export const questions: VehicleChecksQuestion[] = [
     code: 'E4',
     description: 'Show me how you would check that the wheel nuts are secure on this vehicle.',
     shortName: 'Wheel nuts',
-
   },
   {
     code: 'E6',
     description: 'Show me how you would check that all doors including cargo doors are secure.',
     shortName: 'Doors security',
-
   },
   {
     code: 'E8',
     description: 'Show me how you would check the condition of the mudguards on this vehicle.',
     shortName: 'Mudguards condition',
-
   },
   {
     code: 'E10',
     description: 'Show me what instrument checks you would make before and after starting the engine on this vehicle.',
     shortName: 'Instrument checks',
-
   },
   {
     code: 'E12',
@@ -52,7 +48,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'E15',
-    description: 'Show me how you would switch on the rear fog light(s) and explain when you would use it/them. (No need to exit vehicle)',
+    description:
+      'Show me how you would switch on the rear fog light(s) and explain when you would use it/them. (No need to exit vehicle)',
     shortName: 'Rear fog lights',
   },
   {
@@ -62,7 +59,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'E17',
-    description: 'Show me how you would check that the brake lights are working on this vehicle. (I can assist you, if you need to switch the ignition on, please don’t start the engine)',
+    description:
+      'Show me how you would check that the brake lights are working on this vehicle. (I can assist you, if you need to switch the ignition on, please don’t start the engine)',
     shortName: 'Brake lights',
   },
 ];

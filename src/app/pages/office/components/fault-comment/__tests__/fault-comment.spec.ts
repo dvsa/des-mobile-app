@@ -1,15 +1,13 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from 'src/app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
-import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { IonicModule } from '@ionic/angular';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CommentSource } from '@shared/models/fault-marking.model';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { AppModule } from 'src/app/app.module';
 import { behaviourMap } from '../../../office-behaviour-map';
 import { FaultCommentComponent } from '../fault-comment';
 
@@ -20,19 +18,9 @@ describe('FaultCommentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FaultCommentComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ComponentsModule,
-        PipesModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-      ],
+      declarations: [FaultCommentComponent],
+      imports: [IonicModule, AppModule, ComponentsModule, PipesModule, ReactiveFormsModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 
     fixture = TestBed.createComponent(FaultCommentComponent);
@@ -122,8 +110,9 @@ describe('FaultCommentComponent', () => {
 
       component.ngOnChanges();
       fixture.detectChanges();
-      expect(component.parentForm
-        .get(`faultComment-${CommentSource.SIMPLE}-driving-signalsTimed`).validator).toBeNull();
+      expect(
+        component.parentForm.get(`faultComment-${CommentSource.SIMPLE}-driving-signalsTimed`).validator
+      ).toBeNull();
     });
 
     it('should pass the fault count down to the driving-fault-badge', () => {
@@ -138,8 +127,9 @@ describe('FaultCommentComponent', () => {
       component.ngOnChanges();
       fixture.detectChanges();
 
-      const drivingFaultBadge: DrivingFaultsBadgeComponent = fixture.debugElement
-        .query(By.css('driving-faults-badge')).componentInstance;
+      const drivingFaultBadge: DrivingFaultsBadgeComponent = fixture.debugElement.query(
+        By.css('driving-faults-badge')
+      ).componentInstance;
       expect(drivingFaultBadge.count).toBe(3);
     });
 
@@ -157,7 +147,5 @@ describe('FaultCommentComponent', () => {
       component.faultCommentChanged(faultComment);
       expect(component.faultCommentChange.emit).toHaveBeenCalled();
     });
-
   });
-
 });

@@ -3,7 +3,6 @@ import { LoadingOptions } from '@ionic/core';
 
 @Injectable()
 export class LoaderProviderMock {
-
   public handleUILoading = async (): Promise<void> => {};
 
   private present = async (): Promise<void> => {};

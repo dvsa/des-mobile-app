@@ -1,18 +1,18 @@
-import { ManoeuvresPopoverComponent } from '@pages/test-report/cat-b/components/manoeuvres-popover/manoeuvres-popover';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { MockComponent } from 'ng-mocks';
-import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { ManoeuvreCompetencyComponent } from '@pages/test-report/components/manoeuvre-competency/manoeuvre-competency';
-import { IonicModule, NavController } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
-import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { IonicModule, NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
+import { ManoeuvresPopoverComponent } from '@pages/test-report/cat-b/components/manoeuvres-popover/manoeuvres-popover';
+import { ManoeuvreCompetencyComponent } from '@pages/test-report/components/manoeuvre-competency/manoeuvre-competency';
+import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { StoreModel } from '@shared/models/store.model';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { MockComponent } from 'ng-mocks';
 
 describe('ManoeuvresPopoverComponent', () => {
   let fixture: ComponentFixture<ManoeuvresPopoverComponent>;
@@ -111,8 +111,9 @@ describe('ManoeuvresPopoverComponent', () => {
 
   describe('getId', () => {
     it('should return "forwardPark-controlFault"', () => {
-      expect(component.getId(ManoeuvreTypes.forwardPark, ManoeuvreCompetencies.controlFault))
-        .toBe('forwardPark-controlFault');
+      expect(component.getId(ManoeuvreTypes.forwardPark, ManoeuvreCompetencies.controlFault)).toBe(
+        'forwardPark-controlFault'
+      );
     });
   });
 });

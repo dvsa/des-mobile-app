@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AdvancedSearchParams } from '@providers/search/search.models';
-import { removeLeadingZeros } from '@shared/helpers/formatters';
-import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
-import { InputChangeEventDetail } from '@ionic/angular';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
-import { InputInputEventDetail } from '@ionic/core';
 import { TestCentre } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { InputChangeEventDetail } from '@ionic/angular';
+import { InputInputEventDetail } from '@ionic/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AdvancedSearchParams } from '@providers/search/search.models';
+import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { removeLeadingZeros } from '@shared/helpers/formatters';
 
 export const TestCategories: TestCategory[] = [
   TestCategory.ADI2,
@@ -54,9 +54,7 @@ export const TestCategories: TestCategory[] = [
   templateUrl: 'advanced-search.html',
   styleUrls: ['advanced-search.scss'],
 })
-
 export class AdvancedSearchComponent {
-
   @Input()
   showSpinner: boolean;
 
@@ -72,7 +70,7 @@ export class AdvancedSearchComponent {
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 
-  activityCodes: { activityCode: string; description: string; }[] = [
+  activityCodes: { activityCode: string; description: string }[] = [
     {
       activityCode: '',
       description: 'All',
@@ -82,38 +80,28 @@ export class AdvancedSearchComponent {
 
   testCategories: string[] = ['All'].concat(TestCategories);
 
-  selectedActivity: { activityCode: string; description: string; } = this.activityCodes[0];
+  selectedActivity: { activityCode: string; description: string } = this.activityCodes[0];
   selectedCategory: string = this.testCategories[0];
-  passCertificateNumber: string = '';
+  passCertificateNumber = '';
   selectedTestCentre: TestCentre = null;
-  staffNumber: string = '';
-  startDate: string = '';
-  endDate: string = '';
-  rekeySearch: boolean = false;
+  staffNumber = '';
+  startDate = '';
+  endDate = '';
+  rekeySearch = false;
   compareStartDate: Date = null;
   compareEndDate: Date = null;
   focusedElement: string = null;
-  currentDate: string = new Date().toISOString()
-    .substring(0, 10);
+  currentDate: string = new Date().toISOString().substring(0, 10);
   displayType = DisplayType;
-  today = new DateTime()
-    .format('YYYY-MM-DD');
-  todayPlaceholder = new DateTime()
-    .format('DD/MM/YYYY');
-  minStartDate = new DateTime()
-    .subtract(2, Duration.YEAR)
-    .format('YYYY-MM-DD');
-  minStartDatePlaceholder = new DateTime()
-    .subtract(2, Duration.YEAR)
-    .format('DD/MM/YYYY');
+  today = new DateTime().format('YYYY-MM-DD');
+  todayPlaceholder = new DateTime().format('DD/MM/YYYY');
+  minStartDate = new DateTime().subtract(2, Duration.YEAR).format('YYYY-MM-DD');
+  minStartDatePlaceholder = new DateTime().subtract(2, Duration.YEAR).format('DD/MM/YYYY');
 
-  constructor(
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   blurElement(event: EventTarget) {
-    if (!((event as HTMLElement).id?.includes('input'))) {
+    if (!(event as HTMLElement).id?.includes('input')) {
       (document.activeElement as HTMLElement).blur();
     }
   }
@@ -127,9 +115,7 @@ export class AdvancedSearchComponent {
     }
 
     if (nonAlphaNumericValues.test(event.value)) {
-      event.value = event.value
-        ?.replace(nonAlphaNumericValues, '')
-        .toUpperCase();
+      event.value = event.value?.replace(nonAlphaNumericValues, '').toUpperCase();
     }
     event.value = event.value?.toUpperCase();
   }
@@ -141,15 +127,14 @@ export class AdvancedSearchComponent {
       staffNumber: removeLeadingZeros(this.importStaffNumber || this.staffNumber),
       costCode: this.selectedTestCentre?.costCode || '',
       activityCode: this.selectedActivity.activityCode ?? '',
-      category: this.selectedCategory.toString() === this.testCategories[0]
-        ? '' : this.selectedCategory.toString(),
+      category: this.selectedCategory.toString() === this.testCategories[0] ? '' : this.selectedCategory.toString(),
       rekey: this.rekeySearch,
       passCertificateNumber: this.passCertificateNumber,
     };
     this.onSearchTests.emit(advancedSearchParams);
   }
 
-  activitySelectChange(event: { activityCode: string; description: string; }) {
+  activitySelectChange(event: { activityCode: string; description: string }) {
     if (event) {
       this.selectedActivity = event;
     } else {

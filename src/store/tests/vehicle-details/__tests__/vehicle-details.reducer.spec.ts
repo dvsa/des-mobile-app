@@ -1,8 +1,10 @@
-import { vehicleDetailsReducer } from '../vehicle-details.reducer';
 import {
+  ClearGearboxCategory,
+  GearboxCategoryChanged,
+  MotStatusChanged,
   VehicleRegistrationChanged,
-  GearboxCategoryChanged, MotStatusChanged, ClearGearboxCategory,
 } from '../vehicle-details.actions';
+import { vehicleDetailsReducer } from '../vehicle-details.reducer';
 
 describe('vehicle details reducer', () => {
   it('should put the registration number into the state on vehicle registration changed action', () => {

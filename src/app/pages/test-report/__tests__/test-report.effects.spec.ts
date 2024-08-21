@@ -1,20 +1,18 @@
-import { waitForAsync, TestBed } from '@angular/core/testing';
-import {
-  ReplaySubject, of,
-} from 'rxjs';
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Store } from '@ngrx/store';
-import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
-import * as testsActions from '@store/tests/tests.actions';
-import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
-import { StoreModel } from '@shared/models/store.model';
-import { testsReducer } from '@store/tests/tests.reducer';
+import { Store, StoreModule } from '@ngrx/store';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { StoreModel } from '@shared/models/store.model';
+import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
+import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject, of } from 'rxjs';
 import * as testReportActions from '../test-report.actions';
 import { TestReportEffects } from '../test-report.effects';
 
@@ -31,13 +29,7 @@ describe('TestReportEffects', () => {
           tests: testsReducer,
         }),
       ],
-      providers: [
-        TestReportEffects,
-        provideMockActions(() => actions$),
-        TestResultProvider,
-        FaultCountProvider,
-        Store,
-      ],
+      providers: [TestReportEffects, provideMockActions(() => actions$), TestResultProvider, FaultCountProvider, Store],
     });
 
     actions$ = new ReplaySubject(1);
@@ -47,7 +39,6 @@ describe('TestReportEffects', () => {
   }));
 
   describe('calculateTestResult', () => {
-
     beforeEach(() => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
@@ -68,7 +59,6 @@ describe('TestReportEffects', () => {
   });
 
   describe('persistTestReport', () => {
-
     beforeEach(() => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
     });
@@ -82,7 +72,6 @@ describe('TestReportEffects', () => {
         done();
       });
     });
-
   });
 
   describe('terminateTestReport', () => {

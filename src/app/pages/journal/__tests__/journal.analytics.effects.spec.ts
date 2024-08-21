@@ -1,32 +1,30 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
+import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
-  JournalRefreshModes,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
-  GoogleAnalyticsCustomDimension,
+  JournalRefreshModes,
 } from '@providers/analytics/analytics.model';
 import * as slotActions from '@providers/slot/slot.actions';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import * as journalActions from '@store/journal/journal.actions';
-import { journalReducer } from '@store/journal/journal.reducer';
-import { JournalAnalyticsEffects } from '../journal.analytics.effects';
-import {
-  Candidate,
-} from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import * as journalActions from '@store/journal/journal.actions';
 import {
   JournalRehydrationError,
   JournalRehydrationNull,
   JournalRehydrationSuccess,
 } from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
+import { journalReducer } from '@store/journal/journal.reducer';
+import { ReplaySubject } from 'rxjs';
+import { JournalAnalyticsEffects } from '../journal.analytics.effects';
 
 describe('JournalAnalyticsEffects', () => {
   let effects: JournalAnalyticsEffects;
@@ -54,11 +52,10 @@ describe('JournalAnalyticsEffects', () => {
                     bookingSequence: 1,
                     checkDigit: 1,
                   },
-                }
+                },
               },
             },
           }),
-
         }),
       ],
       providers: [
@@ -80,14 +77,19 @@ describe('JournalAnalyticsEffects', () => {
       effects.journalView$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
 
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          ''
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          ''
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          ''
+        );
         done();
       });
     });
@@ -98,14 +100,15 @@ describe('JournalAnalyticsEffects', () => {
       effects.journalNavigation$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
 
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.NAVIGATION,
-            'Tomorrow',
-          );
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.JOURNAL_DAYS_FROM_TODAY, '4');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.NAVIGATION,
+          'Tomorrow'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.JOURNAL_DAYS_FROM_TODAY,
+          '4'
+        );
 
         done();
       });
@@ -116,12 +119,11 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefresh(JournalRefreshModes.AUTOMATIC));
       effects.journalRefresh$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REFRESH,
-            JournalRefreshModes.AUTOMATIC,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.REFRESH,
+          JournalRefreshModes.AUTOMATIC
+        );
         done();
       });
     });
@@ -134,7 +136,7 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.EARLY_START_MODAL,
-          GoogleAnalyticsEventsValues.DISPLAY,
+          GoogleAnalyticsEventsValues.DISPLAY
         );
         done();
       });
@@ -148,7 +150,7 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.EARLY_START_MODAL,
-          GoogleAnalyticsEventsValues.CONTINUE,
+          GoogleAnalyticsEventsValues.CONTINUE
         );
         done();
       });
@@ -162,7 +164,7 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.EARLY_START_MODAL,
-          GoogleAnalyticsEventsValues.EXIT,
+          GoogleAnalyticsEventsValues.EXIT
         );
         done();
       });
@@ -173,14 +175,13 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefreshError('error-description', 'error-message'));
       effects.journalRefreshError$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REFRESH,
-            'unknownJournalRefresh',
-            GoogleAnalyticsEventsTitles.ERROR,
-            'error-message',
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.REFRESH,
+          'unknownJournalRefresh',
+          GoogleAnalyticsEventsTitles.ERROR,
+          'error-message'
+        );
         done();
       });
     });
@@ -188,14 +189,13 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefreshError('AutomaticJournalRefresh', 'error-message'));
       effects.journalRefreshError$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REFRESH,
-            GoogleAnalyticsEventsValues.AUTOMATIC,
-            GoogleAnalyticsEventsTitles.ERROR,
-            'error-message',
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.REFRESH,
+          GoogleAnalyticsEventsValues.AUTOMATIC,
+          GoogleAnalyticsEventsTitles.ERROR,
+          'error-message'
+        );
         done();
       });
     });
@@ -203,14 +203,13 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(journalActions.JournalRefreshError('ManualJournalRefresh', 'error-message'));
       effects.journalRefreshError$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REFRESH,
-            GoogleAnalyticsEventsValues.MANUAL,
-            GoogleAnalyticsEventsTitles.ERROR,
-            'error-message',
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.REFRESH,
+          GoogleAnalyticsEventsValues.MANUAL,
+          GoogleAnalyticsEventsTitles.ERROR,
+          'error-message'
+        );
         done();
       });
     });
@@ -220,137 +219,145 @@ describe('JournalAnalyticsEffects', () => {
       actions$.next(slotActions.SlotHasChanged(12345));
       effects.slotChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.SLOT_CHANGED,
-            '12345',
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.SLOT_CHANGED,
+          '12345'
+        );
         done();
       });
     });
   });
   describe('resumingWriteUpEffect', () => {
     it('should call setCurrentPage', (done) => {
-
       actions$.next(journalActions.ResumingWriteUp('123'));
       effects.resumingWriteUpEffect$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
 
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.RESUME_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS);
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '1011');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.RESUME_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '1011'
+        );
         done();
       });
     });
   });
 
   describe('JournalRehydrationSuccess', () => {
-    it('should logGAEvent with the dashboard and auto when ' +
-      'JournalRehydrationSuccess action is dispatched with those values', (done) => {
-      actions$.next(JournalRehydrationSuccess(
-        JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
-      ));
+    it(
+      'should logGAEvent with the dashboard and auto when ' +
+        'JournalRehydrationSuccess action is dispatched with those values',
+      (done) => {
+        actions$.next(JournalRehydrationSuccess(JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD));
 
-      effects.journalRehydrationSuccess$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DASHBOARD,
-          GoogleAnalyticsEventsTitles.REHYDRATION,
-          GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.COMPLETED
-        );
-        expect(result).toEqual(AnalyticRecorded());
-        done();
-      });
-    });
-    it('should logGAEvent with the journal and manual when JournalRehydrationSuccess ' +
-      'action is dispatched with those values', (done) => {
-      actions$.next(JournalRehydrationSuccess(
-        JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL
-      ));
+        effects.journalRehydrationSuccess$.subscribe((result) => {
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.DASHBOARD,
+            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.COMPLETED
+          );
+          expect(result).toEqual(AnalyticRecorded());
+          done();
+        });
+      }
+    );
+    it(
+      'should logGAEvent with the journal and manual when JournalRehydrationSuccess ' +
+        'action is dispatched with those values',
+      (done) => {
+        actions$.next(JournalRehydrationSuccess(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
 
-      effects.journalRehydrationSuccess$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.JOURNAL,
-          GoogleAnalyticsEventsTitles.REHYDRATION,
-          GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.COMPLETED
-        );
-        expect(result).toEqual(AnalyticRecorded());
-        done();
-      });
-    });
+        effects.journalRehydrationSuccess$.subscribe((result) => {
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.JOURNAL,
+            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.COMPLETED
+          );
+          expect(result).toEqual(AnalyticRecorded());
+          done();
+        });
+      }
+    );
   });
   describe('JournalRehydrationNull', () => {
-    it('should logGAEvent with the dashboard and auto when JournalRehydrationSuccess ' +
-      'action is dispatched with those values', (done) => {
-      actions$.next(JournalRehydrationNull(
-        JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
-      ));
+    it(
+      'should logGAEvent with the dashboard and auto when JournalRehydrationSuccess ' +
+        'action is dispatched with those values',
+      (done) => {
+        actions$.next(JournalRehydrationNull(JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD));
 
-      effects.journalRehydrationNull$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DASHBOARD,
-          GoogleAnalyticsEventsTitles.REHYDRATION,
-          GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.NULL
-        );
-        expect(result).toEqual(AnalyticRecorded());
-        done();
-      });
-    });
-    it('should logGAEvent with the journal and manual when JournalRehydrationSuccess ' +
-      'action is dispatched with those values', (done) => {
-      actions$.next(JournalRehydrationNull(
-        JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL
-      ));
+        effects.journalRehydrationNull$.subscribe((result) => {
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.DASHBOARD,
+            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.NULL
+          );
+          expect(result).toEqual(AnalyticRecorded());
+          done();
+        });
+      }
+    );
+    it(
+      'should logGAEvent with the journal and manual when JournalRehydrationSuccess ' +
+        'action is dispatched with those values',
+      (done) => {
+        actions$.next(JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
 
-      effects.journalRehydrationNull$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.JOURNAL,
-          GoogleAnalyticsEventsTitles.REHYDRATION,
-          GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.NULL
-        );
-        expect(result).toEqual(AnalyticRecorded());
-        done();
-      });
-    });
+        effects.journalRehydrationNull$.subscribe((result) => {
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.JOURNAL,
+            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.NULL
+          );
+          expect(result).toEqual(AnalyticRecorded());
+          done();
+        });
+      }
+    );
   });
   describe('JournalRehydrationError', () => {
-    it('should logGAEvent with the dashboard and auto when JournalRehydrationSuccess ' +
-      'action is dispatched with those values', (done) => {
-      actions$.next(JournalRehydrationError(
-        JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD
-      ));
+    it(
+      'should logGAEvent with the dashboard and auto when JournalRehydrationSuccess ' +
+        'action is dispatched with those values',
+      (done) => {
+        actions$.next(JournalRehydrationError(JournalRehydrationType.AUTO, JournalRehydrationPage.DASHBOARD));
 
-      effects.journalRehydrationError$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DASHBOARD,
-          GoogleAnalyticsEventsTitles.REHYDRATION,
-          GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.ERROR
-        );
-        expect(result).toEqual(AnalyticRecorded());
-        done();
-      });
-    });
-    it('should logGAEvent with the journal and manual when JournalRehydrationSuccess ' +
-      'action is dispatched with those values', (done) => {
-      actions$.next(JournalRehydrationError(
-        JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL
-      ));
+        effects.journalRehydrationError$.subscribe((result) => {
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.DASHBOARD,
+            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.ERROR
+          );
+          expect(result).toEqual(AnalyticRecorded());
+          done();
+        });
+      }
+    );
+    it(
+      'should logGAEvent with the journal and manual when JournalRehydrationSuccess ' +
+        'action is dispatched with those values',
+      (done) => {
+        actions$.next(JournalRehydrationError(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
 
-      effects.journalRehydrationError$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.JOURNAL,
-          GoogleAnalyticsEventsTitles.REHYDRATION,
-          GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.ERROR
-        );
-        expect(result).toEqual(AnalyticRecorded());
-        done();
-      });
-    });
+        effects.journalRehydrationError$.subscribe((result) => {
+          expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+            GoogleAnalyticsEvents.JOURNAL,
+            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.ERROR
+          );
+          expect(result).toEqual(AnalyticRecorded());
+          done();
+        });
+      }
+    );
   });
 });

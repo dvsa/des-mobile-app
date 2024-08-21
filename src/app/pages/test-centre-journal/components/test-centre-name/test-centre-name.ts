@@ -7,8 +7,6 @@ import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.mod
   styleUrls: ['test-centre-name.scss'],
 })
 export class TestCentreNameComponent {
-
   @Input()
   testCentreResults: TestCentreDetailResponse;
-
 }

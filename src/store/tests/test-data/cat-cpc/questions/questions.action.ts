@@ -1,11 +1,10 @@
-import { createAction, union } from '@ngrx/store';
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import { createAction, union } from '@ngrx/store';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
-export const PopulateQuestions = createAction(
-  '[CatCPC] Populate questions',
-  (payload: (Question | Question5)[]) => ({ payload }),
-);
+export const PopulateQuestions = createAction('[CatCPC] Populate questions', (payload: (Question | Question5)[]) => ({
+  payload,
+}));
 
 export const AnswerToggled = createAction(
   '[CatCPC] Answer toggled',
@@ -13,12 +12,12 @@ export const AnswerToggled = createAction(
     toggled,
     questionNumber,
     answerNumber,
-  }),
+  })
 );
 
 export const PopulateQuestionScore = createAction(
   '[CatCPC] Populate question score',
-  (questionNumber: QuestionNumber, score: number) => ({ questionNumber, score }),
+  (questionNumber: QuestionNumber, score: number) => ({ questionNumber, score })
 );
 
 const actions = union({

@@ -1,15 +1,16 @@
-import {
-  riskManagementReducer,
-  initialState,
-} from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
 import { riskManagement } from '@shared/constants/adi3-questions/risk-management.constants';
+import {
+  initialState,
+  riskManagementReducer,
+} from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
 import * as riskManagementActions from '../risk-management.actions';
 
 describe('riskManagementReducer', () => {
   describe('RiskManagementQuestionScoreChanged', () => {
     it('should set the score of the question passed to the value passed', () => {
       const result = riskManagementReducer(
-        initialState, riskManagementActions.RiskManagementQuestionScoreChanged(1, 1),
+        initialState,
+        riskManagementActions.RiskManagementQuestionScoreChanged(1, 1)
       );
       expect(result).toEqual({
         q1: {
@@ -35,11 +36,10 @@ describe('riskManagementReducer', () => {
         score: 0,
       });
     });
-  }); describe('RiskManagementOverallScoreChanged', () => {
+  });
+  describe('RiskManagementOverallScoreChanged', () => {
     it('should set the overall score to the value passed', () => {
-      const result = riskManagementReducer(
-        initialState, riskManagementActions.RiskManagementOverallScoreChanged(1),
-      );
+      const result = riskManagementReducer(initialState, riskManagementActions.RiskManagementOverallScoreChanged(1));
       expect(result).toEqual({
         q1: {
           title: riskManagement.q1,

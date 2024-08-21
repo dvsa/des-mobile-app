@@ -1,6 +1,7 @@
-import { select } from '@ngrx/store';
-import { merge, Observable, Subscription } from 'rxjs';
 import { ModalController, NavController, ToastController } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
   getCurrentTest,
@@ -10,10 +11,19 @@ import {
   isPassed,
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { Observable, Subscription, merge } from 'rxjs';
 
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { Inject, Injector } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
+import {
+  GearboxCategory,
+  Identification,
+  IndependentDriving,
+  WeatherConditions,
+} from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import {
   CompleteTest,
   OfficeValidationError,
@@ -27,33 +37,70 @@ import {
   TestFlowPageNames,
   UNUPLOADED_TESTS_PAGE,
 } from '@pages/page-names.constants';
-import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { DeviceProvider } from '@providers/device/device';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { getNewTestStartTime } from '@shared/helpers/test-start-time';
+import { FaultSummary } from '@shared/models/fault-marking.model';
 import {
-  getTestSlotAttributes,
-} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
+  InstructorAccompanimentToggled,
+  InterpreterAccompanimentToggled,
+  OtherAccompanimentToggled,
+  SupervisorAccompanimentToggled,
+} from '@store/tests/accompaniment/accompaniment.actions';
+import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
 import {
-  getTestDate,
-  getTestStartDateTime,
-  getTestTime,
-} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+  getInstructorAccompaniment,
+  getInterpreterAccompaniment,
+  getOtherAccompaniment,
+  getSupervisorAccompaniment,
+} from '@store/tests/accompaniment/accompaniment.selector';
+import {
+  InterpreterAccompanimentToggledCPC,
+  SupervisorAccompanimentToggledCPC,
+} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import {
+  CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
+} from '@store/tests/communication-preferences/communication-preferences.actions';
+import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
   getCandidateDriverNumber,
   getCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { UntypedFormGroup } from '@angular/forms';
-import { getNewTestStartTime } from '@shared/helpers/test-start-time';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
+import { getTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import {
-  GearboxCategory,
-  Identification,
-  IndependentDriving,
-  WeatherConditions,
-} from '@dvsa/mes-test-schema/categories/common';
+  getTestDate,
+  getTestStartDateTime,
+  getTestTime,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+import {
+  ProvisionalLicenseNotReceived,
+  ProvisionalLicenseReceived,
+} from '@store/tests/pass-completion/pass-completion.actions';
+import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
+import { getPassCertificateNumber } from '@store/tests/pass-completion/pass-completion.selector';
+import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
+import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
+import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getETA, getETAFaultText, getEco, getEcoFaultText } from '@store/tests/test-data/common/test-data.selector';
+import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import {
   AdditionalInformationChanged,
   CandidateDescriptionChanged,
@@ -67,8 +114,6 @@ import {
   TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
-import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import {
   getAdditionalInformation,
@@ -81,68 +126,17 @@ import {
   getWeatherConditions,
   isDebriefWitnessed,
 } from '@store/tests/test-summary/test-summary.selector';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getEco, getEcoFaultText, getETA, getETAFaultText } from '@store/tests/test-data/common/test-data.selector';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import {
-  getApplicationReference,
-} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import {
-  getApplicationNumber,
-} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import {
-  ProvisionalLicenseNotReceived,
-  ProvisionalLicenseReceived,
-} from '@store/tests/pass-completion/pass-completion.actions';
+import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
+import { TestOutcome } from '@store/tests/tests.constants';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
+import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
-import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
-import {
-  CandidateChoseToProceedWithTestInEnglish,
-  CandidateChoseToProceedWithTestInWelsh,
-} from '@store/tests/communication-preferences/communication-preferences.actions';
-import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
-import { getPassCertificateNumber } from '@store/tests/pass-completion/pass-completion.selector';
-import { TestOutcome } from '@store/tests/tests.constants';
-import {
-  InstructorAccompanimentToggled,
-  InterpreterAccompanimentToggled,
-  OtherAccompanimentToggled,
-  SupervisorAccompanimentToggled,
-} from '@store/tests/accompaniment/accompaniment.actions';
-import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
-import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
-import {
-  getInstructorAccompaniment,
-  getInterpreterAccompaniment,
-  getOtherAccompaniment,
-  getSupervisorAccompaniment,
-} from '@store/tests/accompaniment/accompaniment.selector';
-import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
-import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import {
-  InterpreterAccompanimentToggledCPC,
-  SupervisorAccompanimentToggledCPC,
-} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
-import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
-import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Inject, Injector } from '@angular/core';
-import { DeviceProvider } from '@providers/device/device';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -210,15 +204,15 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   toast: HTMLIonToastElement;
   subscription: Subscription;
   startDateTime: string;
-  hasNavigatedFromUnsubmitted: boolean = false;
-  isValidStartDateTime: boolean = true;
+  hasNavigatedFromUnsubmitted = false;
+  isValidStartDateTime = true;
   activityCodeOptions: ActivityCodeModel[];
   weatherConditions: WeatherConditionSelection[];
   finishTestModal: HTMLIonModalElement;
 
   protected constructor(
     injector: Injector,
-    @Inject(false) public loginRequired: boolean = false,
+    @Inject(false) public loginRequired = false
   ) {
     super(injector, loginRequired);
     this.form = new UntypedFormGroup({});
@@ -233,301 +227,183 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
-    const category$ = currentTest$.pipe(
-      select(getTestCategory),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.commonPageState = {
-      activityCode$: currentTest$.pipe(
-        select(getActivityCode),
-      ),
-      isRekey$: currentTest$.pipe(
-        select(getRekeyIndicator),
-        select(isRekey),
-      ),
-      testOutcome$: currentTest$.pipe(
-        select(getTestOutcome),
-      ),
-      testOutcomeText$: currentTest$.pipe(
-        select(getTestOutcomeText),
-      ),
-      isPassed$: currentTest$.pipe(
-        select(isPassed),
-      ),
-      isTestOutcomeSet$: currentTest$.pipe(
-        select(isTestOutcomeSet),
-      ),
-      startTime$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestTime),
-      ),
-      startDate$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestDate),
-      ),
+      activityCode$: currentTest$.pipe(select(getActivityCode)),
+      isRekey$: currentTest$.pipe(select(getRekeyIndicator), select(isRekey)),
+      testOutcome$: currentTest$.pipe(select(getTestOutcome)),
+      testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
+      isPassed$: currentTest$.pipe(select(isPassed)),
+      isTestOutcomeSet$: currentTest$.pipe(select(isTestOutcomeSet)),
+      startTime$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(getTestTime)),
+      startDate$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(getTestDate)),
       startDateTime$: currentTest$.pipe(
         select(getJournalData),
         select(getTestSlotAttributes),
-        select(getTestStartDateTime),
+        select(getTestStartDateTime)
       ),
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateName),
-      ),
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
       candidateDriverNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getCandidateDriverNumber),
-        map(formatDriverNumber),
+        map(formatDriverNumber)
       ),
-      routeNumber$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getRouteNumber),
-      ),
+      routeNumber$: currentTest$.pipe(select(getTestSummary), select(getRouteNumber)),
       displayRouteNumber$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getRouteNumber),
-        )),
-        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getRouteNumber))),
+        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route))
       ),
       displayIndependentDriving$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getIndependentDriving),
-        )),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getIndependentDriving))),
         map(([outcome, independent]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'independentDriving', independent)),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'independentDriving', independent)
+        )
       ),
       displayCandidateDescription$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getCandidateDescription),
-        )),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getCandidateDescription))),
         map(([outcome, candidate]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'candidateDescription', candidate)),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'candidateDescription', candidate)
+        )
       ),
       displayIdentification$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getIdentification),
-        )),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getIdentification))),
         map(([outcome, identification]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)
+        )
       ),
-      trueLikenessToPhoto$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getTrueLikenessToPhoto),
-      ),
+      trueLikenessToPhoto$: currentTest$.pipe(select(getTestSummary), select(getTrueLikenessToPhoto)),
       displayWeatherConditions$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getWeatherConditions),
-        )),
-        map(([outcome, weather]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'weatherConditions', weather)),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getWeatherConditions))),
+        map(([outcome, weather]) => this.outcomeBehaviourProvider.isVisible(outcome, 'weatherConditions', weather))
       ),
       displayAdditionalInformation$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getAdditionalInformation),
-        )),
+        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getAdditionalInformation))),
         map(([outcome, additional]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'additionalInformation', additional)),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'additionalInformation', additional)
+        )
       ),
       displayEco$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-          select(getEco),
-        )),
-        map(([outcome, eco]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'eco', eco)),
+        withLatestFrom(currentTest$.pipe(select(getTestData), select(getEco))),
+        map(([outcome, eco]) => this.outcomeBehaviourProvider.isVisible(outcome, 'eco', eco))
       ),
       displayEta$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-          select(getETA),
-        )),
-        map(([outcome, eta]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'eta', eta)),
+        withLatestFrom(currentTest$.pipe(select(getTestData), select(getETA))),
+        map(([outcome, eta]) => this.outcomeBehaviourProvider.isVisible(outcome, 'eta', eta))
       ),
-      candidateDescription$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getCandidateDescription),
-      ),
-      independentDriving$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getIndependentDriving),
-      ),
-      identification$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getIdentification),
-      ),
-      additionalInformation$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getAdditionalInformation),
-      ),
-      weatherConditions$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getWeatherConditions),
-      ),
+      candidateDescription$: currentTest$.pipe(select(getTestSummary), select(getCandidateDescription)),
+      independentDriving$: currentTest$.pipe(select(getTestSummary), select(getIndependentDriving)),
+      identification$: currentTest$.pipe(select(getTestSummary), select(getIdentification)),
+      additionalInformation$: currentTest$.pipe(select(getTestSummary), select(getAdditionalInformation)),
+      weatherConditions$: currentTest$.pipe(select(getTestSummary), select(getWeatherConditions)),
       displayDrivingFault$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(
-          currentTest$.pipe(select(getTestData)),
-          category$,
-        ),
+        withLatestFrom(currentTest$.pipe(select(getTestData)), category$),
         map(([outcome, testData, category]) =>
           this.outcomeBehaviourProvider.isVisible(
             outcome,
             'faultComment',
-            this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory),
-          )),
+            this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)
+          )
+        )
       ),
       displaySeriousFault$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(
-          currentTest$.pipe(select(getTestData)),
-          category$,
-        ),
+        withLatestFrom(currentTest$.pipe(select(getTestData)), category$),
         map(([outcome, testData, category]) =>
           this.outcomeBehaviourProvider.isVisible(
             outcome,
             'faultComment',
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory),
-          )),
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+          )
+        )
       ),
       displayDangerousFault$: currentTest$.pipe(
         select(getTestOutcome),
-        withLatestFrom(
-          currentTest$.pipe(select(getTestData)),
-          category$,
-        ),
+        withLatestFrom(currentTest$.pipe(select(getTestData)), category$),
         map(([outcome, testData, category]) =>
           this.outcomeBehaviourProvider.isVisible(
             outcome,
             'faultComment',
-            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory),
-          )),
+            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+          )
+        )
       ),
       dangerousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
         map(([testData, category]) =>
-          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+        )
       ),
       seriousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
         map(([testData, category]) =>
-          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+        )
       ),
       drivingFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
         map(([testData, category]) =>
-          this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)),
+          this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)
+        )
       ),
       drivingFaultCount$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
         map(([testData, category]) => {
           return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
-        }),
+        })
       ),
       seriousFaultCount$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
-        map(([data, category]) =>
-          this.faultCountProvider.getSeriousFaultSumCount(category as TestCategory, data)),
+        map(([data, category]) => this.faultCountProvider.getSeriousFaultSumCount(category as TestCategory, data))
       ),
       dangerousFaultCount$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(category$),
-        map(([data, category]) => this.faultCountProvider.getDangerousFaultSumCount(category as TestCategory, data)),
+        map(([data, category]) => this.faultCountProvider.getDangerousFaultSumCount(category as TestCategory, data))
       ),
       applicationNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getApplicationReference),
-        select(getApplicationNumber),
+        select(getApplicationNumber)
       ),
       healthDeclarationAccepted$: currentTest$.pipe(
         select(getPostTestDeclarations),
-        select(getHealthDeclarationStatus),
+        select(getHealthDeclarationStatus)
       ),
-      d255$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getD255),
-      ),
-      debriefWitnessed$: currentTest$.pipe(
-        select(getTestSummary),
-        select(isDebriefWitnessed),
-      ),
-      passCertificateNumber$: currentTest$.pipe(
-        select(getPassCompletion),
-        select(getPassCertificateNumber),
-      ),
-      etaFaults$: currentTest$.pipe(
-        select(getTestData),
-        select(getETA),
-        select(getETAFaultText),
-      ),
-      ecoFaults$: currentTest$.pipe(
-        select(getTestData),
-        select(getEco),
-        select(getEcoFaultText),
-      ),
-      schoolCar$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getSchoolCar),
-      ),
-      dualControls$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getDualControls),
-      ),
-      instructorAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getInstructorAccompaniment),
-      ),
-      supervisorAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getSupervisorAccompaniment),
-      ),
-      otherAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getOtherAccompaniment),
-      ),
-      interpreterAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getInterpreterAccompaniment),
-      ),
+      d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
+      debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
+      passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
+      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), select(getETAFaultText)),
+      ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoFaultText)),
+      schoolCar$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolCar)),
+      dualControls$: currentTest$.pipe(select(getVehicleDetails), select(getDualControls)),
+      instructorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInstructorAccompaniment)),
+      supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
+      otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
+      interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
     };
   }
 
   setupSubscriptions() {
-    const {
-      startDateTime$,
-    } = this.commonPageState;
+    const { startDateTime$ } = this.commonPageState;
 
-    this.subscription = merge(
-      startDateTime$.pipe(map((value) => this.startDateTime = value)),
-    )
-      .subscribe();
+    this.subscription = merge(startDateTime$.pipe(map((value) => (this.startDateTime = value)))).subscribe();
   }
 
   ionViewDidLeave(): void {
@@ -536,7 +412,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     }
   }
 
-  async onSubmit(isDelegated: boolean = false) {
+  async onSubmit(isDelegated = false) {
     if (await this.isFormValid()) {
       await this.showFinishTestModal(isDelegated);
     }
@@ -629,9 +505,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   isWelshChanged(isWelsh: boolean) {
     this.store$.dispatch(
-      isWelsh
-        ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
-        : CandidateChoseToProceedWithTestInEnglish('English'),
+      isWelsh ? CandidateChoseToProceedWithTestInWelsh('Cymraeg') : CandidateChoseToProceedWithTestInEnglish('English')
     );
   }
 
@@ -714,17 +588,15 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   async isFormValid() {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.form.valid) {
       return true;
     }
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(OfficeValidationError(`${controlName} is blank`));
-        }
-      });
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(OfficeValidationError(`${controlName} is blank`));
+      }
+    });
     await this.createToast('Fill all mandatory fields');
     this.toast.present();
     return false;
@@ -736,14 +608,16 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       position: 'top',
       cssClass: 'mes-toast-message-error',
       duration: 5000,
-      buttons: [{
-        text: 'X',
-        role: 'cancel',
-      }],
+      buttons: [
+        {
+          text: 'X',
+          role: 'cancel',
+        },
+      ],
     });
   };
 
-  async showFinishTestModal(isDelegated: boolean = false) {
+  async showFinishTestModal(isDelegated = false) {
     this.finishTestModal = await this.modalController.create({
       id: 'FinishTestModal',
       component: FinishTestModal,
@@ -757,5 +631,4 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     });
     await this.finishTestModal.present();
   }
-
 }

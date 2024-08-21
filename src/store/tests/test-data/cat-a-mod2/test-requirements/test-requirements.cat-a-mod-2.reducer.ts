@@ -6,12 +6,13 @@ export const initialState: TestRequirements = {};
 
 export const testRequirementsCatAMod2Reducer = createReducer(
   initialState,
-  on(testRequirementsActions.ToggleLegalRequirement, (state, {
-    legalRequirement,
-  }): TestRequirements => ({
-    ...state,
-    [legalRequirement]: !state[legalRequirement],
-  })),
+  on(
+    testRequirementsActions.ToggleLegalRequirement,
+    (state, { legalRequirement }): TestRequirements => ({
+      ...state,
+      [legalRequirement]: !state[legalRequirement],
+    })
+  )
 );
 
 export const getTestRequirementsCatEUAM2 = createFeatureSelector<TestRequirements>('testRequirements');

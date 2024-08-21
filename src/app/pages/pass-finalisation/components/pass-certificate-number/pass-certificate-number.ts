@@ -1,12 +1,8 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
-import {
-  UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators,
-} from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constants';
 
 @Component({
@@ -15,7 +11,6 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constant
   styleUrls: ['./pass-certificate-number.scss'],
 })
 export class PassCertificateNumberComponent implements OnChanges {
-
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
   @Input()
   passCertificateNumberInput: string;
@@ -27,12 +22,12 @@ export class PassCertificateNumberComponent implements OnChanges {
   form: UntypedFormGroup;
 
   @Input()
-  isPracticeMode: boolean = false;
+  isPracticeMode = false;
 
   @Output()
   passCertificateNumberChange = new EventEmitter<string>();
 
-  errors: { duplicate: string; invalid: string; } = {
+  errors: { duplicate: string; invalid: string } = {
     duplicate: 'This certificate number has been used. Please enter a different number.',
     invalid: 'Enter a valid certificate number (8 characters)',
   };
@@ -41,9 +36,8 @@ export class PassCertificateNumberComponent implements OnChanges {
 
   constructor(
     private passCertficateValidationProvider: PassCertificateValidationProvider,
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+    public accessibilityService: AccessibilityService
+  ) {}
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;

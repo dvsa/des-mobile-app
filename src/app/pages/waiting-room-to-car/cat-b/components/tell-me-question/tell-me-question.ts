@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
@@ -10,7 +8,6 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
   styleUrls: ['./tell-me-question.scss'],
 })
 export class TellMeQuestionComponent implements OnChanges {
-
   @Input()
   tellMeQuestion: VehicleChecksQuestion;
 

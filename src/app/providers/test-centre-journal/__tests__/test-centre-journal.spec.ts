@@ -1,12 +1,12 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
-import { UrlProvider } from '../../url/url';
-import { UrlProviderMock } from '../../url/__mocks__/url.mock';
-import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
-import { TestCentreJournalProvider } from '../test-centre-journal';
+import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfig } from '../../app-config/app-config.model';
+import { UrlProviderMock } from '../../url/__mocks__/url.mock';
+import { UrlProvider } from '../../url/url';
+import { TestCentreJournalProvider } from '../test-centre-journal';
 
 describe('TestCentreJournalProvider', () => {
   let testCentreJournalProvider: TestCentreJournalProvider;
@@ -17,9 +17,7 @@ describe('TestCentreJournalProvider', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         TestCentreJournalProvider,
         {
@@ -45,22 +43,15 @@ describe('TestCentreJournalProvider', () => {
 
   describe('getTestCentreJournal', () => {
     beforeEach(() => {
-      spyOn(appConfigProviderMock, 'getAppConfig')
-        .and
-        .returnValue({ requestTimeout: 100000 } as AppConfig);
+      spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
     });
     it('should call through to the URL provider for the test centre journal URL', () => {
-      testCentreJournalProvider
-        .getTestCentreJournal()
-        .pipe(take(1))
-        .subscribe();
+      testCentreJournalProvider.getTestCentreJournal().pipe(take(1)).subscribe();
 
       const req = httpMock.expectOne((request) => request.url === mockTestCentreJournalUrl);
 
-      expect(req.request.method)
-        .toBe('GET');
-      expect(urlProviderMock.getTestCentreJournalUrl)
-        .toHaveBeenCalled();
+      expect(req.request.method).toBe('GET');
+      expect(urlProviderMock.getTestCentreJournalUrl).toHaveBeenCalled();
     });
   });
 });

@@ -1,31 +1,23 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { NavParamsMock } from '@mocks/index.mock';
-import { Store } from '@ngrx/store';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
+import { IonicModule, NavParams } from '@ionic/angular';
+import { NavParamsMock } from '@mocks/index.mock';
+import { Store } from '@ngrx/store';
 
 describe('VRNCaptureModal', () => {
   let fixture: ComponentFixture<VRNCaptureModal>;
   let component: VRNCaptureModal;
 
-  class StoreMock {
-  }
+  class StoreMock {}
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VRNCaptureModal,
-      ],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        IonicModule,
-        CommonModule,
-      ],
+      declarations: [VRNCaptureModal],
+      imports: [FormsModule, ReactiveFormsModule, IonicModule, CommonModule],
       providers: [
         { provide: NavParams, useClass: NavParamsMock },
         { provide: Store, useClass: StoreMock },
@@ -38,7 +30,6 @@ describe('VRNCaptureModal', () => {
   }));
 
   describe('class', () => {
-
     describe('validateThenDismiss', () => {
       it('should test the parameter against the validation before saving', () => {
         spyOn(component.registrationNumberValidator.pattern, 'test');
@@ -67,7 +58,5 @@ describe('VRNCaptureModal', () => {
         expect(component.formInvalid).toEqual(true);
       });
     });
-
   });
-
 });

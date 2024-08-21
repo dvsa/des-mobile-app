@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
 import { TrainerDetailsCardComponent } from '../trainer-details-card';
 
 describe('TrainerDetailsCardComponent', () => {
@@ -11,13 +11,8 @@ describe('TrainerDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TrainerDetailsCardComponent,
-        MockComponent(DataRowComponent),
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [TrainerDetailsCardComponent, MockComponent(DataRowComponent)],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TrainerDetailsCardComponent);
@@ -40,5 +35,4 @@ describe('TrainerDetailsCardComponent', () => {
       expect(component).toBeTruthy();
     });
   });
-
 });

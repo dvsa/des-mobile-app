@@ -1,10 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestData as CatAMod1TestData } from '@dvsa/mes-test-schema/categories/AM1';
+import { TestData } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import * as mocks from '../__mocks__/test-result.mock';
 import { FaultCountProvider } from '../../fault-count/fault-count';
+import * as mocks from '../__mocks__/test-result.mock';
 import { TestReportValidatorProvider } from '../test-report-validator';
 import { SpeedCheckState } from '../test-report-validator.constants';
 
@@ -133,10 +133,7 @@ describe('TestReportValidator', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        TestReportValidatorProvider,
-        FaultCountProvider,
-      ],
+      providers: [TestReportValidatorProvider, FaultCountProvider],
     });
 
     testReportValidatorProvider = TestBed.inject(TestReportValidatorProvider);
@@ -146,16 +143,13 @@ describe('TestReportValidator', () => {
     categories.forEach((cat) => {
       it(`should return true if the test report is valid for a Cat ${cat.category} test`, () => {
         const result = testReportValidatorProvider.isTestReportValid(cat.validTest, cat.category);
-        expect(result)
-          .toEqual(true);
+        expect(result).toEqual(true);
       });
       it(`should return false if the test report is not valid for a Cat ${cat.category} test`, () => {
         const result = testReportValidatorProvider.isTestReportValid({}, cat.category);
-        expect(result)
-          .toEqual(false);
+        expect(result).toEqual(false);
       });
     });
-
   });
   describe('getMissingLegalRequirements', () => {
     const emptyLegal = 'should return an empty array if the legal requirements are met for a Cat';
@@ -164,33 +158,28 @@ describe('TestReportValidator', () => {
     categories.forEach((cat) => {
       it(`${emptyLegal} ${cat.category} test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements(cat.validTest, cat.category);
-        expect(result)
-          .toEqual([]);
+        expect(result).toEqual([]);
       });
       it(`${missingLegal} ${cat.category} test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements({}, cat.category);
-        expect(result)
-          .toEqual(cat.legalReqs);
+        expect(result).toEqual(cat.legalReqs);
       });
     });
     delegatedCategories.forEach((cat) => {
       it(`${emptyLegal} ${cat.category} delegated test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements(cat.validTest, cat.category, true);
-        expect(result)
-          .toEqual([]);
+        expect(result).toEqual([]);
       });
       it(`${missingLegal} ${cat.category} delegated test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements({}, cat.category, true);
-        expect(result)
-          .toEqual(cat.delegatedRequirements);
+        expect(result).toEqual(cat.delegatedRequirements);
       });
     });
   });
   describe('isETAValid', () => {
     it('should return true if there is no ETA fault', () => {
       const result = testReportValidatorProvider.isETAValid({}, TestCategory.B);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
     it('should return true if there is a ETA and a Dangerous Fault', () => {
       const data: TestData = {
@@ -203,8 +192,7 @@ describe('TestReportValidator', () => {
       };
 
       const result = testReportValidatorProvider.isETAValid(data, TestCategory.B);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
     it('should return true if there is a Dangerous Fault and no ETA', () => {
       const data: TestData = {
@@ -214,8 +202,7 @@ describe('TestReportValidator', () => {
       };
 
       const result = testReportValidatorProvider.isETAValid(data, TestCategory.B);
-      expect(result)
-        .toEqual(true);
+      expect(result).toEqual(true);
     });
   });
 
@@ -234,8 +221,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.EMERGENCY_STOP_MISSING);
+      expect(result).toBe(SpeedCheckState.EMERGENCY_STOP_MISSING);
     });
 
     it('should return SpeedCheckState.NOT_MET when emergency stop speed not met is true & speed is recorded', () => {
@@ -253,8 +239,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.NOT_MET);
+      expect(result).toBe(SpeedCheckState.NOT_MET);
     });
 
     it('should return AVOIDANCE_MISSING when speed not met is true & speed is not recorded', () => {
@@ -272,8 +257,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.AVOIDANCE_MISSING);
+      expect(result).toBe(SpeedCheckState.AVOIDANCE_MISSING);
     });
 
     it('should return SpeedCheckState.VALID when avoidance speed not met is true & speed is recorded', () => {
@@ -290,8 +274,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.VALID);
+      expect(result).toBe(SpeedCheckState.VALID);
     });
 
     it('should return VALID when avoidance speed not met first attempt is recorded but has Serious fault', () => {
@@ -307,8 +290,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.VALID);
+      expect(result).toBe(SpeedCheckState.VALID);
     });
 
     it('should return VALID when avoidance speed not met first attempt is recorded but has Dangerous fault', () => {
@@ -328,8 +310,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.VALID);
+      expect(result).toBe(SpeedCheckState.VALID);
     });
 
     it('should return SpeedCheckState.EMERGENCY_STOP_SERIOUS_FAULT', () => {
@@ -341,8 +322,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.EMERGENCY_STOP_SERIOUS_FAULT);
+      expect(result).toBe(SpeedCheckState.EMERGENCY_STOP_SERIOUS_FAULT);
     });
 
     it('should return SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT', () => {
@@ -357,8 +337,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT);
+      expect(result).toBe(SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT);
     });
 
     it('should return SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING', () => {
@@ -373,8 +352,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING);
+      expect(result).toBe(SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING);
     });
 
     it('should return SpeedCheckState.EMERGENCY_STOP_MISSING', () => {
@@ -389,8 +367,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.EMERGENCY_STOP_MISSING);
+      expect(result).toBe(SpeedCheckState.EMERGENCY_STOP_MISSING);
     });
 
     it('should return VALID when avoidance missing but competency has Serious fault', () => {
@@ -408,8 +385,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.VALID);
+      expect(result).toBe(SpeedCheckState.VALID);
     });
 
     it('should return VALID when avoidance missing but competency has Dangerous fault', () => {
@@ -427,8 +403,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.VALID);
+      expect(result).toBe(SpeedCheckState.VALID);
     });
 
     it('should return SpeedCheckState.AVOIDANCE_MISSING', () => {
@@ -443,8 +418,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.AVOIDANCE_MISSING);
+      expect(result).toBe(SpeedCheckState.AVOIDANCE_MISSING);
     });
 
     it('should return SpeedCheckState.VALID', () => {
@@ -459,9 +433,7 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
 
-      expect(result)
-        .toBe(SpeedCheckState.VALID);
+      expect(result).toBe(SpeedCheckState.VALID);
     });
   });
-
 });

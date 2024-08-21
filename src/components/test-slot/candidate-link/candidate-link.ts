@@ -22,7 +22,7 @@ export class CandidateLinkComponent {
   name: Name;
 
   @Input()
-  isTeamJournal: boolean = false;
+  isTeamJournal = false;
 
   @Input()
   applicationId: number;
@@ -35,9 +35,8 @@ export class CandidateLinkComponent {
 
   constructor(
     public modalController: ModalController,
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+    public accessibilityService: AccessibilityService
+  ) {}
 
   async openCandidateDetailsModal(): Promise<void> {
     if (await this.modalController.getTop()) {

@@ -1,17 +1,15 @@
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Application } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { PopulateManoeuvreVehicleDimensions } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.actions';
 import { PopulateVehicleDimensions } from '@store/tests/vehicle-details/vehicle-details.actions';
-import {
-  PopulateManoeuvreVehicleDimensions,
-} from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.actions';
 
 type VehicleDimensionsUnion =
-    ReturnType<typeof PopulateManoeuvreVehicleDimensions> |
-    ReturnType<typeof PopulateVehicleDimensions>;
+  | ReturnType<typeof PopulateManoeuvreVehicleDimensions>
+  | ReturnType<typeof PopulateVehicleDimensions>;
 
 export const createPopulateVehicleDimensionsAction = (
   testCategory: string,
-  application: Application,
+  application: Application
 ): VehicleDimensionsUnion => {
   switch (testCategory) {
     case TestCategory.CM:
@@ -26,12 +24,9 @@ export const createPopulateVehicleDimensionsAction = (
         application.vehicleWidth,
         application.vehicleLength,
         application.vehicleHeight,
-        application.vehicleSeats,
+        application.vehicleSeats
       );
     default:
-      return PopulateVehicleDimensions(
-        application.vehicleWidth,
-        application.vehicleLength,
-      );
+      return PopulateVehicleDimensions(application.vehicleWidth, application.vehicleLength);
   }
 };

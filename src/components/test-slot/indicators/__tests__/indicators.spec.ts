@@ -1,6 +1,6 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
 
@@ -82,7 +82,6 @@ describe('IndicatorsComponent', () => {
       it('should be rendered when test status is submitted', () => {
         component.testStatus = TestStatus.Submitted;
         expect(component.shouldShowGreenTickIndicator()).toEqual(true);
-
       });
       it('should not rendered when test status is not submitted', () => {
         component.testStatus = TestStatus.Booked;

@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { merge, Observable, Subscription } from 'rxjs';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getVehicleChecks } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { isEmpty } from 'lodash-es';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { map, takeUntil } from 'rxjs/operators';
-import { StoreModel } from '@shared/models/store.model';
+import { Store, select } from '@ngrx/store';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import { getVehicleChecks } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   ShowMeQuestionDangerousFault,
   ShowMeQuestionDrivingFault,
@@ -17,10 +13,14 @@ import {
   ShowMeQuestionRemoveFault,
   ShowMeQuestionSeriousFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { isEmpty } from 'lodash-es';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
-import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 import { getTestReportState } from '../../../test-report.reducer';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 
 @Component({
   selector: 'vehicle-check',
@@ -28,56 +28,46 @@ import { getTestReportState } from '../../../test-report.reducer';
   styleUrls: ['./vehicle-check.scss'],
 })
 export class VehicleCheckComponent implements OnInit, OnDestroy {
-
-  selectedShowMeQuestion: boolean = false;
+  selectedShowMeQuestion = false;
 
   tellMeQuestionFault: string;
   showMeQuestionFault: string;
 
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
 
   merged$: Observable<void | boolean>;
 
   subscription: Subscription;
 
-  constructor(private store$: Store<StoreModel>) {
-  }
+  constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit(): void {
-
     const vehicleChecks$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
       select(getTestData),
-      select(getVehicleChecks),
+      select(getVehicleChecks)
     );
 
-    const isSeriousMode$ = this.store$.pipe(
-      select(getTestReportState),
-      select(isSeriousMode),
-    );
+    const isSeriousMode$ = this.store$.pipe(select(getTestReportState), select(isSeriousMode));
 
-    const isDangerousMode$ = this.store$.pipe(
-      select(getTestReportState),
-      select(isDangerousMode),
-    );
+    const isDangerousMode$ = this.store$.pipe(select(getTestReportState), select(isDangerousMode));
 
-    const isRemoveFaultMode$ = this.store$.pipe(
-      select(getTestReportState),
-      select(isRemoveFaultMode),
-    );
+    const isRemoveFaultMode$ = this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode));
 
     this.subscription = merge(
-      vehicleChecks$.pipe(map((vehicleChecks: CatBUniqueTypes.VehicleChecks) => {
-        this.tellMeQuestionFault = vehicleChecks.tellMeQuestion.outcome;
-        this.showMeQuestionFault = vehicleChecks.showMeQuestion.outcome;
-        this.selectedShowMeQuestion = !isEmpty(vehicleChecks.showMeQuestion.outcome);
-      })),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
+      vehicleChecks$.pipe(
+        map((vehicleChecks: CatBUniqueTypes.VehicleChecks) => {
+          this.tellMeQuestionFault = vehicleChecks.tellMeQuestion.outcome;
+          this.showMeQuestionFault = vehicleChecks.showMeQuestion.outcome;
+          this.selectedShowMeQuestion = !isEmpty(vehicleChecks.showMeQuestion.outcome);
+        })
+      ),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle)))
     )
       .pipe(takeUntil(trDestroy$))
       .subscribe();
@@ -130,7 +120,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     return !(this.hasDangerousFault() || this.hasSeriousFault() || this.hasShowMeDrivingFault());
   };
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
+  addOrRemoveFault = (wasPress = false): void => {
     if (this.isRemoveFaultMode) {
       this.removeFault();
       return;

@@ -1,9 +1,7 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
 
 @Component({
@@ -11,7 +9,6 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mo
   templateUrl: 'pass-certificate-number.cat-a-mod1.html',
 })
 export class PassCertificateNumberCatAMod1Component implements OnChanges {
-
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
 
   @Input()
@@ -24,7 +21,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   pastPassCerts: string[] = [];
 
   @Input()
-  isPracticeMode: boolean = false;
+  isPracticeMode = false;
 
   @Output()
   passCertificateNumberChange = new EventEmitter<string>();
@@ -36,10 +33,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   formControl: UntypedFormControl;
   readonly passCertificateAMOD1Validator = getPassCertificateAMOD1Validator();
 
-  constructor(
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
@@ -72,9 +66,9 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
       this.formControl.setErrors({ invalidFormat: passCertificateNumber });
     } else if (
       // Exclude duplicate pass cert errors whilst in practice mode
-      !this.isPracticeMode
-      && validFormat
-      && this.pastPassCerts?.includes(passCertificateNumber.toUpperCase())
+      !this.isPracticeMode &&
+      validFormat &&
+      this.pastPassCerts?.includes(passCertificateNumber.toUpperCase())
     ) {
       this.formControl.setErrors({
         duplicate: true,

@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['modal-result-item.scss'],
 })
 export class ModalResultItemComponent {
-
   @Input()
   label: string;
 
@@ -17,29 +16,28 @@ export class ModalResultItemComponent {
   score: number;
 
   @Input()
-  adi3: boolean = false;
+  adi3 = false;
 
   @Input()
-  showScore: boolean = true;
+  showScore = true;
 
   @Input()
-  showIcon: boolean = true;
+  showIcon = true;
 
   @Input()
   isPass: boolean;
 
   @Input()
-  idSelector:string;
+  idSelector: string;
 
   getOutcomeIcon(): string {
     const passImage = 'assets/imgs/greenCorrectAnswer.png';
     const failImage = 'assets/imgs/redWrongAnswer.png';
-    return (this.isPass ? passImage : failImage);
+    return this.isPass ? passImage : failImage;
   }
 
   displayScore(score: number): string {
-    const finalScore = (score || 0);
+    const finalScore = score || 0;
     return this.adi3 ? (score || this.testState > 0 ? score : '-').toString() : `${finalScore}%`;
   }
-
 }

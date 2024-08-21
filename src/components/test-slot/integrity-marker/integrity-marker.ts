@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: 'integrity-marker.html',
   styleUrls: ['integrity-marker.scss'],
 })
-export class IntegrityMarkerComponent {
-}
+export class IntegrityMarkerComponent {}

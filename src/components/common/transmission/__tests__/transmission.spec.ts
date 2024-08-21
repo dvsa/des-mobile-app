@@ -1,6 +1,6 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { TransmissionComponent } from '../transmission';
 
@@ -10,13 +10,8 @@ describe('TransmissionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TransmissionComponent,
-      ],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [TransmissionComponent],
+      imports: [IonicModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(TransmissionComponent);

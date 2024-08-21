@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'additional-information',
@@ -37,5 +35,4 @@ export class AdditionalInformationComponent implements OnChanges {
   additionalInformationChanged(additionalInformation: string): void {
     this.additionalInformationChange.emit(additionalInformation);
   }
-
 }

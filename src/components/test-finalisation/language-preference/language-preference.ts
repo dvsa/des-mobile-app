@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +6,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   templateUrl: './language-preference.html',
 })
 export class LanguagePreferencesComponent implements OnChanges {
-
   @Input()
   isWelsh: boolean;
 
@@ -16,7 +13,7 @@ export class LanguagePreferencesComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Input()
-  isDelegated: boolean = false;
+  isDelegated = false;
 
   @Output()
   welshChanged = new EventEmitter<boolean>();
@@ -45,5 +42,4 @@ export class LanguagePreferencesComponent implements OnChanges {
       this.welshChanged.emit(isWelsh === 'true');
     }
   }
-
 }

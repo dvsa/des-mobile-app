@@ -1,18 +1,19 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { UntypedFormGroup } from '@angular/forms';
 
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import {
   getNumberOfSeats,
@@ -20,7 +21,6 @@ import {
   getVehicleLength,
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
-import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 
 interface CatManoeuvreWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -50,57 +50,34 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
-      vehicleLength$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getVehicleLength),
-      ),
-      vehicleWidth$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getVehicleWidth),
-      ),
-      vehicleHeight$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getVehicleHeight),
-      ),
-      numberOfSeats$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getNumberOfSeats),
-      ),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
+      vehicleLength$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleLength)),
+      vehicleWidth$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleWidth)),
+      vehicleHeight$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleHeight)),
+      numberOfSeats$: currentTest$.pipe(select(getVehicleDetails), select(getNumberOfSeats)),
     };
   }
 
   onSubmit = async (): Promise<void> => {
-    Object.keys(this.form.controls)
-      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
 
-      await this.routeByCategoryProvider.navigateToPage(
-        TestFlowPageNames.TEST_REPORT_PAGE,
-        this.testCategory,
-        { replaceUrl: true },
-      );
+      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
+        replaceUrl: true,
+      });
       return;
     }
 
-    Object.keys(this.form.controls)
-      .forEach((controlName: string) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-        }
-      });
+    Object.keys(this.form.controls).forEach((controlName: string) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+      }
+    });
   };
-
 }

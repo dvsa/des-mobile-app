@@ -1,5 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
-import { createFeatureSelector, combineReducers, Action } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
 
 import { combinationReducer } from './combination/combination.reducer';
 import { totalPercentageReducer } from './overall-score/total-percentage.reducer';
@@ -21,10 +21,7 @@ export const initialState: TestData = {
   totalPercent: null,
 };
 
-export function testDataCatCPCReducer(
-  state: TestData = initialState,
-  action: Action,
-) {
+export function testDataCatCPCReducer(state: TestData = initialState, action: Action) {
   return combineReducers({
     combination: combinationReducer,
     question1: question1Reducer,

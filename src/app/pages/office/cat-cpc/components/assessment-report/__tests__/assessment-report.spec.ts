@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
-import { UntypedFormGroup, Validators } from '@angular/forms';
 
 describe('AssessmentReportComponent', () => {
   let fixture: ComponentFixture<AssessmentReportComponent>;
@@ -10,9 +10,7 @@ describe('AssessmentReportComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AssessmentReportComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(AssessmentReportComponent);

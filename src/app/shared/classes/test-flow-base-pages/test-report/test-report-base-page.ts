@@ -1,22 +1,28 @@
-import { select } from '@ngrx/store';
-import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { ModalController } from '@ionic/angular';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ModalController } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import { Observable, Subject, Subscription, merge } from 'rxjs';
 
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { getTestReportState } from '@pages/test-report/test-report.reducer';
-import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { Inject, Injector } from '@angular/core';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { StatusBar } from '@capacitor/status-bar';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
+import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal/eta-invalid-modal';
+import { LegalRequirementsModal } from '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
+import { SpecialLegalRequirementModal } from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
 import {
   CalculateTestResult,
   ResetFaultMode,
@@ -24,50 +30,32 @@ import {
   TerminateTestFromTestReport,
   TestReportViewDidEnter,
 } from '@pages/test-report/test-report.actions';
-import { Competencies, ExaminerActions, LegalRequirements } from '@store/tests/test-data/test-data.constants';
-import { OverlayCallback } from '@pages/test-report/test-report.model';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal/eta-invalid-modal';
-import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
-import {
-  LegalRequirementsModal,
-} from '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
-import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
-import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import { OverlayCallback } from '@pages/test-report/test-report.model';
+import { getTestReportState } from '@pages/test-report/test-report.reducer';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema-unions';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
-import { getTestRequirementsCatB } from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
-import {
-  getTestRequirementsCatC,
-} from '@store/tests/test-data/cat-c/test-requirements/test-requirements.cat-c.reducer';
-import {
-  getTestRequirementsCatD,
-} from '@store/tests/test-data/cat-d/test-requirements/test-requirements.cat-d.reducer';
-import {
-  getTestRequirementsCatHome,
-} from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { StatusBar } from '@capacitor/status-bar';
-import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import {
-  hasManoeuvreBeenCompletedCatADIPart2,
-} from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import {
-  SpecialLegalRequirementModal,
-} from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
-import { Inject, Injector } from '@angular/core';
+import { hasManoeuvreBeenCompletedCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
+import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getTestRequirementsCatB } from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
+import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
+import { getTestRequirementsCatC } from '@store/tests/test-data/cat-c/test-requirements/test-requirements.cat-c.reducer';
+import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
+import { getTestRequirementsCatD } from '@store/tests/test-data/cat-d/test-requirements/test-requirements.cat-d.reducer';
+import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import { getTestRequirementsCatHome } from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
+import { Competencies, ExaminerActions, LegalRequirements } from '@store/tests/test-data/test-data.constants';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -95,13 +83,13 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   eta = ExaminerActions;
   displayOverlay: boolean;
 
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
-  manoeuvresCompleted: boolean = false;
-  delegatedTest: boolean = false;
-  isTestReportValid: boolean = false;
-  isEtaValid: boolean = true;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
+  manoeuvresCompleted = false;
+  delegatedTest = false;
+  isTestReportValid = false;
+  isEtaValid = true;
   testCategory: TestCategory;
 
   missingLegalRequirements: legalRequirementsLabels[] = [];
@@ -109,7 +97,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   protected constructor(
     injector: Injector,
-    @Inject(false) public loginRequired: boolean = false,
+    @Inject(false) public loginRequired = false
   ) {
     super(injector, loginRequired);
   }
@@ -124,50 +112,33 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.commonPageState = {
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
-        select(getUntitledCandidateName),
+        select(getUntitledCandidateName)
       ),
-      isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode),
-      ),
-      isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode),
-      ),
-      isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode),
-      ),
-      testData$: currentTest$.pipe(
-        select(getTestData),
-      ),
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
+      testData$: currentTest$.pipe(select(getTestData)),
       manoeuvres$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([testData, category]) => this.hasManoeuvreBeenCompleted(testData, category)),
+        map(([testData, category]) => this.hasManoeuvreBeenCompleted(testData, category))
       ),
       testRequirements$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([testData, category]) => this.getTestRequirements(testData, category)),
+        map(([testData, category]) => this.getTestRequirements(testData, category))
       ),
       category$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => category as TestCategory),
+        map((category) => category as TestCategory)
       ),
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
     };
   }
 
@@ -274,18 +245,17 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
           this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
             data,
             category as TestCategory,
-            this.delegatedTest,
+            this.delegatedTest
           );
           this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
             data,
             category as TestCategory,
-            this.delegatedTest,
+            this.delegatedTest
           );
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
-        }),
-      ),
-    )
-      .subscribe();
+        })
+      )
+    ).subscribe();
   }
 
   cancelSubscription(): void {
@@ -311,9 +281,9 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         cssClass: modalCssClass,
       });
     } else if (
-      !this.manoeuvresCompleted
-      && isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H])
-      && this.testCategory !== TestCategory.K
+      !this.manoeuvresCompleted &&
+      isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
+      this.testCategory !== TestCategory.K
     ) {
       this.modal = await this.modalController.create({
         component: SpecialLegalRequirementModal,
@@ -358,5 +328,4 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         break;
     }
   };
-
 }

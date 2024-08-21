@@ -1,57 +1,39 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
-} from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import {
-  VehicleRegistrationComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import { MockComponent } from 'ng-mocks';
-import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import {
-  VehicleDetailsCardComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import {
-  AccompanimentCardComponent,
-} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { VehicleChecksComponent } from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
-import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import {
-  VehicleChecksToggleComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-checks-completed/vehicle-checks-completed';
-import {
-  CandidateDeclarationSignedComponent,
-} from '@pages/waiting-room-to-car/components/candidate-declaration/candidate-declaration';
-import {
-  FullLicenceHeldComponent,
-} from '@pages/waiting-room-to-car/components/full-licence-held-toggle/full-licence-held-toggle';
 import { AppModule } from '@app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { provideMockStore } from '@ngrx/store/testing';
-import { QuestionProvider } from '@providers/question/question';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import {
-  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
-import { AppInfoStateModel } from '@store/app-info/app-info.model';
-import { TestsModel } from '@store/tests/tests.model';
+import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Platform } from '@ionic/angular';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { CandidateDeclarationSignedComponent } from '@pages/waiting-room-to-car/components/candidate-declaration/candidate-declaration';
+import { FullLicenceHeldComponent } from '@pages/waiting-room-to-car/components/full-licence-held-toggle/full-licence-held-toggle';
+import { VehicleChecksToggleComponent } from '@pages/waiting-room-to-car/components/vehicle-checks-completed/vehicle-checks-completed';
+import { VehicleChecksComponent } from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
+import { VehicleRegistrationComponent } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
+import { QuestionProvider } from '@providers/question/question';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { StoreModel } from '@shared/models/store.model';
+import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import {
   DropExtraVehicleChecks,
   DropExtraVehicleChecksDelegated,
@@ -59,8 +41,8 @@ import {
   VehicleChecksCompletedToggled,
   VehicleChecksDrivingFaultsNumberChanged,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { TestsModel } from '@store/tests/tests.model';
+import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
 import { WaitingRoomToCarCatDPage } from '../waiting-room-to-car.cat-d.page';
 
@@ -118,10 +100,7 @@ describe('WaitingRoomToCarCatDPage', () => {
         MockComponent(CandidateDeclarationSignedComponent),
         MockComponent(FullLicenceHeldComponent),
       ],
-      imports: [
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      imports: [AppModule, ReactiveFormsModule],
       providers: [
         {
           provide: RouteByCategoryProvider,
@@ -170,8 +149,7 @@ describe('WaitingRoomToCarCatDPage', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Class', () => {
@@ -179,32 +157,26 @@ describe('WaitingRoomToCarCatDPage', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
-          .toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
       });
     });
     describe('vehicleChecksCompletedOutcomeChanged', () => {
       it('should dispatch the action VehicleChecksCompletedToggled with input', () => {
         component.vehicleChecksCompletedOutcomeChanged(true);
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(VehicleChecksCompletedToggled(true));
+        expect(store$.dispatch).toHaveBeenCalledWith(VehicleChecksCompletedToggled(true));
       });
     });
     describe('vehicleChecksDrivingFaultsNumberChanged', () => {
       it('should dispatch the action VehicleChecksDrivingFaultsNumberChanged with input', () => {
-        spyOn(component, 'generateDelegatedQuestionResults')
-          .and
-          .returnValue([]);
+        spyOn(component, 'generateDelegatedQuestionResults').and.returnValue([]);
         component.vehicleChecksDrivingFaultsNumberChanged(0);
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(VehicleChecksDrivingFaultsNumberChanged([]));
+        expect(store$.dispatch).toHaveBeenCalledWith(VehicleChecksDrivingFaultsNumberChanged([]));
       });
     });
     describe('fullLicenceHeldChange', () => {
       it('should dispatch the action SetFullLicenceHeld with input', () => {
         component.fullLicenceHeldChange(false);
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(SetFullLicenceHeld(false));
+        expect(store$.dispatch).toHaveBeenCalledWith(SetFullLicenceHeld(false));
       });
     });
     describe('showFullLicenceHeld', () => {
@@ -225,14 +197,10 @@ describe('WaitingRoomToCarCatDPage', () => {
           cat: TestCategory.D1E,
           shouldShow: true,
         },
-      ].forEach(({
-        cat,
-        shouldShow,
-      }) => {
+      ].forEach(({ cat, shouldShow }) => {
         it(`should ${shouldShow ? 'show' : 'not show'} field for cat ${cat}`, () => {
           component.testCategory = cat;
-          expect(component.showFullLicenceHeld())
-            .toEqual(shouldShow);
+          expect(component.showFullLicenceHeld()).toEqual(shouldShow);
         });
       });
     });
@@ -241,46 +209,46 @@ describe('WaitingRoomToCarCatDPage', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe)
-          .toHaveBeenCalled();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
     describe('displayLoadSecured', () => {
       it('should return true if the category is valid', () => {
         component.testCategory = TestCategory.DE;
-        expect(component.displayLoadSecured())
-          .toBeTruthy();
+        expect(component.displayLoadSecured()).toBeTruthy();
       });
       it('should return true if the category is not valid', () => {
         component.testCategory = TestCategory.ADI2;
-        expect(component.displayLoadSecured())
-          .toBeFalsy();
+        expect(component.displayLoadSecured()).toBeFalsy();
       });
     });
     describe('onSubmit', () => {
       beforeEach(() => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
       });
-      it('should dispatch DropExtraVehicleChecksDelegated if'
-                + 'fullLicenceHeld, category is valid and isDelegated is true', () => {
-        spyOn(component.store$, 'dispatch');
-        component.testCategory = TestCategory.DE;
-        component.isDelegated = true;
-        component.fullLicenceHeld = true;
-        component.onSubmit();
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(DropExtraVehicleChecksDelegated());
-      });
-      it('should dispatch DropExtraVehicleChecks if'
-                + 'fullLicenceHeld, category is valid and isDelegated is false', () => {
-        spyOn(component.store$, 'dispatch');
-        component.testCategory = TestCategory.DE;
-        component.isDelegated = false;
-        component.fullLicenceHeld = true;
-        component.onSubmit();
-        expect(component.store$.dispatch)
-          .toHaveBeenCalledWith(DropExtraVehicleChecks());
-      });
+      it(
+        'should dispatch DropExtraVehicleChecksDelegated if' +
+          'fullLicenceHeld, category is valid and isDelegated is true',
+        () => {
+          spyOn(component.store$, 'dispatch');
+          component.testCategory = TestCategory.DE;
+          component.isDelegated = true;
+          component.fullLicenceHeld = true;
+          component.onSubmit();
+          expect(component.store$.dispatch).toHaveBeenCalledWith(DropExtraVehicleChecksDelegated());
+        }
+      );
+      it(
+        'should dispatch DropExtraVehicleChecks if' + 'fullLicenceHeld, category is valid and isDelegated is false',
+        () => {
+          spyOn(component.store$, 'dispatch');
+          component.testCategory = TestCategory.DE;
+          component.isDelegated = false;
+          component.fullLicenceHeld = true;
+          component.onSubmit();
+          expect(component.store$.dispatch).toHaveBeenCalledWith(DropExtraVehicleChecks());
+        }
+      );
       it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
         component.form = new UntypedFormGroup({
           notRequiredControl: new UntypedFormControl(null),
@@ -288,10 +256,11 @@ describe('WaitingRoomToCarCatDPage', () => {
         component.testCategory = TestCategory.D;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage)
-          .toHaveBeenCalledWith(
-            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.D, { replaceUrl: true },
-          );
+        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+          TestFlowPageNames.TEST_REPORT_PAGE,
+          TestCategory.D,
+          { replaceUrl: true }
+        );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new UntypedFormGroup({
@@ -302,13 +271,11 @@ describe('WaitingRoomToCarCatDPage', () => {
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch)
-          .not
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          WaitingRoomToCarValidationError('notRequiredControl is blank')
+        );
       }));
     });
   });

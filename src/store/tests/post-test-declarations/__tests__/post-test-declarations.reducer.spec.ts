@@ -1,12 +1,12 @@
 import { PostTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
-import { postTestDeclarationsReducer, initialState } from '../post-test-declarations.reducer';
 import {
-  ToggleHealthDeclaration,
-  ToggleReceiptDeclaration,
+  ClearPostTestDeclarations,
   SignatureDataChanged,
   SignatureDataCleared,
-  ClearPostTestDeclarations,
+  ToggleHealthDeclaration,
+  ToggleReceiptDeclaration,
 } from '../post-test-declarations.actions';
+import { initialState, postTestDeclarationsReducer } from '../post-test-declarations.reducer';
 
 describe('PostTestDeclarations reducer', () => {
   it('should toggle the health declaration status when the toggle action is received', () => {

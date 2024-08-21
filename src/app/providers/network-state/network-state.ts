@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Platform } from '@ionic/angular';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { Platform } from '@ionic/angular';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export enum ConnectionStatus {
   ONLINE = 0,
@@ -10,12 +10,13 @@ export enum ConnectionStatus {
 
 @Injectable()
 export class NetworkStateProvider {
-
   private networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.OFFLINE);
   public isOffline$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
-  constructor(private network: Network, private platform: Platform) {
-  }
+  constructor(
+    private network: Network,
+    private platform: Platform
+  ) {}
 
   initialiseNetworkState(): void {
     this.platform.ready().then(() => {

@@ -1,9 +1,8 @@
 import { Eco } from '@dvsa/mes-test-schema/categories/common';
+import { ToggleControlEco, ToggleEco, TogglePlanningEco } from '../eco.actions';
 import { ecoReducer } from '../eco.reducer';
-import { ToggleEco, ToggleControlEco, TogglePlanningEco } from '../eco.actions';
 
 describe('Eco Reducer', () => {
-
   describe('TOGGLE_ECO', () => {
     it('should toggle eco (true when dispatched first time)', () => {
       const state: Eco = {};

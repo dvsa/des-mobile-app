@@ -9,7 +9,7 @@ export const testRequirementsCatHomeReducer = createReducer(
   on(testRequirementsActions.ToggleLegalRequirement, (state, { legalRequirement }) => ({
     ...state,
     [legalRequirement]: !state[legalRequirement],
-  })),
+  }))
 );
 
 export const getTestRequirementsCatHome = createFeatureSelector<CatFUniqueTypes.TestRequirements>('testRequirements');

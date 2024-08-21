@@ -1,7 +1,5 @@
 import { PassCompletion } from '@dvsa/mes-test-schema/categories/AM1';
-import {
-  getPassCertificateNumber,
-} from '../pass-completion.cat-a-mod1.selector';
+import { getPassCertificateNumber } from '../pass-completion.cat-a-mod1.selector';
 
 describe('pass completion selector', () => {
   const state: PassCompletion = {

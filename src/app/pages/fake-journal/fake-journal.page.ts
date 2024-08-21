@@ -1,9 +1,9 @@
 import { Component, Injector } from '@angular/core';
-import { BasePageComponent } from '@shared/classes/base-page';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DateTimeProvider } from '@providers/date-time/date-time';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
@@ -12,7 +12,6 @@ import { DateTime } from '@shared/helpers/date-time';
   styleUrls: ['./fake-journal.page.scss'],
 })
 export class FakeJournalPage extends BasePageComponent {
-
   dateToDisplay: string;
   slots = fakeJournalTestSlots;
   selectedDate: string;
@@ -20,14 +19,12 @@ export class FakeJournalPage extends BasePageComponent {
   constructor(
     private dateTimeProvider: DateTimeProvider,
     public orientationMonitorProvider: OrientationMonitorProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
 
-    this.selectedDate = this.dateTimeProvider.now()
-      .format('YYYY-MM-DD');
-    this.dateToDisplay = new DateTime()
-      .format('dddd D MMMM YYYY');
+    this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
+    this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');
   }
 
   ionViewDidEnter(): void {
@@ -41,5 +38,4 @@ export class FakeJournalPage extends BasePageComponent {
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
   }
-
 }

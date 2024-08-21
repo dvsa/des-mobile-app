@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum DeclarationSigned {
@@ -13,7 +11,6 @@ enum DeclarationSigned {
   templateUrl: 'candidate-declaration.html',
 })
 export class CandidateDeclarationSignedComponent {
-
   @Input()
   declarationSelected: boolean;
 
@@ -48,5 +45,4 @@ export class CandidateDeclarationSignedComponent {
       this.candidateDeclarationChange.emit(declarationSelected === DeclarationSigned.YES);
     }
   }
-
 }

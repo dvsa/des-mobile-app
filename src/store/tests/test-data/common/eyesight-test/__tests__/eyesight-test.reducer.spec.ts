@@ -1,14 +1,13 @@
 import { EyesightTest } from '@dvsa/mes-test-schema/categories/common';
-import { eyesightTestReducer, initialState } from '../eyesight-test.reducer';
 import {
-  EyesightTestPassed,
-  EyesightTestFailed,
-  EyesightTestReset,
   EyesightTestAddComment,
+  EyesightTestFailed,
+  EyesightTestPassed,
+  EyesightTestReset,
 } from '../eyesight-test.actions';
+import { eyesightTestReducer, initialState } from '../eyesight-test.reducer';
 
 describe('Eyesight Test Reducer', () => {
-
   describe('EYESIGHT_TEST_PASSED', () => {
     it('updates the complete status to true', () => {
       const state: EyesightTest = {};

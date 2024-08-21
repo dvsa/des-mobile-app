@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'formatToID',
 })
 export class FormatIdPipe implements PipeTransform {
-
   transform(value: string, prefix?: string, isValue?: boolean): string {
     if (typeof value !== 'string') return;
 
@@ -16,5 +15,4 @@ export class FormatIdPipe implements PipeTransform {
     }
     return `${id}-${label}`;
   }
-
 }

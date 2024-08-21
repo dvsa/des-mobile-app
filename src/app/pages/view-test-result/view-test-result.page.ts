@@ -1,43 +1,41 @@
-import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { get } from 'lodash-es';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-result.actions';
-import { of, Subscription } from 'rxjs';
-import { SearchProvider } from '@providers/search/search';
 import { HttpResponse } from '@angular/common/http';
-import { CompressionProvider } from '@providers/compression/compression';
-import { catchError, map, tap } from 'rxjs/operators';
-import { SaveLog } from '@store/logs/logs.actions';
-import { LogType } from '@shared/models/log.model';
-import { ErrorTypes } from '@shared/models/error-message';
+import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import {
-  ExaminerDetailsModel,
-} from '@pages/view-test-result/components/examiner-details-card/examiner-details-card.model';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { LoadingProvider } from '@providers/loader/loader';
-import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
-import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTestOutcomeText } from '@store/tests/tests.selector';
-import { getTestOutcome } from '@pages/debrief/debrief.selector';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { FaultSummary } from '@shared/models/fault-marking.model';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
   Review as CatADI3Review,
   TestData as CatADI3TestData,
   TrainerDetails as CatADI3TrainerDetails,
 } from '@dvsa/mes-test-schema/categories/ADI3';
-import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
+import { getTestOutcome } from '@pages/debrief/debrief.selector';
+import { ExaminerDetailsModel } from '@pages/view-test-result/components/examiner-details-card/examiner-details-card.model';
+import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
+import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-result.actions';
 import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
-import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { CompressionProvider } from '@providers/compression/compression';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import { LoadingProvider } from '@providers/loader/loader';
+import { SearchProvider } from '@providers/search/search';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
+import { formatApplicationReference } from '@shared/helpers/formatters';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { ErrorTypes } from '@shared/models/error-message';
+import { FaultSummary } from '@shared/models/fault-marking.model';
+import { LogType } from '@shared/models/log.model';
+import { SaveLog } from '@store/logs/logs.actions';
+import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { getTestOutcomeText } from '@store/tests/tests.selector';
+import { get } from 'lodash-es';
+import { Subscription, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
 
 @Component({
   selector: '.view-test-result',
@@ -45,7 +43,6 @@ import { DateTime } from '@shared/helpers/date-time';
   styleUrls: ['view-test-result.page.scss'],
 })
 export class ViewTestResultPage extends BasePageComponent implements OnInit {
-
   @Input()
   applicationReference: string;
 
@@ -55,7 +52,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   isLoading: boolean;
   testResult: TestResultSchemasUnion;
   subscription: Subscription;
-  showErrorMessage: boolean = false;
+  showErrorMessage = false;
   errorLink: string;
   additionalErrorText: boolean;
   reEnterEmailSubscription: Subscription;
@@ -70,7 +67,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private faultSummaryProvider: FaultSummaryProvider,
     private ref: ChangeDetectorRef,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
@@ -80,31 +77,35 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
 
     this.reEnterEmailSubscription = this.searchProvider
       .getRegeneratedEmails(this.applicationReference)
-      .pipe(map((response) => this.compressionProvider.extract<RegeneratedEmails>(response)),
-        tap((data) => this.reEnterEmail = data),
-        catchError(() => of(null)))
+      .pipe(
+        map((response) => this.compressionProvider.extract<RegeneratedEmails>(response)),
+        tap((data) => (this.reEnterEmail = data)),
+        catchError(() => of(null))
+      )
       .subscribe();
 
     this.subscription = this.searchProvider
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(
         map((response: HttpResponse<any>): string => response.body),
-        map((data) => this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data)),
+        map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {
-          this.store$.dispatch(SaveLog({
-            payload: this.logHelper.createLog(
-              LogType.ERROR,
-              `Getting test result for app ref (${this.applicationReference})`,
-              err,
-            ),
-          }));
+          this.store$.dispatch(
+            SaveLog({
+              payload: this.logHelper.createLog(
+                LogType.ERROR,
+                `Getting test result for app ref (${this.applicationReference})`,
+                err
+              ),
+            })
+          );
           this.errorLink = ErrorTypes.SEARCH_RESULT;
           this.additionalErrorText = true;
           this.showErrorMessage = true;
           await this.handleLoadingUI(false);
           return of();
-        }),
+        })
       )
       .subscribe();
   }
@@ -177,7 +178,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     };
   }
 
-  getCandidateDetails(): { prn: number; attemptNumber: number; } {
+  getCandidateDetails(): { prn: number; attemptNumber: number } {
     if (!this.testResult) {
       return null;
     }
@@ -267,36 +268,80 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
 
   isCategorySC = (): boolean => isAnyOf(this.testCategory, [TestCategory.SC]);
 
-  showDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
-    TestCategory.B, // Cat B
-    TestCategory.BE, // Cat BE
-    TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, // Cat A Mod 1
-    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Cat A Mod 2
-    TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C3B
-    TestCategory.CM, TestCategory.C1M, TestCategory.C1EM, TestCategory.CEM, // Cat C3A
-    TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D3B
-    TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D3A
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
-    TestCategory.ADI2, // ADI
-  ]);
+  showDebriefCommonCard = (): boolean =>
+    isAnyOf(this.testCategory, [
+      TestCategory.B, // Cat B
+      TestCategory.BE, // Cat BE
+      TestCategory.EUAMM1,
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1, // Cat A Mod 1
+      TestCategory.EUAMM2,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2, // Cat A Mod 2
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.C1E,
+      TestCategory.CE, // Cat C3B
+      TestCategory.CM,
+      TestCategory.C1M,
+      TestCategory.C1EM,
+      TestCategory.CEM, // Cat C3A
+      TestCategory.D,
+      TestCategory.D1,
+      TestCategory.D1E,
+      TestCategory.DE, // Cat D3B
+      TestCategory.DM,
+      TestCategory.D1M,
+      TestCategory.D1EM,
+      TestCategory.DEM, // Cat D3A
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K, // Cat Home
+      TestCategory.ADI2, // ADI
+    ]);
 
-  showCPCDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
-    TestCategory.CCPC, TestCategory.DCPC,
-  ]);
+  showCPCDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [TestCategory.CCPC, TestCategory.DCPC]);
 
-  showVehicleDetailsCommonCard: () => boolean = () => isAnyOf(this.testCategory, [
-    TestCategory.B, // Cat B
-    TestCategory.BE, // Cat BE
-    TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, // Cat A Mod 1
-    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Cat A Mod 2
-    TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C 3B
-    TestCategory.CM, TestCategory.C1M, TestCategory.C1EM, TestCategory.CEM, // Cat C 3A
-    TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D 3B
-    TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D 3A
-    TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
-    TestCategory.ADI2, TestCategory.ADI3, // ADI
-    TestCategory.CCPC, TestCategory.DCPC,
-  ]);
+  showVehicleDetailsCommonCard: () => boolean = () =>
+    isAnyOf(this.testCategory, [
+      TestCategory.B, // Cat B
+      TestCategory.BE, // Cat BE
+      TestCategory.EUAMM1,
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1, // Cat A Mod 1
+      TestCategory.EUAMM2,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2, // Cat A Mod 2
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.C1E,
+      TestCategory.CE, // Cat C 3B
+      TestCategory.CM,
+      TestCategory.C1M,
+      TestCategory.C1EM,
+      TestCategory.CEM, // Cat C 3A
+      TestCategory.D,
+      TestCategory.D1,
+      TestCategory.D1E,
+      TestCategory.DE, // Cat D 3B
+      TestCategory.DM,
+      TestCategory.D1M,
+      TestCategory.D1EM,
+      TestCategory.DEM, // Cat D 3A
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K, // Cat Home
+      TestCategory.ADI2,
+      TestCategory.ADI3, // ADI
+      TestCategory.CCPC,
+      TestCategory.DCPC,
+    ]);
 
   getDrivingFaultSumCount(): number {
     return this.faultCountProvider.getDrivingFaultSumCount(this.testCategory, this.testResult.testData);
@@ -319,6 +364,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   didTestTerminate(): boolean {
-    return (getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated');
+    return getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated';
   }
 }

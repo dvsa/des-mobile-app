@@ -1,18 +1,18 @@
-import { StoreModel } from '@shared/models/store.model';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
+import { MockComponent } from 'ng-mocks';
+import { of } from 'rxjs';
 
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StartTest } from '@store/tests/tests.actions';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
 import { SafetyQuestionsCatDComponent } from '../safety-questions.cat-d';
 
 describe('SafetyQuestionsComponent', () => {
@@ -22,20 +22,14 @@ describe('SafetyQuestionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SafetyQuestionsCatDComponent,
-        MockComponent(DrivingFaultsBadgeComponent),
-      ],
+      declarations: [SafetyQuestionsCatDComponent, MockComponent(DrivingFaultsBadgeComponent)],
       imports: [
         IonicModule,
         StoreModule.forRoot({
           tests: testsReducer,
         }),
       ],
-      providers: [
-        FaultCountProvider,
-        TestDataByCategoryProvider,
-      ],
+      providers: [FaultCountProvider, TestDataByCategoryProvider],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionsCatDComponent);
@@ -75,5 +69,4 @@ describe('SafetyQuestionsComponent', () => {
       expect(drivingFaultsBadge.count).toBe(1);
     });
   });
-
 });

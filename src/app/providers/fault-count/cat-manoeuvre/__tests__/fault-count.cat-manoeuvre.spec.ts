@@ -1,6 +1,6 @@
+import { catManoeuvreTestDataStateObject } from '@providers/fault-count/__mocks__/cat-man-test-data-state-object.mock';
 import { FaultCountManoeuvreTestHelper } from '@providers/fault-count/cat-manoeuvre/fault-count.cat-manoeuvre';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { catManoeuvreTestDataStateObject } from '@providers/fault-count/__mocks__/cat-man-test-data-state-object.mock';
 
 describe('FaultCountManoeuvreTestHelper', () => {
   describe('getManoeuvreCountIfAny', () => {
@@ -17,8 +17,7 @@ describe('FaultCountManoeuvreTestHelper', () => {
     manouevreTests.forEach((test) => {
       it(`should return ${test.expectedDF} driving fault count for category ${test.category} manoeuvres`, () => {
         const result = FaultCountManoeuvreTestHelper.getManoeuvreCountIfAny(test.data, CompetencyOutcome.DF);
-        expect(result)
-          .toEqual(test.expectedDF);
+        expect(result).toEqual(test.expectedDF);
       });
     });
   });
@@ -33,11 +32,9 @@ describe('FaultCountManoeuvreTestHelper', () => {
     seriousFaultTests.forEach((test) => {
       it(`should return ${test.expected} Serious fault count for category ${test.category}`, () => {
         const result = FaultCountManoeuvreTestHelper.getSeriousFaultSumCountManoeuvreTest(test.data);
-        expect(result)
-          .toEqual(test.expected);
+        expect(result).toEqual(test.expected);
       });
     });
-
   });
   describe('getDangerousFaultSumCountManoeuvreTest', () => {
     const dangerousFaultTests = [
@@ -50,10 +47,8 @@ describe('FaultCountManoeuvreTestHelper', () => {
     dangerousFaultTests.forEach((test) => {
       it(`should return ${test.expected} Dangerous fault count for category ${test.category}`, () => {
         const result = FaultCountManoeuvreTestHelper.getDangerousFaultSumCountManoeuvreTest(test.data);
-        expect(result)
-          .toEqual(test.expected);
+        expect(result).toEqual(test.expected);
       });
     });
   });
-
 });

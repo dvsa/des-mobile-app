@@ -1,6 +1,6 @@
 export type DataRowListItem = {
-  label: string,
-  checked: boolean,
+  label: string;
+  checked: boolean;
 };
 
 export enum TestRequirementsLabels {

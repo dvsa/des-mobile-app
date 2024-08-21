@@ -10,24 +10,27 @@ const initialState: CatADI2UniqueTypes.TrainerDetails = {
 
 export const trainerDetailsCatADIPart2Reducer = createReducer(
   initialState,
-  on(trainerDetailActions.OrditTrainedChanged, (state, {
-    orditTrainedCandidate,
-  }): CatADI2UniqueTypes.TrainerDetails => ({
-    ...state,
-    orditTrainedCandidate,
-  })),
-  on(trainerDetailActions.TrainingRecordsChanged, (state, {
-    trainingRecords,
-  }): CatADI2UniqueTypes.TrainerDetails => ({
-    ...state,
-    trainingRecords,
-  })),
-  on(trainerDetailActions.TrainerRegistrationNumberChanged, (state, {
-    trainerRegistrationNumber,
-  }): CatADI2UniqueTypes.TrainerDetails => ({
-    ...state,
-    trainerRegistrationNumber,
-  })),
+  on(
+    trainerDetailActions.OrditTrainedChanged,
+    (state, { orditTrainedCandidate }): CatADI2UniqueTypes.TrainerDetails => ({
+      ...state,
+      orditTrainedCandidate,
+    })
+  ),
+  on(
+    trainerDetailActions.TrainingRecordsChanged,
+    (state, { trainingRecords }): CatADI2UniqueTypes.TrainerDetails => ({
+      ...state,
+      trainingRecords,
+    })
+  ),
+  on(
+    trainerDetailActions.TrainerRegistrationNumberChanged,
+    (state, { trainerRegistrationNumber }): CatADI2UniqueTypes.TrainerDetails => ({
+      ...state,
+      trainerRegistrationNumber,
+    })
+  )
 );
 
 export const getTrainerDetails = createFeatureSelector<CatADI2UniqueTypes.TrainerDetails>('trainerDetails');

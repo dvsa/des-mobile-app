@@ -8,12 +8,9 @@ import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
   styleUrls: ['rekey-search-card.scss'],
 })
 export class RekeySearchCardComponent {
-
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   navigateToRekeySearch = async () => {
     await this.router.navigate([REKEY_SEARCH_PAGE]);
   };
-
 }

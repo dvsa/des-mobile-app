@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock } from '@mocks/index.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { NavParamsMock } from '@mocks/index.mock';
 
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { AppModule } from '@app/app.module';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { UploadRekeyModal } from '../upload-rekey-modal';
 
 describe('UploadRekeyModal', () => {

@@ -1,7 +1,5 @@
-import { createReducer, createFeatureSelector, on } from '@ngrx/store';
-import {
-  SetLastRefreshed,
-} from './test-centre-journal.actions';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { SetLastRefreshed } from './test-centre-journal.actions';
 import { TestCentreJournalModel } from './test-centre-journal.model';
 
 export const testCentreJournalFeatureKey = 'testCentreJournal';
@@ -15,7 +13,7 @@ export const testCentreJournalReducer = createReducer(
   on(SetLastRefreshed, (state: TestCentreJournalModel, { lastRefreshed }) => ({
     ...state,
     lastRefreshed,
-  })),
+  }))
 );
 
 export const getTestCentreJournalState = createFeatureSelector<TestCentreJournalModel>('testCentreJournal');

@@ -1,10 +1,8 @@
-import {
-  ComponentFixture, TestBed, waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
+import { AppModule } from '@app/app.module';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { IonicModule } from '@ionic/angular';
-import { AppModule } from '@app/app.module';
 
 describe('LanguagePreferencesComponent', () => {
   let fixture: ComponentFixture<LanguagePreferencesComponent>;
@@ -12,13 +10,8 @@ describe('LanguagePreferencesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LanguagePreferencesComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [LanguagePreferencesComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(LanguagePreferencesComponent);
@@ -53,5 +46,4 @@ describe('LanguagePreferencesComponent', () => {
       expect(component.formGroup.get('languagePreferences').value).toEqual('false');
     });
   });
-
 });

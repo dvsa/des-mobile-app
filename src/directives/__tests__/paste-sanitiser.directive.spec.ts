@@ -26,13 +26,11 @@ describe('PasteSanitiserDirective', () => {
     event.clipboardData.setData('text', 'text😊123');
     elementRefMock.nativeElement.hasAttribute.and.returnValue(false);
     spyOn(window, 'setTimeout')
-      .and
-      // @ts-ignore
+      .and // @ts-ignore
       .callFake((fn) => fn());
 
     directive.onInput(event);
 
-    expect(elementRefMock.nativeElement.value)
-      .toBe('text1');
+    expect(elementRefMock.nativeElement.value).toBe('text1');
   });
 });

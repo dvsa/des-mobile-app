@@ -1,18 +1,17 @@
-import { endsWith, forOwn, transform } from 'lodash-es';
-import { EyesightTest, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '@shared/models/competency-display-name';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { EyesightTest, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatB,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatB,
 } from '@shared/constants/competencies/catb-manoeuvres';
-import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
+import { getCompetencyComment, getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { endsWith, forOwn, transform } from 'lodash-es';
 
 export class FaultSummaryCatBHelper {
-
   public static getDrivingFaultsCatB(data: CatBUniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
@@ -45,17 +44,21 @@ export class FaultSummaryCatBHelper {
     if (!eyesightTest || !eyesightTest.seriousFault) {
       return [];
     }
-    return [{
-      competencyDisplayName: CompetencyDisplayName.EYESIGHT_TEST,
-      competencyIdentifier: CompetencyIdentifiers.EYESIGHT_TEST,
-      comment: eyesightTest.faultComments || '',
-      source: CommentSource.EYESIGHT_TEST,
-      faultCount: 1,
-    }];
+    return [
+      {
+        competencyDisplayName: CompetencyDisplayName.EYESIGHT_TEST,
+        competencyIdentifier: CompetencyIdentifiers.EYESIGHT_TEST,
+        comment: eyesightTest.faultComments || '',
+        source: CommentSource.EYESIGHT_TEST,
+        faultCount: 1,
+      },
+    ];
   }
 
-  private static getControlledStopFault(controlledStop: CatBUniqueTypes.ControlledStop, faultType: CompetencyOutcome)
-    : FaultSummary[] {
+  private static getControlledStopFault(
+    controlledStop: CatBUniqueTypes.ControlledStop,
+    faultType: CompetencyOutcome
+  ): FaultSummary[] {
     const returnCompetencies: FaultSummary[] = [];
     if (!controlledStop || controlledStop.fault !== faultType) {
       return returnCompetencies;
@@ -82,31 +85,34 @@ export class FaultSummaryCatBHelper {
     return manoeuvreFaultSummary;
   }
 
-  private static getVehicleCheckFaultsCatB(vehicleChecks: CatBUniqueTypes.VehicleChecks, faultType: CompetencyOutcome)
-    : FaultSummary[] {
+  private static getVehicleCheckFaultsCatB(
+    vehicleChecks: CatBUniqueTypes.VehicleChecks,
+    faultType: CompetencyOutcome
+  ): FaultSummary[] {
     const result: FaultSummary[] = [];
 
     if (!vehicleChecks) {
       return result;
     }
 
-    if ((vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
-        vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S)
-      && faultType === CompetencyOutcome.DF) {
+    if (
+      (vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ||
+        vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S) &&
+      faultType === CompetencyOutcome.DF
+    ) {
       return result;
     }
 
-    const isValidDangerousFault: boolean = faultType === CompetencyOutcome.D
-      && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D;
+    const isValidDangerousFault: boolean =
+      faultType === CompetencyOutcome.D && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D;
 
-    const isValidSeriousFault: boolean = faultType === CompetencyOutcome.S
-      && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S;
+    const isValidSeriousFault: boolean =
+      faultType === CompetencyOutcome.S && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S;
 
-    const isValidDrivingFault: boolean = faultType === CompetencyOutcome.DF
-      && (
-        vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.DF
-        || vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF
-      );
+    const isValidDrivingFault: boolean =
+      faultType === CompetencyOutcome.DF &&
+      (vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.DF ||
+        vehicleChecks.tellMeQuestion.outcome === CompetencyOutcome.DF);
 
     if (isValidDangerousFault || isValidSeriousFault || isValidDrivingFault) {
       const competency: FaultSummary = {
@@ -122,24 +128,30 @@ export class FaultSummaryCatBHelper {
     return result;
   }
 
-  private static getManoeuvreFaultsCatB(manoeuvres: CatBUniqueTypes.Manoeuvres, faultType: CompetencyOutcome)
-    : FaultSummary[] {
+  private static getManoeuvreFaultsCatB(
+    manoeuvres: CatBUniqueTypes.Manoeuvres,
+    faultType: CompetencyOutcome
+  ): FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
     forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
-      const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
+      const faults = !manoeuvre.selected
+        ? []
+        : transform(
+            manoeuvre,
+            (result, value, key: string) => {
+              if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
+                const competencyComment = getCompetencyComment(
+                  key,
+                  manoeuvre.controlFaultComments,
+                  manoeuvre.observationFaultComments
+                );
 
-        if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
-
-          const competencyComment = getCompetencyComment(
-            key,
-            manoeuvre.controlFaultComments,
-            manoeuvre.observationFaultComments,
+                result.push(this.createManoeuvreFaultCatB(key, type, competencyComment));
+              }
+            },
+            []
           );
-
-          result.push(this.createManoeuvreFaultCatB(key, type, competencyComment));
-        }
-      }, []);
       faultsEncountered.push(...faults);
     });
     return faultsEncountered;

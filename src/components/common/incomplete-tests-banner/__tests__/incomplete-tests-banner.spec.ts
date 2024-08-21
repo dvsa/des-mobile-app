@@ -1,15 +1,15 @@
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { journalReducer } from '@store/journal/journal.reducer';
-import { SlotProvider } from '@providers/slot/slot';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { SlotProvider } from '@providers/slot/slot';
+import { journalReducer } from '@store/journal/journal.reducer';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { of } from 'rxjs';
 import { IncompleteTestsBanner } from '../incomplete-tests-banner';
 
 describe('IncompleteTestsBanner', () => {

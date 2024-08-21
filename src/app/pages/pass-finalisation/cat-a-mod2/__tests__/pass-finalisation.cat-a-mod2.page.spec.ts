@@ -1,45 +1,37 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MockComponent } from 'ng-mocks';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import {
-  PassCertificateNumberCatAMod1Component,
-} from '@pages/pass-finalisation/cat-a-mod1/components/pass-certificate-number/pass-certificate-number.cat-a-mod1';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AppModule } from '@app/app.module';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
-import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import {
-  LicenceProvidedWarningBannerComponent,
-} from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
-import { AppModule } from '@app/app.module';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
-import { Router, RouterModule } from '@angular/router';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { Subscription } from 'rxjs';
-import { PersistTests } from '@store/tests/tests.actions';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import {
-  PASS_CERTIFICATE_NUMBER_CTRL,
-} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import { Store } from '@ngrx/store';
+import { PassCertificateNumberCatAMod1Component } from '@pages/pass-finalisation/cat-a-mod1/components/pass-certificate-number/pass-certificate-number.cat-a-mod1';
+import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
+import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
+import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { StoreModel } from '@shared/models/store.model';
 import { TransmissionType } from '@shared/models/transmission-type';
+import { PersistTests } from '@store/tests/tests.actions';
+import { MockComponent } from 'ng-mocks';
+import { Subscription } from 'rxjs';
 import { PassFinalisationCatAMod2Page } from '../pass-finalisation.cat-a-mod2.page';
 
 describe('PassFinalisationCatAMod2Page', () => {
@@ -64,10 +56,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      imports: [
-        RouterModule.forRoot([]),
-        AppModule,
-      ],
+      imports: [RouterModule.forRoot([]), AppModule],
       providers: [
         {
           provide: Platform,
@@ -101,10 +90,8 @@ describe('PassFinalisationCatAMod2Page', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
         spyOn(PassFinalisationPageComponent.prototype, 'ionViewWillEnter');
         component.ionViewWillEnter();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(PassFinalisationViewDidEnter());
-        expect(store$.dispatch)
-          .toHaveBeenCalledTimes(1);
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -112,8 +99,7 @@ describe('PassFinalisationCatAMod2Page', () => {
       // Unit tests for the components TypeScript class
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(PersistTests());
+        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       });
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
@@ -126,15 +112,14 @@ describe('PassFinalisationCatAMod2Page', () => {
 
         component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`));
-        expect(store$.dispatch)
-          .not
-          .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
+        );
+        expect(store$.dispatch).not.toHaveBeenCalledWith(
+          PassFinalisationValidationError('notRequiredControl is blank')
+        );
       }));
     });
 
@@ -143,8 +128,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe)
-          .toHaveBeenCalled();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 
@@ -155,8 +139,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form.controls['transmissionCtrl'].markAsPristine();
         component.transmission = TransmissionType.Automatic;
 
-        expect(component.displayTransmissionBanner())
-          .toEqual(false);
+        expect(component.displayTransmissionBanner()).toEqual(false);
       });
       it('return false if transmissionCtrl is dirty and transmission is manual', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
@@ -164,8 +147,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form.controls['transmissionCtrl'].markAsDirty();
         component.transmission = TransmissionType.Manual;
 
-        expect(component.displayTransmissionBanner())
-          .toEqual(false);
+        expect(component.displayTransmissionBanner()).toEqual(false);
       });
       it('return true if transmissionCtrl is dirty and transmission is automatic', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
@@ -173,10 +155,8 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form.controls['transmissionCtrl'].markAsDirty();
         component.transmission = TransmissionType.Automatic;
 
-        expect(component.displayTransmissionBanner())
-          .toEqual(true);
+        expect(component.displayTransmissionBanner()).toEqual(true);
       });
     });
-
   });
 });

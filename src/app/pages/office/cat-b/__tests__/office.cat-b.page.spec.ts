@@ -1,80 +1,75 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavController, NavParams, Platform, ToastController,
-} from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
-import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { AppModule } from 'src/app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule, ModalController, NavController, NavParams, Platform, ToastController } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
+import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { StoreModel } from '@shared/models/store.model';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { QuestionProvider } from '@providers/question/question';
-import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
+import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
+import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CommentSource } from '@shared/models/fault-marking.model';
+import { StoreModel } from '@shared/models/store.model';
 import {
   AddShowMeTellMeComment,
   ShowMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { By } from '@angular/platform-browser';
-import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
-import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import {
   AddDangerousFault,
   AddDangerousFaultComment,
 } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { of } from 'rxjs';
-import { ActivityCodes } from '@shared/models/activity-codes';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
+import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import {
   EyesightTestAddComment,
   EyesightTestFailed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import {
   AddSeriousFault,
   AddSeriousFaultComment,
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
-import {
-  VehicleDetailsCardComponent,
-} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import { AccompanimentCardComponent } from
-  '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
-import { BasePageComponent } from '@shared/classes/base-page';
-import { CommentSource } from '@shared/models/fault-marking.model';
-import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
-import { DateOfTest } from '../../components/date-of-test/date-of-test';
-import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
-import { OfficeCatBPage } from '../office.cat-b.page';
-import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
-import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
-import { IdentificationComponent } from '../../components/identification/identification';
+import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { MockComponent } from 'ng-mocks';
+import { of } from 'rxjs';
+import { AppModule } from 'src/app/app.module';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
-import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
-import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
+import { DateOfTest } from '../../components/date-of-test/date-of-test';
+import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../../components/identification/identification';
+import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { TrueLikenessComponent } from '../../components/true-likeness/true-likeness';
+import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
+import { OfficeCatBPage } from '../office.cat-b.page';
 
 describe('OfficeCatBPage', () => {
   let fixture: ComponentFixture<OfficeCatBPage>;
@@ -179,7 +174,6 @@ describe('OfficeCatBPage', () => {
   }));
 
   describe('Class', () => {
-
     describe('selecting a show me question', () => {
       it('should dispatch an action when show me question change handler is called', () => {
         const question: VehicleChecksQuestion = {
@@ -188,79 +182,58 @@ describe('OfficeCatBPage', () => {
           shortName: 'name',
         };
         component.showMeQuestionChanged(question);
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ShowMeQuestionSelected(question));
+        expect(store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionSelected(question));
       });
     });
 
     describe('shouldDisplayDrivingFaultComments', () => {
       it('should return false if there are less than 16 driving faults', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount')
-          .and
-          .returnValue(15);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount')
-          .and
-          .returnValue(0);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount')
-          .and
-          .returnValue(0);
+        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(15);
+        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
-        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
+          {},
           TestCategory.B,
-          OfficeCatBPage.maxFaultCount);
-        expect(result)
-          .toEqual(false);
+          OfficeCatBPage.maxFaultCount
+        );
+        expect(result).toEqual(false);
       });
       it('should return true if there are more than 15 driving faults and no serious or dangerous faults', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount')
-          .and
-          .returnValue(16);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount')
-          .and
-          .returnValue(0);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount')
-          .and
-          .returnValue(0);
+        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(16);
+        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
-        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
+          {},
           TestCategory.B,
-          OfficeCatBPage.maxFaultCount);
-        expect(result)
-          .toEqual(true);
+          OfficeCatBPage.maxFaultCount
+        );
+        expect(result).toEqual(true);
       });
       it('should return false if there are more than 15 driving faults and a serious fault', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount')
-          .and
-          .returnValue(16);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount')
-          .and
-          .returnValue(1);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount')
-          .and
-          .returnValue(0);
+        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(16);
+        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
+        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
-        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
+          {},
           TestCategory.B,
-          OfficeCatBPage.maxFaultCount);
-        expect(result)
-          .toEqual(false);
+          OfficeCatBPage.maxFaultCount
+        );
+        expect(result).toEqual(false);
       });
       it('should return false if there are more than 15 driving faults and a dangerous fault', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount')
-          .and
-          .returnValue(16);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount')
-          .and
-          .returnValue(0);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount')
-          .and
-          .returnValue(1);
+        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(16);
+        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
-        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
+          {},
           TestCategory.B,
-          OfficeCatBPage.maxFaultCount);
-        expect(result)
-          .toEqual(false);
+          OfficeCatBPage.maxFaultCount
+        );
+        expect(result).toEqual(false);
       });
     });
   });
@@ -348,8 +321,9 @@ describe('OfficeCatBPage', () => {
 
     describe('driving fault commentary', () => {
       it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement
-          .query(By.css('#driving-fault-comment-card')).componentInstance;
+        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
+          By.css('#driving-fault-comment-card')
+        ).componentInstance;
         fixture.detectChanges();
 
         component.pageState.displayDrivingFaultComments$ = of(true);
@@ -402,7 +376,7 @@ describe('OfficeCatBPage', () => {
           comment: 'Comment',
         });
         expect(store$.dispatch).toHaveBeenCalledWith(
-          AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.DF, 'Control', 'Comment'),
+          AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.DF, 'Control', 'Comment')
         );
       });
     });
@@ -457,7 +431,7 @@ describe('OfficeCatBPage', () => {
           comment: 'Comment',
         });
         expect(store$.dispatch).toHaveBeenCalledWith(
-          AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.S, 'Control', 'Comment'),
+          AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.S, 'Control', 'Comment')
         );
       });
     });
@@ -502,7 +476,7 @@ describe('OfficeCatBPage', () => {
           comment: 'Comment',
         });
         expect(store$.dispatch).toHaveBeenCalledWith(
-          AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.D, 'Control', 'Comment'),
+          AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.D, 'Control', 'Comment')
         );
       });
     });

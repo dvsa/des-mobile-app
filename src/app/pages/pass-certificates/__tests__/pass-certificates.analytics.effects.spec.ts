@@ -1,12 +1,12 @@
-import { PassCertificatesAnalyticsEffects } from '@pages/pass-certificates/pass-certificates.analytics.effects';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-certificates.actions';
+import { PassCertificatesAnalyticsEffects } from '@pages/pass-certificates/pass-certificates.analytics.effects';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import { ReplaySubject } from 'rxjs';
 
 describe('PassCertificatesAnalyticsEffects', () => {
   let effects: PassCertificatesAnalyticsEffects;
@@ -34,12 +34,10 @@ describe('PassCertificatesAnalyticsEffects', () => {
     actions$.next(PassCertificatedViewDidEnter());
 
     effects.passCertificatesView$.subscribe((result) => {
-      expect(result.type)
-        .toEqual(AnalyticRecorded.type);
+      expect(result.type).toEqual(AnalyticRecorded.type);
 
       // GA4 Analytics
-      expect(analyticsProvider.setGACurrentPage)
-        .toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
+      expect(analyticsProvider.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
       done();
     });
   });

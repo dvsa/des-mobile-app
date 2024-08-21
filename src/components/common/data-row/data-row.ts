@@ -3,21 +3,20 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'data-row',
   templateUrl: 'data-row.html',
-  styleUrls: ['data-row.scss']
+  styleUrls: ['data-row.scss'],
 })
 export class DataRowComponent {
-
   @Input()
   label: string;
 
   @Input()
-  dataStyling?: {[p: string]: any}= null;
+  dataStyling?: { [p: string]: any } = null;
 
   @Input()
-  rowStyling?: {[p: string]: any}= null;
+  rowStyling?: { [p: string]: any } = null;
 
   @Input()
-  labelStyling?: {[p: string]: any} = null;
+  labelStyling?: { [p: string]: any } = null;
 
   @Input()
   imgSrc: string;
@@ -26,18 +25,17 @@ export class DataRowComponent {
   value: string | number | boolean;
 
   @Input()
-  shouldShowIndicator: boolean = false;
+  shouldShowIndicator = false;
 
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   @Input()
   idPrefix?: string;
 
   @Input()
-  centreData: boolean = false;
+  centreData = false;
 
   @Input()
   customLabelWidth: number = null;
-
 }

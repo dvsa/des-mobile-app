@@ -6,10 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['additional-items.scss'],
 })
 export class AdditionalItemsComponent {
-
   @Input()
   additionalItems: string[];
 
   showAdditionalItems = (additionalItems: string[]): boolean => additionalItems.length > 0;
-
 }

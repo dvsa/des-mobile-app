@@ -4,8 +4,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[uppercaseAlphanumOnly]',
 })
 export class InputRestrictionUppercaseAlphanumDirective {
-  constructor(public ref: ElementRef) {
-  }
+  constructor(public ref: ElementRef) {}
 
   @HostListener('input', ['$event']) onInput(event) {
     this.ref.nativeElement.value = event.target.value

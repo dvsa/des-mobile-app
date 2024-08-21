@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { WeatherConditionsComponent } from '@pages/office/components/weather-conditions/weather-conditions';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
-import { WeatherConditionsComponent } from '@pages/office/components/weather-conditions/weather-conditions';
 
 describe('WeatherConditionsComponent', () => {
   let fixture: ComponentFixture<WeatherConditionsComponent>;
@@ -14,13 +12,8 @@ describe('WeatherConditionsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WeatherConditionsComponent],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-      ],
+      imports: [IonicModule, ReactiveFormsModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 
     fixture = TestBed.createComponent(WeatherConditionsComponent);
@@ -37,8 +30,9 @@ describe('WeatherConditionsComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(WeatherConditionsComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(false);
+      expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
+        false
+      );
     });
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
@@ -46,8 +40,9 @@ describe('WeatherConditionsComponent', () => {
       spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
-      expect(component.formGroup.get(WeatherConditionsComponent.fieldName)
-        .hasValidator(Validators.required)).toBe(true);
+      expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
+        true
+      );
     });
   });
 

@@ -6,7 +6,6 @@ import {
 } from '../vehicle-checks.cat-adi-part2.selector';
 
 describe('Vehicle Checks Selector Cat ADI2', () => {
-
   describe('getVehicleChecksSerious', () => {
     it('should return false if there are no serious vehicle checks recorded', () => {
       const emptySerious: CatADI2UniqueTypes.VehicleChecks = { seriousFault: false };

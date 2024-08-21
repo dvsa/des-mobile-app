@@ -1,14 +1,9 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { FaultSummary } from '@shared/models/fault-marking.model';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { FaultSummary } from '@shared/models/fault-marking.model';
 
 export enum ValidFaultTypes {
   DRIVING = 'driving',
@@ -21,9 +16,7 @@ export enum ValidFaultTypes {
   templateUrl: 'fault-comment.html',
   styleUrls: ['fault-comment.scss'],
 })
-
 export class FaultCommentComponent implements OnChanges {
-
   @Input()
   outcome: string;
 
@@ -59,9 +52,10 @@ export class FaultCommentComponent implements OnChanges {
 
   faultCommentCharsRemaining: number = null;
   static readonly fieldName: string = 'faultComment';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+  constructor(
+    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     protected accessibilityService: AccessibilityService
-  ) { }
+  ) {}
 
   ngOnChanges(): void {
     // mes 2393 - need to remove validations if < 16 faults as comments can
@@ -121,10 +115,10 @@ export class FaultCommentComponent implements OnChanges {
 
   get isFieldNotVisible(): boolean {
     const fieldVisibility = this.outcomeBehaviourProvider.getVisibilityType(
-      this.outcome, FaultCommentComponent.fieldName,
+      this.outcome,
+      FaultCommentComponent.fieldName
     );
 
     return fieldVisibility === VisibilityType.NotVisible || this.isDelegatedTest;
   }
-
 }

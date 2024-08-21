@@ -1,11 +1,9 @@
-import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { ModalController } from '@ionic/angular';
-import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
+import { ModalController } from '@ionic/angular';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 
 @Component({
   selector: 'activity-code',
@@ -13,7 +11,6 @@ import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivi
   styleUrls: ['activity-code.scss'],
 })
 export class ActivityCodeComponent implements OnChanges {
-
   @Input()
   activityCodeModel: ActivityCodeModel;
 
@@ -27,7 +24,7 @@ export class ActivityCodeComponent implements OnChanges {
   disabled: boolean;
 
   @Input()
-  isAdi3: boolean = false;
+  isAdi3 = false;
 
   @Output()
   activityCodeChange = new EventEmitter<ActivityCodeModel>();
@@ -37,9 +34,8 @@ export class ActivityCodeComponent implements OnChanges {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    public modalController: ModalController,
-  ) {
-  }
+    public modalController: ModalController
+  ) {}
 
   ngAfterViewChecked() {
     this.changeDetectorRef.detectChanges();
@@ -62,7 +58,7 @@ export class ActivityCodeComponent implements OnChanges {
   }
 
   isSelectDisabled(): boolean {
-    return this.disabled || (this.activityCodeModel && parseInt(this.activityCodeModel.activityCode, 10) < 4);
+    return this.disabled || (this.activityCodeModel && Number.parseInt(this.activityCodeModel.activityCode, 10) < 4);
   }
 
   openActivityCodeListModal = async (): Promise<void> => {
@@ -96,5 +92,4 @@ export class ActivityCodeComponent implements OnChanges {
       default:
     }
   };
-
 }

@@ -1,5 +1,5 @@
-import { testReportReducer, initialState } from '../test-report.reducer';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ResetFaultMode } from '../test-report.actions';
+import { ResetFaultMode, ToggleDangerousFaultMode, ToggleSeriousFaultMode } from '../test-report.actions';
+import { initialState, testReportReducer } from '../test-report.reducer';
 
 describe('TestReportReducer reducer', () => {
   describe('TOGGLE_SERIOUS_FAULT_MODE', () => {

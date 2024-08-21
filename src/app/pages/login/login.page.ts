@@ -1,24 +1,24 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AuthenticationError } from '@providers/authentication/authentication.constants';
-import { AppConfigError } from '@providers/app-config/app-config.constants';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { DeviceError } from '@providers/device/device.constants';
-import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
-import { LogType } from '@shared/models/log.model';
-import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
-import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
-import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { Subscription } from 'rxjs';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
-import { DASHBOARD_PAGE } from '../page-names.constants';
-import { LoadingProvider } from '@providers/loader/loader';
+import { MenuController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigError } from '@providers/app-config/app-config.constants';
+import { AuthenticationError } from '@providers/authentication/authentication.constants';
+import { DeviceError } from '@providers/device/device.constants';
+import { LoadingProvider } from '@providers/loader/loader';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { LogType } from '@shared/models/log.model';
+import { LoadAppConfig } from '@store/app-config/app-config.actions';
+import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
+import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
+import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
+import { Subscription } from 'rxjs';
+import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +26,6 @@ import { LoadingOptions } from '@ionic/core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
-
   appInitError: AuthenticationError | AppConfigError | unknown;
   hasUserLoggedOut = false;
   hasDeviceTypeError = false;
@@ -47,7 +46,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private menuController: MenuController,
     private analytics: AnalyticsProvider,
     public networkStateProvider: NetworkStateProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
   }
@@ -56,9 +55,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     const navState = this.router.getCurrentNavigation()?.extras.state;
 
     if (!!navState) {
-      this.hasUserLoggedOut = !!(navState?.hasLoggedOut);
+      this.hasUserLoggedOut = !!navState?.hasLoggedOut;
 
-      if (!!(navState?.invalidToken)) {
+      if (!!navState?.invalidToken) {
         this.dispatchLog('Nav state => Invalid token');
       }
 
@@ -162,10 +161,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.logout();
       }
 
-      const {
-        display,
-        record,
-      } = this.rationaliseError(error);
+      const { display, record } = this.rationaliseError(error);
 
       this.appInitError = display;
 
@@ -201,20 +197,24 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   dispatchLog = (message: string): void => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, 'LoginPage => User login', message),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'LoginPage => User login', message),
+      })
+    );
     this.store$.dispatch(SendLogs());
   };
 
   appInitializedLog = (): void => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        LogType.INFO,
-        'App has MDM provided config and is ready to proceed with authentication',
-        'App has initialised',
-      ),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(
+          LogType.INFO,
+          'App has MDM provided config and is ready to proceed with authentication',
+          'App has initialised'
+        ),
+      })
+    );
   };
 
   closeSideMenuIfOpen = async (): Promise<void> => {
@@ -240,12 +240,14 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   isUnknownError = (): boolean => {
-    return !this.hasUserLoggedOut
-      && this.appInitError
-      && this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED
-      && this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET
-      && this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED
-      && this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION;
+    return (
+      !this.hasUserLoggedOut &&
+      this.appInitError &&
+      this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED &&
+      this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET &&
+      this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED &&
+      this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION
+    );
   };
 
   /**
@@ -273,5 +275,4 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   async handleLoadingUI(isLoading: boolean): Promise<void> {
     await this.loadingProvider.handleUILoading(isLoading, this.loadingOptions);
   }
-
 }

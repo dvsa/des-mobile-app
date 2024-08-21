@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'journal-navigation',
@@ -11,9 +6,8 @@ import {
   styleUrls: ['journal-navigation.scss'],
 })
 export class JournalNavigationComponent {
-
   @Input()
-  fromTestCentreJournal: boolean = false;
+  fromTestCentreJournal = false;
 
   @Input()
   canNavigateToPreviousDay: boolean;

@@ -5,7 +5,7 @@ import { TextZoom } from '@capacitor/text-zoom';
   providedIn: 'root',
 })
 export class AccessibilityService {
-  textZoom: number = 100;
+  textZoom = 100;
 
   private decimalToPercentage = (decimal: number) => decimal * 100;
 

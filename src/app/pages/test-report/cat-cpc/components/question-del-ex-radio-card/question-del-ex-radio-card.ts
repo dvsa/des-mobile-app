@@ -1,8 +1,6 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
-import { Question } from '@dvsa/mes-test-schema/categories/CPC';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 
 @Component({
   selector: 'question-del-ex-radio-card',
@@ -10,7 +8,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   styleUrls: ['question-del-ex-radio-card.scss'],
 })
 export class QuestionDelExRadioCardComponent {
-
   @Input()
   question: Question;
 

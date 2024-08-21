@@ -1,4 +1,4 @@
-import { Directive, HostListener, ElementRef } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import emojiRegex from 'emoji-regex';
 
 @Directive({
@@ -7,8 +7,7 @@ import emojiRegex from 'emoji-regex';
 export class EmojiBlockDirective {
   emojiPattern = emojiRegex();
 
-  constructor(private el: ElementRef) {
-  }
+  constructor(private el: ElementRef) {}
 
   @HostListener('input', ['$event'])
   onInput(): void {

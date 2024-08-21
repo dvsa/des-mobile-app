@@ -10,4 +10,4 @@ import * as fromAppConfigReducer from './app-config.reducer';
     EffectsModule.forFeature([AppConfigEffects]),
   ],
 })
-export class AppConfigStoreModule { }
+export class AppConfigStoreModule {}

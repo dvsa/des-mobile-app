@@ -1,7 +1,5 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.constants';
-import { manoeuvresReducer } from '../manoeuvres.reducer';
 import {
   AddManoeuvreComment,
   AddManoeuvreDangerousFault,
@@ -10,16 +8,14 @@ import {
   RecordManoeuvresSelection,
   RemoveManoeuvreFault,
 } from '../../../common/manoeuvres/manoeuvres.actions';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.constants';
+import { manoeuvresReducer } from '../manoeuvres.reducer';
 
 describe('Manoeuvres Reducer', () => {
-
   describe('RECORD_MANOEUVRES_SELECTION', () => {
     it('should add selected manoeuvre', () => {
       const state: CatBUniqueTypes.Manoeuvres = {};
-      const result = manoeuvresReducer(
-        state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad),
-      );
+      const result = manoeuvresReducer(state, RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad));
       expect(result[ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
     });
     it('should replace current with selected manoeuvre', () => {
@@ -28,10 +24,7 @@ describe('Manoeuvres Reducer', () => {
           selected: true,
         },
       };
-      const result = manoeuvresReducer(
-        state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad),
-      );
+      const result = manoeuvresReducer(state, RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad));
       expect(result[ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
       expect(result.reverseParkCarpark).toBeUndefined();
     });
@@ -42,10 +35,7 @@ describe('Manoeuvres Reducer', () => {
           controlFault: 'S',
         },
       };
-      const result = manoeuvresReducer(
-        state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad),
-      );
+      const result = manoeuvresReducer(state, RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad));
       expect(result[ManoeuvreTypes.reverseParkRoad]).toBeDefined();
       expect(result[ManoeuvreTypes.reverseParkRoad].selected).toEqual(true);
       expect(result[ManoeuvreTypes.reverseParkCarpark]).toBeUndefined();
@@ -62,7 +52,7 @@ describe('Manoeuvres Reducer', () => {
         AddManoeuvreDrivingFault({
           manoeuvre: ManoeuvreTypes.reverseParkRoad,
           competency: ManoeuvreCompetencies.controlFault,
-        }),
+        })
       );
       expect(result.reverseParkRoad.controlFault).toEqual(CompetencyOutcome.DF);
     });
@@ -78,7 +68,7 @@ describe('Manoeuvres Reducer', () => {
         AddManoeuvreSeriousFault({
           manoeuvre: ManoeuvreTypes.reverseParkRoad,
           competency: ManoeuvreCompetencies.controlFault,
-        }),
+        })
       );
       expect(result.reverseParkRoad.controlFault).toEqual(CompetencyOutcome.S);
     });
@@ -94,7 +84,7 @@ describe('Manoeuvres Reducer', () => {
         AddManoeuvreDangerousFault({
           manoeuvre: ManoeuvreTypes.reverseParkRoad,
           competency: ManoeuvreCompetencies.controlFault,
-        }),
+        })
       );
       expect(result.reverseParkRoad.controlFault).toEqual(CompetencyOutcome.D);
     });
@@ -107,12 +97,7 @@ describe('Manoeuvres Reducer', () => {
       };
       const result = manoeuvresReducer(
         state,
-        AddManoeuvreComment(
-          ManoeuvreTypes.reverseParkRoad,
-          CompetencyOutcome.S,
-          'control',
-          'comments',
-        ),
+        AddManoeuvreComment(ManoeuvreTypes.reverseParkRoad, CompetencyOutcome.S, 'control', 'comments')
       );
       expect(result.reverseParkRoad.controlFaultComments).toEqual('comments');
     });
@@ -123,10 +108,16 @@ describe('Manoeuvres Reducer', () => {
       const state: CatBUniqueTypes.Manoeuvres = {
         reverseParkRoad: { selected: true, controlFault: CompetencyOutcome.DF },
       };
-      const result = manoeuvresReducer(state, RemoveManoeuvreFault({
-        competency: ManoeuvreCompetencies.controlFault,
-        manoeuvre: ManoeuvreTypes.reverseParkRoad,
-      }, CompetencyOutcome.DF));
+      const result = manoeuvresReducer(
+        state,
+        RemoveManoeuvreFault(
+          {
+            competency: ManoeuvreCompetencies.controlFault,
+            manoeuvre: ManoeuvreTypes.reverseParkRoad,
+          },
+          CompetencyOutcome.DF
+        )
+      );
       expect(result.reverseParkRoad.controlFault).toBeUndefined();
     });
   });

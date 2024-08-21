@@ -11,7 +11,6 @@ import {
 import { question, question5 } from './test-data.cat-cpc.mock';
 
 describe('CPC TestDataSelectors', () => {
-
   const state: TestData = {
     combination: 'LGV1',
     question1: question('3'),
@@ -63,5 +62,4 @@ describe('CPC TestDataSelectors', () => {
       expect(getTotalPercent(state)).toEqual(85);
     });
   });
-
 });

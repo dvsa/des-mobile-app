@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 
@@ -9,7 +7,6 @@ import { ToastController } from '@ionic/angular';
   templateUrl: 'question-footer.html',
 })
 export class QuestionFooterComponent {
-
   @Output()
   questionPageChange = new EventEmitter();
 
@@ -25,10 +22,7 @@ export class QuestionFooterComponent {
   @Input()
   isDelegated?: boolean = false;
 
-  constructor(
-    public toastController: ToastController,
-  ) {
-  }
+  constructor(public toastController: ToastController) {}
 
   showPreviousPageButton = (): boolean => this.questionNumber > 1 && !this.isDelegated;
 
@@ -76,5 +70,4 @@ export class QuestionFooterComponent {
       buttons: [{ text: 'X', role: 'cancel' }],
     });
   };
-
 }

@@ -1,5 +1,5 @@
-import { DateTime } from '@shared/helpers/date-time';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
+import { DateTime } from '@shared/helpers/date-time';
 
 export class JournalEarlyStartModalMock {
   public mockSlotDetail(): SlotDetail {

@@ -1,10 +1,8 @@
+import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
 
-import {
-  getShowMeQuestionOptions,
-} from '../common/test-data.selector';
+import { getShowMeQuestionOptions } from '../common/test-data.selector';
 
 describe('TestDataSelectors', () => {
   describe('getShowMeQuestionOptions', () => {
@@ -39,6 +37,5 @@ describe('TestDataSelectors', () => {
       expect(result.length).toBe(3);
       expect(result[2].code).toBe('N/A');
     });
-
   });
 });

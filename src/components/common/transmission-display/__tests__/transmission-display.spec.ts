@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { TransmissionDisplayComponent } from '../transmission-display';
@@ -16,12 +16,8 @@ describe('TransmissionDisplayComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-      ],
-      declarations: [
-        TransmissionDisplayComponent,
-      ],
+      imports: [IonicModule],
+      declarations: [TransmissionDisplayComponent],
     });
 
     fixture = TestBed.createComponent(TransmissionDisplayComponent);
@@ -39,8 +35,7 @@ describe('TransmissionDisplayComponent', () => {
       component.transmission = 'Automatic';
       component.code78 = false;
       component.category = TestCategory.B;
-      expect(component.getTransmissionText())
-        .toEqual(GearBox.AUTOMATIC_NOT_SUBMITTED);
+      expect(component.getTransmissionText()).toEqual(GearBox.AUTOMATIC_NOT_SUBMITTED);
     });
     it('should return appropriate string if Manual and no code78', () => {
       component.transmission = 'Manual';
@@ -58,21 +53,18 @@ describe('TransmissionDisplayComponent', () => {
       component.transmission = 'Automatic';
       component.code78 = true;
       component.category = TestCategory.C;
-      expect(component.getTransmissionText())
-        .toEqual(GearBox.AUTOMATIC_NOT_SUBMITTED);
+      expect(component.getTransmissionText()).toEqual(GearBox.AUTOMATIC_NOT_SUBMITTED);
     });
     it('should return appropriate string if Automatic no code78', () => {
       component.transmission = 'Automatic';
       component.code78 = false;
       component.category = TestCategory.C;
-      expect(component.getTransmissionText())
-        .toEqual(GearBox.CODE78);
+      expect(component.getTransmissionText()).toEqual(GearBox.CODE78);
     });
     it('should return appropriate string if Automatic anf Fail (missing code 78)', () => {
       component.transmission = 'Automatic';
       component.category = TestCategory.C;
-      expect(component.getTransmissionText())
-        .toEqual(GearBox.AUTOMATIC_NOT_SUBMITTED);
+      expect(component.getTransmissionText()).toEqual(GearBox.AUTOMATIC_NOT_SUBMITTED);
     });
   });
 });

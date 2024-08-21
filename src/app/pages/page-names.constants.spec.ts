@@ -1,15 +1,12 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('PageNameConstants', () => {
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
   }));
 
@@ -48,22 +45,12 @@ describe('PageNameConstants', () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatHomeTestPage');
       });
     });
-    [
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1,
-    ].forEach((value) => {
+    [TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1].forEach((value) => {
       it('should return OfficeCatAMod1Page if the category is ' + value, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatAMod1Page');
       });
     });
-    [
-      TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2,
-    ].forEach((value) => {
+    [TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2].forEach((value) => {
       it('should return OfficeCatAMod2Page if the category is ' + value, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatAMod2Page');
       });

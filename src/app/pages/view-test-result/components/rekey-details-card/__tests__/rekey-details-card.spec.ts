@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { MockComponent } from 'ng-mocks';
-import { NeverType } from '@pages/test-report/test-report.effects';
-import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { DataRowComponent } from '@components/common/data-row/data-row';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { IonicModule } from '@ionic/angular';
+import { NeverType } from '@pages/test-report/test-report.effects';
+import { MockComponent } from 'ng-mocks';
 import { RekeyDetailsCardComponent } from '../rekey-details';
 
 describe('RekeyDetailsCardComponent', () => {
@@ -12,13 +12,8 @@ describe('RekeyDetailsCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        RekeyDetailsCardComponent,
-        MockComponent(DataRowComponent),
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [RekeyDetailsCardComponent, MockComponent(DataRowComponent)],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(RekeyDetailsCardComponent);

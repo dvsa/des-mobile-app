@@ -8,12 +8,8 @@ describe('SafetyDataRowComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SafetyDataRowComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [SafetyDataRowComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(SafetyDataRowComponent);

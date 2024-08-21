@@ -1,16 +1,15 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { UncoupleRecouple, uncoupleRecoupleReducer } from '../uncouple-recouple.reducer';
 import {
+  AddUncoupleRecoupleComment,
   ToggleUncoupleRecouple,
+  UncoupleRecoupleAddDangerousFault,
   UncoupleRecoupleAddDrivingFault,
   UncoupleRecoupleAddSeriousFault,
-  UncoupleRecoupleAddDangerousFault,
   UncoupleRecoupleRemoveFault,
-  AddUncoupleRecoupleComment,
 } from '../uncouple-recouple.actions';
+import { UncoupleRecouple, uncoupleRecoupleReducer } from '../uncouple-recouple.reducer';
 
 describe('uncoupleRecoupleReducer', () => {
-
   describe('TOGGLE_UNCOUPLE_RECOUPLE', () => {
     it('should toggle the uncouple recouple (true when dispatched first time)', () => {
       const state: UncoupleRecouple = {};

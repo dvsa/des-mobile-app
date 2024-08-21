@@ -1,20 +1,17 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { isEmpty } from 'lodash-es';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import { isEmpty } from 'lodash-es';
 
 @Component({
   selector: 'vehicle-registration',
   templateUrl: './vehicle-registration.html',
 })
 export class VehicleRegistrationComponent implements OnChanges {
-
   @Input()
   vehicleRegistration: string;
 
@@ -50,10 +47,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   vehicleRegistrationChanged(event: any): void {
-    if (
-      typeof event.target.value === 'string'
-      && !this.registrationNumberValidator.pattern.test(event.target.value)
-    ) {
+    if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
 
       if (isEmpty(event.target.value)) {

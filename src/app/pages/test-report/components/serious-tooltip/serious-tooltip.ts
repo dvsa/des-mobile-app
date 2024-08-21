@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class SeriousTooltipComponent {
   @Input()
-  isRemoveMode: boolean = false;
+  isRemoveMode = false;
 }

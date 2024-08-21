@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
-import {
-  SearchablePicklistModalEvent,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { PipesModule } from '@shared/pipes/pipes.module';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
+import { SearchablePicklistModalEvent } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('SearchablePicklistModal', () => {
   let fixture: ComponentFixture<SearchablePicklistModal<any>>;
@@ -14,16 +12,9 @@ describe('SearchablePicklistModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchablePicklistModal,
-      ],
-      imports: [
-        IonicModule,
-        PipesModule,
-      ],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      declarations: [SearchablePicklistModal],
+      imports: [IonicModule, PipesModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(SearchablePicklistModal<any>);

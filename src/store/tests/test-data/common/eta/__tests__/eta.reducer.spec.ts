@@ -1,10 +1,9 @@
 import { ETA } from '@dvsa/mes-test-schema/categories/common';
-import { etaReducer } from '../eta.reducer';
-import { ToggleETA } from '../eta.actions';
 import { ExaminerActions } from '../../../test-data.constants';
+import { ToggleETA } from '../eta.actions';
+import { etaReducer } from '../eta.reducer';
 
 describe('ETA Reducer', () => {
-
   describe('TOGGLE_ETA', () => {
     it('should toggle ETA verbal to true when dispatched first time', () => {
       const state: ETA = {};

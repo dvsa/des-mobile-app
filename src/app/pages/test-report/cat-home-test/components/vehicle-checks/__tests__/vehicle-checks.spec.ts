@@ -1,17 +1,17 @@
-import { StoreModel } from '@shared/models/store.model';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { IonicModule } from '@ionic/angular';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StartTest } from '@store/tests/tests.actions';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { StoreModel } from '@shared/models/store.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { By } from '@angular/platform-browser';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
@@ -33,10 +33,7 @@ describe('VehicleChecksComponent', () => {
           tests: testsReducer,
         }),
       ],
-      providers: [
-        FaultCountProvider,
-        TestDataByCategoryProvider,
-      ],
+      providers: [FaultCountProvider, TestDataByCategoryProvider],
     });
 
     fixture = TestBed.createComponent(VehicleChecksComponent);
@@ -52,19 +49,15 @@ describe('VehicleChecksComponent', () => {
     };
 
     beforeEach(() => {
-      spyOn(component.faultCountProvider, 'getVehicleChecksFaultCount')
-        .and
-        .returnValue(vehicleChecksScore);
+      spyOn(component.faultCountProvider, 'getVehicleChecksFaultCount').and.returnValue(vehicleChecksScore);
     });
 
     it('should set the vehicle checks driving fault count', (done: DoneFn) => {
       component.testCategory = TestCategory.F;
       component.ngOnInit();
       component.componentState.vehicleChecksDrivingFaultCount$.subscribe((result) => {
-        expect(component.faultCountProvider.getVehicleChecksFaultCount)
-          .toHaveBeenCalled();
-        expect(result)
-          .toEqual(4);
+        expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
+        expect(result).toEqual(4);
         done();
       });
     });
@@ -72,17 +65,14 @@ describe('VehicleChecksComponent', () => {
       component.testCategory = TestCategory.F;
       component.ngOnInit();
       component.componentState.vehicleChecksSeriousFaultCount$.subscribe((result) => {
-        expect(component.faultCountProvider.getVehicleChecksFaultCount)
-          .toHaveBeenCalled();
-        expect(result)
-          .toEqual(1);
+        expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
+        expect(result).toEqual(1);
         done();
       });
     });
   });
 
   describe('DOM', () => {
-
     it('should pass the number of VC driving faults to the driving faults component', () => {
       component.testCategory = TestCategory.F;
       fixture.detectChanges();
@@ -90,8 +80,7 @@ describe('VehicleChecksComponent', () => {
         .componentInstance as DrivingFaultsBadgeComponent;
       component.componentState.vehicleChecksDrivingFaultCount$ = of(3);
       fixture.detectChanges();
-      expect(drivingFaultsBadge.count)
-        .toBe(3);
+      expect(drivingFaultsBadge.count).toBe(3);
     });
 
     it('should pass true to the serious faults badge if there are serious VC faults', () => {
@@ -101,10 +90,7 @@ describe('VehicleChecksComponent', () => {
         .componentInstance as SeriousFaultBadgeComponent;
       component.componentState.vehicleChecksSeriousFaultCount$ = of(1);
       fixture.detectChanges();
-      expect(seriousFaultsBadge.showBadge)
-        .toEqual(true);
+      expect(seriousFaultsBadge.showBadge).toEqual(true);
     });
-
   });
-
 });

@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { Candidate, CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { DataRowComponent } from '@components/common/data-row/data-row';
-import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
-import { CommunicationPreferences, Candidate } from '@dvsa/mes-test-schema/categories/common';
-import { DisplayAddressComponent } from '@components/common/display-address/display-address';
 import { ContactDetailsCardComponent } from '../contact-details-card';
 
 describe('ContactDetailsCardComponent', () => {
@@ -19,9 +19,7 @@ describe('ContactDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(DisplayAddressComponent),
       ],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ContactDetailsCardComponent);
@@ -69,7 +67,7 @@ describe('ContactDetailsCardComponent', () => {
     });
     describe('newEmailAddress', () => {
       it('should return "Same as booking email" if updatedEmail does not exist', () => {
-        component.communicationPreferencesData = { } as CommunicationPreferences;
+        component.communicationPreferencesData = {} as CommunicationPreferences;
         expect(component.newEmailAddress).toEqual('Same as booking email');
       });
       it('should return "Same as booking email" if updatedEmail is the same as emailAddress', () => {
@@ -104,5 +102,4 @@ describe('ContactDetailsCardComponent', () => {
       });
     });
   });
-
 });

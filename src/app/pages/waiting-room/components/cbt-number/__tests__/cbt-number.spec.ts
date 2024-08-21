@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from 'src/app/app.module';
 import { UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { IonicModule } from '@ionic/angular';
+import { AppModule } from 'src/app/app.module';
 import { CBTNumberComponent } from '../cbt-number';
 
 describe('CBTNumberComponent', () => {
@@ -12,16 +12,9 @@ describe('CBTNumberComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CBTNumberComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
-      providers: [
-        { provide: AppComponent, useClass: MockAppComponent },
-      ],
+      declarations: [CBTNumberComponent],
+      imports: [IonicModule, AppModule],
+      providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 
     fixture = TestBed.createComponent(CBTNumberComponent);

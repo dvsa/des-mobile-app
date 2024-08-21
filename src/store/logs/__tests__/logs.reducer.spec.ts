@@ -1,9 +1,9 @@
+import { Action } from '@ngrx/store';
 import { Log, LogType } from '@shared/models/log.model';
 import { LogsModel } from '@store/logs/logs.model';
-import { initialState, logsReducer } from '../logs.reducer';
 import * as logsActions from '../logs.actions';
 import { LoadLogState } from '../logs.actions';
-import { Action } from '@ngrx/store';
+import { initialState, logsReducer } from '../logs.reducer';
 
 describe('Logs Reducer', () => {
   describe('undefined action', () => {
@@ -11,20 +11,16 @@ describe('Logs Reducer', () => {
       const action = { type: 'NOOP' } as Action;
       const result = logsReducer(undefined, action);
 
-      expect(result)
-        .toBe(initialState);
+      expect(result).toBe(initialState);
     });
   });
   describe('LoadLogState', () => {
     it('should add a new log to the state', () => {
       const action = LoadLogState({
-        payload: [
-          { drivingExaminerId: '123' } as Log,
-        ],
+        payload: [{ drivingExaminerId: '123' } as Log],
       });
       const result = logsReducer([] as LogsModel, action);
-      expect(result)
-        .toEqual([{ drivingExaminerId: '123' }] as LogsModel);
+      expect(result).toEqual([{ drivingExaminerId: '123' }] as LogsModel);
     });
   });
   describe('[GLOBAL] Save Log', () => {
@@ -39,8 +35,7 @@ describe('Logs Reducer', () => {
 
       const result = logsReducer(initialState, action);
 
-      expect(result)
-        .toEqual([log]);
+      expect(result).toEqual([log]);
     });
   });
 
@@ -75,8 +70,7 @@ describe('Logs Reducer', () => {
 
       const result = logsReducer(state, action);
 
-      expect(result)
-        .toEqual([]);
+      expect(result).toEqual([]);
     });
 
     it('should not delete the logs which have not yet been sent', () => {
@@ -87,8 +81,7 @@ describe('Logs Reducer', () => {
 
       const result = logsReducer(state, action);
 
-      expect(result)
-        .toEqual([lastLog]);
+      expect(result).toEqual([lastLog]);
     });
   });
 });

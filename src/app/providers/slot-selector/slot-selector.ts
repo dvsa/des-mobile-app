@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { forOwn, has, isEmpty, isNil, isObject } from 'lodash-es';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { forOwn, has, isEmpty, isNil, isObject } from 'lodash-es';
 import { SlotItem } from './slot-item';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class SlotSelectorProvider {
   };
 
   public checkPropertiesHaveValues = (obj: any): boolean => {
-    let gotValue: boolean = false;
+    let gotValue = false;
 
     forOwn(obj, (value, key) => {
       if (this.ignoreBookingProperty.indexOf(key) < 0) {
@@ -63,8 +63,7 @@ export class SlotSelectorProvider {
     };
 
     return completedTests.find((compTest) => {
-      return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
+      return compTest.applicationReference === Number.parseInt(formatApplicationReference(applicationReference), 10);
     });
   };
-
 }

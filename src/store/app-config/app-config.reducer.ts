@@ -77,7 +77,7 @@ export const appConfigReducer = createReducer(
       };
     }
     return state;
-  }),
+  })
 );
 
 export const getAppConfigState = createFeatureSelector<AppConfig>('appConfig');

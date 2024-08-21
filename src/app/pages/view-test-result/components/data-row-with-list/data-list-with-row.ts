@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { DataRowListItem } from './data-list-with-row.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { DataRowListItem } from './data-list-with-row.model';
 
 @Component({
   selector: 'data-row-with-list',
@@ -8,16 +8,14 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['data-row-with-list.scss'],
 })
 export class DataRowWithListComponent {
-
   @Input()
   label: string;
 
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   @Input()
   data: DataRowListItem[];
 
-  constructor(public accessibilityService: AccessibilityService) {
-  }
+  constructor(public accessibilityService: AccessibilityService) {}
 }

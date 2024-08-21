@@ -13,7 +13,6 @@ export const MINIMUM_QUESTION_SCORE: number = 15;
   styleUrls: ['cpc-debrief-card.scss'],
 })
 export class CPCDebriefCardComponent implements OnInit {
-
   @Input()
   public question1: Question;
 
@@ -36,7 +35,7 @@ export class CPCDebriefCardComponent implements OnInit {
   public testOutcome: string;
 
   @Input()
-  public isDetailedTestView: boolean = false;
+  public isDetailedTestView = false;
 
   @Input()
   public combination: string;
@@ -66,5 +65,4 @@ export class CPCDebriefCardComponent implements OnInit {
   ngOnInit(): void {
     this.questions = [this.question1, this.question2, this.question3, this.question4, this.question5];
   }
-
 }

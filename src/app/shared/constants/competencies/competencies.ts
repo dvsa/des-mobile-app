@@ -47,7 +47,7 @@ export enum fullCompetencyLabels {
   slalom = 'Slalom / figure 8',
   slowControl = 'Slow control',
   controlledStop = 'Controlled stop',
-  uTurn = '\'U\' Turn exercise',
+  uTurn = "'U' Turn exercise",
   pcvDoorExercise = 'PCV door exercise',
   emergencyStop = 'Emergency stop',
   avoidance = 'Avoidance ex. c/stop',
@@ -134,7 +134,7 @@ export enum fullAnalyticCompetencyLabels {
   rearObservationChangeSpeed = 'rear_obs_change_speed',
   positionNormalRiding = 'positioning_normal_riding',
   judgementOvertakingFiltering = 'judgement_overtaking_filter',
-  uncoupleRecouple = 'uncouple_recouple'
+  uncoupleRecouple = 'uncouple_recouple',
 }
 
 export enum competencyLabels {
@@ -189,7 +189,7 @@ export enum competencyLabels {
   manualHandling = 'Manual handling',
   slalom = 'Slalom / figure 8',
   slowControl = 'Slow control',
-  uTurn = '\'U\' turn exercise',
+  uTurn = "'U' turn exercise",
   controlledStop = 'Controlled stop',
   pcvDoorExercise = 'PCV door exercise',
   emergencyStop = 'Emergency stop',

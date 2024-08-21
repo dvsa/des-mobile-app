@@ -1,10 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { Observable } from 'rxjs';
-import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
 
 type TestReportPageState = CommonTestReportPageState;
 
@@ -14,7 +14,6 @@ type TestReportPageState = CommonTestReportPageState;
   styleUrls: ['./test-report.cat-a-mod2.page.scss'],
 })
 export class TestReportCatAMod2Page extends TestReportBasePageComponent implements OnInit {
-
   pageState: TestReportPageState;
 
   constructor(injector: Injector) {
@@ -36,5 +35,4 @@ export class TestReportCatAMod2Page extends TestReportBasePageComponent implemen
     super.ionViewDidLeave();
     super.cancelSubscription();
   }
-
 }

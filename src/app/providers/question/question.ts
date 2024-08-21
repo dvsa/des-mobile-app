@@ -1,33 +1,24 @@
 import { Injectable } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import tellMeQuestionsCatAdiPart2Constants
-  from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
-import showMeQuestionsCatAdiPart2Constants
-  from '@shared/constants/show-me-questions/show-me-questions.cat-adi-part2.constants';
-import tellMeQuestionsCatBConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
-import showMeQuestionsCatBConstants from '@shared/constants/show-me-questions/show-me-questions.cat-b.constants';
-import tellMeQuestionsVocationalConstants
-  from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
-import tellMeQuestionsVocationalTrailerConstants
-  from '@shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
-import showMeQuestionsVocationalConstants
-  from '@shared/constants/show-me-questions/show-me-questions.vocational.constants';
-import showMeQuestionsVocationalTrailerConstants
-  from '@shared/constants/show-me-questions/show-me-questions.vocational-trailer.constants';
 import balanceQuestionsCatAMod2Constants from '@shared/constants/balance-questions.cat-a-mod2.constants';
-import safetyQuestionsCatDConstants from '@shared/constants/safety-questions.cat-d.constants';
-import showMeQuestionsCatHomeTestConstants
-  from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
-import tellMeQuestionsCatHomeTestConstants
-  from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
 import safetyQuestionsCatAMod2Constants from '@shared/constants/safety-questions.cat-a-mod2.constants';
+import safetyQuestionsCatDConstants from '@shared/constants/safety-questions.cat-d.constants';
+import showMeQuestionsCatAdiPart2Constants from '@shared/constants/show-me-questions/show-me-questions.cat-adi-part2.constants';
+import showMeQuestionsCatBConstants from '@shared/constants/show-me-questions/show-me-questions.cat-b.constants';
+import showMeQuestionsCatHomeTestConstants from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
+import showMeQuestionsVocationalTrailerConstants from '@shared/constants/show-me-questions/show-me-questions.vocational-trailer.constants';
+import showMeQuestionsVocationalConstants from '@shared/constants/show-me-questions/show-me-questions.vocational.constants';
+import tellMeQuestionsCatAdiPart2Constants from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
+import tellMeQuestionsCatBConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
+import tellMeQuestionsCatHomeTestConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
+import tellMeQuestionsVocationalTrailerConstants from '@shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
+import tellMeQuestionsVocationalConstants from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import { SafetyQuestion } from './safety-question.model';
 import { VehicleChecksQuestion } from './vehicle-checks-question.model';
 
 @Injectable()
 export class QuestionProvider {
-
   getTellMeQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
     switch (testCategory) {
       case TestCategory.ADI2:

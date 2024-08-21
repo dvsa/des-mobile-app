@@ -1,10 +1,8 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'manoeuvres-pass-cert',
@@ -12,7 +10,6 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   styleUrls: ['manoeuvres-pass-cert.scss'],
 })
 export class ManoeuvresPassCertificateComponent implements OnChanges {
-
   @Input()
   manoeuvresPassCertificateNumber: string;
 
@@ -27,9 +24,8 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
 
   constructor(
     private passCertValidationProvider: PassCertificateValidationProvider,
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+    public accessibilityService: AccessibilityService
+  ) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -45,12 +41,13 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
   }
 
   validateManoeuvresPassCertificate = (c: UntypedFormControl) => {
-    return this.passCertValidationProvider.isPassCertificateValid(c.value) ? null
+    return this.passCertValidationProvider.isPassCertificateValid(c.value)
+      ? null
       : {
-        validatePassCertificate: {
-          valid: false,
-        },
-      };
+          validatePassCertificate: {
+            valid: false,
+          },
+        };
   };
 
   manoeuvresPassCertificateNumberChanged(passCertificateNumber: string): void {

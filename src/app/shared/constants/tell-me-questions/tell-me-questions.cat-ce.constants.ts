@@ -41,7 +41,8 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'V38',
-    description: 'Tell me how you would check your tyres to ensure that they are correctly inflated, have sufficient tread depth and that their general condition is safe to use on the road.',
+    description:
+      'Tell me how you would check your tyres to ensure that they are correctly inflated, have sufficient tread depth and that their general condition is safe to use on the road.',
     shortName: 'Tyres',
   },
   {

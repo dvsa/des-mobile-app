@@ -1,32 +1,30 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ModalController, NavParams, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
-import { MockComponent } from 'ng-mocks';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
-import { By } from '@angular/platform-browser';
+import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
-import {
-  ReverseManoeuvreComponent,
-} from '@pages/test-report/cat-manoeuvre/components/reverse-manoeuvre/reverse-manoeuvre';
-import { ToolbarComponent } from '@pages/test-report/components/toolbar/toolbar';
 import { ToastControllerMock } from '@mocks/ionic-mocks/toast-controller.mock';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { StoreModel } from '@shared/models/store.model';
-import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { ReverseManoeuvreComponent } from '@pages/test-report/cat-manoeuvre/components/reverse-manoeuvre/reverse-manoeuvre';
 import { EtaComponent } from '@pages/test-report/components/examiner-takes-action/eta';
-import { Observable, Subscription } from 'rxjs';
+import { ToolbarComponent } from '@pages/test-report/components/toolbar/toolbar';
+import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
+import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { Observable, Subscription } from 'rxjs';
 import { testReportReducer } from '../../test-report.reducer';
 import { TestReportCatManoeuvrePage } from '../test-report.cat-manoeuvre.page';
 
@@ -49,21 +47,20 @@ describe('TestReportCatManoeuvrePage', () => {
       imports: [
         AppModule,
         StoreModule.forFeature('testReport', testReportReducer),
-        StoreModule.forFeature('tests', () => (
-          {
-            currentTest: {
-              slotId: '123',
-            },
-            testStatus: {},
-            startedTests: {
-              123: {
-                testData: initialState,
-                journalData: {
-                  candidate: candidateMock,
-                },
+        StoreModule.forFeature('tests', () => ({
+          currentTest: {
+            slotId: '123',
+          },
+          testStatus: {},
+          startedTests: {
+            123: {
+              testData: initialState,
+              journalData: {
+                candidate: candidateMock,
               },
             },
-          })),
+          },
+        })),
       ],
       providers: [
         {
@@ -105,71 +102,63 @@ describe('TestReportCatManoeuvrePage', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('manoeuvreHasFaults', () => {
     it('should return true if either of control/observation is defined', () => {
-      expect(component.manoeuvreHasFaults({
-        controlFault: 'D',
-        observationFault: null,
-      }))
-        .toEqual(true);
+      expect(
+        component.manoeuvreHasFaults({
+          controlFault: 'D',
+          observationFault: null,
+        })
+      ).toEqual(true);
     });
     it('should return false if both of control/observation are not set', () => {
-      expect(component.manoeuvreHasFaults({
-        controlFault: null,
-        observationFault: null,
-      }))
-        .toEqual(false);
+      expect(
+        component.manoeuvreHasFaults({
+          controlFault: null,
+          observationFault: null,
+        })
+      ).toEqual(false);
     });
   });
   describe('toggleReverseManoeuvre', () => {
     it('should not dispatch select action when faults exist', () => {
       component.manoeuvresHasFaults = true;
       component.toggleReverseManoeuvre();
-      expect(store$.dispatch)
-        .not
-        .toHaveBeenCalled();
+      expect(store$.dispatch).not.toHaveBeenCalled();
     });
     it('should dispatch select action when no faults exist', () => {
       component.manoeuvresHasFaults = false;
       component.toggleReverseManoeuvre();
-      expect(store$.dispatch)
-        .toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre));
+      expect(store$.dispatch).toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre));
     });
   });
   describe('getId', () => {
     it('should create an id based on manoeuvre and competency', () => {
-      expect(component.getId(ManoeuvreTypes.reverseManoeuvre, ManoeuvreCompetencies.controlFault))
-        .toEqual('reverseManoeuvre-controlFault');
+      expect(component.getId(ManoeuvreTypes.reverseManoeuvre, ManoeuvreCompetencies.controlFault)).toEqual(
+        'reverseManoeuvre-controlFault'
+      );
     });
   });
   describe('competencyClick', () => {
     beforeEach(() => {
-      spyOn(toastController, 'create')
-        .and
-        .returnValue(Promise.resolve({
+      spyOn(toastController, 'create').and.returnValue(
+        Promise.resolve({
           present: () => Promise.resolve(),
-        } as HTMLIonToastElement));
+        } as HTMLIonToastElement)
+      );
     });
     it('should not call toast create if toast already exists', async () => {
-      spyOn(toastController, 'getTop')
-        .and
-        .returnValue(Promise.resolve({} as HTMLIonToastElement));
+      spyOn(toastController, 'getTop').and.returnValue(Promise.resolve({} as HTMLIonToastElement));
       await component.competencyClick();
-      expect(toastController.create)
-        .not
-        .toHaveBeenCalled();
+      expect(toastController.create).not.toHaveBeenCalled();
     });
     it('should create toast controller if none already exist', async () => {
-      spyOn(toastController, 'getTop')
-        .and
-        .returnValue(Promise.resolve(null));
+      spyOn(toastController, 'getTop').and.returnValue(Promise.resolve(null));
       await component.competencyClick();
-      expect(toastController.create)
-        .toHaveBeenCalled();
+      expect(toastController.create).toHaveBeenCalled();
     });
   });
   describe('End Test Button', () => {
@@ -177,8 +166,7 @@ describe('TestReportCatManoeuvrePage', () => {
       spyOn(component, 'onEndTestClick');
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick)
-        .toHaveBeenCalled();
+      expect(component.onEndTestClick).toHaveBeenCalled();
     });
   });
   describe('ionViewWillEnter', () => {
@@ -186,15 +174,13 @@ describe('TestReportCatManoeuvrePage', () => {
       component.merged$ = new Observable<boolean>();
       await component.ionViewWillEnter();
 
-      expect(component.manoeuvreSubscription)
-        .toBeDefined();
+      expect(component.manoeuvreSubscription).toBeDefined();
     });
     it('should call base page ionViewWillEnter', async () => {
       spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter');
       await component.ionViewWillEnter();
 
-      expect(TestReportBasePageComponent.prototype.ionViewWillEnter)
-        .toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
     });
   });
   describe('ionViewDidLeave', () => {
@@ -205,12 +191,9 @@ describe('TestReportCatManoeuvrePage', () => {
       spyOn(component.manoeuvreSubscription, 'unsubscribe');
 
       component.ionViewDidLeave();
-      expect(TestReportBasePageComponent.prototype.ionViewDidLeave)
-        .toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription)
-        .toHaveBeenCalled();
-      expect(component.manoeuvreSubscription.unsubscribe)
-        .toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
+      expect(component.manoeuvreSubscription.unsubscribe).toHaveBeenCalled();
     });
   });
 });

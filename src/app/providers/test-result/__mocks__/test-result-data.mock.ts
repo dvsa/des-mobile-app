@@ -1,5 +1,5 @@
-import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { TestData } from '@dvsa/mes-test-schema/categories/common';
 
 export const noFaultsMock: TestData = {};
 

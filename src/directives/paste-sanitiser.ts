@@ -7,8 +7,7 @@ import emojiRegex from 'emoji-regex';
 export class PasteSanitiserDirective {
   emojiPattern = emojiRegex();
 
-  constructor(private el: ElementRef) {
-  }
+  constructor(private el: ElementRef) {}
   @HostListener('paste', ['$event'])
   onInput(event: ClipboardEvent): void {
     const inputField = this.el.nativeElement;

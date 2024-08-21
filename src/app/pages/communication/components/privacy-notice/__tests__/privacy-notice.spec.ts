@@ -1,8 +1,8 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PrivacyNoticeComponent } from '../privacy-notice';
 
 describe('PrivacyNoticeComponent', () => {
@@ -11,16 +11,9 @@ describe('PrivacyNoticeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PrivacyNoticeComponent,
-      ],
-      imports: [
-        IonicModule,
-        TranslateModule,
-      ],
-      providers: [
-        { provide: TranslateService, useValue: translateServiceMock },
-      ],
+      declarations: [PrivacyNoticeComponent],
+      imports: [IonicModule, TranslateModule],
+      providers: [{ provide: TranslateService, useValue: translateServiceMock }],
     });
 
     fixture = TestBed.createComponent(PrivacyNoticeComponent);
@@ -53,5 +46,4 @@ describe('PrivacyNoticeComponent', () => {
       });
     });
   });
-
 });

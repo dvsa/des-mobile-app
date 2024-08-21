@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -9,7 +7,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   styleUrls: ['review-feedback.scss'],
 })
 export class ReviewFeedback {
-
   @Input()
   form: UntypedFormGroup;
 
@@ -53,5 +50,4 @@ export class ReviewFeedback {
   charactersExceeded(): boolean {
     return this.feedbackCharsRemaining < 0;
   }
-
 }

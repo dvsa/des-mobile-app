@@ -1,23 +1,23 @@
-import { TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { ReplaySubject } from 'rxjs';
 
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { DataStoreProvider } from '@providers/data-store/data-store';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
-import { LogsProvider } from '@providers/logs/logs';
-import { LogsProviderMock } from '@providers/logs/__mocks__/logs.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { LogsProviderMock } from '@providers/logs/__mocks__/logs.mock';
+import { LogsProvider } from '@providers/logs/logs';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { Log, LogType } from '@shared/models/log.model';
-import { LogsEffects } from '../logs.effects';
 import * as logsActions from '../logs.actions';
+import { LogsEffects } from '../logs.effects';
 import { logsReducer } from '../logs.reducer';
 
 describe('LogsEffects', () => {
@@ -113,7 +113,6 @@ describe('LogsEffects', () => {
         done();
       });
     }));
-
   });
 
   describe('getAndConvertPersistedLogs', () => {
@@ -171,7 +170,6 @@ describe('LogsEffects', () => {
         done();
       });
     });
-
   });
 
   describe('isCacheTooOld', () => {
@@ -189,5 +187,4 @@ describe('LogsEffects', () => {
       done();
     });
   });
-
 });

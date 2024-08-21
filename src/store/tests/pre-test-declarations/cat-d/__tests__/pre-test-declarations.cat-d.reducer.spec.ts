@@ -1,12 +1,15 @@
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
-import { preTestDeclarationsCatDReducer, initialState } from '../pre-test-declarations.cat-d.reducer';
 import {
-  ToggleInsuranceDeclaration,
-  ToggleResidencyDeclaration,
+  CandidateDeclarationSigned,
+  ClearPreTestDeclarations,
+  ManoeuvresPassCertNumberChanged,
+  SetDeclarationStatus,
   SignatureDataChanged,
   SignatureDataCleared,
-  ClearPreTestDeclarations, CandidateDeclarationSigned, SetDeclarationStatus, ManoeuvresPassCertNumberChanged,
+  ToggleInsuranceDeclaration,
+  ToggleResidencyDeclaration,
 } from '../../pre-test-declarations.actions';
+import { initialState, preTestDeclarationsCatDReducer } from '../pre-test-declarations.cat-d.reducer';
 
 describe('PreTestDeclarations cat-d reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {
@@ -45,9 +48,7 @@ describe('PreTestDeclarations cat-d reducer', () => {
   });
 
   it('should set the pass certificate number when the SignatureDataChanged action is received', () => {
-    const result = preTestDeclarationsCatDReducer(
-      initialState, ManoeuvresPassCertNumberChanged('Pass Cert Number'),
-    );
+    const result = preTestDeclarationsCatDReducer(initialState, ManoeuvresPassCertNumberChanged('Pass Cert Number'));
     expect(result.manoeuvrePassCertificateNumber).toEqual('Pass Cert Number');
   });
 

@@ -40,10 +40,7 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
     logoutUrl: 'local-logout-url',
     employeeIdKey: 'localemployeeIdKey',
   },
-  approvedDeviceIdentifiers: [
-    'iPad7,4',
-    'x86_64',
-  ],
+  approvedDeviceIdentifiers: ['iPad7,4', 'x86_64'],
   role: ExaminerRole.DE,
   journal: {
     journalUrl: 'https://www.example.com/api/v1/journals/{staffNumber}/personal',
@@ -80,7 +77,7 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
   tests: {
     testSubmissionUrl: 'https://www.example.com/api/v1/test-result',
     autoSendInterval: 900000,
-    examinerRecordsUrl: ''
+    examinerRecordsUrl: '',
   },
   user: {
     findUserUrl: 'https://www.example.com/api/v1/users/{staffNumber}',

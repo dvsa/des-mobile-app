@@ -1,36 +1,34 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { StoreModel } from '@shared/models/store.model';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { IonicModule } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { Competencies } from '@store/tests/test-data/test-data.constants';
-import { StartTest } from '@store/tests/tests.actions';
-import {
-  AddEmergencyStopSeriousFault,
-  RecordEmergencyStopFirstAttempt,
-  RecordEmergencyStopSecondAttempt, RemoveEmergencyStopSeriousFault,
-} from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
 import {
   AddAvoidanceSeriousFault,
   RecordAvoidanceFirstAttempt,
-  RecordAvoidanceSecondAttempt, RemoveAvoidanceSeriousFault,
+  RecordAvoidanceSecondAttempt,
+  RemoveAvoidanceSeriousFault,
 } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import {
+  AddEmergencyStopSeriousFault,
+  RecordEmergencyStopFirstAttempt,
+  RecordEmergencyStopSecondAttempt,
+  RemoveEmergencyStopSeriousFault,
+} from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
+import { Competencies } from '@store/tests/test-data/test-data.constants';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
 import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
-import { SpeedCheckComponent } from '../speed-check';
-import { testReportReducer } from '../../../../test-report.reducer';
 import { SingleFaultCompetencyComponent } from '../../../../components/single-fault-competency/single-fault-competency';
-import {
-  mockBlankSpeed,
-  mockInvalidSpeed,
-  mockValidSpeed,
-} from './speed-check.mock';
+import { testReportReducer } from '../../../../test-report.reducer';
+import { SpeedCheckComponent } from '../speed-check';
+import { mockBlankSpeed, mockInvalidSpeed, mockValidSpeed } from './speed-check.mock';
 
 describe('SpeedCheckComponent', () => {
   let fixture: ComponentFixture<SpeedCheckComponent>;
@@ -47,10 +45,7 @@ describe('SpeedCheckComponent', () => {
         MockComponent(CompetencyButtonComponent),
         MockComponent(SingleFaultCompetencyComponent),
       ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
-      ],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(SpeedCheckComponent);
@@ -68,14 +63,17 @@ describe('SpeedCheckComponent', () => {
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddEmergencyStopSeriousFault());
       });
-      it('should dispatch RemoveEmergencyStopSeriousFault when '
-          + 'Emergency Stop is the speed check and outcome is "S"', () => {
-        component.competency = Competencies.speedCheckEmergency;
-        component.outcome = CompetencyOutcome.S;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        component.toggleNotMet();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveEmergencyStopSeriousFault());
-      });
+      it(
+        'should dispatch RemoveEmergencyStopSeriousFault when ' +
+          'Emergency Stop is the speed check and outcome is "S"',
+        () => {
+          component.competency = Competencies.speedCheckEmergency;
+          component.outcome = CompetencyOutcome.S;
+          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          component.toggleNotMet();
+          expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveEmergencyStopSeriousFault());
+        }
+      );
 
       it('should dispatch AddAvoidanceSeriousFault when Avoidance is the speed check', () => {
         component.competency = Competencies.speedCheckAvoidance;
@@ -126,8 +124,7 @@ describe('SpeedCheckComponent', () => {
         component.subscription = new Subscription();
         spyOn(component.subscription, 'unsubscribe');
         component.ngOnDestroy();
-        expect(component.subscription.unsubscribe)
-          .toHaveBeenCalled();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 

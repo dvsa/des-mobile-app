@@ -25,13 +25,17 @@ export const safetyQuestionsCatDReducer = createReducer(
   initialState,
   on(safetyQuestionsCatDActionTypes.SafetyQuestionOutcomeChanged, (state, { safetyQuestionOutcome, index }) => ({
     ...state,
-    questions: state.questions.map((item, itemIndex) => (index === itemIndex ? {
-      ...item,
-      outcome: safetyQuestionOutcome,
-    } : item)),
+    questions: state.questions.map((item, itemIndex) =>
+      index === itemIndex
+        ? {
+            ...item,
+            outcome: safetyQuestionOutcome,
+          }
+        : item
+    ),
   })),
   on(safetyQuestionsCatDActionTypes.AddSafetyQuestionComment, (state, { comment }) => ({
     ...state,
     faultComments: comment,
-  })),
+  }))
 );

@@ -1,16 +1,17 @@
-import { ReplaySubject } from 'rxjs';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ContinueUnuploadedTest, UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { UnuploadedTestsAnalyticsEffects } from '@pages/unuploaded-tests/unuploaded-tests.analytics.effects';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
-  GoogleAnalyticsEvents, GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { UnuploadedTestsAnalyticsEffects } from '@pages/unuploaded-tests/unuploaded-tests.analytics.effects';
-import { ContinueUnuploadedTest, UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ReplaySubject } from 'rxjs';
 
 describe('UnuploadedTestsAnalyticsEffects', () => {
   let effects: UnuploadedTestsAnalyticsEffects;
@@ -55,7 +56,7 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.INCOMPLETE_TESTS,
           GoogleAnalyticsEventsTitles.TEST_STATUS,
-          TestStatus.WriteUp,
+          TestStatus.WriteUp
         );
         done();
       });

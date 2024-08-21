@@ -5,7 +5,6 @@ import { BikeCategoryDetail, BikeTestType } from './bike-category-detail.model';
 
 @Injectable()
 export class BikeCategoryDetailProvider {
-
   public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
     return bikeCategoryDetails.find((item) => item.categoryCode === category);
   }

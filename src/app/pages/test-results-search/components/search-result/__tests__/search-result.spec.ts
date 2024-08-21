@@ -1,15 +1,15 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from '@app/app.module';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { CompressionProvider } from '@providers/compression/compression';
-import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
+import { AppModule } from '@app/app.module';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
+import { CompressionProvider } from '@providers/compression/compression';
+import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
+import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { SearchResultComponent } from '../search-result';
 
 describe('SearchResultComponent', () => {
@@ -32,13 +32,8 @@ describe('SearchResultComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SearchResultComponent,
-      ],
-      imports: [
-        AppModule,
-        IonicModule,
-      ],
+      declarations: [SearchResultComponent],
+      imports: [AppModule, IonicModule],
       providers: [
         { provide: CompressionProvider, useClass: CompressionProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },
@@ -59,10 +54,11 @@ describe('SearchResultComponent', () => {
 
   describe('openTestResult', () => {
     it('should display modal', async () => {
-      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
-        present: async () => {
-        },
-      } as HTMLIonModalElement));
+      spyOn(component.modalController, 'create').and.returnValue(
+        Promise.resolve({
+          present: async () => {},
+        } as HTMLIonModalElement)
+      );
       await component.openTestResult();
       expect(component.modalController.create).toHaveBeenCalledTimes(1);
     });
@@ -89,5 +85,4 @@ describe('SearchResultComponent', () => {
       expect(component.getTime()).toBe('12:30');
     });
   });
-
 });

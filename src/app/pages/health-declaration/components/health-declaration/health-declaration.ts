@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'health-declaration',
@@ -9,7 +7,6 @@ import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
   styleUrls: ['health-declaration.scss'],
 })
 export class HealthDeclarationComponent implements OnChanges {
-
   @Input()
   selected: boolean;
 
@@ -37,5 +34,4 @@ export class HealthDeclarationComponent implements OnChanges {
   isInvalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

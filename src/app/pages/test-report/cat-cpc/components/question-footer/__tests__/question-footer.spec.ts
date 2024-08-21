@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { QuestionFooterComponent } from '../question-footer';
 
 describe('QuestionFooterComponent', () => {
@@ -9,13 +9,8 @@ describe('QuestionFooterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        QuestionFooterComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [QuestionFooterComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(QuestionFooterComponent);
@@ -80,8 +75,7 @@ describe('QuestionFooterComponent', () => {
       component.goToSummary();
       expect(component.testSummaryRequested.emit).toHaveBeenCalledWith(true);
     });
-    it('should not emit testSummaryRequested with true '
-      + 'if isDelegated is true and isFormValid is false', () => {
+    it('should not emit testSummaryRequested with true ' + 'if isDelegated is true and isFormValid is false', () => {
       spyOn(component.testSummaryRequested, 'emit');
       spyOn(component, 'isFormValid').and.returnValue(Promise.resolve(false));
       component.isDelegated = true;
@@ -103,5 +97,4 @@ describe('QuestionFooterComponent', () => {
       });
     });
   });
-
 });

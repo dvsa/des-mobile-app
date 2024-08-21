@@ -1,3 +1,4 @@
+import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import {
   CacheExaminerRecords,
   ColourFilterChanged,
@@ -5,9 +6,8 @@ import {
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
-import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
 import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-records.model';
-import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
 
 describe('ExaminerRecordsReducer', () => {
   let initialState: ExaminerRecordStateModel = {
@@ -22,8 +22,8 @@ describe('ExaminerRecordsReducer', () => {
       colourScheme: ColourEnum.DEFAULT,
       isLoading: false,
       lastUpdatedTime: null,
-    }
-  })
+    };
+  });
 
   describe('examinerRecordsReducer', () => {
     it('should update lastUpdatedTime on UpdateLastCached action', () => {
@@ -33,9 +33,9 @@ describe('ExaminerRecordsReducer', () => {
     });
 
     it('should cache examiner records and set isLoading to false on CacheExaminerRecords action', () => {
-      const action = CacheExaminerRecords([{startDate: '2023-10-01'} as ExaminerRecordModel]);
+      const action = CacheExaminerRecords([{ startDate: '2023-10-01' } as ExaminerRecordModel]);
       const state = examinerRecordsReducer(initialState, action);
-      expect(state.cachedRecords).toEqual([{startDate: '2023-10-01'} as ExaminerRecordModel]);
+      expect(state.cachedRecords).toEqual([{ startDate: '2023-10-01' } as ExaminerRecordModel]);
       expect(state.isLoading).toBe(false);
     });
 
@@ -50,4 +50,5 @@ describe('ExaminerRecordsReducer', () => {
       const state = examinerRecordsReducer(initialState, action);
       expect(state.colourScheme).toEqual(ColourEnum.GREYSCALE);
     });
-  });});
+  });
+});

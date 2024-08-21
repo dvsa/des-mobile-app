@@ -1,12 +1,12 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { IonicModule } from '@ionic/angular';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
-import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { CompletedJournalSlot } from '@pages/journal/journal.page';
+import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 
 describe('JournalSlotComponent', () => {
   let fixture: ComponentFixture<JournalSlotComponent>;
@@ -15,16 +15,9 @@ describe('JournalSlotComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        JournalSlotComponent,
-      ],
-      imports: [
-        IonicModule,
-        ComponentsModule,
-      ],
-      providers: [
-        { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
-      ],
+      declarations: [JournalSlotComponent],
+      imports: [IonicModule, ComponentsModule],
+      providers: [{ provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock }],
     });
 
     fixture = TestBed.createComponent(JournalSlotComponent);
@@ -52,16 +45,20 @@ describe('JournalSlotComponent', () => {
   });
   describe('showLocation', () => {
     it('should return false when current slot item is same as previous', () => {
-      expect(component.showLocation(
-        { slotData: { testCentre: { centreName: 'Centre A' } } } as SlotItem,
-        { slotData: { testCentre: { centreName: 'Centre A' } } } as SlotItem,
-      )).toEqual(false);
+      expect(
+        component.showLocation(
+          { slotData: { testCentre: { centreName: 'Centre A' } } } as SlotItem,
+          { slotData: { testCentre: { centreName: 'Centre A' } } } as SlotItem
+        )
+      ).toEqual(false);
     });
     it('should return true when current slot item is different to previous', () => {
-      expect(component.showLocation(
-        { slotData: { testCentre: { centreName: 'Centre A' } } } as SlotItem,
-        { slotData: { testCentre: { centreName: 'Centre B' } } } as SlotItem,
-      )).toEqual(true);
+      expect(
+        component.showLocation(
+          { slotData: { testCentre: { centreName: 'Centre A' } } } as SlotItem,
+          { slotData: { testCentre: { centreName: 'Centre B' } } } as SlotItem
+        )
+      ).toEqual(true);
     });
   });
   describe('trackBySlotID', () => {
@@ -108,7 +105,8 @@ describe('JournalSlotComponent', () => {
   describe('getSlots', () => {
     it('should return an array of TestSlots from Slots', () => {
       component.slots = [
-        { slotData: { vehicleTypeCode: 'test1' } }, { slotData: { vehicleTypeCode: 'test2' } },
+        { slotData: { vehicleTypeCode: 'test1' } },
+        { slotData: { vehicleTypeCode: 'test2' } },
       ] as SlotItem[];
       expect(component.getSlots()).toEqual([{ vehicleTypeCode: 'test1' }, { vehicleTypeCode: 'test2' }]);
     });

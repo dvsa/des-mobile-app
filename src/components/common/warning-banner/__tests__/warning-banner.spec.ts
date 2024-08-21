@@ -1,6 +1,6 @@
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import { WarningBannerComponent } from '../warning-banner';
 
 describe('WarningBanner', () => {
@@ -10,9 +10,7 @@ describe('WarningBanner', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WarningBannerComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(WarningBannerComponent);

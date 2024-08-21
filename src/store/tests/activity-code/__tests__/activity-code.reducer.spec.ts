@@ -1,5 +1,5 @@
-import { activityCodeReducer } from '../activity-code.reducer';
 import { SetActivityCode } from '../activity-code.actions';
+import { activityCodeReducer } from '../activity-code.reducer';
 
 describe('activityCodeReducer', () => {
   describe('SetActivityCode', () => {

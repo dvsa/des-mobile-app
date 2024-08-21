@@ -1,6 +1,5 @@
-import { ControlledStopUnion } from '@shared/unions/test-schema-unions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { controlledStopReducer } from '../controlled-stop.reducer';
+import { ControlledStopUnion } from '@shared/unions/test-schema-unions';
 import {
   AddControlledStopComment,
   ControlledStopAddDangerousFault,
@@ -9,9 +8,9 @@ import {
   ControlledStopRemoveFault,
   ToggleControlledStop,
 } from '../controlled-stop.actions';
+import { controlledStopReducer } from '../controlled-stop.reducer';
 
 describe('Controlled Stop Reducer', () => {
-
   describe('TOGGLE_CONTROLLED_STOP', () => {
     it('should toggle the controlled stop (true when dispatched first time)', () => {
       const state: ControlledStopUnion = {};

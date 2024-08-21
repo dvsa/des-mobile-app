@@ -1,28 +1,26 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { merge, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { select } from '@ngrx/store';
 import { UntypedFormGroup } from '@angular/forms';
+import { select } from '@ngrx/store';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { PersistTests } from '@store/tests/tests.actions';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import {
-  PASS_CERTIFICATE_NUMBER_CTRL,
-} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { PersistTests } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
 
 interface CatCPCPassFinalisationPageState {
   testCategory$: Observable<CategoryCode>;
@@ -36,7 +34,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPCPassFin
   styleUrls: ['./../pass-finalisation.page.scss'],
 })
 export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent implements OnInit {
-
   form: UntypedFormGroup;
   pageState: PassFinalisationPageState;
   merged$: Observable<string | boolean>;
@@ -52,23 +49,16 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-      ),
+      testCategory$: currentTest$.pipe(select(getTestCategory)),
     };
 
     const { testCategory$ } = this.pageState;
 
-    this.merged$ = merge(
-      testCategory$.pipe(map((value) => this.testCategory = value as TestCategory)),
-    );
+    this.merged$ = merge(testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory))));
   }
 
   ionViewWillEnter(): boolean {
@@ -86,8 +76,7 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -96,15 +85,13 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
       return;
     }
 
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
-          }
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
         }
-      });
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
-
 }

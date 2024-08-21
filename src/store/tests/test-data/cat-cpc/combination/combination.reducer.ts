@@ -6,5 +6,5 @@ const initialState: CombinationCodes = null;
 
 export const combinationReducer = createReducer(
   initialState,
-  on(combinationActionTypes.PopulateCombination, (_, { combination }) => combination),
+  on(combinationActionTypes.PopulateCombination, (_, { combination }) => combination)
 );

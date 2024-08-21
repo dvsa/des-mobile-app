@@ -1,10 +1,9 @@
 import { DangerousFaults } from '@dvsa/mes-test-schema/categories/common';
-import { AddDangerousFault, RemoveDangerousFault, AddDangerousFaultComment } from '../dangerous-faults.actions';
 import { Competencies } from '../../../test-data.constants';
+import { AddDangerousFault, AddDangerousFaultComment, RemoveDangerousFault } from '../dangerous-faults.actions';
 import { dangerousFaultsReducer } from '../dangerous-faults.reducer';
 
 describe('Dangerous Fault Reducer', () => {
-
   describe('ADD_DANGEROUS_FAULT', () => {
     it('should add a dangerous fault when none exist', () => {
       const state: DangerousFaults = {};
@@ -21,7 +20,7 @@ describe('Dangerous Fault Reducer', () => {
     });
   });
 
-  describe(('REMOVE_DANGEROUS_FAULT'), () => {
+  describe('REMOVE_DANGEROUS_FAULT', () => {
     it('should remove the competency from the state when a fault is removed', () => {
       const state: DangerousFaults = {
         controlsGears: true,
@@ -49,9 +48,7 @@ describe('Dangerous Fault Reducer', () => {
   describe('ADD_DANGEROUS_FAULT_COMMENT', () => {
     it('should add the provided comment', () => {
       const state: DangerousFaults = {};
-      const result = dangerousFaultsReducer(
-        state, AddDangerousFaultComment(Competencies.ancillaryControls, 'Test'),
-      );
+      const result = dangerousFaultsReducer(state, AddDangerousFaultComment(Competencies.ancillaryControls, 'Test'));
       expect(result.ancillaryControlsComments).toEqual('Test');
     });
   });

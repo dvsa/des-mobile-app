@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard,
-} from '@dvsa/mes-driver-schema';
+import { DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard } from '@dvsa/mes-driver-schema';
 import { DriverLicenceDetails } from '@providers/candidate-licence/candidate-licence';
 import { Observable } from 'rxjs';
 
@@ -10,8 +8,7 @@ export class CandidateLicenceProviderMock {
   private requestError: string;
   private driverLicenceResponse: DriverLicenceDetails;
 
-  clearDriverData(): void {
-  }
+  clearDriverData(): void {}
 
   getCandidateData(): Observable<DriverLicenceSchema> {
     return undefined;
@@ -28,7 +25,6 @@ export class CandidateLicenceProviderMock {
   private getDriverStandardData(): Observable<DriverStandard> {
     return undefined;
   }
-
 }
 
 export const mockDriverPhoto = { photograph: { image: 'some pic img' } } as DriverPhotograph;

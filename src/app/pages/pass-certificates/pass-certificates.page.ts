@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-certificates.actions';
 import { Store } from '@ngrx/store';
+import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-certificates.actions';
 import { StoreModel } from '@shared/models/store.model';
 
 @Component({
@@ -9,14 +9,9 @@ import { StoreModel } from '@shared/models/store.model';
   styleUrls: ['./pass-certificates.page.scss'],
 })
 export class PassCertificatesPage implements OnInit {
+  constructor(public store$: Store<StoreModel>) {}
 
-  constructor(
-    public store$: Store<StoreModel>,
-  ) {
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewDidEnter() {
     this.store$.dispatch(PassCertificatedViewDidEnter());

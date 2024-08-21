@@ -8,7 +8,6 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   styleUrls: ['safety-question-data-row.scss'],
 })
 export class SafetyDataRowComponent {
-
   @Input()
   label: string;
 
@@ -16,7 +15,7 @@ export class SafetyDataRowComponent {
   data: SafetyQuestionResult[];
 
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   public shouldShowFault(outcome: QuestionOutcome): boolean {
     return outcome === CompetencyOutcome.DF || outcome === undefined;

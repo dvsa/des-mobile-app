@@ -1,11 +1,11 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { Observable } from 'rxjs';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 type TestReportPageState = CommonTestReportPageState;
 
@@ -15,7 +15,6 @@ type TestReportPageState = CommonTestReportPageState;
   styleUrls: ['./test-report.cat-c.page.scss'],
 })
 export class TestReportCatCPage extends TestReportBasePageComponent implements OnInit {
-
   pageState: TestReportPageState;
 
   constructor(injector: Injector) {
@@ -44,5 +43,4 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
     }
     return this.testCategory === TestCategory.CE || this.testCategory === TestCategory.C1E;
   };
-
 }

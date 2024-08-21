@@ -1,15 +1,22 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { select } from '@ngrx/store';
+import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
+import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
+import { TestResultProvider } from '@providers/test-result/test-result';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
   trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { select } from '@ngrx/store';
-import { combineLatest, lastValueFrom, Observable, Subscription } from 'rxjs';
-import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
+import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
+import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   getCombination,
   getQuestion1,
@@ -19,16 +26,9 @@ import {
   getQuestion5,
   getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
-import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
-import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
-import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
-import { UntypedFormGroup } from '@angular/forms';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
-import { TestResultProvider } from '@providers/test-result/test-result';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { Observable, Subscription, combineLatest, lastValueFrom } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 interface CatCPCTestReportPageState {
@@ -61,11 +61,10 @@ type ToggleEvent = {
   styleUrls: ['./test-report.cat-cpc.page.scss'],
 })
 export class TestReportCatCPCPage extends TestReportBasePageComponent implements OnInit {
-
   pageState: TestReportPageState;
-  pageNumber: number = 1;
+  pageNumber = 1;
   form: UntypedFormGroup;
-  questions: (Question | Question5) [];
+  questions: (Question | Question5)[];
   overallPercentage: number;
   category: CategoryCode;
   isDelegated: boolean;
@@ -75,7 +74,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
     private testResultProvider: TestResultProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.form = new UntypedFormGroup({});
@@ -85,53 +84,23 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-    this.localSubscription = currentTest$.pipe(
-      select(getTestData),
-    )
-      .subscribe((result: TestData) => this.testData = result);
+    this.localSubscription = currentTest$
+      .pipe(select(getTestData))
+      .subscribe((result: TestData) => (this.testData = result));
 
     this.pageState = {
       ...this.commonPageState,
-      combinationCode$: currentTest$.pipe(
-        select(getTestData),
-        select(getCombination),
-      ),
-      question1$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion1),
-      ),
-      question2$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion2),
-      ),
-      question3$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion3),
-      ),
-      question4$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion4),
-      ),
-      question5$: currentTest$.pipe(
-        select(getTestData),
-        select(getQuestion5),
-      ),
-      overallPercentage$: currentTest$.pipe(
-        select(getTestData),
-        select(getTotalPercent),
-      ),
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
-      testDataCPC$: currentTest$.pipe(
-        select(getTestData),
-      ),
+      combinationCode$: currentTest$.pipe(select(getTestData), select(getCombination)),
+      question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),
+      question2$: currentTest$.pipe(select(getTestData), select(getQuestion2)),
+      question3$: currentTest$.pipe(select(getTestData), select(getQuestion3)),
+      question4$: currentTest$.pipe(select(getTestData), select(getQuestion4)),
+      question5$: currentTest$.pipe(select(getTestData), select(getQuestion5)),
+      overallPercentage$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
+      testDataCPC$: currentTest$.pipe(select(getTestData)),
     };
     this.setupSubscription();
   }
@@ -174,11 +143,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   };
 
   populateAnswer = (event: ToggleEvent): void => {
-    const {
-      questionNumber,
-      answerNumber,
-      answer,
-    } = event;
+    const { questionNumber, answerNumber, answer } = event;
     const { selected } = answer;
 
     // Update question answered selected value
@@ -229,14 +194,22 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       this.pageState.delegatedTest$,
     ])
       .pipe(takeUntil(trDestroy$))
-      .subscribe((
-        [question1, question2, question3, question4, question5, overallPercentage, category, delegated]:
-        [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
-      ) => {
-        this.questions = [question1, question2, question3, question4, question5];
-        this.overallPercentage = overallPercentage;
-        this.category = category;
-        this.isDelegated = delegated;
-      });
+      .subscribe(
+        ([question1, question2, question3, question4, question5, overallPercentage, category, delegated]: [
+          Question,
+          Question,
+          Question,
+          Question,
+          Question5,
+          number,
+          CategoryCode,
+          boolean,
+        ]) => {
+          this.questions = [question1, question2, question3, question4, question5];
+          this.overallPercentage = overallPercentage;
+          this.category = category;
+          this.isDelegated = delegated;
+        }
+      );
   }
 }

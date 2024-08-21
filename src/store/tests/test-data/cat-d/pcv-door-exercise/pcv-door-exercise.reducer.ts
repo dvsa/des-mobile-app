@@ -46,8 +46,7 @@ export const pcvDoorExerciseReducer = createReducer(
   on(pcvDoorExerciseActions.AddPcvDoorExerciseComment, (state, { fieldName, comment }) => ({
     ...state,
     [fieldName]: comment,
-  })),
-
+  }))
 );
 
 export const getPcvDoorExercise = createFeatureSelector<PcvDoorExerciseTypes>('pcvDoorExercise');

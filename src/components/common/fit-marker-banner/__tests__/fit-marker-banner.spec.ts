@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
 
 describe('FitMarkerBannerComponent', () => {
@@ -7,9 +7,7 @@ describe('FitMarkerBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FitMarkerBannerComponent,
-      ],
+      declarations: [FitMarkerBannerComponent],
     });
 
     fixture = TestBed.createComponent(FitMarkerBannerComponent);

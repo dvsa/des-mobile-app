@@ -61,7 +61,7 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q03',
     title: 'Security of the vehicle and contents',
-    subtitle: 'Show me how you\'d check all the passenger seats on the vehicle for comfort and safety.',
+    subtitle: "Show me how you'd check all the passenger seats on the vehicle for comfort and safety.",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -69,7 +69,8 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer2: {
       selected: false,
-      label: 'If a cushion is separately fitted, must be checked to make sure it won\'t detach from the seat when the vehicle brakes',
+      label:
+        "If a cushion is separately fitted, must be checked to make sure it won't detach from the seat when the vehicle brakes",
     },
     answer3: {
       selected: false,
@@ -84,7 +85,8 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q04',
     title: 'Preventing criminality and trafficking illegal immigrants',
-    subtitle: 'You\'ve parked at a border crossing and you and your passengers have left the vehicle unattended. Show me what security checks you\'d make before driving through customs.',
+    subtitle:
+      "You've parked at a border crossing and you and your passengers have left the vehicle unattended. Show me what security checks you'd make before driving through customs.",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -96,18 +98,18 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer3: {
       selected: false,
-      label: 'Check fuel cap hasn\'t been tampered with ',
+      label: "Check fuel cap hasn't been tampered with ",
     },
     answer4: {
       selected: false,
-      label: 'Check the passenger list to make sure you\'ve got the correct numbers of legitimate passengers',
+      label: "Check the passenger list to make sure you've got the correct numbers of legitimate passengers",
     },
     score: 0,
   },
   {
     questionCode: 'Q06',
     title: 'Ability to assess emergency situations',
-    subtitle: 'You\'re driving on a motorway and flames appear from the engine compartment. Show me:',
+    subtitle: "You're driving on a motorway and flames appear from the engine compartment. Show me:",
     additionalItems: [
       'a) How you’d deal with this small electrical wiring fire.',
       'b) Which is the appropriate fire extinguisher to use on this fire.',
@@ -161,9 +163,9 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q08',
     title: 'Ability to assess emergency situations',
-    subtitle: 'You\'re driving a loaded vehicle on a motorway and flames appear from around one of your tyres. Tell me:',
+    subtitle: "You're driving a loaded vehicle on a motorway and flames appear from around one of your tyres. Tell me:",
     additionalItems: [
-      'a) How you\'d deal with this small fire?',
+      "a) How you'd deal with this small fire?",
       'b) Which of these extinguishers would be the best to use on the fire?',
     ],
     answer1: {
@@ -213,11 +215,11 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q10',
     title: 'Security of vehicle and contents',
-    subtitle: 'Show me how you\'d check the vehicle interior for passenger comfort and safety.',
+    subtitle: "Show me how you'd check the vehicle interior for passenger comfort and safety.",
     additionalItems: [''],
     answer1: {
       selected: false,
-      label: 'Check overhead luggage rack, grab rails to make sure they\'re fitted securely',
+      label: "Check overhead luggage rack, grab rails to make sure they're fitted securely",
     },
     answer2: {
       selected: false,
@@ -239,7 +241,7 @@ export const pcvQuestions: CPCQuestion[] = [
     subtitle: 'Walk around the vehicle and:',
     additionalItems: [
       'a) Explain what projections and overhangs there are.',
-      'b) Describe what allowances you\'d have to make for these projections and overhangs when you\'re driving the vehicle.',
+      "b) Describe what allowances you'd have to make for these projections and overhangs when you're driving the vehicle.",
     ],
     answer1: {
       selected: false,
@@ -247,7 +249,8 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer2: {
       selected: false,
-      label: 'Overhangs can sweep over kerbs when turning, colliding with street furniture, pedestrians other vehicles and your vehicle',
+      label:
+        'Overhangs can sweep over kerbs when turning, colliding with street furniture, pedestrians other vehicles and your vehicle',
     },
     answer3: {
       selected: false,
@@ -255,14 +258,16 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer4: {
       selected: false,
-      label: 'Good all round observation is required, as well as extensive use of mirrors, to check for any rear end sweep',
+      label:
+        'Good all round observation is required, as well as extensive use of mirrors, to check for any rear end sweep',
     },
     score: 0,
   },
   {
     questionCode: 'Q12',
     title: 'Security of vehicle and contents',
-    subtitle: 'You\'re driving a different vehicle for the first time. Show me all the practical and visual safety checks you\'d make to familiarise yourself with this new vehicle.',
+    subtitle:
+      "You're driving a different vehicle for the first time. Show me all the practical and visual safety checks you'd make to familiarise yourself with this new vehicle.",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -270,7 +275,8 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer2: {
       selected: false,
-      label: 'Cockpit drill to include: doors closed and operating correctly, seat secure and correctly adjusted, steering correctly adjusted, seatbelt working, mirrors clean and correctly adjusted. DSSSM',
+      label:
+        'Cockpit drill to include: doors closed and operating correctly, seat secure and correctly adjusted, steering correctly adjusted, seatbelt working, mirrors clean and correctly adjusted. DSSSM',
     },
     answer3: {
       selected: false,
@@ -285,9 +291,10 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q13',
     title: 'Ability to assess emergency situations',
-    subtitle: 'You\'re driving along a busy main road and are alerted to a small fire which is centred around the fuel system. Show me:',
+    subtitle:
+      "You're driving along a busy main road and are alerted to a small fire which is centred around the fuel system. Show me:",
     additionalItems: [
-      'a) How you\'d deal with this situation.',
+      "a) How you'd deal with this situation.",
       'b) Which extinguisher you would NOT use on a fuel fire.',
     ],
     answer1: {
@@ -311,11 +318,12 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q14',
     title: 'Ability to assess emergency situations',
-    subtitle: 'What safety checks do you need to make before moving away from a bus stop, after an elderly infirm passenger or wheelchair user boards your vehicle?',
+    subtitle:
+      'What safety checks do you need to make before moving away from a bus stop, after an elderly infirm passenger or wheelchair user boards your vehicle?',
     additionalItems: [''],
     answer1: {
       selected: false,
-      label: 'Make sure the \'kneeling\' facility /wheel chair ramp is safely secured',
+      label: "Make sure the 'kneeling' facility /wheel chair ramp is safely secured",
     },
     answer2: {
       selected: false,
@@ -334,7 +342,8 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q15',
     title: 'Ability to assess emergency situations',
-    subtitle: 'Your stationary vehicle is full of passengers. The engine\'s running and you\'re in the driving seat. You\'ve just been involved in a road traffic incident. What would you do?',
+    subtitle:
+      "Your stationary vehicle is full of passengers. The engine's running and you're in the driving seat. You've just been involved in a road traffic incident. What would you do?",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -359,9 +368,9 @@ export const pcvQuestions: CPCQuestion[] = [
     title: 'Security of vehicle and contents',
     subtitle: '',
     additionalItems: [
-      'a) Show me how you\'d check all seat belts for their condition.',
+      "a) Show me how you'd check all seat belts for their condition.",
       'b) What are the legal requirements for their use?',
-      'c) What\'s your responsibility in this matter?',
+      "c) What's your responsibility in this matter?",
     ],
     answer1: {
       selected: false,
@@ -384,7 +393,8 @@ export const pcvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q17',
     title: 'Preventing criminality and trafficking in illegal immigrants',
-    subtitle: 'You and your passengers had a comfort break just before boarding a cross channel ferry. Show me what checks you\'d make to this vehicle before driving through customs.',
+    subtitle:
+      "You and your passengers had a comfort break just before boarding a cross channel ferry. Show me what checks you'd make to this vehicle before driving through customs.",
     additionalItems: [''],
     answer1: {
       selected: false,
@@ -400,14 +410,15 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer4: {
       selected: false,
-      label: 'Check the passenger list to make sure you\'ve got the correct numbers of legitimate passengers',
+      label: "Check the passenger list to make sure you've got the correct numbers of legitimate passengers",
     },
     score: 0,
   },
   {
     questionCode: 'Q18',
     title: 'Preventing criminality and trafficking in illegal immigrants',
-    subtitle: 'You and your passengers have returned to your vehicle after a rest break. You suspect that your vehicle may have been tampered with. What checks would you make before driving through customs?',
+    subtitle:
+      'You and your passengers have returned to your vehicle after a rest break. You suspect that your vehicle may have been tampered with. What checks would you make before driving through customs?',
     additionalItems: [''],
     answer1: {
       selected: false,
@@ -423,7 +434,7 @@ export const pcvQuestions: CPCQuestion[] = [
     },
     answer4: {
       selected: false,
-      label: 'Check the passenger list to make sure you\'ve got the correct numbers of legitimate passengers',
+      label: "Check the passenger list to make sure you've got the correct numbers of legitimate passengers",
     },
     score: 0,
   },
@@ -432,7 +443,7 @@ export const pcvQuestions: CPCQuestion[] = [
 export const pcvQuestion5: Question5 = {
   questionCode: 'Q05',
   title: 'Ability to prevent physical risk',
-  subtitle: 'Show me and explain the daily safety checks you\'d make to this vehicle before driving on the road.',
+  subtitle: "Show me and explain the daily safety checks you'd make to this vehicle before driving on the road.",
   additionalItems: [],
   answer1: {
     selected: false,

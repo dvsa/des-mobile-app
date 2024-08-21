@@ -1,10 +1,10 @@
-import { vehicleDetailsReducer } from '../vehicle-details.cat-b.reducer';
 import {
-  VehicleRegistrationChanged,
-  SchoolCarToggled,
   DualControlsToggled,
   GearboxCategoryChanged,
+  SchoolCarToggled,
+  VehicleRegistrationChanged,
 } from '../../vehicle-details.actions';
+import { vehicleDetailsReducer } from '../vehicle-details.cat-b.reducer';
 
 describe('vehicle details reducer', () => {
   it('should put the registration number into the state on vehicle registration changed action', () => {
@@ -32,5 +32,4 @@ describe('vehicle details reducer', () => {
     const result = vehicleDetailsReducer({}, GearboxCategoryChanged('Automatic'));
     expect(result.gearboxCategory).toBe('Automatic');
   });
-
 });

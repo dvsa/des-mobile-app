@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { CommunicationPage } from './communication.page';
 
@@ -24,5 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CommunicationPageRoutingModule {
-}
+export class CommunicationPageRoutingModule {}

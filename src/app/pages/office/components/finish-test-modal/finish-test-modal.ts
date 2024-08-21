@@ -1,7 +1,5 @@
-import {
-  ModalController,
-} from '@ionic/angular';
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'finish-test-modal',
@@ -9,15 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./finish-test-modal.scss'],
 })
 export class FinishTestModal {
-
   completeTest: Function;
 
   destroyTestSubs: Function;
 
-  constructor(
-    public modalController: ModalController,
-  ) {
-  }
+  constructor(public modalController: ModalController) {}
 
   onCompleteTest = async () => {
     this.destroyTestSubs();

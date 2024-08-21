@@ -1,6 +1,6 @@
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
-import { examinerReducer } from '../examiner.reducer';
 import { PopulateExaminer } from '../examiner.actions';
+import { examinerReducer } from '../examiner.reducer';
 
 describe('examiner reducer', () => {
   it('should return the examiner from a populate examiner', () => {

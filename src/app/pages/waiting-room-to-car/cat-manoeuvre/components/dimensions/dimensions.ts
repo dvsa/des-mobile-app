@@ -6,16 +6,16 @@ import { Component, Input } from '@angular/core';
 })
 export class DimensionsComponent {
   @Input()
-  vehicleWidth: number = 0;
+  vehicleWidth = 0;
 
   @Input()
-  vehicleHeight: number = 0;
+  vehicleHeight = 0;
 
   @Input()
-  vehicleLength: number = 0;
+  vehicleLength = 0;
 
   @Input()
-  numberOfSeats: number = 0;
+  numberOfSeats = 0;
 
   idPrefix = 'vehicle-dimensions';
 }

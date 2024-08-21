@@ -1,14 +1,11 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'vehicle-details',
   templateUrl: './vehicle-details.html',
 })
 export class VehicleDetailsComponent implements OnChanges {
-
   @Input()
   vehicleDetails: boolean;
 

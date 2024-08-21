@@ -10,11 +10,14 @@ export const initialState: ApplicationReference = {
 
 export const applicationReferenceReducer = createReducer(
   initialState,
-  on(applicationReferenceActions.PopulateApplicationReference, (_, { application }): ApplicationReference => ({
-    applicationId: application.applicationId,
-    bookingSequence: application.bookingSequence,
-    checkDigit: application.checkDigit,
-  })),
+  on(
+    applicationReferenceActions.PopulateApplicationReference,
+    (_, { application }): ApplicationReference => ({
+      applicationId: application.applicationId,
+      bookingSequence: application.bookingSequence,
+      checkDigit: application.checkDigit,
+    })
+  )
 );
 
 export const getApplicationReference = createFeatureSelector<ApplicationReference>('applicationReference');

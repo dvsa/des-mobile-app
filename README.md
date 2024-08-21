@@ -81,4 +81,8 @@ DVSA Driving Examiner Application
 ### Code style
 
 - This project uses [husky](https://github.com/typicode/husky) to run a series of checks on `pre-commit` and `pre-push`
-- This project uses `lint-staged` and `eslint` to enforce code styles
+- This project uses `biome` to enforce code styles/standards.  Plugins are available for code editors such as webstorm and vscode
+
+###### Use the following to trigger a code wide review.
+- - `npm run lint`
+- - `npm run lint:fix`

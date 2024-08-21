@@ -6,11 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['eco-debrief-card.scss'],
 })
 export class EcoDebriefCardComponent {
-
   @Input()
   public adviceGivenControl: boolean;
 
   @Input()
   public adviceGivenPlanning: boolean;
-
 }

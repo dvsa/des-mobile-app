@@ -1,9 +1,9 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AppModule } from 'src/app/app.module';
-import { TestOutcome } from '@store/tests/tests.constants';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TestOutcome } from '@store/tests/tests.constants';
+import { AppModule } from 'src/app/app.module';
 import { CandidateSectionComponent } from '../candidate-section';
 
 describe('CandidateSectionComponent', () => {
@@ -12,14 +12,8 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CandidateSectionComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [CandidateSectionComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(CandidateSectionComponent);

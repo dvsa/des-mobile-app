@@ -1,15 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { MockComponent } from 'ng-mocks';
-import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { By } from '@angular/platform-browser';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { By } from '@angular/platform-browser';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
+import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
 import {
   ShowMeQuestionDangerousFault,
   ShowMeQuestionDrivingFault,
@@ -21,13 +22,11 @@ import {
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
-import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { MockComponent } from 'ng-mocks';
 import { VehicleCheckComponent } from '../vehicle-check';
 
 describe('VehicleCheckComponent', () => {
-
-  let counter: number = 105;
+  let counter = 105;
   let fixture: ComponentFixture<VehicleCheckComponent>;
   let component: VehicleCheckComponent;
   let store$: Store<StoreModel>;
@@ -42,10 +41,7 @@ describe('VehicleCheckComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(CompetencyButtonComponent),
       ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
-      ],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(VehicleCheckComponent);
@@ -111,7 +107,6 @@ describe('VehicleCheckComponent', () => {
         component.removeFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(ShowMeQuestionPassed());
-
       });
 
       it('should dispatch a SHOW_ME_QUESTION_PASSED action if there is a serious fault', () => {

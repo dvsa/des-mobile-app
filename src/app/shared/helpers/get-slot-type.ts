@@ -13,10 +13,7 @@ export const getSlotType = (slot: TestSlot): string => {
   }
 
   const { vehicleSlotTypeCode } = slot;
-  const {
-    specialNeedsCode,
-    specialNeedsExtendedTest,
-  } = slot.booking.application;
+  const { specialNeedsCode, specialNeedsExtendedTest } = slot.booking.application;
 
   // Check special case
   // Jira ticket is available here for more details: https://jira.i-env.net/browse/MES-1698

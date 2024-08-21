@@ -8,12 +8,8 @@ describe('SpeedCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SpeedCardComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [SpeedCardComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(SpeedCardComponent);

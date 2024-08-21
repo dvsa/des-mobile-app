@@ -17,24 +17,24 @@ export const initialState: TeachingLearningStrategies = {
 
 export const teachingLearningStrategiesReducer = createReducer(
   initialState,
-  on(teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged, (state, {
-    question,
-    score,
-  }): TeachingLearningStrategies => ({
-    ...state,
-    [`q${question}`]: {
-      ...state[`q${question}`],
+  on(
+    teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged,
+    (state, { question, score }): TeachingLearningStrategies => ({
+      ...state,
+      [`q${question}`]: {
+        ...state[`q${question}`],
+        score,
+      },
+    })
+  ),
+  on(
+    teachingLearningStrategiesActions.TeachingLearningStrategiesOverallScoreChanged,
+    (state, { score }): TeachingLearningStrategies => ({
+      ...state,
       score,
-    },
-  })),
-  on(teachingLearningStrategiesActions.TeachingLearningStrategiesOverallScoreChanged, (state, {
-    score,
-  }): TeachingLearningStrategies => ({
-    ...state,
-    score,
-  })),
+    })
+  )
 );
 
-export const getTeachingLearningStrategies = createFeatureSelector<TeachingLearningStrategies>(
-  'teachingLearningStrategies',
-);
+export const getTeachingLearningStrategies =
+  createFeatureSelector<TeachingLearningStrategies>('teachingLearningStrategies');

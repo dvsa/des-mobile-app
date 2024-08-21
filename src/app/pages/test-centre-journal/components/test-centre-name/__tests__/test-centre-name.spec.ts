@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestCentreNameComponent } from '../test-centre-name';
 
@@ -8,9 +8,7 @@ describe('TestCentreNameComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestCentreNameComponent,
-      ],
+      declarations: [TestCentreNameComponent],
       imports: [IonicModule],
     });
 
@@ -21,5 +19,4 @@ describe('TestCentreNameComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

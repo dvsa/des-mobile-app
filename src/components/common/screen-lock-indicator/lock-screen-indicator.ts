@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: 'lock-screen-indicator.html',
   styleUrls: ['lock-screen-indicator.scss'],
 })
-
-export class LockScreenIndicator {
-}
+export class LockScreenIndicator {}

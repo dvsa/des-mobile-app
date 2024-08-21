@@ -15,7 +15,6 @@ type TestReportPageState = CommonTestReportPageState;
   styleUrls: ['test-report.cat-b.page.scss'],
 })
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
-
   pageState: TestReportPageState;
 
   constructor(injector: Injector) {

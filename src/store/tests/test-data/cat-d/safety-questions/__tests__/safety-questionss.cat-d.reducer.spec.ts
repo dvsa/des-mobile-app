@@ -1,13 +1,9 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { AddSafetyQuestionComment, SafetyQuestionOutcomeChanged } from '../safety-questions.cat-d.action';
 import { safetyQuestionsCatDReducer } from '../safety-questions.cat-d.reducer';
-import {
-  SafetyQuestionOutcomeChanged,
-  AddSafetyQuestionComment,
-} from '../safety-questions.cat-d.action';
 
 describe('Safety Questions Cat D Reducer', () => {
-
   const mockSafetyQuestions: CatDUniqueTypes.SafetyQuestions = {
     questions: [
       {

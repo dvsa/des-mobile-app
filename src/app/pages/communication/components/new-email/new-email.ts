@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'new-email',
@@ -40,10 +38,7 @@ export class NewEmailComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl('', Validators.required);
       if (this.isNewEmailAddressChosen) {
-        this.formControl.setValidators(Validators.compose([
-          Validators.required,
-          Validators.email,
-        ]));
+        this.formControl.setValidators(Validators.compose([Validators.required, Validators.email]));
       }
       this.formGroup.addControl(NewEmailComponent.newEmailCtrl, this.formControl);
     }

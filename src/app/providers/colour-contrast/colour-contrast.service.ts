@@ -14,21 +14,22 @@ export class ColourContrastService {
   }
   luminance([colour1, colour2, colour3]: [number, number, number]): number {
     //return luminance value for the passed colour
-    return 0.2126 * this.relativeLuminance(colour1) +
+    return (
+      0.2126 * this.relativeLuminance(colour1) +
       0.7152 * this.relativeLuminance(colour2) +
-      0.0722 * this.relativeLuminance(colour3);
+      0.0722 * this.relativeLuminance(colour3)
+    );
   }
   hexToRgb(hex: string): [number, number, number] {
-    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? [parseInt(result[1], 16),
-      parseInt(result[2], 16),
-      parseInt(result[3], 16),
-    ] : null;
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? [Number.parseInt(result[1], 16), Number.parseInt(result[2], 16), Number.parseInt(result[3], 16)]
+      : null;
   }
 
   getContrastRatio(
     colour1: [number, number, number] | string,
-    colour2: [number, number, number] | string = [255, 255, 255],
+    colour2: [number, number, number] | string = [255, 255, 255]
   ): number {
     if (typeof colour1 === 'string') {
       colour1 = this.hexToRgb(colour1);
@@ -42,9 +43,9 @@ export class ColourContrastService {
     // calculate contrast using (L1 + 0.05) / (L2 + 0.05), where l1 is the largest of the 2 l values, return as a number
     // with zero decimal places, but without rounding.
     return Number(
-      (luminance1 > luminance2 ?
-        (luminance1 + 0.05) / (luminance2 + 0.05) :
-        (luminance2 + 0.05) / (luminance1 + 0.05)
-      ).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+      (luminance1 > luminance2 ? (luminance1 + 0.05) / (luminance2 + 0.05) : (luminance2 + 0.05) / (luminance1 + 0.05))
+        .toString()
+        .match(/^-?\d+(?:\.\d{0,2})?/)[0]
+    );
   }
 }

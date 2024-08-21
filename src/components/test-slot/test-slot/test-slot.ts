@@ -1,47 +1,46 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { get, isNil } from 'lodash-es';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Store, select } from '@ngrx/store';
+import { get, isNil } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
+import { CompletedJournalSlot } from '@pages/journal/journal.page';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { SlotProvider } from '@providers/slot/slot';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
-import { StoreModel } from '@shared/models/store.model';
-import { SlotTypes } from '@shared/models/slot-types';
+import { SlotProvider } from '@providers/slot/slot';
+import { formatApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { SlotTypes } from '@shared/models/slot-types';
+import { StoreModel } from '@shared/models/store.model';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { TestsModel } from '@store/tests/tests.model';
+import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCodeBySlotId,
   getPassCertificateBySlotId,
   getTestById,
   getTestStatus,
 } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { CompletedJournalSlot } from '@pages/journal/journal.page';
-import { TestsModel } from '@store/tests/tests.model';
+import { vehicleDetails } from './test-slot.constants';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
   isRehydrated$: Observable<boolean>;
   testActivityCode$: Observable<ActivityCode>;
-  testPassCertificate$: Observable<String>;
+  testPassCertificate$: Observable<string>;
   isRekey$: Observable<boolean>;
 }
-
 
 @Component({
   selector: 'test-slot',
@@ -49,7 +48,6 @@ interface TestSlotComponentState {
   styleUrls: ['test-slot.scss'],
 })
 export class TestSlotComponent implements SlotComponent, OnInit {
-
   @Input()
   slot: TestSlot;
 
@@ -66,10 +64,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   showLocation: boolean;
 
   @Input()
-  delegatedTest: boolean = false;
+  delegatedTest = false;
 
   @Input()
-  teamJournalCandidateResult: boolean = false;
+  teamJournalCandidateResult = false;
 
   @Input()
   completedTestRecord?: CompletedJournalSlot;
@@ -78,16 +76,16 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   examinerName: string = null;
 
   @Input()
-  isTeamJournal: boolean = false;
+  isTeamJournal = false;
 
   @Input()
-  isPracticeMode: boolean = false;
+  isPracticeMode = false;
 
   @Input()
-  isPortrait: boolean = false;
+  isPortrait = false;
 
   @Input()
-  isUnSubmittedTestSlotView: boolean = false;
+  isUnSubmittedTestSlotView = false;
 
   @Output()
   cancelFutureTestModal = new EventEmitter<void>();
@@ -96,8 +94,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   practiceTestStatus: TestStatus = TestStatus.Booked;
 
-  canViewCandidateDetails: boolean = false;
-  isTestCentreJournalADIBooking: boolean = false;
+  canViewCandidateDetails = false;
+  isTestCentreJournalADIBooking = false;
   protected readonly ActivityCodes = ActivityCodes;
 
   formatAppRef = formatApplicationReference;
@@ -109,9 +107,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
-    public accessibilityService: AccessibilityService,
-  ) {
-  }
+    public accessibilityService: AccessibilityService
+  ) {}
 
   ngOnInit(): void {
     const { slotId } = this.slot.slotDetail;
@@ -122,41 +119,42 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         select((tests): TestStatus => {
           const testStatus = getTestStatus(tests, slotId);
           return testStatus === TestStatus.Autosaved
-            ? testStatus : !!(this.completedTestRecord?.activityCode) ? TestStatus.Submitted : testStatus;
-        }),
+            ? testStatus
+            : !!this.completedTestRecord?.activityCode
+              ? TestStatus.Submitted
+              : testStatus;
+        })
       ),
       isRehydrated$: this.store$.pipe(
         select(getTests),
         map((tests: TestsModel) => {
-          return (this.completedTestRecord && !(getActivityCodeBySlotId(tests, slotId)));
-        }),
+          return this.completedTestRecord && !getActivityCodeBySlotId(tests, slotId);
+        })
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
         map((tests) => {
           return this.completedTestRecord?.activityCode || getActivityCodeBySlotId(tests, slotId);
-        }),
+        })
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
         map((tests) => {
           return this.completedTestRecord?.passCertificateNumber || getPassCertificateBySlotId(tests, slotId);
-        }),
+        })
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
         map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
         filter((test) => test !== undefined),
         select(getRekeyIndicator),
-        select(isRekey),
+        select(isRekey)
       ),
     };
 
     this.canViewCandidateDetails = this.slotProvider.canViewCandidateDetails(this.slot);
     this.formatTestCategory = this.slot.booking.application.testCategory as TestCategory;
-    this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(
-      this.slot, this.isTeamJournal,
-    );
+    this.isTestCentreJournalADIBooking = this.slotProvider.isTestCentreJournalADIBooking(this.slot, this.isTeamJournal);
   }
 
   isIndicatorNeededForSlot(): boolean {
@@ -178,19 +176,17 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   showAdditionalCandidateDetails(): boolean {
-    return isAnyOf(this.slot.booking.application.testCategory, [
-      TestCategory.ADI2,
-      TestCategory.ADI3,
-      TestCategory.SC,
-    ]);
+    return isAnyOf(this.slot.booking.application.testCategory, [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC]);
   }
 
   canStartTest(): boolean {
     if (this.isPracticeMode) {
       return true;
     }
-    return this.slotProvider.canStartTest(this.slot)
-      && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
+    return (
+      this.slotProvider.canStartTest(this.slot) &&
+      this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory)
+    );
   }
 
   getExaminerId(): number {
@@ -211,27 +207,22 @@ export class TestSlotComponent implements SlotComponent, OnInit {
    * @param testStatus
    */
   isAutosavedTest = (remoteAutosaved: boolean, testStatus: TestStatus): boolean => {
-    return (remoteAutosaved) && testStatus !== TestStatus.Autosaved;
-  }
+    return remoteAutosaved && testStatus !== TestStatus.Autosaved;
+  };
 
   /**
    * Returns true if the test is autosaved, completed or submitted, we need to use a new function as
    * integrity-marker needs to display on a submitted test.
    */
   showRecoveredBanner = (isRehydrated: boolean, testStatus: TestStatus): boolean => {
-    return isRehydrated &&
-    isAnyOf(testStatus, [
-      TestStatus.Autosaved,
-      TestStatus.Completed,
-      TestStatus.Submitted
-    ]);
-  }
+    return isRehydrated && isAnyOf(testStatus, [TestStatus.Autosaved, TestStatus.Completed, TestStatus.Submitted]);
+  };
 
   showOutcome(status: TestStatus): boolean {
     return [TestStatus.Completed, TestStatus.Submitted].includes(status);
   }
 
   emitCancelFutureTest() {
-    this.cancelFutureTestModal.emit()
+    this.cancelFutureTestModal.emit();
   }
 }

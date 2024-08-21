@@ -7,11 +7,9 @@ import { SafeUrl } from '@angular/platform-browser';
   styleUrls: ['licence-photo.scss'],
 })
 export class LicencePhoto {
-
   @Input()
   imageSrc: SafeUrl | string;
 
   @Input()
-  hasError: boolean = false;
-
+  hasError = false;
 }

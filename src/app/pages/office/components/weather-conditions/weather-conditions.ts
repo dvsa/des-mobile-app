@@ -1,13 +1,8 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'weather-conditions',
@@ -15,7 +10,6 @@ import {
   styleUrls: ['weather-conditions.scss'],
 })
 export class WeatherConditionsComponent implements OnChanges {
-
   @Input()
   display: boolean;
 
@@ -37,15 +31,17 @@ export class WeatherConditionsComponent implements OnChanges {
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'weatherConditions';
 
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl([]);
       this.formGroup.addControl(WeatherConditionsComponent.fieldName, this.formControl);
     }
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
-      WeatherConditionsComponent.fieldName);
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      WeatherConditionsComponent.fieldName
+    );
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(WeatherConditionsComponent.fieldName).clearValidators();
@@ -63,5 +59,4 @@ export class WeatherConditionsComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

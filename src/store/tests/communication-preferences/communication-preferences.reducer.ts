@@ -1,5 +1,5 @@
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as communicationPrefActions from './communication-preferences.actions';
 
 export const initialState: CommunicationPreferences = {
@@ -10,14 +10,14 @@ export const initialState: CommunicationPreferences = {
 
 export const communicationPreferencesReducer = createReducer(
   initialState,
-  on(communicationPrefActions.CandidateChoseEmailAsCommunicationPreference, (state, {
-    communicationMethod,
-    updatedEmail,
-  }) => ({
-    ...state,
-    communicationMethod,
-    updatedEmail,
-  })),
+  on(
+    communicationPrefActions.CandidateChoseEmailAsCommunicationPreference,
+    (state, { communicationMethod, updatedEmail }) => ({
+      ...state,
+      communicationMethod,
+      updatedEmail,
+    })
+  ),
   on(communicationPrefActions.CandidateChosePostAsCommunicationPreference, (state, { communicationMethod }) => ({
     ...state,
     communicationMethod,
@@ -32,10 +32,9 @@ export const communicationPreferencesReducer = createReducer(
   })),
   on(communicationPrefActions.PopulateConductedLanguage, (state, { conductedLanguage }) => ({
     ...state,
-    conductedLanguage: (
-      state.conductedLanguage === initialState.conductedLanguage ? conductedLanguage : state.conductedLanguage
-    ),
-  })),
+    conductedLanguage:
+      state.conductedLanguage === initialState.conductedLanguage ? conductedLanguage : state.conductedLanguage,
+  }))
 );
 
 export const getCommunicationPreference = createFeatureSelector<CommunicationPreferences>('communicationPreferences');

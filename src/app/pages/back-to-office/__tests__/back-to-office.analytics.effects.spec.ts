@@ -1,9 +1,11 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
+import { Application } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
@@ -12,24 +14,21 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { StoreModel } from '@shared/models/store.model';
-import * as testsActions from '@store/tests/tests.actions';
-import { testsReducer } from '@store//tests/tests.reducer';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import { Application } from '@dvsa/mes-journal-schema';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import * as applicationReferenceActions
-  from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { StoreModel } from '@shared/models/store.model';
 import * as activityCodeActions from '@store//tests/activity-code/activity-code.actions';
+import { testsReducer } from '@store//tests/tests.reducer';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effects';
+import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { ReplaySubject } from 'rxjs';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as backToOfficeActions from '../back-to-office.actions';
+import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effects';
 
 describe('BackToOfficeAnalyticsEffects', () => {
   let effects: BackToOfficeAnalyticsEffects;
@@ -80,12 +79,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
       // ASSERT
       effects.backToOfficeViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -97,15 +94,14 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
       // ASSERT
       effects.backToOfficeViewDidEnter$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
         done();
       });
     });
-
   });
 
   describe('deferWriteUpEffect', () => {
@@ -119,20 +115,22 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.DEFER_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DEFER_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
         done();
       });
     });
@@ -146,20 +144,22 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.DEFER_WRITE_UP,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DEFER_WRITE_UP,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
         done();
       });
     });
@@ -173,20 +173,22 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.PASS,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.PASS
+        );
         done();
       });
     });
@@ -201,23 +203,24 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type)
-          .toEqual(AnalyticRecorded.type);
+        expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-            GoogleAnalyticsEventsTitles.RESULT,
-            GoogleAnalyticsEventsValues.FAIL,
-          );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+          GoogleAnalyticsEventsTitles.RESULT,
+          GoogleAnalyticsEventsValues.FAIL
+        );
         done();
       });
     });
   });
-
 });

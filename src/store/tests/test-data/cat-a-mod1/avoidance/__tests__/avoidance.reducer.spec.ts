@@ -1,7 +1,7 @@
 import { Avoidance } from '@dvsa/mes-test-schema/categories/AM1';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { initialState, avoidanceReducer } from '../avoidance.reducer';
 import * as avoidanceActions from '../avoidance.actions';
+import { avoidanceReducer, initialState } from '../avoidance.reducer';
 
 describe('avoidance reducer', () => {
   describe('handle ToggleEmergencyStopSpeedReq', () => {
@@ -16,7 +16,7 @@ describe('avoidance reducer', () => {
     });
 
     it('should set outcome to null', () => {
-      const state : Avoidance = {
+      const state: Avoidance = {
         ...initialState,
         outcome: CompetencyOutcome.S,
       };

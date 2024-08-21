@@ -1,7 +1,5 @@
-import {
-  ModalController,
-} from '@ionic/angular';
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-asam-failure-notification',
@@ -9,14 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./asam-failure-notification-modal.scss'],
 })
 export class AsamFailureNotificationModal {
-
-  constructor(
-    public modalController: ModalController,
-  ) {
-  }
+  constructor(public modalController: ModalController) {}
 
   onCompleteTest = async () => {
     await this.modalController.dismiss();
   };
-
 }

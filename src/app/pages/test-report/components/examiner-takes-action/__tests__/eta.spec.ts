@@ -1,18 +1,17 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModel } from '@shared/models/store.model';
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { testsReducer } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { provideMockStore } from '@ngrx/store/testing';
-import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { EtaComponent } from '../eta';
 
 describe('EtaComponent', () => {
-
   const initialState = {
     tests: {
       currentTest: {
@@ -32,17 +31,9 @@ describe('EtaComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EtaComponent,
-        MockComponent(CompetencyButtonComponent),
-      ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer }),
-      ],
-      providers: [
-        provideMockStore({ initialState }),
-      ],
+      declarations: [EtaComponent, MockComponent(CompetencyButtonComponent)],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
+      providers: [provideMockStore({ initialState })],
     });
 
     fixture = TestBed.createComponent(EtaComponent);

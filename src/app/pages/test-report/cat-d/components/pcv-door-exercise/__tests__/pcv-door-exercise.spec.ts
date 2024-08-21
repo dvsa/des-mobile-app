@@ -1,38 +1,34 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { StoreModule, Store } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { MockComponent } from 'ng-mocks';
 
+import { AppModule } from '@app/app.module';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import {
-  DangerousFaultBadgeComponent,
-} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import { NavigationStateProviderMock }
-  from '@providers/navigation-state/__mocks__/navigation-state.mock';
-import { AppModule } from '@app/app.module';
-import {
-  PcvDoorExerciseAddDrivingFault,
   PcvDoorExerciseAddDangerousFault,
+  PcvDoorExerciseAddDrivingFault,
   PcvDoorExerciseAddSeriousFault,
-  PcvDoorExerciseRemoveDrivingFault,
   PcvDoorExerciseRemoveDangerousFault,
+  PcvDoorExerciseRemoveDrivingFault,
   PcvDoorExerciseRemoveSeriousFault,
 } from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
-import { PcvDoorExerciseComponent } from '../pcv-door-exercise';
+import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
 import {
+  ToggleDangerousFaultMode,
+  ToggleRemoveFaultMode,
   ToggleSeriousFaultMode,
-  ToggleDangerousFaultMode, ToggleRemoveFaultMode,
 } from '../../../../test-report.actions';
 import { testReportReducer } from '../../../../test-report.reducer';
-import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
+import { PcvDoorExerciseComponent } from '../pcv-door-exercise';
 
 describe('PcvDoorExerciseComponent', () => {
   let fixture: ComponentFixture<PcvDoorExerciseComponent>;
@@ -315,7 +311,6 @@ describe('PcvDoorExerciseComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleRemoveFaultMode());
         fixture.detectChanges();
       });
-
     });
 
     describe('removeDangerousFault', () => {
@@ -526,5 +521,4 @@ describe('PcvDoorExerciseComponent', () => {
       expect(drivingFaultsBadge.count).toBe(1);
     });
   });
-
 });

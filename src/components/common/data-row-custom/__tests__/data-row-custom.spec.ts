@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { IonicModule } from '@ionic/angular';
 
 describe('DataRowCustomComponent', () => {
   let fixture: ComponentFixture<DataRowCustomComponent>;
@@ -8,9 +8,7 @@ describe('DataRowCustomComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(DataRowCustomComponent);

@@ -1,7 +1,7 @@
 import {
-  isHighwayCodeSafetySelected,
-  getHighwayCodeSafetySeriousFault,
   getHighwayCodeSafetyDrivingFault,
+  getHighwayCodeSafetySeriousFault,
+  isHighwayCodeSafetySelected,
 } from '../highway-code-safety.selectors';
 
 describe('Highway Code Safety Selector', () => {
@@ -11,7 +11,6 @@ describe('Highway Code Safety Selector', () => {
     });
     it('should return false if highway code safety has not been selected', () => {
       expect(isHighwayCodeSafetySelected({ selected: false })).toEqual(false);
-
     });
     it('should return undefined if highway code safety is not defined', () => {
       expect(isHighwayCodeSafetySelected({})).toBeUndefined();
@@ -30,6 +29,5 @@ describe('Highway Code Safety Selector', () => {
     it('should return undefined if there is no serious fault', () => {
       expect(getHighwayCodeSafetySeriousFault({})).toBeUndefined();
     });
-
   });
 });

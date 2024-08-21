@@ -1,33 +1,26 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
-import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { QuestionProvider } from '@providers/question/question';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getTestOutcome, getTestOutcomeText } from '@store/tests/tests.selector';
-import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { startsWith } from 'lodash-es';
-import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
+import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
+import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import {
   AddShowMeTellMeComment,
   ShowMeQuestionSelected,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
-import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
-import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { combineLatest, Observable } from 'rxjs';
-import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   getSelectedShowMeQuestions,
   getVehicleChecksCatADI2,
@@ -35,21 +28,28 @@ import {
   getVehicleChecksSerious,
   vehicleChecksExist,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.selector';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { QuestionProvider } from '@providers/question/question';
+import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import {
+  AddEcoCaptureReason,
+  AddEcoRelatedFault,
+  ToggleFuelEfficientDriving,
+} from '@store/tests/test-data/common/eco/eco.actions';
+import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import {
   getEco,
   getEcoCaptureReason,
   getEcoRelatedFault,
   getFuelEfficientDriving,
 } from '@store/tests/test-data/common/test-data.selector';
-import {
-  AddEcoCaptureReason,
-  AddEcoRelatedFault,
-  ToggleFuelEfficientDriving,
-} from '@store/tests/test-data/common/eco/eco.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getTestOutcome, getTestOutcomeText } from '@store/tests/tests.selector';
+import { startsWith } from 'lodash-es';
+import { Observable, combineLatest } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 interface CatADI2OfficePageState {
   displayDrivingFaultComments$: Observable<boolean>;
@@ -82,7 +82,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   constructor(
     private appConfig: AppConfigProvider,
     private questionProvider: QuestionProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
@@ -93,123 +93,103 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-    const testCategory$ = currentTest$.pipe(
-      select(getTestCategory),
-    );
+    const testCategory$ = currentTest$.pipe(select(getTestCategory));
 
     this.pageState = {
       ...this.commonPageState,
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestOutcomeText))),
-        map(([testData, testOutcomeText]) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
-          testData,
-          TestCategory.ADI2,
-          0,
-          testOutcomeText,
-        )),
+        map(([testData, testOutcomeText]) =>
+          this.faultCountProvider.shouldDisplayDrivingFaultComments(testData, TestCategory.ADI2, 0, testOutcomeText)
+        )
       ),
       displayTellMeQuestions$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestData))),
         map(([outcome, data]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', vehicleChecksExist(data.vehicleChecks))),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', vehicleChecksExist(data.vehicleChecks))
+        )
       ),
       vehicleChecks$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatADI2),
-        map((checks) => [...checks.tellMeQuestions]),
+        map((checks) => [...checks.tellMeQuestions])
       ),
       showMeQuestions$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatADI2),
-        select(getSelectedShowMeQuestions),
+        select(getSelectedShowMeQuestions)
       ),
       vehicleChecksSerious$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatADI2),
-        select(getVehicleChecksSerious),
+        select(getVehicleChecksSerious)
       ),
       vehicleChecksDangerous$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatADI2),
-        select(getVehicleChecksDangerous),
+        select(getVehicleChecksDangerous)
       ),
       showMeQuestionsFaults$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatADI2),
-        map((data) => this.faultCountProvider.getShowMeFaultCount(TestCategory.ADI2, data).drivingFaults),
+        map((data) => this.faultCountProvider.getShowMeFaultCount(TestCategory.ADI2, data).drivingFaults)
       ),
       adi2DrivingFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(testCategory$),
-        map(([data, category]) =>
-          this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)),
+        map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false))
       ),
-      fuelEfficientDriving$: currentTest$.pipe(
-        select(getTestData),
-        select(getEco),
-        select(getFuelEfficientDriving),
-      ),
-      ecoRelatedFault$: currentTest$.pipe(
-        select(getTestData),
-        select(getEco),
-        select(getEcoRelatedFault),
-      ),
-      ecoCaptureReason$: currentTest$.pipe(
-        select(getTestData),
-        select(getEco),
-        select(getEcoCaptureReason),
-      ),
+      fuelEfficientDriving$: currentTest$.pipe(select(getTestData), select(getEco), select(getFuelEfficientDriving)),
+      ecoRelatedFault$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoRelatedFault)),
+      ecoCaptureReason$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoCaptureReason)),
       displayFuelEfficient$: combineLatest([
         currentTest$.pipe(
           select(getTestData),
           withLatestFrom(testCategory$),
           map(([testData, category]) =>
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+          )
         ),
         currentTest$.pipe(
           select(getTestData),
           withLatestFrom(testCategory$),
           map(([testData, category]) =>
-            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+          )
         ),
         currentTest$.pipe(
           select(getTestData),
           withLatestFrom(testCategory$),
           map(([data, category]) =>
-            this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)),
+            this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)
+          )
         ),
-      ])
-        .pipe(
-          map((
-            [seriousF, dangerousF, drivingF],
-          ) => !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)),
-        ),
+      ]).pipe(
+        map(
+          ([seriousF, dangerousF, drivingF]) =>
+            !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)
+        )
+      ),
       allowDrivingFaultComment$: combineLatest([
         currentTest$.pipe(
           select(getTestData),
           withLatestFrom(testCategory$),
           map(([testData, category]) =>
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+          )
         ),
         currentTest$.pipe(
           select(getTestData),
           withLatestFrom(testCategory$),
           map(([testData, category]) =>
-            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+          )
         ),
-      ])
-        .pipe(
-          map((
-            [seriousF, dangerousF],
-          ) => !!(seriousF?.length === 0 && dangerousF?.length === 0)),
-        ),
+      ]).pipe(map(([seriousF, dangerousF]) => !!(seriousF?.length === 0 && dangerousF?.length === 0))),
     };
     this.setupSubscription();
   }
@@ -233,23 +213,16 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
     if (dangerousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
+        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment)
       );
     } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = dangerousFaultComment.source.split('-');
-      const index = parseInt(segments[1], 10);
+      const index = Number.parseInt(segments[1], 10);
       const fieldName = segments[2];
       const controlOrObservation = segments[3];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.D,
-          controlOrObservation,
-          dangerousFaultComment.comment,
-          index,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.D, controlOrObservation, dangerousFaultComment.comment, index)
       );
-
     } else if (dangerousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(dangerousFaultComment.comment));
     } else if (dangerousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
@@ -262,21 +235,15 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   seriousFaultCommentChanged(seriousFaultComment: FaultSummary) {
     if (seriousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
+        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment)
       );
     } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = seriousFaultComment.source.split('-');
-      const index = parseInt(segments[1], 10);
+      const index = Number.parseInt(segments[1], 10);
       const fieldName = segments[2];
       const controlOrObservation = segments[3];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.S,
-          controlOrObservation,
-          seriousFaultComment.comment,
-          index,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.S, controlOrObservation, seriousFaultComment.comment, index)
       );
     } else if (seriousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(seriousFaultComment.comment));
@@ -292,21 +259,15 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   drivingFaultCommentChanged(drivingFaultComment: FaultSummary) {
     if (drivingFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment),
+        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment)
       );
     } else if (startsWith(drivingFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = drivingFaultComment.source.split('-');
-      const index = parseInt(segments[1], 10);
+      const index = Number.parseInt(segments[1], 10);
       const fieldName = segments[2];
       const controlOrObservation = segments[3];
       this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.DF,
-          controlOrObservation,
-          drivingFaultComment.comment,
-          index,
-        ),
+        AddManoeuvreComment(fieldName, CompetencyOutcome.DF, controlOrObservation, drivingFaultComment.comment, index)
       );
     } else if (drivingFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(drivingFaultComment.comment));
@@ -332,5 +293,4 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   fedChanged(fuelEfficientDriving: boolean): void {
     this.store$.dispatch(ToggleFuelEfficientDriving(fuelEfficientDriving));
   }
-
 }

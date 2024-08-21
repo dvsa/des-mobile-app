@@ -10,7 +10,6 @@
     "npm": ">=10.0.0 <11.0.0"
   },
   "scripts": {
-    "postinstall": "node buildScripts/eslint-alloc-patch.js",
     "prepare": "husky install",
     "vulnerability-check": "snyk test --severity-threshold=high",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
@@ -28,11 +27,8 @@
     "build:dev": "npm run schema-version && npm run config:dev && npm run build:prod",
     "build:prod": "ionic cap build ios --no-open --prod",
     "build:test": "npm run schema-version && npm run config:test && buildScripts/build-for-e2e.sh",
-    "format": "prettier --write ./src/**/**/*.html",
-    "lint": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --ext .ts",
-    "lint:fix:commit": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
-    "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint ./src --cache --fix --quiet --ext .ts",
-    "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
+    "lint": "biome check src",
+    "lint:fix": "npm run lint -- --fix",
     "gitSecrets": "git secrets --scan && git log -p -n 200 | scanrepo",
     "e2e-build": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App SYMROOT=$(PWD)/build",
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
@@ -133,6 +129,7 @@
     "@angular/compiler": "^17.3.9",
     "@angular/compiler-cli": "^17.3.9",
     "@angular/language-service": "^17.3.9",
+    "@biomejs/biome": "1.8.3",
     "@capacitor/cli": "^6.0.0",
     "@ionic/angular-toolkit": "^10.0.0",
     "@ionic/cli": "^7.1.5",
@@ -142,15 +139,6 @@
     "@types/jasmine": "~5.1.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "20.10.x",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
-    "eslint": "^8.54.0",
-    "eslint-config-airbnb-typescript": "^17.1.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-deprecation": "^2.0.0",
-    "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-prettier": "^5.0.1",
-    "eslint-plugin-rxjs": "5.0.3",
     "husky": "^8.0.3",
     "jasmine-core": "~5.1.1",
     "jasmine-spec-reporter": "~7.0.0",
@@ -162,11 +150,9 @@
     "karma-jasmine-html-reporter": "^2.1.0",
     "karma-parallel": "^0.3.1",
     "karma-spec-reporter": "0.0.36",
-    "lint-staged": "^15.1.0",
     "ng-mocks": "^14.12.2",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.31",
-    "prettier": "^3.1.1",
     "puppeteer": "^21.5.2",
     "remotedev": "^0.2.9",
     "snyk": "^1.1253.0",
@@ -181,14 +167,6 @@
     },
     "platforms": [
       "ios"
-    ]
-  },
-  "lint-staged": {
-    "./src/**/*.ts": [
-      "npm run lint:fix"
-    ],
-    "./src/**/*.html": [
-      "npm run format"
     ]
   }
 }

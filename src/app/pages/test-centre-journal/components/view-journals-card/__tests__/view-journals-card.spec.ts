@@ -1,22 +1,22 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule, IonSelect } from '@ionic/angular';
-import { ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
 import { ViewContainerRef } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
+import { IonSelect, IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { SlotProvider } from '@providers/slot/slot';
-import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
-import { SlotItem } from '@providers/slot-selector/slot-item';
-import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
-import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
-import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
-import { ExaminerSlotItemsByDate } from '@store/journal/journal.model';
-import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import { TestCentreJournalDateNavigation } from '@pages/test-centre-journal/test-centre-journal.actions';
-import { Day, ViewJournalsCardComponent } from '../view-journals-card';
+import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
+import { SlotProvider } from '@providers/slot/slot';
+import { StoreModel } from '@shared/models/store.model';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { ExaminerSlotItemsByDate } from '@store/journal/journal.model';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
+import { Day, ViewJournalsCardComponent } from '../view-journals-card';
 
 describe('ViewJournalsCardComponent', () => {
   let fixture: ComponentFixture<ViewJournalsCardComponent>;
@@ -33,14 +33,8 @@ describe('ViewJournalsCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ViewJournalsCardComponent,
-      ],
-      imports: [
-        TestCentreJournalComponentsModule,
-        IonicModule,
-        CommonModule,
-      ],
+      declarations: [ViewJournalsCardComponent],
+      imports: [TestCentreJournalComponentsModule, IonicModule, CommonModule],
       providers: [
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
@@ -74,8 +68,7 @@ describe('ViewJournalsCardComponent', () => {
     describe('onManualRefresh', () => {
       it('should reset page state', () => {
         component.slotContainer = {
-          clear: () => {
-          },
+          clear: () => {},
         } as ViewContainerRef;
         spyOn(component.slotContainer, 'clear');
         component.examinerSelect = {
@@ -104,8 +97,7 @@ describe('ViewJournalsCardComponent', () => {
     describe('examinerChanged', () => {
       beforeEach(() => {
         component.slotContainer = {
-          clear: () => {
-          },
+          clear: () => {},
         } as ViewContainerRef;
         component.testCentreResults = mockTestCentreDetailResponse;
         spyOn(component.slotContainer, 'clear');
@@ -135,20 +127,23 @@ describe('ViewJournalsCardComponent', () => {
         expect(component.hasClickedShowJournal).toEqual(true);
         expect(slotProvider.detectSlotChanges).not.toHaveBeenCalled();
       });
-      it('should call detectSlotChanges and call getRelevantSlotItemsByDate and return nothing when there'
-                + ' are no slot items', () => {
-        component.journal = {
-          examiner: {
-            staffNumber: '123456',
-          },
-        } as ExaminerWorkSchedule;
-        component.onShowJournalClick();
-        component.slotItems$.subscribe(() => {
-          expect(slotProvider.getRelevantSlotItemsByDate).toHaveBeenCalledWith([]);
-          expect(component.hasClickedShowJournal).toEqual(true);
-          expect(slotProvider.detectSlotChanges).toHaveBeenCalledWith({}, component.journal as ExaminerWorkSchedule);
-        });
-      });
+      it(
+        'should call detectSlotChanges and call getRelevantSlotItemsByDate and return nothing when there' +
+          ' are no slot items',
+        () => {
+          component.journal = {
+            examiner: {
+              staffNumber: '123456',
+            },
+          } as ExaminerWorkSchedule;
+          component.onShowJournalClick();
+          component.slotItems$.subscribe(() => {
+            expect(slotProvider.getRelevantSlotItemsByDate).toHaveBeenCalledWith([]);
+            expect(component.hasClickedShowJournal).toEqual(true);
+            expect(slotProvider.detectSlotChanges).toHaveBeenCalledWith({}, component.journal as ExaminerWorkSchedule);
+          });
+        }
+      );
     });
   });
 

@@ -1,13 +1,13 @@
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/AM1';
 import {
-  ToggleInsuranceDeclaration,
-  ToggleResidencyDeclaration,
+  ClearPreTestDeclarations,
   SignatureDataChanged,
   SignatureDataCleared,
-  ClearPreTestDeclarations,
+  ToggleInsuranceDeclaration,
+  ToggleResidencyDeclaration,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { preTestDeclarationsCatAMod1Reducer, initialState } from '../pre-test-declarations.cat-a-mod1.reducer';
 import { CbtNumberChanged } from '../../cat-a/pre-test-declarations.cat-a.actions';
+import { initialState, preTestDeclarationsCatAMod1Reducer } from '../pre-test-declarations.cat-a-mod1.reducer';
 
 describe('PreTestDeclarations category a mod1 reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {

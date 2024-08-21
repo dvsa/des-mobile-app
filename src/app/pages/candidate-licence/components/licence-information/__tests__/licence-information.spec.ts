@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
+import { IonicModule } from '@ionic/angular';
 import { DomSanitizerMock } from '@mocks/angular-mocks/dom-sanitizer.mock';
 import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
 import { LicenceInformation } from '../licence-information';
@@ -112,7 +112,7 @@ describe('LicenceInformation', () => {
         component.isPracticeMode = true;
         expect(component.signature).not.toBeNull();
         expect(domSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith(
-          `data:${SIGNATURE_MOCK.imageFormat};base64,${SIGNATURE_MOCK.image}`,
+          `data:${SIGNATURE_MOCK.imageFormat};base64,${SIGNATURE_MOCK.image}`
         );
       });
       it('should return empty when not in practice mode but no data', () => {

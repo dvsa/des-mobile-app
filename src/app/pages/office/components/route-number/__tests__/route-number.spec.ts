@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from 'src/app/app.module';
-import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
+import { AppModule } from 'src/app/app.module';
 import { RouteNumberComponent } from '../route-number';
 
 describe('RouteNumberComponent', () => {
@@ -14,16 +14,9 @@ describe('RouteNumberComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        RouteNumberComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-      ],
+      declarations: [RouteNumberComponent],
+      imports: [IonicModule, AppModule],
+      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 
     fixture = TestBed.createComponent(RouteNumberComponent);

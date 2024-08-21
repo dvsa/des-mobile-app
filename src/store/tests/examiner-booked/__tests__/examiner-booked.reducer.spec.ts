@@ -1,5 +1,5 @@
-import { examinerBookedReducer } from '../examiner-booked.reducer';
 import { SetExaminerBooked } from '../examiner-booked.actions';
+import { examinerBookedReducer } from '../examiner-booked.reducer';
 
 describe('examinerBookedReducer', () => {
   it('should return the correct value ', () => {

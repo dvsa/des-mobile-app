@@ -1,18 +1,16 @@
-import { ModalController, NavParams } from '@ionic/angular';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map } from 'rxjs/operators';
-import { StoreModel } from '@shared/models/store.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { getCandidate } from '@store/tests/journal-data/cat-c/candidate/candidate.cat-c.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { ModalController, NavParams } from '@ionic/angular';
+import { Store, select } from '@ngrx/store';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { StoreModel } from '@shared/models/store.model';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { getCandidate } from '@store/tests/journal-data/cat-c/candidate/candidate.cat-c.reducer';
+import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import {
   SetFullLicenceHeld,
@@ -21,8 +19,6 @@ import {
   TellMeQuestionOutcomeChanged,
   TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
   CatCVehicleChecks,
   getFullLicenceHeld,
@@ -30,22 +26,22 @@ import {
   getSelectedTellMeQuestions,
   getVehicleChecksCatC,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import {
-  NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER,
-} from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
-import {
-  NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER,
-} from '../../../../../shared/constants/show-me-questions/show-me-questions.vocational.constants';
-import {
-  NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER,
-  NUMBER_OF_TELL_ME_QUESTIONS_EXTRA as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA,
-} from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
   NUMBER_OF_SHOW_ME_QUESTIONS_EXTRA as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA,
 } from '../../../../../shared/constants/show-me-questions/show-me-questions.vocational-trailer.constants';
+import { NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER } from '../../../../../shared/constants/show-me-questions/show-me-questions.vocational.constants';
+import {
+  NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER,
+  NUMBER_OF_TELL_ME_QUESTIONS_EXTRA as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA,
+} from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
+import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-c.actions';
 
 interface VehicleChecksModalCatCState {
@@ -88,7 +84,7 @@ export class VehicleChecksCatCModal {
     private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
-    params: NavParams,
+    params: NavParams
   ) {
     this.category = params.get('category');
     this.submitClicked = params.get('submitClicked');
@@ -98,64 +94,50 @@ export class VehicleChecksCatCModal {
   }
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
     this.pageState = {
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
-      ),
+      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
       showMeQuestions$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
-        select(getSelectedShowMeQuestions),
+        select(getSelectedShowMeQuestions)
       ),
       tellMeQuestions$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
-        select(getSelectedTellMeQuestions),
+        select(getSelectedTellMeQuestions)
       ),
       vehicleChecksScore$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
-        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks)),
+        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks))
       ),
-      vehicleChecks$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-      ),
+      vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatC)),
       fullLicenceHeld$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
-        select(getFullLicenceHeld),
+        select(getFullLicenceHeld)
       ),
       showFullLicenceHeld$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
         select(getFullLicenceHeld),
-        map((licenceHeld: boolean) => licenceHeld !== null),
+        map((licenceHeld: boolean) => licenceHeld !== null)
       ),
       fullLicenceHeldSelection$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
         select(getFullLicenceHeld),
-        map((licenceHeld) => this.hasFullLicenceHeldBeenSelected(licenceHeld)),
+        map((licenceHeld) => this.hasFullLicenceHeldBeenSelected(licenceHeld))
       ),
     };
 
-    const {
-      vehicleChecksScore$,
-      vehicleChecks$,
-      fullLicenceHeld$,
-    } = this.pageState;
+    const { vehicleChecksScore$, vehicleChecks$, fullLicenceHeld$ } = this.pageState;
 
     const merged$ = merge(
       vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))),
       vehicleChecks$.pipe(map((checks) => (this.vehicleChecks = checks))),
-      fullLicenceHeld$.pipe(map((held) => (this.fullLicenceHeld = held))),
+      fullLicenceHeld$.pipe(map((held) => (this.fullLicenceHeld = held)))
     );
 
     this.subscription = merged$.subscribe();
@@ -225,26 +207,20 @@ export class VehicleChecksCatCModal {
     this.setNumberOfShowMeTellMeQuestions(licenceHeld);
 
     // on licence held toggle change, we need to re-evaluate the vehicleChecksScore to control the banner display
-    this.vehicleChecksScore = this.faultCountProvider.getVehicleChecksFaultCount(
-      this.category,
-      this.vehicleChecks,
-    );
+    this.vehicleChecksScore = this.faultCountProvider.getVehicleChecksFaultCount(this.category, this.vehicleChecks);
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E]);
 
   isNonTrailerBanner(): boolean {
-    return (
-      this.vehicleChecksScore.drivingFaults === 4
-            && this.vehicleChecksScore.seriousFaults === 1
-    );
+    return this.vehicleChecksScore.drivingFaults === 4 && this.vehicleChecksScore.seriousFaults === 1;
   }
 
   isTrailerBanner(): boolean {
     return (
-      this.vehicleChecksScore.drivingFaults === 1
-            && this.vehicleChecksScore.seriousFaults === 1
-            && isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
+      this.vehicleChecksScore.drivingFaults === 1 &&
+      this.vehicleChecksScore.seriousFaults === 1 &&
+      isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
     );
   }
 
@@ -253,20 +229,17 @@ export class VehicleChecksCatCModal {
       return this.isNonTrailerBanner();
     }
     return (
-      this.vehicleChecksScore.drivingFaults === (this.fullLicenceHeld ? 1 : 4)
-            && this.vehicleChecksScore.seriousFaults === 1
+      this.vehicleChecksScore.drivingFaults === (this.fullLicenceHeld ? 1 : 4) &&
+      this.vehicleChecksScore.seriousFaults === 1
     );
   };
 
-  hasFullLicenceHeldBeenSelected = (
-    fullLicenceHeld: boolean,
-  ): string => (fullLicenceHeld === null) ? null : fullLicenceHeld ? 'Y' : 'N';
+  hasFullLicenceHeldBeenSelected = (fullLicenceHeld: boolean): string =>
+    fullLicenceHeld === null ? null : fullLicenceHeld ? 'Y' : 'N';
 
-  getNumberOfShowMeQuestions = (
-    fullLicenceHeld: boolean,
-  ): number => fullLicenceHeld ? NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER : NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA;
+  getNumberOfShowMeQuestions = (fullLicenceHeld: boolean): number =>
+    fullLicenceHeld ? NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER : NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA;
 
-  getNumberOfTellMeQuestions = (
-    fullLicenceHeld: boolean,
-  ): number => fullLicenceHeld ? NUMBER_OF_TELL_ME_QUESTIONS_TRAILER : NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA;
+  getNumberOfTellMeQuestions = (fullLicenceHeld: boolean): number =>
+    fullLicenceHeld ? NUMBER_OF_TELL_ME_QUESTIONS_TRAILER : NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA;
 }

@@ -1,5 +1,5 @@
-import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { PageNameKeys } from '@pages/page-names.constants';
+import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 
 /**
  * Map screen name from page name of component to the enum used for analytics

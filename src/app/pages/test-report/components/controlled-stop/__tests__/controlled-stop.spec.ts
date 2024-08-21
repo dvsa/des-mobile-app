@@ -1,25 +1,25 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
-import { Store, StoreModule } from '@ngrx/store';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StoreModel } from '@shared/models/store.model';
-import { MockComponent } from 'ng-mocks';
-import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { StartTest } from '@store/tests/tests.actions';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
 import {
   ControlledStopAddDrivingFault,
   ControlledStopRemoveFault,
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
-import { CompetencyButtonComponent } from '../../competency-button/competency-button';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { MockComponent } from 'ng-mocks';
 import { testReportReducer } from '../../../test-report.reducer';
+import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { ControlledStopComponent } from '../controlled-stop';
 
 describe('ControlledStopComponent', () => {
@@ -43,10 +43,7 @@ describe('ControlledStopComponent', () => {
           useClass: TestDataByCategoryProviderMock,
         },
       ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
-      ],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(ControlledStopComponent);
@@ -58,22 +55,16 @@ describe('ControlledStopComponent', () => {
   describe('Class', () => {
     describe('ControlledStopAddDrivingFault', () => {
       it('should dispatch an CONTROLLED_STOP_ADD_DRIVING_FAULT action for press', () => {
-
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an CONTROLLED_STOP_ADD_DRIVING_FAULT action for tap', () => {
-
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an CONTROLLED_STOP_ADD_DRIVING_FAULT action if there is already a driving fault', () => {
         component.controlledStopOutcome = CompetencyOutcome.DF;
@@ -81,9 +72,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if there is a serious fault', () => {
         component.controlledStopOutcome = CompetencyOutcome.S;
@@ -91,9 +80,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if serious mode is active', () => {
         component.isSeriousMode = true;
@@ -101,9 +88,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if there is a dangerous fault', () => {
         component.controlledStopOutcome = CompetencyOutcome.D;
@@ -111,9 +96,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if dangerous mode is active', () => {
         component.isDangerousMode = true;
@@ -121,9 +104,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopAddDrivingFault(),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
     });
 
@@ -135,10 +116,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          ControlledStopRemoveFault(CompetencyOutcome.DF),
-        );
-
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.DF));
       });
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action for tap', () => {
         component.isRemoveFaultMode = true;
@@ -147,9 +125,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          ControlledStopRemoveFault(CompetencyOutcome.DF),
-        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.DF));
       });
       it('should not dispatch a REMOVE_MANOEUVRE_FAULT action if in the wrong mode', () => {
         component.isRemoveFaultMode = true;
@@ -159,9 +135,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          ControlledStopRemoveFault(CompetencyOutcome.D),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.D));
       });
 
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action if there is a serious fault', () => {
@@ -172,9 +146,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          ControlledStopRemoveFault(CompetencyOutcome.S),
-        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.S));
       });
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action if there is a dangerous fault', () => {
         component.isRemoveFaultMode = true;
@@ -184,9 +156,7 @@ describe('ControlledStopComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          ControlledStopRemoveFault(CompetencyOutcome.D),
-        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.D));
       });
     });
   });
@@ -227,8 +197,6 @@ describe('ControlledStopComponent', () => {
         fixture.detectChanges();
         expect(tickButton.nativeElement.className).toEqual('controlled-stop-tick checked');
       });
-
     });
   });
-
 });

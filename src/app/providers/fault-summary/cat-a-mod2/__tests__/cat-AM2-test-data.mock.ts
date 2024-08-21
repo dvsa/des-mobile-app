@@ -21,20 +21,25 @@ export const catAM2TestDataStateObject: TestData = {
     signalsNecessary: true,
   },
   safetyAndBalanceQuestions: {
-    safetyQuestions: [{
-      code: 'SQ2',
-      description: '',
-      outcome: CompetencyOutcome.DF,
-    }, {
-      code: 'SQ4',
-      description: '',
-      outcome: CompetencyOutcome.DF,
-    }],
-    balanceQuestions: [{
-      code: 'BQ1',
-      description: '',
-      outcome: CompetencyOutcome.DF,
-    }],
+    safetyQuestions: [
+      {
+        code: 'SQ2',
+        description: '',
+        outcome: CompetencyOutcome.DF,
+      },
+      {
+        code: 'SQ4',
+        description: '',
+        outcome: CompetencyOutcome.DF,
+      },
+    ],
+    balanceQuestions: [
+      {
+        code: 'BQ1',
+        description: '',
+        outcome: CompetencyOutcome.DF,
+      },
+    ],
     safetyAndBalanceComments: 'Fell over. A lot!',
   },
   eyesightTest: {

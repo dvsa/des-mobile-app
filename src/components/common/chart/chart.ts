@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import ApexCharts from 'apexcharts';
-import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
-import { isEqual } from 'lodash-es';
 import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
+import ApexCharts from 'apexcharts';
+import { isEqual } from 'lodash-es';
+import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 
 @Component({
   selector: 'chart',
@@ -10,10 +10,10 @@ import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examin
 })
 export class ChartComponent implements OnInit, OnChanges {
   @Input()
-  public zoomSize: string = '16px';
+  public zoomSize = '16px';
 
   @Input()
-  public chartId: string = '';
+  public chartId = '';
 
   @Input()
   public chartType: ChartType = 'pie';
@@ -22,45 +22,47 @@ export class ChartComponent implements OnInit, OnChanges {
   public passedData: ExaminerRecordDataWithPercentage<any>[] = null;
 
   @Input()
-  public showLegend: boolean = false;
+  public showLegend = false;
 
   @Input()
-  public isPortrait: boolean = false;
+  public isPortrait = false;
 
   @Input()
-  public horizontal: boolean = false;
+  public horizontal = false;
 
   @Input()
-  public splitLabel: boolean = true;
+  public splitLabel = true;
 
   @Input()
-  public calculatePercentages: boolean = false;
+  public calculatePercentages = false;
 
   @Input()
   public transformOptions: {
     portrait: {
-      width: number | string, height: number | string,
-    },
+      width: number | string;
+      height: number | string;
+    };
     landscape: {
-      width: number | string, height: number | string,
-    }
+      width: number | string;
+      height: number | string;
+    };
   } = { portrait: { width: 740, height: 300 }, landscape: { width: 1020, height: 300 } };
 
   @Input()
   public colors: string[] = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
 
   @Input()
-  public labelColour: string = '#000000';
+  public labelColour = '#000000';
 
   @Input()
-  public strokeColour: string = '#FFFFFF';
+  public strokeColour = '#FFFFFF';
 
   @Input()
-  public averageColour: string = '#FF0000';
+  public averageColour = '#FF0000';
 
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
-  public average: number = 0;
+  public average = 0;
   public tickCount: number = null;
   public chart: ApexCharts = null;
   public chartOptions: ApexOptions;
@@ -103,7 +105,7 @@ export class ChartComponent implements OnInit, OnChanges {
    * @returns {Promise<void>} A promise that resolves when the chart has been rendered.
    */
   async ngAfterViewInit(): Promise<void> {
-    let chartElement: HTMLElement = document.getElementById(this.chartId);
+    const chartElement: HTMLElement = document.getElementById(this.chartId);
     if (chartElement) {
       this.chart = new ApexCharts(chartElement, this.options);
       await this.chart.render();
@@ -121,8 +123,9 @@ export class ChartComponent implements OnInit, OnChanges {
    */
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     //check if there are any changed elements
-    const dataChanged = Object.keys(changes)
-      .some((key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue));
+    const dataChanged = Object.keys(changes).some(
+      (key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue)
+    );
 
     if (!!this.chart && dataChanged) {
       //if data has changed, re-filter data
@@ -224,17 +227,15 @@ export class ChartComponent implements OnInit, OnChanges {
           returns "M1: 20%"
           */
           if (this.splitLabel) {
-            return this.calculatePercentages ?
-              opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
-              Number(val).toFixed(1) + '%' :
-              opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' +
-              this.passedData[opts.seriesIndex].percentage;
+            return this.calculatePercentages
+              ? opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%'
+              : opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] +
+                  ':  ' +
+                  this.passedData[opts.seriesIndex].percentage;
           }
-          return this.calculatePercentages ?
-            opts.w.globals.labels[opts.seriesIndex] + ':  ' +
-            Number(val).toFixed(1) + '%' :
-            opts.w.globals.labels[opts.seriesIndex] + ':  ' +
-            this.passedData[opts.seriesIndex].percentage;
+          return this.calculatePercentages
+            ? opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%'
+            : opts.w.globals.labels[opts.seriesIndex] + ':  ' + this.passedData[opts.seriesIndex].percentage;
         },
       },
       //Applies a border to the chart elements
@@ -296,7 +297,6 @@ export class ChartComponent implements OnInit, OnChanges {
               return this.splitLabel ? val.toString().split(/[ ,]+/)[0] : val.toString();
             }
             return val.toFixed(0).toString();
-
           },
         },
       },
@@ -318,13 +318,16 @@ export class ChartComponent implements OnInit, OnChanges {
         //whether the tooltip appears at all or not
         enabled: false,
         //formatting for the tooltip
-        custom: function({ series, seriesIndex, dataPointIndex, w }) {
-          return '<div class="ion-padding">' +
-            '<ion-text class="mes-data">' +
-            '' + w.globals.labels[dataPointIndex] + ': ' + series[seriesIndex][dataPointIndex] + '' +
-            '</ion-text>' +
-            '</div>';
-        },
+        custom: ({ series, seriesIndex, dataPointIndex, w }) =>
+          '<div class="ion-padding">' +
+          '<ion-text class="mes-data">' +
+          '' +
+          w.globals.labels[dataPointIndex] +
+          ': ' +
+          series[seriesIndex][dataPointIndex] +
+          '' +
+          '</ion-text>' +
+          '</div>',
       },
       //options for specific graph types
       plotOptions: {
@@ -359,13 +362,14 @@ export class ChartComponent implements OnInit, OnChanges {
   filterData() {
     this.labels = this.passedData.map((val) => val.item);
     const values: number[] = this.passedData.map((val) => val.count);
-    this.average = ((values.reduce((a, b) => a + b, 0)) / values.length) || 0;
+    this.average = values.reduce((a, b) => a + b, 0) / values.length || 0;
     this.tickCount = this.getTickCount(values);
     this.createGraphLabels(values);
 
-    this.dataValues = (this.getChartType() === '1Axis')
-      ? values as ApexNonAxisChartSeries
-      : [{ data: values }] as ApexAxisChartSeries;
+    this.dataValues =
+      this.getChartType() === '1Axis'
+        ? (values as ApexNonAxisChartSeries)
+        : ([{ data: values }] as ApexAxisChartSeries);
   }
 
   /**
@@ -427,7 +431,7 @@ export class ChartComponent implements OnInit, OnChanges {
           text: dataValue.toString(),
           borderColor: '#FFFFFF',
           style: {
-            padding: {top: -1, left: 3.5, right: 3.5},
+            padding: { top: -1, left: 3.5, right: 3.5 },
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
             fontSize: this.getFontSize(),
             fontWeight: 'bold',
@@ -435,8 +439,7 @@ export class ChartComponent implements OnInit, OnChanges {
             color: '#FFFFFF',
           },
         },
-      }
-    })
-
+      };
+    });
   }
 }

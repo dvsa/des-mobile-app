@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { InputRestrictionNumbersDirective } from './input-restriction-numbers.directive';
-import { InputRestrictionUppercaseAlphanumDirective } from './input-restriction-uppercasealphanum.directive';
-import { CharacterCountDirective } from './character-count.directive';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
 import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
-import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { CharacterCountDirective } from './character-count.directive';
+import { InputRestrictionNumbersDirective } from './input-restriction-numbers.directive';
+import { InputRestrictionUppercaseAlphanumDirective } from './input-restriction-uppercasealphanum.directive';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.di
     CharacterCountDirective,
     EmojiBlockDirective,
     PasteSanitiserDirective,
-    AddOrRemoveLangCyDirective
+    AddOrRemoveLangCyDirective,
   ],
   imports: [],
   exports: [
@@ -22,7 +22,7 @@ import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.di
     CharacterCountDirective,
     EmojiBlockDirective,
     PasteSanitiserDirective,
-    AddOrRemoveLangCyDirective
+    AddOrRemoveLangCyDirective,
   ],
 })
-export class DirectivesModule { }
+export class DirectivesModule {}

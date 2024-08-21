@@ -8,10 +8,7 @@ import { ModalEvent } from '../../test-report.constants';
   styleUrls: ['special-legal-requirement-modal.scss'],
 })
 export class SpecialLegalRequirementModal {
-
-  constructor(
-    public modalCtrl: ModalController,
-  ) { }
+  constructor(public modalCtrl: ModalController) {}
 
   async onCancel() {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);
@@ -23,5 +20,4 @@ export class SpecialLegalRequirementModal {
   async onProceed() {
     await this.modalCtrl.dismiss(ModalEvent.CONTINUE);
   }
-
 }

@@ -11,17 +11,20 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'T2',
-    description: 'Tell me where you would find the information for the recommended tyre pressures for this car and how tyre pressures should be checked.',
+    description:
+      'Tell me where you would find the information for the recommended tyre pressures for this car and how tyre pressures should be checked.',
     shortName: 'Tyre pressures',
   },
   {
     code: 'T3',
-    description: 'Tell me how you make sure your head restraint is correctly adjusted so it provides the best protection in the event of a crash.',
+    description:
+      'Tell me how you make sure your head restraint is correctly adjusted so it provides the best protection in the event of a crash.',
     shortName: 'Head restraint',
   },
   {
     code: 'T4',
-    description: 'Tell me how you would check the tyres to ensure that they have sufficient tread depth and that their general condition is safe to use on the road.',
+    description:
+      'Tell me how you would check the tyres to ensure that they have sufficient tread depth and that their general condition is safe to use on the road.',
     shortName: 'Sufficient tread',
   },
   {
@@ -51,12 +54,14 @@ export const questions: VehicleChecksQuestion[] = [
   },
   {
     code: 'T10',
-    description: 'Tell me how you would switch on the rear fog light(s) and explain when you would use it/them, (no need to exit vehicle).',
+    description:
+      'Tell me how you would switch on the rear fog light(s) and explain when you would use it/them, (no need to exit vehicle).',
     shortName: 'Rear fog light(s)',
   },
   {
     code: 'T11',
-    description: 'Tell me how you switch your headlight from dipped to main beam and explain how you would know the main beam is on.',
+    description:
+      'Tell me how you switch your headlight from dipped to main beam and explain how you would know the main beam is on.',
     shortName: 'Dipped to main beam',
   },
   {

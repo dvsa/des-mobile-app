@@ -10,10 +10,7 @@ import { Language } from '@store/tests/communication-preferences/communication-p
   styleUrls: ['speed-check-debrief-card.scss'],
 })
 export class SpeedCheckDebriefCardComponent {
-
-  constructor(
-    private translate: TranslateService,
-  ) {}
+  constructor(private translate: TranslateService) {}
 
   @Input()
   public emergencyStop: EmergencyStop;
@@ -25,12 +22,11 @@ export class SpeedCheckDebriefCardComponent {
   public avoidanceAttempted: boolean;
 
   @Input()
-  public isTranslatable: boolean = true;
+  public isTranslatable = true;
 
   ngOnInit(): void {
     if (!this.isTranslatable) {
       configureI18N(Language.ENGLISH, this.translate);
     }
   }
-
 }

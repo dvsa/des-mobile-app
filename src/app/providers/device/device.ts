@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { map, timeout } from 'rxjs/operators';
-import { defer, lastValueFrom, retry } from 'rxjs';
-import { Asam } from '@dvsa/capacitor-plugin-asam';
 import { Device } from '@capacitor/device';
+import { Asam } from '@dvsa/capacitor-plugin-asam';
+import { Store } from '@ngrx/store';
+import { defer, lastValueFrom, retry } from 'rxjs';
+import { map, timeout } from 'rxjs/operators';
 
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { AppConfigProvider } from '../app-config/app-config';
-import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+import { LogHelper } from '../logs/logs-helper';
 
 @Injectable()
 export class DeviceProvider {
-  private enableASAMRetryLimit: number = 4;
-  private enableASAMRetryInternal: number = 750;
-  private enableASAMTimeout: number = 10000;
+  private enableASAMRetryLimit = 4;
+  private enableASAMRetryInternal = 750;
+  private enableASAMTimeout = 10000;
   private asamRetryFailureMessage = (action: 'enable' | 'disable') => `All retries to ${action} ASAM failed`;
 
   constructor(
     public appConfig: AppConfigProvider,
     private store$: Store<StoreModel>,
-    private logHelper: LogHelper,
-  ) {
-  }
+    private logHelper: LogHelper
+  ) {}
 
   validDeviceType = async (): Promise<boolean> => {
     const appConf = this.appConfig.getAppConfig();
@@ -89,10 +88,10 @@ export class DeviceProvider {
   private setSingleAppModeWithRetry = async (enable: boolean): Promise<boolean> => {
     const action = enable ? 'enable' : 'disable';
 
-    return lastValueFrom(
-      // call `setSingleAppMode`
-      defer(() => this.setSingleAppMode(enable))
-        .pipe(
+    return (
+      lastValueFrom(
+        // call `setSingleAppMode`
+        defer(() => this.setSingleAppMode(enable)).pipe(
           map((didSucceed: boolean): boolean => {
             // each failure will produce a single log
             if (!didSucceed) {
@@ -107,22 +106,26 @@ export class DeviceProvider {
             delay: this.enableASAMRetryInternal,
           }),
           // the call will bail out if no response within this.enableASAMTimeout
-          timeout(this.enableASAMTimeout),
-        ),
-    )
-      // if the retry threshold is hit, then dispatch log
-      .catch(() => {
-        this.store$.dispatch(SaveLog({
-          payload: this.logHelper.createLog(LogType.ERROR, null, this.asamRetryFailureMessage(action)),
-        }));
-        return false;
-      });
+          timeout(this.enableASAMTimeout)
+        )
+      )
+        // if the retry threshold is hit, then dispatch log
+        .catch(() => {
+          this.store$.dispatch(
+            SaveLog({
+              payload: this.logHelper.createLog(LogType.ERROR, null, this.asamRetryFailureMessage(action)),
+            })
+          );
+          return false;
+        })
+    );
   };
 
   private logEvent = (desc: string, err: any) => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, desc, err),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, desc, err),
+      })
+    );
   };
-
 }

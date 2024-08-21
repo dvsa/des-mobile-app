@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { CombinationComponent } from '../combination';
 
 describe('CombinationComponent', () => {
@@ -9,13 +9,8 @@ describe('CombinationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CombinationComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [CombinationComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(CombinationComponent);

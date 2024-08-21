@@ -9,7 +9,6 @@ export enum VisibilityType {
 
 @Injectable()
 export class OutcomeBehaviourMapProvider {
-
   behaviourMap: OutcomeBehaviourMapping = {};
 
   setBehaviourMap(map: OutcomeBehaviourMapping) {

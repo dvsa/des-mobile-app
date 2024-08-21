@@ -1,15 +1,10 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IndependentDriving } from '@dvsa/mes-test-schema/categories/common';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
-import { getDrivingOrRidingLabel } from '@shared/helpers/driver-type';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { getDrivingOrRidingLabel } from '@shared/helpers/driver-type';
+import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'independent-driving',
@@ -49,17 +44,21 @@ export class IndependentDrivingComponent implements OnChanges {
   showNotApplicable: boolean;
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'independentDriving';
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl('independentDriving', this.formControl);
     }
-    this.showNotApplicable = this.outcomeBehaviourProvider.showNotApplicable(this.outcome,
-      IndependentDrivingComponent.fieldName);
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
-      IndependentDrivingComponent.fieldName);
+    this.showNotApplicable = this.outcomeBehaviourProvider.showNotApplicable(
+      this.outcome,
+      IndependentDrivingComponent.fieldName
+    );
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      IndependentDrivingComponent.fieldName
+    );
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(IndependentDrivingComponent.fieldName).clearValidators();
@@ -91,5 +90,4 @@ export class IndependentDrivingComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

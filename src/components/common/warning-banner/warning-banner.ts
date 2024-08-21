@@ -6,11 +6,9 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['warning-banner.scss'],
 })
 export class WarningBannerComponent {
-
   @Input()
   warningIdentifier?: string = null;
 
   @Input()
   warningText: string;
-
 }

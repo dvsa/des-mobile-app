@@ -1,40 +1,31 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 
-import {
-  provideMockStore,
-  MockStore,
-} from '@ngrx/store/testing';
-import { MockComponent } from 'ng-mocks';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Application, TestSlot } from '@dvsa/mes-journal-schema';
-import { DisplayAddressComponent } from '@components/common/display-address/display-address';
-import { DataRowComponent } from '@components/common/data-row/data-row';
-import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
-import * as journalActions from '@store/journal/journal.actions';
-import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import {
-  InappropriateUseBannerComponent,
-} from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { Router } from '@angular/router';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import {
-  CandidateDetailNavigationComponent,
-} from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
-import { SlotItem } from '@providers/slot-selector/slot-item';
-import { JournalModel } from '@store/journal/journal.model';
-import { StoreModel } from '@shared/models/store.model';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { SlotProvider } from '@providers/slot/slot';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { CandidateDetailsPage } from '../candidate-details.page';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
+import { Application, TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { CandidateDetailNavigationComponent } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { SlotProvider } from '@providers/slot/slot';
+import { StoreModel } from '@shared/models/store.model';
+import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
+import * as journalActions from '@store/journal/journal.actions';
+import { JournalModel } from '@store/journal/journal.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { MockComponent } from 'ng-mocks';
+import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
@@ -73,12 +64,10 @@ describe('CandidateDetailsPage', () => {
 
   const initialState = {
     journal: {
-      slots:
-          {
-            '2023-03-06': [],
-            '2023-03-07': [],
-          } as { [k: string]: SlotItem[]
-          },
+      slots: {
+        '2023-03-06': [],
+        '2023-03-07': [],
+      } as { [k: string]: SlotItem[] },
       selectedDate: '2023-03-06',
     } as JournalModel,
   } as StoreModel;
@@ -93,9 +82,7 @@ describe('CandidateDetailsPage', () => {
         MockComponent(InappropriateUseBannerComponent),
         MockComponent(CandidateDetailNavigationComponent),
       ],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },
@@ -194,14 +181,16 @@ describe('CandidateDetailsPage', () => {
         },
       };
       component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(candidateDetailActions.CandidateDetailsViewDidEnter({
-        slot: {
-          slotDetail: {
-            slotId: 123,
-            start: '123',
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        candidateDetailActions.CandidateDetailsViewDidEnter({
+          slot: {
+            slotDetail: {
+              slotId: 123,
+              start: '123',
+            },
           },
-        },
-      }));
+        })
+      );
       expect(store$.dispatch).toHaveBeenCalledWith(journalActions.CandidateDetailsSeen({ slotId: 123 }));
     });
   });
@@ -211,24 +200,21 @@ describe('CandidateDetailsPage', () => {
       const completedTests = [{ applicationReference: 112233, autosave: 1 }];
       const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
       const testStatus = TestStatus.Completed;
-      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus))
-        .toEqual(true);
+      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus)).toEqual(true);
     });
 
     it('should return false when autosave remotely is false', () => {
       const completedTests = [{ applicationReference: 112233, autosave: 0 }];
       const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
       const testStatus = TestStatus.Completed;
-      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus))
-        .toEqual(false);
+      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus)).toEqual(false);
     });
 
     it('should return false when test status is autosaved', () => {
       const completedTests = [{ applicationReference: 112233, autosave: 0 }];
       const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
       const testStatus = TestStatus.Autosaved;
-      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus))
-        .toEqual(false);
+      expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus)).toEqual(false);
     });
   });
 
@@ -239,7 +225,7 @@ describe('CandidateDetailsPage', () => {
       expect(result).toEqual(true);
     });
 
-    it('returns false for first index being \'None\'', () => {
+    it("returns false for first index being 'None'", () => {
       const specialNeedsString: string[] = ['None'];
       const result = component.specialNeedsIsPopulated(specialNeedsString);
       expect(result).toEqual(false);
@@ -252,9 +238,9 @@ describe('CandidateDetailsPage', () => {
       spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
       await component.dismiss();
       expect(component.modalController.dismiss).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(candidateDetailActions.CandidateDetailsModalDismiss(
-        { sourcePage: 'url' },
-      ));
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        candidateDetailActions.CandidateDetailsModalDismiss({ sourcePage: 'url' })
+      );
     }));
   });
 
@@ -286,5 +272,4 @@ describe('CandidateDetailsPage', () => {
       expect(component.isCompleted(TestStatus.Booked, null)).toEqual(false);
     });
   });
-
 });

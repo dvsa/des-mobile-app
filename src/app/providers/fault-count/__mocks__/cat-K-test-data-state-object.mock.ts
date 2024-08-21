@@ -1,30 +1,38 @@
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/K/partial';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/K/partial';
 
 export const vehicleChecksNoFaults: CatKUniqueTypes.VehicleChecks = {
-  tellMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'P',
-  }] as QuestionResult[],
-  showMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'P',
-  }] as QuestionResult[],
+  tellMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'P',
+    },
+  ] as QuestionResult[],
+  showMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'P',
+    },
+  ] as QuestionResult[],
 };
 
 export const vehicleChecksTwoFaults: CatKUniqueTypes.VehicleChecks = {
-  tellMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'DF',
-  }] as QuestionResult[],
-  showMeQuestions: [{
-    code: 'string',
-    description: 'string',
-    outcome: 'DF',
-  }] as QuestionResult[],
+  tellMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'DF',
+    },
+  ] as QuestionResult[],
+  showMeQuestions: [
+    {
+      code: 'string',
+      description: 'string',
+      outcome: 'DF',
+    },
+  ] as QuestionResult[],
 };
 
 export const catKTestDataStateObject: CatKUniqueTypes.TestData = {
@@ -76,15 +84,19 @@ export const catKTestDataVCStateObject: CatKUniqueTypes.TestData = {
   },
   controlledStop: {},
   vehicleChecks: {
-    tellMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'DF',
-    }] as QuestionResult[],
-    showMeQuestions: [{
-      code: 'string',
-      description: 'string',
-      outcome: 'DF',
-    }] as QuestionResult[],
+    tellMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'DF',
+      },
+    ] as QuestionResult[],
+    showMeQuestions: [
+      {
+        code: 'string',
+        description: 'string',
+        outcome: 'DF',
+      },
+    ] as QuestionResult[],
   },
 };

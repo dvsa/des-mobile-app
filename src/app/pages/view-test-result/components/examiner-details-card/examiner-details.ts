@@ -6,8 +6,6 @@ import { ExaminerDetailsModel } from './examiner-details-card.model';
   templateUrl: 'examiner-details-card.html',
 })
 export class ExaminerDetailsCardComponent {
-
   @Input()
   data: ExaminerDetailsModel;
-
 }

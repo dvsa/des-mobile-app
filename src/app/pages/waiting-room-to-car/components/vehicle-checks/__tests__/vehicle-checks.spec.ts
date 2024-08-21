@@ -1,33 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import {
-  IonicModule, ModalController, NavParams,
-} from '@ionic/angular';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StartTest } from '@store/tests/tests.actions';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { StoreModel } from '@shared/models/store.model';
-import {
-  VehicleChecksCatCModal,
-} from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
-import { OverlayEventDetail } from '@ionic/core';
-import {
-  VehicleChecksCatDModal,
-} from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
-import {
-  VehicleChecksCatHomeTestModal,
-} from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { VehicleChecksCatCModal } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
+import { VehicleChecksCatDModal } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
+import { VehicleChecksCatHomeTestModal } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
-import { VehicleChecksCatADIPart2Modal }
-  from '../../../cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { StoreModel } from '@shared/models/store.model';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { VehicleChecksCatADIPart2Modal } from '../../../cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
 describe('VehicleChecksComponent', () => {
@@ -67,10 +58,12 @@ describe('VehicleChecksComponent', () => {
     accessibilityService = TestBed.inject(AccessibilityService);
 
     spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
-    spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-      present: async () => {},
-      onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
-    } as HTMLIonModalElement));
+    spyOn(modalController, 'create').and.returnValue(
+      Promise.resolve({
+        present: async () => {},
+        onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
+      } as HTMLIonModalElement)
+    );
   }));
 
   describe('Class', () => {

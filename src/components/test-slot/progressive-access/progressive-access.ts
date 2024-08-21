@@ -6,8 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['progressive-access.scss'],
 })
 export class ProgressiveAccessComponent {
-
   @Input()
   progressiveAccess: boolean;
-
 }

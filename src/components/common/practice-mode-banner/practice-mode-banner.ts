@@ -1,21 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { StoreModel } from '@shared/models/store.model';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 enum DisplayMessage {
-  PRACTICE = 'You\'re in practice mode',
+  PRACTICE = "You're in practice mode",
   PREVIEW = 'This is a preview of a category not yet available in DES',
 }
 
@@ -25,16 +25,15 @@ enum DisplayMessage {
   styleUrls: ['practice-mode-banner.scss'],
 })
 export class PracticeModeBanner implements OnInit {
-
   @Input()
-  practiceJournal: boolean = false;
+  practiceJournal = false;
 
   public displayMsg$: Observable<string>;
 
   constructor(
     public router: Router,
     private categoryWhitelistProvider: CategoryWhitelistProvider,
-    private store$: Store<StoreModel>,
+    private store$: Store<StoreModel>
   ) {}
 
   ngOnInit(): void {
@@ -46,9 +45,10 @@ export class PracticeModeBanner implements OnInit {
       select(getTestCategory),
       take(1),
       map((category) =>
-        (this.practiceJournal || this.categoryWhitelistProvider.isWhiteListed(category as TestCategory))
+        this.practiceJournal || this.categoryWhitelistProvider.isWhiteListed(category as TestCategory)
           ? DisplayMessage.PRACTICE
-          : DisplayMessage.PREVIEW),
+          : DisplayMessage.PREVIEW
+      )
     );
   }
 

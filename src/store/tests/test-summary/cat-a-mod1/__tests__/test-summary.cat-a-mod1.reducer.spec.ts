@@ -1,13 +1,16 @@
+import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import {
   AdditionalInformationChanged,
-  CandidateDescriptionChanged, D255No, D255Yes,
+  CandidateDescriptionChanged,
+  D255No,
+  D255Yes,
   DebriefUnWitnessed,
   DebriefWitnessed,
   IdentificationUsedChanged,
-  TrueLikenessToPhotoChanged, WeatherConditionsChanged,
+  TrueLikenessToPhotoChanged,
+  WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
-import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import { testSummaryMod1Reducer, initialState } from '../test-summary.cat-a-mod1.reducer';
+import { initialState, testSummaryMod1Reducer } from '../test-summary.cat-a-mod1.reducer';
 
 describe('testSummaryMod1Reducer', () => {
   it('should set trueLikenessToPhoto when the TrueLikenessToPhotoChanged action is received', () => {

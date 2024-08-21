@@ -1,25 +1,23 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
-import { TransmissionType } from '@shared/models/transmission-type';
-import { PersistTests } from '@store/tests/tests.actions';
-import {
-  PASS_CERTIFICATE_NUMBER_CTRL,
-} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { TransmissionType } from '@shared/models/transmission-type';
+import { PersistTests } from '@store/tests/tests.actions';
 
 type PassFinalisationPageState = CommonPassFinalisationPageState;
 
@@ -50,9 +48,7 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
 
     const { transmission$ } = this.pageState;
 
-    this.merged$ = merge(
-      transmission$.pipe(map((value) => this.transmission = value)),
-    );
+    this.merged$ = merge(transmission$.pipe(map((value) => (this.transmission = value))));
     this.subscription = this.merged$.subscribe();
   }
 
@@ -77,8 +73,7 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
@@ -87,15 +82,13 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
       return;
     }
 
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
-            this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
-          }
-          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        if (controlName === PASS_CERTIFICATE_NUMBER_CTRL) {
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is invalid`));
         }
-      });
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
-
 }

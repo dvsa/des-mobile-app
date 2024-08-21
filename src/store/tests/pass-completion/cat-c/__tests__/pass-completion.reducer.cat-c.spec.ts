@@ -1,12 +1,12 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { passCompletionCatCReducer, initialState } from '../pass-completion.cat-c.reducer';
 import {
-  PassCertificateNumberChanged,
-  ProvisionalLicenseReceived,
-  ProvisionalLicenseNotReceived,
-  Code78Present,
   Code78NotPresent,
+  Code78Present,
+  PassCertificateNumberChanged,
+  ProvisionalLicenseNotReceived,
+  ProvisionalLicenseReceived,
 } from '../../pass-completion.actions';
+import { initialState, passCompletionCatCReducer } from '../pass-completion.cat-c.reducer';
 
 describe('pass completion reducer', () => {
   const mockInitialState = {

@@ -6,18 +6,17 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['licence-data-error.scss'],
 })
 export class LicenceDataError {
+  @Input()
+  candidateDataError = false;
 
   @Input()
-  candidateDataError: boolean = false;
+  candidateDataUnavailable = false;
 
   @Input()
-  candidateDataUnavailable: boolean = false;
+  isOfflineError = false;
 
   @Input()
-  isOfflineError: boolean = false;
-
-  @Input()
-  niLicenceDetected: boolean = false;
+  niLicenceDetected = false;
 
   get errorHeading(): string {
     if (this.niLicenceDetected) {

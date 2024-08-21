@@ -7,7 +7,6 @@ import { LoadingOptions } from '@ionic/core';
   providedIn: 'root',
 })
 export class LoadingProvider {
-
   private loader: HTMLIonLoadingElement;
 
   constructor(private loadingCtrl: LoadingController) {}

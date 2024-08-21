@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: 'speed-check-header.html',
   styleUrls: ['speed-check-header.scss'],
 })
-export class SpeedCheckHeaderComponent {
-
-}
+export class SpeedCheckHeaderComponent {}

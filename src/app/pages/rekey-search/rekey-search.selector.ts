@@ -10,7 +10,6 @@ export const getStaffNumber = (rekeySearch: RekeySearchModel) => rekeySearch.sta
 export const getRekeySearchError = (rekeySearch: RekeySearchModel) => rekeySearch.err;
 
 export const getBookedTestSlot = (rekeySearch: RekeySearchModel) => {
-
   // The reason why we are null checking in a selector is that
   // the rekey-search module might not yet been imported
   // so the rekey-search reducer is not yet registered

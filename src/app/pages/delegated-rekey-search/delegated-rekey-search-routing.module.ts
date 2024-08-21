@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { DelegatedRekeySearchPage } from '@pages/delegated-rekey-search/delegated-rekey-search';
 

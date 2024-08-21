@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { TestReportCatCPage } from './test-report.cat-c.page';
 
 const routes: Routes = [

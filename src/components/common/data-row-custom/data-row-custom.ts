@@ -6,25 +6,24 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['data-row-custom.scss'],
 })
 export class DataRowCustomComponent {
-
   @Input()
   label: string;
 
   @Input()
-  shouldShowIndicator: boolean = false;
+  shouldShowIndicator = false;
 
   @Input()
-  shouldHaveSeperator: boolean = true;
+  shouldHaveSeperator = true;
 
   @Input()
   idPrefix?: string;
 
   @Input()
-  centeredLabel: boolean = true;
+  centeredLabel = true;
 
   @Input()
-  centeredIcon: boolean = true;
+  centeredIcon = true;
 
   @Input()
-  centredData: boolean = false;
+  centredData = false;
 }

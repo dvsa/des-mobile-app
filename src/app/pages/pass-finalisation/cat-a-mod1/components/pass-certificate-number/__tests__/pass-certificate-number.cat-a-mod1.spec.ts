@@ -1,13 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import {
-  PASS_CERTIFICATE_LENGTH_A_MOD1,
-} from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
-import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AppComponent } from '@app/app.component';
+import { IonicModule } from '@ionic/angular';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { PASS_CERTIFICATE_LENGTH_A_MOD1 } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 import { PassCertificateNumberCatAMod1Component } from '../pass-certificate-number.cat-a-mod1';
 
 describe('PassCertificateNumberCatAMod1Component', () => {
@@ -16,12 +14,8 @@ describe('PassCertificateNumberCatAMod1Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PassCertificateNumberCatAMod1Component,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [PassCertificateNumberCatAMod1Component],
+      imports: [IonicModule],
       providers: [
         {
           provide: AppComponent,
@@ -54,61 +48,50 @@ describe('PassCertificateNumberCatAMod1Component', () => {
       it('should emit pass certificate number if 7 characters and valid', () => {
         const passCertificateNumber = 'C26754E';
         component.passCertificateNumberChanged(passCertificateNumber);
-        expect(component.formControl.setErrors)
-          .not
-          .toHaveBeenCalled();
-        expect(component.passCertificateNumberChange.emit)
-          .toHaveBeenCalledWith(passCertificateNumber);
+        expect(component.formControl.setErrors).not.toHaveBeenCalled();
+        expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
       });
 
       it('should recognise a permitted length but invalid format then set errors', () => {
         const passCertificateNumber = 'ABCDEFG';
         component.passCertificateNumberChanged(passCertificateNumber);
-        expect(component.formControl.setErrors)
-          .toHaveBeenCalledWith({
-            invalidFormat: passCertificateNumber,
-          });
-        expect(component.passCertificateNumberChange.emit)
-          .toHaveBeenCalledWith(passCertificateNumber);
+        expect(component.formControl.setErrors).toHaveBeenCalledWith({
+          invalidFormat: passCertificateNumber,
+        });
+        expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
       });
 
       it('should recognise an illegal length then set errors', () => {
         const passCertificateNumber = 'A1234567789';
         component.passCertificateNumberChanged(passCertificateNumber);
-        expect(component.formControl.setErrors)
-          .toHaveBeenCalledWith({
-            actualLength: 11,
-            permittedLength: 8,
-            value: 'A1234567789',
-          });
-        expect(component.passCertificateNumberChange.emit)
-          .toHaveBeenCalledWith(passCertificateNumber);
+        expect(component.formControl.setErrors).toHaveBeenCalledWith({
+          actualLength: 11,
+          permittedLength: 8,
+          value: 'A1234567789',
+        });
+        expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
       });
 
       it('should recognise a correct string length & invalid byte length then set errors', () => {
         const passCertificateNumber = 'B8711 2–';
         component.passCertificateNumberChanged(passCertificateNumber);
-        expect(component.formControl.setErrors)
-          .toHaveBeenCalledWith({
-            actualLength: 10,
-            permittedLength: 8,
-            value: passCertificateNumber,
-          });
-        expect(component.passCertificateNumberChange.emit)
-          .toHaveBeenCalledWith(passCertificateNumber);
+        expect(component.formControl.setErrors).toHaveBeenCalledWith({
+          actualLength: 10,
+          permittedLength: 8,
+          value: passCertificateNumber,
+        });
+        expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
       });
 
       it('should recognise a valid value but also a duplicate one and setError as such', () => {
         const passCertificateNumber = 'C26754E';
         component.pastPassCerts = [passCertificateNumber];
         component.passCertificateNumberChanged(passCertificateNumber);
-        expect(component.formControl.setErrors)
-          .toHaveBeenCalledWith({
-            duplicate: true,
-            value: passCertificateNumber,
-          });
-        expect(component.passCertificateNumberChange.emit)
-          .toHaveBeenCalledWith(passCertificateNumber);
+        expect(component.formControl.setErrors).toHaveBeenCalledWith({
+          duplicate: true,
+          value: passCertificateNumber,
+        });
+        expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
       });
     });
 
@@ -120,12 +103,9 @@ describe('PassCertificateNumberCatAMod1Component', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSET
-        expect(component.formControl.dirty)
-          .toEqual(false);
-        expect(!component.formControl.valid)
-          .toEqual(false);
-        expect(result)
-          .toEqual(false);
+        expect(component.formControl.dirty).toEqual(false);
+        expect(!component.formControl.valid).toEqual(false);
+        expect(result).toEqual(false);
       });
 
       it('should return false when the field is not valid and is not dirty', () => {
@@ -135,12 +115,9 @@ describe('PassCertificateNumberCatAMod1Component', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSET
-        expect(component.formControl.dirty)
-          .toEqual(false);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(false);
+        expect(component.formControl.dirty).toEqual(false);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(false);
       });
 
       it('should return true if the field is empty and is marked as dirty', () => {
@@ -150,12 +127,9 @@ describe('PassCertificateNumberCatAMod1Component', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSERT
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(true);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(true);
       });
 
       it('should return true if the field has less then 7 characters and is marked as dirty', () => {
@@ -166,12 +140,9 @@ describe('PassCertificateNumberCatAMod1Component', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSERT
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(true);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(true);
       });
 
       it('should return true if the field has more then 7 characters and is marked as dirty', () => {
@@ -182,12 +153,9 @@ describe('PassCertificateNumberCatAMod1Component', () => {
         // ACT
         const result: boolean = component.invalid;
         // ASSERT
-        expect(component.formControl.dirty)
-          .toEqual(true);
-        expect(!component.formControl.valid)
-          .toEqual(true);
-        expect(result)
-          .toEqual(true);
+        expect(component.formControl.dirty).toEqual(true);
+        expect(!component.formControl.valid).toEqual(true);
+        expect(result).toEqual(true);
       });
     });
   });

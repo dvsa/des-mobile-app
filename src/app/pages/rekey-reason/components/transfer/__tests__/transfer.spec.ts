@@ -1,10 +1,10 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { AppModule } from '@app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AppComponent } from '@app/app.component';
+import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { TransferComponent } from '../transfer';
 
 describe('TransferComponent', () => {
@@ -13,18 +13,9 @@ describe('TransferComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TransferComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: AppComponent, useClass: MockAppComponent },
-
-      ],
+      declarations: [TransferComponent],
+      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 
     fixture = TestBed.createComponent(TransferComponent);

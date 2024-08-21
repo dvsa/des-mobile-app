@@ -1,17 +1,17 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of, Subscription } from 'rxjs';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StartTest } from '@store/tests/tests.actions';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { StoreModel } from '@shared/models/store.model';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { AddDrivingFault } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { Subscription, of } from 'rxjs';
 import { DrivingFaultSummaryComponent } from '../driving-fault-summary';
 
 describe('DrivingFaultSummary', () => {
@@ -26,16 +26,9 @@ describe('DrivingFaultSummary', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DrivingFaultSummaryComponent,
-      ],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer }),
-      ],
-      providers: [
-        FaultCountProvider,
-      ],
+      declarations: [DrivingFaultSummaryComponent],
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
+      providers: [FaultCountProvider],
     });
 
     fixture = TestBed.createComponent(DrivingFaultSummaryComponent);

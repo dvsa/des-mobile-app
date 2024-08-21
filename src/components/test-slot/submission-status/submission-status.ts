@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: 'submission-status.html',
   styleUrls: ['submission-status.scss'],
 })
-export class SubmissionStatusComponent {
-}
+export class SubmissionStatusComponent {}

@@ -1,9 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import * as testsActions from '@store/tests/tests.actions';
+import { ReplaySubject } from 'rxjs';
 import * as communicationActions from '../communication.actions';
 import { CommunicationEffects } from '../communication.effects';
 
@@ -25,11 +25,7 @@ describe('CommunicationEffects', () => {
           }),
         }),
       ],
-      providers: [
-        CommunicationEffects,
-        provideMockActions(() => actions$),
-        Store,
-      ],
+      providers: [CommunicationEffects, provideMockActions(() => actions$), Store],
     });
 
     actions$ = new ReplaySubject(1);
@@ -49,5 +45,4 @@ describe('CommunicationEffects', () => {
       });
     });
   });
-
 });

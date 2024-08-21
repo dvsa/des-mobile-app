@@ -1,23 +1,23 @@
-import { of, ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { ReplaySubject, of } from 'rxjs';
 
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { ReferenceDataProvider } from '@providers/reference-data/reference-data';
-import { ReferenceDataEffects } from '@store/reference-data/reference-data.effects';
-import { RefDataStateModel, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { ReferenceDataProviderMock } from '@providers/reference-data/__mocks__/reference-data.mock';
+import { ReferenceDataProvider } from '@providers/reference-data/reference-data';
+import { DateTime } from '@shared/helpers/date-time';
 import {
   GetTestCentresRefData,
   LoadTestCentresRefDataFail,
   LoadTestCentresRefDataSuccess,
   SetDateRefDataUpdated,
 } from '@store/reference-data/reference-data.actions';
-import { DateTime } from '@shared/helpers/date-time';
+import { ReferenceDataEffects } from '@store/reference-data/reference-data.effects';
+import { RefDataStateModel, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
 
 describe('ReferenceDataEffects', () => {
   let effects: ReferenceDataEffects;
@@ -29,7 +29,8 @@ describe('ReferenceDataEffects', () => {
   const mockTodayDate = '2023-02-22';
   const mockTomorrowDate = '2023-02-23';
   const mockTestCentres = {
-    active: [], inactive: [],
+    active: [],
+    inactive: [],
   };
 
   beforeEach(waitForAsync(() => {
@@ -59,7 +60,7 @@ describe('ReferenceDataEffects', () => {
 
   describe('testCentreRefData$', () => {
     it('should not call getTestCentres when offline', () => {
-    // ARRANGE
+      // ARRANGE
       spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
       spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
       // ACT

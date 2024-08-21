@@ -1,37 +1,37 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import { StoreModel } from '@shared/models/store.model';
+import { Router } from '@angular/router';
 import { Application } from '@dvsa/mes-journal-schema';
-import { testsReducer } from '@store/tests/tests.reducer';
-import * as testsActions from '@store/tests/tests.actions';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import * as applicationReferenceActions
-  from '@store/tests/journal-data/common/application-reference/application-reference.actions';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import {
   VRNModalCancelled,
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
-import { Router } from '@angular/router';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { AppConfigProvider } from '@providers/app-config/app-config';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { ReplaySubject } from 'rxjs';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
@@ -92,17 +92,21 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationViewDidEnter());
       // ASSERT
       effects.communicationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, 'B');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          'B'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -116,17 +120,21 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationViewDidEnter());
       // ASSERT
       effects.communicationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenNamePM);
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, 'B');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePM);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          'B'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
         done();
       });
     });
@@ -142,14 +150,13 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationValidationError('formControl1'));
       // ASSERT
       effects.communicationValidationError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VALIDATION_ERROR,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'formControl1');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VALIDATION_ERROR,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'formControl1'
+        );
         done();
       });
     });
@@ -161,14 +168,13 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationValidationError('formControl1'));
       // ASSERT
       effects.communicationValidationError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'formControl1');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'formControl1'
+        );
         done();
       });
     });
@@ -184,15 +190,13 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(VRNModalOpened());
       // ASSERT
       effects.vrnModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VRN_CAPTURE,
-            GoogleAnalyticsEventsTitles.OUTCOME,
-            GoogleAnalyticsEventsValues.VRN_CAPTURE_SELECTED,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VRN_CAPTURE,
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          GoogleAnalyticsEventsValues.VRN_CAPTURE_SELECTED
+        );
       });
     });
   });
@@ -207,15 +211,13 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(VRNModalCancelled());
       // ASSERT
       effects.vrnModalCancelled$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VRN_CAPTURE,
-            GoogleAnalyticsEventsTitles.OUTCOME,
-            GoogleAnalyticsEventsValues.VRN_CAPTURE_CANCELLED,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VRN_CAPTURE,
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          GoogleAnalyticsEventsValues.VRN_CAPTURE_CANCELLED
+        );
       });
     });
   });
@@ -230,15 +232,13 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(VRNModalSaved());
       // ASSERT
       effects.vrnModalSaved$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type)
-          .toBe(AnalyticRecorded.type);
+        expect(result.type).toBe(AnalyticRecorded.type);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.VRN_CAPTURE,
-            GoogleAnalyticsEventsTitles.OUTCOME,
-            GoogleAnalyticsEventsValues.VRN_CAPTURE_SAVED,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.VRN_CAPTURE,
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          GoogleAnalyticsEventsValues.VRN_CAPTURE_SAVED
+        );
       });
     });
   });
@@ -247,15 +247,13 @@ describe('CommunicationAnalyticsEffects', () => {
     it('should dispatch action when booking email option is selected', (done) => {
       actions$.next(communicationActions.BookingEmailSelected());
       effects.bookingEmailSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-            GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
-            GoogleAnalyticsEventsValues.COMMS_METHOD_BOOKING_EMAIL,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+          GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
+          GoogleAnalyticsEventsValues.COMMS_METHOD_BOOKING_EMAIL
+        );
         done();
       });
     });
@@ -265,15 +263,13 @@ describe('CommunicationAnalyticsEffects', () => {
     it('should dispatch action when new email option is selected', (done) => {
       actions$.next(communicationActions.NewEmailSelected());
       effects.newEmailSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-            GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
-            GoogleAnalyticsEventsValues.COMMS_METHOD_NEW_EMAIL,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+          GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
+          GoogleAnalyticsEventsValues.COMMS_METHOD_NEW_EMAIL
+        );
         done();
       });
     });
@@ -283,18 +279,15 @@ describe('CommunicationAnalyticsEffects', () => {
     it('should dispatch action when postal option is selected', (done) => {
       actions$.next(communicationActions.PostalSelected());
       effects.postalSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-            GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
-            GoogleAnalyticsEventsValues.COMMS_METHOD_POST,
-          );
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+          GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
+          GoogleAnalyticsEventsValues.COMMS_METHOD_POST
+        );
         done();
       });
     });
   });
-
 });

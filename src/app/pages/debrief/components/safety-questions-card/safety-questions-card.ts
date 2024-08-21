@@ -8,7 +8,6 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   styleUrls: ['safety-questions-card.scss'],
 })
 export class SafetyQuestionsCardComponent {
-
   @Input()
   data: SafetyQuestionResult[];
 

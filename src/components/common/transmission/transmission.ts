@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -10,14 +8,13 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: 'transmission.html',
 })
 export class TransmissionComponent implements OnChanges {
-
   @Input()
   transmission: GearboxCategory;
 
   @Input()
-  hideTransmissionLabel: boolean = false;
+  hideTransmissionLabel = false;
   @Input()
-  hideConfirmTransmissionLabel: boolean = true;
+  hideConfirmTransmissionLabel = true;
 
   @Input()
   formGroup: UntypedFormGroup;
@@ -49,5 +46,4 @@ export class TransmissionComponent implements OnChanges {
   isInvalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

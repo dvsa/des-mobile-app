@@ -1,6 +1,6 @@
+import { Injector } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { BasePageComponent } from './base-page';
-import { Injector } from '@angular/core';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
   protected alertController = this.injector.get(AlertController);
@@ -17,8 +17,7 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
       buttons: [
         {
           text: 'Cancel',
-          handler: () => {
-          },
+          handler: () => {},
         },
         {
           text: 'Logout',
@@ -29,5 +28,4 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
 
     await alert.present();
   }
-
 }

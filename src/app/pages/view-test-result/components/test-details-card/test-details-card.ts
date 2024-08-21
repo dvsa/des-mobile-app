@@ -3,7 +3,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { get } from 'lodash-es';
 import { TestDetailsModel } from './test-details-card.model';
 
-export type CandidateDetails = { prn: number; attemptNumber: number; };
+export type CandidateDetails = { prn: number; attemptNumber: number };
 
 @Component({
   selector: 'test-details-card',
@@ -11,7 +11,6 @@ export type CandidateDetails = { prn: number; attemptNumber: number; };
   styleUrls: ['test-details-card.scss'],
 })
 export class TestDetailsCardComponent {
-
   @Input()
   data: TestDetailsModel;
 
@@ -27,13 +26,13 @@ export class TestDetailsCardComponent {
   }
 
   showAttemptNumber(): boolean {
-    return get(this.candidateDetails, 'attemptNumber', null) !== null
-      || typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined';
+    return (
+      get(this.candidateDetails, 'attemptNumber', null) !== null ||
+      typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined'
+    );
   }
 
   showPrn(): boolean {
-    return get(this.candidateDetails, 'prn', null) !== null
-      || typeof get(this.candidateDetails, 'prn') !== 'undefined';
+    return get(this.candidateDetails, 'prn', null) !== null || typeof get(this.candidateDetails, 'prn') !== 'undefined';
   }
-
 }

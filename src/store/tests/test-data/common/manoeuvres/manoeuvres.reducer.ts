@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { ManoeuvreUnion } from '@shared/unions/test-schema-unions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { ManoeuvreUnion } from '@shared/unions/test-schema-unions';
 import * as manoeuvresActions from './manoeuvres.actions';
 
 export const initialState: ManoeuvreUnion = {
@@ -45,11 +45,7 @@ export const manoeuvresReducer = createReducer(
       [manoeuvrePayload.competency]: CompetencyOutcome.D,
     },
   })),
-  on(manoeuvresActions.AddManoeuvreComment, (state, {
-    fieldName,
-    controlOrObservation,
-    comment,
-  }) => ({
+  on(manoeuvresActions.AddManoeuvreComment, (state, { fieldName, controlOrObservation, comment }) => ({
     ...state,
     [fieldName]: {
       ...state[fieldName],
@@ -57,12 +53,10 @@ export const manoeuvresReducer = createReducer(
     },
   })),
   on(manoeuvresActions.RemoveManoeuvreFault, (state, { payload }) => {
-    const {
-      [payload.competency]: competencyToOmit, ...stateToPreserve
-    } = state[payload.manoeuvre];
+    const { [payload.competency]: competencyToOmit, ...stateToPreserve } = state[payload.manoeuvre];
     return {
       ...state,
       [payload.manoeuvre]: stateToPreserve,
     };
-  }),
+  })
 );

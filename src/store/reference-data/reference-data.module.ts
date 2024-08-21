@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { refDataFeatureKey, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
 import { ReferenceDataEffects } from '@store/reference-data/reference-data.effects';
+import { refDataFeatureKey, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
 
 @NgModule({
   imports: [
@@ -10,4 +10,4 @@ import { ReferenceDataEffects } from '@store/reference-data/reference-data.effec
     EffectsModule.forFeature([ReferenceDataEffects]),
   ],
 })
-export class ReferenceDataStoreModule { }
+export class ReferenceDataStoreModule {}

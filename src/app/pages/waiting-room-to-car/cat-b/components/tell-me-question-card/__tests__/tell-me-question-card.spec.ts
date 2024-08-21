@@ -1,22 +1,17 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { QuestionProvider } from '@providers/question/question';
-import { AppModule } from '@app/app.module';
-import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import {
-  UntypedFormControl,
-  UntypedFormGroup, ReactiveFormsModule, Validators,
-} from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  TellMeQuestionCardComponent,
-} from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AppModule } from '@app/app.module';
+import { TellMeQuestionCardComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
+import { QuestionProvider } from '@providers/question/question';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 describe('TellMeQuestionCardComponent', () => {
   let component: TellMeQuestionCardComponent;
@@ -25,13 +20,8 @@ describe('TellMeQuestionCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        TellMeQuestionCardComponent,
-      ],
-      imports: [
-        AppModule,
-        ReactiveFormsModule,
-      ],
+      declarations: [TellMeQuestionCardComponent],
+      imports: [AppModule, ReactiveFormsModule],
       providers: [
         {
           provide: RouteByCategoryProvider,

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { PracticeTestModal } from '../practice-test-modal';
 
@@ -12,9 +12,7 @@ describe('PracticeTestModal', () => {
     TestBed.configureTestingModule({
       declarations: [PracticeTestModal],
       imports: [IonicModule],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(PracticeTestModal);

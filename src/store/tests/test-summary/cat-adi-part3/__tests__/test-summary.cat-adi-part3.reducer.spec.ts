@@ -1,5 +1,5 @@
-import { testSummaryADIPart3Reducer } from '@store/tests/test-summary/cat-adi-part3/test-summary.cat-adi-part3.reducer';
 import { TestSummary } from '@dvsa/mes-test-schema/categories/AM1';
+import { testSummaryADIPart3Reducer } from '@store/tests/test-summary/cat-adi-part3/test-summary.cat-adi-part3.reducer';
 import * as fromTestSummaryActions from '../../test-summary.actions';
 
 describe('testSummaryADIPart3Reducer', () => {

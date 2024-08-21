@@ -5,15 +5,8 @@ import { Combination } from '@shared/constants/cpc-questions/cpc-question-combin
 import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
 
 export class CpcQuestionsMock {
-
   getQuestionsBank(): Question[] {
-    return [
-      question('1'),
-      question('3'),
-      question('7'),
-      question('2'),
-      question5(),
-    ];
+    return [question('1'), question('3'), question('7'), question('2'), question5()];
   }
 
   getQuestion5ByVehicleType(combinationCode: string) {

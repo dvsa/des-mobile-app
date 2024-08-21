@@ -8,9 +8,7 @@ describe('DangerousFaultBadgeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DangerousFaultBadgeComponent,
-      ],
+      declarations: [DangerousFaultBadgeComponent],
     });
 
     fixture = TestBed.createComponent(DangerousFaultBadgeComponent);

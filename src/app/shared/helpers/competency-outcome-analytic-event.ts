@@ -1,6 +1,6 @@
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { AnalyticsEvents } from '@providers/analytics/analytics.model';
 import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
+import { AnalyticsEvents } from '@providers/analytics/analytics.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const CompetencyOutcomeAnalyticEvent = (faultLevel: CompetencyOutcome): string => {
   switch (faultLevel) {

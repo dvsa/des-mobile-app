@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
 import { CombinationComponent } from '../combination';
@@ -11,13 +11,8 @@ describe('CombinationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CombinationComponent,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [CombinationComponent],
+      imports: [IonicModule, AppModule],
     });
 
     fixture = TestBed.createComponent(CombinationComponent);
@@ -27,20 +22,17 @@ describe('CombinationComponent', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it('should have fieldName form control be added to '
-            + 'form if there is no form control already there', () => {
+    it('should have fieldName form control be added to ' + 'form if there is no form control already there', () => {
       component.formControl = null;
       component.ngOnChanges();
 
-      expect(component.formGroup.controls[CombinationComponent.fieldName])
-        .toBeTruthy();
+      expect(component.formGroup.controls[CombinationComponent.fieldName]).toBeTruthy();
     });
     it('should patch control with value stored in combination ', () => {
       component.combination = 'test';
 
       component.ngOnChanges();
-      expect(component.formControl.value)
-        .toEqual('test');
+      expect(component.formControl.value).toEqual('test');
     });
   });
 
@@ -49,29 +41,25 @@ describe('CombinationComponent', () => {
       component.formControl.setValue(null);
       component.formControl.markAsDirty();
 
-      expect(component.invalid)
-        .toBeTruthy();
+      expect(component.invalid).toBeTruthy();
     });
     it('should return false if the formControl is valid and dirty', () => {
       component.formControl.setValue(1);
       component.formControl.markAsDirty();
 
-      expect(component.invalid)
-        .toBeFalsy();
+      expect(component.invalid).toBeFalsy();
     });
     it('should return false if the formControl is invalid and clean', () => {
       component.formControl.setValue(null);
       component.formControl.markAsPristine();
 
-      expect(component.invalid)
-        .toBeFalsy();
+      expect(component.invalid).toBeFalsy();
     });
     it('should return false if the formControl is valid and clean', () => {
       component.formControl.setValue(1);
       component.formControl.markAsPristine();
 
-      expect(component.invalid)
-        .toBeFalsy();
+      expect(component.invalid).toBeFalsy();
     });
   });
 
@@ -79,8 +67,7 @@ describe('CombinationComponent', () => {
     it('should emit the value passed into the function', () => {
       spyOn(component.combinationChange, 'emit');
       component.combinationChanged('LGV1');
-      expect(component.combinationChange.emit)
-        .toHaveBeenCalledWith('LGV1');
+      expect(component.combinationChange.emit).toHaveBeenCalledWith('LGV1');
     });
   });
 });

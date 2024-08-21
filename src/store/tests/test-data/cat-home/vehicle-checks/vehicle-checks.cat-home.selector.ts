@@ -1,17 +1,13 @@
-import { VehicleChecksUnion } from '@shared/unions/test-schema-unions';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { createFeatureSelector } from '@ngrx/store';
+import { VehicleChecksUnion } from '@shared/unions/test-schema-unions';
 import { some } from 'lodash-es';
 
-export const getSelectedShowMeQuestions = (
-  vehicleChecks: VehicleChecksUnion,
-): QuestionResult[] => {
+export const getSelectedShowMeQuestions = (vehicleChecks: VehicleChecksUnion): QuestionResult[] => {
   return vehicleChecks.showMeQuestions;
 };
 
-export const getSelectedTellMeQuestions = (
-  vehicleChecks: VehicleChecksUnion,
-): QuestionResult[] => {
+export const getSelectedTellMeQuestions = (vehicleChecks: VehicleChecksUnion): QuestionResult[] => {
   return vehicleChecks.tellMeQuestions;
 };
 

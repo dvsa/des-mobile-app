@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RekeyReason, IpadIssue } from '@dvsa/mes-test-schema/categories/common';
+import { IpadIssue, RekeyReason } from '@dvsa/mes-test-schema/categories/common';
 import { get } from 'lodash-es';
 
 @Component({
@@ -7,7 +7,6 @@ import { get } from 'lodash-es';
   templateUrl: 'rekey-reason-card.html',
 })
 export class RekeyReasonCardComponent {
-
   @Input()
   data: RekeyReason;
 
@@ -47,5 +46,4 @@ export class RekeyReasonCardComponent {
 
     return value;
   }
-
 }

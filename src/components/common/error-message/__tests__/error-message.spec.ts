@@ -1,5 +1,5 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
 
@@ -12,9 +12,7 @@ describe('ErrorMessageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorMessageComponent],
-      providers: [
-        { provide: Location, useValue: locationSpy },
-      ],
+      providers: [{ provide: Location, useValue: locationSpy }],
     });
 
     fixture = TestBed.createComponent(ErrorMessageComponent);
@@ -54,7 +52,9 @@ describe('ErrorMessageComponent', () => {
         component.ngOnInit();
         expect(component.defaultErrorStatement)
           // eslint-disable-next-line max-len
-          .toEqual('You are either not deployed into a test centre, or there are no test bookings at this location for today and tomorrow');
+          .toEqual(
+            'You are either not deployed into a test centre, or there are no test bookings at this location for today and tomorrow'
+          );
       });
       it('should set additionalText to a message refering to refreshing', () => {
         component.returnTo = ErrorTypes.TEST_CENTRE_JOURNAL_ERROR;
@@ -67,8 +67,9 @@ describe('ErrorMessageComponent', () => {
         component.returnTo = ErrorTypes.TEST_CENTRE_OFFLINE;
         fixture.detectChanges();
         component.ngOnInit();
-        expect(component.defaultErrorStatement)
-          .toEqual('To view the Test Centre Journal please refresh once you are back online.');
+        expect(component.defaultErrorStatement).toEqual(
+          'To view the Test Centre Journal please refresh once you are back online.'
+        );
         expect(component.redirectLinkText).toEqual('Dashboard');
       });
       it('should set the redirectLinkText to Dashboard when unknown error via test centre', () => {

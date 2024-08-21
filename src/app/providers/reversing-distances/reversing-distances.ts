@@ -11,10 +11,9 @@ interface VehicleMultipliers {
 
 @Injectable()
 export class ReversingDistancesProvider {
-
   distanceValues: Map<TestCategory, VehicleMultipliers>;
 
-  public getDistanceValues() : Map<TestCategory, VehicleMultipliers> {
+  public getDistanceValues(): Map<TestCategory, VehicleMultipliers> {
     if (!this.distanceValues) {
       this.distanceValues = new Map([
         [TestCategory.BE, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
@@ -43,17 +42,18 @@ export class ReversingDistancesProvider {
       case TestCategory.C1EM:
       case TestCategory.DEM:
       case TestCategory.D1EM:
-        return ({
+        return {
           startDistance: data.vehicleLength > 16.5 ? 66 : Number(distanceFromStart.toFixed(2)),
-          middleDistance: data.vehicleLength > 16.5
-            ? Number((66 - (data.vehicleLength * 2)).toFixed(2))
-            : Number(distanceFromMiddle.toFixed(2)),
-        });
+          middleDistance:
+            data.vehicleLength > 16.5
+              ? Number((66 - data.vehicleLength * 2).toFixed(2))
+              : Number(distanceFromMiddle.toFixed(2)),
+        };
       default:
-        return ({
+        return {
           startDistance: Number(distanceFromStart.toFixed(2)),
           middleDistance: Number(distanceFromMiddle.toFixed(2)),
-        });
+        };
     }
   }
 
@@ -64,5 +64,4 @@ export class ReversingDistancesProvider {
     const distanceOfBayWidth = data.vehicleWidth * this.distanceValues.get(category).widthMultiplier;
     return Number(distanceOfBayWidth.toFixed(2));
   }
-
 }

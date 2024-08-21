@@ -1,19 +1,15 @@
 import { ApplicationRef, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { isPortrait } from '@shared/helpers/is-portrait-mode';
+import { BehaviorSubject } from 'rxjs';
 
-@Injectable( {
+@Injectable({
   providedIn: 'root',
-} )
+})
 export class OrientationMonitorProvider {
-
   isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(
-    private ref: ApplicationRef,
-  ) {
-  }
+  constructor(private ref: ApplicationRef) {}
 
   public async tearDownListener() {
     await ScreenOrientation.removeAllListeners();
@@ -28,12 +24,9 @@ export class OrientationMonitorProvider {
     this.ref.tick();
 
     // Listen to orientation change and update isPortraitMode$ accordingly
-    ScreenOrientation.addListener(
-      'screenOrientationChange',
-      ({ type }) => {
-        this.isPortraitMode$.next(isPortrait(type));
-        this.ref.tick();
-      },
-    );
+    ScreenOrientation.addListener('screenOrientationChange', ({ type }) => {
+      this.isPortraitMode$.next(isPortrait(type));
+      this.ref.tick();
+    });
   }
 }

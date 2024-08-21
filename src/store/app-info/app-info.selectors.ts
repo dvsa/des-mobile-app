@@ -6,25 +6,25 @@ export const selectAppInfo = (state: StoreModel): AppInfoStateModel => state.app
 
 export const selectVersionNumber = createSelector(
   selectAppInfo,
-  (appInfo: AppInfoStateModel): string => appInfo.versionNumber,
+  (appInfo: AppInfoStateModel): string => appInfo.versionNumber
 );
 
 export const selectEmployeeId = createSelector(
   selectAppInfo,
-  (appInfo: AppInfoStateModel): string => appInfo.employeeId,
+  (appInfo: AppInfoStateModel): string => appInfo.employeeId
 );
 
 export const selectEmployeeName = createSelector(
   selectAppInfo,
-  (appInfo: AppInfoStateModel): string => appInfo.employeeName,
+  (appInfo: AppInfoStateModel): string => appInfo.employeeName
 );
 
 export const selectDateConfigLoaded = createSelector(
   selectAppInfo,
-  (appInfo: AppInfoStateModel): string => appInfo.dateConfigLoaded,
+  (appInfo: AppInfoStateModel): string => appInfo.dateConfigLoaded
 );
 
 export const selectUpdateAvailablePresented = createSelector(
   selectAppInfo,
-  (appInfo: AppInfoStateModel): boolean => appInfo.updateAvailablePresented,
+  (appInfo: AppInfoStateModel): boolean => appInfo.updateAvailablePresented
 );

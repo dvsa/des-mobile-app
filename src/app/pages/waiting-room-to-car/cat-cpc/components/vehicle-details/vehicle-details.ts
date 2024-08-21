@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 
@@ -9,7 +7,6 @@ import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
   templateUrl: 'vehicle-details.html',
 })
 export class VehicleDetailsCatCPCComponent {
-
   @Input()
   formGroup: UntypedFormGroup;
 
@@ -38,5 +35,4 @@ export class VehicleDetailsCatCPCComponent {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

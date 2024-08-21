@@ -1,15 +1,12 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
-import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
   selector: 'lesson-theme',
   templateUrl: 'lesson-theme.html',
 })
 export class LessonThemeComponent implements OnChanges {
-
   @Input()
   lessonThemes: LessonTheme[] = [];
 
@@ -20,7 +17,7 @@ export class LessonThemeComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Output()
-  lessonThemeChange = new EventEmitter<{ lessonTheme: LessonTheme; added: boolean; }>();
+  lessonThemeChange = new EventEmitter<{ lessonTheme: LessonTheme; added: boolean }>();
 
   @Output()
   otherReasoningChange = new EventEmitter<string>();
@@ -46,7 +43,7 @@ export class LessonThemeComponent implements OnChanges {
     this.otherReasoningChange.emit(otherReason);
   };
 
-  defineComparator = (key: string) => this.lessonThemes?.includes(key as LessonTheme) ? key : '';
+  defineComparator = (key: string) => (this.lessonThemes?.includes(key as LessonTheme) ? key : '');
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
@@ -64,5 +61,4 @@ export class LessonThemeComponent implements OnChanges {
   charactersExceeded(): boolean {
     return this.feedbackCharsRemaining < 0;
   }
-
 }

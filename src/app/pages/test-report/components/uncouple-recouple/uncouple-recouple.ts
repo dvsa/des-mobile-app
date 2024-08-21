@@ -1,14 +1,10 @@
-import {
-  Component, OnDestroy, OnInit, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { Store, select } from '@ngrx/store';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Observable, Subscription, merge } from 'rxjs';
-import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { map, takeUntil } from 'rxjs/operators';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { get } from 'lodash-es';
 import {
   ToggleUncoupleRecouple,
   UncoupleRecoupleAddDangerousFault,
@@ -16,9 +12,11 @@ import {
   UncoupleRecoupleAddSeriousFault,
   UncoupleRecoupleRemoveFault,
 } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { get } from 'lodash-es';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
@@ -37,7 +35,6 @@ interface UncoupleRecoupleComponentState {
   styleUrls: ['uncouple-recouple.scss'],
 })
 export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
-
   @Input()
   category: CategoryCode;
 
@@ -45,7 +42,7 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   disableDrivingFaults?: boolean = false;
 
   @Input()
-  buttonFloatAbove: boolean = false;
+  buttonFloatAbove = false;
 
   @Output()
   competencyClicked = new EventEmitter<void>();
@@ -53,46 +50,33 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   componentState: UncoupleRecoupleComponentState;
   subscription: Subscription;
 
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
 
-  selectedUncoupleRecouple: boolean = false;
+  selectedUncoupleRecouple = false;
   uncoupleRecoupleOutcome: CompetencyOutcome;
   merged$: Observable<boolean | CompetencyOutcome>;
 
   constructor(
     private store$: Store<StoreModel>,
-    private testDataByCategory: TestDataByCategoryProvider,
-  ) {
-  }
+    private testDataByCategory: TestDataByCategoryProvider
+  ) {}
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode),
-      ),
-      isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode),
-      ),
-      isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode),
-      ),
+      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
+      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
+      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
       selectedUncoupleRecouple$: currentTest$.pipe(
         map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData) => get(testData, 'uncoupleRecouple.selected')),
+        select((testData) => get(testData, 'uncoupleRecouple.selected'))
       ),
       uncoupleRecoupleOutcome$: currentTest$.pipe(
         map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData) => get(testData, 'uncoupleRecouple.fault')),
+        select((testData) => get(testData, 'uncoupleRecouple.fault'))
       ),
     };
 
@@ -105,11 +89,11 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
     } = this.componentState;
 
     this.subscription = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      selectedUncoupleRecouple$.pipe(map((value) => this.selectedUncoupleRecouple = value)),
-      uncoupleRecoupleOutcome$.pipe(map((outcome) => this.uncoupleRecoupleOutcome = outcome)),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      selectedUncoupleRecouple$.pipe(map((value) => (this.selectedUncoupleRecouple = value))),
+      uncoupleRecoupleOutcome$.pipe(map((outcome) => (this.uncoupleRecoupleOutcome = outcome)))
     )
       .pipe(takeUntil(trDestroy$))
       .subscribe();
@@ -154,7 +138,7 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
     this.store$.dispatch(ToggleUncoupleRecouple());
   };
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
+  addOrRemoveFault = (wasPress = false): void => {
     // buttonFloatAbove used for manoeuvre categories to alter display and stop DF being added;
     if (this.buttonFloatAbove && !this.isDangerousMode && !this.isSeriousMode) {
       this.competencyClicked.emit();
@@ -211,10 +195,9 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
     }
   };
 
-  faultCount = (): number => this.uncoupleRecoupleOutcome === CompetencyOutcome.DF ? 1 : 0;
+  faultCount = (): number => (this.uncoupleRecoupleOutcome === CompetencyOutcome.DF ? 1 : 0);
 
   hasSeriousFault = (): boolean => this.uncoupleRecoupleOutcome === CompetencyOutcome.S;
 
   hasDangerousFault = (): boolean => this.uncoupleRecoupleOutcome === CompetencyOutcome.D;
-
 }

@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
-import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
-import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 describe('ModalActivityCodeListComponent', () => {
   let fixture: ComponentFixture<ModalActivityCodeListComponent>;
@@ -12,12 +12,8 @@ describe('ModalActivityCodeListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        IonicModule,
-      ],
-      providers: [
-        provideMockStore({ ...{} }),
-      ],
+      imports: [IonicModule],
+      providers: [provideMockStore({ ...{} })],
     });
 
     fixture = TestBed.createComponent(ModalActivityCodeListComponent);
@@ -45,7 +41,8 @@ describe('ModalActivityCodeListComponent', () => {
       component.selectActivityCode({ activityCode: '11', description: ActivityCodeDescription.FAIL });
 
       expect(component.modalController.dismiss).toHaveBeenCalledWith(
-        { activityCode: '11', description: ActivityCodeDescription.FAIL }, ActivityCodeModalEvent.SELECT_CODE,
+        { activityCode: '11', description: ActivityCodeDescription.FAIL },
+        ActivityCodeModalEvent.SELECT_CODE
       );
     });
   });

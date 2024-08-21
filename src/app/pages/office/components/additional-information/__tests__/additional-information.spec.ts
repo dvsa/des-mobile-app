@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
 
 describe('AdditionalInformationComponent', () => {
   let fixture: ComponentFixture<AdditionalInformationComponent>;
@@ -8,9 +8,7 @@ describe('AdditionalInformationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AdditionalInformationComponent,
-      ],
+      declarations: [AdditionalInformationComponent],
     });
 
     fixture = TestBed.createComponent(AdditionalInformationComponent);

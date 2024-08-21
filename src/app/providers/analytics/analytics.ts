@@ -1,21 +1,18 @@
 import { createHash } from 'crypto';
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { DateTime } from '@shared/helpers/date-time';
-import { DeviceProvider } from '../device/device';
-import { AppConfigProvider } from '../app-config/app-config';
-import {
-  AnalyticsEventCategories,
-  GoogleAnalyticsCustomDimension,
-} from './analytics.model';
-import { AuthenticationProvider } from '../authentication/authentication';
 import { AppInfoProvider } from '@providers/app-info/app-info';
+import { DateTime } from '@shared/helpers/date-time';
+import { AppConfigProvider } from '../app-config/app-config';
+import { AuthenticationProvider } from '../authentication/authentication';
+import { DeviceProvider } from '../device/device';
+import { AnalyticsEventCategories, GoogleAnalyticsCustomDimension } from './analytics.model';
 
 declare const gtag: Function;
 
 @Injectable()
 export class AnalyticsProvider {
-  googleAnalytics4Key: string = '';
+  googleAnalytics4Key = '';
   uniqueDeviceId: string;
   uniqueUserId: string;
 
@@ -24,9 +21,8 @@ export class AnalyticsProvider {
     private platform: Platform,
     private device: DeviceProvider,
     private authProvider: AuthenticationProvider,
-    protected appInfo: AppInfoProvider,
-  ) {
-  }
+    protected appInfo: AppInfoProvider
+  ) {}
 
   /**
    * Initial setup for Google Analytics, setting unique user and device id
@@ -95,7 +91,6 @@ export class AnalyticsProvider {
           send_page_view: false,
           user_id: userId,
         });
-
       } catch (error) {
         console.log('Analytics - setGAGlobalConfig error', error);
       }
@@ -138,7 +133,8 @@ export class AnalyticsProvider {
   addGACustomDimension(key: GoogleAnalyticsCustomDimension, value: string): void {
     if (this.isIos()) {
       try {
-        if (key) { // Guard to check if dimension is not undefined or null
+        if (key) {
+          // Guard to check if dimension is not undefined or null
           gtag('set', 'user_properties', { [key]: value });
         } else {
           console.error('Analytics - addGACustomDimension: Dimension not found for key', key);
@@ -180,37 +176,39 @@ export class AnalyticsProvider {
    */
   logGAEvent(
     eventName: string,
-    title1?: string, value1?: string,
-    title2?: string, value2?: string,
-    title3?: string, value3?: string,
+    title1?: string,
+    value1?: string,
+    title2?: string,
+    value2?: string,
+    title3?: string,
+    value3?: string
   ): void {
-    this.platform.ready()
-      .then(() => {
-        if (this.isIos()) {
-          try {
-            const eventData: { [key: string]: string } = {};
+    this.platform.ready().then(() => {
+      if (this.isIos()) {
+        try {
+          const eventData: { [key: string]: string } = {};
 
-            // Conditionally include title1 and value1
-            if (title1 && value1) {
-              eventData[title1] = value1;
-            }
-
-            // Conditionally include title2 and value2
-            if (title2 && value2) {
-              eventData[title2] = value2;
-            }
-
-            // Conditionally include title3 and value3
-            if (title3 && value3) {
-              eventData[title3] = value3;
-            }
-
-            gtag('event', eventName, eventData);
-          } catch (error) {
-            console.error('Analytics - logEvent', error);
+          // Conditionally include title1 and value1
+          if (title1 && value1) {
+            eventData[title1] = value1;
           }
+
+          // Conditionally include title2 and value2
+          if (title2 && value2) {
+            eventData[title2] = value2;
+          }
+
+          // Conditionally include title3 and value3
+          if (title3 && value3) {
+            eventData[title3] = value3;
+          }
+
+          gtag('event', eventName, eventData);
+        } catch (error) {
+          console.error('Analytics - logEvent', error);
         }
-      });
+      }
+    });
   }
 
   /**
@@ -259,5 +257,4 @@ export class AnalyticsProvider {
   }
 
   isIos = (): boolean => this.platform.is('cordova');
-
 }

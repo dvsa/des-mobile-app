@@ -1,30 +1,33 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
+import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
+import {
+  getVehicleChecksCatADIPart2,
+  hasVehicleChecksBeenCompletedCatADI2,
+} from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
+import {
+  ShowMeQuestionAddDrivingFault,
+  ShowMeQuestionRemoveDrivingFault,
+  VehicleChecksAddDangerousFault,
+  VehicleChecksAddSeriousFault,
+  VehicleChecksCompletedToggle,
+  VehicleChecksRemoveDangerousFault,
+  VehicleChecksRemoveSeriousFault,
+} from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
+import { ShowMeQuestionRemoveFault } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
-import { getVehicleChecksCatADIPart2, hasVehicleChecksBeenCompletedCatADI2 }
-  from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Subscription, merge, Observable } from 'rxjs';
-import {
-  VehicleChecksAddSeriousFault,
-  VehicleChecksAddDangerousFault,
-  VehicleChecksRemoveSeriousFault,
-  VehicleChecksRemoveDangerousFault,
-  ShowMeQuestionAddDrivingFault,
-  ShowMeQuestionRemoveDrivingFault, VehicleChecksCompletedToggle,
-} from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { ShowMeQuestionRemoveFault } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { getTestReportState } from '../../../test-report.reducer';
-import { isSeriousMode, isDangerousMode, isRemoveFaultMode } from '../../../test-report.selector';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 
 @Component({
   selector: 'vehicle-check',
@@ -32,17 +35,16 @@ import { isSeriousMode, isDangerousMode, isRemoveFaultMode } from '../../../test
   styleUrls: ['vehicle-check.scss'],
 })
 export class VehicleCheckComponent implements OnInit, OnDestroy {
-
   selectedShowMeQuestion: boolean;
   showMeQuestionFaultCount: number;
   tellMeQuestionFaultCount: number;
 
   vehicleChecks: CatADI2UniqueTypes.VehicleChecks;
-  vehicleChecksCompleted: boolean = false;
+  vehicleChecksCompleted = false;
 
-  isRemoveFaultMode: boolean = false;
-  isSeriousMode: boolean = false;
-  isDangerousMode: boolean = false;
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
 
   merged$: Observable<void | boolean>;
 
@@ -50,57 +52,49 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
 
   constructor(
     private store$: Store<StoreModel>,
-    private faultCountProvider: FaultCountProvider,
-  ) {
-  }
+    private faultCountProvider: FaultCountProvider
+  ) {}
 
   ngOnInit(): void {
     const vehicleChecks$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
       select(getTestData),
-      select(getVehicleChecksCatADIPart2),
+      select(getVehicleChecksCatADIPart2)
     );
 
-    const isSeriousMode$ = this.store$.pipe(
-      select(getTestReportState),
-      select(isSeriousMode),
-    );
+    const isSeriousMode$ = this.store$.pipe(select(getTestReportState), select(isSeriousMode));
 
-    const isDangerousMode$ = this.store$.pipe(
-      select(getTestReportState),
-      select(isDangerousMode),
-    );
+    const isDangerousMode$ = this.store$.pipe(select(getTestReportState), select(isDangerousMode));
 
-    const isRemoveFaultMode$ = this.store$.pipe(
-      select(getTestReportState),
-      select(isRemoveFaultMode),
-    );
+    const isRemoveFaultMode$ = this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode));
 
-    const vehicleChecksCompleted$ = merge(vehicleChecks$.pipe(
-      select(hasVehicleChecksBeenCompletedCatADI2),
-    ));
+    const vehicleChecksCompleted$ = merge(vehicleChecks$.pipe(select(hasVehicleChecksBeenCompletedCatADI2)));
 
     this.subscription = merge(
-      vehicleChecks$.pipe(map((vehicleChecks: CatADI2UniqueTypes.VehicleChecks) => {
-        this.vehicleChecks = vehicleChecks;
-        this.tellMeQuestionFaultCount = this.faultCountProvider.getVehicleChecksFaultCount(
-          TestCategory.ADI2,
-          { tellMeQuestions: vehicleChecks.tellMeQuestions },
-        ).drivingFaults;
-        this.showMeQuestionFaultCount = this.faultCountProvider.getVehicleChecksFaultCount(
-          TestCategory.ADI2,
-          { showMeQuestions: vehicleChecks.showMeQuestions },
-        ).drivingFaults;
-      })),
-      vehicleChecksCompleted$.pipe(map((toggle) => {
-        this.vehicleChecksCompleted = toggle;
-        this.selectedShowMeQuestion = toggle;
-      })),
-      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
-      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-    ).pipe(takeUntil(trDestroy$)).subscribe();
+      vehicleChecks$.pipe(
+        map((vehicleChecks: CatADI2UniqueTypes.VehicleChecks) => {
+          this.vehicleChecks = vehicleChecks;
+          this.tellMeQuestionFaultCount = this.faultCountProvider.getVehicleChecksFaultCount(TestCategory.ADI2, {
+            tellMeQuestions: vehicleChecks.tellMeQuestions,
+          }).drivingFaults;
+          this.showMeQuestionFaultCount = this.faultCountProvider.getVehicleChecksFaultCount(TestCategory.ADI2, {
+            showMeQuestions: vehicleChecks.showMeQuestions,
+          }).drivingFaults;
+        })
+      ),
+      vehicleChecksCompleted$.pipe(
+        map((toggle) => {
+          this.vehicleChecksCompleted = toggle;
+          this.selectedShowMeQuestion = toggle;
+        })
+      ),
+      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
+      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
+      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle)))
+    )
+      .pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -142,7 +136,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     return !(this.hasDangerousFault() || this.hasSeriousFault() || this.hasShowMeDrivingFault());
   };
 
-  addOrRemoveFault = (wasPress: boolean = false): void => {
+  addOrRemoveFault = (wasPress = false): void => {
     if (this.isRemoveFaultMode) {
       this.removeFault();
       return;

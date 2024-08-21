@@ -5,7 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';
 import {
   mockBlankTrainerRegNumber,
-  mockInvalidTrainerRegNumber, mockLeadingZeroTrainerRegNumber,
+  mockInvalidTrainerRegNumber,
+  mockLeadingZeroTrainerRegNumber,
   mockOnlyZeroTrainerRegNumber,
   mockValidTrainerRegNumber,
 } from './trainer-registration-number.mock';
@@ -16,12 +17,8 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TrainerRegistrationNumberCatAdiPart2Component,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [TrainerRegistrationNumberCatAdiPart2Component],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);
@@ -31,13 +28,15 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it('should have trainerRegistration form control be added to '
-        + 'form if there is no form control already there', () => {
-      component.formControl = null;
-      component.ngOnChanges();
+    it(
+      'should have trainerRegistration form control be added to ' + 'form if there is no form control already there',
+      () => {
+        component.formControl = null;
+        component.ngOnChanges();
 
-      expect(component.formGroup.controls.trainerRegistration).toBeTruthy();
-    });
+        expect(component.formGroup.controls.trainerRegistration).toBeTruthy();
+      }
+    );
   });
 
   describe('invalid', () => {

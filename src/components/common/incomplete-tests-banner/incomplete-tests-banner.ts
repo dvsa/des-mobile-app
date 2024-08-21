@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { SlotProvider } from '@providers/slot/slot';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { Observable } from 'rxjs';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { SlotProvider } from '@providers/slot/slot';
+import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
+import { Observable } from 'rxjs';
 
 interface IncompleteTestsBannerComponentState {
   count$: Observable<number>;
@@ -30,9 +30,8 @@ export class IncompleteTestsBanner implements OnInit {
     private store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
-    private appConfProvider: AppConfigProvider,
-  ) {
-  }
+    private appConfProvider: AppConfigProvider
+  ) {}
 
   ngOnInit() {
     this.componentState = {
@@ -53,5 +52,4 @@ export class IncompleteTestsBanner implements OnInit {
     }
     return CountDescription.SINGLE;
   }
-
 }

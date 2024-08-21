@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
-import { Store } from '@ngrx/store';
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
+import { Store } from '@ngrx/store';
+import { Token } from '@providers/authentication/authentication';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogHelper } from '../logs/logs-helper';
-import { Token } from '@providers/authentication/authentication';
-import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 
 export enum LocalStorageKey {
   COMPLETED_TESTS = 'COMPLETED_TESTS',
@@ -25,7 +25,6 @@ export type StorageKey = LocalStorageKey | Token;
 
 @Injectable()
 export class DataStoreProvider {
-
   private static readonly defaultStoreName = 'DES';
   secureContainer: SecureStorageObject = null;
 
@@ -34,9 +33,8 @@ export class DataStoreProvider {
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
     private secureStorage: SecureStorage,
-    private storage: Storage,
-  ) {
-  }
+    private storage: Storage
+  ) {}
 
   isIos = () => this.platform.is('cordova');
 
@@ -155,14 +153,11 @@ export class DataStoreProvider {
 
       const keys: string[] = await this.secureContainer.keys();
 
-      await Promise.all(
-        keys.map((key) => this.migrateKey(key)),
-      );
+      await Promise.all(keys.map((key) => this.migrateKey(key)));
 
       await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'true');
 
       this.reportLog('migrateAllKeys', '', 'All keys migrated', LogType.DEBUG);
-
     } catch (err) {
       await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'false');
 
@@ -186,12 +181,14 @@ export class DataStoreProvider {
   }
 
   private reportLog = (action: string, key: string, error: Error | unknown, level: LogType = LogType.ERROR): void => {
-    this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(
-        level,
-        `DataStoreProvider ${level} ${action} ${key}`,
-        serialiseLogMessage(error),
-      ),
-    }));
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(
+          level,
+          `DataStoreProvider ${level} ${action} ${key}`,
+          serialiseLogMessage(error)
+        ),
+      })
+    );
   };
 }

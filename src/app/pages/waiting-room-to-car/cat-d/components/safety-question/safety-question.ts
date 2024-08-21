@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash-es';
 
@@ -11,7 +9,6 @@ import { uniqueId } from 'lodash-es';
   styleUrls: ['safety-questions.scss'],
 })
 export class SafetyQuestionComponent implements OnChanges {
-
   @Input()
   questionResult: SafetyQuestionResult;
 

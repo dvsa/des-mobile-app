@@ -1,12 +1,7 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
 
 @Component({
@@ -41,17 +36,21 @@ export class ModeOfTransportCatAMod2Component implements OnChanges {
   showNotApplicable: boolean;
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'modeOfTransport';
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl('modeOfTransport', this.formControl);
     }
-    this.showNotApplicable = this.outcomeBehaviourProvider.showNotApplicable(this.outcome,
-      ModeOfTransportCatAMod2Component.fieldName);
-    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
-      ModeOfTransportCatAMod2Component.fieldName);
+    this.showNotApplicable = this.outcomeBehaviourProvider.showNotApplicable(
+      this.outcome,
+      ModeOfTransportCatAMod2Component.fieldName
+    );
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      ModeOfTransportCatAMod2Component.fieldName
+    );
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(ModeOfTransportCatAMod2Component.fieldName).clearValidators();
@@ -75,5 +74,4 @@ export class ModeOfTransportCatAMod2Component implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

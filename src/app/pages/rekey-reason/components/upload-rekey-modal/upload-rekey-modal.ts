@@ -8,12 +8,11 @@ import { UploadRekeyModalEvent } from './upload-rekey-modal.constants';
   styleUrls: ['upload-rekey-modal.scss'],
 })
 export class UploadRekeyModal {
-
-  retryMode: boolean = false;
+  retryMode = false;
 
   constructor(
     private modalCtrl: ModalController,
-    public params: NavParams,
+    public params: NavParams
   ) {
     this.retryMode = params.get('retryMode');
   }
@@ -25,5 +24,4 @@ export class UploadRekeyModal {
   async onUpload(): Promise<void> {
     await this.modalCtrl.dismiss(UploadRekeyModalEvent.UPLOAD);
   }
-
 }

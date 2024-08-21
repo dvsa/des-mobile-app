@@ -1,15 +1,15 @@
-import { StoreModel } from '@shared/models/store.model';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { IonicModule } from '@ionic/angular';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StartTest } from '@store/tests/tests.actions';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonicModule } from '@ionic/angular';
+import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
-import { By } from '@angular/platform-browser';
+import { StoreModel } from '@shared/models/store.model';
+import { StartTest } from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 import { SafetyAndBalanceComponent } from '../safety-and-balance';
 
@@ -20,19 +20,14 @@ describe('SafetyAndBalanceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SafetyAndBalanceComponent,
-        MockComponent(DrivingFaultsBadgeComponent),
-      ],
+      declarations: [SafetyAndBalanceComponent, MockComponent(DrivingFaultsBadgeComponent)],
       imports: [
         IonicModule,
         StoreModule.forRoot({
           tests: testsReducer,
         }),
       ],
-      providers: [
-        FaultCountProvider,
-      ],
+      providers: [FaultCountProvider],
     });
 
     fixture = TestBed.createComponent(SafetyAndBalanceComponent);

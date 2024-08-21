@@ -7,8 +7,8 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'Your fully laden vehicle is ready for you to do a delivery. Show me:',
     additionalItems: [
-      'a) The checks you\'d carry out to make sure the vehicle isn\'t over-loaded.',
-      'b) If you\'re still in doubt, what else you could do.',
+      "a) The checks you'd carry out to make sure the vehicle isn't over-loaded.",
+      "b) If you're still in doubt, what else you could do.",
     ],
     answer1: {
       selected: false,
@@ -34,11 +34,12 @@ export const lgvQuestions: CPCQuestion[] = [
     subtitle: 'You need to leave your vehicle.',
     additionalItems: [
       'a) Where might you consider parking it?',
-      'b) Explain what safety checks and security precautions you\'d take.',
+      "b) Explain what safety checks and security precautions you'd take.",
     ],
     answer1: {
       selected: false,
-      label: 'Only park in secure, well lit vehicle parks. Where possible, park with the rear doors against a wall or backed up to another vehicle',
+      label:
+        'Only park in secure, well lit vehicle parks. Where possible, park with the rear doors against a wall or backed up to another vehicle',
     },
     answer2: {
       selected: false,
@@ -57,7 +58,8 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q03',
     title: 'Preventing criminality and trafficking in illegal immigrants',
-    subtitle: 'You\'ve parked at a border crossing and left the vehicle unattended. Show me what checks you’d make before driving the vehicle through customs.',
+    subtitle:
+      "You've parked at a border crossing and left the vehicle unattended. Show me what checks you’d make before driving the vehicle through customs.",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -109,8 +111,8 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'Your fully laden vehicle is ready for you to do a delivery. Show me:',
     additionalItems: [
-      'a) The checks you\'d carry out to make sure the vehicle\'s not overloaded.',
-      'b) If you\'re still in doubt, what else you could you do.',
+      "a) The checks you'd carry out to make sure the vehicle's not overloaded.",
+      "b) If you're still in doubt, what else you could you do.",
     ],
     answer1: {
       selected: false,
@@ -133,7 +135,8 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q07',
     title: 'Preventing criminality and trafficking in illegal immigrants',
-    subtitle: 'You\'ve had a comfort break just before boarding a cross channel ferry. Show me what checks you\'d make to this vehicle before driving through customs.',
+    subtitle:
+      "You've had a comfort break just before boarding a cross channel ferry. Show me what checks you'd make to this vehicle before driving through customs.",
     additionalItems: [''],
     answer1: {
       selected: false,
@@ -156,12 +159,12 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q08',
     title: 'Loading the vehicle',
-    subtitle: 'You\'ve been asked to collect half a load of steel plates on an empty vehicle. Show me:',
+    subtitle: "You've been asked to collect half a load of steel plates on an empty vehicle. Show me:",
     additionalItems: [
       'a) By pointing to the correct distribution area(s) on this vehicle, where the load should be placed.',
-      'b) Which restraining device you\'d use to secure the load.',
-      'c) How you\'d secure the load with the restraining device, using the load securing trolley.',
-      'd) How you\'d release the restraining device.',
+      "b) Which restraining device you'd use to secure the load.",
+      "c) How you'd secure the load with the restraining device, using the load securing trolley.",
+      "d) How you'd release the restraining device.",
     ],
     answer1: {
       selected: false,
@@ -210,10 +213,11 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q10',
     title: 'Loading the vehicle',
-    subtitle: 'You\'re about to make a very long journey beyond the fuel range of this vehicle.',
+    subtitle: "You're about to make a very long journey beyond the fuel range of this vehicle.",
     additionalItems: [
-      'a) Show me what checks you\'d make to this vehicle\'s fuel system.',
-      'b) Explain what precautions you\'d take to make sure you don\'t run out of fuel.'],
+      "a) Show me what checks you'd make to this vehicle's fuel system.",
+      "b) Explain what precautions you'd take to make sure you don't run out of fuel.",
+    ],
     answer1: {
       selected: false,
       label: 'Checks enough fuel for the first stage of the journey (instrument check)',
@@ -235,7 +239,7 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q11',
     title: 'Assessing emergency situations',
-    subtitle: 'You\'re driving on a motorway and flames appear from the engine compartment. Show me:',
+    subtitle: "You're driving on a motorway and flames appear from the engine compartment. Show me:",
     additionalItems: [
       'a) How you’d deal with this small electrical wiring fire.',
       'b) Which is the appropriate fire extinguisher to use on this fire.',
@@ -263,9 +267,9 @@ export const lgvQuestions: CPCQuestion[] = [
     title: 'Loading the vehicle',
     subtitle: 'Show me:',
     additionalItems: [
-      'a) How you\'d check the maximum authorised mass of this vehicle.',
-      'b) What other checks you\'d carry out to make sure the vehicle\'s not overloaded.',
-      'c) If you\'re still in doubt, what else you could do.',
+      "a) How you'd check the maximum authorised mass of this vehicle.",
+      "b) What other checks you'd carry out to make sure the vehicle's not overloaded.",
+      "c) If you're still in doubt, what else you could do.",
     ],
     answer1: {
       selected: false,
@@ -288,7 +292,8 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q13',
     title: 'Security of vehicle and contents',
-    subtitle: 'You\'ve been given a different vehicle to drive for the day. Show me all of the practical and visual safety checks you\'d make before driving the vehicle.',
+    subtitle:
+      "You've been given a different vehicle to drive for the day. Show me all of the practical and visual safety checks you'd make before driving the vehicle.",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -311,12 +316,13 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q14',
     title: 'Loading the vehicle',
-    subtitle: 'You\'ve delivered part of your load and are left with half a load of empty roller cages inside your box van. Show me:',
+    subtitle:
+      "You've delivered part of your load and are left with half a load of empty roller cages inside your box van. Show me:",
     additionalItems: [
       'a) by pointing to the correct distribution area(s) on this vehicle, where this load should be placed.',
-      'b) which restraining device you\'d use to secure the load.',
-      'c) how you\'d secure the load with the restraining device.',
-      'd) how you\'d release the restraining device.',
+      "b) which restraining device you'd use to secure the load.",
+      "c) how you'd secure the load with the restraining device.",
+      "d) how you'd release the restraining device.",
     ],
     answer1: {
       selected: false,
@@ -339,7 +345,8 @@ export const lgvQuestions: CPCQuestion[] = [
   {
     questionCode: 'Q15',
     title: 'Preventing criminality and trafficking in illegal immigrants',
-    subtitle: 'You\'ve parked at the docks and, following a rest break, you suspect your vehicle may have been tampered with. Show me what checks you\'d make around and inside your vehicle before continuing your journey.',
+    subtitle:
+      "You've parked at the docks and, following a rest break, you suspect your vehicle may have been tampered with. Show me what checks you'd make around and inside your vehicle before continuing your journey.",
     additionalItems: [],
     answer1: {
       selected: false,
@@ -364,7 +371,7 @@ export const lgvQuestions: CPCQuestion[] = [
 export const lgvQuestion5: Question5 = {
   questionCode: 'Q05',
   title: 'Ability to prevent physical risk',
-  subtitle: 'Show me and explain the daily safety checks you\'d make to this vehicle before driving on the road.',
+  subtitle: "Show me and explain the daily safety checks you'd make to this vehicle before driving on the road.",
   additionalItems: [],
   answer1: {
     selected: false,

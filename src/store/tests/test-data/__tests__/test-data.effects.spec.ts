@@ -1,15 +1,15 @@
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
+import { ReplaySubject } from 'rxjs';
 
-import { TestDataEffects } from '../test-data.effects';
-import * as drivingFaultsActions from '../common/driving-faults/driving-faults.actions';
 import * as testsActions from '../../tests.actions';
 import { testsReducer } from '../../tests.reducer';
+import * as drivingFaultsActions from '../common/driving-faults/driving-faults.actions';
 import { Competencies } from '../test-data.constants';
+import { TestDataEffects } from '../test-data.effects';
 import { FaultPayload } from '../test-data.models';
 
 describe('TestDataEffects', () => {
@@ -24,11 +24,7 @@ describe('TestDataEffects', () => {
           tests: testsReducer,
         }),
       ],
-      providers: [
-        TestDataEffects,
-        provideMockActions(() => actions$),
-        Store,
-      ],
+      providers: [TestDataEffects, provideMockActions(() => actions$), Store],
     });
 
     actions$ = new ReplaySubject(1);
@@ -87,5 +83,4 @@ describe('TestDataEffects', () => {
   //     });
   //   });
   // });
-
 });

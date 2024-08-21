@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { lessonThemeValues, studentValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
 import {
   LessonAndTheme,
   LessonPlanning,
@@ -7,7 +8,6 @@ import {
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { lessonThemeValues, studentValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
 
 @Component({
   selector: 'adi3-debrief-card',
@@ -40,7 +40,7 @@ export class Adi3DebriefCard implements OnInit {
   public testCategory: TestCategory;
 
   studentValueConst = studentValues;
-  lessonThemeValueStr: string = '';
+  lessonThemeValueStr = '';
 
   ngOnInit(): void {
     this.lessonThemeValueStr = this.lessonTheme.lessonThemes
@@ -58,7 +58,7 @@ export class Adi3DebriefCard implements OnInit {
   displayGradeDescription(): string {
     switch (this.grade) {
       case 'B':
-        return (this.testCategory === TestCategory.ADI3)
+        return this.testCategory === TestCategory.ADI3
           ? 'Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors'
           : 'Sufficient competence demonstrated to retain entry on the Register of Approved Driving Instructors';
       case 'A':

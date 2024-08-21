@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'insurance-declaration',
@@ -9,7 +7,6 @@ import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms
   styleUrls: ['insurance-declaration.scss'],
 })
 export class InsuranceDeclarationComponent implements OnChanges {
-
   @Input()
   selected: boolean;
 
@@ -38,5 +35,4 @@ export class InsuranceDeclarationComponent implements OnChanges {
   isInvalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

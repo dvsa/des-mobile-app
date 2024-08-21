@@ -1,4 +1,4 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestCategoryComponent } from '../test-category';
 
@@ -8,12 +8,8 @@ describe('TestCategoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestCategoryComponent,
-      ],
-      imports: [
-        IonicModule,
-      ],
+      declarations: [TestCategoryComponent],
+      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TestCategoryComponent);
@@ -23,5 +19,4 @@ describe('TestCategoryComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

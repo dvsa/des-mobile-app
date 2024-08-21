@@ -13,13 +13,13 @@ export class TrueLikenessComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Input()
-  colSize: number = 32;
+  colSize = 32;
 
   @Output()
   trueLikenessChange = new EventEmitter<boolean>();
 
   formControl: UntypedFormControl;
-  private formField: string = 'trueLikeness';
+  private formField = 'trueLikeness';
 
   ngOnChanges(): void {
     if (!this.formControl) {

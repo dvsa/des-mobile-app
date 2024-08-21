@@ -1,91 +1,72 @@
-import { pickBy } from 'lodash-es';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { pickBy } from 'lodash-es';
 
 export class FaultCountADIPart2Helper {
-
   public static getDrivingFaultSumCountCatADIPart2 = (data: CatADI2UniqueTypes.TestData): number => {
-
     // The way how we store the driving faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const {
-      drivingFaults,
-      manoeuvres,
-      controlledStop,
-      vehicleChecks,
-    } = data;
-    let faultTotal: number = 0;
-    getCompetencyFaults(drivingFaults)
-      .forEach((fault) => {
-        faultTotal += fault.faultCount;
-      });
+    const { drivingFaults, manoeuvres, controlledStop, vehicleChecks } = data;
+    let faultTotal = 0;
+    getCompetencyFaults(drivingFaults).forEach((fault) => {
+      faultTotal += fault.faultCount;
+    });
 
-    const controlledStopHasDrivingFault = (controlledStop && controlledStop.fault === CompetencyOutcome.DF) ? 1 : 0;
+    const controlledStopHasDrivingFault = controlledStop && controlledStop.fault === CompetencyOutcome.DF ? 1 : 0;
 
-    const result = faultTotal
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF)
-      + FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(vehicleChecks).drivingFaults
-      + controlledStopHasDrivingFault;
+    const result =
+      faultTotal +
+      sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF) +
+      FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(vehicleChecks).drivingFaults +
+      controlledStopHasDrivingFault;
 
     return result;
   };
 
   public static getSeriousFaultSumCountCatADIPart2 = (data: CatADI2UniqueTypes.TestData): number => {
-
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const {
-      seriousFaults,
-      manoeuvres,
-      controlledStop,
-      vehicleChecks,
-      eyesightTest,
-    } = data;
+    const { seriousFaults, manoeuvres, controlledStop, vehicleChecks, eyesightTest } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
-    const controlledStopSeriousFaults = (controlledStop && controlledStop.fault === CompetencyOutcome.S) ? 1 : 0;
-    const eyesightTestSeriousFaults = (eyesightTest && eyesightTest.seriousFault) ? 1 : 0;
-    const seriousFaultFromVehicleChecks = (vehicleChecks && vehicleChecks.seriousFault) ? 1 : 0;
+    const controlledStopSeriousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.S ? 1 : 0;
+    const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
+    const seriousFaultFromVehicleChecks = vehicleChecks && vehicleChecks.seriousFault ? 1 : 0;
 
-    const result = seriousFaultSumOfSimpleCompetencies
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S)
-      + seriousFaultFromVehicleChecks
-      + controlledStopSeriousFaults
-      + eyesightTestSeriousFaults;
+    const result =
+      seriousFaultSumOfSimpleCompetencies +
+      sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S) +
+      seriousFaultFromVehicleChecks +
+      controlledStopSeriousFaults +
+      eyesightTestSeriousFaults;
 
     return result;
   };
 
   public static getDangerousFaultSumCountCatADIPart2 = (data: CatADI2UniqueTypes.TestData): number => {
-
     // The way how we store serious faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
-    const {
-      dangerousFaults,
-      manoeuvres,
-      controlledStop,
-      vehicleChecks,
-    } = data;
+    const { dangerousFaults, manoeuvres, controlledStop, vehicleChecks } = data;
 
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
-    const controlledStopDangerousFaults = (controlledStop && controlledStop.fault === CompetencyOutcome.D) ? 1 : 0;
-    const dangerousFaultFromVehicleChecks = (vehicleChecks && vehicleChecks.dangerousFault) ? 1 : 0;
+    const controlledStopDangerousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.D ? 1 : 0;
+    const dangerousFaultFromVehicleChecks = vehicleChecks && vehicleChecks.dangerousFault ? 1 : 0;
 
-    const result = dangerousFaultSumOfSimpleCompetencies
-      + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D)
-      + dangerousFaultFromVehicleChecks
-      + controlledStopDangerousFaults;
+    const result =
+      dangerousFaultSumOfSimpleCompetencies +
+      sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D) +
+      dangerousFaultFromVehicleChecks +
+      controlledStopDangerousFaults;
 
     return result;
   };
 
   public static getVehicleChecksFaultCountCatADIPart2 = (
-    vehicleChecks: CatADI2UniqueTypes.VehicleChecks,
+    vehicleChecks: CatADI2UniqueTypes.VehicleChecks
   ): VehicleChecksScore => {
-
     if (!vehicleChecks) {
       return {
         drivingFaults: 0,
@@ -93,10 +74,7 @@ export class FaultCountADIPart2Helper {
       };
     }
 
-    const {
-      tellMeQuestions,
-      showMeQuestions,
-    } = vehicleChecks;
+    const { tellMeQuestions, showMeQuestions } = vehicleChecks;
 
     let total = 0;
 
@@ -126,17 +104,13 @@ export class FaultCountADIPart2Helper {
 
   public static getVehicleChecksByOutcomeFaultCountCatADIPart2 = (
     vehicleChecks: CatADI2UniqueTypes.VehicleChecks,
-    outcome: CompetencyOutcome,
+    outcome: CompetencyOutcome
   ): number => {
-
     if (!vehicleChecks) {
       return 0;
     }
 
-    const {
-      tellMeQuestions,
-      showMeQuestions,
-    } = vehicleChecks;
+    const { tellMeQuestions, showMeQuestions } = vehicleChecks;
 
     let total = 0;
 
@@ -162,7 +136,6 @@ export class FaultCountADIPart2Helper {
   };
 
   public static getShowMeFaultCount = (vehicleChecks: CatADI2UniqueTypes.VehicleChecks): VehicleChecksScore => {
-
     const emptyResults = {
       drivingFaults: 0,
       seriousFaults: 0,
@@ -192,7 +165,6 @@ export class FaultCountADIPart2Helper {
   };
 
   public static getTellMeFaultCount = (vehicleChecks: CatADI2UniqueTypes.VehicleChecks): VehicleChecksScore => {
-
     const emptyResults = {
       drivingFaults: 0,
       seriousFaults: 0,

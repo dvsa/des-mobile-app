@@ -7,9 +7,10 @@ import * as examinerRecordsReducer from './examiner-records.reducer';
 @NgModule({
   imports: [
     StoreModule.forFeature(
-      examinerRecordsReducer.examinerRecordsFeatureKey, examinerRecordsReducer.examinerRecordsReducer,
+      examinerRecordsReducer.examinerRecordsFeatureKey,
+      examinerRecordsReducer.examinerRecordsReducer
     ),
     EffectsModule.forFeature([ExaminerRecordsEffects]),
   ],
 })
-export class ExaminerRecordsStoreModule { }
+export class ExaminerRecordsStoreModule {}

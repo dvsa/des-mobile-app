@@ -1,30 +1,26 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { AppModule } from 'src/app/app.module';
-import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
-import { StoreModule, Store } from '@ngrx/store';
-import { MockComponent } from 'ng-mocks';
-import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { IonicModule } from '@ionic/angular';
-import {
-  DangerousFaultBadgeComponent,
-} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { journalReducer } from '@store/journal/journal.reducer';
-import { testsReducer } from '@store/tests/tests.reducer';
-import { StoreModel } from '@shared/models/store.model';
-import {
-  RemoveSingleFaultCompetencyOutcome,
-  SetSingleFaultCompetencyOutcome,
-  RemoveSingleSeriousFaultCompetencyOutcome,
-  RemoveSingleDangerousFaultCompetencyOutcome,
-} from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
+import { Store, StoreModule } from '@ngrx/store';
+import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { ToggleSeriousFaultMode, ToggleRemoveFaultMode, ToggleDangerousFaultMode } from '../../../test-report.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { journalReducer } from '@store/journal/journal.reducer';
+import {
+  RemoveSingleDangerousFaultCompetencyOutcome,
+  RemoveSingleFaultCompetencyOutcome,
+  RemoveSingleSeriousFaultCompetencyOutcome,
+  SetSingleFaultCompetencyOutcome,
+} from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
+import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { MockComponent } from 'ng-mocks';
+import { AppModule } from 'src/app/app.module';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
 import { SingleFaultCompetencyComponent } from '../single-fault-competency';
 
@@ -51,9 +47,7 @@ describe('SingleFaultCompetencyComponent', () => {
           testReport: testReportReducer,
         }),
       ],
-      providers: [
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-      ],
+      providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });
 
     fixture = TestBed.createComponent(SingleFaultCompetencyComponent);
@@ -229,9 +223,7 @@ describe('SingleFaultCompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.removeFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          RemoveSingleSeriousFaultCompetencyOutcome(competencyName),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveSingleSeriousFaultCompetencyOutcome(competencyName));
       });
 
       it('should NOT remove driving fault when dangerous mode is active', () => {
@@ -243,9 +235,7 @@ describe('SingleFaultCompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.removeFault();
 
-        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          RemoveSingleDangerousFaultCompetencyOutcome(competencyName),
-        );
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveSingleDangerousFaultCompetencyOutcome(competencyName));
       });
     });
 
@@ -259,9 +249,7 @@ describe('SingleFaultCompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.removeFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          RemoveSingleSeriousFaultCompetencyOutcome(component.competency),
-        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveSingleSeriousFaultCompetencyOutcome(component.competency));
       });
       it('should dispatch a RemoveSingleSeriousFaultCompetencyOutcome for press', () => {
         const competencyName = SingleFaultCompetencyNames.useOfStand;
@@ -272,9 +260,7 @@ describe('SingleFaultCompetencyComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.removeFault();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          RemoveSingleSeriousFaultCompetencyOutcome(component.competency),
-        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveSingleSeriousFaultCompetencyOutcome(component.competency));
       });
       it('should not dispatch a RemoveSingleDangerousFaultCompetencyOutcome when is dangerous mode', () => {
         const competencyName = SingleFaultCompetencyNames.useOfStand;
@@ -286,7 +272,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.removeFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          RemoveSingleDangerousFaultCompetencyOutcome(component.competency),
+          RemoveSingleDangerousFaultCompetencyOutcome(component.competency)
         );
       });
 
@@ -314,7 +300,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.removeFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          RemoveSingleDangerousFaultCompetencyOutcome(component.competency),
+          RemoveSingleDangerousFaultCompetencyOutcome(component.competency)
         );
       });
 
@@ -328,7 +314,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.removeFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          RemoveSingleDangerousFaultCompetencyOutcome(component.competency),
+          RemoveSingleDangerousFaultCompetencyOutcome(component.competency)
         );
       });
 
@@ -342,7 +328,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.removeFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          RemoveSingleSeriousFaultCompetencyOutcome(component.competency),
+          RemoveSingleSeriousFaultCompetencyOutcome(component.competency)
         );
       });
 
@@ -370,7 +356,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.addFault(wasPress);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.D),
+          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.D)
         );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
@@ -385,7 +371,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.addFault(wasPress);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.S),
+          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.S)
         );
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
@@ -399,7 +385,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.addFault(wasPress);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.DF),
+          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.DF)
         );
       });
 
@@ -412,7 +398,7 @@ describe('SingleFaultCompetencyComponent', () => {
         component.addFault(wasPress);
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.DF),
+          SetSingleFaultCompetencyOutcome(component.competency, CompetencyOutcome.DF)
         );
       });
     });

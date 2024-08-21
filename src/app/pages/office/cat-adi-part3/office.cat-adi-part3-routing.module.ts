@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { OfficeCatADI3Page } from './office.cat-adi-part3.page';
 
 const routes: Routes = [

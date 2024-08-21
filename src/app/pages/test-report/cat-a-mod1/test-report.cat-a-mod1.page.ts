@@ -1,32 +1,28 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { merge, Observable } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
-import { SpeedCheckState } from '@providers/test-report-validator/test-report-validator.constants';
-import { competencyLabels } from '@shared/constants/competencies/competencies';
-import { ModalEvent } from '@pages/test-report/test-report.constants';
-import {
-  ModalReason,
-} from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ViewDidLeave } from '@ionic/angular';
+import { ActivityCode4Modal } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal';
+import { ModalReason } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
+import { SpeedCheckModal } from '@pages/test-report/cat-a-mod1/components/speed-check-modal/speed-check-modal';
 import {
   EmergencyStopDangerousFaultModelOpened,
   EmergencyStopSeriousFaultModelOpened,
   SpeedRequirementNotMetModalOpened,
 } from '@pages/test-report/cat-a-mod1/test-report.cat-a-mod1.actions';
-import { map } from 'rxjs/operators';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { SpeedCheckModal } from '@pages/test-report/cat-a-mod1/components/speed-check-modal/speed-check-modal';
-import {
-  ActivityCode4Modal,
-} from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
+import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { SpeedCheckState } from '@providers/test-report-validator/test-report-validator.constants';
+import {
+  CommonTestReportPageState,
+  TestReportBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { competencyLabels } from '@shared/constants/competencies/competencies';
+import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
+import { map } from 'rxjs/operators';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
-import { ViewDidLeave } from '@ionic/angular';
 
 type TestReportPageState = CommonTestReportPageState;
 
@@ -35,10 +31,7 @@ type TestReportPageState = CommonTestReportPageState;
   templateUrl: 'test-report.cat-a-mod1.page.html',
   styleUrls: ['test-report.cat-a-mod1.page.scss'],
 })
-export class TestReportCatAMod1Page
-  extends TestReportBasePageComponent
-  implements OnInit, ViewDidLeave {
-
+export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit, ViewDidLeave {
   singleFaultCompetencyNames = SingleFaultCompetencyNames;
   pageState: TestReportPageState;
   speedCheckState: SpeedCheckState;
@@ -60,27 +53,20 @@ export class TestReportCatAMod1Page
   }
 
   setupSubscription() {
-    const {
-      candidateUntitledName$,
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      testData$,
-    } = this.pageState;
+    const { candidateUntitledName$, isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, testData$ } = this.pageState;
 
     this.subscription = merge(
       candidateUntitledName$,
-      isRemoveFaultMode$.pipe(map((result) => this.isRemoveFaultMode = result)),
-      isSeriousMode$.pipe(map((result) => this.isSeriousMode = result)),
-      isDangerousMode$.pipe(map((result) => this.isDangerousMode = result)),
+      isRemoveFaultMode$.pipe(map((result) => (this.isRemoveFaultMode = result))),
+      isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
+      isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
       testData$.pipe(
         map((data) => {
           this.speedCheckState = this.testReportValidatorProvider.validateSpeedChecksCatAMod1(data as TestData);
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data as TestData, TestCategory.EUAM1);
-        }),
-      ),
-    )
-      .subscribe();
+        })
+      )
+    ).subscribe();
   }
 
   ionViewDidLeave(): void {

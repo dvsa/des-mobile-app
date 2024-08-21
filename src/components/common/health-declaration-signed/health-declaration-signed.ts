@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 export enum HealthDeclatationValidValues {
   SIGNED = 'Signed',
@@ -13,7 +11,6 @@ export enum HealthDeclatationValidValues {
   templateUrl: 'health-declaration-signed.html',
 })
 export class HealthDeclarationSignedComponent implements OnChanges {
-
   @Input()
   healthDeclaration: boolean;
 
@@ -39,7 +36,7 @@ export class HealthDeclarationSignedComponent implements OnChanges {
       return this.formControl.patchValue(this.healthDeclaration);
     }
     this.formControl.patchValue(
-      this.healthDeclaration ? HealthDeclatationValidValues.SIGNED : HealthDeclatationValidValues.NOTSIGNED,
+      this.healthDeclaration ? HealthDeclatationValidValues.SIGNED : HealthDeclatationValidValues.NOTSIGNED
     );
   }
 
@@ -50,5 +47,4 @@ export class HealthDeclarationSignedComponent implements OnChanges {
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
-
 }

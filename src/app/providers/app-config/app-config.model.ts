@@ -6,62 +6,62 @@ export type AppConfig = {
   sentry?: {
     dsn: string;
     environment: string;
-  },
-  googleAnalyticsId: string,
-  googleAnalyticsKey: string,
-  daysToCacheLogs: number,
+  };
+  googleAnalyticsId: string;
+  googleAnalyticsKey: string;
+  daysToCacheLogs: number;
   logoutClearsTestPersistence?: boolean;
   logsPostApiKey: string;
   taxMotApiKey: string;
   logsApiUrl: string;
   logsAutoSendInterval: number;
   authentication: {
-    context: string,
-    resourceUrl: string,
-    clientId: string,
-    redirectUrl: string,
-    logoutUrl: string,
-    employeeIdKey: string,
-    employeeNameKey: string,
-  },
-  approvedDeviceIdentifiers: string[],
-  timeTravelDate?: string,
+    context: string;
+    resourceUrl: string;
+    clientId: string;
+    redirectUrl: string;
+    logoutUrl: string;
+    employeeIdKey: string;
+    employeeNameKey: string;
+  };
+  approvedDeviceIdentifiers: string[];
+  timeTravelDate?: string;
   role: ExaminerRole;
   journal: {
-    journalUrl: string,
-    searchBookingUrl: string,
-    delegatedExaminerSearchBookingUrl: string,
-    teamJournalUrl: string,
-    autoRefreshInterval: number
-    numberOfDaysToView: number,
-    daysToCacheJournalData: number,
-    allowTests: boolean,
-    allowedTestCategories: string[],
-    enableTestReportPracticeMode: boolean,
-    enableEndToEndPracticeMode: boolean,
-    enablePracticeModeAnalytics: boolean,
-    enableLogoutButton: boolean,
-    testPermissionPeriods: TestPermissionPeriod[],
-  },
+    journalUrl: string;
+    searchBookingUrl: string;
+    delegatedExaminerSearchBookingUrl: string;
+    teamJournalUrl: string;
+    autoRefreshInterval: number;
+    numberOfDaysToView: number;
+    daysToCacheJournalData: number;
+    allowTests: boolean;
+    allowedTestCategories: string[];
+    enableTestReportPracticeMode: boolean;
+    enableEndToEndPracticeMode: boolean;
+    enablePracticeModeAnalytics: boolean;
+    enableLogoutButton: boolean;
+    testPermissionPeriods: TestPermissionPeriod[];
+  };
   tests: {
-    testSubmissionUrl: string,
-    multipleTestResultsUrl: string,
-    examinerRecordsUrl: string,
-    autoSendInterval: number,
-  },
+    testSubmissionUrl: string;
+    multipleTestResultsUrl: string;
+    examinerRecordsUrl: string;
+    autoSendInterval: number;
+  };
   user: {
-    findUserUrl: string,
-  }
+    findUserUrl: string;
+  };
   driver: {
     photographUrl: string;
     signatureUrl: string;
     standardUrl: string;
-  },
+  };
   vehicle: {
-    taxMotUrl: string,
-  },
+    taxMotUrl: string;
+  };
   refData: {
-    testCentreUrl: string,
-  },
-  requestTimeout: number
+    testCentreUrl: string;
+  };
+  requestTimeout: number;
 };

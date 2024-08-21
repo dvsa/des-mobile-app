@@ -8,10 +8,7 @@ import { ExitRekeyModalEvent } from './exit-rekey-modal.constants';
   styleUrls: ['exit-rekey-modal.scss'],
 })
 export class ExitRekeyModal {
-
-  constructor(
-    private modalCtrl: ModalController,
-  ) { }
+  constructor(private modalCtrl: ModalController) {}
 
   async onCancel(): Promise<void> {
     await this.modalCtrl.dismiss(ExitRekeyModalEvent.CANCEL);
@@ -20,5 +17,4 @@ export class ExitRekeyModal {
   async onExitRekey(): Promise<void> {
     await this.modalCtrl.dismiss(ExitRekeyModalEvent.EXIT_REKEY);
   }
-
 }

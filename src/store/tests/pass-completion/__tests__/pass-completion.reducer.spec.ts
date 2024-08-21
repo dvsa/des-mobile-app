@@ -1,9 +1,9 @@
-import { passCompletionReducer, initialState } from '../pass-completion.reducer';
 import {
   PassCertificateNumberChanged,
-  ProvisionalLicenseReceived,
   ProvisionalLicenseNotReceived,
+  ProvisionalLicenseReceived,
 } from '../pass-completion.actions';
+import { initialState, passCompletionReducer } from '../pass-completion.reducer';
 
 describe('pass completion reducer', () => {
   const mockInitialState = {
@@ -30,5 +30,4 @@ describe('pass completion reducer', () => {
     result = passCompletionReducer(result, ProvisionalLicenseNotReceived());
     expect(result.provisionalLicenceProvided).toBe(false);
   });
-
 });

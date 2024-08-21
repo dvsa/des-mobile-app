@@ -1,41 +1,41 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { Application } from '@dvsa/mes-journal-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { Store, StoreModule } from '@ngrx/store';
+import { CAT_B } from '@pages/page-names.constants';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsScreenNames, GoogleAnalyticsCustomDimension,
+  AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { StoreModel } from '@shared/models/store.model';
-import { Application } from '@dvsa/mes-journal-schema';
-import { testsReducer } from '@store/tests/tests.reducer';
-import * as testsActions from '@store/tests/tests.actions';
-import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import * as applicationReferenceActions
-  from '@store/tests/journal-data/common/application-reference/application-reference.actions';
-import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
-import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as testsActions from '@store/tests/tests.actions';
+import { testsReducer } from '@store/tests/tests.reducer';
 import {
   PDILogbook,
   TraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
-import { Router } from '@angular/router';
-import { CAT_B } from '@pages/page-names.constants';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';
-import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
+import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
+import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { ReplaySubject } from 'rxjs';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
+import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
+import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';
 
 describe('WaitingRoomToCarAnalyticsEffects', () => {
   let effects: WaitingRoomToCarAnalyticsEffects;
@@ -92,18 +92,22 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarViewDidEnter());
       // ASSERT
       effects.waitingRoomToCarViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, 'B');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(screenName);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          'B'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -117,22 +121,27 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarViewDidEnter());
       // ASSERT
       effects.waitingRoomToCarViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
 
         // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '123456789');
-        expect(analyticsProviderMock.addGACustomDimension)
-          .toHaveBeenCalledWith(GoogleAnalyticsCustomDimension.TEST_CATEGORY, 'B');
-        expect(analyticsProviderMock.setGACurrentPage)
-          .toHaveBeenCalledWith(`${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          '1'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          '123456789'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          'B'
+        );
+        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+        );
         done();
       });
     });
-
   });
 
   describe('waitingRoomToCarError', () => {
@@ -145,14 +154,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarError('error 123'));
       // ASSERT
       effects.waitingRoomToCarError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEvents.SUBMIT_FORM_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'error 123',
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEvents.SUBMIT_FORM_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'error 123'
+        );
         done();
       });
     });
@@ -165,18 +172,15 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarError('error 123'));
       // ASSERT
       effects.waitingRoomToCarError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.SUBMIT_FORM_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'error 123',
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.SUBMIT_FORM_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'error 123'
+        );
         done();
       });
     });
-
   });
 
   describe('waitingRoomToCarValidationError', () => {
@@ -189,14 +193,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomToCarValidationError$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'formControl1',
-          );
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'formControl1'
+        );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         done();
       });
     });
@@ -209,14 +211,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(waitingRoomToCarActions.WaitingRoomToCarValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomToCarValidationError$.subscribe((result) => {
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
-            GoogleAnalyticsEventsTitles.BLANK_FIELD,
-            'formControl1',
-          );
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+          GoogleAnalyticsEventsTitles.BLANK_FIELD,
+          'formControl1'
+        );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         done();
       });
     });
@@ -233,14 +233,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(DualControlsToggledYes());
       // ASSERT
       effects.waitingRoomToCarDualControlsChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.DUAL_CONTROLS}`,
-            GoogleAnalyticsEventsTitles.SELECTION,
-            GoogleAnalyticsEventsValues.YES,
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.DUAL_CONTROLS}`,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.YES
+        );
       });
     });
     it('should record an analytic when dual controls is changed to No', () => {
@@ -253,14 +251,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(DualControlsToggledNo());
       // ASSERT
       effects.waitingRoomToCarDualControlsChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.DUAL_CONTROLS}`,
-            GoogleAnalyticsEventsTitles.SELECTION,
-            GoogleAnalyticsEventsValues.NO,
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.DUAL_CONTROLS}`,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.NO
+        );
       });
     });
   });
@@ -276,14 +272,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged('Automatic'));
       // ASSERT
       effects.waitingRoomToCarTransmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
-            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-            'Automatic',
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
+          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+          'Automatic'
+        );
       });
     });
     it('should record an analytic when transmission is changed to Manual', () => {
@@ -296,14 +290,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged('Manual'));
       // ASSERT
       effects.waitingRoomToCarTransmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
-            GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-            'Manual',
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
+          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+          'Manual'
+        );
       });
     });
   });
@@ -319,14 +311,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(PDILogbook(true));
       // ASSERT
       effects.waitingRoomToCarPDILogbookChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.PDI_LOGBOOK}`,
-            GoogleAnalyticsEventsTitles.SELECTION,
-            GoogleAnalyticsEventsValues.YES,
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.PDI_LOGBOOK}`,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.YES
+        );
       });
     });
     it('should record an analytic when pdiLogbook is changed to No', () => {
@@ -339,14 +329,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(PDILogbook(false));
       // ASSERT
       effects.waitingRoomToCarPDILogbookChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.PDI_LOGBOOK}`,
-            GoogleAnalyticsEventsTitles.SELECTION,
-            GoogleAnalyticsEventsValues.NO,
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.PDI_LOGBOOK}`,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.NO
+        );
       });
     });
   });
@@ -362,14 +350,12 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(TraineeLicence(true));
       // ASSERT
       effects.waitingRoomToCarTraineeLicenceChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.TRAINEE_LICENCE}`,
-            GoogleAnalyticsEventsTitles.SELECTION,
-            GoogleAnalyticsEventsValues.YES,
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.TRAINEE_LICENCE}`,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.YES
+        );
       });
     });
     it('should record an analytic when traineeLicence is changed to No', () => {
@@ -382,16 +368,13 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       actions$.next(TraineeLicence(false));
       // ASSERT
       effects.waitingRoomToCarTraineeLicenceChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type)
-          .toBe(true);
-        expect(analyticsProviderMock.logGAEvent)
-          .toHaveBeenCalledWith(
-            `PM_${GoogleAnalyticsEvents.TRAINEE_LICENCE}`,
-            GoogleAnalyticsEventsTitles.SELECTION,
-            GoogleAnalyticsEventsValues.NO,
-          );
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          `PM_${GoogleAnalyticsEvents.TRAINEE_LICENCE}`,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.NO
+        );
       });
     });
   });
-
 });

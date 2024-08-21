@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export const initialState = null;
 
-export function nullReducer(state = initialState, action: any): {} {
+export function nullReducer(action: any, state = initialState): {} {
   return null;
 }
 
-export function emptyObjReducer(state = {}, action: any): {} {
+export function emptyObjReducer(action: any, state = {}): {} {
   return {};
 }

@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { UntypedFormGroup, Validators } from '@angular/forms';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { ShowMeQuestionsCatADI2Component } from '../show-me-questions';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
@@ -22,13 +22,8 @@ describe('ShowMeQuestionsCatADI2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ShowMeQuestionsCatADI2Component,
-      ],
-      imports: [
-        IonicModule,
-        AppModule,
-      ],
+      declarations: [ShowMeQuestionsCatADI2Component],
+      imports: [IonicModule, AppModule],
       providers: [
         {
           provide: AccessibilityService,
@@ -48,12 +43,9 @@ describe('ShowMeQuestionsCatADI2Component', () => {
         expect(result).toEqual(false);
       });
       it(`should return true if the question is in the list of questions to disable
-          and not equal to the currently selected question`,
-      () => {
+          and not equal to the currently selected question`, () => {
         component.questionResult = { code: 'A14' };
-        component.questionsToDisable = [
-          vehicleChecksQuestion,
-        ];
+        component.questionsToDisable = [vehicleChecksQuestion];
         const result = component.isOptionDisabled({ code: 'A15', description: '', shortName: '' });
         expect(result).toEqual(true);
       });
@@ -64,8 +56,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
         expect(result).toEqual(false);
       });
       it(`should return false if the question is not in the list of questions to disable
-          and is equal to the currently selected question`,
-      () => {
+          and is equal to the currently selected question`, () => {
         component.questionResult = { code: 'A15' };
         component.questionsToDisable = [{ code: 'A15' }];
         const result = component.isOptionDisabled({ code: 'A15', description: '', shortName: '' });

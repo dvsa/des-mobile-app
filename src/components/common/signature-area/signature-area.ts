@@ -1,13 +1,15 @@
+import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import {
+  AfterViewInit,
   Component,
-  ViewChild,
-  forwardRef,
+  ElementRef,
+  EventEmitter,
   Input,
   Output,
-  EventEmitter, ElementRef, AfterViewInit,
+  ViewChild,
+  forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 
 const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
@@ -57,7 +59,8 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   @Output()
   signatureCleared = new EventEmitter();
 
-  public signaturePadOptions: NgSignaturePadOptions = { // passed through to szimek/signature_pad constructor
+  public signaturePadOptions: NgSignaturePadOptions = {
+    // passed through to szimek/signature_pad constructor
     minWidth: 1,
     canvasWidth: defaultSignatureWidth,
     canvasHeight: defaultSignatureHeight,

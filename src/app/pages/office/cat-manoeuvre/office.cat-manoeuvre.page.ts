@@ -1,37 +1,37 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { merge, Observable, Subscription } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
 import { UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { startsWith } from 'lodash-es';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { TestOutcome } from '@store/tests/tests.constants';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
-import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
+import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { TestOutcome } from '@store/tests/tests.constants';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
 
 interface CatManoeuvreOfficePageState {
   delegatedTest$: Observable<boolean>;
@@ -46,7 +46,6 @@ type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
   styleUrls: ['../office.page.scss'],
 })
 export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements OnInit {
-
   pageState: OfficePageState;
   pageSubscription: Subscription;
   form: UntypedFormGroup;
@@ -56,7 +55,7 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector,
+    injector: Injector
   ) {
     super(injector);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
@@ -66,34 +65,27 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
       ...this.commonPageState,
-      conductedLanguage$: currentTest$.pipe(
-        select(getCommunicationPreference),
-        select(getConductedLanguage),
-      ),
-      delegatedTest$: currentTest$.pipe(
-        select(getDelegatedTestIndicator),
-        select(isDelegatedTest),
-      ),
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       dangerousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         take(1),
         map(([testData, category]) =>
-          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+        )
       ),
       seriousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         take(1),
         map(([testData, category]) =>
-          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+        )
       ),
     };
 
@@ -103,18 +95,13 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   setupSubscription(): void {
     super.setupSubscriptions();
 
-    const {
-      testOutcomeText$,
-      conductedLanguage$,
-      delegatedTest$,
-    } = this.pageState;
+    const { testOutcomeText$, conductedLanguage$, delegatedTest$ } = this.pageState;
 
     this.pageSubscription = merge(
-      conductedLanguage$.pipe(map((result) => this.conductedLanguage = result)),
-      testOutcomeText$.pipe(map((result) => this.testOutcomeText = result)),
-      delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    )
-      .subscribe();
+      conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
+      testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result))),
+      delegatedTest$.pipe(map((result) => (this.isDelegated = result)))
+    ).subscribe();
   }
 
   async ionViewWillEnter() {
@@ -149,18 +136,15 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary): void {
     if (dangerousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
+        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment)
       );
     } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = dangerousFaultComment.source.split('-');
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
-      this.store$.dispatch(AddManoeuvreComment(
-        fieldName,
-        CompetencyOutcome.D,
-        controlOrObservation,
-        dangerousFaultComment.comment,
-      ));
+      this.store$.dispatch(
+        AddManoeuvreComment(fieldName, CompetencyOutcome.D, controlOrObservation, dangerousFaultComment.comment)
+      );
     } else if (dangerousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(dangerousFaultComment.comment));
     }
@@ -169,18 +153,15 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   seriousFaultCommentChanged(seriousFaultComment: FaultSummary): void {
     if (seriousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(
-        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
+        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment)
       );
     } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = seriousFaultComment.source.split('-');
       const fieldName = segments[1];
       const controlOrObservation = segments[2];
-      this.store$.dispatch(AddManoeuvreComment(
-        fieldName,
-        CompetencyOutcome.S,
-        controlOrObservation,
-        seriousFaultComment.comment,
-      ));
+      this.store$.dispatch(
+        AddManoeuvreComment(fieldName, CompetencyOutcome.S, controlOrObservation, seriousFaultComment.comment)
+      );
     } else if (seriousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
       this.store$.dispatch(AddUncoupleRecoupleComment(seriousFaultComment.comment));
     }

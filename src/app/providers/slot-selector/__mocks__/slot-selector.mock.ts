@@ -4,7 +4,6 @@ import { SlotItem } from '../slot-item';
 
 @Injectable()
 export class SlotSelectorProviderMock {
-
   private ignoreBookingProperty: string[] = [
     'entitlementCheck',
     'extendedTest',
@@ -40,6 +39,5 @@ export class SlotSelectorProviderMock {
     return 1;
   }
 
-  createSlots = (): void => { };
-
+  createSlots = (): void => {};
 }
