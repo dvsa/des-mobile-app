@@ -136,14 +136,14 @@ export class ExaminerRecordsPage implements OnInit {
   public testResults: ExaminerRecordModel[];
   subscription: Subscription;
 
-  labelColour: string = this.getColourSchemeDefault('Opposing')
-  strokeColour: string = this.getColourSchemeDefault('Main')
-  dataLabelBackgroundColour: string = this.getColourSchemeDefault('Opposing')
-  averageColour: string = this.getColourSchemeDefault('Opposing')
-  dataLabelFontColour: string = this.getColourSchemeDefault('Main')
+  labelColour: string = this.getColourSchemeDefault('Opposing');
+  strokeColour: string = this.getColourSchemeDefault('Main');
+  dataLabelBackgroundColour: string = this.getColourSchemeDefault('Opposing');
+  averageColour: string = this.getColourSchemeDefault('Opposing');
+  dataLabelFontColour: string = this.getColourSchemeDefault('Main');
 
   darkModeListener: EventListener = null;
-  windowMedia: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+  windowMedia: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
 
   constructor(
     public store$: Store<StoreModel>,
@@ -616,7 +616,7 @@ export class ExaminerRecordsPage implements OnInit {
       this.subscription.unsubscribe();
     }
     await ScreenOrientation.removeAllListeners();
-    this.windowMedia.removeAllListeners()
+    this.windowMedia.removeAllListeners();
   }
 
   /**
