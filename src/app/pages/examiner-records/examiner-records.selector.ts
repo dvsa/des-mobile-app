@@ -162,6 +162,10 @@ export const getIndependentDrivingStats = (
       TestCategory.C1,
       TestCategory.CE,
       TestCategory.C1E, // C
+      TestCategory.D,
+      TestCategory.D1,
+      TestCategory.DE,
+      TestCategory.D1E, // D
       TestCategory.EUAMM2,
       TestCategory.EUA1M2,
       TestCategory.EUA2M2,
