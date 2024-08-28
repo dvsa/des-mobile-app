@@ -462,7 +462,6 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Promise<void>} A promise that resolves when the initialization is complete.
    */
   async ngOnInit(): Promise<void> {
-    console.log(this.getLocalResults())
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
