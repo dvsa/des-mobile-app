@@ -150,7 +150,7 @@ describe('WaitingRoomToCarCatManoeuvrePage', () => {
         expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
           TestFlowPageNames.TEST_REPORT_PAGE,
           TestCategory.CM,
-          { replaceUrl: true }
+          { replaceUrl: false }
         );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
