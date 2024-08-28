@@ -354,7 +354,7 @@ export class ExaminerRecordsPage implements OnInit {
           const employeeId = this.store$.selectSignal(selectEmployeeId)();
           //Filter out tests the user rekeyd for other users
           return value.filter((test) => {
-            return test.examinerConducted.toString() === employeeId;
+            return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
           });
         }),
         map((value) => {
