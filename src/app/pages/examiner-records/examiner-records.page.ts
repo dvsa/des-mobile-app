@@ -354,7 +354,7 @@ export class ExaminerRecordsPage implements OnInit {
           const employeeId = this.store$.selectSignal(selectEmployeeId)();
           //Filter out tests the user rekeyd for other users
           return value.filter((test) => {
-            return test.examinerConducted.toString() === employeeId;
+            return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
           });
         }),
         map((value) => {
@@ -462,6 +462,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Promise<void>} A promise that resolves when the initialization is complete.
    */
   async ngOnInit(): Promise<void> {
+    console.log(this.getLocalResults())
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
