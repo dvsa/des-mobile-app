@@ -101,15 +101,14 @@ export const getLocations = (
   range: DateRange = null
 ): ExaminerRecordData<TestCentre>[] => {
   if (startedTests) {
-    const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null).filter(
-      (record) => {
-        //Do not return test tests that are categories we do not want to track to avoid test centres with no tests in them
-        if (!unwantedCategories.includes(get(record, 'testCategory', null))) {
-          return !!get(record, 'testCentre', null).centreId;
-        }
-        return false
-      });
-    
+    const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null).filter((record) => {
+      //Do not return test tests that are categories we do not want to track to avoid test centres with no tests in them
+      if (!unwantedCategories.includes(get(record, 'testCategory', null))) {
+        return !!get(record, 'testCentre', null).centreId;
+      }
+      return false;
+    });
+
     return uniqBy(
       data.map(({ testCentre }): ExaminerRecordData<TestCentre> => {
         return {
