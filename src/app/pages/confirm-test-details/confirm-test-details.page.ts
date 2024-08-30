@@ -105,6 +105,7 @@ export class ConfirmTestDetailsPage
   merged$: Observable<boolean | string>;
   slotId: string;
   idPrefix = 'confirm-test-details';
+  lessonArray: string[] = [];
 
   constructor(
     public navController: NavController,
@@ -208,6 +209,10 @@ export class ConfirmTestDetailsPage
             .concat(otherReason || null)
             // Sanitise null or empty string values
             .filter((theme) => theme)
+            .map((themes) => {
+              this.lessonArray.push(themes);
+              return themes;
+            })
             // concatenate selections
             .join(', ')
         ),

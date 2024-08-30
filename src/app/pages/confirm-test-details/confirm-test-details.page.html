@@ -96,14 +96,14 @@
           >
           </data-row>
           <!-- Lesson theme -->
-          <data-row
+          <data-row-custom
             *ngIf="(pageState.lessonTheme$ | async)?.length"
             [idPrefix]="idPrefix"
             [label]="'Lesson theme'"
-            [value]="pageState.lessonTheme$ | async"
             [shouldHaveSeperator]="true"
           >
-          </data-row>
+            <span class="mes-data" *ngFor="let lesson of lessonArray">{{lesson}}<br></span>
+          </data-row-custom>
           <!-- Lesson planning -->
           <data-row
             [idPrefix]="idPrefix"
