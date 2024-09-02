@@ -21,6 +21,10 @@
     }
   }
 
+  .driving-faults {
+    padding-left: 3px;
+  }
+
   button {
     height: 44px;
     width: 175px;
@@ -104,6 +108,7 @@
     }
     .fault-wrapper {
       display: flex;
+      padding-right: 3px;
     }
 
     serious-fault-badge {
