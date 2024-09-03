@@ -69,7 +69,7 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
       this.store$.dispatch(ClearCandidateLicenceData());
 
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
-        replaceUrl: true,
+        replaceUrl: false,
       });
       return;
     }
