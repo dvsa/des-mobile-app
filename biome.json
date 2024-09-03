@@ -1,10 +1,7 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
+  "extends": [
+    "@dvsa/biome-config/biome"
+  ],
   "formatter": {
     "enabled": true,
     "formatWithErrors": true,
@@ -18,55 +15,7 @@
       "**/*.json"
     ]
   },
-	"organizeImports": {
-		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-      "style": {
-        "useImportType": "off",
-        "useTemplate": "off",
-        "useNodejsImportProtocol": "off",
-        "useDefaultParameterLast": "off",
-        "noUselessElse": "off",
-        "noNonNullAssertion": "off",
-        "noParameterAssign": "off",
-        "useExponentiationOperator": "off"
-      },
-      "complexity": {
-        "useLiteralKeys": "off",
-        "noBannedTypes": "off",
-        "noForEach": "off",
-        "noThisInStatic": "off",
-        "noStaticOnlyClass": "off",
-        "noUselessConstructor": "off",
-        "noExtraBooleanCast": "off",
-        "useOptionalChain": "off",
-        "noUselessCatch": "off"
-
-      },
-      "correctness": {
-        "noVoidTypeReturn": "off",
-        "noUnsafeOptionalChaining": "off",
-        "noEmptyPattern": "off",
-        "noSwitchDeclarations": "off"
-      },
-      "suspicious": {
-        "noAssignInExpressions": "off",
-        "noExplicitAny": "off",
-        "noImplicitAnyLet": "off",
-        "useIsArray": "off",
-        "noDoubleEquals": "off",
-        "noDuplicateTestHooks": "off",
-        "noConfusingVoidType": "off"
-      },
-      "performance": {
-        "noDelete": "off",
-        "noAccumulatingSpread": "off"
-      }
-    },
+  "files": {
     "ignore": [
       "**/.husky/",
       "**/.idea/",
@@ -86,21 +35,56 @@
       "**/src/assets/",
       "**/src/polyfills.ts"
     ]
-	},
-  "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "semicolons": "always",
-      "trailingCommas": "es5",
-      "arrowParentheses": "always",
-      "bracketSpacing": true,
-      "bracketSameLine": false,
-      "quoteStyle": "single",
-      "attributePosition": "auto"
-    },
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
+  },
+  "overrides": [
+    {
+      "include": [
+        "**/*.ts"
+      ],
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "recommended": true,
+          "style": {
+            "useTemplate": "off",
+            "useNodejsImportProtocol": "off",
+            "useDefaultParameterLast": "off",
+            "noUselessElse": "off",
+            "noNonNullAssertion": "off",
+            "noParameterAssign": "off",
+            "useExponentiationOperator": "off"
+          },
+          "complexity": {
+            "useLiteralKeys": "off",
+            "noBannedTypes": "off",
+            "noForEach": "off",
+            "noThisInStatic": "off",
+            "noUselessConstructor": "off",
+            "noExtraBooleanCast": "off",
+            "useOptionalChain": "off",
+            "noUselessCatch": "off"
+          },
+          "correctness": {
+            "noVoidTypeReturn": "off",
+            "noUnsafeOptionalChaining": "off",
+            "noEmptyPattern": "off",
+            "noSwitchDeclarations": "off"
+          },
+          "suspicious": {
+            "noAssignInExpressions": "off",
+            "noExplicitAny": "off",
+            "noImplicitAnyLet": "off",
+            "useIsArray": "off",
+            "noDoubleEquals": "off",
+            "noDuplicateTestHooks": "off",
+            "noConfusingVoidType": "off"
+          },
+          "performance": {
+            "noDelete": "off",
+            "noAccumulatingSpread": "off"
+          }
+        }
+      }
     }
-  }
+  ]
 }
