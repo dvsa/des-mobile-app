@@ -31,8 +31,15 @@ jobs:
 
       - name: 🔧 Create .npmrc
         run: |
+
           echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
-          echo "@dvsa/mes-:registry=https://npm.pkg.github.com" >> .npmrc
+
+          # Use npm registry for @dvsa/biome-config
+          echo "@dvsa/biome-config:registry=https://registry.npmjs.org/" >> .npmrc
+
+          # Use GitHub Packages registry for all other @dvsa scoped packages
+          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
+
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
 
