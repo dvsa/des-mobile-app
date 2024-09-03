@@ -175,7 +175,7 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [passedData]="data.independentDrivingGrid"
         >
-          <div head class="width-100-percent">
+          <div *ngIf="!hideMainContent" head class="width-100-percent">
             <ion-row>
               <ion-col>
                 <ion-row class="ion-justify-content-center">
@@ -205,7 +205,8 @@
           </div>
           <div body>
             <data-row
-              class="additional-data-row target-padding"
+              class="additional-data-row"
+              [class.target-padding]="!hideMainContent"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
@@ -259,7 +260,7 @@
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [passedData]="data.emergencyStops"
         >
-          <div head class="width-100-percent">
+          <div *ngIf="!hideMainContent" head class="width-100-percent">
             <ion-row>
               <ion-col>
                 <ion-row class="ion-justify-content-center">
@@ -275,7 +276,8 @@
           </div>
           <div body>
             <data-row
-              class="additional-data-row target-padding"
+              class="additional-data-row"
+              [class.target-padding]="!hideMainContent"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0'}"
               [labelStyling]="{'font-weight': 400}"
