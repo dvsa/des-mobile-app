@@ -105,7 +105,6 @@ export class ConfirmTestDetailsPage
   merged$: Observable<boolean | string>;
   slotId: string;
   idPrefix = 'confirm-test-details';
-  lessonArray: string[] = [];
 
   constructor(
     public navController: NavController,
@@ -208,7 +207,8 @@ export class ConfirmTestDetailsPage
             // Substitute that with the value provided in the 'Other' box or null
             .concat(otherReason || null)
             // Sanitise null or empty string values
-            .filter((theme) => theme)),
+            .filter((theme) => theme)
+        ),
         take(1)
       ),
       lessonPlanningScore$: currentTest$.pipe(
