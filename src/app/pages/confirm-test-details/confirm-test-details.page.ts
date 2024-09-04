@@ -71,7 +71,7 @@ interface ConfirmTestDetailsPageState {
   slotId$: Observable<string>;
   testOutcomeFullResult$: Observable<string>;
   studentLevel$: Observable<string>;
-  lessonTheme$: Observable<string>;
+  lessonTheme$: Observable<string[]>;
   lessonPlanningScore$: Observable<number>;
   riskManagementScore$: Observable<number>;
   teachingLearningStrategyScore$: Observable<number>;
@@ -208,14 +208,7 @@ export class ConfirmTestDetailsPage
             // Substitute that with the value provided in the 'Other' box or null
             .concat(otherReason || null)
             // Sanitise null or empty string values
-            .filter((theme) => theme)
-            .map((themes) => {
-              this.lessonArray.push(themes);
-              return themes;
-            })
-            // concatenate selections
-            .join(', ')
-        ),
+            .filter((theme) => theme)),
         take(1)
       ),
       lessonPlanningScore$: currentTest$.pipe(
