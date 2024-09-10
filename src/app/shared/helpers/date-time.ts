@@ -88,8 +88,15 @@ export class DateTime {
     return date.moment.diff(this.moment, Duration.SECOND) > 0;
   }
 
-  isDuring(range: DateRange) {
+  isDuring(range: DateRange, setTodayToMidnight = false): boolean {
     const today = new Date();
+
+    if (setTodayToMidnight) {
+      today.setSeconds(0);
+      today.setMinutes(0);
+      today.setHours(0);
+    }
+
     const dateRange = (() => {
       switch (range) {
         case DateRange.TODAY:

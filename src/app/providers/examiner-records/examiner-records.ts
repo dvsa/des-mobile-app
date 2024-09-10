@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
 import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
-import { DateRange } from '@shared/helpers/date-time';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { get } from 'lodash-es';
@@ -164,7 +164,7 @@ export class ExaminerRecordsProvider {
       appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
       testCategory: testResult.category as TestCategory,
       testCentre: testResult.journalData.testCentre,
-      startDate: testResult.journalData.testSlotAttributes.start,
+      startDate: new DateTime(testResult.journalData.testSlotAttributes.start).format('YYYY-MM-DD'),
     };
 
     [
