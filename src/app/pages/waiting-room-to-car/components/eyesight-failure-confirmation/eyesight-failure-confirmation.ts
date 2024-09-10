@@ -27,7 +27,7 @@ export class EyesightFailureConfirmationComponent {
   }
 
   async onContinue(): Promise<void> {
-    await this.router.navigate([this.nextPageOnFail]);
     this.store$.dispatch(SetActivityCode(ActivityCodes.FAIL_EYESIGHT));
+    await this.router.navigate([this.nextPageOnFail]);
   }
 }

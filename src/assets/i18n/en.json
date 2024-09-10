@@ -420,7 +420,7 @@
     "insuranceDeclaration": "The use of the test vehicle for the purpose of the test is fully covered by a valid policy of insurance which satisfies the requirements of the legislation.",
     "insuranceDeclarationValidation": "Confirm that the vehicle is insured for the purpose of the test",
     "residencyDeclaration": "I normally live/have lived in the UK for at least 185 days in the last 12 months.",
-    "residencyDeclarationValidation": "Confirm that you live in the UK",
+    "residencyDeclarationValidation": "Confirm UK residency",
     "title": "Declaration"
   },
   "signature": {
