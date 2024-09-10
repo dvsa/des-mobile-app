@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
 import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
-import { DateRange } from '@shared/helpers/date-time';
+import {DateRange, DateTime} from '@shared/helpers/date-time';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { get } from 'lodash-es';
@@ -134,7 +134,7 @@ export class ExaminerRecordsProvider {
       case DateRange.TODAY:
         return moment(new Date());
       case DateRange.WEEK:
-        return moment(new Date()).subtract(1, 'week');
+        return moment(new Date()).subtract(5, 'days');
       case DateRange.FORTNIGHT:
         return moment(new Date()).subtract(2, 'week');
       case DateRange.NINETY_DAYS:
@@ -164,7 +164,7 @@ export class ExaminerRecordsProvider {
       appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
       testCategory: testResult.category as TestCategory,
       testCentre: testResult.journalData.testCentre,
-      startDate: testResult.journalData.testSlotAttributes.start,
+      startDate: new DateTime(testResult.journalData.testSlotAttributes.start).format('YYYY-MM-DD'),
     };
 
     [

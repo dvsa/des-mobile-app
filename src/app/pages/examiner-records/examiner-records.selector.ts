@@ -42,7 +42,7 @@ const unwantedCategories: TestCategory[] = [
 export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean =>
   range
     ? // use range when provided
-      new DateTime(get(test, 'startDate')).isDuring(range)
+      new DateTime(get(test, 'startDate')).isDuring(range, true)
     : // return true to get all tests when no range provided
       true;
 

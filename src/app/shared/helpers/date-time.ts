@@ -88,14 +88,21 @@ export class DateTime {
     return date.moment.diff(this.moment, Duration.SECOND) > 0;
   }
 
-  isDuring(range: DateRange) {
+  isDuring(range: DateRange, setTodayToMidnight = false): boolean {
     const today = new Date();
+
+    if (setTodayToMidnight) {
+      today.setSeconds(0);
+      today.setMinutes(0);
+      today.setHours(0);
+    }
+
     const dateRange = (() => {
       switch (range) {
         case DateRange.TODAY:
           return moment(today).subtract(1, 'day');
         case DateRange.WEEK:
-          return moment(today).subtract(1, 'week');
+          return moment(today).subtract(5, 'days');
         case DateRange.FORTNIGHT:
           return moment(today).subtract(2, 'weeks');
         case DateRange.NINETY_DAYS:

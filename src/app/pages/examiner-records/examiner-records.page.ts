@@ -120,7 +120,6 @@ export class ExaminerRecordsPage implements OnInit {
   cachedExaminerRecords: ExaminerRecordModel[] = null;
   startDateFilter: string;
   endDateFilter: string = new DateTime().format('DD/MM/YYYY');
-  scrollValue = 0;
   isLoading = false;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
