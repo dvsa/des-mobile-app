@@ -110,7 +110,7 @@ export class VehicleRegistrationComponent implements OnChanges {
       }
       this.hasCalledMOT = true;
       this.showSearchSpinner = false;
-      this.motApiService.getMockResultByIdentifier(fakeModalReturn as PracticeModeMOTType).subscribe((val: MotDataWithStatus) => {
+      this.motApiService.getMockResultByIdentifier(value, fakeModalReturn as PracticeModeMOTType).subscribe((val: MotDataWithStatus) => {
         this.motData = val;
       });
 

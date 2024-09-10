@@ -69,15 +69,22 @@ export class VehicleDetailsApiService {
     },
   };
 
-  getMockResultByIdentifier(motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
+  addRegistrationToFakeRecords(registration: string, motData: MotDataWithStatus): MotDataWithStatus {
+    const returnData = motData;
+    returnData.data.registration = registration;
+    return returnData
+  }
+
+  getMockResultByIdentifier(vehicleRegistration: string, motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
     console.log('mocking MOT result', motType);
     switch (motType) {
       case PracticeModeMOTType.PASS:
-        return of(this.fakeMOTResults.pass);
+
+        return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.pass));
       case PracticeModeMOTType.FAILED:
-        return of(this.fakeMOTResults.fail);
+        return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.fail));
       case PracticeModeMOTType.NO_DETAILS:
-        return of(this.fakeMOTResults.noDetails);
+        return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.noDetails));
     }
   }
 
