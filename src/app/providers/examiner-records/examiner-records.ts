@@ -134,7 +134,7 @@ export class ExaminerRecordsProvider {
       case DateRange.TODAY:
         return moment(new Date());
       case DateRange.WEEK:
-        return moment(new Date()).subtract(5, 'days');
+        return moment(new Date()).subtract(1, 'week');
       case DateRange.FORTNIGHT:
         return moment(new Date()).subtract(2, 'week');
       case DateRange.NINETY_DAYS:

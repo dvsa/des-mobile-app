@@ -102,7 +102,7 @@ export class DateTime {
         case DateRange.TODAY:
           return moment(today).subtract(1, 'day');
         case DateRange.WEEK:
-          return moment(today).subtract(5, 'days');
+          return moment(today).subtract(1, 'week');
         case DateRange.FORTNIGHT:
           return moment(today).subtract(2, 'weeks');
         case DateRange.NINETY_DAYS:
