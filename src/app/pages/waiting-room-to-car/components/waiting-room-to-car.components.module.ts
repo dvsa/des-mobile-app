@@ -24,6 +24,9 @@ import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
 import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
+import {
+  PracticeModeMOTModal
+} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     VehicleChecksQuestionComponent,
     MotCardComponent,
     MotFailedModal,
+    PracticeModeMOTModal,
     AlternateMotEvidenceComponent,
     AlternateEvidenceDescriptionComponent,
     MotNoEvidenceConfirmationComponent,
@@ -71,6 +75,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     VehicleChecksQuestionComponent,
     MotCardComponent,
     MotFailedModal,
+    PracticeModeMOTModal,
     AlternateMotEvidenceComponent,
     AlternateEvidenceDescriptionComponent,
     MotNoEvidenceConfirmationComponent,

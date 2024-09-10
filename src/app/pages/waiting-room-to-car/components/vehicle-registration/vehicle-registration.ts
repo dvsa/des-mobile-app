@@ -16,6 +16,9 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
+import {
+  PracticeModeMOTModal, PracticeModeMOTType
+} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 
 @Component({
   selector: 'vehicle-registration',
@@ -27,6 +30,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   vehicleRegistration: string;
   @Input()
   formGroup: UntypedFormGroup;
+  @Input()
+  isPracticeMode: boolean;
 
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
@@ -47,14 +52,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   hasCalledMOT = false;
   showSearchSpinner = false;
 
-  //This is here to help with visits and tests in places with poor connectivity,
-  // this will be deleted in the full release
-  isPressed = false;
-  fakeOffline = false;
-  realData = true;
-  @Output()
-  flipFakeOffline = new EventEmitter<ConnectionStatus>();
-
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
@@ -74,65 +71,53 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.alternativeEvidenceDescriptionUpdate.emit(undefined);
   }
 
-  //This is here to help with visits and tests in places with poor connectivity,
-  // this will be deleted in the full release
-  onTouchStart(holdType: string) {
-    this.isPressed = true;
-
-    setTimeout(() => {
-      if (this.isPressed) {
-        switch (holdType) {
-          case 'realData':
-            this.realData = !this.realData;
-            break;
-          case 'fakeOffline':
-            this.fakeOffline = !this.fakeOffline;
-            this.flipFakeOffline.emit(this.fakeOffline ? ConnectionStatus.OFFLINE : ConnectionStatus.ONLINE);
-            break;
-        }
-      }
-    }, 1000);
-  }
-
-  onTouchEnd() {
-    this.isPressed = false;
-  }
-
-  getMOT(value: string) {
+  async getMOT(value: string) {
     this.clearData();
     this.hasCalledMOT = false;
     this.showSearchSpinner = true;
 
-    //This is here to help with visits and tests in places with poor connectivity,
-    // it will always point towards the real data when released
-    const apiCall$ = this.realData
-      ? this.motApiService.getVehicleByIdentifier(value)
-      : this.motApiService.getMockVehicleByIdentifier(value);
+    if (!this.isPracticeMode) {
 
-    apiCall$.subscribe(async (val) => {
-      this.motData = val;
-      this.vrnSearchListUpdate.emit(value);
-      // If the MOT is invalid, open the reconfirm modal
-      if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
-        await this.loadModal();
-        if (this.modalData === ModalEvent.CANCEL) {
-          this.showSearchSpinner = false;
-          return;
+      const apiCall$ = this.motApiService.getVehicleByIdentifier(value)
+
+      apiCall$.subscribe(async (val) => {
+        this.motData = val;
+        this.vrnSearchListUpdate.emit(value);
+        // If the MOT is invalid, open the reconfirm modal
+        if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
+          await this.loadFailedMOTModal();
+          if (this.modalData === ModalEvent.CANCEL) {
+            this.showSearchSpinner = false;
+            return;
+          }
+          if (this.modalData !== this.motData.data.registration) {
+            this.vrnSearchListUpdate.emit(this.modalData);
+            this.motData = null;
+          }
         }
-        if (this.modalData !== this.motData.data.registration) {
-          this.vrnSearchListUpdate.emit(this.modalData);
-          this.motData = null;
+        this.hasCalledMOT = true;
+        this.showSearchSpinner = false;
+        if (this.motData) {
+          this.motDetailsUpdate.emit(this.motData?.data);
         }
+      });
+    } else {
+      const fakeModalReturn = await this.loadPracticeModeModal();
+      if (fakeModalReturn === ModalEvent.CANCEL) {
+        this.motData = null;
+        this.showSearchSpinner = false;
+        return;
       }
       this.hasCalledMOT = true;
       this.showSearchSpinner = false;
-      if (this.motData) {
-        this.motDetailsUpdate.emit(this.motData?.data);
-      }
-    });
+      this.motApiService.getMockResultByIdentifier(fakeModalReturn as PracticeModeMOTType).subscribe((val: MotDataWithStatus) => {
+        this.motData = val;
+      });
+
+    }
   }
 
-  loadModal = async (): Promise<void> => {
+  loadFailedMOTModal = async (): Promise<void> => {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: MotFailedModal,
       componentProps: { originalRegistration: this.vehicleRegistration },
@@ -142,6 +127,18 @@ export class VehicleRegistrationComponent implements OnChanges {
     await modal.present();
     const { data } = await modal.onDidDismiss<string>();
     this.modalData = data;
+  };
+
+  loadPracticeModeModal = async (): Promise<string> => {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: PracticeModeMOTModal,
+      cssClass: 'mes-modal-alert',
+      backdropDismiss: false,
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss<string>();
+    console.log(data)
+    return data;
   };
 
   ngOnChanges(): void {

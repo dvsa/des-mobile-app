@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
@@ -32,11 +32,6 @@ export class MotCardComponent {
   @Output()
   alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
 
-  //This is here to help with visits and tests in places with poor connectivity,
-  // this will be deleted in the full release
-  @Input()
-  fakeOffline = false;
-
   constructor(public networkState: NetworkStateProvider) {}
 
   callWasSuccessful() {
@@ -54,9 +49,6 @@ export class MotCardComponent {
     return +this.status === HttpStatusCodes.NOT_FOUND;
   }
 
-  isOffline(): boolean {
-    return this.networkState.getNetworkState() !== ConnectionStatus.ONLINE || this.fakeOffline;
-  }
   isValidMOT() {
     return this.data.status === MotStatusCodes.VALID;
   }

@@ -6,8 +6,6 @@
 >
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col
-    (touchstart)="onTouchStart('fakeOffline')"
-    (touchend)="onTouchEnd()"
     class="component-label ion-align-self-center"
     size="32"
   >
@@ -35,11 +33,9 @@
       </ion-col>
       <ion-col size="35">
         <ion-button
-          [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE || fakeOffline"
+          [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
-          (touchstart)="onTouchStart('realData')"
-          (touchend)="onTouchEnd()"
         >
           <ion-text class="mot-button-text">Check MOT</ion-text>
         </ion-button>
@@ -61,7 +57,7 @@
     (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
     (alternativeEvidenceDescriptionUpdate)="alternativeEvidenceDescriptionUpdate.emit($event)"
     [formGroup]="formGroup"
-    [fakeOffline]="fakeOffline"
+    [fakeOffline]="isPracticeMode"
     [data]="motData?.data"
     [status]="motData?.status"
   ></mot-card>

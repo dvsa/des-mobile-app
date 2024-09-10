@@ -44,7 +44,6 @@
         >
           <ion-col class="ion-no-padding">
             <vehicle-registration
-              (flipFakeOffline)="networkStateProvider.updateNetworkStatus($event)"
               (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
@@ -52,6 +51,7 @@
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
               [formGroup]="form"
+              [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
             >
             </vehicle-registration>

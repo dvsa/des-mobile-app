@@ -1,0 +1,23 @@
+@import "../../../../../../theme/sass-partials/modal";
+
+:host {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 400px;
+  }
+
+  .modal-alert-header {
+    margin-top: 40px;
+  }
+
+  .full-width {
+    width: 100%
+  }
+
+  .return-button {
+    font-weight: bold;
+    color: var(--gds-black)
+  }
+
+}
