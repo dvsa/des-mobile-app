@@ -1,0 +1,74 @@
+<ion-row>
+  <ion-col class="display-flex flex-direction-column ion-align-items-center">
+    <ion-row>
+      <ion-icon
+        [class.hidden]="!shouldShowUpArrow(TimeUnits.HOUR)"
+        class="ion-activatable mes-data"
+        (click)="iterateNumbers(TimeUnits.HOUR, 1, minimumHour, maximumHour)"
+        size="large"
+        [name]="'chevron-up-outline'">
+      </ion-icon>
+    </ion-row>
+    <ion-row>
+      <ion-input
+        (ionChange)="inputEnteredManually(TimeUnits.HOUR, $event.detail.value)"
+        [(ngModel)]="selectedHour"
+        (ionInput)="hourBoxInputted($event)"
+        maxlength="2"
+        numbersOnly
+        type="text"
+        class="ion-input-styling input-width">
+      </ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-icon
+        [class.hidden]="!shouldShowDownArrow(TimeUnits.HOUR)"
+        class="ion-activatable mes-data"
+        (click)="iterateNumbers(TimeUnits.HOUR, -1, minimumHour, maximumHour)"
+        size="large"
+        [name]="'chevron-down-outline'">
+      </ion-icon>
+    </ion-row>
+  </ion-col>
+  <ion-col size="6" class="display-flex ion-justify-content-center ion-align-items-center">
+    <ion-text class="mes-data">:</ion-text>
+  </ion-col>
+  <ion-col class="display-flex flex-direction-column ion-align-items-center">
+    <ion-row>
+      <ion-icon
+        [class.hidden]="!shouldShowUpArrow(TimeUnits.MINUTE)"
+        class="ion-activatable mes-data"
+        (click)="iterateNumbers(TimeUnits.MINUTE, 1, minimumMinute, maximumMinute)"
+        size="large"
+        [name]="'chevron-up-outline'"></ion-icon>
+    </ion-row>
+    <ion-row>
+      <ion-input
+        (ionChange)="inputEnteredManually(TimeUnits.MINUTE, $event.detail.value)"
+        [(ngModel)]="selectedMinute"
+        #minuteInput
+        maxlength="2"
+        numbersOnly
+        type="text"
+        class="ion-input-styling input-width">
+      </ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-icon
+        [class.hidden]="!shouldShowDownArrow(TimeUnits.MINUTE)"
+        class="ion-activatable mes-data"
+        (click)="iterateNumbers(TimeUnits.MINUTE, -1, minimumMinute, maximumMinute)"
+        size="large"
+        [name]="'chevron-down-outline'"></ion-icon>
+    </ion-row>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col class="display-flex ion-justify-content-center">
+    <ion-text class="mes-data">Hour</ion-text>
+  </ion-col>
+  <ion-col size="6"></ion-col>
+  <ion-col class="display-flex ion-justify-content-center">
+    <ion-text class="mes-data">Mins</ion-text>
+  </ion-col>
+</ion-row>
