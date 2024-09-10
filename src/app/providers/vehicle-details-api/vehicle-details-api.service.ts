@@ -76,7 +76,6 @@ export class VehicleDetailsApiService {
   }
 
   getMockResultByIdentifier(vehicleRegistration: string, motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
-    console.log('mocking MOT result', motType);
     switch (motType) {
       case PracticeModeMOTType.PASS:
 
