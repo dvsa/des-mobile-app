@@ -54,12 +54,12 @@
             </vehicle-checks-vocational>
 
             <vehicle-registration
-              (flipFakeOffline)="networkStateProvider.updateNetworkStatus($event)"
               (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               [formGroup]="form"
+              [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
             >
             </vehicle-registration>

@@ -1,0 +1,35 @@
+<ion-card class="modal-alert">
+  <modal-alert-title>You are in practice mode</modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="modal-alert-message mes-data">
+        <div class="mes-data">Please select which MOT result you would like to practice.</div>
+        <ul></ul>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col size="30">
+      <ion-button (click)="onConfirm(PracticeModeMOTType.PASS)" class="full-width mes-grey-button">
+        <ion-text class="semibold-font-family">Pass</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col size="30">
+      <ion-button (click)="onConfirm(PracticeModeMOTType.FAILED)" class="full-width mes-grey-button">
+        <ion-text class="semibold-font-family">Fail</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col size="30">
+      <ion-button (click)="onConfirm(PracticeModeMOTType.NO_DETAILS)" class="full-width mes-grey-button">
+        <ion-text class="semibold-font-family">No Details</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <ion-row class="padding-top-10">
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button id="practice-modal-cancel" class="cancel-button" fill="clear" (click)="onCancel()">Cancel</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

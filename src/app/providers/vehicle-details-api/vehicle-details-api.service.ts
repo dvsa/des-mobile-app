@@ -7,6 +7,7 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
+import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 
 export interface MotDataWithStatus {
   status: string;
@@ -26,10 +27,8 @@ export class VehicleDetailsApiService {
   vehicleIdentifier: string;
   vehicleDetailsResponse: VehicleDetails;
 
-  //This is here to help with visits and tests in places with poor connectivity,
-  // this will be deleted in the full release
-  fakeMOTResults: MotDataWithStatus[] = [
-    {
+  fakeMOTResults: { pass: MotDataWithStatus; fail: MotDataWithStatus; noDetails: MotDataWithStatus } = {
+    pass: {
       status: '200',
       data: {
         registration: 'XX01VLD',
@@ -42,7 +41,7 @@ export class VehicleDetailsApiService {
         testDate: '01/01/01',
       },
     },
-    {
+    fail: {
       status: '200',
       data: {
         registration: 'XX01INV',
@@ -55,7 +54,7 @@ export class VehicleDetailsApiService {
         testDate: '01/01/01',
       },
     },
-    {
+    noDetails: {
       status: '200',
       data: {
         registration: 'XX01NDT',
@@ -68,17 +67,20 @@ export class VehicleDetailsApiService {
         testDate: '01/01/01',
       },
     },
-  ];
+  };
 
-  getMockVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
-    console.log(this.fakeMOTResults.find((value) => vehicleRegistration === value.data.registration));
-    const returnData = this.fakeMOTResults.find((value) => vehicleRegistration === value.data.registration);
-    if (returnData) {
-      return of(this.fakeMOTResults.find((value) => vehicleRegistration === value.data.registration));
-    } else {
-      return of({ status: '204', data: null });
+  getMockResultByIdentifier(motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
+    console.log('mocking MOT result', motType);
+    switch (motType) {
+      case PracticeModeMOTType.PASS:
+        return of(this.fakeMOTResults.pass);
+      case PracticeModeMOTType.FAILED:
+        return of(this.fakeMOTResults.fail);
+      case PracticeModeMOTType.NO_DETAILS:
+        return of(this.fakeMOTResults.noDetails);
     }
   }
+
   getVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
     if (vehicleRegistration === this.vehicleIdentifier && this.vehicleDetailsResponse !== undefined) {
       return of({ status: 'Already Saved', data: this.vehicleDetailsResponse });

@@ -58,13 +58,13 @@
             >
               <ion-col class="ion-no-padding">
                 <vehicle-registration
-                  (flipFakeOffline)="networkStateProvider.updateNetworkStatus($event)"
                   (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
                   (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
                   (vehicleRegistrationBlur)="getMOTStatus()"
                   (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
                   [formGroup]="form"
                   [vehicleRegistration]="pageState.registrationNumber$ | async"
+                  [isPracticeMode]="isEndToEndPracticeMode"
                 >
                 </vehicle-registration>
 

@@ -25,7 +25,7 @@
         <ion-row class="ion-no-padding" id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
             <vehicle-registration
-              (flipFakeOffline)="networkStateProvider.updateNetworkStatus($event)"
+              [isPracticeMode]="isEndToEndPracticeMode"
               (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
