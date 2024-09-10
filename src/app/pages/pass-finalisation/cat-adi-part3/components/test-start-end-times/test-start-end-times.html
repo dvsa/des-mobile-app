@@ -21,18 +21,48 @@
     <label class="to-label" id="to-label">-</label>
   </ion-col>
 
-  <ion-col size="20">
-    <datetime-input
-      [initialValue]="endTime"
-      (onDataPicked)="timeChanged($event)"
-      [control]="'end-time'"
-      [pickerId]="'time-picker-end'"
-      [inputId]="'time-input-end'"
-      [minValue]="minTime"
-      [showClearButton]="false"
-      [disabled]="false"
-      [displayType]="timeDisplayType"
-    >
-    </datetime-input>
+    <ion-col size="20">
+      <datetime-input
+        [initialValue]="endTime"
+        (onDataPicked)="timeChanged($event)"
+        [control]="'end-time'"
+        [pickerId]="'time-picker-end'"
+        [inputId]="'time-input-end'"
+        [minValue]="minTime"
+        [showClearButton]="false"
+        [disabled]="false"
+        [displayType]="timeDisplayType"
+      >
+      </datetime-input>
+    </ion-col>
+</ion-row>
+<ion-row class="ion-margin-start ion-padding-top ion-padding-bottom ion-padding-start">
+  <ion-col size="30">
+    <label id="test-start-end-times-label2">Test start - end time</label>
+  </ion-col>
+  <ion-col>
+    <ion-row>
+      <ion-text class="mes-data">Approx. start time:</ion-text>
+    </ion-row>
+    <ion-row>
+      <ion-text class="mes-data">Approx. end time:</ion-text>
+    </ion-row>
+    <ion-row>
+      <ion-text class="mes-data">Approx. duration:</ion-text>
+    </ion-row>
+  </ion-col>
+  <ion-col class="centre-col">
+    <ion-row>
+      <ion-text class="mes-data">{{formatTime(startTime)}}</ion-text>
+    </ion-row>
+    <ion-row>
+      <ion-text class="mes-data">{{formatTime(endTime)}}</ion-text>
+    </ion-row>
+    <ion-row>
+      <ion-text class="mes-data">{{ findDifferenceInTime(startTime, endTime) }} mins </ion-text>
+    </ion-row>
+    <ion-row>
+      <ion-button class="mes-grey-button" (click)="openTimeEditModal()"><label>Edit</label></ion-button>
+    </ion-row>
   </ion-col>
 </ion-row>
