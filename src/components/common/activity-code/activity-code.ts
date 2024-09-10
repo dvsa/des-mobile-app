@@ -58,12 +58,11 @@ export class ActivityCodeComponent implements OnChanges {
   }
 
   isSelectDisabled(): boolean {
-    let activityCode = null
+    let activityCode = null;
     if (this.activityCodeModel) {
-      activityCode = parseInt(this.activityCodeModel.activityCode, 10);
+      activityCode = Number.parseInt(this.activityCodeModel.activityCode, 10);
     }
-    return this.disabled ||
-      (this.activityCodeModel && (activityCode < 4 || activityCode == 12));
+    return this.disabled || (this.activityCodeModel && (activityCode < 4 || activityCode == 12));
   }
 
   openActivityCodeListModal = async (): Promise<void> => {

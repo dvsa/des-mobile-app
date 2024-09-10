@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnInit, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum AlternateEvidenceTestResult {
@@ -13,7 +11,6 @@ enum AlternateEvidenceTestResult {
   styleUrls: ['./alternate-mot-evidence.component.scss'],
 })
 export class AlternateMotEvidenceComponent implements OnInit {
-
   formControl: UntypedFormControl = null;
 
   @Input()
@@ -45,8 +42,9 @@ export class AlternateMotEvidenceComponent implements OnInit {
       }
     }
     if (this.alternateEvidencePassRadioChecked || this.alternateEvidenceFailRadioChecked) {
-      this.formControl.patchValue(this.alternateEvidencePassRadioChecked
-        ? AlternateEvidenceTestResult.Pass : AlternateEvidenceTestResult.Fail);
+      this.formControl.patchValue(
+        this.alternateEvidencePassRadioChecked ? AlternateEvidenceTestResult.Pass : AlternateEvidenceTestResult.Fail
+      );
     }
   }
 

@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
-import { of } from 'rxjs';
+import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 // import { StoreModel } from '@shared/models/store.model';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
@@ -32,10 +32,11 @@ describe('VehicleRegistrationComponent', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it('should have vehicleRegistration form control be added to '
-      + 'form if there is no form control already there', () => {
-      component.formControl = null;
-      component.ngOnChanges();
+    it(
+      'should have vehicleRegistration form control be added to ' + 'form if there is no form control already there',
+      () => {
+        component.formControl = null;
+        component.ngOnChanges();
 
         expect(component.formGroup.controls.vehicleRegistration).toBeTruthy();
       }
@@ -46,19 +47,21 @@ describe('VehicleRegistrationComponent', () => {
     it('should remove evidenceDescriptionCtrl and alternateEvidenceCtrl from the form', () => {
       component.formGroup.addControl('alternateEvidenceCtrl', component.formControl);
       component.formGroup.addControl('evidenceDescriptionCtrl', component.formControl);
-      spyOn(component.motApiService, 'getVehicleByIdentifier').and.returnValue(of({
-        status: '200',
-        data: {
-          registration: 'reg',
-          make: 'make',
-          model: 'model',
-          colour: 'colour',
-          status: 'status',
-          testExpiryDate: '1/1/1',
-          testDueDate: '2/2/2',
-          testDate: '3/3/3',
-        },
-      }));
+      spyOn(component.motApiService, 'getVehicleByIdentifier').and.returnValue(
+        of({
+          status: '200',
+          data: {
+            registration: 'reg',
+            make: 'make',
+            model: 'model',
+            colour: 'colour',
+            status: 'status',
+            testExpiryDate: '1/1/1',
+            testDueDate: '2/2/2',
+            testDate: '3/3/3',
+          },
+        })
+      );
       component.getMOT('11');
 
       expect(component.formGroup.controls).not.toContain(['alternateEvidenceCtrl', 'evidenceDescriptionCtrl']);

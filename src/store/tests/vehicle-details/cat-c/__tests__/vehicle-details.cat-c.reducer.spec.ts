@@ -1,5 +1,5 @@
-import { vehicleDetailsCatCReducer } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { vehicleDetailsCatCReducer } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
 describe('vehicleDetailsCatDReducer', () => {

@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -9,7 +7,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   styleUrls: ['./alternate-evidence-description.component.scss'],
 })
 export class AlternateEvidenceDescriptionComponent {
-
   formControl: UntypedFormControl;
 
   @Input()
@@ -39,5 +36,4 @@ export class AlternateEvidenceDescriptionComponent {
   evidenceDescriptionTestResultChanged(event: string) {
     this.evidenceDescriptionTestResultChange.emit(event);
   }
-
 }

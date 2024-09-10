@@ -5,21 +5,18 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 
-import { PipesModule } from '@shared/pipes/pipes.module';
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
-import { MotFailedModal } from './mot-components/mot-failed-modal/mot-failed-modal.component';
-import {
-  AlternateMotEvidenceComponent,
-} from './mot-components/alternate-mot-evidence/alternate-mot-evidence.component';
-import {
-  AlternateEvidenceDescriptionComponent,
-} from './mot-components/alternate-evidence-description/alternate-evidence-description.component';
+import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { AccompanimentCardComponent } from './accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from './accompaniment/accompaniment';
 import { CandidateDeclarationSignedComponent } from './candidate-declaration/candidate-declaration';
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { FullLicenceHeldComponent } from './full-licence-held-toggle/full-licence-held-toggle';
+import { AlternateEvidenceDescriptionComponent } from './mot-components/alternate-evidence-description/alternate-evidence-description.component';
+import { AlternateMotEvidenceComponent } from './mot-components/alternate-mot-evidence/alternate-mot-evidence.component';
+import { MotFailedModal } from './mot-components/mot-failed-modal/mot-failed-modal.component';
 import { TestCategoryComponent } from './test-category/test-category';
 import { VehicleChecksToggleComponent } from './vehicle-checks-completed/vehicle-checks-completed';
 import { VehicleChecksQuestionComponent } from './vehicle-checks-question/vehicle-checks-question';
@@ -27,9 +24,6 @@ import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
 import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
-import {
-  MotNoEvidenceConfirmationComponent
-} from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 
 @NgModule({
   declarations: [
@@ -50,7 +44,7 @@ import {
     MotFailedModal,
     AlternateMotEvidenceComponent,
     AlternateEvidenceDescriptionComponent,
-    MotNoEvidenceConfirmationComponent
+    MotNoEvidenceConfirmationComponent,
   ],
   imports: [
     CommonModule,
@@ -79,8 +73,7 @@ import {
     MotFailedModal,
     AlternateMotEvidenceComponent,
     AlternateEvidenceDescriptionComponent,
-    MotNoEvidenceConfirmationComponent
+    MotNoEvidenceConfirmationComponent,
   ],
 })
-export class WaitingRoomToCarComponentsModule {
-}
+export class WaitingRoomToCarComponentsModule {}

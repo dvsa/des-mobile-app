@@ -1,9 +1,7 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
-import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 
@@ -13,9 +11,8 @@ import { MotStatusCodes } from '@shared/models/mot-status-codes';
   styleUrls: ['./mot-card.component.scss'],
 })
 export class MotCardComponent {
-
   @Input()
-  status: string = '';
+  status = '';
   @Input()
   formGroup: UntypedFormGroup;
   @Input()
@@ -38,29 +35,27 @@ export class MotCardComponent {
   //This is here to help with visits and tests in places with poor connectivity,
   // this will be deleted in the full release
   @Input()
-  fakeOffline: boolean = false;
+  fakeOffline = false;
 
-  constructor(
-    public networkState: NetworkStateProvider,
-  ) {
-  }
+  constructor(public networkState: NetworkStateProvider) {}
 
   callWasSuccessful() {
-    return (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved')
-      && this?.data?.status !== MotStatusCodes.NO_DETAILS
+    return (
+      (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved') &&
+      this?.data?.status !== MotStatusCodes.NO_DETAILS
+    );
   }
 
   noDetails(): boolean {
-    return (+this.status === HttpStatusCodes.NO_CONTENT
-      || this.data?.status === MotStatusCodes.NO_DETAILS);
+    return +this.status === HttpStatusCodes.NO_CONTENT || this.data?.status === MotStatusCodes.NO_DETAILS;
   }
 
   is404(): boolean {
-    return (+this.status === HttpStatusCodes.NOT_FOUND);
+    return +this.status === HttpStatusCodes.NOT_FOUND;
   }
 
   isOffline(): boolean {
-    return (this.networkState.getNetworkState() !== ConnectionStatus.ONLINE || this.fakeOffline);
+    return this.networkState.getNetworkState() !== ConnectionStatus.ONLINE || this.fakeOffline;
   }
   isValidMOT() {
     return this.data.status === MotStatusCodes.VALID;

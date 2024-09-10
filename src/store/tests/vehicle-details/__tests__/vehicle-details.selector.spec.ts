@@ -1,17 +1,19 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import {
-  getRegistrationNumber,
   getGearboxCategory,
-  getMotStatus,
+  getMotEvidence,
   getMotEvidenceProvided,
+  getMotStatus,
+  getRegistrationNumber,
+  getSearchedVRNList,
+  getTestExpiryDate,
   getVehicleMake,
   getVehicleModel,
-  getTestExpiryDate,
-  getSearchedVRNList, getMotEvidence, isManual, isAutomatic,
+  isAutomatic,
+  isManual,
 } from '../vehicle-details.selector';
 
 describe('vehicle details selector', () => {
-
   let state: VehicleDetails = {
     gearboxCategory: 'Manual',
     registrationNumber: '12AAA',
@@ -36,7 +38,7 @@ describe('vehicle details selector', () => {
       previouslySearchedRegNumbers: ['17AAA'],
       motEvidence: '18AAA',
     };
-  })
+  });
 
   describe('getRegistrationNumber', () => {
     it('should retrieve the registration number from the vehicle details', () => {
@@ -100,7 +102,7 @@ describe('vehicle details selector', () => {
       state = {
         ...state,
         gearboxCategory: 'Automatic',
-      }
+      };
       expect(isManual(state)).toBe(false);
     });
   });
@@ -113,7 +115,7 @@ describe('vehicle details selector', () => {
       state = {
         ...state,
         gearboxCategory: 'Automatic',
-      }
+      };
       expect(isAutomatic(state)).toBe(true);
     });
   });

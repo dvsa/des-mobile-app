@@ -1,30 +1,27 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { VehicleDetails } from '@app/providers/vehicle-details-api/vehicle-details-api.model';
+import { ModalController } from '@ionic/angular';
+import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
+import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import {
+  MotDataWithStatus,
+  VehicleDetailsApiService,
+} from '@providers/vehicle-details-api/vehicle-details-api.service';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
-import {
-  MotDataWithStatus,
-  VehicleDetailsApiService,
-} from '@providers/vehicle-details-api/vehicle-details-api.service';
-import { ModalController } from '@ionic/angular';
-import {
-  MotFailedModal,
-} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
-import { VehicleDetails } from '@app/providers/vehicle-details-api/vehicle-details-api.model';
-import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
 @Component({
   selector: 'vehicle-registration',
   styleUrls: ['vehicle-registration.scss'],
   templateUrl: './vehicle-registration.html',
 })
-
 export class VehicleRegistrationComponent implements OnChanges {
   @Input()
   vehicleRegistration: string;
@@ -47,14 +44,14 @@ export class VehicleRegistrationComponent implements OnChanges {
   formControl: UntypedFormControl;
   motData: MotDataWithStatus = null;
   modalData: string = null;
-  hasCalledMOT: boolean = false;
-  showSearchSpinner: boolean = false;
+  hasCalledMOT = false;
+  showSearchSpinner = false;
 
   //This is here to help with visits and tests in places with poor connectivity,
   // this will be deleted in the full release
-  isPressed: boolean = false;
-  fakeOffline: boolean = false;
-  realData: boolean = true;
+  isPressed = false;
+  fakeOffline = false;
+  realData = true;
   @Output()
   flipFakeOffline = new EventEmitter<ConnectionStatus>();
 
@@ -63,9 +60,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   constructor(
     public motApiService: VehicleDetailsApiService,
     public modalController: ModalController,
-    protected networkState: NetworkStateProvider,
-  ) {
-  }
+    protected networkState: NetworkStateProvider
+  ) {}
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
@@ -91,7 +87,7 @@ export class VehicleRegistrationComponent implements OnChanges {
             break;
           case 'fakeOffline':
             this.fakeOffline = !this.fakeOffline;
-            this.flipFakeOffline.emit(this.fakeOffline ? ConnectionStatus.OFFLINE : ConnectionStatus.ONLINE)
+            this.flipFakeOffline.emit(this.fakeOffline ? ConnectionStatus.OFFLINE : ConnectionStatus.ONLINE);
             break;
         }
       }
@@ -109,8 +105,9 @@ export class VehicleRegistrationComponent implements OnChanges {
 
     //This is here to help with visits and tests in places with poor connectivity,
     // it will always point towards the real data when released
-    let apiCall$ = this.realData ?
-      this.motApiService.getVehicleByIdentifier(value) : this.motApiService.getMockVehicleByIdentifier(value)
+    const apiCall$ = this.realData
+      ? this.motApiService.getVehicleByIdentifier(value)
+      : this.motApiService.getMockVehicleByIdentifier(value);
 
     apiCall$.subscribe(async (val) => {
       this.motData = val;
