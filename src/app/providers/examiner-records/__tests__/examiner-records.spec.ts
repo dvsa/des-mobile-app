@@ -69,12 +69,12 @@ describe('ExaminerRecordsProvider', () => {
   });
 
   describe('formatForExaminerRecords', () => {
-    it('should an object containing the mandatory fields', () => {
+    it('should return an object containing the mandatory fields', () => {
       expect(
         provider.formatForExaminerRecords({
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -97,16 +97,16 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
-    it('should an object containing an optional field contained within the for loop', () => {
+    it('should return an object containing an optional field contained within the for loop', () => {
       expect(
         provider.formatForExaminerRecords({
           testData: { controlledStop: { selected: true } },
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -130,16 +130,16 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
-    it('should an object containing an optional route number', () => {
+    it('should return an object containing an optional route number', () => {
       expect(
         provider.formatForExaminerRecords({
           testSummary: { routeNumber: 1 },
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -163,10 +163,10 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
-    it('should an object containing an optional show me question', () => {
+    it('should return an object containing an optional show me question', () => {
       expect(
         provider.formatForExaminerRecords({
           testData: {
@@ -180,7 +180,7 @@ describe('ExaminerRecordsProvider', () => {
           } as TestData,
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -204,10 +204,10 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
-    it('should an object containing an optional show me questions array', () => {
+    it('should return an object containing an optional show me questions array', () => {
       expect(
         provider.formatForExaminerRecords({
           testData: {
@@ -223,7 +223,7 @@ describe('ExaminerRecordsProvider', () => {
           } as TestData,
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -247,10 +247,10 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
-    it('should an object containing an optional tell me question', () => {
+    it('should return an object containing an optional tell me question', () => {
       expect(
         provider.formatForExaminerRecords({
           testData: {
@@ -264,7 +264,7 @@ describe('ExaminerRecordsProvider', () => {
           } as TestData,
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -288,10 +288,10 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
-    it('should an object containing an optional tell me questions array', () => {
+    it('should return an object containing an optional tell me questions array', () => {
       expect(
         provider.formatForExaminerRecords({
           testData: {
@@ -307,7 +307,7 @@ describe('ExaminerRecordsProvider', () => {
           } as TestData,
           journalData: {
             testSlotAttributes: {
-              start: 'Text Date',
+              start: '2000-01-01',
             } as TestSlotAttributes,
             applicationReference: {
               applicationId: 1,
@@ -331,7 +331,7 @@ describe('ExaminerRecordsProvider', () => {
           costCode: 'EXPLE',
           centreName: 'Example',
         },
-        startDate: 'Text Date',
+        startDate: '2000-01-01',
       });
     });
   });
