@@ -53,7 +53,7 @@ describe('UrlProvider', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
         vehicle: { taxMotUrl: 'url' },
       } as AppConfig);
-      expect(urlProvider.getTaxMotUrl()).toBe('url');
+      expect(urlProvider.getTaxMotUrl('')).toBe('url');
     });
   });
   describe('getTestCentreJournalUrl', () => {

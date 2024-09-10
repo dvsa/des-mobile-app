@@ -22,7 +22,7 @@ export class ModalActivityCodeListComponent {
   };
 
   isOptionDisabled = (activityCode: ActivityCode): boolean =>
-    (parseInt(activityCode, 10) < 4) || parseInt(activityCode, 10) == 12;
+    Number.parseInt(activityCode, 10) < 4 || Number.parseInt(activityCode, 10) == 12;
 
   selectActivityCode = async (activityCodeModel: ActivityCodeModel): Promise<void> => {
     if (this.isOptionDisabled(activityCodeModel.activityCode)) {

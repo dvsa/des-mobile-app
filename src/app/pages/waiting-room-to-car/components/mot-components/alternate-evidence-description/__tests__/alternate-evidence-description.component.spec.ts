@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {
-  UntypedFormControl, UntypedFormGroup, Validators,
-} from '@angular/forms';
-import {
-  AlternateEvidenceDescriptionComponent,
-} from '../alternate-evidence-description.component';
+import { AlternateEvidenceDescriptionComponent } from '../alternate-evidence-description.component';
 
 describe('AlternateEvidenceDescriptionComponent', () => {
   let component: AlternateEvidenceDescriptionComponent;
@@ -14,9 +10,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AlternateEvidenceDescriptionComponent],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
     }).compileComponents();
   }));
 

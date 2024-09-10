@@ -24,13 +24,15 @@ describe('vehicleDetailsCatADIPart2Reducer', () => {
   });
   it('should toggle schoolCar when the SchoolCarToggled action is received', () => {
     const result: CatADI2UniqueTypes.VehicleDetails = vehicleDetailsCatADIPart2Reducer(
-      initialState, SchoolCarToggled(),
+      initialState,
+      SchoolCarToggled()
     );
     expect(result.schoolCar).toEqual(true);
   });
   it('should toggle dualControls when the DualControlsToggled action is received', () => {
     const result: CatADI2UniqueTypes.VehicleDetails = vehicleDetailsCatADIPart2Reducer(
-      initialState, DualControlsToggled(),
+      initialState,
+      DualControlsToggled()
     );
     expect(result.dualControls).toEqual(true);
   });

@@ -1,6 +1,6 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
 const initialState: CatDUniqueTypes.VehicleDetails = {
@@ -42,33 +42,45 @@ export const vehicleDetailsCatDReducer = createReducer(
     vehicleLength,
     vehicleWidth,
   })),
-  on(vehicleDetailsActions.MotEvidenceChanged, (state, { motEvidence }): VehicleDetails => ({
-    ...state,
-    motEvidence,
-  })),
-  on(vehicleDetailsActions.MotEvidenceProvidedToggled, (state, { motEvidenceProvided }): VehicleDetails => ({
-    ...state,
-    motEvidenceProvided,
-  })),
-  on(vehicleDetailsActions.VehicleMakeChanged, (state, { make }): VehicleDetails => ({
-    ...state,
-    make,
-  })),
-  on(vehicleDetailsActions.VehicleModelChanged, (state, { model }): VehicleDetails => ({
-    ...state,
-    model,
-  })),
-  on(vehicleDetailsActions.VehicleExpiryDateChanged, (state, { testExpiryDate }): VehicleDetails => ({
-    ...state,
-    testExpiryDate,
-  })),
+  on(
+    vehicleDetailsActions.MotEvidenceChanged,
+    (state, { motEvidence }): VehicleDetails => ({
+      ...state,
+      motEvidence,
+    })
+  ),
+  on(
+    vehicleDetailsActions.MotEvidenceProvidedToggled,
+    (state, { motEvidenceProvided }): VehicleDetails => ({
+      ...state,
+      motEvidenceProvided,
+    })
+  ),
+  on(
+    vehicleDetailsActions.VehicleMakeChanged,
+    (state, { make }): VehicleDetails => ({
+      ...state,
+      make,
+    })
+  ),
+  on(
+    vehicleDetailsActions.VehicleModelChanged,
+    (state, { model }): VehicleDetails => ({
+      ...state,
+      model,
+    })
+  ),
+  on(
+    vehicleDetailsActions.VehicleExpiryDateChanged,
+    (state, { testExpiryDate }): VehicleDetails => ({
+      ...state,
+      testExpiryDate,
+    })
+  ),
   on(vehicleDetailsActions.VRNListUpdated, (state, { vrn }) => ({
     ...state,
-    previouslySearchedRegNumbers: [
-      ...(state?.previouslySearchedRegNumbers || []),
-      vrn,
-    ],
-  })),
+    previouslySearchedRegNumbers: [...(state?.previouslySearchedRegNumbers || []), vrn],
+  }))
 );
 
 export const getVehicleDetails = createFeatureSelector<CatDUniqueTypes.VehicleDetails>('vehicleDetails');

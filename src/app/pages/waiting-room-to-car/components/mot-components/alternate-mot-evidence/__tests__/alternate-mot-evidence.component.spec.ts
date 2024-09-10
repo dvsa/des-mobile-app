@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AlternateMotEvidenceComponent } from '../alternate-mot-evidence.component';
 
-export enum AlternateEvidenceTestResult {
+enum AlternateEvidenceTestResult {
   Pass = 'P',
   Fail = 'F',
 }
@@ -129,8 +129,7 @@ describe('AlternateMotEvidenceComponent', () => {
     });
   });
   describe('alternateEvidenceTestResultChanged', () => {
-    it('should emit alternateEvidenceChange with true if the passed parameter '
-      + 'is not equal to P', () => {
+    it('should emit alternateEvidenceChange with true if the passed parameter ' + 'is not equal to P', () => {
       spyOn(component.alternateEvidenceChange, 'emit');
       component.formControl = new UntypedFormControl();
 

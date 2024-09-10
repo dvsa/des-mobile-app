@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { Store, StoreModule } from '@ngrx/store';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 // import { StoreModel } from '@shared/models/store.model';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { MotCardComponent } from '../mot-card.component';
@@ -16,14 +16,8 @@ describe('MotCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MotCardComponent],
-      imports: [
-        StoreModule.forRoot(),
-        IonicModule.forRoot(),
-      ],
-      providers: [
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        Store,
-      ],
+      imports: [StoreModule.forRoot(), IonicModule.forRoot()],
+      providers: [{ provide: NetworkStateProvider, useClass: NetworkStateProviderMock }, Store],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MotCardComponent);
@@ -53,29 +47,29 @@ describe('MotCardComponent', () => {
     });
   });
   describe('callWasSuccessful', () => {
-    it('should return true if status is 200, data.status is '
-      + 'not "No details" and the app is online', () => {
+    it('should return true if status is 200, data.status is ' + 'not "No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       component.data = { status: 'yes' } as VehicleDetails;
       component.status = '200';
       expect(component.callWasSuccessful()).toBeTruthy();
     });
-    it('should return false if status is not 200 or Already Saved, data.status is '
-      + 'not "No details" and the app is online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
-      component.data = { status: 'yes' } as VehicleDetails;
-      component.status = '100';
-      expect(component.callWasSuccessful()).toBeFalsy();
-    });
-    it('should return false if status is 200, data.status is '
-      + '"No details" and the app is online', () => {
+    it(
+      'should return false if status is not 200 or Already Saved, data.status is ' +
+        'not "No details" and the app is online',
+      () => {
+        spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+        component.data = { status: 'yes' } as VehicleDetails;
+        component.status = '100';
+        expect(component.callWasSuccessful()).toBeFalsy();
+      }
+    );
+    it('should return false if status is 200, data.status is ' + '"No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       component.data = { status: 'No details' } as VehicleDetails;
       component.status = '200';
       expect(component.callWasSuccessful()).toBeFalsy();
     });
-    it('should return false if status is 200, data.status is '
-      + 'not "No details" and the app is not online', () => {
+    it('should return false if status is 200, data.status is ' + 'not "No details" and the app is not online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
       component.data = { status: 'No details' } as VehicleDetails;
       component.status = '200';

@@ -35,7 +35,7 @@ export class UrlProvider {
   }
 
   getTaxMotUrl(vehicleRegistration: string): string {
-    let urlTemplate = this.appConfigProvider.getAppConfig()?.mot.motHistoryUrl
+    const urlTemplate = this.appConfigProvider.getAppConfig()?.mot.motHistoryUrl;
     return urlTemplate.replace('{vrn}', vehicleRegistration);
   }
 

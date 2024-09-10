@@ -1,20 +1,16 @@
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  HttpClient, HttpHeaders, HttpResponse,
-} from '@angular/common/http';
-import {
-  timeout, tap, map, catchError,
-} from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { UrlProvider } from '@providers/url/url';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap, timeout } from 'rxjs/operators';
 
 export interface MotDataWithStatus {
-  status: string,
-  data: VehicleDetails,
+  status: string;
+  data: VehicleDetails;
 }
 
 @Injectable({
@@ -30,7 +26,6 @@ export class VehicleDetailsApiService {
   vehicleIdentifier: string;
   vehicleDetailsResponse: VehicleDetails;
 
-
   //This is here to help with visits and tests in places with poor connectivity,
   // this will be deleted in the full release
   fakeMOTResults: MotDataWithStatus[] = [
@@ -45,7 +40,7 @@ export class VehicleDetailsApiService {
         testExpiryDate: '01/01/01',
         testDueDate: '01/01/01',
         testDate: '01/01/01',
-      }
+      },
     },
     {
       status: '200',
@@ -58,7 +53,7 @@ export class VehicleDetailsApiService {
         testExpiryDate: '01/01/01',
         testDueDate: '01/01/01',
         testDate: '01/01/01',
-      }
+      },
     },
     {
       status: '200',
@@ -71,17 +66,17 @@ export class VehicleDetailsApiService {
         testExpiryDate: '01/01/01',
         testDueDate: '01/01/01',
         testDate: '01/01/01',
-      }
-    }
-  ]
+      },
+    },
+  ];
 
   getMockVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
-    console.log(this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration));
-    let returnData = this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration);
+    console.log(this.fakeMOTResults.find((value) => vehicleRegistration === value.data.registration));
+    const returnData = this.fakeMOTResults.find((value) => vehicleRegistration === value.data.registration);
     if (returnData) {
-      return of(this.fakeMOTResults.find(value => vehicleRegistration === value.data.registration));
+      return of(this.fakeMOTResults.find((value) => vehicleRegistration === value.data.registration));
     } else {
-      return of({status: '204', data: null});
+      return of({ status: '204', data: null });
     }
   }
   getVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
@@ -98,7 +93,7 @@ export class VehicleDetailsApiService {
           this.vehicleDetailsResponse = response.body;
         }
       }),
-      map((value):MotDataWithStatus => {
+      map((value): MotDataWithStatus => {
         return {
           status: value.status.toString(),
           data: value.body,
@@ -107,7 +102,7 @@ export class VehicleDetailsApiService {
       timeout(this.appConfig.getAppConfig().requestTimeout),
       catchError((err) => {
         return of({ status: err.status, data: null });
-      }),
+      })
     );
   }
 

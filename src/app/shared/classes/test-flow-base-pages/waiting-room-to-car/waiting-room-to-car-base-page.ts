@@ -7,13 +7,20 @@ import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-sc
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Inject, Injector } from '@angular/core';
-import { JournalDataUnion } from '@shared/unions/journal-union';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { JournalDataUnion } from '@shared/unions/journal-union';
 import {
   InstructorAccompanimentToggled,
   InterpreterAccompanimentToggled,
@@ -63,14 +70,14 @@ import {
   DualControlsToggled,
   GearboxCategoryChanged,
   MotEvidenceChanged,
+  MotEvidenceProvidedToggled,
   SchoolBikeToggled,
   SchoolCarToggled,
-  VehicleRegistrationChanged,
+  VRNListUpdated,
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VRNListUpdated,
-
+  VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -78,9 +85,6 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import {isAnyOf} from '@shared/helpers/simplifiers';
-import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -108,7 +112,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   protected routeByCategoryProvider = this.injector.get(RouteByCategoryProvider);
   protected faultCountProvider = this.injector.get(FaultCountProvider);
   protected networkStateProvider = this.injector.get(NetworkStateProvider);
-
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -161,14 +164,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
       otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
-      motEvidenceProvided$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getMotEvidenceProvided),
-      ),
-      motEvidenceDescription$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getMotEvidence),
-      ),
+      motEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
+      motEvidenceDescription$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidence)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
   }

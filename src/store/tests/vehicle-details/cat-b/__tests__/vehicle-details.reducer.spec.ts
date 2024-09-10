@@ -1,13 +1,16 @@
 import {
-  VehicleRegistrationChanged,
-  SchoolCarToggled,
+  ClearGearboxCategory,
   DualControlsToggled,
   GearboxCategoryChanged,
-  MotStatusChanged,
-  ClearGearboxCategory,
   MotEvidenceChanged,
   MotEvidenceProvidedToggled,
-  VehicleMakeChanged, VehicleModelChanged, VehicleExpiryDateChanged, VRNListUpdated,
+  MotStatusChanged,
+  SchoolCarToggled,
+  VRNListUpdated,
+  VehicleExpiryDateChanged,
+  VehicleMakeChanged,
+  VehicleModelChanged,
+  VehicleRegistrationChanged,
 } from '../../vehicle-details.actions';
 import { vehicleDetailsReducer } from '../vehicle-details.cat-b.reducer';
 
@@ -47,20 +50,25 @@ describe('vehicle details reducer', () => {
     expect(result.testExpiryDate).toBe('abc123');
   });
 
-  it('should create the previously searched VRNs array and put ' +
-    'it into the state on VRNListUpdated action and the array is null', () => {
-    const result = vehicleDetailsReducer({}, VRNListUpdated('abc123'));
-    expect(result.previouslySearchedRegNumbers).toEqual(['abc123']);
-  });
-  it('should append the previously searched VRNs array and put ' +
-    'it into the state on VRNListUpdated action and the array is not null', () => {
-    const result = vehicleDetailsReducer({previouslySearchedRegNumbers: ['1']}, VRNListUpdated('abc123'));
-    expect(result.previouslySearchedRegNumbers).toEqual(['1','abc123']);
-  });
+  it(
+    'should create the previously searched VRNs array and put ' +
+      'it into the state on VRNListUpdated action and the array is null',
+    () => {
+      const result = vehicleDetailsReducer({}, VRNListUpdated('abc123'));
+      expect(result.previouslySearchedRegNumbers).toEqual(['abc123']);
+    }
+  );
+  it(
+    'should append the previously searched VRNs array and put ' +
+      'it into the state on VRNListUpdated action and the array is not null',
+    () => {
+      const result = vehicleDetailsReducer({ previouslySearchedRegNumbers: ['1'] }, VRNListUpdated('abc123'));
+      expect(result.previouslySearchedRegNumbers).toEqual(['1', 'abc123']);
+    }
+  );
 
   it('should clear the gearbox category on ClearGearboxCategory action', () => {
-
-    const result = vehicleDetailsReducer({ gearboxCategory: 'Manual' } , ClearGearboxCategory());
+    const result = vehicleDetailsReducer({ gearboxCategory: 'Manual' }, ClearGearboxCategory());
     expect(result.gearboxCategory).toEqual(null);
   });
 

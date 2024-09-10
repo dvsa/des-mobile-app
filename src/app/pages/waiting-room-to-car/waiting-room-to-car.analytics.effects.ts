@@ -7,7 +7,6 @@ import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 import {
-  ConfirmVRNPopupTriggered, DifferentVRNEntered, GetMOTButtonPressed, MOTOffline, MOTServiceUnavailable, NoMOTDetails,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarError,
@@ -60,11 +59,7 @@ import {
   DualControlsToggledYes,
   MotStatusChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import {
-  getMotEvidence,
-  getMotEvidenceProvided,
-  getMotStatus,
-} from '@store/tests/vehicle-details/vehicle-details.selector';
+import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {

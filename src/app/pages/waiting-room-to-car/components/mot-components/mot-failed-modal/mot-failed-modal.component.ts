@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { isEmpty } from 'lodash-es';
-import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
 @Component({
   selector: 'mot-failed-modal',
@@ -15,7 +15,6 @@ import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/
   styleUrls: ['./mot-failed-modal.component.scss'],
 })
 export class MotFailedModal implements OnInit {
-
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   @Input()
@@ -24,12 +23,9 @@ export class MotFailedModal implements OnInit {
   formControl: UntypedFormControl;
   form: UntypedFormGroup;
   vehicleRegistration: string;
-  ifMatches: boolean = true;
+  ifMatches = true;
 
-  constructor(
-    public modalCtrl: ModalController,
-  ) {
-  }
+  constructor(public modalCtrl: ModalController) {}
 
   ngOnInit() {
     this.form = new UntypedFormGroup({});
@@ -42,10 +38,7 @@ export class MotFailedModal implements OnInit {
   }
 
   vehicleRegistrationChanged(event: any): void {
-    if (
-      typeof event.target.value === 'string'
-      && !this.registrationNumberValidator.pattern.test(event.target.value)
-    ) {
+    if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
 
       if (isEmpty(event.target.value)) {
