@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
 import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
-import {DateRange, DateTime} from '@shared/helpers/date-time';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { get } from 'lodash-es';
