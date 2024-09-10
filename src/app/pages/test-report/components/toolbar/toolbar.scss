@@ -35,13 +35,20 @@
       color: var(--mes-white);
     }
   }
+
+  .padding-bottom-6-percent {
+    padding-bottom: 6%;
+  }
+  .padding-bottom-6-pixels {
+    padding-bottom: 6px;
+  }
+
   #serious-button {
     width: 88px;
     height: 43px;
     border: 3.5px solid var(--gds-yellow);
     border-radius: 10px;
     margin: 0;
-    align-self: center;
     &.inactive {
       background-color: var(--mes-white);
       box-shadow: 0 1px 0 0 var(--gds-grey-1);
@@ -51,9 +58,6 @@
     }
       font-size: 24px;
       font-weight: 900;
-      text-align: center;
-      letter-spacing: -0.26px;
-      line-height: 25px;
       --color: #0b0c0c;
   }
   #dangerous-button {
@@ -62,7 +66,6 @@
     border: 3.5px solid var(--gds-red);
     border-radius: 10px;
     margin: 0;
-    align-self: center;
     &.inactive {
       background-color: var(--mes-white);
       box-shadow: 0 1px 0 0 var(--gds-grey-1);
@@ -74,8 +77,5 @@
     }
       font-size: 24px;
       font-weight: 900;
-      text-align: center;
-      letter-spacing: -0.33px;
-      line-height: 25px;
   }
 }
