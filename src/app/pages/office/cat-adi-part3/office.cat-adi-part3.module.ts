@@ -11,6 +11,9 @@ import { OfficeComponentsModule } from '@pages/office/components/office.componen
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import {
+  WaitingRoomToCarComponentsModule
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 
 @NgModule({
   declarations: [OfficeCatADI3Page],
@@ -23,6 +26,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     OfficeComponentsModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [FaultSummaryProvider],
 })

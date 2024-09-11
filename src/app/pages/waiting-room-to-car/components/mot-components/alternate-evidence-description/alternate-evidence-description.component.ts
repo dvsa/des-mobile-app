@@ -2,12 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'alternate-evidence-description',
+  selector: 'alternate-mot-evidence-description',
   templateUrl: './alternate-evidence-description.component.html',
   styleUrls: ['./alternate-evidence-description.component.scss'],
 })
 export class AlternateEvidenceDescriptionComponent {
   formControl: UntypedFormControl;
+
+  @Input()
+  shouldHaveSeparator = false;
 
   @Input()
   formGroup: UntypedFormGroup;
