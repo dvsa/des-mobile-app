@@ -139,6 +139,10 @@ export class VehicleRegistrationComponent implements OnChanges {
           // Assign the mock API response to the motData property
           this.motData = val;
         });
+
+      if (this.motData) {
+        this.motDetailsUpdate.emit(this.motData?.data);
+      }
     }
   }
 

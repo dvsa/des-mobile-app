@@ -13,6 +13,7 @@ import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { get } from 'lodash-es';
+import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'vehicle-details-card',
@@ -46,13 +47,10 @@ export class VehicleDetailsCardComponent {
   @Input()
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
-  public shouldHideCard(): boolean {
-    console.log(this.transmission);
-    console.log(this.registrationNumber);
-    console.log(this.getPreviousFilteredVRNs());
-    console.log(this.schoolBike);
-    console.log(this.instructorRegistrationNumber);
+  constructor(public accessibilityService: AccessibilityService) {
+  }
 
+  public shouldHideCard(): boolean {
     return (
       !this.transmission &&
       !(this.registrationNumber || this.getPreviousFilteredVRNs()) &&
