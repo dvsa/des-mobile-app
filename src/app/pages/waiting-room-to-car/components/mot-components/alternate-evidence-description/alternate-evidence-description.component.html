@@ -1,19 +1,19 @@
-<ion-row [formGroup]="formGroup">
-  <ion-col class="component-label ion-align-self-start col-padding" size="32">
-    <ion-row class="spacing-row"></ion-row>
+<ion-row class="spacing-padding" [class.mes-row-separator]="shouldHaveSeparator" [formGroup]="formGroup">
+  <ion-col class="component-label ion-align-self-start col-padding" size="33">
     <label>Alternative evidence details</label>
   </ion-col>
 
   <ion-col size="58" class="ion-align-self-center ion-padding-start">
-    <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col>
         <textarea
           id="evidence-description-text"
           formControlName="evidenceDescriptionCtrl"
           class="vehicle-reg-input mes-data input-styling-background"
-          charLimit="1000"
           charCount
+          emojiBlock
+          pasteSanitiser
+          [maxlength]="1000"
           [class.ng-invalid]="invalid"
           [value]="evidenceDescription"
           (change)="evidenceDescriptionTestResultChanged($event.target.value)"
@@ -28,7 +28,7 @@
         *ngIf="invalid"
         id="evidence-description-validation-text"
       >
-        Provide a description
+        Details of additional MOT evidence required
       </div>
     </ion-row>
   </ion-col>

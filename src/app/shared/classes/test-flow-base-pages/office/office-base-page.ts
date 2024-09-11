@@ -11,7 +11,7 @@ import {
   isPassed,
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
+import {Observable, Subscription, merge} from 'rxjs';
 
 import { Inject, Injector } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
@@ -132,11 +132,12 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-de
 import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged,
+  GearboxCategoryChanged, MotEvidenceChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { map, withLatestFrom } from 'rxjs/operators';
+import {getMotEvidenceProvided} from '@store/tests/vehicle-details/vehicle-details.selector';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -187,6 +188,7 @@ export interface CommonOfficePageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
+  motAlternativeEvidenceProvided: Observable<boolean>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -397,6 +399,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
       otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
+      motAlternativeEvidenceProvided: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
     };
   }
 
@@ -630,5 +633,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       },
     });
     await this.finishTestModal.present();
+  }
+
+  alternativeMOTEvidenceDescriptionUpdated(evidence: string) {
+    console.log(evidence)
+    this.store$.dispatch(MotEvidenceChanged(evidence));
   }
 }

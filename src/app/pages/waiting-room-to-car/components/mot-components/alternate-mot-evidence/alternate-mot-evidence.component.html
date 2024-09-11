@@ -39,14 +39,13 @@
         [class.ng-invalid]="invalid"
         id="waiting-room-to-car-alternate-evidence-validation-text"
       >
-        Confirm if alternative evidence was provided
+        Confirm if any additional MOT evidence has been provided
       </div>
     </ion-row>
   </ion-col>
 </ion-row>
-<alternate-evidence-description
+<warning-banner
   *ngIf="formControl.value == 'P'"
-  (evidenceDescriptionTestResultChange)="descriptionUpdated($event)"
-  [formGroup]="formGroup"
+  [warningText]="'You will need to provide details of this in the write up after the test'"
 >
-</alternate-evidence-description>
+</warning-banner>

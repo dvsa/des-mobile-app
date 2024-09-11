@@ -200,6 +200,14 @@
             >
             </additional-information>
 
+            <alternate-mot-evidence-description
+              [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+              *ngIf="pageState.motAlternativeEvidenceProvided | async"
+              (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
+              [formGroup]="form"
+            >
+            </alternate-mot-evidence-description>
+
             <accompaniment-card
               [formGroup]="form"
               [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
