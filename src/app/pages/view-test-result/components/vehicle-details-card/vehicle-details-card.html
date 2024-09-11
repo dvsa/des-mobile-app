@@ -46,11 +46,10 @@
       </data-row>
 
       <data-row-custom [centredData]="true" *ngIf="data?.motStatus" [label]="'MOT Status'">
-        <ion-col class="display-flex" size="9" *ngIf="!isValidMOT()">
+        <ion-col class="display-flex" size="11" *ngIf="!isValidMOT()">
           <img
             src="assets/imgs/journal/exclamation-indicator.png"
             alt="Attention, expired MOT"
-            [ngClass]="accessibilityService.getTextZoomClass()"
             class="exclamation"
           />
         </ion-col>
