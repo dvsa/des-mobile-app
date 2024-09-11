@@ -14,7 +14,6 @@ import { CandidateDeclarationSignedComponent } from './candidate-declaration/can
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { FullLicenceHeldComponent } from './full-licence-held-toggle/full-licence-held-toggle';
-import { AlternateEvidenceDescriptionComponent } from './mot-components/alternate-evidence-description/alternate-evidence-description.component';
 import { AlternateMotEvidenceComponent } from './mot-components/alternate-mot-evidence/alternate-mot-evidence.component';
 import { MotFailedModal } from './mot-components/mot-failed-modal/mot-failed-modal.component';
 import { TestCategoryComponent } from './test-category/test-category';
@@ -47,7 +46,6 @@ import {
     MotFailedModal,
     PracticeModeMOTModal,
     AlternateMotEvidenceComponent,
-    AlternateEvidenceDescriptionComponent,
     MotNoEvidenceConfirmationComponent,
   ],
   imports: [
@@ -77,7 +75,6 @@ import {
     MotFailedModal,
     PracticeModeMOTModal,
     AlternateMotEvidenceComponent,
-    AlternateEvidenceDescriptionComponent,
     MotNoEvidenceConfirmationComponent,
   ],
 })

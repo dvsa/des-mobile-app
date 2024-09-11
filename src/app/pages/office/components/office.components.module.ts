@@ -23,6 +23,12 @@ import { RouteNumberComponent } from './route-number/route-number';
 import { ShowMeQuestionComponent } from './show-me-question/show-me-question';
 import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-checks-office-card';
 import { WeatherConditionsComponent } from './weather-conditions/weather-conditions';
+import {
+  AlternateEvidenceDescriptionComponent
+} from './alternate-mot-evidence-description/alternate-evidence-description.component';
+import {
+  AlternateEvidenceProvidedComponent
+} from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +50,8 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ECOCardComponent,
     DrivingFaultsComponent,
     ETACardComponent,
+    AlternateEvidenceDescriptionComponent,
+    AlternateEvidenceProvidedComponent
   ],
   imports: [
     CommonModule,
@@ -74,6 +82,8 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ECOCardComponent,
     DrivingFaultsComponent,
     ETACardComponent,
+    AlternateEvidenceDescriptionComponent,
+    AlternateEvidenceProvidedComponent
   ],
 })
 export class OfficeComponentsModule {}
