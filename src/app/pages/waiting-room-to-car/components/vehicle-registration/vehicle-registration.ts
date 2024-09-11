@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { VehicleDetails } from '@app/providers/vehicle-details-api/vehicle-details-api.model';
+import { VehicleMOTDetails } from '@app/providers/vehicle-details-api/vehicle-details-api.model';
 import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
@@ -17,7 +17,8 @@ import {
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
 import {
-  PracticeModeMOTModal, PracticeModeMOTType
+  PracticeModeMOTModal,
+  PracticeModeMOTType,
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 
 @Component({
@@ -44,7 +45,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   vrnSearchListUpdate = new EventEmitter<string>();
   @Output()
-  motDetailsUpdate = new EventEmitter<VehicleDetails>();
+  motDetailsUpdate = new EventEmitter<VehicleMOTDetails>();
 
   formControl: UntypedFormControl;
   motData: MotDataWithStatus = null;
@@ -77,50 +78,67 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.showSearchSpinner = true;
 
     if (!this.isPracticeMode) {
-
-      const apiCall$ = this.motApiService.getVehicleByIdentifier(value)
+      const apiCall$ = this.motApiService.getVehicleByIdentifier(value);
 
       apiCall$.subscribe(async (val) => {
+        console.log('MOT API response', val);
+        // Assign the API response to the motData property
         this.motData = val;
+        // Emit the vehicle registration number to update the search list
         this.vrnSearchListUpdate.emit(value);
-        // If the MOT is invalid, open the reconfirm modal
+
+        // If the MOT status is not valid, open the reconfirm modal
         if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
-            await this.loadFailedMOTModal();
-            if (this.modalData === ModalEvent.CANCEL) {
-              this.showSearchSpinner = false;
-              return;
-            }
-          if (this.modalData !== this.motData.data.registration) {
-            this.vrnSearchListUpdate.emit(this.modalData);
-            this.motData = null;
+          await this.loadFailedMOTModal();
+          // If the modal was cancelled, stop the spinner and return
+          if (this.modalData === ModalEvent.CANCEL) {
+            this.showSearchSpinner = false;
+            return;
           }
         }
+
+        // Set the flag indicating that the MOT call has been made
         this.hasCalledMOT = true;
+        // Stop the search spinner
         this.showSearchSpinner = false;
+        // If motData is not null, emit the vehicle details
         if (this.motData) {
           this.motDetailsUpdate.emit(this.motData?.data);
         }
       });
     } else {
+      // Load the practice mode modal and wait for the user's response
       const fakeModalReturn = await this.loadPracticeModeModal();
+
+      // If the user indicates that the MOT failed, load the failed MOT modal
       if (fakeModalReturn === PracticeModeMOTType.FAILED) {
         await this.loadFailedMOTModal();
+        // If the modal was cancelled, stop the spinner and return
         if (this.modalData === ModalEvent.CANCEL) {
           this.showSearchSpinner = false;
           return;
         }
       }
+
+      // If the user cancelled the practice mode modal, reset motData and stop the spinner
       if (fakeModalReturn === ModalEvent.CANCEL) {
         this.motData = null;
         this.showSearchSpinner = false;
         return;
       }
-      this.hasCalledMOT = true;
-      this.showSearchSpinner = false;
-      this.motApiService.getMockResultByIdentifier(value, fakeModalReturn as PracticeModeMOTType).subscribe((val: MotDataWithStatus) => {
-        this.motData = val;
-      });
 
+      // Set the flag indicating that the MOT call has been made
+      this.hasCalledMOT = true;
+      // Stop the search spinner
+      this.showSearchSpinner = false;
+
+      // Make a mock API call to get the MOT result based on the practice mode response
+      this.motApiService
+        .getMockResultByIdentifier(value, fakeModalReturn as PracticeModeMOTType)
+        .subscribe((val: MotDataWithStatus) => {
+          // Assign the mock API response to the motData property
+          this.motData = val;
+        });
     }
   }
 
@@ -180,4 +198,5 @@ export class VehicleRegistrationComponent implements OnChanges {
   };
 
   protected readonly ConnectionStatus = ConnectionStatus;
+  protected readonly MotStatusCodes = MotStatusCodes;
 }

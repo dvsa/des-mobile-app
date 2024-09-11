@@ -16,7 +16,7 @@ import {
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -308,10 +308,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VRNListUpdated(vrn));
   }
 
-  motDetailsChanged(motDetails: VehicleDetails) {
+  motDetailsChanged(motDetails: VehicleMOTDetails) {
     this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
     this.store$.dispatch(VehicleModelChanged(motDetails?.model));
-    this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.testExpiryDate));
+    this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
   }
 
   async practiceModeTestCentreAlert() {

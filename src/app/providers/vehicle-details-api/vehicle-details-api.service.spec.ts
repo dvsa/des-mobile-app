@@ -5,7 +5,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
-import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { VehicleDetailsApiService } from './vehicle-details-api.service';
 
 // @TODO: Enable spec when full MOT feature introduced
@@ -42,13 +42,13 @@ xdescribe('VehicleDetailsApiService', () => {
         'it is defined and vehicleRegistration is vehicleIdentifier',
       () => {
         vehicleDetailsService.vehicleIdentifier = 'ABC123';
-        vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as VehicleDetails;
+        vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as VehicleMOTDetails;
         vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((val) => {
           expect(val).toEqual({
             status: 'Already Saved',
             data: {
               registration: 'ABC123',
-            } as VehicleDetails,
+            } as VehicleMOTDetails,
           });
         });
       }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 
@@ -16,15 +16,12 @@ export class MotCardComponent {
   @Input()
   formGroup: UntypedFormGroup;
   @Input()
-  data: VehicleDetails = {
+  data: VehicleMOTDetails = {
     registration: '',
     make: '',
     model: '',
-    colour: '',
     status: '',
-    testExpiryDate: '',
-    testDueDate: '',
-    testDate: '',
+    expiryDate: '',
   };
   alternateEvidenceRadioCheck: boolean;
   @Output()
@@ -38,6 +35,7 @@ export class MotCardComponent {
     return (
       (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved') &&
       this?.data?.status !== MotStatusCodes.NO_DETAILS
+      && this?.data?.status !== MotStatusCodes.NO_DETAILS
     );
   }
 
