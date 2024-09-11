@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import {DateTime, Duration} from '@shared/helpers/date-time';
 import {ModalController} from '@ionic/angular';
-import {ChangeStartEndTimeModal} from '@components/common/change-start-end-time-modal/change-start-end-time-modal';
+import {ChangeStartEndTimeModal} from '@pages/pass-finalisation/cat-adi-part3/components/change-start-end-time-modal/change-start-end-time-modal';
 
 @Component({
   selector: 'test-start-end-times',
@@ -69,6 +69,7 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   }
 
   modalTimeChanged(event: {startTime: string, endTime: string}) {
+    console.log(event)
     this.testStartTimeChange.emit(event.startTime)
     this.testEndTimeChange.emit(event.endTime)
   }

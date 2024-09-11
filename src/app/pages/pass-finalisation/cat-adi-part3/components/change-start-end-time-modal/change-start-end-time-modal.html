@@ -1,0 +1,69 @@
+<ion-card class="modal-alert">
+  <modal-alert-title id="model-title">Enter updated times</modal-alert-title>
+  <ion-row>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col class="ion-no-padding" size="66">
+      <div class="modal-alert-message">
+        <div id="model-text" class="mes-data">
+          Tap to type in the time boxes or use the up and down arrows to edit.
+        </div>
+      </div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="8"></ion-col>
+    <ion-col class="ion-no-padding">
+      <ion-row>
+        <ion-col class="centre-col">
+          <ion-text class="mes-data">Start time</ion-text>
+        </ion-col>
+        <ion-col size="25">
+        </ion-col>
+        <ion-col class="centre-col">
+          <ion-text class="mes-data">End time</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="auto">
+          <time-picker
+            [initialValue]="startTime"
+            (oneTimeChanged)="startTime = $event"
+          ></time-picker>
+        </ion-col>
+        <ion-col size="25" class="centre-col">
+          <label class="to-label" id="to-label2">-</label>
+        </ion-col>
+        <ion-col size="auto">
+          <time-picker
+            [initialValue]="endTime"
+            [minTime]="startTime"
+            (oneTimeChanged)="endTime = $event"
+          ></time-picker>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col size="8"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-row>
+        <ion-col>
+          <ion-button id="cancel-button" fill="clear" class="confirm-submit-cancel-button" (click)="onCancel()">
+            Cancel
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button
+            id="continue-button"
+            fill="clear"
+            class="confirm-submit-continue-button"
+            (click)="onConfirm()"
+          >
+            Confirm
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-card>

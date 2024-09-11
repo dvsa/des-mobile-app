@@ -48,12 +48,10 @@ import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
-import {ChangeStartEndTimeModal} from '@components/common/change-start-end-time-modal/change-start-end-time-modal';
 
 @NgModule({
   declarations: [
     TimePickerComponent,
-    ChangeStartEndTimeModal,
     DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,
@@ -145,6 +143,7 @@ import {ChangeStartEndTimeModal} from '@components/common/change-start-end-time-
     DataGridComponent,
     ChartComponent,
     DataRowComponent,
+    TimePickerComponent,
   ],
 })
 export class ComponentsModule {}

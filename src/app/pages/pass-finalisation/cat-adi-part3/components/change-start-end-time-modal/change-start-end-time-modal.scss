@@ -1,0 +1,35 @@
+@import "../../../../../../theme/sass-partials/modal";
+
+:host {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 500px;
+  }
+
+  .modal-alert-message {
+    margin-bottom: 24px;
+  }
+
+  .mes-align-content-center {
+    text-align: center;
+  }
+
+  .confirm-submit-cancel-button {
+    color: var(--gds-black);
+    border-right: 1px solid var(--gds-grey-3);
+  }
+
+  .confirm-submit-continue-button {
+    color: var(--gds-black);
+    font-weight: bold;
+  }
+  .centre-col {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+  .to-label {
+    padding-bottom: 35px;
+  }
+}
