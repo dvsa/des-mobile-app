@@ -47,9 +47,6 @@ export class VehicleDetailsCardComponent {
   @Input()
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
-  constructor(public accessibilityService: AccessibilityService) {
-  }
-
   public shouldHideCard(): boolean {
     return (
       !this.transmission &&
