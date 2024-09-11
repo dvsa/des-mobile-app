@@ -78,6 +78,7 @@ import {
   VehicleMakeChanged,
   VehicleModelChanged,
   VehicleRegistrationChanged,
+  MotStatusChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -312,6 +313,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
     this.store$.dispatch(VehicleModelChanged(motDetails?.model));
     this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
+    this.store$.dispatch(MotStatusChanged(motDetails?.status));
   }
 
   async practiceModeTestCentreAlert() {
