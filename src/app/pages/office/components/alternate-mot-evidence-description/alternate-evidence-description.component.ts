@@ -3,8 +3,8 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 
 @Component({
   selector: 'alternate-mot-evidence-description',
-  templateUrl: './alternate-evidence-description.component.html',
-  styleUrls: ['./alternate-evidence-description.component.scss'],
+  templateUrl: './alternate-mot-evidence-description.component.html',
+  styleUrls: ['./alternate-mot-evidence-description.component.scss'],
 })
 export class AlternateEvidenceDescriptionComponent {
   formControl: UntypedFormControl;
