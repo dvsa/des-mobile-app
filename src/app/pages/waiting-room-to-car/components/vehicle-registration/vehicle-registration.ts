@@ -85,11 +85,11 @@ export class VehicleRegistrationComponent implements OnChanges {
         this.vrnSearchListUpdate.emit(value);
         // If the MOT is invalid, open the reconfirm modal
         if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
-          await this.loadFailedMOTModal();
-          if (this.modalData === ModalEvent.CANCEL) {
-            this.showSearchSpinner = false;
-            return;
-          }
+            await this.loadFailedMOTModal();
+            if (this.modalData === ModalEvent.CANCEL) {
+              this.showSearchSpinner = false;
+              return;
+            }
           if (this.modalData !== this.motData.data.registration) {
             this.vrnSearchListUpdate.emit(this.modalData);
             this.motData = null;
@@ -103,6 +103,13 @@ export class VehicleRegistrationComponent implements OnChanges {
       });
     } else {
       const fakeModalReturn = await this.loadPracticeModeModal();
+      if (fakeModalReturn === PracticeModeMOTType.FAILED) {
+        await this.loadFailedMOTModal();
+        if (this.modalData === ModalEvent.CANCEL) {
+          this.showSearchSpinner = false;
+          return;
+        }
+      }
       if (fakeModalReturn === ModalEvent.CANCEL) {
         this.motData = null;
         this.showSearchSpinner = false;
@@ -121,7 +128,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: MotFailedModal,
       componentProps: { originalRegistration: this.vehicleRegistration },
-      cssClass: 'mes-modal-alert',
+      cssClass: 'blackout-modal mes-modal-alert',
       backdropDismiss: false,
     });
     await modal.present();
@@ -137,7 +144,6 @@ export class VehicleRegistrationComponent implements OnChanges {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss<string>();
-    console.log(data)
     return data;
   };
 
