@@ -225,9 +225,11 @@ export class VehicleDetailsCardComponent {
   public get dualControls(): string {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
-  isValidMOT() {
-    return this.data?.motStatus === MotStatusCodes.VALID;
+
+  isInvalidMOT() {
+    return this.data?.motStatus === MotStatusCodes.NOT_VALID;
   }
+
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {

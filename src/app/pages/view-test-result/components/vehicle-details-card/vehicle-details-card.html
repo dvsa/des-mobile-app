@@ -46,7 +46,7 @@
       </data-row>
 
       <data-row-custom [centredData]="true" *ngIf="data?.motStatus" [label]="'MOT Status'">
-        <ion-col class="display-flex" size="11" *ngIf="!isValidMOT()">
+        <ion-col class="display-flex" size="11" *ngIf="isInvalidMOT()">
           <img
             src="assets/imgs/journal/exclamation-indicator.png"
             alt="Attention, expired MOT"
@@ -54,7 +54,7 @@
           />
         </ion-col>
         <ion-col class="display-flex">
-          <ion-text class="mes-data">{{ isValidMOT() ? data.motStatus : 'Expired ' + data?.testExpiryDate }}</ion-text>
+          <ion-text class="mes-data">{{ !isInvalidMOT() ? data.motStatus : 'Expired ' + data?.testExpiryDate }}</ion-text>
         </ion-col>
       </data-row-custom>
 
