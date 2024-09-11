@@ -78,7 +78,6 @@ export class VehicleDetailsApiService {
   getMockResultByIdentifier(vehicleRegistration: string, motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
     switch (motType) {
       case PracticeModeMOTType.PASS:
-
         return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.pass));
       case PracticeModeMOTType.FAILED:
         return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.fail));
