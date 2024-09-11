@@ -20,7 +20,7 @@ export class MotCardComponent {
     registration: '',
     make: '',
     model: '',
-    status: '',
+    status: MotStatusCodes.NO_DETAILS,
     expiryDate: '',
   };
   alternateEvidenceRadioCheck: boolean;
@@ -34,8 +34,8 @@ export class MotCardComponent {
   callWasSuccessful() {
     return (
       (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved') &&
-      this?.data?.status !== MotStatusCodes.NO_DETAILS
-      && this?.data?.status !== MotStatusCodes.NO_DETAILS
+      this?.data?.status !== MotStatusCodes.NO_DETAILS &&
+      this?.data?.status !== MotStatusCodes.AGE_EXEMPTION
     );
   }
 
