@@ -70,6 +70,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.formGroup.removeControl('alternateEvidenceCtrl');
     this.alternateEvidenceChange.emit(undefined);
     this.alternativeEvidenceDescriptionUpdate.emit(undefined);
+    this.motDetailsUpdate.emit(undefined);
   }
 
   async getMOT(value: string) {
