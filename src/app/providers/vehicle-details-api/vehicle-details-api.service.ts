@@ -101,7 +101,14 @@ export class VehicleDetailsApiService {
       }),
       timeout(this.appConfig.getAppConfig().requestTimeout),
       catchError((err) => {
-        return of({ status: err.status, data: null });
+        console.log('error')
+        return of({ status: err.status, data: {
+            registration: vehicleRegistration,
+            make: null,
+            model: null,
+            status: MotStatusCodes.NO_DETAILS,
+            expiryDate: null,
+          } });
       })
     );
   }
