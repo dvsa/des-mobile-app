@@ -22,7 +22,7 @@
         [label]="'Vehicle registration number'"
       >
         <ion-text class="mes-data">
-          {{ registrationNumber ? registrationNumber : 'No VRN was checked' }}
+          {{ getRegistrationText()}}
           <div *ngIf="(getPreviousFilteredVRNs().length > 0)">
             <br/>
           </div>

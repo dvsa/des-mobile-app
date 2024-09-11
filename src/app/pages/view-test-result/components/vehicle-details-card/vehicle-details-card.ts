@@ -13,7 +13,6 @@ import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { get } from 'lodash-es';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'vehicle-details-card',
@@ -255,5 +254,15 @@ export class VehicleDetailsCardComponent {
     }
 
     return filteredVRN;
+  }
+
+  getRegistrationText() {
+    if (this.registrationNumber) {
+      return this.registrationNumber
+    } else if (this.getPreviousFilteredVRNs().length > 0) {
+      return 'Removed'
+    } else {
+      return 'None'
+    }
   }
 }
