@@ -205,7 +205,6 @@ export class ExaminerRecordsPage implements OnInit {
    * with the filtered results.
    */
   filterDates() {
-    console.log(getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, null));
     this.testsInRangeSubject$.next(getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, null));
   }
 
