@@ -89,27 +89,37 @@ export class DateTime {
   }
 
   isDuringDateRange(range: DateRange): boolean {
+    // Set the current date to today with time set to 00:00:00
     const today = new Date().setHours(0, 0, 0, 0);
 
+    // Determine the date range based on the provided range
     const dateRange = (() => {
       switch (range) {
+        // If the range is today, return today's date
         case DateRange.TODAY:
           return moment(today);
+        // If the range is a week, return the date a week ago from today
         case DateRange.WEEK:
           return moment(today).subtract(1, 'week');
+        // If the range is a fortnight, return the date two weeks ago from today
         case DateRange.FORTNIGHT:
           return moment(today).subtract(2, 'weeks');
+        // If the range is ninety days, return the date ninety days ago from today
         case DateRange.NINETY_DAYS:
           return moment(today).subtract(90, 'days');
+        // If the range is one year, return the date one year ago from today
         case DateRange.ONE_YEAR:
           return moment(today).subtract(1, 'year');
+        // If the range is eighteen months, return the date eighteen months ago from today
         case DateRange.EIGHTEEN_MONTHS:
           return moment(today).subtract(18, 'months');
+        // If the range is not recognized, return null
         default:
           return null;
       }
     })();
 
+    // Check if the current moment is the same or after the calculated date range
     return this.moment.isSameOrAfter(dateRange);
   }
 
