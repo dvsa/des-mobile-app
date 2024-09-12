@@ -5,8 +5,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { MotCardComponent } from '../mot-card.component';
-import {MotStatusCodes} from '@shared/models/mot-status-codes';
 
 describe('MotCardComponent', () => {
   let component: MotCardComponent;

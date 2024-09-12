@@ -4,11 +4,11 @@ import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-c
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { UrlProvider } from '@providers/url/url';
 import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { DateTime } from '@shared/helpers/date-time';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
-import { DateTime } from '@shared/helpers/date-time';
 
 export interface MotDataWithStatus {
   status: string;

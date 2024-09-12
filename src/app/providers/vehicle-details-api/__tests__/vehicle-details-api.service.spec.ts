@@ -1,17 +1,17 @@
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
 import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
-import { MotDataWithStatus, VehicleDetailsApiService } from '../vehicle-details-api.service';
-import { MotStatusCodes } from '@shared/models/mot-status-codes';
-import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
-import {HttpHeaders, HttpResponse} from '@angular/common/http';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import {of, throwError} from 'rxjs';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
+import { of, throwError } from 'rxjs';
+import { MotDataWithStatus, VehicleDetailsApiService } from '../vehicle-details-api.service';
 
 describe('VehicleDetailsApiService', () => {
   let vehicleDetailsService: VehicleDetailsApiService;
@@ -308,10 +308,12 @@ describe('VehicleDetailsApiService', () => {
   describe('getVehicleByIdentifier', () => {
     it('should return cached vehicle details if vehicle is cached', (done) => {
       spyOn(vehicleDetailsService, 'isVehicleCached').and.returnValue(true);
-      spyOn(vehicleDetailsService, 'getCachedVehicleDetails').and.returnValue(of({
-        status: 'Already Saved',
-        data: { registration: 'ABC123' } as VehicleMOTDetails,
-      }));
+      spyOn(vehicleDetailsService, 'getCachedVehicleDetails').and.returnValue(
+        of({
+          status: 'Already Saved',
+          data: { registration: 'ABC123' } as VehicleMOTDetails,
+        })
+      );
 
       vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((result) => {
         expect(result.status).toBe('Already Saved');
@@ -323,10 +325,14 @@ describe('VehicleDetailsApiService', () => {
     it('should fetch vehicle details from API if vehicle is not cached', (done) => {
       spyOn(vehicleDetailsService, 'isVehicleCached').and.returnValue(false);
       spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
-      spyOn(vehicleDetailsService['http'], 'get').and.returnValue(of(new HttpResponse<VehicleMOTDetails>({
-        body: { registration: 'ABC123' } as VehicleMOTDetails,
-        status: HttpStatusCodes.OK,
-      })));
+      spyOn(vehicleDetailsService['http'], 'get').and.returnValue(
+        of(
+          new HttpResponse<VehicleMOTDetails>({
+            body: { registration: 'ABC123' } as VehicleMOTDetails,
+            status: HttpStatusCodes.OK,
+          })
+        )
+      );
       spyOn(vehicleDetailsService, 'cacheVehicleDetails');
       spyOn(vehicleDetailsService, 'mapResponseToMotData').and.callThrough();
 
@@ -342,16 +348,18 @@ describe('VehicleDetailsApiService', () => {
       spyOn(vehicleDetailsService, 'isVehicleCached').and.returnValue(false);
       spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
       spyOn(vehicleDetailsService['http'], 'get').and.returnValue(throwError({ status: 500 }));
-      spyOn(vehicleDetailsService, 'handleError').and.returnValue(of({
-        status: '500',
-        data: {
-          registration: 'ABC123',
-          make: null,
-          model: null,
-          status: MotStatusCodes.NO_DETAILS,
-          expiryDate: null,
-        },
-      }));
+      spyOn(vehicleDetailsService, 'handleError').and.returnValue(
+        of({
+          status: '500',
+          data: {
+            registration: 'ABC123',
+            make: null,
+            model: null,
+            status: MotStatusCodes.NO_DETAILS,
+            expiryDate: null,
+          },
+        })
+      );
 
       vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((result) => {
         expect(result.status).toBe('500');
