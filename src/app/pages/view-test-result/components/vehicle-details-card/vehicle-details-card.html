@@ -54,7 +54,8 @@
           />
         </ion-col>
         <ion-col class="display-flex">
-          <ion-text class="mes-data">{{ !isInvalidMOT() ? data.motStatus : 'Expired ' + data?.testExpiryDate }}</ion-text>
+          <ion-text class="mes-data">{{ !isInvalidMOT() ? data.motStatus :
+            data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}</ion-text>
         </ion-col>
       </data-row-custom>
 
