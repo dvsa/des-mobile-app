@@ -8,6 +8,7 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
+import { DateTime } from '@shared/helpers/date-time';
 
 export interface MotDataWithStatus {
   status: string;
@@ -78,26 +79,38 @@ export class VehicleDetailsApiService {
   }
 
   getVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
+    // Check if the vehicle registration matches the cached identifier and if the vehicle details are already saved
     if (vehicleRegistration === this.vehicleIdentifier && this.vehicleDetailsResponse !== undefined) {
+      // Return the cached vehicle details
       return of({ status: 'Already Saved', data: this.vehicleDetailsResponse });
     }
 
+    // Set the headers for the HTTP request, including the API key
     const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
 
+    // Make an HTTP GET request to retrieve vehicle details by registration
     return this.http.get(this.urlProvider.getTaxMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
+      // Tap into the response to cache the vehicle details if the request is successful
       tap((response: HttpResponse<VehicleMOTDetails>) => {
         if (response.status === HttpStatusCodes.OK) {
           this.vehicleIdentifier = response.body.registration;
           this.vehicleDetailsResponse = response.body;
         }
       }),
+      // Map the response to the MotDataWithStatus format
       map((value): MotDataWithStatus => {
+        //If there is an expiry date, format it to DD/MM/YYYY
+        if (value.body.expiryDate) {
+          value.body.expiryDate = new DateTime(value.body.expiryDate).format('DD/MM/YYYY');
+        }
         return {
           status: value.status.toString(),
           data: value.body,
         };
       }),
+      // Set a timeout for the request
       timeout(this.appConfig.getAppConfig().requestTimeout),
+      // Catch any errors and return a default response with no details
       catchError((err) => {
         console.log('error');
         return of({
