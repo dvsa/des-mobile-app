@@ -1,15 +1,13 @@
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {AppConfigProvider} from '@providers/app-config/app-config';
-import {UrlProvider} from '@providers/url/url';
-import {VehicleMOTDetails} from '@providers/vehicle-details-api/vehicle-details-api.model';
-import {HttpStatusCodes} from '@shared/models/http-status-codes';
-import {MotStatusCodes} from '@shared/models/mot-status-codes';
-import {Observable, of} from 'rxjs';
-import {catchError, map, tap, timeout} from 'rxjs/operators';
-import {
-  PracticeModeMOTType
-} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { UrlProvider } from '@providers/url/url';
+import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap, timeout } from 'rxjs/operators';
 
 export interface MotDataWithStatus {
   status: string;
@@ -65,7 +63,7 @@ export class VehicleDetailsApiService {
   addRegistrationToFakeRecords(registration: string, motData: MotDataWithStatus): MotDataWithStatus {
     const returnData = motData;
     returnData.data.registration = registration;
-    return returnData
+    return returnData;
   }
 
   getMockResultByIdentifier(vehicleRegistration: string, motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
@@ -101,14 +99,17 @@ export class VehicleDetailsApiService {
       }),
       timeout(this.appConfig.getAppConfig().requestTimeout),
       catchError((err) => {
-        console.log('error')
-        return of({ status: err.status, data: {
+        console.log('error');
+        return of({
+          status: err.status,
+          data: {
             registration: vehicleRegistration,
             make: null,
             model: null,
             status: MotStatusCodes.NO_DETAILS,
             expiryDate: null,
-          } });
+          },
+        });
       })
     );
   }

@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./alternate-mot-evidence-provided.component.scss'],
 })
 export class AlternateEvidenceProvidedComponent {
-
   @Input()
   shouldHaveSeparator = false;
 

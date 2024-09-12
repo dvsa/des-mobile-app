@@ -11,7 +11,7 @@ import {
   isPassed,
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
-import {Observable, Subscription, merge} from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 
 import { Inject, Injector } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
@@ -132,12 +132,13 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-de
 import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged, MotEvidenceChanged,
+  GearboxCategoryChanged,
+  MotEvidenceChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { getMotEvidenceProvided } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
-import {getMotEvidenceProvided} from '@store/tests/vehicle-details/vehicle-details.selector';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -636,7 +637,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   alternativeMOTEvidenceDescriptionUpdated(evidence: string) {
-    console.log(evidence)
+    console.log(evidence);
     this.store$.dispatch(MotEvidenceChanged(evidence));
   }
 }

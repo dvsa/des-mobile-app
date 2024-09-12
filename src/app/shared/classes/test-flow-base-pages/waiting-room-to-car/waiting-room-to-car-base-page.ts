@@ -71,6 +71,7 @@ import {
   GearboxCategoryChanged,
   MotEvidenceChanged,
   MotEvidenceProvidedToggled,
+  MotStatusChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
   VRNListUpdated,
@@ -78,7 +79,6 @@ import {
   VehicleMakeChanged,
   VehicleModelChanged,
   VehicleRegistrationChanged,
-  MotStatusChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,

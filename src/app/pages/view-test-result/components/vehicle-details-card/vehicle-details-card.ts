@@ -260,11 +260,11 @@ export class VehicleDetailsCardComponent {
 
   getRegistrationText() {
     if (this.registrationNumber) {
-      return this.registrationNumber
+      return this.registrationNumber;
     } else if (this.getPreviousFilteredVRNs().length > 0) {
-      return 'Removed'
+      return 'Removed';
     } else {
-      return 'None'
+      return 'None';
     }
   }
 }
