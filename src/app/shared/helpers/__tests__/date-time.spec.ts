@@ -1,4 +1,4 @@
-import {DateRange, DateTime} from '@shared/helpers/date-time';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 
 describe('Date Time helper functions', () => {
   describe('isDuringDateRange', () => {
