@@ -69,7 +69,6 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
-  MotEvidenceChanged,
   MotEvidenceProvidedToggled,
   MotStatusChanged,
   SchoolBikeToggled,
@@ -119,6 +118,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
   trainerNumberProvided = false;
+  failedMOTModalCurrentlyOpen = false;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -233,9 +233,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   getMOTEvidenceProvided(evidenceToggle: boolean): void {
     this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
   }
-  getMOTEvidenceChanged(evidence: string): void {
-    this.store$.dispatch(MotEvidenceChanged(evidence));
-  }
 
   schoolCarToggled(): void {
     this.store$.dispatch(SchoolCarToggled());
@@ -314,6 +311,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VehicleModelChanged(motDetails?.model));
     this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
     this.store$.dispatch(MotStatusChanged(motDetails?.status));
+  }
+
+  blurScreenContent(modalOpen: boolean): void {
+    this.failedMOTModalCurrentlyOpen = modalOpen;
   }
 
   async practiceModeTestCentreAlert() {

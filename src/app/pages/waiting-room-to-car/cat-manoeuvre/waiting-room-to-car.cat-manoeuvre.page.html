@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -25,12 +25,14 @@
         <ion-row class="ion-no-padding" id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
             <vehicle-registration
-              [isPracticeMode]="isEndToEndPracticeMode"
-              (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vrnSearchListUpdate)="updateVRNSearchList($event)"
+              (motDetailsUpdate)="motDetailsChanged($event)"
+              (motFailedModalToggled)="blurScreenContent($event)"
               [formGroup]="form"
+              [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
             >
             </vehicle-registration>
@@ -70,6 +72,7 @@
 </ion-content>
 
 <ion-footer
+  [class.hidden]="failedMOTModalCurrentlyOpen"
   *ngIf="{
   delegatedTest: pageState.delegatedTest$ | async
 } as data"
