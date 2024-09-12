@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
 import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { PracticeModeMOTModal } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AccompanimentCardComponent } from './accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from './accompaniment/accompaniment';
@@ -23,9 +24,6 @@ import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
 import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
-import {
-  PracticeModeMOTModal
-} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 
 @NgModule({
   declarations: [

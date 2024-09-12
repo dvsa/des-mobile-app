@@ -4,6 +4,10 @@ import { VehicleMOTDetails } from '@app/providers/vehicle-details-api/vehicle-de
 import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import {
+  PracticeModeMOTModal,
+  PracticeModeMOTType,
+} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
   MotDataWithStatus,
@@ -16,10 +20,6 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
-import {
-  PracticeModeMOTModal,
-  PracticeModeMOTType,
-} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
 
 @Component({
   selector: 'vehicle-registration',

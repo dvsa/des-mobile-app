@@ -1,4 +1,4 @@
-import {MotStatusCodes} from '@shared/models/mot-status-codes';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 
 export interface VehicleMOTDetails {
   registration: string;
@@ -7,4 +7,3 @@ export interface VehicleMOTDetails {
   status: MotStatusCodes;
   expiryDate: string;
 }
-

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
+import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
 import { ETACardComponent } from '@pages/office/components/eta-card/eta-card.component';
@@ -12,6 +13,7 @@ import { OfficeFooterComponent } from '@pages/office/components/office-footer/of
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AdditionalInformationComponent } from './additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from './alternate-mot-evidence-description/alternate-evidence-description.component';
 import { CandidateDescriptionComponent } from './candidate-description/candidate-description';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
 import { DateOfTest } from './date-of-test/date-of-test';
@@ -23,12 +25,6 @@ import { RouteNumberComponent } from './route-number/route-number';
 import { ShowMeQuestionComponent } from './show-me-question/show-me-question';
 import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-checks-office-card';
 import { WeatherConditionsComponent } from './weather-conditions/weather-conditions';
-import {
-  AlternateEvidenceDescriptionComponent
-} from './alternate-mot-evidence-description/alternate-evidence-description.component';
-import {
-  AlternateEvidenceProvidedComponent
-} from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +47,7 @@ import {
     DrivingFaultsComponent,
     ETACardComponent,
     AlternateEvidenceDescriptionComponent,
-    AlternateEvidenceProvidedComponent
+    AlternateEvidenceProvidedComponent,
   ],
   imports: [
     CommonModule,
@@ -83,7 +79,7 @@ import {
     DrivingFaultsComponent,
     ETACardComponent,
     AlternateEvidenceDescriptionComponent,
-    AlternateEvidenceProvidedComponent
+    AlternateEvidenceProvidedComponent,
   ],
 })
 export class OfficeComponentsModule {}
