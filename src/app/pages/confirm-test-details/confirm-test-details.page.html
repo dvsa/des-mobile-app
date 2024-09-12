@@ -102,7 +102,7 @@
             [label]="'Lesson theme'"
             [shouldHaveSeperator]="true"
           >
-            <span class="mes-data" *ngFor="let lesson of (pageState.lessonTheme$ | async)">{{lesson}}<br></span>
+            <span class="mes-data" id="confirm-test-details-lesson-theme-value" *ngFor="let lesson of (pageState.lessonTheme$ | async)">{{lesson}}<br></span>
           </data-row-custom>
           <!-- Lesson planning -->
           <data-row
