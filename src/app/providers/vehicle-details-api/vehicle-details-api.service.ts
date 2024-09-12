@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
+import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { UrlProvider } from '@providers/url/url';
 import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
@@ -89,7 +89,7 @@ export class VehicleDetailsApiService {
     const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
 
     // Make an HTTP GET request to retrieve vehicle details by registration
-    return this.http.get(this.urlProvider.getTaxMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
+    return this.http.get(this.urlProvider.getMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
       // Tap into the response to cache the vehicle details if the request is successful
       tap((response: HttpResponse<VehicleMOTDetails>) => {
         if (response.status === HttpStatusCodes.OK) {

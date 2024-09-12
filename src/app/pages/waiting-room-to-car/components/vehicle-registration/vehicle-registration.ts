@@ -7,7 +7,7 @@ import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-compon
 import {
   PracticeModeMOTModal,
   PracticeModeMOTType,
-} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/mot-failed-modal.component';
+} from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
   MotDataWithStatus,

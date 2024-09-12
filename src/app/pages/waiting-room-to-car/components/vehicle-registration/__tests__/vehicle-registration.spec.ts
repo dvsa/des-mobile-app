@@ -11,6 +11,7 @@ import {
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
+import {MotStatusCodes} from '@shared/models/mot-status-codes';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
@@ -54,11 +55,8 @@ describe('VehicleRegistrationComponent', () => {
             registration: 'reg',
             make: 'make',
             model: 'model',
-            colour: 'colour',
-            status: 'status',
-            testExpiryDate: '1/1/1',
-            testDueDate: '2/2/2',
-            testDate: '3/3/3',
+            status: MotStatusCodes.VALID,
+            expiryDate: '1/1/1',
           },
         })
       );
