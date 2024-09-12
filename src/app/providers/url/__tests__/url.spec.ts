@@ -48,12 +48,12 @@ describe('UrlProvider', () => {
       expect(urlProvider.getTaxMotApiKey()).toBe('key');
     });
   });
-  describe('getTaxMotUrl', () => {
-    it('should get taxMotUrl', () => {
+  describe('getMotUrl', () => {
+    it('should get Mot Url', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
-        vehicle: { taxMotUrl: 'url' },
+        mot: { motHistoryUrl: 'url' },
       } as AppConfig);
-      expect(urlProvider.getTaxMotUrl('')).toBe('url');
+      expect(urlProvider.getMotUrl('')).toBe('url');
     });
   });
   describe('getTestCentreJournalUrl', () => {

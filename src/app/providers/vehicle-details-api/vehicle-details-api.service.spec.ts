@@ -33,7 +33,7 @@ xdescribe('VehicleDetailsApiService', () => {
     httpMock = TestBed.inject(HttpTestingController);
     vehicleDetailsService = TestBed.inject(VehicleDetailsApiService);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(urlProvider, 'getTaxMotUrl');
+    spyOn(urlProvider, 'getMotUrl');
   });
 
   describe('getVehicleByIdentifier', () => {
@@ -56,7 +56,7 @@ xdescribe('VehicleDetailsApiService', () => {
     it('should call the search endpoint with the provided driver number', () => {
       vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe();
       httpMock.expectOne('https://www.example.com/1.0/checkMot?identifier=ABC123');
-      expect(urlProvider.getTaxMotUrl).toHaveBeenCalled();
+      expect(urlProvider.getMotUrl).toHaveBeenCalled();
     });
   });
   describe('clearVehicleData', () => {
