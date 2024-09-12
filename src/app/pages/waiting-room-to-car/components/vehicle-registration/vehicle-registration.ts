@@ -37,11 +37,11 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
   @Output()
+  motFailedModalToggled = new EventEmitter<boolean>();
+  @Output()
   vehicleRegistrationBlur = new EventEmitter<string>();
   @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
-  @Output()
-  alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
   @Output()
   vrnSearchListUpdate = new EventEmitter<string>();
   @Output()
@@ -69,7 +69,6 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.formGroup.removeControl('evidenceDescriptionCtrl');
     this.formGroup.removeControl('alternateEvidenceCtrl');
     this.alternateEvidenceChange.emit(undefined);
-    this.alternativeEvidenceDescriptionUpdate.emit(undefined);
     this.motDetailsUpdate.emit(undefined);
   }
 
@@ -147,6 +146,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   loadFailedMOTModal = async (): Promise<void> => {
+    this.motFailedModalToggled.emit(true);
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: MotFailedModal,
       componentProps: { originalRegistration: this.vehicleRegistration },
@@ -154,7 +154,9 @@ export class VehicleRegistrationComponent implements OnChanges {
       backdropDismiss: false,
     });
     await modal.present();
-    const { data } = await modal.onDidDismiss<string>();
+    const { data } = await modal.onWillDismiss<string>();
+    this.motFailedModalToggled.emit(false)
+
     this.modalData = data;
   };
 

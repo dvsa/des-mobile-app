@@ -51,7 +51,8 @@
     </ion-row>
   </ion-col>
 </ion-row>
-<ion-row class="mes-row-separator" [class.ion-padding-bottom]="motData.data.status !== MotStatusCodes.NOT_VALID" *ngIf="hasCalledMOT">
+<ion-row class="mes-row-separator" [class.ion-padding-bottom]="motData.data.status !== MotStatusCodes.NOT_VALID"
+         *ngIf="hasCalledMOT">
   <mot-card
     class="full-width"
     (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"

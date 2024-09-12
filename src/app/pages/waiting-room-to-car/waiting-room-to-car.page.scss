@@ -1,5 +1,9 @@
 .waiting-room-to-car-common-style {
 
+  .hidden {
+    visibility: hidden;
+  }
+
   ion-content {
     --ion-background-color: var(--mes-white);
   }

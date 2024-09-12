@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content forceOverscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -44,12 +44,12 @@
         >
           <ion-col class="ion-no-padding">
             <vehicle-registration
-              (alternativeEvidenceDescriptionUpdate)="getMOTEvidenceChanged($event)"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
+              (motFailedModalToggled)="blurScreenContent($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
@@ -116,7 +116,7 @@
   </div>
 </ion-content>
 
-<ion-footer>
+<ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
