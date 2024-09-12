@@ -61,12 +61,26 @@ export class VehicleDetailsApiService {
     },
   };
 
+  /**
+   * Adds the given registration to the provided MOT data.
+   *
+   * @param {string} registration - The vehicle registration to add.
+   * @param {MotDataWithStatus} motData - The MOT data to which the registration will be added.
+   * @returns {MotDataWithStatus} The updated MOT data with the new registration.
+   */
   addRegistrationToFakeRecords(registration: string, motData: MotDataWithStatus): MotDataWithStatus {
     const returnData = motData;
     returnData.data.registration = registration;
     return returnData;
   }
 
+  /**
+   * Returns mock MOT result based on the provided vehicle registration and MOT type.
+   *
+   * @param {string} vehicleRegistration - The vehicle registration to add to the mock result.
+   * @param {PracticeModeMOTType} motType - The type of MOT result to return (PASS, FAILED, NO_DETAILS).
+   * @returns {Observable<MotDataWithStatus>} An observable containing the mock MOT result with the updated registration.
+   */
   getMockResultByIdentifier(vehicleRegistration: string, motType: PracticeModeMOTType): Observable<MotDataWithStatus> {
     switch (motType) {
       case PracticeModeMOTType.PASS:
@@ -78,55 +92,106 @@ export class VehicleDetailsApiService {
     }
   }
 
+  /**
+   * Retrieves vehicle details by vehicle registration.
+   *
+   * If the vehicle details are cached, it returns the cached details.
+   * Otherwise, it fetches the details from the API, caches them, and returns the result.
+   *
+   * @param {string} vehicleRegistration - The vehicle registration to look up.
+   * @returns {Observable<MotDataWithStatus>} An observable containing the MOT data with status.
+   */
   getVehicleByIdentifier(vehicleRegistration: string): Observable<MotDataWithStatus> {
-    // Check if the vehicle registration matches the cached identifier and if the vehicle details are already saved
-    if (vehicleRegistration === this.vehicleIdentifier && this.vehicleDetailsResponse !== undefined) {
-      // Return the cached vehicle details
-      return of({ status: 'Already Saved', data: this.vehicleDetailsResponse });
+    if (this.isVehicleCached(vehicleRegistration)) {
+      return this.getCachedVehicleDetails();
     }
 
-    // Set the headers for the HTTP request, including the API key
-    const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
+    const headers = this.getRequestHeaders();
 
-    // Make an HTTP GET request to retrieve vehicle details by registration
     return this.http.get(this.urlProvider.getMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
-      // Tap into the response to cache the vehicle details if the request is successful
-      tap((response: HttpResponse<VehicleMOTDetails>) => {
-        if (response.status === HttpStatusCodes.OK) {
-          this.vehicleIdentifier = response.body.registration;
-          this.vehicleDetailsResponse = response.body;
-        }
-      }),
-      // Map the response to the MotDataWithStatus format
-      map((value): MotDataWithStatus => {
-        //If there is an expiry date, format it to DD/MM/YYYY
-        if (value.body.expiryDate) {
-          value.body.expiryDate = new DateTime(value.body.expiryDate).format('DD/MM/YYYY');
-        }
-        return {
-          status: value.status.toString(),
-          data: value.body,
-        };
-      }),
-      // Set a timeout for the request
+      tap((response: HttpResponse<VehicleMOTDetails>) => this.cacheVehicleDetails(response)),
+      map((value): MotDataWithStatus => this.mapResponseToMotData(value)),
       timeout(this.appConfig.getAppConfig().requestTimeout),
-      // Catch any errors and return a default response with no details
-      catchError((err) => {
-        console.log('error');
-        return of({
-          status: err.status,
-          data: {
-            registration: vehicleRegistration,
-            make: null,
-            model: null,
-            status: MotStatusCodes.NO_DETAILS,
-            expiryDate: null,
-          },
-        });
-      })
+      catchError((err) => this.handleError(err, vehicleRegistration))
     );
   }
 
+  /**
+   * Checks if the vehicle details are cached.
+   *
+   * @param {string} vehicleRegistration - The vehicle registration to check.
+   * @returns {boolean} True if the vehicle details are cached, false otherwise.
+   */
+  isVehicleCached(vehicleRegistration: string): boolean {
+    return vehicleRegistration === this.vehicleIdentifier && this.vehicleDetailsResponse !== undefined;
+  }
+
+  /**
+   * Retrieves cached vehicle details.
+   *
+   * @returns {Observable<MotDataWithStatus>} An observable containing the cached MOT data with status.
+   */
+  getCachedVehicleDetails(): Observable<MotDataWithStatus> {
+    return of({ status: 'Already Saved', data: this.vehicleDetailsResponse });
+  }
+
+  /**
+   * Generates the HTTP headers required for the API request.
+   *
+   * @returns {HttpHeaders} The HTTP headers with the API key set.
+   */
+  getRequestHeaders(): HttpHeaders {
+    return new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
+  }
+
+  /**
+   * Caches the vehicle details.
+   *
+   * @param {HttpResponse<VehicleMOTDetails>} response - The response containing the vehicle details to cache.
+   */
+  cacheVehicleDetails(response: HttpResponse<VehicleMOTDetails>): void {
+    if (response.status === HttpStatusCodes.OK) {
+      this.vehicleIdentifier = response.body?.registration;
+      this.vehicleDetailsResponse = response.body;
+    }
+  }
+
+  /**
+   * Maps the API response to the MOT data with status.
+   *
+   * @param {HttpResponse<VehicleMOTDetails>} value - The API response to map.
+   * @returns {MotDataWithStatus} The mapped MOT data with status.
+   */
+  mapResponseToMotData(value: HttpResponse<VehicleMOTDetails>): MotDataWithStatus {
+    if (value?.body?.expiryDate) {
+      value.body.expiryDate = new DateTime(value.body.expiryDate).format('DD/MM/YYYY');
+    }
+    return {
+      status: value.status.toString(),
+      data: value.body,
+    };
+  }
+
+  /**
+   * Handles the error response from the API.
+   *
+   * @param {any} err - The error response to handle.
+   * @param {string} vehicleRegistration - The vehicle registration for which the error occurred.
+   * @returns {Observable<MotDataWithStatus>} An observable containing the MOT data with status.
+   */
+  handleError(err: any, vehicleRegistration: string): Observable<MotDataWithStatus> {
+    const status = err.status ? err.status.toString() : undefined;
+    return of({
+      status: status,
+      data: {
+        registration: vehicleRegistration,
+        make: null,
+        model: null,
+        status: MotStatusCodes.NO_DETAILS,
+        expiryDate: null,
+      },
+    });
+  }
   /**
    * Reset cached vehicle values
    */
