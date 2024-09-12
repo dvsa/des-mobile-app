@@ -3,6 +3,7 @@ import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators }
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { of } from 'rxjs';
 // import { StoreModel } from '@shared/models/store.model';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
@@ -11,7 +12,6 @@ import {
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
-import {MotStatusCodes} from '@shared/models/mot-status-codes';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;

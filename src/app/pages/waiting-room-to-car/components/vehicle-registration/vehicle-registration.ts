@@ -155,7 +155,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss<string>();
-    this.motFailedModalToggled.emit(false)
+    this.motFailedModalToggled.emit(false);
 
     this.modalData = data;
   };

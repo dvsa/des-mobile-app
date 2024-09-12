@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PracticeModeMOTModal, PracticeModeMOTType } from '../practice-mode-mot-modal.component';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { PracticeModeMOTModal, PracticeModeMOTType } from '../practice-mode-mot-modal.component';
 
 describe('PracticeModeMOTModal', () => {
   let component: PracticeModeMOTModal;
