@@ -82,7 +82,6 @@ export class VehicleRegistrationComponent implements OnChanges {
       const apiCall$ = this.motApiService.getVehicleByIdentifier(value);
 
       apiCall$.subscribe(async (val) => {
-        console.log('MOT API response', val);
         // Assign the API response to the motData property
         this.motData = val;
         // Emit the vehicle registration number to update the search list
