@@ -108,16 +108,6 @@ describe('AlternateMotEvidenceComponent', () => {
       expect(component.invalid).toBeFalsy();
     });
   });
-
-  describe('descriptionUpdated', () => {
-    it('should emit alternativeEvidenceDescriptionUpdate with the passed parameters', () => {
-      spyOn(component.alternativeEvidenceDescriptionUpdate, 'emit');
-
-      component.descriptionUpdated('string');
-
-      expect(component.alternativeEvidenceDescriptionUpdate.emit).toHaveBeenCalledWith('string');
-    });
-  });
   describe('alternateEvidenceTestResultChanged', () => {
     it('should emit alternateEvidenceChange with true if the passed parameter is equal to P', () => {
       spyOn(component.alternateEvidenceChange, 'emit');
