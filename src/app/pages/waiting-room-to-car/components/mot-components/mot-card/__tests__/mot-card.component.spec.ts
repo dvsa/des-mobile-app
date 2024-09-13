@@ -6,6 +6,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { MotCardComponent } from '../mot-card.component';
+import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 describe('MotCardComponent', () => {
   let component: MotCardComponent;
@@ -19,7 +20,6 @@ describe('MotCardComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MotCardComponent);
-    // store$ = TestBed.inject(Store);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
@@ -65,6 +65,50 @@ describe('MotCardComponent', () => {
       component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
       component.status = '200';
       expect(component.callWasSuccessful()).toBeFalsy();
+    });
+  });
+  describe('noDetails', () => {
+    it('should return true if status is NO_CONTENT', () => {
+      component.status = HttpStatusCodes.NO_CONTENT.toString();
+      expect(component.noDetails()).toBeTruthy();
+    });
+
+    it('should return true if data.status is NO_DETAILS', () => {
+      component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
+      expect(component.noDetails()).toBeTruthy();
+    });
+
+    it('should return true if data.status is AGE_EXEMPTION', () => {
+      component.data = { status: MotStatusCodes.AGE_EXEMPTION } as MotHistory;
+      expect(component.noDetails()).toBeTruthy();
+    });
+
+    it('should return false if status and data.status do not match NO_CONTENT, NO_DETAILS, or AGE_EXEMPTION', () => {
+      component.status = HttpStatusCodes.OK.toString();
+      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      expect(component.noDetails()).toBeFalsy();
+    });
+  });
+  describe('is404', () => {
+    it('should return true if status is NOT_FOUND', () => {
+      component.status = HttpStatusCodes.NOT_FOUND.toString();
+      expect(component.is404()).toBeTruthy();
+    });
+
+    it('should return false if status is not NOT_FOUND', () => {
+      component.status = HttpStatusCodes.OK.toString();
+      expect(component.is404()).toBeFalsy();
+    });
+  });
+  describe('searchFailed', () => {
+    it('should return true if status is UNDEFINED', () => {
+      component.status = HttpStatusCodes.UNDEFINED.toString();
+      expect(component.searchFailed()).toBeTruthy();
+    });
+
+    it('should return false if status is not UNDEFINED', () => {
+      component.status = HttpStatusCodes.OK.toString();
+      expect(component.searchFailed()).toBeFalsy();
     });
   });
   describe('evidenceRadioSelected', () => {
