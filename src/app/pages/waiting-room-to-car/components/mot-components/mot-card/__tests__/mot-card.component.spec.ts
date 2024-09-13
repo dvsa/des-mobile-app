@@ -38,13 +38,6 @@ describe('MotCardComponent', () => {
       expect(component.isValidMOT()).toBeFalsy();
     });
   });
-  describe('descriptionUpdated', () => {
-    it('should emit the passed value', () => {
-      spyOn(component.alternativeEvidenceDescriptionUpdate, 'emit');
-      component.descriptionUpdated('string');
-      expect(component.alternativeEvidenceDescriptionUpdate.emit).toHaveBeenCalledWith('string');
-    });
-  });
   describe('callWasSuccessful', () => {
     it('should return true if status is 200, data.status is not "No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
