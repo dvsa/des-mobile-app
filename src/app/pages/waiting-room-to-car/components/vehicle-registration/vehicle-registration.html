@@ -33,7 +33,7 @@
       </ion-col>
       <ion-col size="35">
         <ion-button
-          [disabled]="!(formControl.valid) || networkState.getNetworkState() !== ConnectionStatus.ONLINE"
+          [disabled]="!((formControl.valid) && (networkState.getNetworkState() == ConnectionStatus.ONLINE || isPracticeMode))"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
         >
@@ -56,7 +56,6 @@
   <mot-card
     class="full-width"
     (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
-    (alternativeEvidenceDescriptionUpdate)="alternativeEvidenceDescriptionUpdate.emit($event)"
     [formGroup]="formGroup"
     [data]="motData?.data"
     [status]="motData?.status"

@@ -26,8 +26,6 @@ export class MotCardComponent {
   alternateEvidenceRadioCheck: boolean;
   @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
-  @Output()
-  alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
 
   constructor(public networkState: NetworkStateProvider) {}
 
@@ -58,9 +56,5 @@ export class MotCardComponent {
 
   searchFailed() {
     return +this.status === HttpStatusCodes.UNDEFINED;
-  }
-
-  descriptionUpdated(event: string) {
-    this.alternativeEvidenceDescriptionUpdate.emit(event);
   }
 }

@@ -29,7 +29,6 @@
   <alternate-mot-evidence
     *ngIf="!isValidMOT()"
     (alternateEvidenceChange)="evidenceRadioSelected($event)"
-    (alternativeEvidenceDescriptionUpdate)="descriptionUpdated($event)"
     [alternateEvidencePassRadioChecked]="alternateEvidenceRadioCheck == true"
     [alternateEvidenceFailRadioChecked]="alternateEvidenceRadioCheck == false"
     [formGroup]="formGroup"

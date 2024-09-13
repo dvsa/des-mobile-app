@@ -17,7 +17,7 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
