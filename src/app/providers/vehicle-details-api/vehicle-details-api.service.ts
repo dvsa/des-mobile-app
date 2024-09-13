@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { UrlProvider } from '@providers/url/url';
@@ -7,7 +8,6 @@ import { DateTime } from '@shared/helpers/date-time';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
-import {MotHistory, MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 export interface MotHistoryWithStatus {
   status: string;
@@ -80,7 +80,10 @@ export class VehicleDetailsApiService {
    * @param {PracticeModeMOTType} motType - The type of MOT result to return (PASS, FAILED, NO_DETAILS).
    * @returns {Observable<MotHistoryWithStatus>} An observable containing the mock MOT result with the updated registration.
    */
-  getMockResultByIdentifier(vehicleRegistration: string, motType: PracticeModeMOTType): Observable<MotHistoryWithStatus> {
+  getMockResultByIdentifier(
+    vehicleRegistration: string,
+    motType: PracticeModeMOTType
+  ): Observable<MotHistoryWithStatus> {
     switch (motType) {
       case PracticeModeMOTType.PASS:
         return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.pass));

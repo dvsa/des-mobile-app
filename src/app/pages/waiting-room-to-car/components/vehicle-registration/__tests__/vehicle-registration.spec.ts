@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -10,7 +11,6 @@ import {
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
-import {MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
 import * as CatAMod1Types from '@dvsa/mes-test-schema/categories/AM1';
@@ -12,7 +13,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
-import {MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 @Component({
   selector: 'vehicle-details-card',
