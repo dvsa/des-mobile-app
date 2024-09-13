@@ -37,9 +37,11 @@ export class MotCardComponent {
   }
 
   noDetails(): boolean {
-    return +this.status === HttpStatusCodes.NO_CONTENT ||
+    return (
+      +this.status === HttpStatusCodes.NO_CONTENT ||
       this.data?.status === MotStatusCodes.NO_DETAILS ||
-      this?.data?.status === MotStatusCodes.AGE_EXEMPTION;
+      this?.data?.status === MotStatusCodes.AGE_EXEMPTION
+    );
   }
 
   is404(): boolean {
