@@ -25,7 +25,6 @@ export class AlternateMotEvidenceComponent implements OnInit {
   @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
 
-
   ngOnInit() {
     this.setupControl();
   }
