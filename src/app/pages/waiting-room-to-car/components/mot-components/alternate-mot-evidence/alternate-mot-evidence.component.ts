@@ -24,8 +24,7 @@ export class AlternateMotEvidenceComponent implements OnInit {
 
   @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
-  @Output()
-  alternativeEvidenceDescriptionUpdate = new EventEmitter<string>();
+
 
   ngOnInit() {
     this.setupControl();
@@ -58,9 +57,5 @@ export class AlternateMotEvidenceComponent implements OnInit {
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
-  }
-
-  descriptionUpdated(event: string) {
-    this.alternativeEvidenceDescriptionUpdate.emit(event);
   }
 }
