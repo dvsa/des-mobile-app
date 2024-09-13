@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { VehicleMOTDetails } from '@app/providers/vehicle-details-api/vehicle-details-api.model';
+import {MotHistory, MotStatusCodes} from '@dvsa/mes-mot-schema';
 import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
@@ -10,7 +10,7 @@ import {
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
-  MotDataWithStatus,
+  MotHistoryWithStatus,
   VehicleDetailsApiService,
 } from '@providers/vehicle-details-api/vehicle-details-api.service';
 import {
@@ -18,7 +18,6 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
-import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { isEmpty } from 'lodash-es';
 
 @Component({
@@ -45,10 +44,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   vrnSearchListUpdate = new EventEmitter<string>();
   @Output()
-  motDetailsUpdate = new EventEmitter<VehicleMOTDetails>();
+  motDetailsUpdate = new EventEmitter<MotHistory>();
 
   formControl: UntypedFormControl;
-  motData: MotDataWithStatus = null;
+  motData: MotHistoryWithStatus = null;
   modalData: string = null;
   hasCalledMOT = false;
   showSearchSpinner = false;
@@ -134,7 +133,7 @@ export class VehicleRegistrationComponent implements OnChanges {
       // Make a mock API call to get the MOT result based on the practice mode response
       this.motApiService
         .getMockResultByIdentifier(value, fakeModalReturn as PracticeModeMOTType)
-        .subscribe((val: MotDataWithStatus) => {
+        .subscribe((val: MotHistoryWithStatus) => {
           // Assign the mock API response to the motData property
           this.motData = val;
         });
@@ -204,5 +203,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   };
 
   protected readonly ConnectionStatus = ConnectionStatus;
-  protected readonly MotStatusCodes = MotStatusCodes;
+
+  isMOTNotValid() {
+    return this.motData?.data?.status !== MotStatusCodes.NOT_VALID
+  }
 }

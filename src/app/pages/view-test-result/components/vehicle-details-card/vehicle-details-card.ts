@@ -11,8 +11,8 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { get } from 'lodash-es';
+import {MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 @Component({
   selector: 'vehicle-details-card',

@@ -3,20 +3,18 @@ import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators }
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { of } from 'rxjs';
-// import { StoreModel } from '@shared/models/store.model';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
   mockBlankRegistrationNumber,
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
+import {MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
   let component: VehicleRegistrationComponent;
-  // let store$: Store<StoreModel>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

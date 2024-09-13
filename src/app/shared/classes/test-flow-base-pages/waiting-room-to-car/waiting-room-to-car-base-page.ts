@@ -16,7 +16,6 @@ import {
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -85,6 +84,7 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {MotHistory} from '@dvsa/mes-mot-schema';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -306,7 +306,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VRNListUpdated(vrn));
   }
 
-  motDetailsChanged(motDetails: VehicleMOTDetails) {
+  motDetailsChanged(motDetails: MotHistory) {
     this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
     this.store$.dispatch(VehicleModelChanged(motDetails?.model));
     this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
