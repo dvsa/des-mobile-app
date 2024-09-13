@@ -7,6 +7,7 @@ import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-sc
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Inject, Injector } from '@angular/core';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
   WaitingRoomToCarBikeCategoryChanged,
@@ -84,7 +85,6 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import {MotHistory} from '@dvsa/mes-mot-schema';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;

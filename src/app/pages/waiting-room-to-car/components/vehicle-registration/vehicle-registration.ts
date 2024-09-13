@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import {MotHistory, MotStatusCodes} from '@dvsa/mes-mot-schema';
+import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
@@ -205,6 +205,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   protected readonly ConnectionStatus = ConnectionStatus;
 
   isMOTNotValid() {
-    return this.motData?.data?.status !== MotStatusCodes.NOT_VALID
+    return this.motData?.data?.status !== MotStatusCodes.NOT_VALID;
   }
 }
