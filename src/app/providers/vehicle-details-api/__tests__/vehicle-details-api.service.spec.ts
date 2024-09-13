@@ -7,11 +7,10 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
-import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import { MotStatusCodes } from '@shared/models/mot-status-codes';
 import { of, throwError } from 'rxjs';
-import { MotDataWithStatus, VehicleDetailsApiService } from '../vehicle-details-api.service';
+import { MotHistoryWithStatus, VehicleDetailsApiService } from '../vehicle-details-api.service';
+import {MotHistory, MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 describe('VehicleDetailsApiService', () => {
   let vehicleDetailsService: VehicleDetailsApiService;
@@ -40,7 +39,7 @@ describe('VehicleDetailsApiService', () => {
 
   describe('addRegistrationToFakeRecords', () => {
     it('should add the registration to the fake MOT records', () => {
-      const motData: MotDataWithStatus = {
+      const motData: MotHistoryWithStatus = {
         status: '200',
         data: {
           registration: 'OLD_REG',
@@ -92,13 +91,13 @@ describe('VehicleDetailsApiService', () => {
   describe('isVehicleCached', () => {
     it('should return true if vehicleRegistration matches vehicleIdentifier and vehicleDetailsResponse is defined', () => {
       vehicleDetailsService.vehicleIdentifier = 'ABC123';
-      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as VehicleMOTDetails;
+      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as MotHistory;
       expect(vehicleDetailsService.isVehicleCached('ABC123')).toBe(true);
     });
 
     it('should return false if vehicleRegistration does not match vehicleIdentifier', () => {
       vehicleDetailsService.vehicleIdentifier = 'XYZ789';
-      vehicleDetailsService.vehicleDetailsResponse = { registration: 'XYZ789' } as VehicleMOTDetails;
+      vehicleDetailsService.vehicleDetailsResponse = { registration: 'XYZ789' } as MotHistory;
       expect(vehicleDetailsService.isVehicleCached('ABC123')).toBe(false);
     });
 
@@ -111,13 +110,13 @@ describe('VehicleDetailsApiService', () => {
 
   describe('getCachedVehicleDetails', () => {
     it('should return cached vehicle details with status "Already Saved"', () => {
-      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as VehicleMOTDetails;
+      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as MotHistory;
       vehicleDetailsService.getCachedVehicleDetails().subscribe((val) => {
         expect(val).toEqual({
           status: 'Already Saved',
           data: {
             registration: 'ABC123',
-          } as VehicleMOTDetails,
+          } as MotHistory,
         });
       });
     });
@@ -129,7 +128,7 @@ describe('VehicleDetailsApiService', () => {
         model: 'Corolla',
         status: MotStatusCodes.VALID,
         expiryDate: '31/12/2023',
-      } as VehicleMOTDetails;
+      } as MotHistory;
       vehicleDetailsService.getCachedVehicleDetails().subscribe((val) => {
         expect(val).toEqual({
           status: 'Already Saved',
@@ -139,7 +138,7 @@ describe('VehicleDetailsApiService', () => {
             model: 'Corolla',
             status: MotStatusCodes.VALID,
             expiryDate: '31/12/2023',
-          } as VehicleMOTDetails,
+          } as MotHistory,
         });
       });
     });
@@ -151,7 +150,7 @@ describe('VehicleDetailsApiService', () => {
         model: null,
         status: null,
         expiryDate: null,
-      } as VehicleMOTDetails;
+      } as MotHistory;
       vehicleDetailsService.getCachedVehicleDetails().subscribe((val) => {
         expect(val).toEqual({
           status: 'Already Saved',
@@ -161,7 +160,7 @@ describe('VehicleDetailsApiService', () => {
             model: null,
             status: null,
             expiryDate: null,
-          } as VehicleMOTDetails,
+          } as MotHistory,
         });
       });
     });
@@ -170,9 +169,9 @@ describe('VehicleDetailsApiService', () => {
   describe('cacheVehicleDetails', () => {
     it('should cache vehicle details if response status is OK', () => {
       const mockResponse = {
-        body: { registration: 'ABC123' } as VehicleMOTDetails,
+        body: { registration: 'ABC123' } as MotHistory,
         status: HttpStatusCodes.OK,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       vehicleDetailsService.cacheVehicleDetails(mockResponse);
 
@@ -182,9 +181,9 @@ describe('VehicleDetailsApiService', () => {
 
     it('should not cache vehicle details if response status is not OK', () => {
       const mockResponse = {
-        body: { registration: 'ABC123' } as VehicleMOTDetails,
+        body: { registration: 'ABC123' } as MotHistory,
         status: HttpStatusCodes.NOT_FOUND,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       vehicleDetailsService.cacheVehicleDetails(mockResponse);
 
@@ -196,7 +195,7 @@ describe('VehicleDetailsApiService', () => {
       const mockResponse = {
         body: null,
         status: HttpStatusCodes.OK,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       vehicleDetailsService.cacheVehicleDetails(mockResponse);
 
@@ -208,9 +207,9 @@ describe('VehicleDetailsApiService', () => {
   describe('mapResponseToMotData', () => {
     it('should format the expiry date if it exists in the response', () => {
       const mockResponse = {
-        body: { registration: 'ABC123', expiryDate: '2023-12-31' } as VehicleMOTDetails,
+        body: { registration: 'ABC123', expiryDate: '2023-12-31' } as MotHistory,
         status: HttpStatusCodes.OK,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       const result = vehicleDetailsService.mapResponseToMotData(mockResponse);
       expect(result.data.expiryDate).toBe('31/12/2023');
@@ -218,9 +217,9 @@ describe('VehicleDetailsApiService', () => {
 
     it('should return the status as a string', () => {
       const mockResponse = {
-        body: { registration: 'ABC123' } as VehicleMOTDetails,
+        body: { registration: 'ABC123' } as MotHistory,
         status: HttpStatusCodes.OK,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       const result = vehicleDetailsService.mapResponseToMotData(mockResponse);
       expect(result.status).toBe('200');
@@ -228,9 +227,9 @@ describe('VehicleDetailsApiService', () => {
 
     it('should handle response with no expiry date', () => {
       const mockResponse = {
-        body: { registration: 'ABC123', expiryDate: null } as VehicleMOTDetails,
+        body: { registration: 'ABC123', expiryDate: null } as MotHistory,
         status: HttpStatusCodes.OK,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       const result = vehicleDetailsService.mapResponseToMotData(mockResponse);
       expect(result.data.expiryDate).toBeNull();
@@ -240,7 +239,7 @@ describe('VehicleDetailsApiService', () => {
       const mockResponse = {
         body: null,
         status: HttpStatusCodes.OK,
-      } as HttpResponse<VehicleMOTDetails>;
+      } as HttpResponse<MotHistory>;
 
       const result = vehicleDetailsService.mapResponseToMotData(mockResponse);
       expect(result.data).toBeNull();
@@ -311,7 +310,7 @@ describe('VehicleDetailsApiService', () => {
       spyOn(vehicleDetailsService, 'getCachedVehicleDetails').and.returnValue(
         of({
           status: 'Already Saved',
-          data: { registration: 'ABC123' } as VehicleMOTDetails,
+          data: { registration: 'ABC123' } as MotHistory,
         })
       );
 
@@ -327,8 +326,8 @@ describe('VehicleDetailsApiService', () => {
       spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
       spyOn(vehicleDetailsService['http'], 'get').and.returnValue(
         of(
-          new HttpResponse<VehicleMOTDetails>({
-            body: { registration: 'ABC123' } as VehicleMOTDetails,
+          new HttpResponse<MotHistory>({
+            body: { registration: 'ABC123' } as MotHistory,
             status: HttpStatusCodes.OK,
           })
         )

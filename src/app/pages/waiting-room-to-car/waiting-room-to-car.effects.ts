@@ -9,7 +9,7 @@ import { GetMotStatus, GetMotStatusFailure } from '@pages/waiting-room-to-car/wa
 import { LogHelper } from '@providers/logs/logs-helper';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
-  MotDataWithStatus,
+  MotHistoryWithStatus,
   VehicleDetailsApiService,
 } from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { LogType } from '@shared/models/log.model';
@@ -64,7 +64,7 @@ export class WaitingRoomToCarEffects {
       // filter any requests that are nulls or empty strings from hitting service
       filter((regNumber) => !!regNumber),
       switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
-      map((vehicleDetails: MotDataWithStatus) =>
+      map((vehicleDetails: MotHistoryWithStatus) =>
         MotStatusChanged(vehicleDetails?.data?.status || MotStatus.NO_DETAILS)
       ),
       catchError((err) => {

@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { VehicleMOTDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import { MotStatusCodes } from '@shared/models/mot-status-codes';
+import {MotHistory, MotStatusCodes} from '@dvsa/mes-mot-schema';
 
 @Component({
   selector: 'mot-card',
@@ -16,7 +15,7 @@ export class MotCardComponent {
   @Input()
   formGroup: UntypedFormGroup;
   @Input()
-  data: VehicleMOTDetails = {
+  data: MotHistory = {
     registration: '',
     make: '',
     model: '',
