@@ -5,8 +5,8 @@ import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotCardComponent } from '../mot-card.component';
-import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 describe('MotCardComponent', () => {
   let component: MotCardComponent;
