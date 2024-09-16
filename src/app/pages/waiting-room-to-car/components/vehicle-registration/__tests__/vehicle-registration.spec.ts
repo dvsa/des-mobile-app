@@ -46,7 +46,7 @@ describe('VehicleRegistrationComponent', () => {
     it('should remove evidenceDescriptionCtrl and alternateEvidenceCtrl from the form', () => {
       component.formGroup.addControl('alternateEvidenceCtrl', component.formControl);
       component.formGroup.addControl('evidenceDescriptionCtrl', component.formControl);
-      spyOn(component.motApiService, 'getVehicleByIdentifier').and.returnValue(
+      spyOn(component.motApiService, 'getMotHistoryByIdentifier').and.returnValue(
         of({
           status: '200',
           data: {

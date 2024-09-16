@@ -74,7 +74,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.showSearchSpinner = true;
 
     if (!this.isPracticeMode) {
-      const apiCall$ = this.motApiService.getVehicleByIdentifier(value);
+      const apiCall$ = this.motApiService.getMotHistoryByIdentifier(value);
 
       apiCall$.subscribe(async (val) => {
         // Assign the API response to the motData property

@@ -84,34 +84,34 @@ describe('MotHistoryApiService', () => {
     it('should set vehicleIdentifier to null and vehicleDetailsResponse to undefined', () => {
       vehicleDetailsService.clearVehicleData();
       expect(vehicleDetailsService.vehicleIdentifier).toEqual(null);
-      expect(vehicleDetailsService.vehicleDetailsResponse).toEqual(undefined);
+      expect(vehicleDetailsService.motHistoryResponse).toEqual(undefined);
     });
   });
 
   describe('isVehicleCached', () => {
     it('should return true if vehicleRegistration matches vehicleIdentifier and vehicleDetailsResponse is defined', () => {
       vehicleDetailsService.vehicleIdentifier = 'ABC123';
-      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as MotHistory;
-      expect(vehicleDetailsService.isVehicleCached('ABC123')).toBe(true);
+      vehicleDetailsService.motHistoryResponse = { registration: 'ABC123' } as MotHistory;
+      expect(vehicleDetailsService.isResultCached('ABC123')).toBe(true);
     });
 
     it('should return false if vehicleRegistration does not match vehicleIdentifier', () => {
       vehicleDetailsService.vehicleIdentifier = 'XYZ789';
-      vehicleDetailsService.vehicleDetailsResponse = { registration: 'XYZ789' } as MotHistory;
-      expect(vehicleDetailsService.isVehicleCached('ABC123')).toBe(false);
+      vehicleDetailsService.motHistoryResponse = { registration: 'XYZ789' } as MotHistory;
+      expect(vehicleDetailsService.isResultCached('ABC123')).toBe(false);
     });
 
     it('should return false if vehicleDetailsResponse is undefined', () => {
       vehicleDetailsService.vehicleIdentifier = 'ABC123';
-      vehicleDetailsService.vehicleDetailsResponse = undefined;
-      expect(vehicleDetailsService.isVehicleCached('ABC123')).toBe(false);
+      vehicleDetailsService.motHistoryResponse = undefined;
+      expect(vehicleDetailsService.isResultCached('ABC123')).toBe(false);
     });
   });
 
   describe('getCachedVehicleDetails', () => {
     it('should return cached vehicle details with status "Already Saved"', () => {
-      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as MotHistory;
-      vehicleDetailsService.getCachedVehicleDetails().subscribe((val) => {
+      vehicleDetailsService.motHistoryResponse = { registration: 'ABC123' } as MotHistory;
+      vehicleDetailsService.getCachedMotHistory().subscribe((val) => {
         expect(val).toEqual({
           status: 'Already Saved',
           data: {
@@ -122,14 +122,14 @@ describe('MotHistoryApiService', () => {
     });
 
     it('should return cached vehicle details with all fields populated', () => {
-      vehicleDetailsService.vehicleDetailsResponse = {
+      vehicleDetailsService.motHistoryResponse = {
         registration: 'ABC123',
         make: 'Toyota',
         model: 'Corolla',
         status: MotStatusCodes.VALID,
         expiryDate: '31/12/2023',
       } as MotHistory;
-      vehicleDetailsService.getCachedVehicleDetails().subscribe((val) => {
+      vehicleDetailsService.getCachedMotHistory().subscribe((val) => {
         expect(val).toEqual({
           status: 'Already Saved',
           data: {
@@ -144,14 +144,14 @@ describe('MotHistoryApiService', () => {
     });
 
     it('should return cached vehicle details with null fields if not populated', () => {
-      vehicleDetailsService.vehicleDetailsResponse = {
+      vehicleDetailsService.motHistoryResponse = {
         registration: 'ABC123',
         make: null,
         model: null,
         status: null,
         expiryDate: null,
       } as MotHistory;
-      vehicleDetailsService.getCachedVehicleDetails().subscribe((val) => {
+      vehicleDetailsService.getCachedMotHistory().subscribe((val) => {
         expect(val).toEqual({
           status: 'Already Saved',
           data: {
@@ -173,10 +173,10 @@ describe('MotHistoryApiService', () => {
         status: HttpStatusCodes.OK,
       } as HttpResponse<MotHistory>;
 
-      vehicleDetailsService.cacheVehicleDetails(mockResponse);
+      vehicleDetailsService.cacheMotHistory(mockResponse);
 
       expect(vehicleDetailsService.vehicleIdentifier).toBe('ABC123');
-      expect(vehicleDetailsService.vehicleDetailsResponse).toEqual(mockResponse.body);
+      expect(vehicleDetailsService.motHistoryResponse).toEqual(mockResponse.body);
     });
 
     it('should not cache vehicle details if response status is not OK', () => {
@@ -185,10 +185,10 @@ describe('MotHistoryApiService', () => {
         status: HttpStatusCodes.NOT_FOUND,
       } as HttpResponse<MotHistory>;
 
-      vehicleDetailsService.cacheVehicleDetails(mockResponse);
+      vehicleDetailsService.cacheMotHistory(mockResponse);
 
       expect(vehicleDetailsService.vehicleIdentifier).toBeUndefined();
-      expect(vehicleDetailsService.vehicleDetailsResponse).toBeUndefined();
+      expect(vehicleDetailsService.motHistoryResponse).toBeUndefined();
     });
 
     it('should handle response with null body', () => {
@@ -197,10 +197,10 @@ describe('MotHistoryApiService', () => {
         status: HttpStatusCodes.OK,
       } as HttpResponse<MotHistory>;
 
-      vehicleDetailsService.cacheVehicleDetails(mockResponse);
+      vehicleDetailsService.cacheMotHistory(mockResponse);
 
       expect(vehicleDetailsService.vehicleIdentifier).toBeUndefined();
-      expect(vehicleDetailsService.vehicleDetailsResponse).toBeNull();
+      expect(vehicleDetailsService.motHistoryResponse).toBeNull();
     });
   });
 
@@ -306,15 +306,15 @@ describe('MotHistoryApiService', () => {
 
   describe('getVehicleByIdentifier', () => {
     it('should return cached vehicle details if vehicle is cached', (done) => {
-      spyOn(vehicleDetailsService, 'isVehicleCached').and.returnValue(true);
-      spyOn(vehicleDetailsService, 'getCachedVehicleDetails').and.returnValue(
+      spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(true);
+      spyOn(vehicleDetailsService, 'getCachedMotHistory').and.returnValue(
         of({
           status: 'Already Saved',
           data: { registration: 'ABC123' } as MotHistory,
         })
       );
 
-      vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((result) => {
+      vehicleDetailsService.getMotHistoryByIdentifier('ABC123').subscribe((result) => {
         expect(result.status).toBe('Already Saved');
         expect(result.data.registration).toBe('ABC123');
         done();
@@ -322,7 +322,7 @@ describe('MotHistoryApiService', () => {
     });
 
     it('should fetch vehicle details from API if vehicle is not cached', (done) => {
-      spyOn(vehicleDetailsService, 'isVehicleCached').and.returnValue(false);
+      spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
       spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
       spyOn(vehicleDetailsService['http'], 'get').and.returnValue(
         of(
@@ -332,19 +332,19 @@ describe('MotHistoryApiService', () => {
           })
         )
       );
-      spyOn(vehicleDetailsService, 'cacheVehicleDetails');
+      spyOn(vehicleDetailsService, 'cacheMotHistory');
       spyOn(vehicleDetailsService, 'mapResponseToMotData').and.callThrough();
 
-      vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((result) => {
+      vehicleDetailsService.getMotHistoryByIdentifier('ABC123').subscribe((result) => {
         expect(result.data.registration).toBe('ABC123');
-        expect(vehicleDetailsService.cacheVehicleDetails).toHaveBeenCalled();
+        expect(vehicleDetailsService.cacheMotHistory).toHaveBeenCalled();
         expect(vehicleDetailsService.mapResponseToMotData).toHaveBeenCalled();
         done();
       });
     });
 
     it('should handle API error and return default error response', (done) => {
-      spyOn(vehicleDetailsService, 'isVehicleCached').and.returnValue(false);
+      spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
       spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
       spyOn(vehicleDetailsService['http'], 'get').and.returnValue(throwError({ status: 500 }));
       spyOn(vehicleDetailsService, 'handleError').and.returnValue(
@@ -360,7 +360,7 @@ describe('MotHistoryApiService', () => {
         })
       );
 
-      vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((result) => {
+      vehicleDetailsService.getMotHistoryByIdentifier('ABC123').subscribe((result) => {
         expect(result.status).toBe('500');
         expect(result.data.registration).toBe('ABC123');
         done();

@@ -60,7 +60,7 @@ export class WaitingRoomToCarEffects {
       map(([, regNumber]) => regNumber?.replace(/\s/g, '').toUpperCase()),
       // filter any requests that are nulls or empty strings from hitting service
       filter((regNumber) => !!regNumber),
-      switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
+      switchMap((regNumber) => this.vehicleDetailsApiProvider.getMotHistoryByIdentifier(regNumber)),
       map((vehicleDetails: MotHistoryWithStatus) =>
         MotStatusChanged(vehicleDetails?.data?.status || MotStatus.NO_DETAILS)
       ),
