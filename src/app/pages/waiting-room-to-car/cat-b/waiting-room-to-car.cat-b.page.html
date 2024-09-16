@@ -117,7 +117,7 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

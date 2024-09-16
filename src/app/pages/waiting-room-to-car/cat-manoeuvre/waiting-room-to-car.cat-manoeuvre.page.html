@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title id="waiting-room-to-car-page-title">{{ pageState.candidateName$ | async }}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -37,28 +37,36 @@
             >
             </vehicle-registration>
 
-            <test-category [testCategory]="pageState.category$ | async"></test-category>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
 
-            <dimensions-card
-              [numberOfSeats]="pageState.numberOfSeats$ | async"
-              [vehicleHeight]="pageState.vehicleHeight$ | async"
-              [vehicleLength]="pageState.vehicleLength$ | async"
-              [vehicleWidth]="pageState.vehicleWidth$ | async"
-            >
-            </dimensions-card>
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
-            <accompaniment-card
-              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-            >
-            </accompaniment-card>
+              <test-category [testCategory]="pageState.category$ | async"></test-category>
+
+              <dimensions-card
+                [numberOfSeats]="pageState.numberOfSeats$ | async"
+                [vehicleHeight]="pageState.vehicleHeight$ | async"
+                [vehicleLength]="pageState.vehicleLength$ | async"
+                [vehicleWidth]="pageState.vehicleWidth$ | async"
+              >
+              </dimensions-card>
+
+              <accompaniment-card
+                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                [formGroup]="form"
+                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              >
+              </accompaniment-card>
+            </div>
           </ion-col>
         </ion-row>
 
@@ -77,7 +85,7 @@
   delegatedTest: pageState.delegatedTest$ | async
 } as data"
 >
-  <ion-row class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col *ngIf="!data?.delegatedTest" class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

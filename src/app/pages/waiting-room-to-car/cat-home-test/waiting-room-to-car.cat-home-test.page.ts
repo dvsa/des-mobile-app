@@ -28,6 +28,10 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import {
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatHomeWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -90,6 +94,12 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
       ),
     };
   }
+
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());

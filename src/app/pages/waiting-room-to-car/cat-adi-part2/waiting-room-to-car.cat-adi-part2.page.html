@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title id="waiting-room-to-car-page-title">{{ pageState.candidateName$ | async }}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -66,55 +66,63 @@
             >
             </vehicle-registration>
 
-            <transmission
-              (transmissionChange)="transmissionChanged($event)"
-              [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-            >
-            </transmission>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
 
-            <accompaniment-card
-              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-            >
-            </accompaniment-card>
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
-            <vehicle-details-card
-              (dualVehicleDetailsChange)="dualControlsToggled()"
-              (schoolVehicleDetailsChange)="schoolCarToggled()"
-              [dualVehicleDetails]="pageState.dualControls$ | async"
-              [formGroup]="form"
-              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-            >
-            </vehicle-details-card>
+              <transmission
+                (transmissionChange)="transmissionChanged($event)"
+                [formGroup]="form"
+                [transmission]="pageState.transmission$ | async"
+              >
+              </transmission>
 
-            <ordit-trainer-cat-adi-part2
-              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
-              [formGroup]="form"
-              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-            >
-            </ordit-trainer-cat-adi-part2>
+              <accompaniment-card
+                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                [formGroup]="form"
+                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              >
+              </accompaniment-card>
 
-            <trainer-registration-number-cat-adi-part2
-              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
-              [formGroup]="form"
-              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
-            >
-            </trainer-registration-number-cat-adi-part2>
+              <vehicle-details-card
+                (dualVehicleDetailsChange)="dualControlsToggled()"
+                (schoolVehicleDetailsChange)="schoolCarToggled()"
+                [dualVehicleDetails]="pageState.dualControls$ | async"
+                [formGroup]="form"
+                [schoolVehicleDetails]="pageState.schoolCar$ | async"
+              >
+              </vehicle-details-card>
 
-            <training-records-cat-adi-part2
-              (trainingRecordOutcomeChange)="trainingRecordOutcomeChanged($event)"
-              [formGroup]="form"
-              [trainingRecordRadioChecked]="pageState.trainingRecords$ | async"
-            >
-            </training-records-cat-adi-part2>
+              <ordit-trainer-cat-adi-part2
+                (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
+                [formGroup]="form"
+                [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
+              >
+              </ordit-trainer-cat-adi-part2>
+
+              <trainer-registration-number-cat-adi-part2
+                (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
+                [formGroup]="form"
+                [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+              >
+              </trainer-registration-number-cat-adi-part2>
+
+              <training-records-cat-adi-part2
+                (trainingRecordOutcomeChange)="trainingRecordOutcomeChanged($event)"
+                [formGroup]="form"
+                [trainingRecordRadioChecked]="pageState.trainingRecords$ | async"
+              >
+              </training-records-cat-adi-part2>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -123,7 +131,7 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

@@ -32,7 +32,7 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   MotEvidenceChanged,
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled,
+  MotEvidenceProvidedToggled
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -90,6 +90,12 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     };
   }
 
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
+
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
@@ -112,12 +118,6 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   eyesightFailCancelled = (): void => {
     this.form.get('eyesightCtrl')?.reset();
     this.store$.dispatch(EyesightTestReset());
-  };
-
-  motNoEvidenceCancelled = (): void => {
-    this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
-    this.store$.dispatch(MotEvidenceProvidedReset());
   };
 
   tellMeQuestionChanged(newTellMeQuestion: VehicleChecksQuestion): void {

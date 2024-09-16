@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title id="waiting-room-to-car-page-title">{{ pageState.candidateName$ | async }}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -36,63 +36,71 @@
             >
             </vehicle-registration>
 
-            <test-category [testCategory]="pageState.category$ | async"></test-category>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
 
-            <dual-controls
-              (dualControlsChange)="dualControlsOutcomeToggled($event)"
-              [dualControls]="pageState.dualControls$ | async"
-              [formGroup]="form"
-            >
-            </dual-controls>
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
-            <transmission
-              (transmissionChange)="transmissionChanged($event)"
-              [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-            >
-            </transmission>
+              <test-category [testCategory]="pageState.category$ | async"></test-category>
 
-            <pdi-logbook
-              (pdiLogbookChange)="pdiLogbookChanged($event)"
-              *ngIf="notSC(pageState.category$ | async)"
-              [formGroup]="form"
-              [pdiLogbook]="pageState.pdiLogbook$ | async"
-            >
-            </pdi-logbook>
+              <dual-controls
+                (dualControlsChange)="dualControlsOutcomeToggled($event)"
+                [dualControls]="pageState.dualControls$ | async"
+                [formGroup]="form"
+              >
+              </dual-controls>
 
-            <trainee-licence
-              (traineeLicenceChange)="traineeLicenceChanged($event)"
-              *ngIf="notSC(pageState.category$ | async)"
-              [formGroup]="form"
-              [traineeLicence]="pageState.traineeLicence$ | async"
-            >
-            </trainee-licence>
+              <transmission
+                (transmissionChange)="transmissionChanged($event)"
+                [formGroup]="form"
+                [transmission]="pageState.transmission$ | async"
+              >
+              </transmission>
 
-            <ordit-trainer-cat-adi-part2
-              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
-              [formGroup]="form"
-              [notSC]="notSC(pageState.category$ | async)"
-              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-            >
-            </ordit-trainer-cat-adi-part2>
+              <pdi-logbook
+                (pdiLogbookChange)="pdiLogbookChanged($event)"
+                *ngIf="notSC(pageState.category$ | async)"
+                [formGroup]="form"
+                [pdiLogbook]="pageState.pdiLogbook$ | async"
+              >
+              </pdi-logbook>
 
-            <accompaniment-card-adi3
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              (trainerAccompanimentChange)="trainerAccompanimentChanged()"
-              [formGroup]="form"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
-            >
-            </accompaniment-card-adi3>
+              <trainee-licence
+                (traineeLicenceChange)="traineeLicenceChanged($event)"
+                *ngIf="notSC(pageState.category$ | async)"
+                [formGroup]="form"
+                [traineeLicence]="pageState.traineeLicence$ | async"
+              >
+              </trainee-licence>
 
-            <trainer-registration-number-cat-adi-part2
-              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
-              [formGroup]="form"
-              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
-            >
-            </trainer-registration-number-cat-adi-part2>
+              <ordit-trainer-cat-adi-part2
+                (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
+                [formGroup]="form"
+                [notSC]="notSC(pageState.category$ | async)"
+                [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
+              >
+              </ordit-trainer-cat-adi-part2>
+
+              <accompaniment-card-adi3
+                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                (trainerAccompanimentChange)="trainerAccompanimentChanged()"
+                [formGroup]="form"
+                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
+              >
+              </accompaniment-card-adi3>
+
+              <trainer-registration-number-cat-adi-part2
+                (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
+                [formGroup]="form"
+                [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+              >
+              </trainer-registration-number-cat-adi-part2>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -101,7 +109,7 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

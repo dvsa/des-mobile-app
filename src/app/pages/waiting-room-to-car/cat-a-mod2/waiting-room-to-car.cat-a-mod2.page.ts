@@ -20,6 +20,10 @@ import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-d
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -62,6 +66,12 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
       safetyAndBalanceQuestions$: currentTest$.pipe(select(getTestData), select(getSafetyAndBalanceQuestions)),
     };
   }
+
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());

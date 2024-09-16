@@ -16,6 +16,10 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatMod1WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -51,6 +55,12 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
       gearboxManualRadioChecked$: currentTest$.pipe(select(getVehicleDetails), map(isManual)),
     };
   }
+
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());

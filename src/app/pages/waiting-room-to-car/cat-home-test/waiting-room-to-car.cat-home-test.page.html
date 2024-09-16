@@ -59,6 +59,13 @@
             >
             </vehicle-registration>
 
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
+
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
             <vehicle-checks-vocational
@@ -84,6 +91,7 @@
               [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
             >
             </accompaniment-card>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -92,7 +100,7 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"
