@@ -8,11 +8,8 @@ import {
   PracticeModeMOTModal,
   PracticeModeMOTType,
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
+import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import {
-  MotHistoryWithStatus,
-  MotHistoryApiService,
-} from '@providers/mot-history-api/mot-history-api.service';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
