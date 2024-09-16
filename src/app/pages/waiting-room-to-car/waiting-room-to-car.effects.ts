@@ -10,8 +10,8 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
   MotHistoryWithStatus,
-  VehicleDetailsApiService,
-} from '@providers/vehicle-details-api/vehicle-details-api.service';
+  MotHistoryApiService,
+} from '@providers/mot-history-api/mot-history-api.service';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -30,7 +30,7 @@ export class WaitingRoomToCarEffects {
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
-    private vehicleDetailsApiProvider: VehicleDetailsApiService,
+    private vehicleDetailsApiProvider: MotHistoryApiService,
     private networkStateProvider: NetworkStateProvider,
     private logHelper: LogHelper,
     private platform: Platform
