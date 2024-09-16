@@ -10,6 +10,11 @@ export const getSlots = (journal: JournalModel) => journal.slots;
 
 export const getAllSlots = (journal: JournalModel): SlotItem[] => {
   let allSlots: SlotItem[] = [];
+
+  if (!journal?.slots) {
+    return allSlots;
+  }
+
   Object.keys(journal.slots).forEach((date) => {
     allSlots = [...allSlots, ...journal.slots[date]];
   });

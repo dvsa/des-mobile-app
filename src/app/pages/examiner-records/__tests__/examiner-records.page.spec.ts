@@ -28,6 +28,9 @@ import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examin
 import moment from 'moment';
 import { Subscription, of } from 'rxjs';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
+import {CommonModule} from '@angular/common';
+import {MockComponent} from 'ng-mocks';
+import {ColourFilterRadioComponent} from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
 
 describe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
@@ -84,8 +87,8 @@ describe('ExaminerRecordsPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExaminerRecordsPage],
-      imports: [IonicModule],
+      declarations: [ExaminerRecordsPage, MockComponent(ColourFilterRadioComponent)],
+      imports: [IonicModule, CommonModule],
       providers: [
         { provide: ExaminerRecordsProvider, useClass: ExaminerRecordsProviderMock },
         CompressionProvider,

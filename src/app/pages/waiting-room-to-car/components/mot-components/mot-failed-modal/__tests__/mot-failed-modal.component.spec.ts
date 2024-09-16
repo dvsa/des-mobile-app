@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import {IonCard, IonicModule} from '@ionic/angular';
 
 import { UntypedFormControl } from '@angular/forms';
 import { MotFailedModal } from '../mot-failed-modal.component';
+import {MockComponent} from 'ng-mocks';
+import {ModalAlertTitleComponent} from '@components/common/modal-alert-title/modal-alert-title';
+import {CommonModule} from '@angular/common';
 
 describe('MotFailedModal', () => {
   let component: MotFailedModal;
@@ -10,8 +13,8 @@ describe('MotFailedModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MotFailedModal],
-      imports: [IonicModule.forRoot()],
+      declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent), MockComponent(IonCard)],
+      imports: [IonicModule.forRoot(), CommonModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MotFailedModal);
