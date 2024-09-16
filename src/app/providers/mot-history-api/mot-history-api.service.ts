@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { fakeMOTResults } from '@providers/mot-history-api/__mocks__/mot-history.mock';
 import { UrlProvider } from '@providers/url/url';
 import { DateTime } from '@shared/helpers/date-time';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
-import { fakeMOTResults } from '@providers/mot-history-api/__mocks__/mot-history.mock';
 
 export interface MotHistoryWithStatus {
   status: string;
