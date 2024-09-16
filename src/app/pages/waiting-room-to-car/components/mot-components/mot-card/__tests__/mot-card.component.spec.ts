@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { Store, StoreModule } from '@ngrx/store';
+import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotCardComponent } from '../mot-card.component';
-import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 describe('MotCardComponent', () => {
   let component: MotCardComponent;

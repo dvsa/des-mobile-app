@@ -4,13 +4,13 @@ import { TestBed } from '@angular/core/testing';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { of, throwError } from 'rxjs';
 import { MotHistoryApiService, MotHistoryWithStatus } from '../mot-history-api.service';
-import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 describe('MotHistoryApiService', () => {
   let vehicleDetailsService: MotHistoryApiService;

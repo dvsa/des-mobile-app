@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { MockComponent } from 'ng-mocks';
 import { PracticeModeMOTModal, PracticeModeMOTType } from '../practice-mode-mot-modal.component';
-import {MockComponent} from 'ng-mocks';
-import {ModalAlertTitleComponent} from '@components/common/modal-alert-title/modal-alert-title';
 
 describe('PracticeModeMOTModal', () => {
   let component: PracticeModeMOTModal;

@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {IonCard, IonicModule} from '@ionic/angular';
+import { IonCard, IonicModule } from '@ionic/angular';
 
+import { CommonModule } from '@angular/common';
 import { UntypedFormControl } from '@angular/forms';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { MockComponent } from 'ng-mocks';
 import { MotFailedModal } from '../mot-failed-modal.component';
-import {MockComponent} from 'ng-mocks';
-import {ModalAlertTitleComponent} from '@components/common/modal-alert-title/modal-alert-title';
-import {CommonModule} from '@angular/common';
 
 describe('MotFailedModal', () => {
   let component: MotFailedModal;

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 @Component({
   selector: 'mot-card',

@@ -1,8 +1,8 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {IonicModule} from '@ionic/angular';
-import {AlternateEvidenceDescriptionComponent} from '../alternate-evidence-description.component';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { AlternateEvidenceDescriptionComponent } from '../alternate-evidence-description.component';
 
 describe('AlternateEvidenceDescriptionComponent', () => {
   let component: AlternateEvidenceDescriptionComponent;

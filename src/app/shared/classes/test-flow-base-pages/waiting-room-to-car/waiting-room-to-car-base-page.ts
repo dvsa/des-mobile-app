@@ -14,6 +14,7 @@ import {
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { MotHistory } from '@providers/mot-history-api/mot-interfaces';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -84,7 +85,6 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { MotHistory } from '@providers/mot-history-api/mot-interfaces';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;

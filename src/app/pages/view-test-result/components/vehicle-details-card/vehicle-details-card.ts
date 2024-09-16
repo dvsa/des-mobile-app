@@ -10,9 +10,9 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 @Component({
   selector: 'vehicle-details-card',
