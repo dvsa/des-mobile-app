@@ -7,11 +7,8 @@ import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'r
 
 import { GetMotStatus, GetMotStatusFailure } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import {
-  MotHistoryWithStatus,
-  MotHistoryApiService,
-} from '@providers/mot-history-api/mot-history-api.service';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';

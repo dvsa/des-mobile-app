@@ -10,7 +10,7 @@ import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { of, throwError } from 'rxjs';
-import { MotHistoryWithStatus, MotHistoryApiService } from '../mot-history-api.service';
+import { MotHistoryApiService, MotHistoryWithStatus } from '../mot-history-api.service';
 
 describe('MotHistoryApiService', () => {
   let vehicleDetailsService: MotHistoryApiService;
