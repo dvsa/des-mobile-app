@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { AlternateEvidenceDescriptionComponent } from '../alternate-evidence-description.component';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 describe('AlternateEvidenceDescriptionComponent', () => {
   let component: AlternateEvidenceDescriptionComponent;
@@ -13,15 +13,13 @@ describe('AlternateEvidenceDescriptionComponent', () => {
       declarations: [AlternateEvidenceDescriptionComponent],
       imports: [IonicModule, CommonModule],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AlternateEvidenceDescriptionComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.formControl = new UntypedFormControl();
     fixture.detectChanges();
-  });
+  }));
 
   describe('ngOnChanges', () => {
     it('should create and set up the form control when it does not exist', () => {

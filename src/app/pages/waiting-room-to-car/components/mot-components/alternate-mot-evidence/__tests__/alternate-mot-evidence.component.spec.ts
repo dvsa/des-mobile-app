@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonRow, IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MockComponent } from 'ng-mocks';
 import { AlternateMotEvidenceComponent } from '../alternate-mot-evidence.component';
 
 enum AlternateEvidenceTestResult {
@@ -17,8 +16,8 @@ describe('AlternateMotEvidenceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AlternateMotEvidenceComponent, MockComponent(IonRow)],
-      imports: [IonicModule.forRoot(), CommonModule],
+      declarations: [AlternateMotEvidenceComponent],
+      imports: [IonicModule, CommonModule],
     }).compileComponents();
   }));
 
