@@ -11,8 +11,8 @@ import {
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
   MotHistoryWithStatus,
-  VehicleDetailsApiService,
-} from '@providers/vehicle-details-api/vehicle-details-api.service';
+  MotHistoryApiService,
+} from '@providers/mot-history-api/mot-history-api.service';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
@@ -55,7 +55,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
-    public motApiService: VehicleDetailsApiService,
+    public motApiService: MotHistoryApiService,
     public modalController: ModalController,
     protected networkState: NetworkStateProvider
   ) {}

@@ -10,10 +10,10 @@ import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { of, throwError } from 'rxjs';
-import { MotHistoryWithStatus, VehicleDetailsApiService } from '../vehicle-details-api.service';
+import { MotHistoryWithStatus, MotHistoryApiService } from '../mot-history-api.service';
 
-describe('VehicleDetailsApiService', () => {
-  let vehicleDetailsService: VehicleDetailsApiService;
+describe('MotHistoryApiService', () => {
+  let vehicleDetailsService: MotHistoryApiService;
   let urlProvider: UrlProvider;
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('VehicleDetailsApiService', () => {
       ],
     });
 
-    vehicleDetailsService = TestBed.inject(VehicleDetailsApiService);
+    vehicleDetailsService = TestBed.inject(MotHistoryApiService);
     urlProvider = TestBed.inject(UrlProvider);
     spyOn(urlProvider, 'getMotUrl');
   });

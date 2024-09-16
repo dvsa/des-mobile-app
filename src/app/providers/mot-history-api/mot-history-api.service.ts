@@ -17,7 +17,7 @@ export interface MotHistoryWithStatus {
 @Injectable({
   providedIn: 'root',
 })
-export class VehicleDetailsApiService {
+export class MotHistoryApiService {
   constructor(
     private http: HttpClient,
     private urlProvider: UrlProvider,
