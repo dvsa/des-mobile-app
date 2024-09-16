@@ -33,7 +33,7 @@ import { getVehicleConfiguration } from '@store/tests/vehicle-details/cat-cpc/ve
 import {
   MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
-  PopulateVehicleConfiguration
+  PopulateVehicleConfiguration,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, take } from 'rxjs/operators';

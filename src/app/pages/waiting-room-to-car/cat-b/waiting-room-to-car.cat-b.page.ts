@@ -32,7 +32,7 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   MotEvidenceChanged,
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

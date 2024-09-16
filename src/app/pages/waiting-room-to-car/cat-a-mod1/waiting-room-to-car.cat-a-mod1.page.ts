@@ -14,12 +14,12 @@ import {
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 import {
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 interface CatMod1WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;

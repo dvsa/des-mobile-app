@@ -40,12 +40,12 @@ import {
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, merge } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import {
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { Observable, merge } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 interface CatDWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;

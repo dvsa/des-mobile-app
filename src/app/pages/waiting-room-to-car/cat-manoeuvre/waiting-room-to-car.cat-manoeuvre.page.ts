@@ -23,7 +23,7 @@ import {
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import {
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatManoeuvreWaitingRoomToCarPageState {

@@ -31,8 +31,9 @@ import {
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.selector';
 import {
   DualControlsToggledNo,
-  DualControlsToggledYes, MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  DualControlsToggledYes,
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatAdi3WaitingRoomToCarPageState {

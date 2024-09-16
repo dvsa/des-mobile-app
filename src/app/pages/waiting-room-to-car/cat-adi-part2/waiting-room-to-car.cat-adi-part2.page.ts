@@ -27,7 +27,7 @@ import {
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import {
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatAdi2WaitingRoomToCarPageState {

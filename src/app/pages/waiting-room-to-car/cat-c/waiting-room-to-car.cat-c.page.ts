@@ -41,7 +41,7 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   MotEvidenceChanged,
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled
+  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
