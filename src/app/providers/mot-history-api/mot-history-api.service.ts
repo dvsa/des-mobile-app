@@ -8,6 +8,7 @@ import { DateTime } from '@shared/helpers/date-time';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
+import { fakeMOTResults } from '@providers/mot-history-api/__mocks__/mot-history.mock';
 
 export interface MotHistoryWithStatus {
   status: string;
@@ -25,40 +26,7 @@ export class MotHistoryApiService {
   ) {}
 
   vehicleIdentifier: string;
-  vehicleDetailsResponse: MotHistory;
-
-  fakeMOTResults: { pass: MotHistoryWithStatus; fail: MotHistoryWithStatus; noDetails: MotHistoryWithStatus } = {
-    pass: {
-      status: '200',
-      data: {
-        registration: 'XX01VLD',
-        make: 'fakeMake',
-        model: 'fakeModel',
-        status: MotStatusCodes.VALID,
-        expiryDate: '01/01/01',
-      },
-    },
-    fail: {
-      status: '200',
-      data: {
-        registration: 'XX01INV',
-        make: 'fakeMake',
-        model: 'fakeModel',
-        status: MotStatusCodes.NOT_VALID,
-        expiryDate: '01/01/01',
-      },
-    },
-    noDetails: {
-      status: '200',
-      data: {
-        registration: 'XX01NDT',
-        make: '-',
-        model: '-',
-        status: MotStatusCodes.NO_DETAILS,
-        expiryDate: '01/01/01',
-      },
-    },
-  };
+  motHistoryResponse: MotHistory;
 
   /**
    * Adds the given registration to the provided MOT data.
@@ -86,11 +54,11 @@ export class MotHistoryApiService {
   ): Observable<MotHistoryWithStatus> {
     switch (motType) {
       case PracticeModeMOTType.PASS:
-        return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.pass));
+        return of(this.addRegistrationToFakeRecords(vehicleRegistration, fakeMOTResults.pass));
       case PracticeModeMOTType.FAILED:
-        return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.fail));
+        return of(this.addRegistrationToFakeRecords(vehicleRegistration, fakeMOTResults.fail));
       case PracticeModeMOTType.NO_DETAILS:
-        return of(this.addRegistrationToFakeRecords(vehicleRegistration, this.fakeMOTResults.noDetails));
+        return of(this.addRegistrationToFakeRecords(vehicleRegistration, fakeMOTResults.noDetails));
     }
   }
 
@@ -103,15 +71,15 @@ export class MotHistoryApiService {
    * @param {string} vehicleRegistration - The vehicle registration to look up.
    * @returns {Observable<MotHistoryWithStatus>} An observable containing the MOT data with status.
    */
-  getVehicleByIdentifier(vehicleRegistration: string): Observable<MotHistoryWithStatus> {
-    if (this.isVehicleCached(vehicleRegistration)) {
-      return this.getCachedVehicleDetails();
+  getMotHistoryByIdentifier(vehicleRegistration: string): Observable<MotHistoryWithStatus> {
+    if (this.isResultCached(vehicleRegistration)) {
+      return this.getCachedMotHistory();
     }
 
     const headers = this.getRequestHeaders();
 
     return this.http.get(this.urlProvider.getMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
-      tap((response: HttpResponse<MotHistory>) => this.cacheVehicleDetails(response)),
+      tap((response: HttpResponse<MotHistory>) => this.cacheMotHistory(response)),
       map((value): MotHistoryWithStatus => this.mapResponseToMotData(value)),
       timeout(this.appConfig.getAppConfig().requestTimeout),
       catchError((err) => this.handleError(err, vehicleRegistration))
@@ -124,8 +92,8 @@ export class MotHistoryApiService {
    * @param {string} vehicleRegistration - The vehicle registration to check.
    * @returns {boolean} True if the vehicle details are cached, false otherwise.
    */
-  isVehicleCached(vehicleRegistration: string): boolean {
-    return vehicleRegistration === this.vehicleIdentifier && this.vehicleDetailsResponse !== undefined;
+  isResultCached(vehicleRegistration: string): boolean {
+    return vehicleRegistration === this.vehicleIdentifier && this.motHistoryResponse !== undefined;
   }
 
   /**
@@ -133,8 +101,8 @@ export class MotHistoryApiService {
    *
    * @returns {Observable<MotHistoryWithStatus>} An observable containing the cached MOT data with status.
    */
-  getCachedVehicleDetails(): Observable<MotHistoryWithStatus> {
-    return of({ status: 'Already Saved', data: this.vehicleDetailsResponse });
+  getCachedMotHistory(): Observable<MotHistoryWithStatus> {
+    return of({ status: 'Already Saved', data: this.motHistoryResponse });
   }
 
   /**
@@ -151,10 +119,10 @@ export class MotHistoryApiService {
    *
    * @param {HttpResponse<MotHistory>} response - The response containing the vehicle details to cache.
    */
-  cacheVehicleDetails(response: HttpResponse<MotHistory>): void {
+  cacheMotHistory(response: HttpResponse<MotHistory>): void {
     if (response.status === HttpStatusCodes.OK) {
       this.vehicleIdentifier = response.body?.registration;
-      this.vehicleDetailsResponse = response.body;
+      this.motHistoryResponse = response.body;
     }
   }
 
@@ -199,6 +167,6 @@ export class MotHistoryApiService {
    */
   clearVehicleData(): void {
     this.vehicleIdentifier = null;
-    this.vehicleDetailsResponse = undefined;
+    this.motHistoryResponse = undefined;
   }
 }
