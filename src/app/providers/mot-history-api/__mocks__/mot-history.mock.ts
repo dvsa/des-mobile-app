@@ -10,20 +10,20 @@ export const fakeMOTResults: {
     status: '200',
     data: {
       registration: 'XX01VLD',
-      make: 'fakeMake',
-      model: 'fakeModel',
+      make: 'Practice',
+      model: 'Mode',
       status: MotStatusCodes.VALID,
-      expiryDate: '01/01/01',
+      expiryDate: '01/01/0001',
     },
   },
   fail: {
     status: '200',
     data: {
       registration: 'XX01INV',
-      make: 'fakeMake',
-      model: 'fakeModel',
+      make: 'Practice',
+      model: 'Mode',
       status: MotStatusCodes.NOT_VALID,
-      expiryDate: '01/01/01',
+      expiryDate: '01/01/0001',
     },
   },
   noDetails: {
@@ -33,7 +33,7 @@ export const fakeMOTResults: {
       make: '-',
       model: '-',
       status: MotStatusCodes.NO_DETAILS,
-      expiryDate: '01/01/01',
+      expiryDate: '01/01/0001',
     },
   },
 };
