@@ -1,0 +1,55 @@
+<ion-card [formGroup]="form" class="modal-alert">
+  <modal-alert-title>Confirm VRN</modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="modal-alert-message mes-data">
+        <div class="mes-data">Please check and re-enter VRN.</div>
+        <ul></ul>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col size="35">
+      <ion-input
+        type="text"
+        uppercaseAlphanumOnly
+        id="registration"
+        [value]="vehicleRegistration"
+        aria-labelledby="vehicle-registration-number-title"
+        formControlName="vehicleRegistration"
+        class="ion-input-styling"
+        (ionChange)="vehicleRegistrationChanged($event)"
+        [class.ng-invalid]="invalid"
+        [maxlength]="registrationNumberValidator.maxLength"
+      >
+      </ion-input>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <ion-row *ngIf="!ifMatches" class="validation-message-row ion-align-items-center">
+    <ion-col></ion-col>
+    <ion-col size="64">
+      <div
+        class="validation-text"
+        [class.ng-invalid]="!ifMatches"
+        id="waiting-room-to-car-registration-validation-text"
+      >
+        The VRNs entered do not match - please check and try again
+      </div>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <ion-row class="padding-top-10">
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button id="practice-modal-cancel" class="cancel-button" fill="clear" (click)="onCancel()">
+        Cancel
+      </ion-button>
+    </ion-col>
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button [disabled]="!this.formControl.valid" fill="clear" class="return-button" (click)="onConfirm()">
+        Confirm
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

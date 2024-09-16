@@ -22,7 +22,9 @@ export class UrlProviderMock {
     .createSpy('getTestCentreJournalUrl')
     .and.returnValue('https://www.example.com/api/v1/journals/testcentre');
 
-  getTaxMotUrl = jasmine.createSpy('getVehicleDetailsApiUrl').and.returnValue('https://www.example.com/1.0/checkMot');
+  getMotUrl = jasmine
+    .createSpy('getVehicleDetailsApiUrl')
+    .and.returnValue('https://www.example.com/1.0/checkMot?identifier=ABC123');
 
   getCandidateSignatureUrl = jasmine
     .createSpy('getCandidateSignatureUrl')

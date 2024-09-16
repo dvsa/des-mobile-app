@@ -14,6 +14,8 @@ import {
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { MotHistory } from '@providers/mot-history-api/mot-interfaces';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -67,11 +69,22 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
+  MotEvidenceProvidedToggled,
+  MotStatusChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
+  VRNListUpdated,
+  VehicleExpiryDateChanged,
+  VehicleMakeChanged,
+  VehicleModelChanged,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getGearboxCategory,
+  getMotEvidence,
+  getMotEvidenceProvided,
+  getRegistrationNumber,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -87,6 +100,9 @@ export interface CommonWaitingRoomToCarPageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
+  motEvidenceProvided$: Observable<boolean>;
+  isOffline$: Observable<boolean>;
+  motEvidenceDescription$: Observable<string>;
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
@@ -95,12 +111,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   protected alertController = this.injector.get(AlertController);
   protected routeByCategoryProvider = this.injector.get(RouteByCategoryProvider);
   protected faultCountProvider = this.injector.get(FaultCountProvider);
+  protected networkStateProvider = this.injector.get(NetworkStateProvider);
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
   trainerNumberProvided = false;
+  failedMOTModalCurrentlyOpen = false;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -147,6 +165,9 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
       otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
+      motEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
+      motEvidenceDescription$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidence)),
+      isOffline$: this.networkStateProvider.isOffline$,
     };
   }
 
@@ -208,6 +229,9 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   getMOTStatus(): void {
     // Temporarily disable the call to the MOT endpoint as it's not being used.
     // this.store$.dispatch(GetMotStatus());
+  }
+  getMOTEvidenceProvided(evidenceToggle: boolean): void {
+    this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
   }
 
   schoolCarToggled(): void {
@@ -276,6 +300,21 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
         this.trainerNumberProvided = true;
       }
     } else this.trainerNumberProvided = false;
+  }
+
+  updateVRNSearchList(vrn: string) {
+    this.store$.dispatch(VRNListUpdated(vrn));
+  }
+
+  motDetailsChanged(motDetails: MotHistory) {
+    this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
+    this.store$.dispatch(VehicleModelChanged(motDetails?.model));
+    this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
+    this.store$.dispatch(MotStatusChanged(motDetails?.status));
+  }
+
+  blurScreenContent(modalOpen: boolean): void {
+    this.failedMOTModalCurrentlyOpen = modalOpen;
   }
 
   async practiceModeTestCentreAlert() {

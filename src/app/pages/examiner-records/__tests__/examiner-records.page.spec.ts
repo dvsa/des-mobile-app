@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
@@ -6,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -26,6 +28,7 @@ import { SearchProvider } from '@providers/search/search';
 import { DateRange } from '@shared/helpers/date-time';
 import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
 import moment from 'moment';
+import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 
@@ -84,8 +87,8 @@ describe('ExaminerRecordsPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExaminerRecordsPage],
-      imports: [IonicModule],
+      declarations: [ExaminerRecordsPage, MockComponent(ColourFilterRadioComponent)],
+      imports: [IonicModule, CommonModule],
       providers: [
         { provide: ExaminerRecordsProvider, useClass: ExaminerRecordsProviderMock },
         CompressionProvider,

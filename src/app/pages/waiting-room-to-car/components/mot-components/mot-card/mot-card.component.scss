@@ -1,0 +1,41 @@
+.bold-font {
+  font-weight: bold;
+}
+
+.tick-icon {
+  margin-top: 10px;
+  width: 45px;
+  height: 45px;
+  padding: 3px;
+  color: var(--mes-white);
+  border-radius: 25px;
+  background-color: var(--gds-green);
+}
+
+
+.icon-text-align {
+  display: flex;
+  align-items: center;
+}
+
+.icon-text-padding {
+  padding-bottom: 10px;
+}
+
+.close-icon {
+  margin-top: 11px;
+  width: 45px;
+  height: 45px;
+  padding: 3px;
+  color: var(--mes-white);
+  border-radius: 25px;
+  background-color: var(--gds-red);
+}
+
+.circle-icon {
+  display: flex;
+  align-items: center;
+  width: 65px;
+  height: 60px;
+  color: black;
+}

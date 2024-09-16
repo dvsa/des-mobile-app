@@ -18,7 +18,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content forceOverscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
+  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -42,60 +43,72 @@
           id="post-eyesight-form-content"
         >
           <ion-col class="ion-no-padding">
-            <tell-me-question-card
-              (tellMeQuestionChange)="tellMeQuestionChanged($event)"
-              (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
-              [formGroup]="form"
-              [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
-              [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
-              [tellMeQuestion]="pageState.tellMeQuestion$ | async"
-              [tellMeQuestions]="tellMeQuestions"
-            >
-            </tell-me-question-card>
-
             <vehicle-registration
+              (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vrnSearchListUpdate)="updateVRNSearchList($event)"
+              (motDetailsUpdate)="motDetailsChanged($event)"
+              (motFailedModalToggled)="blurScreenContent($event)"
               [formGroup]="form"
+              [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
             >
             </vehicle-registration>
 
-            <transmission
-              (transmissionChange)="transmissionChanged($event)"
-              [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-            >
-            </transmission>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
 
-            <instructor-registration
-              (instructorRegistrationChange)="instructorRegistrationChanged($event)"
-              [formGroup]="form"
-              [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
-            >
-            </instructor-registration>
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+              <tell-me-question-card
+                (tellMeQuestionChange)="tellMeQuestionChanged($event)"
+                (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
+                [formGroup]="form"
+                [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
+                [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
+                [tellMeQuestion]="pageState.tellMeQuestion$ | async"
+                [tellMeQuestions]="tellMeQuestions"
+              >
+              </tell-me-question-card>
 
-            <accompaniment-card
-              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-            >
-            </accompaniment-card>
+              <transmission
+                (transmissionChange)="transmissionChanged($event)"
+                [formGroup]="form"
+                [transmission]="pageState.transmission$ | async"
+              >
+              </transmission>
 
-            <vehicle-details-card
-              (dualVehicleDetailsChange)="dualControlsToggled()"
-              (schoolVehicleDetailsChange)="schoolCarToggled()"
-              [dualVehicleDetails]="pageState.dualControls$ | async"
-              [formGroup]="form"
-              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-            >
-            </vehicle-details-card>
+              <instructor-registration
+                (instructorRegistrationChange)="instructorRegistrationChanged($event)"
+                [formGroup]="form"
+                [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
+              >
+              </instructor-registration>
+
+              <accompaniment-card
+                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                [formGroup]="form"
+                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              >
+              </accompaniment-card>
+
+              <vehicle-details-card
+                (dualVehicleDetailsChange)="dualControlsToggled()"
+                (schoolVehicleDetailsChange)="schoolCarToggled()"
+                [dualVehicleDetails]="pageState.dualControls$ | async"
+                [formGroup]="form"
+                [schoolVehicleDetails]="pageState.schoolCar$ | async"
+              >
+              </vehicle-details-card>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -103,7 +116,7 @@
   </div>
 </ion-content>
 
-<ion-footer>
+<ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button

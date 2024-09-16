@@ -7,8 +7,8 @@ import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'r
 
 import { GetMotStatus, GetMotStatusFailure } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -27,7 +27,7 @@ export class WaitingRoomToCarEffects {
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
-    private vehicleDetailsApiProvider: VehicleDetailsApiService,
+    private vehicleDetailsApiProvider: MotHistoryApiService,
     private networkStateProvider: NetworkStateProvider,
     private logHelper: LogHelper,
     private platform: Platform
@@ -60,8 +60,10 @@ export class WaitingRoomToCarEffects {
       map(([, regNumber]) => regNumber?.replace(/\s/g, '').toUpperCase()),
       // filter any requests that are nulls or empty strings from hitting service
       filter((regNumber) => !!regNumber),
-      switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
-      map((vehicleDetails) => MotStatusChanged(vehicleDetails?.status || MotStatus.NO_DETAILS)),
+      switchMap((regNumber) => this.vehicleDetailsApiProvider.getMotHistoryByIdentifier(regNumber)),
+      map((vehicleDetails: MotHistoryWithStatus) =>
+        MotStatusChanged(vehicleDetails?.data?.status || MotStatus.NO_DETAILS)
+      ),
       catchError((err) => {
         this.store$.dispatch(
           SaveLog({

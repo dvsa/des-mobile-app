@@ -10,6 +10,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 
@@ -46,7 +47,12 @@ export class VehicleDetailsCardComponent {
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
   public shouldHideCard(): boolean {
-    return !this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber;
+    return (
+      !this.transmission &&
+      !(this.registrationNumber || this.getPreviousFilteredVRNs()) &&
+      !this.schoolBike &&
+      !this.instructorRegistrationNumber
+    );
   }
 
   public get shouldShowDimensions(): boolean {
@@ -220,6 +226,10 @@ export class VehicleDetailsCardComponent {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
 
+  isInvalidMOT() {
+    return this.data?.motStatus === MotStatusCodes.NOT_VALID;
+  }
+
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {
@@ -229,5 +239,32 @@ export class VehicleDetailsCardComponent {
       this.shouldShowDimensions ||
       !this.vehicleDetails === undefined
     );
+  }
+
+  /**
+   * Get a list of previously searched VRNs that are not your final without duplicates
+   */
+  getPreviousFilteredVRNs(): string[] {
+    const filteredVRN: string[] = [];
+
+    if (this.data.previouslySearchedRegNumbers) {
+      this.data.previouslySearchedRegNumbers.forEach((value) => {
+        if (!filteredVRN.includes(value) && value !== this.registrationNumber) {
+          filteredVRN.push(value);
+        }
+      });
+    }
+
+    return filteredVRN;
+  }
+
+  getRegistrationText() {
+    if (this.registrationNumber) {
+      return this.registrationNumber;
+    } else if (this.getPreviousFilteredVRNs().length > 0) {
+      return 'Removed';
+    } else {
+      return 'None';
+    }
   }
 }

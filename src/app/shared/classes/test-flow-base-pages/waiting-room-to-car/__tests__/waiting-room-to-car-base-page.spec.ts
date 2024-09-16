@@ -21,6 +21,8 @@ import { DeviceProvider } from '@providers/device/device';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -112,6 +114,10 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
         {
           provide: Platform,
           useClass: PlatformMock,

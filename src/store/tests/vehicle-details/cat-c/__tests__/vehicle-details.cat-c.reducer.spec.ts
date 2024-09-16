@@ -1,3 +1,4 @@
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { vehicleDetailsCatCReducer } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
@@ -37,8 +38,8 @@ describe('vehicleDetailsCatDReducer', () => {
   });
   describe('PopulateVehicleDimensions', () => {
     it('should set vehicleLength and vehicleWidth to the values given', () => {
-      const result = vehicleDetailsCatCReducer(
-        { vehicleWidth: null, vehicleLength: null },
+      const result: CatCUniqueTypes.VehicleDetails = vehicleDetailsCatCReducer(
+        { vehicleWidth: null, vehicleLength: null } as CatCUniqueTypes.VehicleDetails,
         vehicleDetailsActions.PopulateVehicleDimensions(1, 2)
       );
       expect(result).toEqual({ vehicleWidth: 1, vehicleLength: 2 });

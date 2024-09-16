@@ -22,6 +22,9 @@ export class DataRowCustomComponent {
   centeredLabel = true;
 
   @Input()
+  customLabelStyling: { [p: string]: any } = null;
+
+  @Input()
   centeredIcon = true;
 
   @Input()

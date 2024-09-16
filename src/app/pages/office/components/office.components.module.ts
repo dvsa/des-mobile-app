@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
+import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
 import { ETACardComponent } from '@pages/office/components/eta-card/eta-card.component';
@@ -12,6 +13,7 @@ import { OfficeFooterComponent } from '@pages/office/components/office-footer/of
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AdditionalInformationComponent } from './additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from './alternate-mot-evidence-description/alternate-evidence-description.component';
 import { CandidateDescriptionComponent } from './candidate-description/candidate-description';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
 import { DateOfTest } from './date-of-test/date-of-test';
@@ -44,6 +46,8 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ECOCardComponent,
     DrivingFaultsComponent,
     ETACardComponent,
+    AlternateEvidenceDescriptionComponent,
+    AlternateEvidenceProvidedComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +78,8 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ECOCardComponent,
     DrivingFaultsComponent,
     ETACardComponent,
+    AlternateEvidenceDescriptionComponent,
+    AlternateEvidenceProvidedComponent,
   ],
 })
 export class OfficeComponentsModule {}

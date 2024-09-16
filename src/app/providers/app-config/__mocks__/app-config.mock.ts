@@ -3,7 +3,7 @@ import { AppConfig } from '../app-config.model';
 import { localEnvironmentMock } from './environment.mock';
 
 export class AppConfigProviderMock {
-  private appConfig = {
+  private appConfig: AppConfig = {
     liveAppVersion: localEnvironmentMock.liveAppVersion,
     configUrl: localEnvironmentMock.configUrl,
     googleAnalyticsId: localEnvironmentMock.googleAnalyticsId,
@@ -55,6 +55,9 @@ export class AppConfigProviderMock {
       standardUrl: localEnvironmentMock.driver.standardUrl,
       signatureUrl: localEnvironmentMock.driver.signatureUrl,
       photographUrl: localEnvironmentMock.driver.photographUrl,
+    },
+    mot: {
+      motHistoryUrl: localEnvironmentMock.mot.motHistoryUrl,
     },
     vehicle: {
       taxMotUrl: localEnvironmentMock.vehicle.taxMotUrl,

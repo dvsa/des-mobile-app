@@ -16,13 +16,60 @@
       >
       </transmission-display>
 
-      <data-row
-        *ngIf="registrationNumber"
-        [shouldHaveSeperator]="showRegistrationNumberSeparator"
+      <data-row-custom
+        [centeredLabel]="(getPreviousFilteredVRNs().length == 0)"
+        [centredData]="(getPreviousFilteredVRNs().length == 0)"
         [label]="'Vehicle registration number'"
-        [value]="registrationNumber"
       >
+        <ion-text class="mes-data">
+          {{ getRegistrationText()}}
+          <div *ngIf="(getPreviousFilteredVRNs().length > 0)">
+            <br/>
+          </div>
+        </ion-text>
+        <ion-accordion-group *ngIf="getPreviousFilteredVRNs().length > 0">
+          <ion-accordion
+            [toggleIcon]="'chevron-down'"
+            value="first"
+          >
+            <ion-item slot="header">
+              <label>{{ 'Other VRNs checked for MOT' }}</label>
+            </ion-item>
+            <div class="ion-padding mes-black" slot="content">
+              <ion-text *ngFor="let VRN of getPreviousFilteredVRNs()">{{ VRN }}<br/></ion-text>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </data-row-custom>
+
+      <data-row *ngIf="data.make || data.model" [value]="data.make + ' ' + data.model" [label]="'Make and Model'">
       </data-row>
+
+      <data-row-custom [centredData]="true" *ngIf="data?.motStatus" [label]="'MOT Status'">
+        <ion-col class="display-flex" size="11" *ngIf="isInvalidMOT()">
+          <img
+            src="assets/imgs/journal/exclamation-indicator.png"
+            alt="Attention, expired MOT"
+            class="exclamation"
+          />
+        </ion-col>
+        <ion-col class="display-flex">
+          <ion-text class="mes-data">{{ !isInvalidMOT() ? data.motStatus :
+            data?.testExpiryDate ? 'Expired ' + data?.testExpiryDate : 'Not valid' }}</ion-text>
+        </ion-col>
+      </data-row-custom>
+
+      <data-row
+        *ngIf="data.motEvidenceProvided != null"
+        [label]="'Alternative MOT evidence provided?'"
+        [value]="data.motEvidenceProvided ? 'Yes' : 'No'"
+      ></data-row>
+
+      <data-row
+        *ngIf="data.motEvidenceProvided"
+        [label]="'Alternative evidence details'"
+        [value]="data.motEvidence"
+      ></data-row>
 
       <data-row-custom
         *ngIf="vehicleDetails"
@@ -72,9 +119,9 @@
       >
       </data-row>
 
-      <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"> </data-row>
+      <data-row *ngIf="!isADI3() && trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
 
-      <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"> </data-row>
+      <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"></data-row>
 
       <data-row
         *ngIf="isADI2()"

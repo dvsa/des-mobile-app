@@ -58,6 +58,9 @@ export const initialState: AppConfig = {
     signatureUrl: null,
     standardUrl: null,
   },
+  mot: {
+    motHistoryUrl: null,
+  },
   vehicle: {
     taxMotUrl: null,
   },

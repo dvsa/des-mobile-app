@@ -10,6 +10,7 @@ import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-pa
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
+import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     OfficeComponentsModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [FaultSummaryProvider],
 })
