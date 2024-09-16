@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {IonicModule, IonRow} from '@ionic/angular';
+import { IonRow, IonicModule } from '@ionic/angular';
 
+import { CommonModule } from '@angular/common';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
 import { AlternateMotEvidenceComponent } from '../alternate-mot-evidence.component';
-import {CommonModule} from '@angular/common';
-import {MockComponent} from 'ng-mocks';
 
 enum AlternateEvidenceTestResult {
   Pass = 'P',
