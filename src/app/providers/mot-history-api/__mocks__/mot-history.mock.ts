@@ -1,5 +1,5 @@
-import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 export const fakeMOTResults: {
   pass: MotHistoryWithStatus;

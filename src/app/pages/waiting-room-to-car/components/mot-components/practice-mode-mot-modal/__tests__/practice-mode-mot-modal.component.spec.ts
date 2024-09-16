@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { PracticeModeMOTModal, PracticeModeMOTType } from '../practice-mode-mot-modal.component';
+import {MockComponent} from 'ng-mocks';
+import {ModalAlertTitleComponent} from '@components/common/modal-alert-title/modal-alert-title';
 
 describe('PracticeModeMOTModal', () => {
   let component: PracticeModeMOTModal;
@@ -10,7 +12,7 @@ describe('PracticeModeMOTModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeModeMOTModal],
+      declarations: [PracticeModeMOTModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
