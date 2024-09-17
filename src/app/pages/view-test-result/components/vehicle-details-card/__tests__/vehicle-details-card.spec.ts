@@ -8,6 +8,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 describe('VehicleDetailsCardComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCardComponent>;
@@ -422,6 +423,7 @@ describe('VehicleDetailsCardComponent', () => {
         expect(component.vehicleWidth).toEqual('?');
       });
     });
+
     describe('displayRegistration', () => {
       it('should return the correct value if the category is ADI3', () => {
         spyOn(component, 'isADI3').and.returnValue(true);
@@ -457,6 +459,91 @@ describe('VehicleDetailsCardComponent', () => {
         spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = undefined;
         expect(component.displayRegistration)!.toBeTruthy();
+      });
+    });
+
+    describe('getMotStatusText', () => {
+      it('returns "Valid until {testExpiryDate}" if motStatus is VALID and testExpiryDate is available', () => {
+        component.data = { motStatus: MotStatusCodes.VALID, testExpiryDate: '2023-12-31' };
+        expect(component.getMotStatusText()).toEqual('Valid until 2023-12-31');
+      });
+
+      it('returns "Valid" if motStatus is VALID and testExpiryDate is not available', () => {
+        component.data = { motStatus: MotStatusCodes.VALID };
+        expect(component.getMotStatusText()).toEqual('Valid');
+      });
+
+      it('returns motStatus text directly if motStatus is not invalid', () => {
+        component.data = { motStatus: 'SomeStatus' };
+        spyOn(component, 'isInvalidMOT').and.returnValue(false);
+        expect(component.getMotStatusText()).toEqual('SomeStatus');
+      });
+
+      it('returns "Expired {testExpiryDate}" if motStatus is invalid and testExpiryDate is available', () => {
+        component.data = { motStatus: MotStatusCodes.NOT_VALID, testExpiryDate: '2023-12-31' };
+        expect(component.getMotStatusText()).toEqual('Expired 2023-12-31');
+      });
+
+      it('returns "Not valid" if motStatus is invalid and testExpiryDate is not available', () => {
+        component.data = { motStatus: MotStatusCodes.NOT_VALID };
+        expect(component.getMotStatusText()).toEqual('Not valid');
+      });
+    });
+
+    describe('getPreviousFilteredVRNs', () => {
+      it('returns an empty array if previouslySearchedRegNumbers is not defined', () => {
+        component.data = {};
+        expect(component.getPreviousFilteredVRNs()).toEqual([]);
+      });
+
+      it('returns an empty array if previouslySearchedRegNumbers is empty', () => {
+        component.data = { previouslySearchedRegNumbers: [] };
+        expect(component.getPreviousFilteredVRNs()).toEqual([]);
+      });
+
+      it('returns previouslySearchedRegNumbers excluding the current registration number', () => {
+        component.data = {
+          previouslySearchedRegNumbers: ['ABC123', 'XYZ789'],
+          registrationNumber: 'ABC123',
+        };
+        expect(component.getPreviousFilteredVRNs()).toEqual(['XYZ789']);
+      });
+
+      it('returns previouslySearchedRegNumbers without duplicates', () => {
+        component.data = {
+          previouslySearchedRegNumbers: ['ABC123', 'XYZ789', 'ABC123'],
+          registrationNumber: 'DEF456',
+        };
+        expect(component.getPreviousFilteredVRNs()).toEqual(['ABC123', 'XYZ789']);
+      });
+
+      it('returns previouslySearchedRegNumbers if no current registration number is set', () => {
+        component.data = {
+          previouslySearchedRegNumbers: ['ABC123', 'XYZ789'],
+        };
+        expect(component.getPreviousFilteredVRNs()).toEqual(['ABC123', 'XYZ789']);
+      });
+    });
+
+    describe('isInvalidMOT', () => {
+      it('returns true if motStatus is NOT_VALID', () => {
+        component.data = { motStatus: MotStatusCodes.NOT_VALID };
+        expect(component.isInvalidMOT()).toEqual(true);
+      });
+
+      it('returns false if motStatus is VALID', () => {
+        component.data = { motStatus: MotStatusCodes.VALID };
+        expect(component.isInvalidMOT()).toEqual(false);
+      });
+
+      it('returns false if motStatus is undefined', () => {
+        component.data = {};
+        expect(component.isInvalidMOT()).toEqual(false);
+      });
+
+      it('returns false if data is undefined', () => {
+        component.data = undefined;
+        expect(component.isInvalidMOT()).toEqual(false);
       });
     });
   });

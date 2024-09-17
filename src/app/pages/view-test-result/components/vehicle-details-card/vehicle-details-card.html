@@ -59,8 +59,7 @@
           </ion-col>
           <ion-col class="display-flex ion-align-items-center">
             <ion-text class="mes-data">{{
-                !isInvalidMOT() ? data.motStatus :
-                  data?.testExpiryDate ? 'Expired ' + data?.testExpiryDate : 'Not valid'
+              getMotStatusText()
               }}
             </ion-text>
           </ion-col>

@@ -226,7 +226,12 @@ export class VehicleDetailsCardComponent {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
 
-  isInvalidMOT() {
+  /**
+   * Check if the vehicle's MOT status is invalid.
+   *
+   * @returns {boolean} - Returns true if the MOT status is NOT\_VALID, otherwise false.
+   */
+  isInvalidMOT(): boolean {
     return this.data?.motStatus === MotStatusCodes.NOT_VALID;
   }
 
@@ -258,7 +263,15 @@ export class VehicleDetailsCardComponent {
     return filteredVRN;
   }
 
-  getRegistrationText() {
+  /**
+   * Get the registration text based on the current registration number and previously filtered VRNs.
+   *
+   * @returns {string} - The registration text. Possible values are:
+   *   - The current registration number if it exists.
+   *   - 'Removed' if there are previously filtered VRNs and no current registration number.
+   *   - 'None' if there are no previously filtered VRNs and no current registration number.
+   */
+  getRegistrationText(): string {
     if (this.registrationNumber) {
       return this.registrationNumber;
     } else if (this.getPreviousFilteredVRNs().length > 0) {
@@ -266,5 +279,27 @@ export class VehicleDetailsCardComponent {
     } else {
       return 'None';
     }
+  }
+
+  /**
+   * Get the MOT status text based on the vehicle's MOT status and test expiry date.
+   *
+   * @returns {string} - The MOT status text. Possible values are:
+   *   - 'Valid until {testExpiryDate}' if the MOT status is valid and a test expiry date is available.
+   *   - 'Valid' if the MOT status is valid but no test expiry date is available.
+   *   - The MOT status text directly if the MOT status is not invalid.
+   *   - 'Expired {testExpiryDate}' if the MOT status is invalid and a test expiry date is available.
+   *   - 'Not valid' if the MOT status is invalid and no test expiry date is available.
+   */
+  getMotStatusText(): string {
+    if (this.data?.motStatus === MotStatusCodes.VALID) {
+      if (this.data?.testExpiryDate) {
+        return 'Valid until ' + this.data?.testExpiryDate;
+      }
+      return 'Valid';
+    } else if (!this.isInvalidMOT()) {
+      return this.data.motStatus;
+    }
+    return this.data?.testExpiryDate ? 'Expired ' + this.data?.testExpiryDate : 'Not valid';
   }
 }
