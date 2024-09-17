@@ -22,7 +22,7 @@
         [label]="'Vehicle registration number'"
       >
         <ion-text class="mes-data">
-          {{ getRegistrationText()}}
+          {{ getRegistrationText() }}
           <div *ngIf="(getPreviousFilteredVRNs().length > 0)">
             <br/>
           </div>
@@ -45,18 +45,26 @@
       <data-row *ngIf="data.make || data.model" [value]="data.make + ' ' + data.model" [label]="'Make and Model'">
       </data-row>
 
-      <data-row-custom [centredData]="true" *ngIf="data?.motStatus" [label]="'MOT Status'">
-        <ion-col class="display-flex" size="11" *ngIf="isInvalidMOT()">
-          <img
-            src="assets/imgs/journal/exclamation-indicator.png"
-            alt="Attention, expired MOT"
-            class="exclamation"
-          />
-        </ion-col>
-        <ion-col class="display-flex">
-          <ion-text class="mes-data">{{ !isInvalidMOT() ? data.motStatus :
-            data?.testExpiryDate ? 'Expired ' + data?.testExpiryDate : 'Not valid' }}</ion-text>
-        </ion-col>
+      <data-row-custom [centredData]="true" [label]="'MOT Status'">
+        <div class="ion-no-padding" *ngIf="!(data?.motStatus)">
+          <ion-text class="mes-data">No VRNs were checked for MOT</ion-text>
+        </div>
+        <div class="ion-no-padding" *ngIf="data?.motStatus">
+          <ion-col class="display-flex" size="11" *ngIf="isInvalidMOT()">
+            <img
+              src="assets/imgs/journal/exclamation-indicator.png"
+              alt="Attention, expired MOT"
+              class="exclamation"
+            />
+          </ion-col>
+          <ion-col class="display-flex">
+            <ion-text class="mes-data">{{
+                !isInvalidMOT() ? data.motStatus :
+                  data?.testExpiryDate ? 'Expired ' + data?.testExpiryDate : 'Not valid'
+              }}
+            </ion-text>
+          </ion-col>
+        </div>
       </data-row-custom>
 
       <data-row
