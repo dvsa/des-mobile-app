@@ -11,8 +11,8 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
 import { testsReducer } from '@store/tests/tests.reducer';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { MotNoEvidenceConfirmationComponent } from '../mot-no-evidence-confirmation';
-import {ActivityCodes} from '@shared/models/activity-codes';
 
 describe('MotNoEvidenceConfirmationComponent', () => {
   let fixture: ComponentFixture<MotNoEvidenceConfirmationComponent>;
