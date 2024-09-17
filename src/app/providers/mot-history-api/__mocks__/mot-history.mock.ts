@@ -13,7 +13,7 @@ export const fakeMOTResults: {
       make: 'Practice',
       model: 'Mode',
       status: MotStatusCodes.VALID,
-      expiryDate: '01/01/0001',
+      expiryDate: '31/12/9999',
     },
   },
   fail: {

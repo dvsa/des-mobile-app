@@ -12,7 +12,7 @@
         </ion-col>
         <ion-col>
           <ion-text>
-            {{ isValidMOT() ? data?.status : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
+            {{ isValidMOT() ? data?.expiryDate ? 'Valid until ' + data?.expiryDate : 'Valid' : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
           </ion-text>
         </ion-col>
       </ion-row>
