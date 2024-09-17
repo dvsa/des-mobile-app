@@ -12,6 +12,7 @@ import { testsReducer } from '@store/tests/tests.reducer';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MotNoEvidenceConfirmationComponent } from '../mot-no-evidence-confirmation';
+import {ActivityCodes} from '@shared/models/activity-codes';
 
 describe('MotNoEvidenceConfirmationComponent', () => {
   let fixture: ComponentFixture<MotNoEvidenceConfirmationComponent>;
@@ -66,7 +67,7 @@ describe('MotNoEvidenceConfirmationComponent', () => {
     describe('onContinue', () => {
       it('should dispatch an action to set the activity code to failed mot', async () => {
         await component.onContinue();
-        expect(store$.dispatch).toHaveBeenCalledWith(SetActivityCode('12'));
+        expect(store$.dispatch).toHaveBeenCalledWith(SetActivityCode(ActivityCodes.MOT_INVALID));
       });
     });
   });
