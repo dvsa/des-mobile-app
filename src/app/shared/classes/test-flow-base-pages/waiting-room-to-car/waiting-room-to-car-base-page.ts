@@ -47,6 +47,8 @@ import {
   CandidateDeclarationSigned,
   SetDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
 import {
   hasEyesightTestBeenCompleted,
   hasEyesightTestGotSeriousFault,
@@ -85,8 +87,6 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
