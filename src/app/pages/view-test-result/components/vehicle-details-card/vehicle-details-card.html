@@ -49,15 +49,15 @@
         <div class="ion-no-padding" *ngIf="!(data?.motStatus)">
           <ion-text class="mes-data">No VRNs were checked for MOT</ion-text>
         </div>
-        <div class="ion-no-padding" *ngIf="data?.motStatus">
-          <ion-col class="display-flex" size="11" *ngIf="isInvalidMOT()">
+        <div class="display-flex ion-no-padding width-100-percent" *ngIf="data?.motStatus">
+          <ion-col class="ion-align-items-center display-flex" size="10" *ngIf="isInvalidMOT()">
             <img
               src="assets/imgs/journal/exclamation-indicator.png"
               alt="Attention, expired MOT"
               class="exclamation"
             />
           </ion-col>
-          <ion-col class="display-flex">
+          <ion-col class="display-flex ion-align-items-center">
             <ion-text class="mes-data">{{
                 !isInvalidMOT() ? data.motStatus :
                   data?.testExpiryDate ? 'Expired ' + data?.testExpiryDate : 'Not valid'
