@@ -3,6 +3,7 @@ import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivi
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { get } from 'lodash-es';
 
 @Component({
@@ -22,7 +23,8 @@ export class ModalActivityCodeListComponent {
   };
 
   isOptionDisabled = (activityCode: ActivityCode): boolean =>
-    Number.parseInt(activityCode, 10) < 4 || Number.parseInt(activityCode, 10) == 12;
+    Number.parseInt(activityCode, 10) < 4 ||
+    Number.parseInt(activityCode, 10) == Number.parseInt(ActivityCodes.MOT_INVALID);
 
   selectActivityCode = async (activityCodeModel: ActivityCodeModel): Promise<void> => {
     if (this.isOptionDisabled(activityCodeModel.activityCode)) {

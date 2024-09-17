@@ -4,6 +4,7 @@ import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivi
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { ModalController } from '@ionic/angular';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 @Component({
   selector: 'activity-code',
@@ -62,7 +63,10 @@ export class ActivityCodeComponent implements OnChanges {
     if (this.activityCodeModel) {
       activityCode = Number.parseInt(this.activityCodeModel.activityCode, 10);
     }
-    return this.disabled || (this.activityCodeModel && (activityCode < 4 || activityCode == 12));
+    return (
+      this.disabled ||
+      (this.activityCodeModel && (activityCode < 4 || activityCode == Number.parseInt(ActivityCodes.MOT_INVALID)))
+    );
   }
 
   openActivityCodeListModal = async (): Promise<void> => {

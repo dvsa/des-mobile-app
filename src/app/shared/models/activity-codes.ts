@@ -5,7 +5,6 @@ export enum ActivityCodes {
   FAIL_PUBLIC_SAFETY = '4',
   FAIL_CANDIDATE_STOPS_TEST = '5',
   MECHANICAL_FAILURE = '11',
-  MOT_INVALID = '12',
   DOCUMENTS_NOT_PRODUCED = '20',
   VEHICLE_NOT_SUITABLE = '21',
   NO_L_PLATES = '22',
@@ -46,6 +45,7 @@ export enum ActivityCodes {
   INCORRECT_LENSE_WORN = '82',
   SITE_ACCESS_MANAGER_NOT_AVAILABLE = '83',
   NO_BODY_CAM_AVAILABLE = '88',
+  MOT_INVALID = '89',
 }
 
 export enum DelegatedExaminerActivityCodes {
