@@ -43,6 +43,7 @@
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [isRekeyMode]="pageState.isRekeyMode$ | async"
             >
             </vehicle-registration>
             <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">

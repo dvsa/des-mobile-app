@@ -29,6 +29,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   formGroup: UntypedFormGroup;
   @Input()
   isPracticeMode: boolean;
+  @Input()
+  isRekeyMode: boolean;
 
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
