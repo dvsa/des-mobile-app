@@ -31,7 +31,6 @@ export class AlternateMotEvidenceComponent implements OnInit {
 
   setupControl(): void {
     if (!this.formControl) {
-      this.formControl = null;
       this.formControl = new UntypedFormControl('', [Validators.required]);
       if (this.formGroup.contains('alternateEvidenceCtrl')) {
         this.formGroup.setControl('alternateEvidenceCtrl', this.formControl);
