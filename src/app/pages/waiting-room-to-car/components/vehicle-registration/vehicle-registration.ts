@@ -7,6 +7,7 @@ import {
   PracticeModeMOTModal,
   PracticeModeMOTType,
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -16,7 +17,6 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { isEmpty } from 'lodash-es';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'vehicle-registration',
