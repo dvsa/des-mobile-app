@@ -14,7 +14,9 @@ export enum PracticeModeMOTType {
   styleUrls: ['./practice-mode-mot-modal.component.scss'],
 })
 export class PracticeModeMOTModal {
-  constructor(public modalCtrl: ModalController) {}
+  constructor(
+    public modalCtrl: ModalController,
+  ) {}
 
   async onConfirm(type: PracticeModeMOTType) {
     await this.modalCtrl.dismiss(type);
