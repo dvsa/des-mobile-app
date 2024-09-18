@@ -14,14 +14,13 @@
   <ion-col class="ion-align-self-center mes-padding-left">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-col class="display-flex" [size]="isRekeyMode ? 57 : 45">
+      <ion-col class="display-flex ion-align-items-center" [size]="isRekeyMode ? 57 : 45">
         <ion-input
           type="text"
           id="registration"
           aria-labelledby="vehicle-registration-number-title"
           formControlName="vehicleRegistration"
           class="ion-input-styling"
-          [class.margin-bottom]="!invalid"
           [class.ng-invalid]="invalid"
           [value]="vehicleRegistration"
           (ionInput)="vehicleRegistrationChanged($event)"
@@ -31,7 +30,7 @@
           pasteSanitiser
         ></ion-input>
       </ion-col>
-      <ion-col *ngIf="!isRekeyMode" size="35">
+      <ion-col class="display-flex ion-align-items-center" *ngIf="!isRekeyMode" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
         <ion-button
           [disabled]="!((formControl.valid) && (networkState.getNetworkState() == ConnectionStatus.ONLINE || isPracticeMode))"
           class="mes-grey-button"
@@ -44,8 +43,8 @@
         <ion-spinner class="search-spinner" name="bubbles" *ngIf="showSearchSpinner"></ion-spinner>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="invalid" class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-registration-validation-text">
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [hidden]="!invalid" [class.ng-invalid]="invalid" id="waiting-room-to-car-registration-validation-text">
         Enter the registration number
       </div>
     </ion-row>

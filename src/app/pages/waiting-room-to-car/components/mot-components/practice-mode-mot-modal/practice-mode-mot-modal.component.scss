@@ -4,7 +4,7 @@
   @extend .modal-alert-wrapper;
 
   .modal-alert {
-    width: 400px;
+    width: 500px;
   }
 
   .modal-alert-header {
@@ -18,6 +18,10 @@
   .return-button {
     font-weight: bold;
     color: var(--gds-black)
+  }
+
+  .cancel-button {
+    color: var(--gds-black);
   }
 
 }

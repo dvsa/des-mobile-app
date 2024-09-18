@@ -7,6 +7,7 @@ import {
   PracticeModeMOTModal,
   PracticeModeMOTType,
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -56,7 +57,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   constructor(
     public motApiService: MotHistoryApiService,
     public modalController: ModalController,
-    protected networkState: NetworkStateProvider
+    protected networkState: NetworkStateProvider,
+    protected accessibilityService: AccessibilityService
   ) {}
 
   get invalid(): boolean {
@@ -205,5 +207,16 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   isMOTNotValid() {
     return this.motData?.data?.status !== MotStatusCodes.NOT_VALID;
+  }
+
+  getMOTButtonColSize(zoomClass: string) {
+    switch (zoomClass) {
+      case 'text-zoom-x-large':
+        return 37;
+      case 'text-zoom-large':
+        return 33;
+      default:
+        return 30;
+    }
   }
 }
