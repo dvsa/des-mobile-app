@@ -45,6 +45,7 @@ export enum ActivityCodes {
   INCORRECT_LENSE_WORN = '82',
   SITE_ACCESS_MANAGER_NOT_AVAILABLE = '83',
   NO_BODY_CAM_AVAILABLE = '88',
+  MOT_INVALID = '89',
 }
 
 export enum DelegatedExaminerActivityCodes {

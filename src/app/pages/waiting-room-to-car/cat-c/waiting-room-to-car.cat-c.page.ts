@@ -38,6 +38,11 @@ import {
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import {
+  MotEvidenceChanged,
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
@@ -122,6 +127,12 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     this.setupSubscription();
   }
 
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
+
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
 
@@ -179,4 +190,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);
+  protected readonly MotEvidenceChanged = MotEvidenceChanged;
+  protected readonly MotEvidenceProvidedToggled = MotEvidenceProvidedToggled;
 }

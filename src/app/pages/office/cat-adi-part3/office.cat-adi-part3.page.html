@@ -36,6 +36,20 @@
           >
           </activity-code>
 
+          <alternate-mot-evidence-provided
+            *ngIf="(pageState.motAlternativeEvidenceProvided | async) != null"
+            [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided | async"
+            [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided | async) || (pageState.displayAdditionalInformation$ | async)"
+          ></alternate-mot-evidence-provided>
+
+          <alternate-mot-evidence-description
+            [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+            *ngIf="pageState.motAlternativeEvidenceProvided | async"
+            (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
+            [formGroup]="form"
+          >
+          </alternate-mot-evidence-description>
+
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <additional-information
               [display]="pageState.displayAdditionalInformation$ | async"

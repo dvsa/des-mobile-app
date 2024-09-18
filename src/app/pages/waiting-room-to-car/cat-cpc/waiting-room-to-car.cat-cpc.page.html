@@ -17,7 +17,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
+  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -33,12 +34,24 @@
             </candidate-declaration-signed>
 
             <vehicle-registration
+              (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vrnSearchListUpdate)="updateVRNSearchList($event)"
+              (motDetailsUpdate)="motDetailsChanged($event)"
+              (motFailedModalToggled)="blurScreenContent($event)"
               [formGroup]="form"
+              [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [isRekeyMode]="pageState.isRekeyMode$ | async"
             >
             </vehicle-registration>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
+
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
             <vehicle-details-cat-cpc
               (vehicleDetailsChange)="vehicleConfiguration($event)"
@@ -64,6 +77,7 @@
               [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
             >
             </accompaniment-card-cat-cpc>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -71,8 +85,8 @@
   </div>
 </ion-content>
 
-<ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
+<ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col *ngIf="!isDelegated" class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

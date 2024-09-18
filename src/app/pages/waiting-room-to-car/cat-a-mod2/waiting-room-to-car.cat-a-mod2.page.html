@@ -13,7 +13,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content forceOverscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
+  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -57,12 +58,25 @@
             >
               <ion-col class="ion-no-padding">
                 <vehicle-registration
+                  (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
                   (vehicleRegistrationBlur)="getMOTStatus()"
                   (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+                  (vrnSearchListUpdate)="updateVRNSearchList($event)"
+                  (motDetailsUpdate)="motDetailsChanged($event)"
+                  (motFailedModalToggled)="blurScreenContent($event)"
                   [formGroup]="form"
+                  [isPracticeMode]="isEndToEndPracticeMode"
                   [vehicleRegistration]="pageState.registrationNumber$ | async"
+                  [isRekeyMode]="pageState.isRekeyMode$ | async"
                 >
                 </vehicle-registration>
+
+                <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+                  <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                  </mot-no-evidence-confirmation>
+                </ion-row>
+
+                <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
                 <vehicle-checks-cat-a-mod2
                   (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
@@ -93,6 +107,7 @@
                   [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
                 >
                 </vehicle-details-card>
+                </div>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -102,8 +117,8 @@
   </div>
 </ion-content>
 
-<ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
+<ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

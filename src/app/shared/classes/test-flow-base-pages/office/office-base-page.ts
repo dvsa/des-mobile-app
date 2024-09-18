@@ -133,9 +133,11 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
+  MotEvidenceChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { getMotEvidenceProvided } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
@@ -187,6 +189,7 @@ export interface CommonOfficePageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
+  motAlternativeEvidenceProvided: Observable<boolean>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -397,6 +400,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
       otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
+      motAlternativeEvidenceProvided: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
     };
   }
 
@@ -630,5 +634,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       },
     });
     await this.finishTestModal.present();
+  }
+
+  alternativeMOTEvidenceDescriptionUpdated(evidence: string) {
+    this.store$.dispatch(MotEvidenceChanged(evidence));
   }
 }

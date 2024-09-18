@@ -1,0 +1,48 @@
+<div class="black-text" id="mot-details-successful" *ngIf="callWasSuccessful()">
+  <ion-row>
+    <ion-col size="34"></ion-col>
+    <ion-col size="10">
+      <ion-icon *ngIf="isValidMOT()" class="tick-icon" name="checkmark-sharp"></ion-icon>
+      <ion-icon *ngIf="!isValidMOT()" class="close-icon" name="close-outline"></ion-icon>
+    </ion-col>
+    <ion-col size="50">
+      <ion-row>
+        <ion-col size="35">
+          <ion-text class="bold-font"> MOT Status</ion-text>
+        </ion-col>
+        <ion-col>
+          <ion-text>
+            {{ isValidMOT() ? data?.expiryDate ? 'Valid until ' + data?.expiryDate : 'Valid' : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="35">
+          <ion-text class="bold-font"> Make/Model</ion-text>
+        </ion-col>
+        <ion-col size="50">
+          <ion-text> {{ data?.make }} {{ data?.model }}</ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <alternate-mot-evidence
+    *ngIf="!isValidMOT()"
+    (alternateEvidenceChange)="evidenceRadioSelected($event)"
+    [alternateEvidencePassRadioChecked]="alternateEvidenceRadioCheck == true"
+    [alternateEvidenceFailRadioChecked]="alternateEvidenceRadioCheck == false"
+    [formGroup]="formGroup"
+  ></alternate-mot-evidence>
+</div>
+<div class="black-text" id="mot-details-unsuccessful" *ngIf="!callWasSuccessful()">
+  <ion-row>
+    <ion-col size="34"></ion-col>
+    <ion-col size="9">
+      <ion-icon class="circle-icon" name="alert-circle"></ion-icon>
+    </ion-col>
+    <ion-col class="icon-text-align" size="49">
+      <ion-text *ngIf="noDetails() || is404()"> Unable to determine MOT status.</ion-text>
+      <ion-text *ngIf="searchFailed()"> Unable to connect. This feature is not available.</ion-text>
+    </ion-col>
+  </ion-row>
+</div>

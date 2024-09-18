@@ -30,7 +30,11 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
 import { getVehicleConfiguration } from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.selector';
-import { PopulateVehicleConfiguration } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled,
+  PopulateVehicleConfiguration,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -94,6 +98,12 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
     };
     this.setupSubscription();
   }
+
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();

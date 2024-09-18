@@ -147,6 +147,20 @@
             >
             </accompaniment-card>
 
+            <alternate-mot-evidence-provided
+              *ngIf="(pageState.motAlternativeEvidenceProvided | async) != null"
+              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided | async"
+              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided | async) || (pageState.displayAdditionalInformation$ | async)"
+            ></alternate-mot-evidence-provided>
+
+            <alternate-mot-evidence-description
+              [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+              *ngIf="pageState.motAlternativeEvidenceProvided | async"
+              (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
+              [formGroup]="form"
+            >
+            </alternate-mot-evidence-description>
+
             <additional-information
               [display]="pageState.displayAdditionalInformation$ | async"
               [additionalInformation]="pageState.additionalInformation$ | async"

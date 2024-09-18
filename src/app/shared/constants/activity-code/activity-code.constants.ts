@@ -18,6 +18,7 @@ export enum ActivityCodeDescription {
   NO_L_PLATES = 'No ‘L’ plates / candidate refused to wear face covering',
   MOTORCYCLE_CANDIDATE_LOST_AND_RETURNED = 'Motorcycle candidate lost and returned too late to DTC',
   MOTORCYCLE_CANDIDATE_LOST_DID_NOT_RETURN = 'Motorcycle candidate lost and did not return to test centre',
+  MOT_INVALID = 'No valid MOT',
   DVSA_RADIO_FAILURE = 'DVSA radio failure',
   DVSA_MOTORCYCLE_BREAKDOWN = 'DVSA motorcycle breakdown',
   LANGUAGE_ISSUES = 'Language issues',

@@ -354,6 +354,9 @@ export class AppConfigProvider {
       vehicle: {
         taxMotUrl: data.vehicle.taxMotUrl,
       },
+      mot: {
+        motHistoryUrl: data.mot.motHistoryUrl,
+      },
       refData: {
         testCentreUrl: data.refData.testCentreUrl,
       },

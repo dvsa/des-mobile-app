@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title id="waiting-room-to-car-page-title">{{ pageState.candidateName$ | async }}</ion-title>
     <ion-buttons id="end-test-button" slot="end">
       <end-test-link
         [category]="pageState.category$ | async"
@@ -13,7 +13,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content forceOverscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
+  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -37,34 +38,47 @@
             </transmission>
 
             <vehicle-registration
+              (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vrnSearchListUpdate)="updateVRNSearchList($event)"
+              (motDetailsUpdate)="motDetailsChanged($event)"
+              (motFailedModalToggled)="blurScreenContent($event)"
               [formGroup]="form"
+              [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [isRekeyMode]="pageState.isRekeyMode$ | async"
             >
             </vehicle-registration>
 
-            <accompaniment-card
-              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-            >
-            </accompaniment-card>
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+              </mot-no-evidence-confirmation>
+            </ion-row>
 
-            <vehicle-details-card
-              (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
-              [formGroup]="form"
-              [hideSchoolBikeRow]="false"
-              [hideSchoolVehicleAndDualControlRow]="true"
-              [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
-            >
-            </vehicle-details-card>
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+              <accompaniment-card
+                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                [formGroup]="form"
+                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              >
+              </accompaniment-card>
+
+              <vehicle-details-card
+                (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
+                [formGroup]="form"
+                [hideSchoolBikeRow]="false"
+                [hideSchoolVehicleAndDualControlRow]="true"
+                [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
+              >
+              </vehicle-details-card>
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -72,8 +86,8 @@
   </div>
 </ion-content>
 
-<ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
+<ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

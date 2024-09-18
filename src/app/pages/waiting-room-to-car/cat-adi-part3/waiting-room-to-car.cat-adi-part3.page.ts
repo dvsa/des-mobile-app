@@ -29,7 +29,12 @@ import {
   getPDILogbook,
   getTraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.selector';
-import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  DualControlsToggledNo,
+  DualControlsToggledYes,
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatAdi3WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -69,6 +74,12 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
       trainerAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getTrainerAccompaniment)),
     };
   }
+
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());

@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
+import { of } from 'rxjs';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
   mockBlankRegistrationNumber,
@@ -16,6 +19,7 @@ describe('VehicleRegistrationComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleRegistrationComponent],
+      providers: [Store],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
@@ -35,6 +39,28 @@ describe('VehicleRegistrationComponent', () => {
         expect(component.formGroup.controls.vehicleRegistration).toBeTruthy();
       }
     );
+  });
+
+  describe('getMOT', () => {
+    it('should remove evidenceDescriptionCtrl and alternateEvidenceCtrl from the form', () => {
+      component.formGroup.addControl('alternateEvidenceCtrl', component.formControl);
+      component.formGroup.addControl('evidenceDescriptionCtrl', component.formControl);
+      spyOn(component.motApiService, 'getMotHistoryByIdentifier').and.returnValue(
+        of({
+          status: '200',
+          data: {
+            registration: 'reg',
+            make: 'make',
+            model: 'model',
+            status: MotStatusCodes.VALID,
+            expiryDate: '1/1/1',
+          },
+        })
+      );
+      component.getMOT('11');
+
+      expect(component.formGroup.controls).not.toContain(['alternateEvidenceCtrl', 'evidenceDescriptionCtrl']);
+    });
   });
 
   describe('invalid', () => {

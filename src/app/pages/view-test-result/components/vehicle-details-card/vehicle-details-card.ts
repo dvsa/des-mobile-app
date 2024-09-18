@@ -10,6 +10,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 
@@ -46,7 +47,12 @@ export class VehicleDetailsCardComponent {
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
   public shouldHideCard(): boolean {
-    return !this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber;
+    return (
+      !this.transmission &&
+      !(this.registrationNumber || this.getPreviousFilteredVRNs()) &&
+      !this.schoolBike &&
+      !this.instructorRegistrationNumber
+    );
   }
 
   public get shouldShowDimensions(): boolean {
@@ -220,6 +226,15 @@ export class VehicleDetailsCardComponent {
     return get(this.data, 'schoolCar') ? 'No' : 'Yes';
   }
 
+  /**
+   * Check if the vehicle's MOT status is invalid.
+   *
+   * @returns {boolean} - Returns true if the MOT status is NOT\_VALID, otherwise false.
+   */
+  isInvalidMOT(): boolean {
+    return this.data?.motStatus === MotStatusCodes.NOT_VALID;
+  }
+
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {
@@ -229,5 +244,62 @@ export class VehicleDetailsCardComponent {
       this.shouldShowDimensions ||
       !this.vehicleDetails === undefined
     );
+  }
+
+  /**
+   * Get a list of previously searched VRNs that are not your final without duplicates
+   */
+  getPreviousFilteredVRNs(): string[] {
+    const filteredVRN: string[] = [];
+
+    if (this.data.previouslySearchedRegNumbers) {
+      this.data.previouslySearchedRegNumbers.forEach((value) => {
+        if (!filteredVRN.includes(value) && value !== this.registrationNumber) {
+          filteredVRN.push(value);
+        }
+      });
+    }
+
+    return filteredVRN;
+  }
+
+  /**
+   * Get the registration text based on the current registration number and previously filtered VRNs.
+   *
+   * @returns {string} - The registration text. Possible values are:
+   *   - The current registration number if it exists.
+   *   - 'Removed' if there are previously filtered VRNs and no current registration number.
+   *   - 'None' if there are no previously filtered VRNs and no current registration number.
+   */
+  getRegistrationText(): string {
+    if (this.registrationNumber) {
+      return this.registrationNumber;
+    } else if (this.getPreviousFilteredVRNs().length > 0) {
+      return 'Removed';
+    } else {
+      return 'None';
+    }
+  }
+
+  /**
+   * Get the MOT status text based on the vehicle's MOT status and test expiry date.
+   *
+   * @returns {string} - The MOT status text. Possible values are:
+   *   - 'Valid until {testExpiryDate}' if the MOT status is valid and a test expiry date is available.
+   *   - 'Valid' if the MOT status is valid but no test expiry date is available.
+   *   - The MOT status text directly if the MOT status is not invalid.
+   *   - 'Expired {testExpiryDate}' if the MOT status is invalid and a test expiry date is available.
+   *   - 'Not valid' if the MOT status is invalid and no test expiry date is available.
+   */
+  getMotStatusText(): string {
+    if (this.data?.motStatus === MotStatusCodes.VALID) {
+      if (this.data?.testExpiryDate) {
+        return 'Valid until ' + this.data?.testExpiryDate;
+      }
+      return 'Valid';
+    } else if (!this.isInvalidMOT()) {
+      return this.data.motStatus;
+    }
+    return this.data?.testExpiryDate ? 'Expired ' + this.data?.testExpiryDate : 'Not valid';
   }
 }

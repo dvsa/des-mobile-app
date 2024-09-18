@@ -2,9 +2,6 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -32,6 +29,13 @@ import {
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import {
+  MotEvidenceChanged,
+  MotEvidenceProvidedReset,
+  MotEvidenceProvidedToggled,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -86,6 +90,12 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     };
   }
 
+  motNoEvidenceCancelled = (): void => {
+    this.form.get('alternateEvidenceCtrl')?.reset();
+    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
+    this.store$.dispatch(MotEvidenceProvidedReset());
+  };
+
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
@@ -125,4 +135,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     }
     this.store$.dispatch(TellMeQuestionDrivingFault());
   }
+
+  protected readonly MotEvidenceChanged = MotEvidenceChanged;
+  protected readonly MotEvidenceProvidedToggled = MotEvidenceProvidedToggled;
 }
