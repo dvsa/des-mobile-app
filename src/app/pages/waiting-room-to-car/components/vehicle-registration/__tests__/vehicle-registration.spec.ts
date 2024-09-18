@@ -11,6 +11,7 @@ import {
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
+import {ConnectionStatus} from '@providers/network-state/network-state';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
@@ -112,6 +113,49 @@ describe('VehicleRegistrationComponent', () => {
       component.vehicleRegistrationChanged(mockBlankRegistrationNumber);
       expect(component.formControl.setErrors).toHaveBeenCalledWith({ invalidValue: '' });
       expect(component.vehicleRegistrationChange.emit).toHaveBeenCalledWith('');
+    });
+  });
+  describe('shouldDisableMOTButton', () => {
+    it('should return true if the search spinner is shown', () => {
+      component.showSearchSpinner = true;
+      component.formControl.setValue('valid');
+      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+
+      expect(component.shouldDisableMOTButton()).toBeTrue();
+    });
+
+    it('should return true if the form control is not valid', () => {
+      component.showSearchSpinner = false;
+      component.formControl.setValue(null);
+      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+
+      expect(component.shouldDisableMOTButton()).toBeTrue();
+    });
+
+    it('should return true if the network state is offline and not in practice mode', () => {
+      component.showSearchSpinner = false;
+      component.formControl.setValue('valid');
+      component.isPracticeMode = false;
+      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+
+      expect(component.shouldDisableMOTButton()).toBeTrue();
+    });
+
+    it('should return false if the search spinner is not shown, form control is valid, and network state is online', () => {
+      component.showSearchSpinner = false;
+      component.formControl.setValue('valid');
+      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+
+      expect(component.shouldDisableMOTButton()).toBeFalse();
+    });
+
+    it('should return false if the search spinner is not shown, form control is valid, and in practice mode', () => {
+      component.showSearchSpinner = false;
+      component.formControl.setValue('valid');
+      component.isPracticeMode = true;
+      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+
+      expect(component.shouldDisableMOTButton()).toBeFalse();
     });
   });
 });
