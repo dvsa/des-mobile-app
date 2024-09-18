@@ -207,4 +207,22 @@ export class VehicleRegistrationComponent implements OnChanges {
         return 30;
     }
   }
+
+  /**
+   * Determines whether the MOT button should be disabled.
+   *
+   * The button is disabled if:
+   * - The search spinner is currently shown.
+   * - The form control is not valid.
+   * - The network state is offline and it is not practice mode.
+   *
+   * @returns {boolean} - Returns true if the MOT button should be disabled, otherwise false.
+   */
+  shouldDisableMOTButton(): boolean {
+    return !(
+      !this.showSearchSpinner &&
+      this.formControl.valid &&
+      (this.networkState.getNetworkState() == ConnectionStatus.ONLINE || this.isPracticeMode)
+    );
+  }
 }
