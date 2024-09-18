@@ -6,9 +6,9 @@ import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { MockComponent } from 'ng-mocks';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 describe('VehicleDetailsCardComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCardComponent>;
