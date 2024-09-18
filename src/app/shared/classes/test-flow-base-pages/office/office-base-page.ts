@@ -637,7 +637,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   alternativeMOTEvidenceDescriptionUpdated(evidence: string) {
-    console.log(evidence);
     this.store$.dispatch(MotEvidenceChanged(evidence));
   }
 }
