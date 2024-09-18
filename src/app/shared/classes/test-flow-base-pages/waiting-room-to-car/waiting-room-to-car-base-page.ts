@@ -235,10 +235,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
   }
 
-  getMOTStatus(): void {
-    // Temporarily disable the call to the MOT endpoint as it's not being used.
-    // this.store$.dispatch(GetMotStatus());
-  }
   getMOTEvidenceProvided(evidenceToggle: boolean): void {
     this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
   }

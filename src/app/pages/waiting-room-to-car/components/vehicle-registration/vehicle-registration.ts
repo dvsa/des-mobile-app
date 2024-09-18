@@ -38,8 +38,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   motFailedModalToggled = new EventEmitter<boolean>();
   @Output()
-  vehicleRegistrationBlur = new EventEmitter<string>();
-  @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
   @Output()
   vrnSearchListUpdate = new EventEmitter<string>();
@@ -175,12 +173,6 @@ export class VehicleRegistrationComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl('vehicleRegistration', this.formControl);
-
-      // if vehicleRegistration already set using VRN early modal and not interacted with here,
-      // we trick the component into dispatching the emission
-      if (this.vehicleRegistration != null) {
-        this.onBlurEvent(this.vehicleRegistration);
-      }
     }
     this.formControl.patchValue(this.vehicleRegistration);
   }
@@ -198,10 +190,6 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.vehicleRegistration = event.target.value?.toUpperCase();
     this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
-
-  onBlurEvent = (vehicleRegistration: string): void => {
-    this.vehicleRegistrationBlur.emit(vehicleRegistration);
-  };
 
   protected readonly ConnectionStatus = ConnectionStatus;
 
