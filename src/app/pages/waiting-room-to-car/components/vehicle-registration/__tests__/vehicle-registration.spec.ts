@@ -4,6 +4,7 @@ import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
+import { ConnectionStatus } from '@providers/network-state/network-state';
 import { of } from 'rxjs';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
@@ -11,7 +12,6 @@ import {
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
-import {ConnectionStatus} from '@providers/network-state/network-state';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
