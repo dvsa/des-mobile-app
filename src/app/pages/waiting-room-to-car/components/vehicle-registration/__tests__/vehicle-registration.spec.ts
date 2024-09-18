@@ -23,7 +23,6 @@ describe('VehicleRegistrationComponent', () => {
       imports: [IonicModule, AppModule, ReactiveFormsModule],
     });
 
-    // store$ = TestBed.inject(Store);
     fixture = TestBed.createComponent(VehicleRegistrationComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
