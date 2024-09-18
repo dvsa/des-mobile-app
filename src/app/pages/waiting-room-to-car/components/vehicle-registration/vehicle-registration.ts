@@ -16,6 +16,7 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { isEmpty } from 'lodash-es';
+import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'vehicle-registration',
@@ -56,7 +57,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   constructor(
     public motApiService: MotHistoryApiService,
     public modalController: ModalController,
-    protected networkState: NetworkStateProvider
+    protected networkState: NetworkStateProvider,
+    protected accessibilityService: AccessibilityService
   ) {}
 
   get invalid(): boolean {
@@ -205,5 +207,16 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   isMOTNotValid() {
     return this.motData?.data?.status !== MotStatusCodes.NOT_VALID;
+  }
+
+  getMOTButtonColSize(zoomClass: string) {
+    switch (zoomClass) {
+      case 'text-zoom-x-large':
+        return 37;
+      case 'text-zoom-large':
+        return 33;
+      default:
+        return 30;
+    }
   }
 }

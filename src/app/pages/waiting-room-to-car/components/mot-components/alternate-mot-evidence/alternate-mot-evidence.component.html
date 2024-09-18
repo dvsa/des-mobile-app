@@ -35,6 +35,7 @@
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div
+        [hidden]="!invalid"
         class="validation-text"
         [class.ng-invalid]="invalid"
         id="waiting-room-to-car-alternate-evidence-validation-text"

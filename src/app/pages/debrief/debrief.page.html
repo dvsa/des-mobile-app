@@ -8,10 +8,10 @@
       >{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title
     >
   </ion-toolbar>
-  <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
 </ion-header>
 
 <ion-content>
+  <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
   <speed-check-debrief-card
     *ngIf="pageState.showSpeedCheck$ | async"
     [emergencyStop]="pageState.emergencyStop$ | async"
