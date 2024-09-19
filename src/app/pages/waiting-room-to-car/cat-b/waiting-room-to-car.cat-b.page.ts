@@ -101,7 +101,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
-
+      this.abortMOTCall()
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
         replaceUrl: true,
       });

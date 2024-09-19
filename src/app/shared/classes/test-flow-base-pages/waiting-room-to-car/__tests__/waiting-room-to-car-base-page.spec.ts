@@ -380,4 +380,17 @@ describe('WaitingRoomToCarBasePageComponent', () => {
       ] as QuestionResult[]);
     });
   });
+
+  describe('abortMOTCall', () => {
+    it('should set didAbortMotCall to true', () => {
+      basePageComponent.abortMOTCall();
+      expect(basePageComponent.didAbortMotCall).toBeTrue();
+    });
+
+    it('should emit a value from abortSubject', () => {
+      spyOn(basePageComponent.abortSubject, 'next');
+      basePageComponent.abortMOTCall();
+      expect(basePageComponent.abortSubject.next).toHaveBeenCalled();
+    });
+  });
 });

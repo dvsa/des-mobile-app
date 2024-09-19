@@ -43,6 +43,8 @@
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [isRekeyMode]="pageState.isRekeyMode$ | async"
+              [abortSubject]="abortSubject"
+              [didAbortMotCall]="didAbortMotCall"
             >
             </vehicle-registration>
 

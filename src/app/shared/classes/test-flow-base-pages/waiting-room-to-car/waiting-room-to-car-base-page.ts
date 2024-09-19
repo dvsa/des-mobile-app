@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { Inject, Injector } from '@angular/core';
+import {Inject, Injector} from '@angular/core';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import {
   WaitingRoomToCarBikeCategoryChanged,
@@ -122,6 +122,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   testCategory: TestCategory;
   trainerNumberProvided = false;
   failedMOTModalCurrentlyOpen = false;
+  didAbortMotCall = false;
+  abortSubject: Subject<void> = new Subject<void>();
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -330,5 +332,16 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     });
 
     await alert.present();
+  }
+
+  /**
+   * Aborts the ongoing MOT call.
+   *
+   * This method sets the `didAbortMotCall` flag to true and emits a value from the `abortSubject`,
+   * which is used to signal the abortion of the ongoing HTTP request.
+   */
+  abortMOTCall() {
+    this.didAbortMotCall = true;
+    this.abortSubject.next();
   }
 }

@@ -173,6 +173,7 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
         this.store$.dispatch(this.isDelegated ? DropExtraVehicleChecksDelegated() : DropExtraVehicleChecks());
       }
       this.store$.dispatch(ClearCandidateLicenceData());
+      this.abortMOTCall();
 
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
         replaceUrl: !this.isDelegated,

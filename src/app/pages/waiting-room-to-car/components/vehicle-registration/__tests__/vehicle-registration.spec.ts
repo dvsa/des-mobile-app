@@ -64,6 +64,19 @@ describe('VehicleRegistrationComponent', () => {
     });
   });
 
+  describe('abortMOTCall', () => {
+    it('should set didAbortMotCall to true', () => {
+      component.abortMOTCall();
+      expect(component.didAbortMotCall).toBeTrue();
+    });
+
+    it('should emit a value from abortSubject', () => {
+      spyOn(component.abortSubject, 'next');
+      component.abortMOTCall();
+      expect(component.abortSubject.next).toHaveBeenCalled();
+    });
+  });
+
   describe('invalid', () => {
     it('should return true if the formControl is invalid and dirty', () => {
       component.formControl.setValue(null);
@@ -117,7 +130,7 @@ describe('VehicleRegistrationComponent', () => {
   });
   describe('shouldDisableMOTButton', () => {
     it('should return true if the search spinner is shown', () => {
-      component.showSearchSpinner = true;
+      component.isSearchingForMOT = true;
       component.formControl.setValue('valid');
       spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
 
@@ -125,7 +138,7 @@ describe('VehicleRegistrationComponent', () => {
     });
 
     it('should return true if the form control is not valid', () => {
-      component.showSearchSpinner = false;
+      component.isSearchingForMOT = false;
       component.formControl.setValue(null);
       spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
 
@@ -133,7 +146,7 @@ describe('VehicleRegistrationComponent', () => {
     });
 
     it('should return true if the network state is offline and not in practice mode', () => {
-      component.showSearchSpinner = false;
+      component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       component.isPracticeMode = false;
       spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
@@ -142,7 +155,7 @@ describe('VehicleRegistrationComponent', () => {
     });
 
     it('should return false if the search spinner is not shown, form control is valid, and network state is online', () => {
-      component.showSearchSpinner = false;
+      component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
 
@@ -150,7 +163,7 @@ describe('VehicleRegistrationComponent', () => {
     });
 
     it('should return false if the search spinner is not shown, form control is valid, and in practice mode', () => {
-      component.showSearchSpinner = false;
+      component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       component.isPracticeMode = true;
       spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);

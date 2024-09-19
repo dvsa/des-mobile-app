@@ -17,6 +17,8 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { isEmpty } from 'lodash-es';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'vehicle-registration',
@@ -32,6 +34,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   isPracticeMode: boolean;
   @Input()
   isRekeyMode: boolean;
+  @Input()
+  didAbortMotCall = false;
+  @Input()
+  abortSubject: Subject<void> = new Subject<void>();
 
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
@@ -48,7 +54,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   motData: MotHistoryWithStatus = null;
   modalData: string = null;
   hasCalledMOT = false;
-  showSearchSpinner = false;
+  isSearchingForMOT = false;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
@@ -73,36 +79,48 @@ export class VehicleRegistrationComponent implements OnChanges {
   async getMOT(value: string) {
     this.clearData();
     this.hasCalledMOT = false;
-    this.showSearchSpinner = true;
+    this.isSearchingForMOT = true;
 
     if (!this.isPracticeMode) {
+      this.didAbortMotCall = false;
       const apiCall$ = this.motApiService.getMotHistoryByIdentifier(value);
 
-      apiCall$.subscribe(async (val) => {
-        // Assign the API response to the motData property
-        this.motData = val;
-        // Emit the vehicle registration number to update the search list
-        this.vrnSearchListUpdate.emit(value);
+      apiCall$
+        .pipe(
+          takeUntil(this.abortSubject),
+          finalize(() => {
+            // Code to run after takeUntil activates or the observable completes
+            if (this.didAbortMotCall) {
+              // Stop the search spinner
+              this.isSearchingForMOT = false;
+            }
+          })
+        )
+        .subscribe(async (val) => {
+          // Assign the API response to the motData property
+          this.motData = val;
+          // Emit the vehicle registration number to update the search list
+          this.vrnSearchListUpdate.emit(value);
 
-        // If the MOT status is not valid, open the reconfirm modal
-        if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
-          await this.loadFailedMOTModal();
-          // If the modal was cancelled, stop the spinner and return
-          if (this.modalData === ModalEvent.CANCEL) {
-            this.showSearchSpinner = false;
-            return;
+          // If the MOT status is not valid, open the reconfirm modal
+          if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
+            await this.loadFailedMOTModal();
+            // If the modal was cancelled, stop the spinner and return
+            if (this.modalData === ModalEvent.CANCEL) {
+              this.isSearchingForMOT = false;
+              return;
+            }
           }
-        }
 
-        // Set the flag indicating that the MOT call has been made
-        this.hasCalledMOT = true;
-        // Stop the search spinner
-        this.showSearchSpinner = false;
-        // If motData is not null, emit the vehicle details
-        if (this.motData) {
-          this.motDetailsUpdate.emit(this.motData?.data);
-        }
-      });
+          // Set the flag indicating that the MOT call has been made
+          this.hasCalledMOT = true;
+          // Stop the search spinner
+          this.isSearchingForMOT = false;
+          // If motData is not null, emit the vehicle details
+          if (this.motData) {
+            this.motDetailsUpdate.emit(this.motData?.data);
+          }
+        });
     } else {
       // Load the practice mode modal and wait for the user's response
       const fakeModalReturn = await this.loadPracticeModeModal();
@@ -112,7 +130,7 @@ export class VehicleRegistrationComponent implements OnChanges {
         await this.loadFailedMOTModal();
         // If the modal was cancelled, stop the spinner and return
         if (this.modalData === ModalEvent.CANCEL) {
-          this.showSearchSpinner = false;
+          this.isSearchingForMOT = false;
           return;
         }
       }
@@ -120,14 +138,14 @@ export class VehicleRegistrationComponent implements OnChanges {
       // If the user cancelled the practice mode modal, reset motData and stop the spinner
       if (fakeModalReturn === ModalEvent.CANCEL) {
         this.motData = null;
-        this.showSearchSpinner = false;
+        this.isSearchingForMOT = false;
         return;
       }
 
       // Set the flag indicating that the MOT call has been made
       this.hasCalledMOT = true;
       // Stop the search spinner
-      this.showSearchSpinner = false;
+      this.isSearchingForMOT = false;
 
       // Make a mock API call to get the MOT result based on the practice mode response
       this.motApiService
@@ -179,6 +197,9 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   vehicleRegistrationChanged(event: any): void {
     this.clearData();
+    if (this.isSearchingForMOT) {
+      this.abortMOTCall();
+    }
     this.hasCalledMOT = false;
     if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
@@ -220,9 +241,20 @@ export class VehicleRegistrationComponent implements OnChanges {
    */
   shouldDisableMOTButton(): boolean {
     return !(
-      !this.showSearchSpinner &&
+      !this.isSearchingForMOT &&
       this.formControl.valid &&
       (this.networkState.getNetworkState() == ConnectionStatus.ONLINE || this.isPracticeMode)
     );
+  }
+
+  /**
+   * Aborts the ongoing MOT call.
+   *
+   * This method sets the `didAbortMotCall` flag to true and emits a value from the `abortSubject`,
+   * which is used to signal the abortion of the ongoing HTTP request.
+   */
+  abortMOTCall() {
+    this.didAbortMotCall = true;
+    this.abortSubject.next();
   }
 }
