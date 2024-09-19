@@ -59,7 +59,7 @@ export class MotCardComponent {
     this.alternateEvidenceChange.emit(event);
   }
 
-  isSearchFailed() {
+  isSearchFailed(): boolean {
     return (
       +this.status === HttpStatusCodes.UNDEFINED ||
       +this.status === HttpStatusCodes.INTERNAL_SERVER_ERROR ||
