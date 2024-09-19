@@ -28,7 +28,7 @@ export class MotCardComponent {
 
   constructor(public networkState: NetworkStateProvider) {}
 
-  isCallWasSuccessful(): boolean {
+  isCallSuccessful(): boolean {
     return (
       (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved') &&
       this?.data?.status !== MotStatusCodes.NO_DETAILS &&

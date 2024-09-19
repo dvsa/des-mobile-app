@@ -43,7 +43,7 @@ describe('MotCardComponent', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       component.data = { status: MotStatusCodes.VALID } as MotHistory;
       component.status = '200';
-      expect(component.isCallWasSuccessful()).toEqual(true);
+      expect(component.isCallSuccessful()).toEqual(true);
     });
     it(
       'should return false if status is not 200 or Already Saved, data.status is ' +
@@ -52,20 +52,20 @@ describe('MotCardComponent', () => {
         spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
         component.data = { status: MotStatusCodes.VALID } as MotHistory;
         component.status = '100';
-        expect(component.isCallWasSuccessful()).toEqual(false);
+        expect(component.isCallSuccessful()).toEqual(false);
       }
     );
     it('should return false if status is 200, data.status is ' + '"No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
       component.status = '200';
-      expect(component.isCallWasSuccessful()).toBeFalsy();
+      expect(component.isCallSuccessful()).toBeFalsy();
     });
     it('should return false if status is 200, data.status is ' + 'not "No details" and the app is not online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
       component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
       component.status = '200';
-      expect(component.isCallWasSuccessful()).toEqual(false);
+      expect(component.isCallSuccessful()).toEqual(false);
     });
   });
 
