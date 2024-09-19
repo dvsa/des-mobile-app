@@ -122,7 +122,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   testCategory: TestCategory;
   trainerNumberProvided = false;
   failedMOTModalCurrentlyOpen = false;
-  didAbortMotCall = false;
   abortSubject: Subject<void> = new Subject<void>();
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
@@ -337,11 +336,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   /**
    * Aborts the ongoing MOT call.
    *
-   * This method sets the `didAbortMotCall` flag to true and emits a value from the `abortSubject`,
+   * This method emits a value from the `abortSubject`,
    * which is used to signal the abortion of the ongoing HTTP request.
    */
   abortMOTCall() {
-    this.didAbortMotCall = true;
     this.abortSubject.next();
   }
 }

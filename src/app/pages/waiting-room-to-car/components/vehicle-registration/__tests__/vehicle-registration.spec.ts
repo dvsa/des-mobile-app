@@ -65,11 +65,6 @@ describe('VehicleRegistrationComponent', () => {
   });
 
   describe('abortMOTCall', () => {
-    it('should set didAbortMotCall to true', () => {
-      component.abortMOTCall();
-      expect(component.didAbortMotCall).toBeTrue();
-    });
-
     it('should emit a value from abortSubject', () => {
       spyOn(component.abortSubject, 'next');
       component.abortMOTCall();

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -29,6 +29,9 @@ export class EndTestLinkComponent {
   @Input()
   isPracticeMode = false;
 
+  @Output()
+  endTestLinkClicked = new EventEmitter<void>();
+
   constructor(
     public modalController: ModalController,
     public router: Router,
@@ -37,6 +40,7 @@ export class EndTestLinkComponent {
   ) {}
 
   openEndTestModal = async (): Promise<void> => {
+    this.endTestLinkClicked.emit();
     this.terminateTestModal = await this.modalController.create({
       id: 'TerminateTestModal',
       component: TerminateTestModal,

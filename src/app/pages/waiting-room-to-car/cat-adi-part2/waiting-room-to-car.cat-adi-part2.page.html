@@ -10,6 +10,7 @@
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
         [shouldAuthenticate]="false"
+        (endTestLinkClicked)="abortMOTCall()"
       >
       </end-test-link>
     </ion-buttons>
@@ -64,7 +65,6 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [isRekeyMode]="pageState.isRekeyMode$ | async"
               [abortSubject]="abortSubject"
-              [didAbortMotCall]="didAbortMotCall"
             >
             </vehicle-registration>
 

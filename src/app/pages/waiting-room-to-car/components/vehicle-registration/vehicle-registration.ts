@@ -35,8 +35,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Input()
   isRekeyMode: boolean;
   @Input()
-  didAbortMotCall = false;
-  @Input()
   abortSubject: Subject<void> = new Subject<void>();
 
   @Output()
@@ -82,18 +80,14 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.isSearchingForMOT = true;
 
     if (!this.isPracticeMode) {
-      this.didAbortMotCall = false;
       const apiCall$ = this.motApiService.getMotHistoryByIdentifier(value);
 
       apiCall$
         .pipe(
           takeUntil(this.abortSubject),
           finalize(() => {
-            // Code to run after takeUntil activates or the observable completes
-            if (this.didAbortMotCall) {
-              // Stop the search spinner
-              this.isSearchingForMOT = false;
-            }
+            // Stop the search spinner
+            this.isSearchingForMOT = false;
           })
         )
         .subscribe(async (val) => {
@@ -128,24 +122,16 @@ export class VehicleRegistrationComponent implements OnChanges {
       // If the user indicates that the MOT failed, load the failed MOT modal
       if (fakeModalReturn === PracticeModeMOTType.FAILED) {
         await this.loadFailedMOTModal();
-        // If the modal was cancelled, stop the spinner and return
-        if (this.modalData === ModalEvent.CANCEL) {
-          this.isSearchingForMOT = false;
-          return;
-        }
       }
 
       // If the user cancelled the practice mode modal, reset motData and stop the spinner
       if (fakeModalReturn === ModalEvent.CANCEL) {
         this.motData = null;
-        this.isSearchingForMOT = false;
         return;
       }
 
       // Set the flag indicating that the MOT call has been made
       this.hasCalledMOT = true;
-      // Stop the search spinner
-      this.isSearchingForMOT = false;
 
       // Make a mock API call to get the MOT result based on the practice mode response
       this.motApiService
@@ -250,11 +236,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   /**
    * Aborts the ongoing MOT call.
    *
-   * This method sets the `didAbortMotCall` flag to true and emits a value from the `abortSubject`,
+   * This method emits a value from the `abortSubject`,
    * which is used to signal the abortion of the ongoing HTTP request.
    */
   abortMOTCall() {
-    this.didAbortMotCall = true;
     this.abortSubject.next();
   }
 }
