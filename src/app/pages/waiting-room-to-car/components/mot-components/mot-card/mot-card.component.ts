@@ -28,7 +28,7 @@ export class MotCardComponent {
 
   constructor(public networkState: NetworkStateProvider) {}
 
-  callWasSuccessful() {
+  isCallWasSuccessful(): boolean {
     return (
       (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved') &&
       this?.data?.status !== MotStatusCodes.NO_DETAILS &&
@@ -36,11 +36,13 @@ export class MotCardComponent {
     );
   }
 
-  noDetails(): boolean {
+  isNoDetails(): boolean {
     return (
-      +this.status === HttpStatusCodes.NO_CONTENT ||
-      this.data?.status === MotStatusCodes.NO_DETAILS ||
-      this?.data?.status === MotStatusCodes.AGE_EXEMPTION
+      !this.isSearchFailed() &&
+      (+this.status === HttpStatusCodes.NO_CONTENT ||
+        this.data?.status === MotStatusCodes.NO_DETAILS ||
+        this?.data?.status === MotStatusCodes.AGE_EXEMPTION ||
+        this.is404())
     );
   }
 
@@ -48,7 +50,7 @@ export class MotCardComponent {
     return +this.status === HttpStatusCodes.NOT_FOUND;
   }
 
-  isValidMOT() {
+  isValidMOT(): boolean {
     return this.data.status === MotStatusCodes.VALID;
   }
 
@@ -57,7 +59,13 @@ export class MotCardComponent {
     this.alternateEvidenceChange.emit(event);
   }
 
-  searchFailed() {
-    return +this.status === HttpStatusCodes.UNDEFINED;
+  isSearchFailed() {
+    return (
+      +this.status === HttpStatusCodes.UNDEFINED ||
+      +this.status === HttpStatusCodes.INTERNAL_SERVER_ERROR ||
+      +this.status === HttpStatusCodes.BAD_GATEWAY ||
+      +this.status === HttpStatusCodes.SERVICE_UNAVAILABLE ||
+      +this.status === HttpStatusCodes.GATEWAY_TIMEOUT
+    );
   }
 }

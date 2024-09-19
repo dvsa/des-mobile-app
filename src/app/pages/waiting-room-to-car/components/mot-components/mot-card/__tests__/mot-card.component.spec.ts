@@ -30,19 +30,20 @@ describe('MotCardComponent', () => {
   describe('isValidMOT', () => {
     it('should return true if data.status is "Valid"', () => {
       component.data = { status: MotStatusCodes.VALID } as MotHistory;
-      expect(component.isValidMOT()).toBeTruthy();
+      expect(component.isValidMOT()).toEqual(true);
     });
     it('should return false if data.status is not "Valid"', () => {
       component.data = { status: MotStatusCodes.NOT_VALID } as MotHistory;
-      expect(component.isValidMOT()).toBeFalsy();
+      expect(component.isValidMOT()).toEqual(false);
     });
   });
+
   describe('callWasSuccessful', () => {
     it('should return true if status is 200, data.status is not "No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       component.data = { status: MotStatusCodes.VALID } as MotHistory;
       component.status = '200';
-      expect(component.callWasSuccessful()).toBeTruthy();
+      expect(component.isCallWasSuccessful()).toEqual(true);
     });
     it(
       'should return false if status is not 200 or Already Saved, data.status is ' +
@@ -51,66 +52,111 @@ describe('MotCardComponent', () => {
         spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
         component.data = { status: MotStatusCodes.VALID } as MotHistory;
         component.status = '100';
-        expect(component.callWasSuccessful()).toBeFalsy();
+        expect(component.isCallWasSuccessful()).toEqual(false);
       }
     );
     it('should return false if status is 200, data.status is ' + '"No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
       component.status = '200';
-      expect(component.callWasSuccessful()).toBeFalsy();
+      expect(component.isCallWasSuccessful()).toBeFalsy();
     });
     it('should return false if status is 200, data.status is ' + 'not "No details" and the app is not online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
       component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
       component.status = '200';
-      expect(component.callWasSuccessful()).toBeFalsy();
+      expect(component.isCallWasSuccessful()).toEqual(false);
     });
   });
-  describe('noDetails', () => {
+
+  describe('isNoDetails', () => {
     it('should return true if status is NO_CONTENT', () => {
       component.status = HttpStatusCodes.NO_CONTENT.toString();
-      expect(component.noDetails()).toBeTruthy();
+      expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return true if data.status is NO_DETAILS', () => {
+      spyOn(component, 'is404').and.returnValue(false);
+      spyOn(component, 'isSearchFailed').and.returnValue(false);
       component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
-      expect(component.noDetails()).toBeTruthy();
+      expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return true if data.status is AGE_EXEMPTION', () => {
+      spyOn(component, 'is404').and.returnValue(false);
+      spyOn(component, 'isSearchFailed').and.returnValue(false);
       component.data = { status: MotStatusCodes.AGE_EXEMPTION } as MotHistory;
-      expect(component.noDetails()).toBeTruthy();
+      expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return false if status and data.status do not match NO_CONTENT, NO_DETAILS, or AGE_EXEMPTION', () => {
+      spyOn(component, 'is404').and.returnValue(false);
+      spyOn(component, 'isSearchFailed').and.returnValue(false);
       component.status = HttpStatusCodes.OK.toString();
       component.data = { status: MotStatusCodes.VALID } as MotHistory;
-      expect(component.noDetails()).toBeFalsy();
+      expect(component.isNoDetails()).toEqual(false);
+    });
+
+    it('should return true if status is equal to 404', () => {
+      spyOn(component, 'is404').and.returnValue(true);
+      spyOn(component, 'isSearchFailed').and.returnValue(false);
+      component.status = HttpStatusCodes.NOT_FOUND.toString();
+      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      expect(component.isNoDetails()).toEqual(true);
+    });
+
+    it('should return true if searchFailed', () => {
+      spyOn(component, 'is404').and.returnValue(false);
+      spyOn(component, 'isSearchFailed').and.returnValue(true);
+      component.status = HttpStatusCodes.NOT_FOUND.toString();
+      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      expect(component.isNoDetails()).toEqual(false);
     });
   });
+
   describe('is404', () => {
     it('should return true if status is NOT_FOUND', () => {
       component.status = HttpStatusCodes.NOT_FOUND.toString();
-      expect(component.is404()).toBeTruthy();
+      expect(component.is404()).toEqual(true);
     });
 
     it('should return false if status is not NOT_FOUND', () => {
       component.status = HttpStatusCodes.OK.toString();
-      expect(component.is404()).toBeFalsy();
+      expect(component.is404()).toEqual(false);
     });
   });
-  describe('searchFailed', () => {
+  describe('isSearchFailed', () => {
     it('should return true if status is UNDEFINED', () => {
       component.status = HttpStatusCodes.UNDEFINED.toString();
-      expect(component.searchFailed()).toBeTruthy();
+      expect(component.isSearchFailed()).toEqual(true);
     });
 
-    it('should return false if status is not UNDEFINED', () => {
+    it('should return true if status is INTERNAL_SERVER_ERROR', () => {
+      component.status = HttpStatusCodes.INTERNAL_SERVER_ERROR.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is BAD_GATEWAY', () => {
+      component.status = HttpStatusCodes.BAD_GATEWAY.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is SERVICE_UNAVAILABLE', () => {
+      component.status = HttpStatusCodes.SERVICE_UNAVAILABLE.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is GATEWAY_TIMEOUT', () => {
+      component.status = HttpStatusCodes.GATEWAY_TIMEOUT.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return false if status is a listed status code', () => {
       component.status = HttpStatusCodes.OK.toString();
-      expect(component.searchFailed()).toBeFalsy();
+      expect(component.isSearchFailed()).toEqual(false);
     });
   });
+
   describe('evidenceRadioSelected', () => {
     it('should emit the passed value and set alternateEvidenceRadioCheck to its value', () => {
       component.alternateEvidenceRadioCheck = false;
