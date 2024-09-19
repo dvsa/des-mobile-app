@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
