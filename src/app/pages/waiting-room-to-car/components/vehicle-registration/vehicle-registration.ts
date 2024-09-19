@@ -17,8 +17,8 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { isEmpty } from 'lodash-es';
-import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'vehicle-registration',

@@ -121,7 +121,7 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
-      this.abortMOTCall()
+      this.abortMOTCall();
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
         replaceUrl: !this.isDelegated,
       });
