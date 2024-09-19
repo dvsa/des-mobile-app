@@ -193,6 +193,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   ionViewWillLeave(): void {
+    this.abortMOTCall();
     this.store$.dispatch(PersistTests());
   }
 
