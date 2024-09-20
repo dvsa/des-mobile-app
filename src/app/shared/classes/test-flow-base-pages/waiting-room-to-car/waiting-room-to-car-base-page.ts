@@ -122,6 +122,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   testCategory: TestCategory;
   trainerNumberProvided = false;
   failedMOTModalCurrentlyOpen = false;
+  abortSubject: Subject<void> = new Subject<void>();
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -192,6 +193,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   ionViewWillLeave(): void {
+    this.abortMOTCall();
     this.store$.dispatch(PersistTests());
   }
 
@@ -330,5 +332,15 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     });
 
     await alert.present();
+  }
+
+  /**
+   * Aborts the ongoing MOT call.
+   *
+   * This method emits a value from the `abortSubject`,
+   * which is used to signal the abortion of the ongoing HTTP request.
+   */
+  abortMOTCall() {
+    this.abortSubject.next();
   }
 }
