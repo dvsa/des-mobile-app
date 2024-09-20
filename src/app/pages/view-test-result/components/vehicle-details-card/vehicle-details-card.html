@@ -47,7 +47,7 @@
 
       <data-row-custom [centredData]="true" [label]="'MOT Status'">
         <div class="ion-no-padding" *ngIf="!(data?.motStatus)">
-          <ion-text class="mes-data">No VRNs were checked for MOT</ion-text>
+          <ion-text class="mes-data">{{getNoMOTDataText()}}</ion-text>
         </div>
         <div class="display-flex ion-no-padding width-100-percent" *ngIf="data?.motStatus">
           <ion-col class="ion-align-items-center display-flex" size="10" *ngIf="isInvalidMOT()">

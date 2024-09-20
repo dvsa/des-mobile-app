@@ -546,5 +546,24 @@ describe('VehicleDetailsCardComponent', () => {
         expect(component.isInvalidMOT()).toEqual(false);
       });
     });
+
+    describe('getNoMOTDataText', () => {
+      it('returns the correct text when registration number is available', () => {
+        spyOnProperty(component, 'registrationNumber').and.returnValue('ABC123');
+        expect(component.getNoMOTDataText()).toEqual('Unable to determine MOT status for ABC123');
+      });
+
+      it('returns the correct text when there are previously filtered VRNs but no registration number', () => {
+        spyOnProperty(component, 'registrationNumber').and.returnValue(null);
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(['XYZ789']);
+        expect(component.getNoMOTDataText()).toEqual('Unable to determine MOT status');
+      });
+
+      it('returns the correct text when there are no previously filtered VRNs and no registration number', () => {
+        spyOnProperty(component, 'registrationNumber').and.returnValue(null);
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue([]);
+        expect(component.getNoMOTDataText()).toEqual('No VRNs were checked for MOT');
+      });
+    });
   });
 });
