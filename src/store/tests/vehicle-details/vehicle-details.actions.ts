@@ -5,6 +5,7 @@ import {
   ModalEvent
 } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
@@ -29,6 +30,10 @@ export const InvalidMotTerminate = createAction('[Vehicle Details] Invalid mot t
 
 export const MotCallAborted = createAction('[Vehicle Details] Mot call aborted', (method: MOTAbortedMethod) => ({
   method,
+}));
+
+export const MotServiceUnavailable = createAction('[Vehicle Details] Mot service unavailable', (statusCode: HttpStatusCodes) => ({
+  statusCode,
 }));
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({

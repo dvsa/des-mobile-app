@@ -21,6 +21,7 @@ import {
 import { isEmpty } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
+import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 export enum MOTAbortedMethod {
   VRN_CHANGED = 'vrnChanged',
@@ -61,6 +62,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   failedMOTModalOutcome = new EventEmitter<ModalEvent>();
   @Output()
   motCallAborted = new EventEmitter<MOTAbortedMethod>();
+  @Output()
+  motServiceUnavailable = new EventEmitter<HttpStatusCodes>();
 
   formControl: UntypedFormControl;
   motData: MotHistoryWithStatus = null;
@@ -174,6 +177,10 @@ export class VehicleRegistrationComponent implements OnChanges {
 
       if (this.motData) {
         this.motDetailsUpdate.emit(this.motData?.data);
+        if (this.isSearchFailed()) {
+          const statusCode = HttpStatusCodes[this.motData.status];
+          this.motServiceUnavailable.emit(statusCode);
+        }
       }
     }
   }
@@ -282,6 +289,16 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   VRNChanged() {
     this.vehicleRegistrationChanged.emit(this.vehicleRegistration);
+  }
+
+  isSearchFailed(): boolean {
+    return (
+      +this.motData.status === HttpStatusCodes.UNDEFINED ||
+      +this.motData.status === HttpStatusCodes.INTERNAL_SERVER_ERROR ||
+      +this.motData.status === HttpStatusCodes.BAD_GATEWAY ||
+      +this.motData.status === HttpStatusCodes.SERVICE_UNAVAILABLE ||
+      +this.motData.status === HttpStatusCodes.GATEWAY_TIMEOUT
+    );
   }
 
   protected readonly ConnectionStatus = ConnectionStatus;
