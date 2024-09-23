@@ -7,6 +7,9 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { isEmpty } from 'lodash-es';
+import {StoreModel} from '@shared/models/store.model';
+import {Store} from '@ngrx/store';
+import {MotFailedModalValidationError} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 export enum ModalEvent {
   CANCEL = 'cancel',
@@ -31,6 +34,7 @@ export class MotFailedModal implements OnInit {
   ifMatches = true;
 
   constructor(
+    public store$: Store<StoreModel>,
     public modalCtrl: ModalController,
   ) {}
 
@@ -59,6 +63,7 @@ export class MotFailedModal implements OnInit {
     if (this.formControl.value.toUpperCase() === this.originalRegistration.toUpperCase()) {
       await this.modalCtrl.dismiss(this.formControl.value.toUpperCase());
     } else {
+      this.store$.dispatch(MotFailedModalValidationError())
       this.ifMatches = false;
     }
   }

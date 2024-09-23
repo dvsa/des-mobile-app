@@ -80,7 +80,7 @@ import {
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VehicleRegistrationChanged, MotFailedModalOpened, MOTFailedModalOutcome,
+  VehicleRegistrationChanged, MotFailedModalOpened, MotFailedModalOutcome,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -338,7 +338,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motFailedModalOutcome(outcome: ModalEvent): void {
-    this.store$.dispatch(MOTFailedModalOutcome(outcome));
+    this.store$.dispatch(MotFailedModalOutcome(outcome));
   }
 
   async practiceModeTestCentreAlert() {
