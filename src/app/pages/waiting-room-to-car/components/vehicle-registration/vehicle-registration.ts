@@ -147,8 +147,8 @@ export class VehicleRegistrationComponent implements OnChanges {
           finalize(() => {
             // Stop the search spinner
             this.isSearchingForMOT = false;
-          }
-        ))
+          })
+        )
         .subscribe((val: MotHistoryWithStatus) => {
           // Assign the mock API response to the motData property
           this.motData = val;
