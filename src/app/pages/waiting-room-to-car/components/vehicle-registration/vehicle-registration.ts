@@ -122,10 +122,16 @@ export class VehicleRegistrationComponent implements OnChanges {
       // If the user indicates that the MOT failed, load the failed MOT modal
       if (fakeModalReturn === PracticeModeMOTType.FAILED) {
         await this.loadFailedMOTModal();
+        // If the modal was cancelled, stop the spinner and return
+        if (this.modalData === ModalEvent.CANCEL) {
+          this.isSearchingForMOT = false;
+          return;
+        }
       }
 
       // If the user cancelled the practice mode modal, reset motData and stop the spinner
       if (fakeModalReturn === ModalEvent.CANCEL) {
+        this.isSearchingForMOT = false;
         this.motData = null;
         return;
       }
@@ -136,6 +142,13 @@ export class VehicleRegistrationComponent implements OnChanges {
       // Make a mock API call to get the MOT result based on the practice mode response
       this.motApiService
         .getMockResultByIdentifier(value, fakeModalReturn as PracticeModeMOTType)
+        .pipe(
+          takeUntil(this.abortSubject),
+          finalize(() => {
+            // Stop the search spinner
+            this.isSearchingForMOT = false;
+          }
+        ))
         .subscribe((val: MotHistoryWithStatus) => {
           // Assign the mock API response to the motData property
           this.motData = val;
