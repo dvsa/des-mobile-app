@@ -358,13 +358,17 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   /**
    * Aborts the ongoing MOT call.
    *
-   * This method emits a value from the `abortSubject`,
-   * which is used to signal the abortion of the ongoing HTTP request.
+   * This method dispatches the `MotCallAborted` action with the provided method
+   * and emits a value from the `abortSubject` to signal the abortion of the ongoing HTTP request.
+   *
+   * @param {MOTAbortedMethod} method - The method used to abort the MOT call.
    */
+
   abortMOTCall(method: MOTAbortedMethod): void {
     this.store$.dispatch(MotCallAborted(method));
     this.abortSubject.next();
   }
+
   motServiceUnavailable(statusCode: HttpStatusCodes): void {
     this.store$.dispatch(MotServiceUnavailable(statusCode));
     this.abortSubject.next();
