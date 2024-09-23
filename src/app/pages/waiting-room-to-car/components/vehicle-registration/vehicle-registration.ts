@@ -22,6 +22,12 @@ import { isEmpty } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
+export enum MOTAbortedMethod {
+  VRN_CHANGED = 'vrnChanged',
+  END_TEST = 'endTest',
+  NAVIGATION = 'navigation',
+}
+
 @Component({
   selector: 'vehicle-registration',
   styleUrls: ['vehicle-registration.scss'],
@@ -53,6 +59,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   motButtonPressed = new EventEmitter<void>();
   @Output()
   failedMOTModalOutcome = new EventEmitter<ModalEvent>();
+  @Output()
+  motCallAborted = new EventEmitter<MOTAbortedMethod>();
 
   formControl: UntypedFormControl;
   motData: MotHistoryWithStatus = null;
@@ -217,7 +225,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   registrationInput(event: any): void {
     this.clearData();
     if (this.isSearchingForMOT) {
-      this.abortMOTCall();
+      this.abortMOTCall(MOTAbortedMethod.VRN_CHANGED);
     }
     this.hasCalledMOT = false;
     if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
@@ -266,11 +274,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   /**
    * Aborts the ongoing MOT call.
    *
-   * This method emits a value from the `abortSubject`,
-   * which is used to signal the abortion of the ongoing HTTP request.
+   * This method emits the `motCallAborted` event to notify that the MOT call has been aborted.
    */
-  abortMOTCall() {
-    this.abortSubject.next();
+  abortMOTCall(method: MOTAbortedMethod): void {
+    this.motCallAborted.emit(method);
   }
 
   VRNChanged() {
