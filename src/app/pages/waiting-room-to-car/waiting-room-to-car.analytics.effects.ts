@@ -60,9 +60,14 @@ import {getDualControls} from '@store/tests/vehicle-details/cat-adi-part3/vehicl
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   DualControlsToggledNo,
-  DualControlsToggledYes, InvalidMotTerminate, MotEvidenceProvidedToggled,
+  DualControlsToggledYes,
+  InvalidMotTerminate,
+  MotCallAborted,
+  MotEvidenceProvidedToggled,
   MotFailedModalOpened,
-  MotFailedModalOutcome, MotFailedModalValidationError, MotNoEvidenceBannerCancelled,
+  MotFailedModalOutcome,
+  MotFailedModalValidationError,
+  MotNoEvidenceBannerCancelled,
   MotSearchButtonPressed,
   MotStatusChanged,
   VehicleRegistrationChanged
@@ -71,6 +76,7 @@ import {getMotStatus} from '@store/tests/vehicle-details/vehicle-details.selecto
 import {
   ModalEvent
 } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -487,6 +493,46 @@ export class WaitingRoomToCarAnalyticsEffects {
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.MOT_STATUS,
           motStatus
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motCallAborted$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotCallAborted),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([{method} , tests]: [ReturnType<typeof MotCallAborted>, TestsModel, boolean]) => {
+
+        let abortMethod = GoogleAnalyticsEventsValues.UNKNOWN;
+
+        switch (method) {
+          case MOTAbortedMethod.END_TEST:
+            abortMethod = GoogleAnalyticsEventsValues.END_TEST_SELECTED;
+            break;
+          case MOTAbortedMethod.VRN_CHANGED:
+            abortMethod = GoogleAnalyticsEventsValues.VRN_EDITED;
+            break;
+          case MOTAbortedMethod.NAVIGATION:
+            abortMethod = GoogleAnalyticsEventsValues.NAVIGATION;
+            break;
+        }
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.CHECK_CANCELLED,
+          abortMethod
         );
         return of(AnalyticRecorded());
       })

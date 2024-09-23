@@ -4,6 +4,7 @@ import { createAction } from '@ngrx/store';
 import {
   ModalEvent
 } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
@@ -25,6 +26,10 @@ export const MotSearchButtonPressed = createAction('[Vehicle Details] Mot search
 export const MotNoEvidenceBannerCancelled = createAction('[Vehicle Details] Mot no evidence banner cancelled');
 
 export const InvalidMotTerminate = createAction('[Vehicle Details] Invalid mot terminate');
+
+export const MotCallAborted = createAction('[Vehicle Details] Mot call aborted', (method: MOTAbortedMethod) => ({
+  method,
+}));
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({
   motEvidence,

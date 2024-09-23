@@ -60,10 +60,10 @@ describe('VehicleRegistrationComponent', () => {
   });
 
   describe('abortMOTCall', () => {
-    it('should emit a value from abortSubject', () => {
-      spyOn(component.abortSubject, 'next');
+    it('should emit motCallAborted', () => {
+      spyOn(component.motCallAborted, 'emit');
       component.abortMOTCall();
-      expect(component.abortSubject.next).toHaveBeenCalled();
+      expect(component.motCallAborted.emit).toHaveBeenCalled();
     });
   });
 

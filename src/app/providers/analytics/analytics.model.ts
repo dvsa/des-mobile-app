@@ -351,6 +351,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  CHECK_CANCELLED = 'check_cancelled',
   MOT_WARNING = 'mot_warning',
   ALT_EVIDENCE_PROVIDED = 'alt evidence provided',
   ALT_EVIDENCE_DETAILS = 'alt evidence details',
@@ -429,6 +430,9 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  NAVIGATION = 'navigation',
+  VRN_EDITED = 'vrn_edited',
+  END_TEST_SELECTED = 'end_test_selected',
   TERMINATE_TEST = 'terminate_test',
   VRN_MISMATCH = 'vrn_mismatch',
   CONFIRMED = 'confirmed',
