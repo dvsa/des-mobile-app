@@ -1,15 +1,25 @@
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { createAction } from '@ngrx/store';
+import {
+  ModalEvent
+} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
   (registrationNumber: string) => ({ registrationNumber })
 );
 
+export const MotFailedModalOpened = createAction('[Vehicle Details] Mot failed modal opened');
+
 export const MotStatusChanged = createAction('[Vehicle Details] Mot status changed', (motStatus: string) => ({
   motStatus,
 }));
+
+export const MOTFailedModalOutcome = createAction('[Vehicle Details] Mot failed modal outcome', (modalEvent: ModalEvent) => ({
+  modalEvent,
+}));
+export const MotSearchButtonPressed = createAction('[Vehicle Details] Mot search button pressed');
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({
   motEvidence,

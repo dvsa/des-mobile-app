@@ -60,10 +60,12 @@
               <ion-col class="ion-no-padding">
                 <vehicle-registration
                   (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
-                  (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+                  (vehicleRegistrationChanged)="vehicleRegistrationChanged($event)"
                   (vrnSearchListUpdate)="updateVRNSearchList($event)"
                   (motDetailsUpdate)="motDetailsChanged($event)"
-                  (motFailedModalToggled)="blurScreenContent($event)"
+                  (motFailedModalToggled)="motFailedModalOpened($event)"
+                  (motButtonPressed)="motSearchButtonPressed()"
+                  (failedMOTModalOutcome)="motFailedModalOutcome($event)"
                   [formGroup]="form"
                   [isPracticeMode]="isEndToEndPracticeMode"
                   [vehicleRegistration]="pageState.registrationNumber$ | async"
