@@ -10,7 +10,7 @@
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
         [shouldAuthenticate]="false"
-        (endTestLinkClicked)="abortMOTCall()"
+        (endTestLinkClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
       >
       </end-test-link>
     </ion-buttons>
