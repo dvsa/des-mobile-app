@@ -3,6 +3,7 @@ import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators }
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
@@ -178,32 +179,32 @@ describe('VehicleRegistrationComponent', () => {
   });
   describe('isSearchFailed', () => {
     it('should return true if status is UNDEFINED', () => {
-      component.motData.status = HttpStatusCodes.UNDEFINED.toString();
+      component.motData = { status: HttpStatusCodes.UNDEFINED.toString() } as MotHistoryWithStatus;
       expect(component.isSearchFailed()).toEqual(true);
     });
 
     it('should return true if status is INTERNAL_SERVER_ERROR', () => {
-      component.motData.status = HttpStatusCodes.INTERNAL_SERVER_ERROR.toString();
+      component.motData = { status: HttpStatusCodes.INTERNAL_SERVER_ERROR.toString() } as MotHistoryWithStatus;
       expect(component.isSearchFailed()).toEqual(true);
     });
 
     it('should return true if status is BAD_GATEWAY', () => {
-      component.motData.status = HttpStatusCodes.BAD_GATEWAY.toString();
+      component.motData = { status: HttpStatusCodes.BAD_GATEWAY.toString() } as MotHistoryWithStatus;
       expect(component.isSearchFailed()).toEqual(true);
     });
 
     it('should return true if status is SERVICE_UNAVAILABLE', () => {
-      component.motData.status = HttpStatusCodes.SERVICE_UNAVAILABLE.toString();
+      component.motData = { status: HttpStatusCodes.SERVICE_UNAVAILABLE.toString() } as MotHistoryWithStatus;
       expect(component.isSearchFailed()).toEqual(true);
     });
 
     it('should return true if status is GATEWAY_TIMEOUT', () => {
-      component.motData.status = HttpStatusCodes.GATEWAY_TIMEOUT.toString();
+      component.motData = { status: HttpStatusCodes.GATEWAY_TIMEOUT.toString() } as MotHistoryWithStatus;
       expect(component.isSearchFailed()).toEqual(true);
     });
 
     it('should return false if status is a listed status code', () => {
-      component.motData.status = HttpStatusCodes.OK.toString();
+      component.motData = { status: HttpStatusCodes.OK.toString() } as MotHistoryWithStatus;
       expect(component.isSearchFailed()).toEqual(false);
     });
   });
