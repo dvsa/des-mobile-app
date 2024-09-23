@@ -60,9 +60,9 @@ import {getDualControls} from '@store/tests/vehicle-details/cat-adi-part3/vehicl
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   DualControlsToggledNo,
-  DualControlsToggledYes, MotEvidenceProvidedToggled,
+  DualControlsToggledYes, InvalidMotTerminate, MotEvidenceProvidedToggled,
   MotFailedModalOpened,
-  MOTFailedModalOutcome,
+  MotFailedModalOutcome, MotFailedModalValidationError, MotNoEvidenceBannerCancelled,
   MotSearchButtonPressed,
   MotStatusChanged,
   VehicleRegistrationChanged
@@ -521,7 +521,7 @@ export class WaitingRoomToCarAnalyticsEffects {
 
   motFailedModalOutcome$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MOTFailedModalOutcome),
+      ofType(MotFailedModalOutcome),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
@@ -533,7 +533,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([{ modalEvent }, tests]: [ReturnType<typeof MOTFailedModalOutcome>, TestsModel, boolean]) => {
+      switchMap(([{ modalEvent }, tests]: [ReturnType<typeof MotFailedModalOutcome>, TestsModel, boolean]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
@@ -565,6 +565,84 @@ export class WaitingRoomToCarAnalyticsEffects {
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
           motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motNoEvidenceBannerCancelled$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotNoEvidenceBannerCancelled),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof MotNoEvidenceBannerCancelled>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.MOT_WARNING,
+          GoogleAnalyticsEventsValues.CANCELLED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  invalidMotTerminate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(InvalidMotTerminate),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof InvalidMotTerminate>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.MOT_WARNING,
+          GoogleAnalyticsEventsValues.TERMINATE_TEST
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motFailedModalValidationError$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotFailedModalValidationError),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof MotFailedModalValidationError>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.VERIFY_POPUP,
+          GoogleAnalyticsEventsValues.VRN_MISMATCH
         );
         return of(AnalyticRecorded());
       })

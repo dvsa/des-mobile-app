@@ -16,10 +16,15 @@ export const MotStatusChanged = createAction('[Vehicle Details] Mot status chang
   motStatus,
 }));
 
-export const MOTFailedModalOutcome = createAction('[Vehicle Details] Mot failed modal outcome', (modalEvent: ModalEvent) => ({
+export const MotFailedModalOutcome = createAction('[Vehicle Details] Mot failed modal outcome', (modalEvent: ModalEvent) => ({
   modalEvent,
 }));
+
 export const MotSearchButtonPressed = createAction('[Vehicle Details] Mot search button pressed');
+
+export const MotNoEvidenceBannerCancelled = createAction('[Vehicle Details] Mot no evidence banner cancelled');
+
+export const InvalidMotTerminate = createAction('[Vehicle Details] Invalid mot terminate');
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({
   motEvidence,
@@ -29,9 +34,13 @@ export const MotEvidenceProvidedToggled = createAction(
   '[Vehicle Details] Mot evidence provided toggled',
   (motEvidenceProvided: boolean) => ({ motEvidenceProvided })
 );
+
+export const MotFailedModalValidationError = createAction('[Vehicle Details] Invalid mot modal validation error');
+
 export const MotEvidenceProvidedReset = createAction('[Vehicle Details] Mot evidence provided reset');
 
 export const VehicleMakeChanged = createAction('[Vehicle Details] Vehicle make changed', (make: string) => ({ make }));
+
 export const VehicleModelChanged = createAction('[Vehicle Details] Vehicle model changed', (model: string) => ({
   model,
 }));
