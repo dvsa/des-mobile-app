@@ -75,7 +75,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   clearData() {
-    this.formGroup.removeControl('evidenceDescriptionCtrl');
+    this.formGroup.removeControl('altEvidenceDetailsCtrl');
     this.formGroup.removeControl('alternateEvidenceCtrl');
     this.alternateEvidenceChange.emit(undefined);
     this.motDetailsUpdate.emit(undefined);
@@ -204,6 +204,16 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.formControl.patchValue(this.vehicleRegistration);
   }
 
+  /**
+   * Handles the input event for the vehicle registration field.
+   *
+   * This method clears existing data, aborts any ongoing MOT call if a search is in progress,
+   * and validates the input value. If the input value contains non-alphanumeric characters,
+   * they are removed. If the resulting value is empty, an error is set on the form control.
+   * Finally, the vehicle registration value is updated and converted to uppercase.
+   *
+   * @param {any} event - The input event containing the new value for the vehicle registration field.
+   */
   registrationInput(event: any): void {
     this.clearData();
     if (this.isSearchingForMOT) {
@@ -219,8 +229,6 @@ export class VehicleRegistrationComponent implements OnChanges {
     }
     this.vehicleRegistration = event.target.value?.toUpperCase();
   }
-
-  protected readonly ConnectionStatus = ConnectionStatus;
 
   isMOTNotValid() {
     return this.motData?.data?.status !== MotStatusCodes.NOT_VALID;
@@ -268,4 +276,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   VRNChanged() {
     this.vehicleRegistrationChanged.emit(this.vehicleRegistration);
   }
+
+  protected readonly ConnectionStatus = ConnectionStatus;
 }

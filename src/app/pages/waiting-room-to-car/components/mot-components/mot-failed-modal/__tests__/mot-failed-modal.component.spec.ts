@@ -6,19 +6,30 @@ import { UntypedFormControl } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { MockComponent } from 'ng-mocks';
 import { MotFailedModal } from '../mot-failed-modal.component';
+import {Store, StoreModule} from '@ngrx/store';
+import {StoreModel} from '@shared/models/store.model';
 
 describe('MotFailedModal', () => {
   let component: MotFailedModal;
   let fixture: ComponentFixture<MotFailedModal>;
+  let store$: Store<StoreModel>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [IonicModule, CommonModule],
+      imports: [
+        IonicModule,
+        CommonModule,
+        StoreModule.forRoot(),
+      ],
+      providers: [
+        Store,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MotFailedModal);
     component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
     fixture.detectChanges();
   }));
 
