@@ -45,7 +45,10 @@
       <data-row *ngIf="data.make || data.model" [value]="data.make + ' ' + data.model" [label]="'Make and Model'">
       </data-row>
 
-      <data-row-custom [centredData]="true" [label]="'MOT Status'">
+      <data-row-custom
+        [shouldHaveSeperator]="data.motEvidenceProvided || vehicleDetails"
+        [centredData]="true"
+        [label]="'MOT Status'">
         <div class="ion-no-padding" *ngIf="!(data?.motStatus)">
           <ion-text class="mes-data">{{getNoMOTDataText()}}</ion-text>
         </div>

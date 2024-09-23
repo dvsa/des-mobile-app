@@ -548,8 +548,9 @@ describe('VehicleDetailsCardComponent', () => {
     });
 
     describe('getNoMOTDataText', () => {
-      it('returns the correct text when registration number is available', () => {
+      it('returns the correct text when registration number is available and there are previously filtered VRNs', () => {
         spyOnProperty(component, 'registrationNumber').and.returnValue('ABC123');
+        spyOn(component, 'getPreviousFilteredVRNs').and.returnValue(['XYZ789']);
         expect(component.getNoMOTDataText()).toEqual('Unable to determine MOT status for ABC123');
       });
 
