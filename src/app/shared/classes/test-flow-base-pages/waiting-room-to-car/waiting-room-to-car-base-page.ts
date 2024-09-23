@@ -373,4 +373,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(MotServiceUnavailable(statusCode));
     this.abortSubject.next();
   }
+
+  protected readonly MOTAbortedMethod = MOTAbortedMethod;
 }
