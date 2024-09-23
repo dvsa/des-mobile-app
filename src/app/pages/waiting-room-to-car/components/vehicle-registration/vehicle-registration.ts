@@ -3,7 +3,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { ModalController } from '@ionic/angular';
 import {
   ModalEvent,
-  MotFailedModal
+  MotFailedModal,
 } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import {
   PracticeModeMOTModal,
@@ -18,10 +18,10 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { isEmpty } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
-import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 export enum MOTAbortedMethod {
   VRN_CHANGED = 'vrnChanged',

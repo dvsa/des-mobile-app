@@ -4,10 +4,10 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { UntypedFormControl } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { Store, StoreModule } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
 import { MotFailedModal } from '../mot-failed-modal.component';
-import {Store, StoreModule} from '@ngrx/store';
-import {StoreModel} from '@shared/models/store.model';
 
 describe('MotFailedModal', () => {
   let component: MotFailedModal;
@@ -17,14 +17,8 @@ describe('MotFailedModal', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [
-        IonicModule,
-        CommonModule,
-        StoreModule.forRoot(),
-      ],
-      providers: [
-        Store,
-      ]
+      imports: [IonicModule, CommonModule, StoreModule.forRoot()],
+      providers: [Store],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MotFailedModal);

@@ -45,9 +45,9 @@ import { IndependentDrivingTypeChanged } from '@store/tests/test-summary/test-su
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, isPassed, isPracticeMode } from '@store/tests/tests.selector';
+import { MotEvidenceChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { of } from 'rxjs';
 import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
-import { MotEvidenceChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 @Injectable()
 export class OfficeAnalyticsEffects {

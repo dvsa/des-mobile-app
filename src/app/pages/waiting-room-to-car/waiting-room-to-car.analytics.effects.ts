@@ -1,11 +1,13 @@
-import {Injectable} from '@angular/core';
-import {CategoryCode} from '@dvsa/mes-test-schema/categories/common';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {select, Store} from '@ngrx/store';
-import {of} from 'rxjs';
-import {concatMap, filter, switchMap, withLatestFrom} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store, select } from '@ngrx/store';
+import { of } from 'rxjs';
+import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
@@ -14,8 +16,8 @@ import {
   WaitingRoomToCarViewBikeCategoryModal,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {AnalyticsProvider} from '@providers/analytics/analytics';
-import {AnalyticNotRecorded, AnalyticRecorded} from '@providers/analytics/analytics.actions';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
@@ -23,21 +25,17 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import {AppConfigProvider} from '@providers/app-config/app-config';
-import {analyticsEventTypePrefix} from '@shared/helpers/format-analytics-text';
-import {StoreModel} from '@shared/models/store.model';
-import {getTestCategory} from '@store/tests/category/category.reducer';
-import {
-  getApplicationReference
-} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import {
-  getApplicationNumber
-} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import {getCandidate} from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import {getCandidateId} from '@store/tests/journal-data/common/candidate/candidate.selector';
-import {TestsModel} from '@store/tests/tests.model';
-import {getTests} from '@store/tests/tests.reducer';
-import {getCurrentTest, getJournalData, isPracticeMode} from '@store/tests/tests.selector';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
+import { StoreModel } from '@shared/models/store.model';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { TestsModel } from '@store/tests/tests.model';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData, isPracticeMode } from '@store/tests/tests.selector';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
@@ -50,13 +48,13 @@ import {
   PDILogbook,
   TraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
-import {getTrainerDetails} from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
+import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
 import {
   getPDILogbook,
   getTraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.selector';
-import {getVehicleDetails} from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
-import {getDualControls} from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
+import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   DualControlsToggledNo,
@@ -68,15 +66,12 @@ import {
   MotFailedModalOutcome,
   MotFailedModalValidationError,
   MotNoEvidenceBannerCancelled,
-  MotSearchButtonPressed, MotServiceUnavailable,
+  MotSearchButtonPressed,
+  MotServiceUnavailable,
   MotStatusChanged,
-  VehicleRegistrationChanged
+  VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import {getMotStatus} from '@store/tests/vehicle-details/vehicle-details.selector';
-import {
-  ModalEvent
-} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
-import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -504,17 +499,13 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotCallAborted),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([{method} , tests]: [ReturnType<typeof MotCallAborted>, TestsModel, boolean]) => {
-
+      switchMap(([{ method }, tests]: [ReturnType<typeof MotCallAborted>, TestsModel, boolean]) => {
         let abortMethod = GoogleAnalyticsEventsValues.UNKNOWN;
 
         switch (method) {
@@ -544,16 +535,13 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotServiceUnavailable),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([{statusCode}, tests]: [ReturnType<typeof MotServiceUnavailable>, TestsModel, boolean]) => {
+      switchMap(([{ statusCode }, tests]: [ReturnType<typeof MotServiceUnavailable>, TestsModel, boolean]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
@@ -570,10 +558,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotFailedModalOpened),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
@@ -596,10 +581,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotFailedModalOutcome),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
@@ -610,7 +592,9 @@ export class WaitingRoomToCarAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.VERIFY_POPUP,
-          modalEvent == ModalEvent.CONFIRM ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.CANCELLED
+          modalEvent == ModalEvent.CONFIRM
+            ? GoogleAnalyticsEventsValues.CONFIRMED
+            : GoogleAnalyticsEventsValues.CANCELLED
         );
         return of(AnalyticRecorded());
       })
@@ -622,24 +606,23 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotEvidenceProvidedToggled),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([{ motEvidenceProvided }, tests]: [ReturnType<typeof MotEvidenceProvidedToggled>, TestsModel, boolean]) => {
-        // GA4 Analytics
-        this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-          GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
-          motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
-        );
-        return of(AnalyticRecorded());
-      })
+      switchMap(
+        ([{ motEvidenceProvided }, tests]: [ReturnType<typeof MotEvidenceProvidedToggled>, TestsModel, boolean]) => {
+          // GA4 Analytics
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+            GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
+            motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
+          );
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
 
@@ -648,10 +631,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotNoEvidenceBannerCancelled),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
@@ -674,10 +654,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(InvalidMotTerminate),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
@@ -700,10 +677,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotFailedModalValidationError),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
@@ -726,10 +700,7 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(MotSearchButtonPressed),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
@@ -752,25 +723,21 @@ export class WaitingRoomToCarAnalyticsEffects {
       ofType(VehicleRegistrationChanged),
       concatMap((action) =>
         of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
         )
       ),
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(([, tests]: [ReturnType<typeof VehicleRegistrationChanged>, TestsModel, boolean]) => {
-          // GA4 Analytics
-          this.analytics.logGAEvent(
-            analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
-            GoogleAnalyticsEventsTitles.VRN_OUTCOME,
-            GoogleAnalyticsEventsValues.SAVED
-          );
-          return of(AnalyticRecorded());
-        }
-      )
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
+          GoogleAnalyticsEventsTitles.VRN_OUTCOME,
+          GoogleAnalyticsEventsValues.SAVED
+        );
+        return of(AnalyticRecorded());
+      })
     )
   );
 }

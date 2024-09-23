@@ -1,11 +1,9 @@
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { createAction } from '@ngrx/store';
-import {
-  ModalEvent
-} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
-import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import {HttpStatusCodes} from '@shared/models/http-status-codes';
+import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
@@ -18,9 +16,12 @@ export const MotStatusChanged = createAction('[Vehicle Details] Mot status chang
   motStatus,
 }));
 
-export const MotFailedModalOutcome = createAction('[Vehicle Details] Mot failed modal outcome', (modalEvent: ModalEvent) => ({
-  modalEvent,
-}));
+export const MotFailedModalOutcome = createAction(
+  '[Vehicle Details] Mot failed modal outcome',
+  (modalEvent: ModalEvent) => ({
+    modalEvent,
+  })
+);
 
 export const MotSearchButtonPressed = createAction('[Vehicle Details] Mot search button pressed');
 
@@ -32,9 +33,12 @@ export const MotCallAborted = createAction('[Vehicle Details] Mot call aborted',
   method,
 }));
 
-export const MotServiceUnavailable = createAction('[Vehicle Details] Mot service unavailable', (statusCode: HttpStatusCodes) => ({
-  statusCode,
-}));
+export const MotServiceUnavailable = createAction(
+  '[Vehicle Details] Mot service unavailable',
+  (statusCode: HttpStatusCodes) => ({
+    statusCode,
+  })
+);
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({
   motEvidence,
