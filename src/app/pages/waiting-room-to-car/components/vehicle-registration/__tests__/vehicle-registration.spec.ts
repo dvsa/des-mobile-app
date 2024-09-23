@@ -7,11 +7,6 @@ import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { of } from 'rxjs';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
-import {
-  mockBlankRegistrationNumber,
-  mockInvalidRegistrationNumber,
-  mockValidRegistrationNumber,
-} from './vehicle-registration.mock';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
@@ -43,9 +38,9 @@ describe('VehicleRegistrationComponent', () => {
   });
 
   describe('getMOT', () => {
-    it('should remove evidenceDescriptionCtrl and alternateEvidenceCtrl from the form', () => {
+    it('should remove altEvidenceDetailsCtrl and alternateEvidenceCtrl from the form', () => {
       component.formGroup.addControl('alternateEvidenceCtrl', component.formControl);
-      component.formGroup.addControl('evidenceDescriptionCtrl', component.formControl);
+      component.formGroup.addControl('altEvidenceDetailsCtrl', component.formControl);
       spyOn(component.motApiService, 'getMotHistoryByIdentifier').and.returnValue(
         of({
           status: '200',
@@ -60,7 +55,7 @@ describe('VehicleRegistrationComponent', () => {
       );
       component.getMOT('11');
 
-      expect(component.formGroup.controls).not.toContain(['alternateEvidenceCtrl', 'evidenceDescriptionCtrl']);
+      expect(component.formGroup.controls).not.toContain(['alternateEvidenceCtrl', 'altEvidenceDetailsCtrl']);
     });
   });
 
@@ -99,30 +94,44 @@ describe('VehicleRegistrationComponent', () => {
     });
   });
 
-  describe('vehicleRegistrationChanged', () => {
-    beforeEach(() => {
-      spyOn(component.vehicleRegistrationInput, 'emit');
+  describe('registrationInput', () => {
+    it('clears existing data and aborts ongoing MOT call if searching', () => {
+      spyOn(component, 'clearData');
+      spyOn(component, 'abortMOTCall');
+      component.isSearchingForMOT = true;
+
+      component.registrationInput({ target: { value: 'ABC123' } });
+
+      expect(component.clearData).toHaveBeenCalled();
+      expect(component.abortMOTCall).toHaveBeenCalled();
+    });
+
+    it('sets hasCalledMOT to false', () => {
+      component.hasCalledMOT = true;
+      component.registrationInput({ target: { value: 'ABC123' } });
+      expect(component.hasCalledMOT).toBeFalse();
+    });
+
+    it('removes non-alphanumeric characters from input value', () => {
+      const event = { target: { value: 'ABC@123!' } };
+      component.registrationInput(event);
+      expect(event.target.value).toBe('ABC123');
+    });
+
+    it('sets form control error if input value is empty after removing non-alphanumeric characters', () => {
+      const event = { target: { value: '@!#$' } };
       spyOn(component.formControl, 'setErrors');
-    });
-
-    it('should recognise a valid alphanumeric string and emit the value in uppercase', () => {
-      component.registrationInput(mockValidRegistrationNumber);
-      expect(component.formControl.setErrors).not.toHaveBeenCalled();
-      expect(component.vehicleRegistrationInput.emit).toHaveBeenCalledWith('ABC123');
-    });
-
-    it('should remove non-alphanumeric characters and emit the value in uppercase', () => {
-      component.registrationInput(mockInvalidRegistrationNumber);
-      expect(component.formControl.setErrors).not.toHaveBeenCalled();
-      expect(component.vehicleRegistrationInput.emit).toHaveBeenCalledWith('DEF23');
-    });
-
-    it('should set an error on form control as the field value is dirty and non compliant', () => {
-      component.registrationInput(mockBlankRegistrationNumber);
+      component.registrationInput(event);
       expect(component.formControl.setErrors).toHaveBeenCalledWith({ invalidValue: '' });
-      expect(component.vehicleRegistrationInput.emit).toHaveBeenCalledWith('');
+    });
+
+    it('updates vehicleRegistration to uppercase', () => {
+      const event = { target: { value: 'abc123' } };
+      component.registrationInput(event);
+      expect(component.vehicleRegistration).toBe('ABC123');
     });
   });
+
   describe('shouldDisableMOTButton', () => {
     it('should return true if the search spinner is shown', () => {
       component.isSearchingForMOT = true;

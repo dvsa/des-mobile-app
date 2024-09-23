@@ -353,6 +353,7 @@ export enum GoogleAnalyticsEvents {
 export enum GoogleAnalyticsEventsTitles {
   MOT_WARNING = 'mot_warning',
   ALT_EVIDENCE_PROVIDED = 'alt evidence provided',
+  ALT_EVIDENCE_DETAILS = 'alt evidence details',
   VERIFY_POPUP = 'verify_popup',
   LAUNCH = 'launch',
   VALIDATION_POPUP = 'validation_popup',
