@@ -302,4 +302,21 @@ export class VehicleDetailsCardComponent {
     }
     return this.data?.testExpiryDate ? 'Expired ' + this.data?.testExpiryDate : 'Not valid';
   }
+
+  /**
+   * Get the text indicating the absence of MOT data.
+   *
+   * @returns {string} - The text indicating the absence of MOT data. Possible values are:
+   *   - 'Unable to determine MOT status for {registrationNumber}' if a registration number is available.
+   *   - 'Unable to determine MOT status' if there are previously filtered VRNs but no registration number.
+   *   - 'No VRNs were checked for MOT' if there are no previously filtered VRNs and no registration number.
+   */
+  getNoMOTDataText(): string {
+    if (this.registrationNumber) {
+      return 'Unable to determine MOT status for ' + this.registrationNumber;
+    } else if (this.getPreviousFilteredVRNs().length > 0) {
+      return 'Unable to determine MOT status';
+    }
+    return 'No VRNs were checked for MOT';
+  }
 }
