@@ -5,8 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus } from '@providers/network-state/network-state';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { of } from 'rxjs';
-import { VehicleRegistrationComponent } from '../vehicle-registration';
+import { MOTAbortedMethod, VehicleRegistrationComponent } from '../vehicle-registration';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
@@ -62,7 +63,7 @@ describe('VehicleRegistrationComponent', () => {
   describe('abortMOTCall', () => {
     it('should emit motCallAborted', () => {
       spyOn(component.motCallAborted, 'emit');
-      component.abortMOTCall();
+      component.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(component.motCallAborted.emit).toHaveBeenCalled();
     });
   });
@@ -173,6 +174,37 @@ describe('VehicleRegistrationComponent', () => {
       spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
 
       expect(component.shouldDisableMOTButton()).toBeFalse();
+    });
+  });
+  describe('isSearchFailed', () => {
+    it('should return true if status is UNDEFINED', () => {
+      component.motData.status = HttpStatusCodes.UNDEFINED.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is INTERNAL_SERVER_ERROR', () => {
+      component.motData.status = HttpStatusCodes.INTERNAL_SERVER_ERROR.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is BAD_GATEWAY', () => {
+      component.motData.status = HttpStatusCodes.BAD_GATEWAY.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is SERVICE_UNAVAILABLE', () => {
+      component.motData.status = HttpStatusCodes.SERVICE_UNAVAILABLE.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return true if status is GATEWAY_TIMEOUT', () => {
+      component.motData.status = HttpStatusCodes.GATEWAY_TIMEOUT.toString();
+      expect(component.isSearchFailed()).toEqual(true);
+    });
+
+    it('should return false if status is a listed status code', () => {
+      component.motData.status = HttpStatusCodes.OK.toString();
+      expect(component.isSearchFailed()).toEqual(false);
     });
   });
 });

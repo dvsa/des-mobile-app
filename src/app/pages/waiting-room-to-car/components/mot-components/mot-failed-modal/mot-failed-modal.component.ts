@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import { StoreModel } from '@shared/models/store.model';
+import { MotFailedModalValidationError } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { isEmpty } from 'lodash-es';
-import {StoreModel} from '@shared/models/store.model';
-import {Store} from '@ngrx/store';
-import {MotFailedModalValidationError} from '@store/tests/vehicle-details/vehicle-details.actions';
 
 export enum ModalEvent {
   CANCEL = 'cancel',
@@ -21,7 +21,6 @@ export enum ModalEvent {
   templateUrl: './mot-failed-modal.component.html',
   styleUrls: ['./mot-failed-modal.component.scss'],
 })
-
 export class MotFailedModal implements OnInit {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
@@ -35,7 +34,7 @@ export class MotFailedModal implements OnInit {
 
   constructor(
     public store$: Store<StoreModel>,
-    public modalCtrl: ModalController,
+    public modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -63,7 +62,7 @@ export class MotFailedModal implements OnInit {
     if (this.formControl.value.toUpperCase() === this.originalRegistration.toUpperCase()) {
       await this.modalCtrl.dismiss(this.formControl.value.toUpperCase());
     } else {
-      this.store$.dispatch(MotFailedModalValidationError())
+      this.store$.dispatch(MotFailedModalValidationError());
       this.ifMatches = false;
     }
   }

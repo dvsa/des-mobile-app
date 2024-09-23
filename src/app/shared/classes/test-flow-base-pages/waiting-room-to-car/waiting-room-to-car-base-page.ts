@@ -1,33 +1,36 @@
-import {AlertController} from '@ionic/angular';
-import {select} from '@ngrx/store';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { AlertController } from '@ionic/angular';
+import { select } from '@ngrx/store';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {CategoryCode, GearboxCategory, QuestionResult} from '@dvsa/mes-test-schema/categories/common';
-import {TestCategory} from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import {Inject, Injector} from '@angular/core';
-import {TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames} from '@pages/page-names.constants';
+import { Inject, Injector } from '@angular/core';
+import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {FaultCountProvider} from '@providers/fault-count/fault-count';
-import {MotHistory} from '@providers/mot-history-api/mot-interfaces';
-import {NetworkStateProvider} from '@providers/network-state/network-state';
-import {RouteByCategoryProvider} from '@providers/route-by-category/route-by-category';
-import {PracticeableBasePageComponent} from '@shared/classes/practiceable-base-page';
-import {isAnyOf} from '@shared/helpers/simplifiers';
-import {CompetencyOutcome} from '@shared/models/competency-outcome';
-import {JournalDataUnion} from '@shared/unions/journal-union';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { MotHistory } from '@providers/mot-history-api/mot-interfaces';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { JournalDataUnion } from '@shared/unions/journal-union';
 import {
   InstructorAccompanimentToggled,
   InterpreterAccompanimentToggled,
   OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
-import {getAccompaniment} from '@store/tests/accompaniment/accompaniment.reducer';
+import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
 import {
   getInstructorAccompaniment,
   getInterpreterAccompaniment,
@@ -38,36 +41,36 @@ import {
   InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
-import {PopulateTestCategory} from '@store/tests/category/category.actions';
-import {getTestCategory} from '@store/tests/category/category.reducer';
-import {InstructorRegistrationNumberChanged} from '@store/tests/instructor-details/instructor-details.actions';
-import {getCandidate} from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import {getUntitledCandidateName} from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-details/instructor-details.actions';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
   CandidateDeclarationSigned,
   SetDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import {getRekeyIndicator} from '@store/tests/rekey/rekey.reducer';
-import {isRekey} from '@store/tests/rekey/rekey.selector';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
 import {
   hasEyesightTestBeenCompleted,
   hasEyesightTestGotSeriousFault,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import {getTestData} from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   EyesightTestFailed,
   EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import {PersistTests} from '@store/tests/tests.actions';
-import {getTests} from '@store/tests/tests.reducer';
-import {getCurrentTest, getJournalData} from '@store/tests/tests.selector';
+import { PersistTests } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
-import {getVehicleDetails} from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import {getDualControls, getSchoolCar} from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
+import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
@@ -75,15 +78,16 @@ import {
   MotEvidenceProvidedToggled,
   MotFailedModalOpened,
   MotFailedModalOutcome,
-  MotSearchButtonPressed, MotServiceUnavailable,
+  MotSearchButtonPressed,
+  MotServiceUnavailable,
   MotStatusChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
+  VRNListUpdated,
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
   VehicleRegistrationChanged,
-  VRNListUpdated,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -91,11 +95,6 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import {
-  ModalEvent
-} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
-import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -330,8 +329,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motFailedModalOpened(modalOpen: boolean): void {
-    this.store$.dispatch(MotFailedModalOpened())
-    this.blurScreenContent(modalOpen)
+    this.store$.dispatch(MotFailedModalOpened());
+    this.blurScreenContent(modalOpen);
   }
 
   blurScreenContent(modalOpen: boolean): void {
