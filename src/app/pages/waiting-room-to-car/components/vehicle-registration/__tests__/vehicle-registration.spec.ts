@@ -101,26 +101,26 @@ describe('VehicleRegistrationComponent', () => {
 
   describe('vehicleRegistrationChanged', () => {
     beforeEach(() => {
-      spyOn(component.vehicleRegistrationChange, 'emit');
+      spyOn(component.vehicleRegistrationInput, 'emit');
       spyOn(component.formControl, 'setErrors');
     });
 
     it('should recognise a valid alphanumeric string and emit the value in uppercase', () => {
-      component.vehicleRegistrationChanged(mockValidRegistrationNumber);
+      component.registrationInput(mockValidRegistrationNumber);
       expect(component.formControl.setErrors).not.toHaveBeenCalled();
-      expect(component.vehicleRegistrationChange.emit).toHaveBeenCalledWith('ABC123');
+      expect(component.vehicleRegistrationInput.emit).toHaveBeenCalledWith('ABC123');
     });
 
     it('should remove non-alphanumeric characters and emit the value in uppercase', () => {
-      component.vehicleRegistrationChanged(mockInvalidRegistrationNumber);
+      component.registrationInput(mockInvalidRegistrationNumber);
       expect(component.formControl.setErrors).not.toHaveBeenCalled();
-      expect(component.vehicleRegistrationChange.emit).toHaveBeenCalledWith('DEF23');
+      expect(component.vehicleRegistrationInput.emit).toHaveBeenCalledWith('DEF23');
     });
 
     it('should set an error on form control as the field value is dirty and non compliant', () => {
-      component.vehicleRegistrationChanged(mockBlankRegistrationNumber);
+      component.registrationInput(mockBlankRegistrationNumber);
       expect(component.formControl.setErrors).toHaveBeenCalledWith({ invalidValue: '' });
-      expect(component.vehicleRegistrationChange.emit).toHaveBeenCalledWith('');
+      expect(component.vehicleRegistrationInput.emit).toHaveBeenCalledWith('');
     });
   });
   describe('shouldDisableMOTButton', () => {

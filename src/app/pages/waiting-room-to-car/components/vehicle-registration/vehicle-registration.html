@@ -23,8 +23,9 @@
           class="ion-input-styling"
           [class.ng-invalid]="invalid"
           [value]="vehicleRegistration"
-          (ionInput)="vehicleRegistrationChanged($event)"
+          (ionInput)="registrationInput($event)"
           [maxlength]="registrationNumberValidator.maxLength"
+          (ionChange)="VRNChanged()"
           emojiBlock
           pasteSanitiser
         ></ion-input>

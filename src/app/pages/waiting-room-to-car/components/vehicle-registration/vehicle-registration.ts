@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
-import { MotFailedModal } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import {
+  ModalEvent,
+  MotFailedModal
+} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import {
   PracticeModeMOTModal,
   PracticeModeMOTType,
@@ -38,7 +40,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   abortSubject: Subject<void> = new Subject<void>();
 
   @Output()
-  vehicleRegistrationChange = new EventEmitter<string>();
+  vehicleRegistrationChanged = new EventEmitter<string>();
   @Output()
   motFailedModalToggled = new EventEmitter<boolean>();
   @Output()
@@ -47,6 +49,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   vrnSearchListUpdate = new EventEmitter<string>();
   @Output()
   motDetailsUpdate = new EventEmitter<MotHistory>();
+  @Output()
+  motButtonPressed = new EventEmitter<void>();
+  @Output()
+  failedMOTModalOutcome = new EventEmitter<ModalEvent>();
 
   formControl: UntypedFormControl;
   motData: MotHistoryWithStatus = null;
@@ -102,11 +108,12 @@ export class VehicleRegistrationComponent implements OnChanges {
             await this.loadFailedMOTModal();
             // If the modal was cancelled, stop the spinner and return
             if (this.modalData === ModalEvent.CANCEL) {
+              this.failedMOTModalOutcome.emit(ModalEvent.CANCEL);
               this.isSearchingForMOT = false;
               return;
             }
+            this.failedMOTModalOutcome.emit(ModalEvent.CONFIRM);
           }
-
           // Set the flag indicating that the MOT call has been made
           this.hasCalledMOT = true;
           // Stop the search spinner
@@ -197,7 +204,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.formControl.patchValue(this.vehicleRegistration);
   }
 
-  vehicleRegistrationChanged(event: any): void {
+  registrationInput(event: any): void {
     this.clearData();
     if (this.isSearchingForMOT) {
       this.abortMOTCall();
@@ -211,7 +218,6 @@ export class VehicleRegistrationComponent implements OnChanges {
       }
     }
     this.vehicleRegistration = event.target.value?.toUpperCase();
-    this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
 
   protected readonly ConnectionStatus = ConnectionStatus;
@@ -257,5 +263,9 @@ export class VehicleRegistrationComponent implements OnChanges {
    */
   abortMOTCall() {
     this.abortSubject.next();
+  }
+
+  VRNChanged() {
+    this.vehicleRegistrationChanged.emit(this.vehicleRegistration);
   }
 }

@@ -73,13 +73,14 @@ import {
   GearboxCategoryChanged,
   MotEvidenceProvidedToggled,
   MotStatusChanged,
+  MotSearchButtonPressed,
   SchoolBikeToggled,
   SchoolCarToggled,
   VRNListUpdated,
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VehicleRegistrationChanged,
+  VehicleRegistrationChanged, MotFailedModalOpened, MOTFailedModalOutcome,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -87,6 +88,9 @@ import {
   getMotEvidenceProvided,
   getRegistrationNumber,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  ModalEvent
+} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -320,8 +324,21 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(MotStatusChanged(motDetails?.status));
   }
 
+  motFailedModalOpened(modalOpen: boolean): void {
+    this.store$.dispatch(MotFailedModalOpened())
+    this.blurScreenContent(modalOpen)
+  }
+
   blurScreenContent(modalOpen: boolean): void {
     this.failedMOTModalCurrentlyOpen = modalOpen;
+  }
+
+  motSearchButtonPressed(): void {
+    this.store$.dispatch(MotSearchButtonPressed());
+  }
+
+  motFailedModalOutcome(outcome: ModalEvent): void {
+    this.store$.dispatch(MOTFailedModalOutcome(outcome));
   }
 
   async practiceModeTestCentreAlert() {

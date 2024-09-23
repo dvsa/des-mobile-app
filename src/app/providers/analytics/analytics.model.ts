@@ -351,6 +351,10 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  ALT_EVIDENCE_PROVIDED = 'alt evidence provided',
+  VERIFY_POPUP = 'verify_popup',
+  LAUNCH = 'launch',
+  VALIDATION_POPUP = 'validation_popup',
   REHYDRATION = 'rehydration',
   HDD_FREE_MB = 'hdd_free_mb',
   HDD_TOTAL_MB = 'hdd_total_mb',
@@ -419,9 +423,14 @@ export enum GoogleAnalyticsEventsTitles {
   TAP_TO_SHOW = 'tap_to_show_data',
   TAP_TO_HIDE = 'tap_to_hide_data',
   DATA_UNAVAILABLE = 'data_unavailable',
+  VRN_OUTCOME = 'vrn_outcome',
 }
 
 export enum GoogleAnalyticsEventsValues {
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled',
+  DISPLAYED = 'displayed',
+  RETRIEVE_MOT = 'retrieve_mot',
   ERROR = 'error',
   NULL = 'null',
   FULL = 'full',
@@ -493,4 +502,5 @@ export enum GoogleAnalyticsEventsValues {
   UNSELECTED = 'unselected',
   RETURN_TO_DASHBOARD = 'return_to_dashboard',
   DATA_BANNER_DISPLAY = 'data_banner_display',
+  SAVED = 'saved',
 }
