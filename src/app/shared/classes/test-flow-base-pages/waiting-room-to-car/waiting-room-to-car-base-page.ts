@@ -75,7 +75,7 @@ import {
   MotEvidenceProvidedToggled,
   MotFailedModalOpened,
   MotFailedModalOutcome,
-  MotSearchButtonPressed,
+  MotSearchButtonPressed, MotServiceUnavailable,
   MotStatusChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
@@ -95,6 +95,7 @@ import {
   ModalEvent
 } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import {HttpStatusCodes} from '@shared/models/http-status-codes';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -363,6 +364,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
    */
   abortMOTCall(method: MOTAbortedMethod): void {
     this.store$.dispatch(MotCallAborted(method));
+    this.abortSubject.next();
+  }
+  motServiceUnavailable(statusCode: HttpStatusCodes): void {
+    this.store$.dispatch(MotServiceUnavailable(statusCode));
     this.abortSubject.next();
   }
 }

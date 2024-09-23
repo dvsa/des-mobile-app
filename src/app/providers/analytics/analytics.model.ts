@@ -351,6 +351,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  API_UNAVAILABLE = 'api_unavailable',
   CHECK_CANCELLED = 'check_cancelled',
   MOT_WARNING = 'mot_warning',
   ALT_EVIDENCE_PROVIDED = 'alt evidence provided',

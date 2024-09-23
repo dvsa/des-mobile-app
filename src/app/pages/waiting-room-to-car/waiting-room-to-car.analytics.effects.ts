@@ -68,7 +68,7 @@ import {
   MotFailedModalOutcome,
   MotFailedModalValidationError,
   MotNoEvidenceBannerCancelled,
-  MotSearchButtonPressed,
+  MotSearchButtonPressed, MotServiceUnavailable,
   MotStatusChanged,
   VehicleRegistrationChanged
 } from '@store/tests/vehicle-details/vehicle-details.actions';
@@ -533,6 +533,32 @@ export class WaitingRoomToCarAnalyticsEffects {
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.CHECK_CANCELLED,
           abortMethod
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motServiceUnavailable$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotServiceUnavailable),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([{statusCode}, tests]: [ReturnType<typeof MotServiceUnavailable>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.API_UNAVAILABLE,
+          statusCode.toString()
         );
         return of(AnalyticRecorded());
       })
