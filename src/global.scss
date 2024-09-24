@@ -121,6 +121,10 @@ input, textarea {
   display: flex;
 }
 
+.ion-page {
+  background-color: var(--mes-theme-main-colour);
+}
+
 .screen-reader-only {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
