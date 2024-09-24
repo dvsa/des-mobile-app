@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TextZoom } from '@capacitor/text-zoom';
+import {Capacitor} from '@capacitor/core';
+import {StatusBar, Style} from '@capacitor/status-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +21,12 @@ export class AccessibilityService {
     this.getTextZoomCallback(this.decimalToPercentage(value));
   };
 
+  configureStatusBar = async (style: Style): Promise<void> => {
+    if (Capacitor.isPluginAvailable('StatusBar')) {
+      await StatusBar.setStyle({ style: style });
+    }
+  };
+
   getTextZoomCallback = (zoomLevel: number) => {
     // Default iOS zoom levels are: 88%, 94%, 100%, 106%, 119%, 131%, 144% - 106% is default / normal zoom for ipad
     this.textZoom = zoomLevel;
@@ -34,4 +42,6 @@ export class AccessibilityService {
   public getTextZoomClass(): string {
     return `text-zoom-${this.getTextZoom(this.textZoom)}`;
   }
+
+
 }

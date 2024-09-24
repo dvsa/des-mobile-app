@@ -5,6 +5,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-fake-journal',
@@ -18,6 +20,7 @@ export class FakeJournalPage extends BasePageComponent {
 
   constructor(
     private dateTimeProvider: DateTimeProvider,
+    private accessibilityService: AccessibilityService,
     public orientationMonitorProvider: OrientationMonitorProvider,
     injector: Injector
   ) {
@@ -32,6 +35,7 @@ export class FakeJournalPage extends BasePageComponent {
   }
 
   async ionViewWillEnter() {
+    await this.accessibilityService.configureStatusBar(Style.Light)
     await this.orientationMonitorProvider.monitorOrientation();
   }
 
