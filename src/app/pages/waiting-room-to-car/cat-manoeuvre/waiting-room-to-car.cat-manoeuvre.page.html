@@ -27,10 +27,10 @@
           <ion-col class="ion-no-padding">
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
-              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
               (motFailedModalToggled)="motFailedModalOpened($event)"
+              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event.VRN, $event.isAmended)"
               (motButtonPressed)="motSearchButtonPressed()"
               (failedMOTModalOutcome)="motFailedModalOutcome($event)"
               (motCallAborted)="abortMOTCall($event)"

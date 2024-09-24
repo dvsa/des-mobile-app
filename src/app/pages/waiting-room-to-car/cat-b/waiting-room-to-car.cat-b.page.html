@@ -2,7 +2,8 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title"
-      >{{pageState.candidateName$ | async}}</ion-title
+    >{{ pageState.candidateName$ | async }}
+    </ion-title
     >
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -46,7 +47,7 @@
           <ion-col class="ion-no-padding">
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
-              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event)"
+              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event.VRN, $event.isAmended)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
               (motFailedModalToggled)="motFailedModalOpened($event)"
@@ -122,7 +123,8 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+           class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

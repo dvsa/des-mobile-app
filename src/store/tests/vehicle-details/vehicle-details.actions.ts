@@ -7,7 +7,7 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
-  (registrationNumber: string) => ({ registrationNumber })
+  (registrationNumber: string, isAmended: boolean = false) => ({ registrationNumber, isAmended })
 );
 
 export const MotFailedModalOpened = createAction('[Vehicle Details] Mot failed modal opened');

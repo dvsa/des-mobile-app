@@ -56,7 +56,7 @@
 
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
-              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event)"
+              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event.VRN, $event.isAmended)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
               (motFailedModalToggled)="motFailedModalOpened($event)"
