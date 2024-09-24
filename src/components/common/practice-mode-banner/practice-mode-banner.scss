@@ -1,18 +1,31 @@
-.practice-mode-top-banner {
-  background: var(--gds-yellow);
+.practice-mode-base {
   border-radius: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  width: 100%;
+  margin-left: -5px;
+}
+
+.practice-mode-top-banner {
+  @extend .practice-mode-base;
+  position: fixed;
+  background: var(--gds-yellow);
+  height: 40px;
+  top: 0;
+}
+
+.practice-mode-banner-text {
+  @extend .practice-mode-base;
   font-size: 18px;
   font-weight: bold;
   color: var(--gds-black);
   height: 36px;
-  padding-bottom: 0;
-  padding-top: 0;
-  width: 110%;
-  margin-left: -5px;
+  position: relative;
+  top: 8pt;
 }
 
 .practice-mode-toolbar-sizing {
-  padding-top: 12px;
+  padding-top: 0;
   padding-bottom: 0;
   height: 40px;
 }

@@ -15,7 +15,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
 enum DisplayMessage {
-  PRACTICE = "You're in practice mode",
+  PRACTICE = "Practice mode",
   PREVIEW = 'This is a preview of a category not yet available in DES',
 }
 
