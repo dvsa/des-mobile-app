@@ -241,8 +241,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(OtherAccompanimentToggled());
   }
 
-  vehicleRegistrationChanged(vehicleRegistration: string): void {
-    this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
+  vehicleRegistrationChanged(vehicleRegistration: string, isAmended = false): void {
+    this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration, isAmended));
   }
 
   getMOTEvidenceProvided(evidenceToggle: boolean): void {

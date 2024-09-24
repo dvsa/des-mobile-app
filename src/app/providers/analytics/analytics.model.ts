@@ -427,10 +427,10 @@ export enum GoogleAnalyticsEventsTitles {
   TAP_TO_SHOW = 'tap_to_show_data',
   TAP_TO_HIDE = 'tap_to_hide_data',
   DATA_UNAVAILABLE = 'data_unavailable',
-  VRN_OUTCOME = 'vrn_outcome',
 }
 
 export enum GoogleAnalyticsEventsValues {
+  AMENDED = 'amended',
   NAVIGATION = 'navigation',
   VRN_EDITED = 'vrn_edited',
   END_TEST_SELECTED = 'end_test_selected',

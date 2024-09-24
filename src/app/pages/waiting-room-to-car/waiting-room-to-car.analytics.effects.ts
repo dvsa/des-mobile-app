@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -729,12 +729,12 @@ export class WaitingRoomToCarAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof VehicleRegistrationChanged>, TestsModel, boolean]) => {
+      switchMap(([{ isAmended }, tests]: [ReturnType<typeof VehicleRegistrationChanged>, TestsModel, boolean]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
-          GoogleAnalyticsEventsTitles.VRN_OUTCOME,
-          GoogleAnalyticsEventsValues.SAVED
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          isAmended ? GoogleAnalyticsEventsValues.SAVED : GoogleAnalyticsEventsValues.AMENDED
         );
         return of(AnalyticRecorded());
       })

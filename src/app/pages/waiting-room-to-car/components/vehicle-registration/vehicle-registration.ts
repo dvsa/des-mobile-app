@@ -47,7 +47,10 @@ export class VehicleRegistrationComponent implements OnChanges {
   abortSubject: Subject<void> = new Subject<void>();
 
   @Output()
-  vehicleRegistrationChanged = new EventEmitter<string>();
+  vehicleRegistrationChanged = new EventEmitter<{
+    VRN: string;
+    isAmended: boolean;
+  }>();
   @Output()
   motFailedModalToggled = new EventEmitter<boolean>();
   @Output()
@@ -70,6 +73,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   modalData: string = null;
   hasCalledMOT = false;
   isSearchingForMOT = false;
+  isVRNAmended = false;
   practiceModeModalIsActive = false;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
@@ -288,7 +292,13 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   VRNChanged() {
-    this.vehicleRegistrationChanged.emit(this.vehicleRegistration);
+    this.vehicleRegistrationChanged.emit({
+      VRN: this.vehicleRegistration,
+      isAmended: this.isVRNAmended,
+    });
+    if (!this.isVRNAmended) {
+      this.isVRNAmended = true;
+    }
   }
 
   isSearchFailed(): boolean {
