@@ -619,30 +619,45 @@ describe('examiner records selector', () => {
   });
 
   describe('getManoeuvresUsed', () => {
-    it(
-      'should return a list all manoeuvres available for that category and the amount of times they appear, ' +
-        'ordered by index',
-      () => {
-        expect(
-          getManoeuvresUsed(
-            startedTests.filter((value) => value.testCategory == TestCategory.B),
-            TestCategory.B
-          )
-        ).toEqual([
-          { item: 'E1 - Reverse right', count: 0, percentage: '0.0%' },
-          { item: 'E2 - Reverse park (road)', count: 0, percentage: '0.0%' },
-          { item: 'E3 - Reverse park (car park)', count: 0, percentage: '0.0%' },
-          { item: 'E4 - Forward park', count: 1, percentage: '100.0%' },
-        ]);
-      }
-    );
-    it('should return an empty array if passed a category with no manoeuvres', () => {
-      expect(
-        getManoeuvresUsed(
-          startedTests.filter((value) => value.testCategory == TestCategory.ADI3),
-          TestCategory.ADI3
-        )
-      ).toEqual([]);
+    it('returns an empty array if no category is provided', () => {
+      expect(getManoeuvresUsed(startedTests)).toEqual([]);
+    });
+
+    it('returns an empty array if no started tests are provided', () => {
+      expect(getManoeuvresUsed([], TestCategory.B)).toEqual([]);
+    });
+
+    it('returns manoeuvres with their counts and percentages for a given category', () => {
+      const result = getManoeuvresUsed(startedTests, TestCategory.B);
+      expect(result).toEqual([
+        { item: 'E1 - Reverse right', count: 0, percentage: '0.0%' },
+        { item: 'E2 - Reverse park (road)', count: 0, percentage: '0.0%' },
+        { item: 'E3 - Reverse park (car park)', count: 0, percentage: '0.0%' },
+        { item: 'E4 - Forward park', count: 1, percentage: '100.0%' },
+      ]);
+    });
+
+    it('returns an empty array if the category has no manoeuvres', () => {
+      expect(getManoeuvresUsed(startedTests, TestCategory.ADI3)).toEqual([]);
+    });
+
+    it('returns correct counts and percentages when multiple manoeuvres are present', () => {
+      const customTests = [
+        {
+          ...startedTests[2],
+          manoeuvres: [
+            { forwardPark: { selected: true } },
+            { reverseParkRoad: { selected: true, drivingFault: true } },
+          ],
+        },
+      ];
+      const result = getManoeuvresUsed(customTests, TestCategory.B);
+      expect(result).toEqual([
+        { item: 'E1 - Reverse right', count: 0, percentage: '0.0%' },
+        { item: 'E2 - Reverse park (road)', count: 1, percentage: '50.0%' },
+        { item: 'E3 - Reverse park (car park)', count: 0, percentage: '0.0%' },
+        { item: 'E4 - Forward park', count: 1, percentage: '50.0%' },
+      ]);
     });
   });
 });
