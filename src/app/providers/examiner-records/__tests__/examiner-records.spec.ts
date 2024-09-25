@@ -52,326 +52,331 @@ describe('ExaminerRecordsProvider', () => {
       );
     });
     it('should return the date 90 days ago if the range is "90 days"', () => {
-      expect(provider.getRangeDate(DateRange.NINETY_DAYS).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(90, 'days').format('DD/MM/YYYY')
+      expect(provider.getRangeDate(DateRange.THIRTY_DAYS).format('DD/MM/YYYY')).toEqual(
+        moment(new Date()).subtract(30, 'days').format('DD/MM/YYYY')
       );
+      it('should return the date 90 days ago if the range is "90 days"', () => {
+        expect(provider.getRangeDate(DateRange.NINETY_DAYS).format('DD/MM/YYYY')).toEqual(
+          moment(new Date()).subtract(90, 'days').format('DD/MM/YYYY')
+        );
+      });
+      it('should return the date 1 year ago if the range is "1 year"', () => {
+        expect(provider.getRangeDate(DateRange.ONE_YEAR).format('DD/MM/YYYY')).toEqual(
+          moment(new Date()).subtract(1, 'year').format('DD/MM/YYYY')
+        );
+      });
+      it('should return the date 18 months ago if the range is "18 months"', () => {
+        expect(provider.getRangeDate(DateRange.EIGHTEEN_MONTHS).format('DD/MM/YYYY')).toEqual(
+          moment(new Date()).subtract(18, 'months').format('DD/MM/YYYY')
+        );
+      });
     });
-    it('should return the date 1 year ago if the range is "1 year"', () => {
-      expect(provider.getRangeDate(DateRange.ONE_YEAR).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(1, 'year').format('DD/MM/YYYY')
-      );
-    });
-    it('should return the date 18 months ago if the range is "18 months"', () => {
-      expect(provider.getRangeDate(DateRange.EIGHTEEN_MONTHS).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(18, 'months').format('DD/MM/YYYY')
-      );
-    });
-  });
 
-  describe('formatForExaminerRecords', () => {
-    it('should return an object containing the mandatory fields', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
-      });
-    });
-    it('should return an object containing an optional field contained within the for loop', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          testData: { controlledStop: { selected: true } },
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        controlledStop: true,
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
-      });
-    });
-    it('should return an object containing an optional route number', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          testSummary: { routeNumber: 1 },
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        routeNumber: 1,
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
-      });
-    });
-    it('should return an object containing an optional show me question', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          testData: {
-            vehicleChecks: {
-              showMeQuestion: {
-                code: 'code',
-                description: 'description',
-                outcome: 'P',
+    describe('formatForExaminerRecords', () => {
+      it('should return an object containing the mandatory fields', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
               },
-            },
-          } as TestData,
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        showMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
       });
-    });
-    it('should return an object containing an optional show me questions array', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          testData: {
-            vehicleChecks: {
-              showMeQuestions: [
-                {
+      it('should return an object containing an optional field contained within the for loop', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            testData: { controlledStop: { selected: true } },
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
+              },
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          controlledStop: true,
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
+      });
+      it('should return an object containing an optional route number', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            testSummary: { routeNumber: 1 },
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
+              },
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          routeNumber: 1,
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
+      });
+      it('should return an object containing an optional show me question', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            testData: {
+              vehicleChecks: {
+                showMeQuestion: {
                   code: 'code',
                   description: 'description',
                   outcome: 'P',
                 },
-              ],
-            },
-          } as TestData,
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        showMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
-      });
-    });
-    it('should return an object containing an optional tell me question', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          testData: {
-            vehicleChecks: {
-              tellMeQuestion: {
-                code: 'code',
-                description: 'description',
-                outcome: 'P',
               },
-            },
-          } as TestData,
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        tellMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
+            } as TestData,
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
+              },
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          showMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
       });
-    });
-    it('should return an object containing an optional tell me questions array', () => {
-      expect(
-        provider.formatForExaminerRecords({
-          testData: {
-            vehicleChecks: {
-              tellMeQuestions: [
-                {
+      it('should return an object containing an optional show me questions array', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            testData: {
+              vehicleChecks: {
+                showMeQuestions: [
+                  {
+                    code: 'code',
+                    description: 'description',
+                    outcome: 'P',
+                  },
+                ],
+              },
+            } as TestData,
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
+              },
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          showMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
+      });
+      it('should return an object containing an optional tell me question', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            testData: {
+              vehicleChecks: {
+                tellMeQuestion: {
                   code: 'code',
                   description: 'description',
                   outcome: 'P',
                 },
-              ],
-            },
-          } as TestData,
-          journalData: {
-            testSlotAttributes: {
-              start: '2000-01-01',
-            } as TestSlotAttributes,
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 2,
-              checkDigit: 3,
-            },
-            testCentre: {
-              centreId: 1,
-              costCode: 'EXPLE',
-              centreName: 'Example',
-            },
-          } as JournalData,
-          category: TestCategory.B,
-        } as TestResultSchemasUnion)
-      ).toEqual({
-        tellMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
-        appRef: 1023,
-        testCategory: TestCategory.B,
-        testCentre: {
-          centreId: 1,
-          costCode: 'EXPLE',
-          centreName: 'Example',
-        },
-        startDate: '2000-01-01',
+              },
+            } as TestData,
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
+              },
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          tellMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
+      });
+      it('should return an object containing an optional tell me questions array', () => {
+        expect(
+          provider.formatForExaminerRecords({
+            testData: {
+              vehicleChecks: {
+                tellMeQuestions: [
+                  {
+                    code: 'code',
+                    description: 'description',
+                    outcome: 'P',
+                  },
+                ],
+              },
+            } as TestData,
+            journalData: {
+              testSlotAttributes: {
+                start: '2000-01-01',
+              } as TestSlotAttributes,
+              applicationReference: {
+                applicationId: 1,
+                bookingSequence: 2,
+                checkDigit: 3,
+              },
+              testCentre: {
+                centreId: 1,
+                costCode: 'EXPLE',
+                centreName: 'Example',
+              },
+            } as JournalData,
+            category: TestCategory.B,
+          } as TestResultSchemasUnion)
+        ).toEqual({
+          tellMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
+          appRef: 1023,
+          testCategory: TestCategory.B,
+          testCentre: {
+            centreId: 1,
+            costCode: 'EXPLE',
+            centreName: 'Example',
+          },
+          startDate: '2000-01-01',
+        });
       });
     });
-  });
 
-  describe('handleLoadingUI', () => {
-    it('should call handleUILoading if should load while not currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
-      provider.currentlyLoading = false;
-      provider.handleLoadingUI(true);
-      expect(provider.loadingProvider.handleUILoading).toHaveBeenCalledWith(true, {
-        id: 'examinerRecord_loading_spinner',
-        spinner: 'circles',
-        backdropDismiss: false,
-        translucent: false,
-        message: 'Loading...',
+    describe('handleLoadingUI', () => {
+      it('should call handleUILoading if should load while not currently loading', () => {
+        spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+        provider.currentlyLoading = false;
+        provider.handleLoadingUI(true);
+        expect(provider.loadingProvider.handleUILoading).toHaveBeenCalledWith(true, {
+          id: 'examinerRecord_loading_spinner',
+          spinner: 'circles',
+          backdropDismiss: false,
+          translucent: false,
+          message: 'Loading...',
+        });
       });
-    });
-    it('should call handleUILoading if should not load while currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
-      provider.currentlyLoading = true;
-      provider.handleLoadingUI(false);
-      expect(provider.loadingProvider.handleUILoading).toHaveBeenCalledWith(false, {
-        id: 'examinerRecord_loading_spinner',
-        spinner: 'circles',
-        backdropDismiss: false,
-        translucent: false,
-        message: 'Loading...',
+      it('should call handleUILoading if should not load while currently loading', () => {
+        spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+        provider.currentlyLoading = true;
+        provider.handleLoadingUI(false);
+        expect(provider.loadingProvider.handleUILoading).toHaveBeenCalledWith(false, {
+          id: 'examinerRecord_loading_spinner',
+          spinner: 'circles',
+          backdropDismiss: false,
+          translucent: false,
+          message: 'Loading...',
+        });
       });
-    });
-    it('should not call handleUILoading if should load while currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
-      provider.currentlyLoading = true;
-      provider.handleLoadingUI(true);
-      expect(provider.loadingProvider.handleUILoading).not.toHaveBeenCalled();
-    });
-    it('should not call handleUILoading if should not load while not currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
-      provider.currentlyLoading = true;
-      provider.handleLoadingUI(true);
-      expect(provider.loadingProvider.handleUILoading).not.toHaveBeenCalled();
+      it('should not call handleUILoading if should load while currently loading', () => {
+        spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+        provider.currentlyLoading = true;
+        provider.handleLoadingUI(true);
+        expect(provider.loadingProvider.handleUILoading).not.toHaveBeenCalled();
+      });
+      it('should not call handleUILoading if should not load while not currently loading', () => {
+        spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+        provider.currentlyLoading = true;
+        provider.handleLoadingUI(true);
+        expect(provider.loadingProvider.handleUILoading).not.toHaveBeenCalled();
+      });
     });
   });
 });

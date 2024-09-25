@@ -70,6 +70,10 @@ export class ExaminerRecordsProvider {
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
+      display: 'Last 30 days',
+      val: DateRange.THIRTY_DAYS,
+    },
+    {
       display: 'Last 90 days',
       val: DateRange.NINETY_DAYS,
     },
@@ -137,6 +141,8 @@ export class ExaminerRecordsProvider {
         return moment(new Date()).subtract(1, 'week');
       case DateRange.FORTNIGHT:
         return moment(new Date()).subtract(2, 'week');
+      case DateRange.THIRTY_DAYS:
+        return moment(new Date()).subtract(30, 'days');
       case DateRange.NINETY_DAYS:
         return moment(new Date()).subtract(90, 'days');
       case DateRange.ONE_YEAR:
