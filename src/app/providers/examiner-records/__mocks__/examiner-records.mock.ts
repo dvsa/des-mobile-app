@@ -39,6 +39,10 @@ export class ExaminerRecordsProviderMock {
   ];
   public onlineFilterOptions: SelectableDateRange[] = [
     {
+      display: 'Last 30 days',
+      val: DateRange.THIRTY_DAYS,
+    },
+    {
       display: 'Last 90 days',
       val: DateRange.NINETY_DAYS,
     },
