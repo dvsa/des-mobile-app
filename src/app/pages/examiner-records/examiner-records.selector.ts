@@ -460,7 +460,7 @@ export const getManoeuvresUsed = (
   if (category) {
     manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
   }
-  if (manoeuvreTypeLabels.length == 0 || !startedTests) {
+  if (manoeuvreTypeLabels.length == 0 || (!startedTests || startedTests.length == 0)) {
     return [];
   }
 
