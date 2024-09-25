@@ -19,8 +19,12 @@
     }
   }
 
-  .cancel-button {
-    min-width: 225px;
+  .no-left-padding {
+    padding-left: 0;
+  }
+
+  .banner-button {
+    min-width: 218px;
   }
   .alert-icon {
     color: var(--mes-white);
