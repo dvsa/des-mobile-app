@@ -377,4 +377,12 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     combination: { display: 'Y' },
     assessmentReport: { display: 'N' },
   },
+  89: {
+    candidateDescription: { display: 'Y' },
+    debriefWitnessed: { display: 'Y' },
+    identification: { display: 'Y' },
+    additionalInformation: { display: 'Y' },
+    combination: { display: 'Y' },
+    assessmentReport: { display: 'Y' },
+  },
 };

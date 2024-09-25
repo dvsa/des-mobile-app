@@ -659,4 +659,18 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     faultComment: { display: 'N' },
     eco: { display: 'N' },
   },
+  89: {
+    routeNumber: { display: 'N' },
+    independentDriving: { display: 'N' },
+    candidateDescription: { display: 'Y' },
+    debriefWitnessed: { display: 'Y' },
+    identification: { display: 'Y' },
+    vehicleChecks: { display: 'A' },
+    weatherConditions: { display: 'Y' },
+    d255: { display: 'Y', defaultValue: 'Yes' },
+    eta: { display: 'A' },
+    additionalInformation: { display: 'Y' },
+    faultComment: { display: 'A' },
+    eco: { display: 'A' },
+  },
 };
