@@ -13,13 +13,17 @@
     animation-duration: 0.1s;
   }
 
+ .banner-text {
+   color: var(--gds-black)
+ }
+
 @keyframes expand {
   from {
     margin-top: -70px;
   }
 
   to {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 

@@ -1,23 +1,27 @@
 .dashed-line {
   border: none;
   border-top: 5px dashed;
-  color: #fff;
+  color: var(--mes-theme-main-colour);
   background-color: transparent;
   height: 1px;
   width: 50px;
 }
 
 .ion-activated {
-  background-color: #ececec;
+  background-color: var(--mes-theme-main-variant2);
 }
 
 .direction-column {
   flex-direction: column;
 }
 
-.white-text {
-  color: white !important;
+.mes-opposing-colour {
+  color: var(--mes-theme-opposing-colour) !important;
+}
+
+.main-colour-text {
+  color: var(--mes-theme-main-colour) !important;
   & ion-text, label, span, p {
-    color: white !important;
+    color: var(--mes-theme-main-colour) !important;
   }
 }

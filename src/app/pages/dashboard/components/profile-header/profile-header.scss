@@ -3,11 +3,11 @@
   padding: 12px;
 
   h2 {
-    margin: 0px;
+    margin: 0;
   }
 
   span {
-    color: var(--dark);
+    color: var(--theme-opposing-colour-soft);
   }
 
   ion-row {
@@ -31,13 +31,13 @@
   #card-content-wrapper {
     height: 240px;
     padding: 24px;
-    background: var(--mes-white);
+    background: var(--mes-theme-main-colour);
     width: 100%;
   }
 
   #contact-icon {
     font-size: 72px;
-    color: var(--dark);
+    color: var(--theme-opposing-colour-soft);
   }
 
   #contact-col {

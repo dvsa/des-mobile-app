@@ -21,7 +21,6 @@ export class AccompanimentCardComponent {
 
   @Input()
   formGroup: UntypedFormGroup;
-
   @Output()
   instructorAccompanimentChange = new EventEmitter();
 

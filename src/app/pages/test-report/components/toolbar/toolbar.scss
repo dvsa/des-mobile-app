@@ -2,7 +2,7 @@
   .toolbar-wrapper {
     height: 56px;
     padding: 6px 24px;
-    background: var(--mes-white);
+    background: var(--mes-theme-main-colour);
   }
   .button-wrapper {
     display: flex;
@@ -13,9 +13,9 @@
     min-width: 96px;
     padding: 0 6px;
     height: 43px;
-    border: 3.5px solid var(--gds-black);
+    border: 3.5px solid var(--gds-theme-opposite);
     border-radius: 10px;
-    background-color: var(--mes-white);
+    background-color: var(--mes-theme-main-colour);
     margin: 0;
     align-self: center;
     .button-inner {
@@ -26,13 +26,13 @@
       line-height: 25px;
     }
     &.inactive {
-      background-color: var(--mes-white);
-      color: var(--gds-black);
+      background-color: var(--mes-theme-main-colour);
+      color: var(--gds-theme-opposite);
       box-shadow: 0 1px 0 0 var(--gds-grey-1);
     }
     &.active {
-      background-color: var(--gds-black);
-      color: var(--mes-white);
+      background-color: var(--gds-theme-opposite);
+      color: var(--mes-theme-main-colour);
     }
   }
 
@@ -50,7 +50,7 @@
     border-radius: 10px;
     margin: 0;
     &.inactive {
-      background-color: var(--mes-white);
+      background-color: var(--mes-theme-main-colour);
       box-shadow: 0 1px 0 0 var(--gds-grey-1);
     }
     &.active {
@@ -58,7 +58,7 @@
     }
       font-size: 24px;
       font-weight: 900;
-      --color: #0b0c0c;
+      --color: var(--mes-theme-opposing-colour);
   }
   #dangerous-button {
     width: 88px;
@@ -67,13 +67,13 @@
     border-radius: 10px;
     margin: 0;
     &.inactive {
-      background-color: var(--mes-white);
+      background-color: var(--mes-theme-main-colour);
       box-shadow: 0 1px 0 0 var(--gds-grey-1);
-      color: var(--gds-black);
+      color: var(--gds-theme-opposite);
     }
     &.active {
       background-color: var(--gds-red);
-      color: var(--mes-white);
+      color: var(--mes-theme-main-colour);
     }
       font-size: 24px;
       font-weight: 900;

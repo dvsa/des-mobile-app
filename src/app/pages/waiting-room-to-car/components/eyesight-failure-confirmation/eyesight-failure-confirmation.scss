@@ -4,13 +4,13 @@
     margin: 12px;
     padding: 40px;
     background: var(--gds-blue);
-    color: var(--mes-white);
+    color: var(--mes-theme-opposing-colour);
     #eyesight-failure-title {
-      color: inherit;
+      color: var(--gds-white);
     }
     #eyesight-failure-subtitle {
       margin-top: 18px;
-      color: inherit;
+      color: var(--gds-white);
     }
     button {
       width: 85%;

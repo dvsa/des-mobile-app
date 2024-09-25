@@ -27,7 +27,7 @@
   .tick-icon {
     margin: 40px 0 16px;
     font-size: 96px;
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 
   .modal-alert-header {
@@ -35,11 +35,11 @@
   }
 
   .cancel-button {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 
   .upload-button {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
     font-weight: 600;
   }
 

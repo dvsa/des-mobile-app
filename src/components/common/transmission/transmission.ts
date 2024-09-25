@@ -9,6 +9,9 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class TransmissionComponent implements OnChanges {
   @Input()
+  style?: number;
+
+  @Input()
   transmission: GearboxCategory;
 
   @Input()

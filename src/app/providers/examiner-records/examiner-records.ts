@@ -20,7 +20,6 @@ export interface ColourScheme {
   bar: string[];
   pie: string[];
   emergencyStop?: string[];
-  average: string;
 }
 
 export enum ColourEnum {
@@ -44,13 +43,11 @@ export class ExaminerRecordsProvider {
       pie: ['#008FFB', '#ED6926', '#FF526F', '#007C42', '#a05195'],
       bar: ['#008FFB'],
       emergencyStop: ['#ED6926', '#777777'],
-      average: '#000000',
     },
     greyscale: {
       name: ColourEnum.GREYSCALE,
       pie: ['#474747', '#6E6E6E', '#222222', '#606060', '#949494'],
       bar: ['#777777'],
-      average: '#000000',
     },
   };
 

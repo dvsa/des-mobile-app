@@ -13,13 +13,11 @@ export class ExaminerRecordsProviderMock {
       pie: ['#008FFB', '#ED6926', '#FF526F', '#007C42', '#a05195'],
       bar: ['#008FFB'],
       emergencyStop: ['#ED6926', '#777777'],
-      average: '#000000',
     },
     greyscale: {
       name: ColourEnum.GREYSCALE,
       pie: ['#474747', '#5A5A5A', '#6E6E6E', '#818181', '#949494'],
       bar: ['#777777'],
-      average: '#000000',
     },
   };
 
