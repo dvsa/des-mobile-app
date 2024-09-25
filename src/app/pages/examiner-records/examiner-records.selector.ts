@@ -9,7 +9,7 @@ import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constan
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { forOwn, get, transform, uniqBy } from 'lodash-es';
+import { forOwn, get, uniqBy } from 'lodash-es';
 
 // Generic `T` is the configurable type of the item
 export interface ExaminerRecordData<T> {
@@ -460,7 +460,7 @@ export const getManoeuvresUsed = (
   if (category) {
     manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
   }
-  if (manoeuvreTypeLabels.length == 0 || (!startedTests || startedTests.length == 0)) {
+  if (manoeuvreTypeLabels.length == 0 || !startedTests || startedTests.length == 0) {
     return [];
   }
 
