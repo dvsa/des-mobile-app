@@ -1,3 +1,4 @@
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   GearboxCategoryChanged,
@@ -11,7 +12,6 @@ import {
   VehicleRegistrationChanged,
 } from '../vehicle-details.actions';
 import { vehicleDetailsReducer } from '../vehicle-details.reducer';
-import {MotStatusCodes} from '@providers/mot-history-api/mot-interfaces';
 
 describe('vehicle details reducer', () => {
   it('should put the mot evidence into the state on MotEvidenceChanged action', () => {

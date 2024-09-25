@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { InvalidMotModalValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { StoreModel } from '@shared/models/store.model';
-import { MotFailedModalValidationError } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { isEmpty } from 'lodash-es';
 
 export enum ModalEvent {
@@ -62,7 +62,7 @@ export class MotFailedModal implements OnInit {
     if (this.formControl.value.toUpperCase() === this.originalRegistration.toUpperCase()) {
       await this.modalCtrl.dismiss(this.formControl.value.toUpperCase());
     } else {
-      this.store$.dispatch(MotFailedModalValidationError());
+      this.store$.dispatch(InvalidMotModalValidationError());
       this.ifMatches = false;
     }
   }

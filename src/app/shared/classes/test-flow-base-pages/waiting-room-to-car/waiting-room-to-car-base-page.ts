@@ -11,6 +11,11 @@ import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.c
 import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
+  InvalidMotModalOutcome,
+  MotCallAborted,
+  MotFailedModalOpened,
+  MotSearchButtonPressed,
+  MotServiceUnavailable,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -74,12 +79,7 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
-  MotCallAborted,
   MotEvidenceProvidedToggled,
-  MotFailedModalOpened,
-  MotFailedModalOutcome,
-  MotSearchButtonPressed,
-  MotServiceUnavailable,
   MotStatusChanged,
   SchoolBikeToggled,
   SchoolCarToggled,
@@ -342,7 +342,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motFailedModalOutcome(outcome: ModalEvent): void {
-    this.store$.dispatch(MotFailedModalOutcome(outcome));
+    this.store$.dispatch(InvalidMotModalOutcome(outcome));
   }
 
   async practiceModeTestCentreAlert() {

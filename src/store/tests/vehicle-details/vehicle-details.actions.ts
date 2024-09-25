@@ -1,9 +1,6 @@
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { createAction } from '@ngrx/store';
-import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
-import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 export const VehicleRegistrationChanged = createAction(
@@ -11,35 +8,9 @@ export const VehicleRegistrationChanged = createAction(
   (registrationNumber: string, isAmended = false) => ({ registrationNumber, isAmended })
 );
 
-export const MotFailedModalOpened = createAction('[Vehicle Details] Mot failed modal opened');
-
 export const MotStatusChanged = createAction('[Vehicle Details] Mot status changed', (motStatus: MotStatusCodes) => ({
   motStatus,
 }));
-
-export const MotFailedModalOutcome = createAction(
-  '[Vehicle Details] Mot failed modal outcome',
-  (modalEvent: ModalEvent) => ({
-    modalEvent,
-  })
-);
-
-export const MotSearchButtonPressed = createAction('[Vehicle Details] Mot search button pressed');
-
-export const MotNoEvidenceBannerCancelled = createAction('[Vehicle Details] Mot no evidence banner cancelled');
-
-export const InvalidMotTerminate = createAction('[Vehicle Details] Invalid mot terminate');
-
-export const MotCallAborted = createAction('[Vehicle Details] Mot call aborted', (method: MOTAbortedMethod) => ({
-  method,
-}));
-
-export const MotServiceUnavailable = createAction(
-  '[Vehicle Details] Mot service unavailable',
-  (statusCode: HttpStatusCodes) => ({
-    statusCode,
-  })
-);
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({
   motEvidence,
@@ -49,8 +20,6 @@ export const MotEvidenceProvidedToggled = createAction(
   '[Vehicle Details] Mot evidence provided toggled',
   (motEvidenceProvided: boolean) => ({ motEvidenceProvided })
 );
-
-export const MotFailedModalValidationError = createAction('[Vehicle Details] Invalid mot modal validation error');
 
 export const MotEvidenceProvidedReset = createAction('[Vehicle Details] Mot evidence provided reset');
 
