@@ -17,10 +17,7 @@ import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { MotStatusChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
-
-export enum MotStatus {
-  NO_DETAILS = 'No details found',
-}
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 @Injectable()
 export class WaitingRoomToCarEffects {
@@ -62,7 +59,7 @@ export class WaitingRoomToCarEffects {
       filter((regNumber) => !!regNumber),
       switchMap((regNumber) => this.vehicleDetailsApiProvider.getMotHistoryByIdentifier(regNumber)),
       map((vehicleDetails: MotHistoryWithStatus) =>
-        MotStatusChanged(vehicleDetails?.data?.status || MotStatus.NO_DETAILS)
+        MotStatusChanged(vehicleDetails?.data?.status || MotStatusCodes.NO_DETAILS)
       ),
       catchError((err) => {
         this.store$.dispatch(
