@@ -9,7 +9,6 @@ import { WaitingRoomToCarCatManoeuvreComponentsModule } from '@pages/waiting-roo
 import { WaitingRoomToCarCatManoeuvrePage } from '@pages/waiting-room-to-car/cat-manoeuvre/waiting-room-to-car.cat-manoeuvre.page';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
-import { WaitingRoomToCarEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.effects';
 import { WaitingRoomToCarCatManoeuvrePageRoutingModule } from './waiting-room-to-car.cat-manoeuvre.routing-module';
 
 @NgModule({
@@ -23,7 +22,7 @@ import { WaitingRoomToCarCatManoeuvrePageRoutingModule } from './waiting-room-to
     WaitingRoomToCarCatManoeuvrePageRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
-    EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
+    EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
   ],
 })
 export class WaitingRoomToCarCatManoeuvrePageModule {}

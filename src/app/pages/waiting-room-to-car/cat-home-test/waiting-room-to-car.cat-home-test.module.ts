@@ -8,7 +8,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { WaitingRoomToCarCatHomeComponentsModule } from '@pages/waiting-room-to-car/cat-home-test/components/waiting-room-to-car-.cat-home.components.module';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
-import { WaitingRoomToCarEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.effects';
 import { WaitingRoomToCarCatHomeTestPageRoutingModule } from './waiting-room-to-car.cat-home-test-routing.module';
 
 import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-test.page';
@@ -24,7 +23,7 @@ import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-
     ReactiveFormsModule,
     WaitingRoomToCarCatHomeComponentsModule,
     WaitingRoomToCarComponentsModule,
-    EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
+    EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
   ],
 })
 export class WaitingRoomToCarCatHomeTestPageModule {}
