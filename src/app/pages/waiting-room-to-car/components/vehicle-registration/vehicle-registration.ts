@@ -53,6 +53,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   modalData: string = null;
   hasCalledMOT = false;
   isSearchingForMOT = false;
+  practiceModeModalIsActive = false;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
@@ -116,8 +117,10 @@ export class VehicleRegistrationComponent implements OnChanges {
           }
         });
     } else {
+      this.practiceModeModalIsActive = true;
       // Load the practice mode modal and wait for the user's response
       const fakeModalReturn = await this.loadPracticeModeModal();
+      this.practiceModeModalIsActive = false;
 
       // If the user indicates that the MOT failed, load the failed MOT modal
       if (fakeModalReturn === PracticeModeMOTType.FAILED) {
