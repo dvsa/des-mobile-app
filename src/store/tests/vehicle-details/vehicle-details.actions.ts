@@ -4,15 +4,16 @@ import { createAction } from '@ngrx/store';
 import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
-  (registrationNumber: string, isAmended: boolean = false) => ({ registrationNumber, isAmended })
+  (registrationNumber: string, isAmended = false) => ({ registrationNumber, isAmended })
 );
 
 export const MotFailedModalOpened = createAction('[Vehicle Details] Mot failed modal opened');
 
-export const MotStatusChanged = createAction('[Vehicle Details] Mot status changed', (motStatus: string) => ({
+export const MotStatusChanged = createAction('[Vehicle Details] Mot status changed', (motStatus: MotStatusCodes) => ({
   motStatus,
 }));
 

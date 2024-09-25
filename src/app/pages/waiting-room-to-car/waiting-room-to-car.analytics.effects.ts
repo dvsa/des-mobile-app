@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {CategoryCode} from '@dvsa/mes-test-schema/categories/common';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import {of} from 'rxjs';
+import {concatMap, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 
-import { Router } from '@angular/router';
-import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
-import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import {Router} from '@angular/router';
+import {
+  ModalEvent
+} from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import {MOTAbortedMethod} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
@@ -16,8 +18,8 @@ import {
   WaitingRoomToCarViewBikeCategoryModal,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import {AnalyticsProvider} from '@providers/analytics/analytics';
+import {AnalyticNotRecorded, AnalyticRecorded} from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
@@ -25,17 +27,21 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
-import { StoreModel } from '@shared/models/store.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { TestsModel } from '@store/tests/tests.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData, isPracticeMode } from '@store/tests/tests.selector';
+import {AppConfigProvider} from '@providers/app-config/app-config';
+import {analyticsEventTypePrefix} from '@shared/helpers/format-analytics-text';
+import {StoreModel} from '@shared/models/store.model';
+import {getTestCategory} from '@store/tests/category/category.reducer';
+import {
+  getApplicationReference
+} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import {
+  getApplicationNumber
+} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import {getCandidate} from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import {getCandidateId} from '@store/tests/journal-data/common/candidate/candidate.selector';
+import {TestsModel} from '@store/tests/tests.model';
+import {getTests} from '@store/tests/tests.reducer';
+import {getCurrentTest, getJournalData, isPracticeMode} from '@store/tests/tests.selector';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
@@ -48,13 +54,13 @@ import {
   PDILogbook,
   TraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
-import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
+import {getTrainerDetails} from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
 import {
   getPDILogbook,
   getTraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
-import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
+import {getVehicleDetails} from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
+import {getDualControls} from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   DualControlsToggledNo,
@@ -69,9 +75,10 @@ import {
   MotSearchButtonPressed,
   MotServiceUnavailable,
   MotStatusChanged,
-  VehicleRegistrationChanged,
+  VehicleRegistrationChanged
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {getMotStatus} from '@store/tests/vehicle-details/vehicle-details.selector';
+import {MotStatusCodes} from '@providers/mot-history-api/mot-interfaces';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -482,12 +489,12 @@ export class WaitingRoomToCarAnalyticsEffects {
       filter(([, , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests, motStatus]: [ReturnType<typeof MotStatusChanged>, TestsModel, string, boolean]) => {
+      switchMap(([, tests, motStatus]: [ReturnType<typeof MotStatusChanged>, TestsModel, MotStatusCodes, boolean]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.MOT_STATUS,
-          motStatus
+          motStatus == MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
         );
         return of(AnalyticRecorded());
       })
@@ -568,7 +575,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-          GoogleAnalyticsEventsTitles.VALIDATION_POPUP,
+          GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
           GoogleAnalyticsEventsValues.DISPLAYED
         );
         return of(AnalyticRecorded());
@@ -591,7 +598,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-          GoogleAnalyticsEventsTitles.VERIFY_POPUP,
+          GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
           modalEvent == ModalEvent.CONFIRM
             ? GoogleAnalyticsEventsValues.CONFIRMED
             : GoogleAnalyticsEventsValues.CANCELLED
@@ -687,7 +694,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-          GoogleAnalyticsEventsTitles.VERIFY_POPUP,
+          GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
           GoogleAnalyticsEventsValues.VRN_MISMATCH
         );
         return of(AnalyticRecorded());
@@ -710,7 +717,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-          GoogleAnalyticsEventsTitles.LAUNCH,
+          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
           GoogleAnalyticsEventsValues.RETRIEVE_MOT
         );
         return of(AnalyticRecorded());

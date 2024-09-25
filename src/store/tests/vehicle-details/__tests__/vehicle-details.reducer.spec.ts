@@ -11,6 +11,7 @@ import {
   VehicleRegistrationChanged,
 } from '../vehicle-details.actions';
 import { vehicleDetailsReducer } from '../vehicle-details.reducer';
+import {MotStatusCodes} from '@providers/mot-history-api/mot-interfaces';
 
 describe('vehicle details reducer', () => {
   it('should put the mot evidence into the state on MotEvidenceChanged action', () => {
@@ -69,7 +70,7 @@ describe('vehicle details reducer', () => {
     expect(result.gearboxCategory).toBe('Automatic');
   });
   it('should change the mot status when the mot change action is received', () => {
-    const result = vehicleDetailsReducer({}, MotStatusChanged('test'));
-    expect(result.motStatus).toBe('test');
+    const result = vehicleDetailsReducer({}, MotStatusChanged(MotStatusCodes.NO_DETAILS));
+    expect(result.motStatus).toBe(MotStatusCodes.NO_DETAILS);
   });
 });
