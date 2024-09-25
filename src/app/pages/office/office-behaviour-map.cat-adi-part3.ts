@@ -288,5 +288,5 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     furtherDevelopment: { display: 'N' },
     reasonGiven: { display: 'N' },
     additionalInformation: { display: 'Y' },
-  }
+  },
 };

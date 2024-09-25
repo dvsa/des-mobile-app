@@ -623,5 +623,5 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     eco: { display: 'A' },
     circuit: { display: 'Y' },
     speedRequirement: { display: 'A' },
-  }
+  },
 };

@@ -384,5 +384,5 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     additionalInformation: { display: 'Y' },
     combination: { display: 'Y' },
     assessmentReport: { display: 'Y' },
-  }
+  },
 };

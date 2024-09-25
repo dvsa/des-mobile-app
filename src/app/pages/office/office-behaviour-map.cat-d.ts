@@ -672,5 +672,5 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     additionalInformation: { display: 'Y' },
     faultComment: { display: 'A' },
     eco: { display: 'A' },
-  }
+  },
 };
