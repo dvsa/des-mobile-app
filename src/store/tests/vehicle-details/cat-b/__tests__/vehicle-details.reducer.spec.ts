@@ -1,3 +1,4 @@
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   DualControlsToggled,
@@ -13,7 +14,6 @@ import {
   VehicleRegistrationChanged,
 } from '../../vehicle-details.actions';
 import { vehicleDetailsReducer } from '../vehicle-details.cat-b.reducer';
-import {MotStatusCodes} from '@providers/mot-history-api/mot-interfaces';
 
 describe('vehicle details reducer', () => {
   it('should put the registration number into the state on vehicle registration changed action', () => {

@@ -1,4 +1,5 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   DualControlsToggled,
@@ -8,7 +9,6 @@ import {
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { initialState, vehicleDetailsCatADIPart2Reducer } from '../vehicle-details.cat-adi-part2.reducer';
-import {MotStatusCodes} from '@providers/mot-history-api/mot-interfaces';
 
 describe('vehicleDetailsCatADIPart2Reducer', () => {
   it('should set the registration number when the VehicleRegistrationChanged action is received', () => {

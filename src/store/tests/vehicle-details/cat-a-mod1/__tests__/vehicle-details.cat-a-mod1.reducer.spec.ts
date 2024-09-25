@@ -1,6 +1,6 @@
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { vehicleDetailsCatAMod1Reducer } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
-import {MotStatusCodes} from '@providers/mot-history-api/mot-interfaces';
 
 describe('vehicleDetailsCatAMod1Reducer', () => {
   describe('VehicleRegistrationChanged', () => {
@@ -14,7 +14,10 @@ describe('vehicleDetailsCatAMod1Reducer', () => {
   });
   describe('MotStatusChanged', () => {
     it('should set motStatus to the value given', () => {
-      const result = vehicleDetailsCatAMod1Reducer({ motStatus: null }, vehicleDetailsActions.MotStatusChanged(MotStatusCodes.NO_DETAILS));
+      const result = vehicleDetailsCatAMod1Reducer(
+        { motStatus: null },
+        vehicleDetailsActions.MotStatusChanged(MotStatusCodes.NO_DETAILS)
+      );
       expect(result).toEqual({ motStatus: MotStatusCodes.NO_DETAILS });
     });
   });

@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { StoreModel } from '@shared/models/store.model';
-import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import {
   InvalidMotTerminate,
   MotNoEvidenceBannerCancelled,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { StoreModel } from '@shared/models/store.model';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 
 @Component({
   selector: 'mot-no-evidence-confirmation',
