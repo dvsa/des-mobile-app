@@ -455,7 +455,7 @@ export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
-  let faultsEncountered: string[] = [];
+  let manoeuvresEncountered: string[] = [];
   let manoeuvreTypeLabels: string[] = [];
   if (category) {
     manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
@@ -470,28 +470,24 @@ export const getManoeuvresUsed = (
     const mans = Array.isArray(manoeuvres) ? manoeuvres : [manoeuvres];
     mans.forEach((manoeuvre) => {
       forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
-        const faults = !man.selected
-          ? []
-          : transform(
-              man,
-              (result) => {
-                result.push(getManoeuvreTypeLabels(category, type));
-              },
-              []
-            );
-        faultsEncountered.push(...faults);
+        if (man.selected) {
+          const label = getManoeuvreTypeLabels(category, type);
+          if (label) {
+            manoeuvresEncountered.push(label);
+          }
+        }
       });
     });
-    faultsEncountered = faultsEncountered.filter((fault) => !!fault);
+    manoeuvresEncountered = manoeuvresEncountered.filter((fault) => !!fault);
   });
 
   return manoeuvreTypeLabels
     .map((q, index) => {
-      const count = faultsEncountered.filter((val) => val === q).length;
+      const count = manoeuvresEncountered.filter((val) => val === q).length;
       return {
         item: `E${index + 1} - ${q}`,
         count,
-        percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
+        percentage: `${((count / manoeuvresEncountered.length) * 100).toFixed(1)}%`,
       };
     })
     .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
