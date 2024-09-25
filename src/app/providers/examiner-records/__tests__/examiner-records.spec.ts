@@ -51,7 +51,7 @@ describe('ExaminerRecordsProvider', () => {
         moment(new Date()).subtract(2, 'week').format('DD/MM/YYYY')
       );
     });
-    it('should return the date 90 days ago if the range is "90 days"', () => {
+    it('should return the date 90 days ago if the range is "30 days"', () => {
       expect(provider.getRangeDate(DateRange.THIRTY_DAYS).format('DD/MM/YYYY')).toEqual(
         moment(new Date()).subtract(30, 'days').format('DD/MM/YYYY')
       );
