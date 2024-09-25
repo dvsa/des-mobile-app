@@ -11,6 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
+  MotCallAborted,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -59,7 +60,6 @@ import {
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
-  MotCallAborted,
   SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
