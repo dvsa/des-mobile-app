@@ -1,13 +1,14 @@
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { createAction } from '@ngrx/store';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
-  (registrationNumber: string) => ({ registrationNumber })
+  (registrationNumber: string, isAmended = false) => ({ registrationNumber, isAmended })
 );
 
-export const MotStatusChanged = createAction('[Vehicle Details] Mot status changed', (motStatus: string) => ({
+export const MotStatusChanged = createAction('[Vehicle Details] Mot status changed', (motStatus: MotStatusCodes) => ({
   motStatus,
 }));
 
@@ -19,9 +20,11 @@ export const MotEvidenceProvidedToggled = createAction(
   '[Vehicle Details] Mot evidence provided toggled',
   (motEvidenceProvided: boolean) => ({ motEvidenceProvided })
 );
+
 export const MotEvidenceProvidedReset = createAction('[Vehicle Details] Mot evidence provided reset');
 
 export const VehicleMakeChanged = createAction('[Vehicle Details] Vehicle make changed', (make: string) => ({ make }));
+
 export const VehicleModelChanged = createAction('[Vehicle Details] Vehicle model changed', (model: string) => ({
   model,
 }));

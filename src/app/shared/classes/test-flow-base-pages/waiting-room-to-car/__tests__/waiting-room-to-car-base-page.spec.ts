@@ -9,7 +9,9 @@ import { ActivatedRouteMock, AlertControllerMock, PlatformMock, RouterMock } fro
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
+  MotCallAborted,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -382,9 +384,15 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   });
 
   describe('abortMOTCall', () => {
-    it('should emit a value from abortSubject', () => {
+    it('dispatches MotCallAborted action with the provided method', () => {
+      const method = MOTAbortedMethod.NAVIGATION;
+      basePageComponent.abortMOTCall(method);
+      expect(store$.dispatch).toHaveBeenCalledWith(MotCallAborted(method));
+    });
+
+    it('emits a value from abortSubject', () => {
       spyOn(basePageComponent.abortSubject, 'next');
-      basePageComponent.abortMOTCall();
+      basePageComponent.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(basePageComponent.abortSubject.next).toHaveBeenCalled();
     });
   });

@@ -45,6 +45,7 @@ import { IndependentDrivingTypeChanged } from '@store/tests/test-summary/test-su
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, isPassed, isPracticeMode } from '@store/tests/tests.selector';
+import { MotEvidenceChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { of } from 'rxjs';
 import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -523,6 +524,29 @@ export class OfficeAnalyticsEffects {
           return of(AnalyticRecorded());
         }
       )
+    )
+  );
+
+  motEvidenceChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotEvidenceChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof MotEvidenceChanged>, TestsModel, boolean]) => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.ALT_EVIDENCE_DETAILS,
+          GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
+        );
+        return of(AnalyticRecorded());
+      })
     )
   );
 

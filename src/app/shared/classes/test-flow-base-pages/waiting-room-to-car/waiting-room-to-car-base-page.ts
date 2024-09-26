@@ -8,7 +8,14 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { Inject, Injector } from '@angular/core';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
+  InvalidMotModalOutcome,
+  MotCallAborted,
+  MotFailedModalOpened,
+  MotSearchButtonPressed,
+  MotServiceUnavailable,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -20,6 +27,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { JournalDataUnion } from '@shared/unions/journal-union';
 import {
   InstructorAccompanimentToggled,
@@ -193,7 +201,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   ionViewWillLeave(): void {
-    this.abortMOTCall();
+    this.abortMOTCall(MOTAbortedMethod.NAVIGATION);
     this.store$.dispatch(PersistTests());
   }
 
@@ -233,8 +241,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(OtherAccompanimentToggled());
   }
 
-  vehicleRegistrationChanged(vehicleRegistration: string): void {
-    this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
+  vehicleRegistrationChanged(vehicleRegistration: string, isAmended = false): void {
+    this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration, isAmended));
   }
 
   getMOTEvidenceProvided(evidenceToggle: boolean): void {
@@ -320,8 +328,21 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(MotStatusChanged(motDetails?.status));
   }
 
+  motFailedModalOpened(modalOpen: boolean): void {
+    this.store$.dispatch(MotFailedModalOpened());
+    this.blurScreenContent(modalOpen);
+  }
+
   blurScreenContent(modalOpen: boolean): void {
     this.failedMOTModalCurrentlyOpen = modalOpen;
+  }
+
+  motSearchButtonPressed(): void {
+    this.store$.dispatch(MotSearchButtonPressed());
+  }
+
+  motFailedModalOutcome(outcome: ModalEvent): void {
+    this.store$.dispatch(InvalidMotModalOutcome(outcome));
   }
 
   async practiceModeTestCentreAlert() {
@@ -337,10 +358,21 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   /**
    * Aborts the ongoing MOT call.
    *
-   * This method emits a value from the `abortSubject`,
-   * which is used to signal the abortion of the ongoing HTTP request.
+   * This method dispatches the `MotCallAborted` action with the provided method
+   * and emits a value from the `abortSubject` to signal the abortion of the ongoing HTTP request.
+   *
+   * @param {MOTAbortedMethod} method - The method used to abort the MOT call.
    */
-  abortMOTCall() {
+
+  abortMOTCall(method: MOTAbortedMethod): void {
+    this.store$.dispatch(MotCallAborted(method));
     this.abortSubject.next();
   }
+
+  motServiceUnavailable(statusCode: HttpStatusCodes): void {
+    this.store$.dispatch(MotServiceUnavailable(statusCode));
+    this.abortSubject.next();
+  }
+
+  protected readonly MOTAbortedMethod = MOTAbortedMethod;
 }

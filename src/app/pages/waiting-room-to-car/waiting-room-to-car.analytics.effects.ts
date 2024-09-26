@@ -6,7 +6,17 @@ import { of } from 'rxjs';
 import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
+import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
+  InvalidMotModalOutcome,
+  InvalidMotModalValidationError,
+  InvalidMotTerminate,
+  MotCallAborted,
+  MotFailedModalOpened,
+  MotNoEvidenceBannerCancelled,
+  MotSearchButtonPressed,
+  MotServiceUnavailable,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarError,
@@ -24,6 +34,7 @@ import {
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -57,7 +68,9 @@ import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-det
 import {
   DualControlsToggledNo,
   DualControlsToggledYes,
+  MotEvidenceProvidedToggled,
   MotStatusChanged,
+  VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
 
@@ -470,12 +483,262 @@ export class WaitingRoomToCarAnalyticsEffects {
       filter(([, , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests, motStatus]: [ReturnType<typeof MotStatusChanged>, TestsModel, string, boolean]) => {
+      switchMap(([, tests, motStatus]: [ReturnType<typeof MotStatusChanged>, TestsModel, MotStatusCodes, boolean]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.MOT_STATUS,
-          motStatus
+          motStatus == MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motCallAborted$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotCallAborted),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([{ method }, tests]: [ReturnType<typeof MotCallAborted>, TestsModel, boolean]) => {
+        let abortMethod: GoogleAnalyticsEventsValues = null;
+
+        switch (method) {
+          case MOTAbortedMethod.END_TEST:
+            abortMethod = GoogleAnalyticsEventsValues.END_TEST_SELECTED;
+            break;
+          case MOTAbortedMethod.VRN_CHANGED:
+            abortMethod = GoogleAnalyticsEventsValues.VRN_EDITED;
+            break;
+          case MOTAbortedMethod.NAVIGATION:
+            abortMethod = GoogleAnalyticsEventsValues.NAVIGATION;
+            break;
+          default:
+            abortMethod = GoogleAnalyticsEventsValues.UNKNOWN;
+            break;
+        }
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.CHECK_CANCELLED,
+          abortMethod
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motServiceUnavailable$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotServiceUnavailable),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([{ statusCode }, tests]: [ReturnType<typeof MotServiceUnavailable>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.API_UNAVAILABLE,
+          statusCode.toString()
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motFailedModalOpened$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotFailedModalOpened),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof MotFailedModalOpened>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
+          GoogleAnalyticsEventsValues.DISPLAYED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motFailedModalOutcome$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(InvalidMotModalOutcome),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([{ modalEvent }, tests]: [ReturnType<typeof InvalidMotModalOutcome>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
+          modalEvent == ModalEvent.CONFIRM
+            ? GoogleAnalyticsEventsValues.CONFIRMED
+            : GoogleAnalyticsEventsValues.CANCELLED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motEvidenceProvidedToggled$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotEvidenceProvidedToggled),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(
+        ([{ motEvidenceProvided }, tests]: [ReturnType<typeof MotEvidenceProvidedToggled>, TestsModel, boolean]) => {
+          // GA4 Analytics
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+            GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
+            motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  motNoEvidenceBannerCancelled$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotNoEvidenceBannerCancelled),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof MotNoEvidenceBannerCancelled>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.MOT_WARNING,
+          GoogleAnalyticsEventsValues.CANCELLED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  invalidMotTerminate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(InvalidMotTerminate),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof InvalidMotTerminate>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.MOT_WARNING,
+          GoogleAnalyticsEventsValues.TERMINATE_TEST
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motFailedModalValidationError$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(InvalidMotModalValidationError),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof InvalidMotModalValidationError>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
+          GoogleAnalyticsEventsValues.VRN_MISMATCH
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  motSearchButtonPressed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MotSearchButtonPressed),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof MotSearchButtonPressed>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+          GoogleAnalyticsEventsValues.RETRIEVE_MOT
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  vehicleRegistrationChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(VehicleRegistrationChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([{ isAmended }, tests]: [ReturnType<typeof VehicleRegistrationChanged>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
+          GoogleAnalyticsEventsTitles.OUTCOME,
+          isAmended ? GoogleAnalyticsEventsValues.SAVED : GoogleAnalyticsEventsValues.AMENDED
         );
         return of(AnalyticRecorded());
       })
