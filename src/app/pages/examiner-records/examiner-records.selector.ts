@@ -9,7 +9,7 @@ import { manoeuvreTypeLabels as manoeuvreTypeLabelsCatBE } from '@shared/constan
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { forOwn, get, transform, uniqBy } from 'lodash-es';
+import { forOwn, get, uniqBy } from 'lodash-es';
 
 // Generic `T` is the configurable type of the item
 export interface ExaminerRecordData<T> {
@@ -455,12 +455,12 @@ export const getManoeuvresUsed = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null
 ): ExaminerRecordDataWithPercentage<string>[] => {
-  let faultsEncountered: string[] = [];
+  let manoeuvresEncountered: string[] = [];
   let manoeuvreTypeLabels: string[] = [];
   if (category) {
     manoeuvreTypeLabels = Object.values(getManoeuvreTypeLabels(category));
   }
-  if (manoeuvreTypeLabels.length == 0 || !startedTests) {
+  if (manoeuvreTypeLabels.length == 0 || !startedTests || startedTests.length == 0) {
     return [];
   }
 
@@ -470,28 +470,24 @@ export const getManoeuvresUsed = (
     const mans = Array.isArray(manoeuvres) ? manoeuvres : [manoeuvres];
     mans.forEach((manoeuvre) => {
       forOwn(manoeuvre, (man: Manoeuvre, type: ManoeuvreTypes) => {
-        const faults = !man.selected
-          ? []
-          : transform(
-              man,
-              (result) => {
-                result.push(getManoeuvreTypeLabels(category, type));
-              },
-              []
-            );
-        faultsEncountered.push(...faults);
+        if (man.selected) {
+          const label = getManoeuvreTypeLabels(category, type);
+          if (label) {
+            manoeuvresEncountered.push(label);
+          }
+        }
       });
     });
-    faultsEncountered = faultsEncountered.filter((fault) => !!fault);
+    manoeuvresEncountered = manoeuvresEncountered.filter((fault) => !!fault);
   });
 
   return manoeuvreTypeLabels
     .map((q, index) => {
-      const count = faultsEncountered.filter((val) => val === q).length;
+      const count = manoeuvresEncountered.filter((val) => val === q).length;
       return {
         item: `E${index + 1} - ${q}`,
         count,
-        percentage: `${((count / faultsEncountered.length) * 100).toFixed(1)}%`,
+        percentage: `${((count / manoeuvresEncountered.length) * 100).toFixed(1)}%`,
       };
     })
     .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
