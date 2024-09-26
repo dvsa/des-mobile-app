@@ -9,7 +9,6 @@ import { VehicleChecksModalCatAMod2Module } from '@pages/waiting-room-to-car/cat
 import { WaitingRoomToCarCatAMod2ComponentsModule } from '@pages/waiting-room-to-car/cat-a-mod2/components/waiting-room-to-car.cat-a-mod2.components.module';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
-import { WaitingRoomToCarEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.effects';
 import { WaitingRoomToCarCatAMod2PageRoutingModule } from './waiting-room-to-car.cat-a-mod2-routing.module';
 import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.page';
 
@@ -23,7 +22,7 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
     ReactiveFormsModule,
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
-    EffectsModule.forFeature([WaitingRoomToCarEffects, WaitingRoomToCarAnalyticsEffects]),
+    EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
     VehicleChecksModalCatAMod2Module,
     WaitingRoomToCarCatAMod2ComponentsModule,
   ],

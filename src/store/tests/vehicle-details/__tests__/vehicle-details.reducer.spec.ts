@@ -1,3 +1,4 @@
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   GearboxCategoryChanged,
@@ -69,7 +70,7 @@ describe('vehicle details reducer', () => {
     expect(result.gearboxCategory).toBe('Automatic');
   });
   it('should change the mot status when the mot change action is received', () => {
-    const result = vehicleDetailsReducer({}, MotStatusChanged('test'));
-    expect(result.motStatus).toBe('test');
+    const result = vehicleDetailsReducer({}, MotStatusChanged(MotStatusCodes.NO_DETAILS));
+    expect(result.motStatus).toBe(MotStatusCodes.NO_DETAILS);
   });
 });

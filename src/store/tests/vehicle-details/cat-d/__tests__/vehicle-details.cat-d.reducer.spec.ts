@@ -1,4 +1,5 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { vehicleDetailsCatDReducer } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
@@ -14,8 +15,11 @@ describe('vehicleDetailsCatDReducer', () => {
   });
   describe('MotStatusChanged', () => {
     it('should set motStatus to the value given', () => {
-      const result = vehicleDetailsCatDReducer({ motStatus: null }, vehicleDetailsActions.MotStatusChanged('test'));
-      expect(result).toEqual({ motStatus: 'test' });
+      const result = vehicleDetailsCatDReducer(
+        { motStatus: null },
+        vehicleDetailsActions.MotStatusChanged(MotStatusCodes.NO_DETAILS)
+      );
+      expect(result).toEqual({ motStatus: MotStatusCodes.NO_DETAILS });
     });
   });
   describe('GearboxCategoryChanged', () => {

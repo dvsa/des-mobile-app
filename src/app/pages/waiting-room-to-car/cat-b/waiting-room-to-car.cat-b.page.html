@@ -2,7 +2,8 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title"
-      >{{pageState.candidateName$ | async}}</ion-title
+    >{{ pageState.candidateName$ | async }}
+    </ion-title
     >
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -12,7 +13,7 @@
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
         [shouldAuthenticate]="false"
-        (endTestLinkClicked)="abortMOTCall()"
+        (endTestLinkClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
       >
       </end-test-link>
     </ion-buttons>
@@ -46,10 +47,13 @@
           <ion-col class="ion-no-padding">
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
-              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event.VRN, $event.isAmended)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
-              (motFailedModalToggled)="blurScreenContent($event)"
+              (motFailedModalToggled)="motFailedModalOpened($event)"
+              (motButtonPressed)="motSearchButtonPressed()"
+              (failedMOTModalOutcome)="motFailedModalOutcome($event)"
+              (motCallAborted)="abortMOTCall($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
@@ -119,7 +123,8 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
+  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+           class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"

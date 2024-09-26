@@ -10,7 +10,7 @@
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
         [shouldAuthenticate]="false"
-        (endTestLinkClicked)="abortMOTCall()"
+        (endTestLinkClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
       >
       </end-test-link>
     </ion-buttons>
@@ -56,10 +56,13 @@
 
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
-              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              (vehicleRegistrationChanged)="vehicleRegistrationChanged($event.VRN, $event.isAmended)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
-              (motFailedModalToggled)="blurScreenContent($event)"
+              (motFailedModalToggled)="motFailedModalOpened($event)"
+              (motButtonPressed)="motSearchButtonPressed()"
+              (failedMOTModalOutcome)="motFailedModalOutcome($event)"
+              (motCallAborted)="abortMOTCall($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"

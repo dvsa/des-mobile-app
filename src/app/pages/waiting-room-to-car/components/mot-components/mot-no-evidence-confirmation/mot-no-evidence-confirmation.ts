@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import {
+  InvalidMotTerminate,
+  MotNoEvidenceBannerCancelled,
+} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
@@ -23,11 +27,13 @@ export class MotNoEvidenceConfirmationComponent {
   nextPageOnFail: string;
 
   onCancel(): void {
+    this.store$.dispatch(MotNoEvidenceBannerCancelled());
     this.cancelFn();
   }
 
   async onContinue(): Promise<void> {
     await this.router.navigate([this.nextPageOnFail]);
+    this.store$.dispatch(InvalidMotTerminate());
     this.store$.dispatch(SetActivityCode(ActivityCodes.MOT_INVALID));
   }
 }
