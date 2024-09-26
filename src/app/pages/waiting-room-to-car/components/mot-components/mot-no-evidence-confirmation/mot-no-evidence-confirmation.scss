@@ -2,7 +2,8 @@
   width: 100%;
   #mot-no-evidence-confirmation {
     margin: 12px;
-    padding: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background: var(--gds-red);
     color: var(--mes-white);
     #mot-no-evidence-title {
@@ -17,6 +18,10 @@
       min-height: 56px;
       margin-top: 62px;
     }
+  }
+
+  .no-margin {
+    margin: 0 !important;
   }
 
   .no-left-padding {
