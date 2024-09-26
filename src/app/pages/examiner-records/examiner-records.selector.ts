@@ -36,6 +36,10 @@ const unwantedCategories: TestCategory[] = [
   TestCategory.C1M,
   TestCategory.C1EM,
   TestCategory.CEM,
+  TestCategory.F,
+  TestCategory.G,
+  TestCategory.H,
+  TestCategory.K,
 ];
 
 // add date range filter
