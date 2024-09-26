@@ -13,6 +13,7 @@ export enum DateRange {
   TODAY = 'today',
   WEEK = '7 days',
   FORTNIGHT = '14 days',
+  THIRTY_DAYS = '30 days',
   NINETY_DAYS = '90 days',
   ONE_YEAR = '1 year',
   EIGHTEEN_MONTHS = '18 months',
@@ -104,6 +105,9 @@ export class DateTime {
         // If the range is a fortnight, return the date two weeks ago from today
         case DateRange.FORTNIGHT:
           return moment(today).subtract(2, 'weeks');
+        // If the range is thirty days, return the date thirty days ago from today
+        case DateRange.THIRTY_DAYS:
+          return moment(today).subtract(30, 'days');
         // If the range is ninety days, return the date ninety days ago from today
         case DateRange.NINETY_DAYS:
           return moment(today).subtract(90, 'days');
