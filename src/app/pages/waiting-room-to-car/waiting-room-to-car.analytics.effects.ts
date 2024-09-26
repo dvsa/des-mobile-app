@@ -507,7 +507,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(([{ method }, tests]: [ReturnType<typeof MotCallAborted>, TestsModel, boolean]) => {
-        let abortMethod = GoogleAnalyticsEventsValues.UNKNOWN;
+        let abortMethod: GoogleAnalyticsEventsValues = null;
 
         switch (method) {
           case MOTAbortedMethod.END_TEST:
@@ -518,6 +518,9 @@ export class WaitingRoomToCarAnalyticsEffects {
             break;
           case MOTAbortedMethod.NAVIGATION:
             abortMethod = GoogleAnalyticsEventsValues.NAVIGATION;
+            break;
+          default:
+            abortMethod = GoogleAnalyticsEventsValues.UNKNOWN;
             break;
         }
         // GA4 Analytics
