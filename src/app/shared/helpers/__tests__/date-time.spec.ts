@@ -27,6 +27,16 @@ describe('Date Time helper functions', () => {
       expect(dateTime.isDuringDateRange(DateRange.FORTNIGHT)).toBe(false);
     });
 
+    it('should return true if the date is within the last thirty days', () => {
+      const dateTime = new DateTime().subtract(25, 'days');
+      expect(dateTime.isDuringDateRange(DateRange.THIRTY_DAYS)).toBe(true);
+    });
+
+    it('should return false if the date is outside the last thirty days', () => {
+      const dateTime = new DateTime().subtract(31, 'days');
+      expect(dateTime.isDuringDateRange(DateRange.THIRTY_DAYS)).toBe(false);
+    });
+
     it('should return true if the date is within the last ninety days', () => {
       const dateTime = new DateTime().subtract(45, 'days');
       expect(dateTime.isDuringDateRange(DateRange.NINETY_DAYS)).toBe(true);
