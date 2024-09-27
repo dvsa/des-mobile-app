@@ -30,29 +30,29 @@ export const WaitingRoomToCarBikeCategoryChanged = createAction(
 );
 
 export const InvalidMotModalOutcome = createAction(
-  '[Vehicle Details] Mot failed modal outcome',
+  '[WaitingRoomToCarPage] Mot failed modal outcome',
   (modalEvent: ModalEvent) => ({
     modalEvent,
   })
 );
 
-export const MotSearchButtonPressed = createAction('[Vehicle Details] Mot search button pressed');
+export const MotSearchButtonPressed = createAction('[WaitingRoomToCarPage] Mot search button pressed');
 
-export const MotNoEvidenceBannerCancelled = createAction('[Vehicle Details] Mot no evidence banner cancelled');
+export const MotNoEvidenceBannerCancelled = createAction('[WaitingRoomToCarPage] Mot no evidence banner cancelled');
 
-export const InvalidMotTerminate = createAction('[Vehicle Details] Invalid mot terminate');
+export const InvalidMotTerminate = createAction('[WaitingRoomToCarPage] Invalid mot terminate');
 
-export const MotCallAborted = createAction('[Vehicle Details] Mot call aborted', (method: MOTAbortedMethod) => ({
+export const MotCallAborted = createAction('[WaitingRoomToCarPage] Mot call aborted', (method: MOTAbortedMethod) => ({
   method,
 }));
 
 export const MotServiceUnavailable = createAction(
-  '[Vehicle Details] Mot service unavailable',
+  '[WaitingRoomToCarPage] Mot service unavailable',
   (statusCode: HttpStatusCodes) => ({
     statusCode,
   })
 );
 
-export const InvalidMotModalValidationError = createAction('[Vehicle Details] Invalid mot modal validation error');
+export const InvalidMotModalValidationError = createAction('[WaitingRoomToCarPage] Invalid mot modal validation error');
 
-export const MotFailedModalOpened = createAction('[Vehicle Details] Mot failed modal opened');
+export const MotFailedModalOpened = createAction('[WaitingRoomToCarPage] Mot failed modal opened');

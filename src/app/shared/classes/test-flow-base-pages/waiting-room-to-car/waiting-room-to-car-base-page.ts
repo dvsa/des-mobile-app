@@ -87,7 +87,7 @@ import {
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VehicleRegistrationChanged,
+  VehicleRegistrationChanged, ResetMOTDetails,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -322,10 +322,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motDetailsChanged(motDetails: MotHistory) {
-    this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
-    this.store$.dispatch(VehicleModelChanged(motDetails?.model));
-    this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
-    this.store$.dispatch(MotStatusChanged(motDetails?.status));
+    if (!!motDetails) {
+      this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
+      this.store$.dispatch(VehicleModelChanged(motDetails?.model));
+      this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
+      this.store$.dispatch(MotStatusChanged(motDetails?.status));
+    } else {
+      this.store$.dispatch(ResetMOTDetails());
+    }
   }
 
   motFailedModalOpened(modalOpen: boolean): void {

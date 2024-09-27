@@ -36,7 +36,6 @@ import {
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -485,7 +484,6 @@ export class WaitingRoomToCarAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(([, tests, motStatus]: [ReturnType<typeof MotStatusChanged>, TestsModel, MotStatusCodes, boolean]) => {
-        if (!isAnyOf(motStatus, [undefined, null])) {
           // GA4 Analytics
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
@@ -493,7 +491,6 @@ export class WaitingRoomToCarAnalyticsEffects {
             motStatus == MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
           );
           return of(AnalyticRecorded());
-        }
       })
     )
   );
@@ -621,18 +618,13 @@ export class WaitingRoomToCarAnalyticsEffects {
       ),
       switchMap(
         ([{ motEvidenceProvided }, tests]: [ReturnType<typeof MotEvidenceProvidedToggled>, TestsModel, boolean]) => {
-          console.log(motEvidenceProvided);
           // GA4 Analytics
-          if (!isAnyOf(motEvidenceProvided, [undefined, null])) {
-            console.log('guard break');
             this.analytics.logGAEvent(
               analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
               GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
               motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
             );
-            return of(AnalyticRecorded());
-          }
-          console.log('guard');
+          return of(AnalyticRecorded());
         }
       )
     )

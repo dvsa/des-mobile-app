@@ -77,7 +77,6 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 

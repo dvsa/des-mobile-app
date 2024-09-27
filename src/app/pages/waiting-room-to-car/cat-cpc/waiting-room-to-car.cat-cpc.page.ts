@@ -101,7 +101,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 
