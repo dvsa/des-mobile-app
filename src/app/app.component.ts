@@ -61,11 +61,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
-    {
-      title: EXAMINER_RECORDS,
-      descriptor: 'Examiner records',
-      hideWhenRole: [ExaminerRole.DLG],
-    },
+    // {
+    //   title: EXAMINER_RECORDS,
+    //   descriptor: 'Examiner records',
+    //   hideWhenRole: [ExaminerRole.DLG],
+    // },
     // {
     //   title: PASS_CERTIFICATES,
     //   descriptor: 'Missing / spoiled pass certificates',
