@@ -81,13 +81,14 @@ import {
   GearboxCategoryChanged,
   MotEvidenceProvidedToggled,
   MotStatusChanged,
+  ResetMOTDetails,
   SchoolBikeToggled,
   SchoolCarToggled,
   VRNListUpdated,
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VehicleRegistrationChanged, ResetMOTDetails,
+  VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,

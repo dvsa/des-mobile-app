@@ -484,13 +484,13 @@ export class WaitingRoomToCarAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(([, tests, motStatus]: [ReturnType<typeof MotStatusChanged>, TestsModel, MotStatusCodes, boolean]) => {
-          // GA4 Analytics
-          this.analytics.logGAEvent(
-            analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-            GoogleAnalyticsEventsTitles.MOT_STATUS,
-            motStatus == MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
-          );
-          return of(AnalyticRecorded());
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+          GoogleAnalyticsEventsTitles.MOT_STATUS,
+          motStatus == MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
+        );
+        return of(AnalyticRecorded());
       })
     )
   );
@@ -619,11 +619,11 @@ export class WaitingRoomToCarAnalyticsEffects {
       switchMap(
         ([{ motEvidenceProvided }, tests]: [ReturnType<typeof MotEvidenceProvidedToggled>, TestsModel, boolean]) => {
           // GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
-              GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
-              motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
-            );
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
+            GoogleAnalyticsEventsTitles.ALT_EVIDENCE_PROVIDED,
+            motEvidenceProvided ? GoogleAnalyticsEventsValues.YES : GoogleAnalyticsEventsValues.NO
+          );
           return of(AnalyticRecorded());
         }
       )

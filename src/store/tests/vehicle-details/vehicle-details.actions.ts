@@ -14,7 +14,7 @@ export const MotStatusChanged = createAction('[Vehicle Details] Mot status chang
 
 export const MotEvidenceChanged = createAction('[Vehicle Details] Mot evidence changed', (motEvidence: string) => ({
   motEvidence,
-}))
+}));
 
 export const MotEvidenceProvidedToggled = createAction(
   '[Vehicle Details] Mot evidence provided toggled',
@@ -24,7 +24,6 @@ export const MotEvidenceProvidedToggled = createAction(
 export const MotEvidenceProvidedReset = createAction('[Vehicle Details] Mot evidence provided reset');
 
 export const ResetMOTDetails = createAction('[Vehicle Details] Mot details reset');
-
 
 export const VehicleMakeChanged = createAction('[Vehicle Details] Vehicle make changed', (make: string) => ({ make }));
 

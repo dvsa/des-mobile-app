@@ -33,7 +33,6 @@ import {
   DualControlsToggledNo,
   DualControlsToggledYes,
   MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatAdi3WaitingRoomToCarPageState {
