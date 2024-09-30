@@ -88,7 +88,7 @@ import {
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VehicleRegistrationChanged,
+  VehicleRegistrationChanged, MotEvidenceProvidedReset,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
@@ -247,7 +247,11 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   getMOTEvidenceProvided(evidenceToggle: boolean): void {
-    this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
+    if (evidenceToggle !== undefined) {
+      this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
+    } else {
+      this.store$.dispatch(MotEvidenceProvidedReset());
+    }
   }
 
   schoolCarToggled(): void {
