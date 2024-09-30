@@ -78,7 +78,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   constructor(
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
-    protected accessibilityService: AccessibilityService,
+    public accessibilityService: AccessibilityService,
     protected menuController: MenuController,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,

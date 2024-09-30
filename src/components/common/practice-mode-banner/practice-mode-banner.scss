@@ -19,9 +19,12 @@
   font-size: 18px;
   font-weight: bold;
   color: var(--gds-black);
-  //height: 36px;
-  //position: relative;
-  //top: 8pt;
+  position: relative;
+  bottom: 3pt;
+}
+
+.status-bar-spacing {
+  height: 15px;
 }
 
 .practice-mode-toolbar-sizing {
