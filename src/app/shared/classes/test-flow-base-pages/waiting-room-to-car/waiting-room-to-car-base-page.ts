@@ -79,6 +79,7 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
+  MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
   MotStatusChanged,
   ResetMOTDetails,
@@ -88,7 +89,7 @@ import {
   VehicleExpiryDateChanged,
   VehicleMakeChanged,
   VehicleModelChanged,
-  VehicleRegistrationChanged, MotEvidenceProvidedReset,
+  VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
