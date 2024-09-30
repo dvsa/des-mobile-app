@@ -169,7 +169,7 @@ describe('AppComponent', () => {
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialiseSentry').and.returnValue(Promise.resolve());
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
-      spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
+      spyOn(component.accessibilityService, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
     });
@@ -183,7 +183,7 @@ describe('AppComponent', () => {
       expect(component.initialiseAuthentication).toHaveBeenCalled();
       expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(component.configureStatusBar).toHaveBeenCalled();
+      expect(component.accessibilityService.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
       expect(component.configureLocale).toHaveBeenCalled();
     }));
@@ -279,7 +279,7 @@ describe('AppComponent', () => {
     it('should set status bar styles when plugin is available', async () => {
       spyOn(StatusBar, 'setStyle');
       spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
-      await component.configureStatusBar();
+      await component.accessibilityService.configureStatusBar(Style.Dark);
       expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
     });
   });

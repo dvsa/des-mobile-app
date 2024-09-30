@@ -13,6 +13,8 @@ import {
   TellMeQuestionDrivingFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'practice-test-report-card',
@@ -25,6 +27,7 @@ export class PracticeTestReportCardComponent {
   constructor(
     private store$: Store<StoreModel>,
     private modalController: ModalController,
+    public accessibilityService: AccessibilityService,
     public routeByCat: RouteByCategoryProvider
   ) {}
 
@@ -46,11 +49,13 @@ export class PracticeTestReportCardComponent {
       case ModalEvent.FAULT:
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionDrivingFault());
+        await this.accessibilityService.configureStatusBar(Style.Light);
         await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
         break;
       case ModalEvent.NO_FAULT:
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionCorrect());
+        await this.accessibilityService.configureStatusBar(Style.Light);
         await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
         break;
       case ModalEvent.CANCEL:
