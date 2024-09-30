@@ -69,6 +69,22 @@ describe('VehicleRegistrationComponent', () => {
     });
   });
 
+  describe('updateIsSearchingForMOT', () => {
+    it('should set isSearchingForMOT to true and emit the new value', () => {
+      spyOn(component.motSearchingStatusChange, 'emit');
+      component.updateIsSearchingForMOT(true);
+      expect(component.isSearchingForMOT).toBeTrue();
+      expect(component.motSearchingStatusChange.emit).toHaveBeenCalledWith(true);
+    });
+
+    it('should set isSearchingForMOT to false and emit the new value', () => {
+      spyOn(component.motSearchingStatusChange, 'emit');
+      component.updateIsSearchingForMOT(false);
+      expect(component.isSearchingForMOT).toBeFalse();
+      expect(component.motSearchingStatusChange.emit).toHaveBeenCalledWith(false);
+    });
+  });
+
   describe('invalid', () => {
     it('should return true if the formControl is invalid and dirty', () => {
       component.formControl.setValue(null);
