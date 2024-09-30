@@ -132,6 +132,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   testCategory: TestCategory;
   trainerNumberProvided = false;
   failedMOTModalCurrentlyOpen = false;
+  isSearchingForMOT = false;
   abortSubject: Subject<void> = new Subject<void>();
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
@@ -373,10 +374,15 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
    *
    * @param {MOTAbortedMethod} method - The method used to abort the MOT call.
    */
-
   abortMOTCall(method: MOTAbortedMethod): void {
-    this.store$.dispatch(MotCallAborted(method));
-    this.abortSubject.next();
+    if (this.isSearchingForMOT) {
+      this.store$.dispatch(MotCallAborted(method));
+      this.abortSubject.next();
+    }
+  }
+
+  motSearchingStatusChanged(status: boolean): void {
+    this.isSearchingForMOT = status;
   }
 
   motServiceUnavailable(statusCode: HttpStatusCodes): void {

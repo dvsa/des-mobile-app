@@ -386,14 +386,29 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   describe('abortMOTCall', () => {
     it('dispatches MotCallAborted action with the provided method', () => {
       const method = MOTAbortedMethod.NAVIGATION;
+      basePageComponent.isSearchingForMOT = true;
       basePageComponent.abortMOTCall(method);
       expect(store$.dispatch).toHaveBeenCalledWith(MotCallAborted(method));
     });
 
     it('emits a value from abortSubject', () => {
       spyOn(basePageComponent.abortSubject, 'next');
+      basePageComponent.isSearchingForMOT = true;
       basePageComponent.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(basePageComponent.abortSubject.next).toHaveBeenCalled();
     });
-  });
-});
+
+    it('does not dispatch MotCallAborted action if not searching for MOT', () => {
+      const method = MOTAbortedMethod.NAVIGATION;
+      basePageComponent.isSearchingForMOT = false;
+      basePageComponent.abortMOTCall(method);
+      expect(store$.dispatch).not.toHaveBeenCalledWith(MotCallAborted(method));
+    });
+
+    it('does not emit a value from abortSubject if not searching for MOT', () => {
+      spyOn(basePageComponent.abortSubject, 'next');
+      basePageComponent.isSearchingForMOT = false;
+      basePageComponent.abortMOTCall(MOTAbortedMethod.NAVIGATION);
+      expect(basePageComponent.abortSubject.next).not.toHaveBeenCalled();
+    });
+  });});
