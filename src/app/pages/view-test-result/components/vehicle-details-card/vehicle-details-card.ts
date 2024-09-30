@@ -46,6 +46,9 @@ export class VehicleDetailsCardComponent {
   @Input()
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
+  //TODO mes-10009 - remove this feature flag
+  motFeatureFlag = false;
+
   public shouldHideCard(): boolean {
     return (
       !this.transmission &&

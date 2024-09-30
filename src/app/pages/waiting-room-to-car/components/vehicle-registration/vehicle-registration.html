@@ -32,6 +32,7 @@
       </ion-col>
       <ion-col class="display-flex ion-align-items-center" *ngIf="!isRekeyMode" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
         <ion-button
+          *ngIf="motFeatureFlag"
           [disabled]="shouldDisableMOTButton()"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
