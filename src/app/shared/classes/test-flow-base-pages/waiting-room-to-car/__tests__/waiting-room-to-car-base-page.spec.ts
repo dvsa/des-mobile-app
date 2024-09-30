@@ -411,4 +411,5 @@ describe('WaitingRoomToCarBasePageComponent', () => {
       basePageComponent.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(basePageComponent.abortSubject.next).not.toHaveBeenCalled();
     });
-  });});
+  });
+});
