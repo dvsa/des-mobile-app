@@ -25,10 +25,7 @@ import {
   getTrainerRegistrationNumber,
   getTrainingRecords,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
-import {
-  MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatAdi2WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -76,7 +73,6 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 

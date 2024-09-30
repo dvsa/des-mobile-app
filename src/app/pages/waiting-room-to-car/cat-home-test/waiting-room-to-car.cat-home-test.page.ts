@@ -26,10 +26,7 @@ import { getVehicleChecksCatHomeTest } from '@store/tests/test-data/cat-home/veh
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import {
-  MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
@@ -97,7 +94,6 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 

@@ -21,10 +21,7 @@ import {
   getVehicleLength,
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
-import {
-  MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatManoeuvreWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -68,7 +65,6 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 

@@ -86,6 +86,25 @@ export const vehicleDetailsReducer = createReducer(
       testExpiryDate,
     })
   ),
+  on(
+    vehicleDetailsActions.ResetMOTDetails,
+    (state): VehicleDetails => ({
+      ...state,
+      motStatus: undefined,
+      motEvidence: undefined,
+      motEvidenceProvided: undefined,
+      make: undefined,
+      model: undefined,
+      testExpiryDate: undefined,
+    })
+  ),
+  on(
+    vehicleDetailsActions.MotEvidenceProvidedReset,
+    (state): VehicleDetails => ({
+      ...state,
+      motEvidenceProvided: undefined,
+    })
+  ),
   on(vehicleDetailsActions.VRNListUpdated, (state, { vrn }) => ({
     ...state,
     previouslySearchedRegNumbers: [...(state?.previouslySearchedRegNumbers || []), vrn],

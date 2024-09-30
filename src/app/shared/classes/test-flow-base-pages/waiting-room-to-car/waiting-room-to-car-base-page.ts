@@ -79,8 +79,10 @@ import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
+  MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
   MotStatusChanged,
+  ResetMOTDetails,
   SchoolBikeToggled,
   SchoolCarToggled,
   VRNListUpdated,
@@ -246,7 +248,11 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   getMOTEvidenceProvided(evidenceToggle: boolean): void {
-    this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
+    if (evidenceToggle !== undefined) {
+      this.store$.dispatch(MotEvidenceProvidedToggled(evidenceToggle));
+    } else {
+      this.store$.dispatch(MotEvidenceProvidedReset());
+    }
   }
 
   schoolCarToggled(): void {
@@ -322,10 +328,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motDetailsChanged(motDetails: MotHistory) {
-    this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
-    this.store$.dispatch(VehicleModelChanged(motDetails?.model));
-    this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
-    this.store$.dispatch(MotStatusChanged(motDetails?.status));
+    if (!!motDetails) {
+      this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
+      this.store$.dispatch(VehicleModelChanged(motDetails?.model));
+      this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));
+      this.store$.dispatch(MotStatusChanged(motDetails?.status));
+    } else {
+      this.store$.dispatch(ResetMOTDetails());
+    }
   }
 
   motFailedModalOpened(modalOpen: boolean): void {

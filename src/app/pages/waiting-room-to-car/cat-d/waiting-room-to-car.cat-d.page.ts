@@ -40,10 +40,7 @@ import {
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import {
-  MotEvidenceProvidedReset,
-  MotEvidenceProvidedToggled,
-} from '@store/tests/vehicle-details/vehicle-details.actions';
+import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
@@ -141,7 +138,6 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
-    this.store$.dispatch(MotEvidenceProvidedToggled(undefined));
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 

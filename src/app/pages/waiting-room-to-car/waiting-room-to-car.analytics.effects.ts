@@ -738,7 +738,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
           GoogleAnalyticsEventsTitles.OUTCOME,
-          isAmended ? GoogleAnalyticsEventsValues.SAVED : GoogleAnalyticsEventsValues.AMENDED
+          isAmended ? GoogleAnalyticsEventsValues.AMENDED : GoogleAnalyticsEventsValues.SAVED
         );
         return of(AnalyticRecorded());
       })

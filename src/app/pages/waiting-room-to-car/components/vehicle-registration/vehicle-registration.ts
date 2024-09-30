@@ -97,6 +97,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   async getMOT(value: string) {
+    this.motButtonPressed.emit();
     this.clearData();
     this.hasCalledMOT = false;
     this.isSearchingForMOT = true;
