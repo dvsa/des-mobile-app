@@ -33,6 +33,7 @@
               (motButtonPressed)="motSearchButtonPressed()"
               (failedMOTModalOutcome)="motFailedModalOutcome($event)"
               (motCallAborted)="abortMOTCall($event)"
+              (motSearchingStatusChange)="motSearchingStatusChanged($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
