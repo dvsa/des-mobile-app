@@ -7,7 +7,7 @@ import { Storage } from '@ionic/storage-angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
-import { merge, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';

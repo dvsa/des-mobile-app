@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { TextZoom } from '@capacitor/text-zoom';
-import {Capacitor} from '@capacitor/core';
-import {StatusBar, Style} from '@capacitor/status-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +42,4 @@ export class AccessibilityService {
   public getTextZoomClass(): string {
     return `text-zoom-${this.getTextZoom(this.textZoom)}`;
   }
-
-
 }
