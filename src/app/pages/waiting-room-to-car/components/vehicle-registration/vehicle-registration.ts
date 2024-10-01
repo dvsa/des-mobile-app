@@ -78,9 +78,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   isVRNAmended = false;
   practiceModeModalIsActive = false;
 
-  //TODO mes-10009 - remove this feature flag
-  motFeatureFlag = false;
-
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
