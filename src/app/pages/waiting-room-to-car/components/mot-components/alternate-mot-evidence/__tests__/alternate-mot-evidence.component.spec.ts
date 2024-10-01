@@ -19,14 +19,11 @@ describe('AlternateMotEvidenceComponent', () => {
       declarations: [AlternateMotEvidenceComponent],
       imports: [IonicModule, CommonModule],
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AlternateMotEvidenceComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     fixture.detectChanges();
-  });
+  }));
 
   describe('setupControl', () => {
     it('should create and set up the form control when it does not exist', () => {

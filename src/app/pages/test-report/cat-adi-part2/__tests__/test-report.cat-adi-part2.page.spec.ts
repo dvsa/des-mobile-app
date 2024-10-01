@@ -103,9 +103,6 @@ describe('TestReportCatADI2Page', () => {
         },
       ],
     });
-  });
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatADI2Page);
     component = fixture.componentInstance;
   });

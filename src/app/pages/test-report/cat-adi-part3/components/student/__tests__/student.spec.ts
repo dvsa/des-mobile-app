@@ -13,9 +13,6 @@ describe('StudentComponent', () => {
       declarations: [StudentComponent, MockComponent(AssessmentAnswerComponent)],
       imports: [IonicModule],
     });
-  }));
-
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(StudentComponent);
     component = fixture.componentInstance;
   }));
