@@ -25,6 +25,7 @@ module.exports = function(config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-parallel'),
@@ -66,7 +67,7 @@ module.exports = function(config) {
       suppressSkipped: true,
       showSpecTiming: true,
     },
-    browsers: ['ChromeHeadlessNoSandbox'],
+    browsers: ['FirefoxHeadless'],
     singleRun: true,
     parallelOptions: {
       executors,
@@ -81,6 +82,10 @@ module.exports = function(config) {
           '--remote-debugging-port=9222',
           '--no-sandbox',
         ],
+      },
+      FirefoxHeadless: {
+        base: 'Firefox',
+        flags: ['-headless'],
       },
     },
     browserNoActivityTimeout: 120000,

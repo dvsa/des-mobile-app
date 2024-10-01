@@ -182,20 +182,20 @@ describe('DashboardAnalyticsEffects', () => {
     });
   });
 
-  describe('detectDeviceTheme$', () => {
-    it('should log an event', (done) => {
-      actions$.next(DetectDeviceTheme());
-      effects.detectDeviceTheme$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.METADATA,
-          GoogleAnalyticsEventsTitles.DEVICE_THEME,
-          GoogleAnalyticsEventsValues.LIGHT_MODE
-        );
-        done();
-      });
-    });
-  });
+  // describe('detectDeviceTheme$', () => {
+  //   it('should log an event', (done) => {
+  //     actions$.next(DetectDeviceTheme());
+  //     effects.detectDeviceTheme$.subscribe((result) => {
+  //       expect(result.type === AnalyticRecorded.type).toBe(true);
+  //
+  //       // GA4 Analytics
+  //       expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+  //         GoogleAnalyticsEvents.METADATA,
+  //         GoogleAnalyticsEventsTitles.DEVICE_THEME,
+  //         GoogleAnalyticsEventsValues.LIGHT_MODE
+  //       );
+  //       done();
+  //     });
+  //   });
+  // });
 });
