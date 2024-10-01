@@ -106,7 +106,7 @@ describe('PassFinalisationPageComponent', () => {
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends PassFinalisationPageComponent {
-      constructor(inj: Injector) {
+      constructor(public inj: Injector) {
         super(inj);
       }
     }
