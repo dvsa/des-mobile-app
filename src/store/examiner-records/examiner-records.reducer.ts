@@ -29,7 +29,7 @@ export const examinerRecordsReducer = createReducer(
     cachedRecords: tests,
     isLoading: false,
   })),
-  on(LoadingExaminerRecords, (state: ExaminerRecordStateModel, {}) => ({
+  on(LoadingExaminerRecords, (state: ExaminerRecordStateModel) => ({
     ...state,
     isLoading: true,
   })),

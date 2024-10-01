@@ -67,7 +67,6 @@
           "correctness": {
             "noVoidTypeReturn": "off",
             "noUnsafeOptionalChaining": "off",
-            "noEmptyPattern": "off",
             "noSwitchDeclarations": "off"
           },
           "suspicious": {
