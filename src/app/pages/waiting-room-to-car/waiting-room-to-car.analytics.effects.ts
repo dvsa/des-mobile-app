@@ -488,7 +488,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.MOT_STATUS,
-          motStatus == MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
+          motStatus === MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
         );
         return of(AnalyticRecorded());
       })
@@ -596,7 +596,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.EXPIRED_POPUP,
-          modalEvent == ModalEvent.CONFIRM
+          modalEvent === ModalEvent.CONFIRM
             ? GoogleAnalyticsEventsValues.CONFIRMED
             : GoogleAnalyticsEventsValues.CANCELLED
         );

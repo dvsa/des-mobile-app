@@ -286,7 +286,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     return !(
       !this.isSearchingForMOT &&
       this.formControl.valid &&
-      (this.networkState.getNetworkState() == ConnectionStatus.ONLINE || this.isPracticeMode)
+      (this.networkState.getNetworkState() === ConnectionStatus.ONLINE || this.isPracticeMode)
     );
   }
 

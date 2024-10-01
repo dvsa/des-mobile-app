@@ -88,7 +88,7 @@ export class ExaminerRecordsAnalyticsEffects {
       switchMap(({ colour }) => {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          colour == ColourEnum.DEFAULT
+          colour === ColourEnum.DEFAULT
             ? GoogleAnalyticsEventsTitles.DEFAULT_COLOUR
             : GoogleAnalyticsEventsTitles.GREYSCALE_COLOUR,
           GoogleAnalyticsEventsValues.SELECTED
@@ -146,7 +146,7 @@ export class ExaminerRecordsAnalyticsEffects {
       switchMap(({ onClickData }) => {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          onClickData.isExpanded == true
+          onClickData.isExpanded === true
             ? GoogleAnalyticsEventsTitles.TAP_TO_SHOW
             : GoogleAnalyticsEventsTitles.TAP_TO_HIDE,
           onClickData.title

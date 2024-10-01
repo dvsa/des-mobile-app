@@ -65,7 +65,7 @@ export class ActivityCodeComponent implements OnChanges {
     }
     return (
       this.disabled ||
-      (this.activityCodeModel && (activityCode < 4 || activityCode == Number.parseInt(ActivityCodes.MOT_INVALID)))
+      (this.activityCodeModel && (activityCode < 4 || activityCode === Number.parseInt(ActivityCodes.MOT_INVALID)))
     );
   }
 

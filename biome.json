@@ -71,7 +71,6 @@
             "noAssignInExpressions": "off",
             "noExplicitAny": "off",
             "noImplicitAnyLet": "off",
-            "noDoubleEquals": "off",
             "noConfusingVoidType": "off"
           },
           "performance": {
