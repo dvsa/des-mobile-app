@@ -55,7 +55,6 @@
             "noBannedTypes": "off",
             "noForEach": "off",
             "noThisInStatic": "off",
-            "noUselessConstructor": "off",
             "noUselessCatch": "off"
           },
           "correctness": {

@@ -150,7 +150,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   ];
 
   protected constructor(
-    injector: Injector,
+    public injector: Injector,
     @Inject(false) public loginRequired = false
   ) {
     super(injector, loginRequired);

@@ -37,7 +37,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
   fromRekeySearch: boolean;
   subscription: Subscription = Subscription.EMPTY;
 
-  constructor(injector: Injector) {
+  constructor(public injector: Injector) {
     super(injector);
   }
 

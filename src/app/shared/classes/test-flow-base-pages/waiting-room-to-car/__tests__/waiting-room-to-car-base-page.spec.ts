@@ -164,7 +164,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends WaitingRoomToCarBasePageComponent {
-      constructor(inj: Injector) {
+      constructor(public inj: Injector) {
         super(inj);
       }
     }

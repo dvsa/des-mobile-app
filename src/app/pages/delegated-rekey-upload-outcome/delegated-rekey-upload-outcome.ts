@@ -28,7 +28,7 @@ interface DelegatedRekeyUploadOutcomePageState {
 export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements OnInit, ViewDidEnter {
   pageState: DelegatedRekeyUploadOutcomePageState;
 
-  constructor(injector: Injector) {
+  constructor(public injector: Injector) {
     super(injector);
   }
 

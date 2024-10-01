@@ -187,7 +187,7 @@ describe('OfficeBasePageComponent', () => {
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends OfficeBasePageComponent {
-      constructor(inj: Injector) {
+      constructor(public inj: Injector) {
         super(inj);
       }
     }
