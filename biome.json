@@ -51,8 +51,7 @@
             "useDefaultParameterLast": "off",
             "noUselessElse": "off",
             "noNonNullAssertion": "off",
-            "noParameterAssign": "off",
-            "useExponentiationOperator": "off"
+            "noParameterAssign": "off"
           },
           "complexity": {
             "useLiteralKeys": "off",

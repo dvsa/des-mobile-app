@@ -9,8 +9,8 @@ export class ColourContrastService {
   relativeLuminance(value: number): number {
     //convert value from between 0 and 255 to between 0 and 1
     const ratio = value / 255;
-    //return the relative luminance of the colour passed
-    return ratio <= 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
+    //return the relative luminance of the colour passed§
+    return ratio <= 0.04045 ? ratio / 12.92 : ((ratio + 0.055) / 1.055) ** 2.4;
   }
   luminance([colour1, colour2, colour3]: [number, number, number]): number {
     //return luminance value for the passed colour
