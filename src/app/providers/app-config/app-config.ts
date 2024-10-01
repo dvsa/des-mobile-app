@@ -214,7 +214,7 @@ export class AppConfigProvider {
 
         if (typeof error === 'string') {
           const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
-          if (!!errorEnumVal) {
+          if (errorEnumVal) {
             return Promise.reject(errorEnumVal);
           }
         }

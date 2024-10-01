@@ -56,11 +56,11 @@ export class ExaminerRecordsEffects {
         ) as ExaminerRecordStateModel;
 
         return [
-          !!colourScheme ? ColourFilterChanged(colourScheme) : NoExaminerRecordSetting('colour scheme'),
+          colourScheme ? ColourFilterChanged(colourScheme) : NoExaminerRecordSetting('colour scheme'),
           !!cachedRecords && cachedRecords.length
             ? CacheExaminerRecords(cachedRecords)
             : NoExaminerRecordSetting('cached records'),
-          !!lastUpdatedTime ? UpdateLastCached(lastUpdatedTime) : NoExaminerRecordSetting('last updated time'),
+          lastUpdatedTime ? UpdateLastCached(lastUpdatedTime) : NoExaminerRecordSetting('last updated time'),
         ];
       })
     )

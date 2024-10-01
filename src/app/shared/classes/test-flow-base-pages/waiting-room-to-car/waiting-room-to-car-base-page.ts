@@ -329,7 +329,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motDetailsChanged(motDetails: MotHistory) {
-    if (!!motDetails) {
+    if (motDetails) {
       this.store$.dispatch(VehicleMakeChanged(motDetails?.make));
       this.store$.dispatch(VehicleModelChanged(motDetails?.model));
       this.store$.dispatch(VehicleExpiryDateChanged(motDetails?.expiryDate));

@@ -74,9 +74,9 @@ export const getEligibleTests = (
   if (startedTests) {
     return startedTests.filter((value: ExaminerRecordModel) => {
       return (
-        (!!range ? dateFilter(value, range as DateRange) : true) &&
-        (filterByCategory ? (!!category ? get(value, 'testCategory') === category : true) : true) &&
-        (filterByLocation ? (!!centreId ? get(value, 'testCentre.centreId') === centreId : true) : true) &&
+        (range ? dateFilter(value, range as DateRange) : true) &&
+        (filterByCategory ? (category ? get(value, 'testCategory') === category : true) : true) &&
+        (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true) &&
         (allowExtendedTests ? true : !(get(value, 'extendedTest') === true))
       );
     });
@@ -273,7 +273,7 @@ export const getCategories = (
  * the selected time frame
  */
 export const getStartedTestCount = (startedTests: ExaminerRecordModel[]): number =>
-  !!startedTests ? startedTests.length : 0;
+  startedTests ? startedTests.length : 0;
 
 /**
  * Returns an array containing the conducted test routes within the given tests and their frequency of appearance

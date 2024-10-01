@@ -32,7 +32,7 @@ export class JournalSlotComponent {
    * @param slotData
    */
   findCompletedTest(slotData: TestSlot): CompletedJournalSlot {
-    if (!!get(slotData, 'booking')) {
+    if (get(slotData, 'booking')) {
       const tempAppRef = Number.parseInt(
         formatApplicationReference({
           applicationId: slotData.booking.application.applicationId,

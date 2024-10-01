@@ -395,7 +395,7 @@ export class ExaminerRecordsPage implements OnInit {
       //find most common category and set it as the default
       const mostUsed: ExaminerRecordData<TestCategory> = this.setDefault(categories);
 
-      if (!!mostUsed) {
+      if (mostUsed) {
         this.categoryPlaceholder = mostUsed.item;
         this.handleCategoryFilter(mostUsed.item);
         this.categorySelectPristine = true;
@@ -427,7 +427,7 @@ export class ExaminerRecordsPage implements OnInit {
         // depending on whether cost code is available
         val.item = {
           ...val.item,
-          centreName: `Limited details - ${!!val.item.costCode ? val.item.costCode : val.item.centreId.toString()}`,
+          centreName: `Limited details - ${val.item.costCode ? val.item.costCode : val.item.centreId.toString()}`,
         };
       }
       this.locationFilterOptions.push(val.item);
@@ -436,7 +436,7 @@ export class ExaminerRecordsPage implements OnInit {
     if (!this.locationFilterOptions.map(({ centreId }) => centreId).includes(this.locationSubject$.value)) {
       //find most common location and set it as the default
       const mostUsed: ExaminerRecordData<TestCentre> = this.setDefault(locations);
-      if (!!mostUsed) {
+      if (mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
         this.handleLocationFilter(mostUsed.item);
         this.locationSelectPristine = true;
@@ -467,10 +467,10 @@ export class ExaminerRecordsPage implements OnInit {
     }
     //Set default date
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
-    if (!!this.categorySubject$.value) {
+    if (this.categorySubject$.value) {
       this.categorySelectPristine = false;
     }
-    if (!!this.locationSubject$.value) {
+    if (this.locationSubject$.value) {
       this.locationSelectPristine = false;
     }
 
@@ -594,7 +594,7 @@ export class ExaminerRecordsPage implements OnInit {
         })
         .unsubscribe();
 
-      if (!!mostUsed) {
+      if (mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;
         this.handleLocationFilter(mostUsed.item);
       }

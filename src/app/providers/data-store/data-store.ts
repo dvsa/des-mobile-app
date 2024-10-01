@@ -171,7 +171,7 @@ export class DataStoreProvider {
       const keyChainItem = await this.secureContainer.get(key);
 
       // if found, then add that key/value to ionic storage and remove from keychain
-      if (!!keyChainItem) {
+      if (keyChainItem) {
         await this.storage.set(key, keyChainItem);
         await this.secureContainer.remove(key);
       }

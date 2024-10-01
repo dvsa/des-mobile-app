@@ -54,10 +54,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     const navState = this.router.getCurrentNavigation()?.extras.state;
 
-    if (!!navState) {
+    if (navState) {
       this.hasUserLoggedOut = !!navState?.hasLoggedOut;
 
-      if (!!navState?.invalidToken) {
+      if (navState?.invalidToken) {
         this.dispatchLog('Nav state => Invalid token');
       }
 
