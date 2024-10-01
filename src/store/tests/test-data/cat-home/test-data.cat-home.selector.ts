@@ -16,7 +16,7 @@ export const hasVehicleChecksBeenCompletedCatHomeTest = (data: CatHomeTestData):
   let tellMeQuestionComplete = true;
 
   if (
-    !(data.vehicleChecks && data.vehicleChecks.showMeQuestions instanceof Array) ||
+    !(data.vehicleChecks && Array.isArray(data.vehicleChecks.showMeQuestions)) ||
     data.vehicleChecks.showMeQuestions.length !== NUMBER_OF_SHOW_ME_QUESTIONS
   ) {
     showMeQuestionComplete = false;
@@ -29,7 +29,7 @@ export const hasVehicleChecksBeenCompletedCatHomeTest = (data: CatHomeTestData):
   }
 
   if (
-    !(data.vehicleChecks && data.vehicleChecks.tellMeQuestions instanceof Array) ||
+    !(data.vehicleChecks && Array.isArray(data.vehicleChecks.tellMeQuestions)) ||
     data.vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
   ) {
     tellMeQuestionComplete = false;
