@@ -33,7 +33,8 @@ export class HealthDeclarationSignedComponent implements OnChanges {
 
       // set to null on form creation to allow validation to fire if no user interaction
       if (!this.healthDeclaration) this.healthDeclaration = null;
-      return this.formControl.patchValue(this.healthDeclaration);
+      this.formControl.patchValue(this.healthDeclaration);
+      return;
     }
     this.formControl.patchValue(
       this.healthDeclaration ? HealthDeclatationValidValues.SIGNED : HealthDeclatationValidValues.NOTSIGNED

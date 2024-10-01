@@ -64,7 +64,6 @@
             "noUselessCatch": "off"
           },
           "correctness": {
-            "noVoidTypeReturn": "off",
             "noUnsafeOptionalChaining": "off",
             "noSwitchDeclarations": "off"
           },

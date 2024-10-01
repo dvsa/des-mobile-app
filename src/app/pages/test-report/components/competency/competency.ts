@@ -209,12 +209,13 @@ export class CompetencyComponent {
 
     if (wasPress) {
       const { competency } = this;
-      return this.store$.dispatch(
+      this.store$.dispatch(
         ThrottleAddDrivingFault({
           competency,
           newFaultCount: this.faultCount ? this.faultCount + 1 : 1,
         })
       );
+      return;
     }
   };
 

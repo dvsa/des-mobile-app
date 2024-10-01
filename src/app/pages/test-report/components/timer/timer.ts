@@ -24,7 +24,7 @@ export class TimerComponent {
 
   toggleTimer = (): void => {
     this.isPaused = !this.isPaused;
-    return this.interval ? this.pauseTimer() : this.startTimer();
+    this.interval ? this.pauseTimer() : this.startTimer();
   };
 
   startTimer = (): void => {
