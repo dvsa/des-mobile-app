@@ -274,11 +274,11 @@ export class VehicleDetailsCardComponent {
   getRegistrationText(): string {
     if (this.registrationNumber) {
       return this.registrationNumber;
-    } else if (this.getPreviousFilteredVRNs().length > 0) {
-      return 'Removed';
-    } else {
-      return 'None';
     }
+    if (this.getPreviousFilteredVRNs().length > 0) {
+      return 'Removed';
+    }
+    return 'None';
   }
 
   /**
@@ -297,7 +297,8 @@ export class VehicleDetailsCardComponent {
         return 'Valid until ' + this.data?.testExpiryDate;
       }
       return 'Valid';
-    } else if (!this.isInvalidMOT()) {
+    }
+    if (!this.isInvalidMOT()) {
       return this.data.motStatus;
     }
     return this.data?.testExpiryDate ? 'Expired ' + this.data?.testExpiryDate : 'Not valid';
@@ -314,7 +315,8 @@ export class VehicleDetailsCardComponent {
   getNoMOTDataText(): string {
     if (this.registrationNumber && this.getPreviousFilteredVRNs().length > 0) {
       return 'Unable to determine MOT status for ' + this.registrationNumber;
-    } else if (this.getPreviousFilteredVRNs().length > 0) {
+    }
+    if (this.getPreviousFilteredVRNs().length > 0) {
       return 'Unable to determine MOT status';
     }
     return 'No VRNs were checked for MOT';

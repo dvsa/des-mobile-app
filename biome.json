@@ -49,7 +49,6 @@
             "useTemplate": "off",
             "useNodejsImportProtocol": "off",
             "useDefaultParameterLast": "off",
-            "noUselessElse": "off",
             "noNonNullAssertion": "off",
             "noParameterAssign": "off"
           },
