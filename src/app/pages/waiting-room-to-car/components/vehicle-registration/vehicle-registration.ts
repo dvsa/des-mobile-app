@@ -54,6 +54,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   motFailedModalToggled = new EventEmitter<boolean>();
   @Output()
+  motSearchingStatusChange = new EventEmitter<boolean>();
+  @Output()
   alternateEvidenceChange = new EventEmitter<boolean>();
   @Output()
   vrnSearchListUpdate = new EventEmitter<string>();
@@ -100,7 +102,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.motButtonPressed.emit();
     this.clearData();
     this.hasCalledMOT = false;
-    this.isSearchingForMOT = true;
+    this.updateIsSearchingForMOT(true);
 
     if (!this.isPracticeMode) {
       const apiCall$ = this.motApiService.getMotHistoryByIdentifier(value);
@@ -110,7 +112,7 @@ export class VehicleRegistrationComponent implements OnChanges {
           takeUntil(this.abortSubject),
           finalize(() => {
             // Stop the search spinner
-            this.isSearchingForMOT = false;
+            this.updateIsSearchingForMOT(false);
           })
         )
         .subscribe(async (val) => {
@@ -125,7 +127,7 @@ export class VehicleRegistrationComponent implements OnChanges {
             // If the modal was cancelled, stop the spinner and return
             if (this.modalData === ModalEvent.CANCEL) {
               this.failedMOTModalOutcome.emit(ModalEvent.CANCEL);
-              this.isSearchingForMOT = false;
+              this.updateIsSearchingForMOT(false);
               return;
             }
             this.failedMOTModalOutcome.emit(ModalEvent.CONFIRM);
@@ -133,7 +135,7 @@ export class VehicleRegistrationComponent implements OnChanges {
           // Set the flag indicating that the MOT call has been made
           this.hasCalledMOT = true;
           // Stop the search spinner
-          this.isSearchingForMOT = false;
+          this.updateIsSearchingForMOT(false);
           // If motData is not null, emit the vehicle details
           if (this.motData) {
             this.motDetailsUpdate.emit(this.motData?.data);
@@ -150,14 +152,14 @@ export class VehicleRegistrationComponent implements OnChanges {
         await this.loadFailedMOTModal();
         // If the modal was cancelled, stop the spinner and return
         if (this.modalData === ModalEvent.CANCEL) {
-          this.isSearchingForMOT = false;
+          this.updateIsSearchingForMOT(false);
           return;
         }
       }
 
       // If the user cancelled the practice mode modal, reset motData and stop the spinner
       if (fakeModalReturn === ModalEvent.CANCEL) {
-        this.isSearchingForMOT = false;
+        this.updateIsSearchingForMOT(false);
         this.motData = null;
         return;
       }
@@ -172,7 +174,7 @@ export class VehicleRegistrationComponent implements OnChanges {
           takeUntil(this.abortSubject),
           finalize(() => {
             // Stop the search spinner
-            this.isSearchingForMOT = false;
+            this.updateIsSearchingForMOT(false);
           })
         )
         .subscribe((val: MotHistoryWithStatus) => {
@@ -188,6 +190,11 @@ export class VehicleRegistrationComponent implements OnChanges {
         }
       }
     }
+  }
+
+  updateIsSearchingForMOT(isSearching: boolean) {
+    this.isSearchingForMOT = isSearching;
+    this.motSearchingStatusChange.emit(this.isSearchingForMOT);
   }
 
   loadFailedMOTModal = async (): Promise<void> => {

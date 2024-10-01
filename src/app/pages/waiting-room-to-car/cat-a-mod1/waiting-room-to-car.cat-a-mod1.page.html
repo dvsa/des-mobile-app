@@ -48,6 +48,7 @@
               (failedMOTModalOutcome)="motFailedModalOutcome($event)"
               (motCallAborted)="abortMOTCall($event)"
               (motServiceUnavailable)="motServiceUnavailable($event)"
+              (motSearchingStatusChange)="motSearchingStatusChanged($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
