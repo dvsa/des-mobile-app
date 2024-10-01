@@ -60,9 +60,11 @@ import {
   selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
 import { getTests } from '@store/tests/tests.reducer';
-import { getStartedTests } from '@store/tests/tests.selector';
+import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
@@ -336,7 +338,8 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * Pulls local tests from the store and performs the following functions:
    * 1. Filters them so that only tests conducted by the examiner are used,
-   *    excluding tests they rekeyed on other examiner's behalf.
+   *    excluding tests they rekeyed on other examiner's behalf,
+   *    or if they have an activity code that isn't 1,2,3,4 or 5.
    * 2. Formats the tests into the ExaminerRecordModel format.
    *
    * @returns {ExaminerRecordModel[]} The array of formatted examiner records.
@@ -348,18 +351,30 @@ export class ExaminerRecordsPage implements OnInit {
         select(getTests),
         map(getStartedTests),
         take(1),
-        map((value) => Object.values(value)),
-        map((value) => {
+        map((value: StartedTests): TestResultSchemasUnion[] => Object.values(value)),
+        map((value: TestResultSchemasUnion[]): TestResultSchemasUnion[] => {
           const employeeId = this.store$.selectSignal(selectEmployeeId)();
+
+          //Filter out tests with an activity code that isn't 1,2,3,4 or 5
+          const filteredByActivityCodeTests = value.filter((test: TestResultSchemasUnion): boolean => {
+            return isAnyOf(test.activityCode, [
+              ActivityCodes.PASS,
+              ActivityCodes.FAIL,
+              ActivityCodes.FAIL_EYESIGHT,
+              ActivityCodes.FAIL_PUBLIC_SAFETY,
+              ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
+            ]);
+          });
+
           //Filter out tests the user rekeyd for other users
-          return value.filter((test) => {
+          return filteredByActivityCodeTests.filter((test: TestResultSchemasUnion): boolean => {
             return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
           });
         }),
-        map((value) => {
+        map((value: TestResultSchemasUnion[]): ExaminerRecordModel[] => {
           const recordArray: ExaminerRecordModel[] = [];
           //format tests into ExaminerRecordModel
-          value.forEach((test) => {
+          value.forEach((test: TestResultSchemasUnion) => {
             recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
           });
           return recordArray;
